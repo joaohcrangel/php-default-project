@@ -1,0 +1,6 @@
+[submodule "res/vendors/animate.css"]
+	path = res/vendors/animate.css
+	url = https://github.com/daneden/animate.css.git
+[submodule "res/vendors/bootstrap"]
+	path = res/vendors/bootstrap
+	url = https://github.com/twbs/bootstrap.git

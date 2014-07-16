@@ -12,7 +12,7 @@ class Page {
  
 	public function __construct($options = array()){
 
-		$rootdir = realpath(__DIR__."/../../");
+		$rootdir = PATH;//realpath(__DIR__."/../../");
 
 		raintpl::configure("base_url", $rootdir );
 		raintpl::configure("tpl_dir", $rootdir."/res/tpl/" );

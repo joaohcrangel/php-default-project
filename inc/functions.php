@@ -1,6 +1,6 @@
 <?php
 function __autoload($class){
-	$filepath = "class/".strtolower($class).".php";
+	$filepath = __DIR__."/class/".strtolower($class).".php";
     if(file_exists($filepath)) require_once($filepath);
 }
 function removeSimplesQuotes($val){

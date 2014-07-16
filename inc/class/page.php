@@ -4,14 +4,21 @@ class Page {
 	public $options = array(
 		"data"=>array(
 			"js"=>array(),
-			"title"=>"",
+			"head_title"=>"PHP Default Project",
 			"meta_description"=>"",
 			"meta_author"=>""
 		)
 	);
  
 	public function __construct($options = array()){
- 
+
+		$rootdir = realpath(__DIR__."/../../");
+
+		raintpl::configure("base_url", $rootdir );
+		raintpl::configure("tpl_dir", $rootdir."/res/tpl/" );
+		raintpl::configure("cache_dir", $rootdir."/res/tpl/tmp/" );
+		raintpl::configure("path_replace", false );
+
 		$options = array_merge($this->options, $options);
  
 		$tpl = $this->getTpl();

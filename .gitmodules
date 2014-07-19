@@ -4,3 +4,6 @@
 [submodule "res/vendors/bootstrap"]
 	path = res/vendors/bootstrap
 	url = https://github.com/twbs/bootstrap.git
+[submodule "inc/raintpl-v.2.7.2"]
+	path = inc/raintpl-v.2.7.2
+	url = https://github.com/rainphp/raintpl.git

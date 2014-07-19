@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="hello_world">Hello World</string>
+	<string name="hello_text">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</string>
+
+</resources>

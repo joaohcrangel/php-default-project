@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="hello_world">Olá Mundo</string>
+	<string name="hello_text">Esta é uma unidade herói simples, um componente simples de estilo jumbotron para chamar mais atenção para o conteúdo ou informações em destaque.</string>
+
+</resources>

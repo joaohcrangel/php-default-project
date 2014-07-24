@@ -2,17 +2,18 @@
 class Page {
   
 	public $options = array(
+		"strings"=>"pt-br",//Idioma padrão res/strings/pt-br.xml
 		"data"=>array(
 			"js"=>array(),
-			"head_title"=>"PHP Default Project",
+			"head_title"=>"Título da Página",
 			"meta_description"=>"",
-			"meta_author"=>""
+			"meta_author"=>"João Rangel"
 		)
 	);
  
 	public function __construct($options = array()){
 
-		$rootdir = PATH;//realpath(__DIR__."/../../");
+		$rootdir = PATH;
 
 		raintpl::configure("base_url", $rootdir );
 		raintpl::configure("tpl_dir", $rootdir."/res/tpl/" );
@@ -20,9 +21,13 @@ class Page {
 		raintpl::configure("path_replace", false );
 
 		$options = array_merge($this->options, $options);
- 
+
+		if(isset($_SESSION["lang"])) $options["strings"] = $_SESSION["lang"];
+ 	
+		$options['data']['string'] = $this->loadString($options["strings"]);
+
 		$tpl = $this->getTpl();
-		$this->options = $options;
+		$this->options = $options;	
  
 		if(gettype($this->options['data'])=='array'){
 			foreach($this->options['data'] as $key=>$val){
@@ -32,6 +37,28 @@ class Page {
  
 		$tpl->draw("header", false);
  
+	}
+
+	public function loadString($lang){
+
+		$file_string = PATH."/res/strings/$lang.xml";
+
+		$strings = array();
+
+		if(file_exists($file_string)){
+
+			$xml = simplexml_load_file($file_string);
+
+			foreach($xml->children() as $string){
+
+				$strings[(string)$string->attributes()[0]] = (string)$string;
+
+			}
+
+		}
+
+		return $strings;
+
 	}
  
 	public function __destruct(){

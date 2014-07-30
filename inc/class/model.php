@@ -158,6 +158,31 @@ class Model {
 		$this->changed = false;
 			
 	}
+	
+	/** Carrega o objeto se não estiver completo : void */
+	final private function getIfNotLoaded(){
+
+		if(isset($this->required) && gettype($this->required) === 'array' && isset($this->pk)){
+
+			if(!$this->pk > 0) throw new Exception("Informe o ".$this->pk." do objeto.", 1);
+
+			$load = false;
+			foreach ($this->required as $req) {
+				if(!$this->{'get'.$req}()){
+					$load = true;
+					break;
+				}
+			}
+
+			if($load === true){
+
+				$this->get($this->{'get'.$this->pk}());
+
+			}
+
+		}
+
+	}
  
 }
 ?>

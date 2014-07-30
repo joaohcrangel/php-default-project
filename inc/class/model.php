@@ -37,28 +37,68 @@ class Model {
 		
 	}
 	
+	private function isValid($silient = false){
+		
+		$valid = true;
+		
+		if(gettype($this->required)=='array'){
+		
+			foreach($this->required as $field){
+				
+				if($this->fields->{$field}===NULL){
+					
+					if(!$silient) throw new Exception("O campo ".$field." é obrigatório para savar o objeto ".get_class($this).".", 1);
+					
+					$valid = false;
+					
+				}
+				
+			}
+
+			return $valid;
+			
+		}else{
+			
+			return $valid;
+			
+		}
+		
+	}
+	
 	public function __call($name, $args){
 		
-		//Crindo Getters e Setters automaticamento
-		if(!method_exists($this, $name) && strlen($name)>3 && in_array(substr($name,0,3), array('get', 'set'))){
+		if($name == 'save'){
 			
-			if(substr($name,0,3)=='get'){
-				
-				//Getters
-				return $this->fields->{substr($name,3,strlen($name)-3)};
+			if(method_exists($this, $name) && $this->isValid()){
 			
-			}else{
-				
-				//Setters
-				$this->setChanged();
-				$this->fields->{substr($name,3,strlen($name)-3)} = $args[0];
-				return true;
-					
+				return call_user_func_array(array($this,$name), $args);
+			
 			}
 			
 		}else{
 		
-        	if($this) return call_user_func_array(array($this,$name),$args);
+			//Crindo Getters e Setters automaticamento
+			if(!method_exists($this, $name) && strlen($name)>3 && in_array(substr($name,0,3), array('get', 'set'))){
+				
+				if(substr($name,0,3)=='get'){
+					
+					//Getters
+					return $this->fields->{substr($name,3,strlen($name)-3)};
+				
+				}else{
+					
+					//Setters
+					$this->setChanged();
+					$this->fields->{substr($name,3,strlen($name)-3)} = $args[0];
+					return true;
+						
+				}
+				
+			}else{
+			
+	        		if($this) return call_user_func_array(array($this,$name),$args);
+				
+			}
 			
 		}
 			

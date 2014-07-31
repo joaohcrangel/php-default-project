@@ -67,14 +67,18 @@ class Model {
 	
 	public function __call($name, $args){
 		
-		if($name == 'save'){
+		if($name === 'get' && method_exists($this, $name)){
 			
-			if(method_exists($this, $name) && $this->isValid()){
+			$return = call_user_func_array(array($this,$name), $args);
 			
-				return call_user_func_array(array($this,$name), $args);
+			$this->setSaved();
 			
-			}
+			return $return;
 			
+		}elseif($name === 'save' && method_exists($this, $name) && $this->isValid()){
+			
+			return call_user_func_array(array($this,$name), $args);
+		
 		}else{
 		
 			//Crindo Getters e Setters automaticamento

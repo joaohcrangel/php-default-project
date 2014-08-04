@@ -60,6 +60,13 @@ class Page {
 		return $strings;
 
 	}
+	
+	public function getString($name){
+
+		$strings = $this->loadString($options["strings"]);
+		return $strings[$name];
+
+	}
  
 	public function __destruct(){
  

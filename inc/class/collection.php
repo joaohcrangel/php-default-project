@@ -35,8 +35,12 @@ class Collection extends Model {
 	}
 
 	/** Remove um item da coleção e o retorna : boolean/Mixed */
-	public function remove($object){
+	public function remove(){
+	
+		$object = func_get_arg(0);
 
+		if(!isset($object) || $object == NULL) throw new Exception("Informe o objeto que será removido");
+	
 		$itens = array();
 		$removed = false;		
 

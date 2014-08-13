@@ -4,7 +4,7 @@
  * joaohcrangel@gmail.com
  *
  */
-class Collection extends Model {
+abstract class Collection extends Model {
   
 	protected $itens = array();
 	protected $type = "object";

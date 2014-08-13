@@ -4,7 +4,15 @@
  * joaohcrangel@gmail.com
  *
  */
-class Model {
+interface ModelInterface {
+
+    public function get($primarykey);
+    public function save();
+    public function remove();
+
+}
+
+abstract class Model implements ModelInterface {
   
 	protected $fields = NULL;
 	private $changed = false;

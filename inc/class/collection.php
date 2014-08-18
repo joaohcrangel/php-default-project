@@ -162,5 +162,11 @@ abstract class Collection extends Model {
 
 	}
 	
+	public function getSize(){
+
+		return count($this->itens);
+
+	}
+	
 }
 ?>

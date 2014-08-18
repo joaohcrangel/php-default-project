@@ -51,7 +51,19 @@ class Sql {
 	*/
 	public function querys($querys = array(), $params = array()){
 		
-		return $this->query(implode(";",$querys), $params, true);
+		$p = array();
+		
+		foreach($params as $param){
+			
+			foreach($param as $val){
+				
+				array_push($p, $val);
+				
+			}
+			
+		}
+		
+		return $this->query(implode(";",$querys), $p, true);
 		
 	}
 	/*********************************************************************************************************/	

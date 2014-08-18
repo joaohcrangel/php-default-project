@@ -46,9 +46,19 @@ class Sql {
 	}
 	/*********************************************************************************************************/	
 	/**
+	* Método que executa várias instruções no banco de dados
+	* @metodo querys
+	*/
+	public function querys($querys = array(), $params = array()){
+		
+		return $this->query(implode(";",$querys), $params, true);
+		
+	}
+	/*********************************************************************************************************/	
+	/**
 	* Método que executa qualquer instrução no banco de dados em uso
 	* @metodo query
-	*/	
+	*/
 	public function query($query, $params = array(), $multi = false){
 		
 		$this->conecta();

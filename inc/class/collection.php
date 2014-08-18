@@ -10,6 +10,10 @@ abstract class Collection extends Model {
 	protected $type = "object";
 	protected $class = "stdClass";
 	protected $pk = "id";
+	
+	//* Exemplo */
+	//protected $saveQuery = "EXECUTE sp_model_save ?, ?";
+	//protected $saveArgs = array("idmodel","desmodel");
 
 	/** Insere um novo item na coleção : Mixed */
 	public function add($object){

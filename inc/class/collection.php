@@ -100,5 +100,63 @@ abstract class Collection extends Model {
 
 	}
 	
+	/** Salva todos os modelos alterados da coleção : boolean */
+	public function save(){
+
+		if(!isset($this->saveQuery)) throw new Exception("A coleção não possui o atributo saveQuery");
+		if(!isset($this->saveArgs)) throw new Exception("A coleção não possui o atributo saveArgs");
+
+		$itens = &$this->getChangedItens();
+		$querys = array();
+		$params = array();
+
+		foreach ($itens as $item) {
+			
+			if(method_exists($item, "beforesave")) $item->beforesave();
+
+			array_push($querys, $this->saveQuery);
+
+			$args = array();
+			foreach ($this->saveArgs as $arg) {
+				array_push($args, $item->{"get".$arg}());
+			}
+
+			unset($arg);
+
+			array_push($params, $args);
+
+		}
+
+		unset($args);
+
+		$results = $this->getSql()->querys($querys, $params);
+
+		$success = true;
+
+		for ($i = 0; $i < count($itens); $i++) { 
+			
+			$item = $itens[$i];
+			$result = $results[$i];
+
+			if(isset($result[$this->pk])){
+
+				$item->{'set'.$this->pk}((int)$result[$this->pk]);
+				if(method_exists($item, "aftersave")) $item->aftersave();
+				$item->setSaved();
+
+			}else{
+
+				$success = false;
+
+			}
+
+		}
+
+		unset($result, $results, $item, $querys);
+
+		return $success;
+
+	}
+	
 }
 ?>

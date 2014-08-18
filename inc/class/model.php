@@ -30,6 +30,7 @@ abstract class Model implements ModelInterface {
 				switch(gettype($arg)){
 					case 'integer':
 					$this->get($arg);
+					$this->setSaved();
 					break;
 					case 'array':
 					$this->setChanged();
@@ -153,19 +154,19 @@ abstract class Model implements ModelInterface {
 		
 	}
 	
-	private function getChanged(){
+	public function getChanged(){
 		
 		return $this->changed;
 			
 	}
 	
-	private function setChanged(){
+	public function setChanged(){
 		
 		$this->changed = true;
 			
 	}
 	
-	private function setSaved(){
+	public function setSaved(){
 		
 		$this->changed = false;
 			

@@ -96,7 +96,49 @@ abstract class Model implements ModelInterface {
 				if(substr($name,0,3)=='get'){
 					
 					//Getters
-					return $this->fields->{substr($name,3,strlen($name)-3)};
+					$namefield = substr($name,3,strlen($name)-3);
+
+					if(gettype($namefield) === "object" && !in_array(get_class($namefield), array("DateTime"))){
+
+						return $this->fields->{$namefield};
+
+					}
+
+					switch(substr($namefield, 0, 3)){
+
+						case "des":
+						return (string)$this->fields->{$namefield};
+						break;
+
+					}
+
+					switch(substr($namefield, 0, 2)){
+
+						case "id":
+						case "nr":
+						return (int)$this->fields->{$namefield};
+						break;
+
+						case "vl":
+						$value = $this->fields->{$namefield};
+						if(strpos($value, ",") !== false) $value = str_replace(",", ".", str_replace(".", "", $this->fields->{$namefield}));
+						return (float)$value;
+						break;
+
+						case "in":
+						case "is":
+						return (bool)$this->fields->{$namefield};
+						break;
+
+						case "dt":
+						return (string)date("Y-m-d H:i", $this->dateToTimestamp($this->fields->{$namefield}));
+						break;
+
+						default:
+						return $this->fields->{$namefield};
+						break;
+
+					}
 				
 				}else{
 					
@@ -115,6 +157,30 @@ abstract class Model implements ModelInterface {
 			
 		}
 			
+	}
+	
+	public function dateToTimestamp($value){
+
+		if(is_numeric($value) && gettype($value) !== "integer"){
+			$value = (int)$value;
+		}
+
+		switch(gettype($value)){
+
+			case "integer":
+			return $value;
+			break;
+
+			case "object":
+			return $value->format("U");
+			break;
+
+			case "string":
+			return strtotime($value);
+			break;
+
+		}
+
 	}
 	
 	private function arrayToAttr($array){

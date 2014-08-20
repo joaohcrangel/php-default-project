@@ -6,7 +6,7 @@
  */
 interface ModelInterface {
 
-    public function get($primarykey);
+	public function get($primarykey);
     public function save();
     public function remove();
 
@@ -16,12 +16,14 @@ abstract class Model implements ModelInterface {
   
 	protected $fields = NULL;
 	private $changed = false;
+
+	private $sql = NULL;
 	
 	public function __construct(){
 		
 		$args = func_get_args();
 		
-		$this->fields = (object)array();
+		if(!isset($this->fields)) $this->fields = (object)array();
 		
 		switch(count($args)){
 			
@@ -76,6 +78,8 @@ abstract class Model implements ModelInterface {
 	
 	public function __call($name, $args){
 		
+		if(!isset($this->fields)) $this->fields = (object)array();
+
 		if($name === 'get' && method_exists($this, $name)){
 			
 			$return = call_user_func_array(array($this,$name), $args);
@@ -93,7 +97,7 @@ abstract class Model implements ModelInterface {
 			//Crindo Getters e Setters automaticamento
 			if(!method_exists($this, $name) && strlen($name)>3 && in_array(substr($name,0,3), array('get', 'set'))){
 				
-				if(substr($name,0,3)=='get'){
+				if(substr($name,0,3) == 'get'){
 					
 					//Getters
 					$namefield = substr($name,3,strlen($name)-3);
@@ -151,14 +155,14 @@ abstract class Model implements ModelInterface {
 				
 			}else{
 			
-	        		if($this) return call_user_func_array(array($this,$name),$args);
+	        	if($this) return call_user_func_array(array($this,$name),$args);
 				
 			}
 			
 		}
 			
 	}
-	
+
 	public function dateToTimestamp($value){
 
 		if(is_numeric($value) && gettype($value) !== "integer"){
@@ -184,14 +188,18 @@ abstract class Model implements ModelInterface {
 	}
 	
 	private function arrayToAttr($array){
-		
-		$this->fields = (object)$array;
+
+		foreach ($array as $key => $value) {
+			
+			$this->{"set".$key}($value);
+
+		}
 		
 	}
 	
 	private function getSql(){
 		
-		return ($this->fields->Sql)?$this->fields->Sql:$this->setSql(new Sql());
+		return (isset($this->sql) && $this->sql !== NULL)?$this->sql:$this->sql = new Sql();
 		
 	}
 	
@@ -204,10 +212,12 @@ abstract class Model implements ModelInterface {
 			
 	}
 	
-	private function queryGetID($query){
-		
+	private function queryGetID($query, $params = array()){
+
 		$sql = $this->getSql();
-		$result = $sql->arrays($query, true);
+
+		$result = $sql->arrays($query, true, $params);
+		
 		return (int)$result['_id'];
 			
 	}
@@ -260,6 +270,16 @@ abstract class Model implements ModelInterface {
 			}
 
 		}
+
+	}
+
+	public function getFields(){
+
+		$fields = (array)$this->fields;
+
+		unset($fields['conn'], $fields['Sql']);
+
+		return $fields;
 
 	}
  

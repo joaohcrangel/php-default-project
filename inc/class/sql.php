@@ -205,7 +205,6 @@ class Sql {
 	*/	
 	public function arrays($query, $array = false, $params = array()){
 
-		
 		$a = $this->query($query, $params);	
 		$fields = array();
 		

@@ -203,10 +203,10 @@ abstract class Model implements ModelInterface {
 		
 	}
 	
-	private function queryToAttr($query){
+	private function queryToAttr($query, $params = array()){
 		
 		$sql = $this->getSql();
-		$result = $sql->arrays($query, true);
+		$result = $sql->arrays($query, true, $params);
 		$this->arrayToAttr($result);
 		return $result;
 			
@@ -222,11 +222,10 @@ abstract class Model implements ModelInterface {
 			
 	}
 	
-	private function execute($query){
+	private function execute($query, $params = array()){
 		
 		$sql = $this->getSql();
-		$sql->query($query);
-		return true;
+		return $sql->query($query, $params);
 		
 	}
 	

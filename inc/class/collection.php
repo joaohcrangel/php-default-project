@@ -10,10 +10,10 @@ abstract class Collection extends Model {
 	protected $type = "object";
 	protected $class = "stdClass";
 	protected $pk = "id";
-	
+
 	//* Exemplo */
 	//protected $saveQuery = "EXECUTE sp_model_save ?, ?";
-	//protected $saveArgs = array("idmodel","desmodel");
+	//protected $saveArgs = array("idmodel","desmodel");	
 
 	/** Insere um novo item na coleção : Mixed */
 	public function add($object){
@@ -32,7 +32,7 @@ abstract class Collection extends Model {
 
 		}else{
 
-			throw new Exception("A coleção não aceito o tipo ".gettype($object).".", 1);
+			throw new Exception("A coleção não aceito o tipo ".gettype($object).".");
 
 		}
 
@@ -40,11 +40,11 @@ abstract class Collection extends Model {
 
 	/** Remove um item da coleção e o retorna : boolean/Mixed */
 	public function remove(){
-	
+
 		$object = func_get_arg(0);
 
 		if(!isset($object) || $object == NULL) throw new Exception("Informe o objeto que será removido");
-	
+
 		$itens = array();
 		$removed = false;		
 
@@ -72,19 +72,43 @@ abstract class Collection extends Model {
 
 	}
 
-	public function getItens(){
+	public function &getItens(){
 
 		return $this->itens;
 
 	}
 
+	public function setItens($itens){
+
+		if(!gettype($itens) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");
+
+		$this->itens = array();
+
+		foreach ($itens as $item) {
+			$this->add($item);
+		}
+
+		return $this->getItens();
+
+	}
+
+	public function getSize(){
+
+		return count($this->itens);
+
+	}
+
 	/** Converte a coleção em Array : array */
-	public function getFields($array = true){
+	public function getFields(){
 
 		$fields = array();
 
-		foreach ($this->itens as $object) {
-			array_push($fields, $object->getFields($array));
+		foreach ($this->itens as $item) {
+			if(gettype($item) === "object"){
+				array_push($fields, $item->getFields());
+			}else{
+				array_push($fields, $item);
+			}
 		}
 
 		return $fields;
@@ -111,6 +135,7 @@ abstract class Collection extends Model {
 		if(!isset($this->saveArgs)) throw new Exception("A coleção não possui o atributo saveArgs");
 
 		$itens = &$this->getChangedItens();
+
 		$querys = array();
 		$params = array();
 
@@ -161,12 +186,56 @@ abstract class Collection extends Model {
 		return $success;
 
 	}
-	
-	public function getSize(){
 
-		return count($this->itens);
+	private function rowsToItens($rows){
 
-	}
+		if(gettype($rows) === "array" && count($rows)){
+
+	    	foreach ($rows as $row) {
+	    		if($this->type === "object"){
+	    			$this->add(new $this->class($row));	
+	    		}else{
+					$this->add($row);
+	    		}	    		
+	    	}
+
+	    	return $this->getItens();
+
+		}else{
+
+			return false;
+
+		}
+
+    }
+
+    public function getFirst(){
+
+    	if($this->getSize() > 0){
+
+    		return $this->itens[0];
+
+    	}else{
+
+    		return NULL;
+
+    	}
+
+    }
+
+    public function getLast(){
+
+    	if($this->getSize() > 0){
+
+    		return $this->itens[($this->getSize()-1)];
+
+    	}else{
+
+    		return NULL;
+
+    	}
+
+    }
 	
 }
 ?>

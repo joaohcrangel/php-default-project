@@ -260,6 +260,26 @@ class Sql {
 		}
 			
 	}
+	
+	public function getDataBases(){
+
+		$rows = array();
+		foreach ($this->arrays("SHOW DATABASES") as $row) {
+			array_push($rows, $row["Database"]);
+		}
+		return $rows;
+
+	}
+
+	public function getTables($database){
+
+		$rows = array();
+		foreach($this->arrays("SHOW TABLES FROM $database") as $row){
+			array_push($rows, $row["Tables_in_$database"]);
+		}
+		return $rows;
+
+	}
 		
 }
 ?>

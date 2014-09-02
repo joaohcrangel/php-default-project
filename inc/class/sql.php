@@ -12,6 +12,8 @@ class Sql {
 	private $password = 'root';
 	private $database = 'mydb';
 	
+	private $utf8 = true;
+	
 	/*********************************************************************************************************/	
 	/**
 	* Método usado para abrir o banco de dados com os atributos private supradeclarados
@@ -130,7 +132,8 @@ class Sql {
 
 			switch(gettype($value)){
 				case 'string':
-				array_push($params_new, "'".utf8_decode($value)."'");
+				$value = ($this->utf8 === true)?utf8_decode($value):$value;
+				array_push($params_new, "'".$value."'");
 				break;
 				case 'integer':
 				case 'float':
@@ -239,7 +242,9 @@ class Sql {
 					$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
 					break;
 					default:
-					$record[$f['field']] = utf8_encode(trim($a1[$f['field']]));
+					$value = ($this->utf8 === true)?utf8_encode(trim($a1[$f['field']])):trim($a1[$f['field']]);
+					$record[$f['field']] = $value;
+					unset($value);
 					break;
 				}
 					

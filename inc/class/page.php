@@ -1,6 +1,8 @@
 <?php
 class Page {
-  
+  	
+	private $strings;
+  	
 	public $options = array(
 		"strings"=>"pt-br",//Idioma padrão res/strings/pt-br.xml
 		"data"=>array(
@@ -39,7 +41,16 @@ class Page {
  
 	}
 
+	public function getString($name){
+
+		$strings = $this->loadString($options["strings"]);
+		return $strings[$name];
+
+	}
+
 	public function loadString($lang){
+
+		if($this->strings && gettype($this->strings)==='array') return $this->strings;
 
 		$file_string = PATH."/res/strings/$lang.xml";
 
@@ -50,14 +61,14 @@ class Page {
 			$xml = simplexml_load_file($file_string);
 
 			foreach($xml->children() as $string){
-
-				$strings[(string)$string->attributes()[0]] = (string)$string;
-
+                $val = $string->attributes();
+                //$strings[(string)$val[0]] = (string)$string;
+                $strings[(string)$string->attributes()[0]] = (string)$string;
 			}
 
 		}
 
-		return $strings;
+		return $this->strings = $strings;
 
 	}
  

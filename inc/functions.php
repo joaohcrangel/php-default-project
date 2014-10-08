@@ -63,4 +63,14 @@ function pre(){
 	}
 	echo "</pre>";
 }
+function getClass($class_name){
+	if(isset($_SESSION[$class_name])){
+		return new $class_name($_SESSION[$class_name]);
+	}else{
+		throw new Exception("A classe $class_name não está em sessão");
+	}
+}
+function setClass($class){
+	$_SESSION[get_class($class)] = $class->getFields();
+}
 ?>

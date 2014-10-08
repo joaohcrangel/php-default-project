@@ -2,7 +2,15 @@
 if((float)PHP_VERSION < 5.3) require_once("functions-5-2.php");
 function __autoload($class){
 	$filepath = __DIR__."/class/".strtolower($class).".php";
-    if(file_exists($filepath)) require_once($filepath);
+    if(file_exists($filepath)){
+    	require_once($filepath);
+    	return true;
+    }
+    $filepath = __DIR__."/class/objects/".strtolower($class).".php";
+    if(file_exists($filepath)){
+    	require_once($filepath);
+    	return true;
+    }
 }
 function removeSimplesQuotes($val){
 	return str_replace("'", "", $val);

@@ -6,11 +6,16 @@
 class Sql {
 	
 	public $conn;
+
+	const MYSQL = 0;
+	const SQLSERVER = 1;
+
+	private $type = 0;//MySQL
 	
 	private $server = 'localhost';
 	private $username = 'root';
 	private $password = 'root';
-	private $database = 'mydb';
+	private $database = 'test';
 	
 	private $utf8 = true;
 	
@@ -21,7 +26,40 @@ class Sql {
 	*/	
 	public function conecta(){
 
-		$this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->database);
+		switch($this->type){
+
+			case Sql::MYSQL:
+			return $this->conectaMySQL();
+			break;
+
+			case Sql::SQLSERVER:
+			return $this->conectaSQLServer();
+			break;
+
+		}
+
+	}
+
+	private function conectaMySQL(){
+
+		return $this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->database);
+
+	}
+
+	private function conectaSQLServer(){
+
+		$connInfo = array(
+			"Database"=>$this->database,
+			"UID"=>$this->username,
+			"PWD"=>$this->password
+		);
+		$this->conn = sqlsrv_connect($this->server, $connInfo);
+
+		if(!$this->conn){
+
+			die(print_r(sqlsrv_errors()));
+
+		}
 
 		return $this->conn;
 
@@ -43,7 +81,17 @@ class Sql {
 	*/	
 	public function __desconstruct(){
 		
-		return mysqli_close($this->conn);
+		switch($this->type){
+
+			case Sql::MYSQL:
+			return mysqli_close($this->conn);
+			break;
+
+			case Sql::SQLSERVER:
+			return sqlsrv_close($this->conn);
+			break;
+
+		}
 			
 	}
 	/*********************************************************************************************************/	
@@ -88,11 +136,76 @@ class Sql {
 		if($_SERVER['HTTP_HOST'] === 'locahost' && isset($_GET['query-debug'])) pre($query);
 
 		try{
-			if($multi === false){				
-				$resource = mysqli_query($this->conn, $query);
-			}else{
-				$resource = mysqli_multi_query($this->conn, $query);
+
+			switch($this->type){
+
+				case Sql::MYSQL:
+				if($multi === false){
+					pre($params);
+					$resource = mysqli_query($this->conn, $query);
+				}else{
+					$resource = mysqli_multi_query($this->conn, $query);
+				}
+				break;
+
+				case Sql::SQLSERVER:
+				if($multi === false){			
+					$resource = sqlsrv_query($this->conn, $query);
+				}else{
+					
+					$queryFinal = array();
+					$paramFinal = array();
+
+					for ($i = 0; $i < count($querys); $i++) { 
+						
+						$query = $querys[$i];
+						$param = $this->trataParams($params[$i]);
+
+						$st = sqlsrv_prepare($this->conn, $query, $param);
+
+						if(!$st){
+
+							die(print_r(sqlsrv_errors(), true));
+
+						}else{
+
+							array_push($queryFinal, $query);
+
+							foreach ($param as $p) {
+								array_push($paramFinal, $p);
+							}
+
+						}
+
+					}
+
+					$results = array();
+
+					$r = $this->query(implode("; ", $queryFinal), $paramFinal);
+
+					if(!$r){
+
+						die(print_r(sqlsrv_errors(), true));
+
+					}
+
+					$row = sqlsrv_fetch_array($r, SQLSRV_FETCH_ASSOC);
+					array_push($results, $row);
+
+					while($result = sqlsrv_next_result($r)){
+
+						$row = sqlsrv_fetch_array($r, SQLSRV_FETCH_ASSOC);
+						array_push($results, $row);
+
+					}
+
+					return $results;
+
+				}
+				break;
+
 			}
+
 		}catch(Exception $e){
 
 			 var_dump($e, debug_backtrace());
@@ -100,7 +213,19 @@ class Sql {
 		}
 		
 		if(!$resource){
-			var_dump(mysqli_error($this->conn), debug_backtrace());
+
+			switch($this->type){
+
+				case Sql::MYSQL:
+				var_dump(mysqli_error($this->conn), debug_backtrace());
+				break;
+
+				case Sql::SQLSERVER:
+				var_dump(sqlsrv_errors(), debug_backtrace());
+				break;
+
+			}
+			
 		}
 
 		return $resource;
@@ -168,17 +293,6 @@ class Sql {
 		return $this->arrays($query, true, $params);
 			
 	}
-	
-	/*********************************************************************************************************/	
-	/**
-	* Método que retorna o último ID gerado
-	* @metodo query
-	*/	
-	public function id(){
-		
-		return mysqli_insert_id($this->conn);
-			
-	}
 	/*********************************************************************************************************/	
 	/**
 	* Método que recebe o nome da tabela como parâmetro cria uma consulta para retornar todos os campos de uma tabela com seus respectivos datatypes. Transforma esse resultado em um array e retorna este array
@@ -199,6 +313,36 @@ class Sql {
 		return $fields;
 			
 	}
+
+	private function getFieldsFromResouce($resource){
+
+		$fields = array();
+
+		switch($this->type){
+
+			case SQL::MYSQL:		
+			$finfo = $resource->fetch_fields();
+		    foreach($finfo as $val){
+				array_push($fields, array(
+					"field"=>$val->name,
+					"type"=>strtoupper($val->type),
+					"max_length"=>$val->max_length
+				));
+			}
+			break;
+
+			case SQL::SQLSERVER:
+			foreach(sqlsrv_field_metadata($resource) as $field){
+				array_push($fields, array("field"=>$field['Name'], "type"=>strtoupper($field['Type']), "max_length"=>$field['Size']));
+			}
+			break;
+
+		}
+
+		return $fields;
+
+	}
+
 	/*********************************************************************************************************/	
 	/**
 	* Método que recebe uma query como parâmetro executa esta query guardando o resultado na variável local $a.
@@ -208,50 +352,127 @@ class Sql {
 	*/	
 	public function arrays($query, $array = false, $params = array()){
 
-		$a = $this->query($query, $params);	
-		$fields = array();
-		
-		$finfo = $a->fetch_fields();
-		
-	    foreach($finfo as $val){
-			
-			array_push($fields, array(
-				"field"=>$val->name,
-				"type"=>strtoupper($val->type),
-				"max_length"=>$val->max_length
-			));
-			
-		}
+		$a = $this->query($query, $params);
+		$fields = $this->getFieldsFromResouce($a);
 		
 		$data = array();
 		
-		while($a1 = $a->fetch_array()){
-			
-			$record = array();
-			
-			foreach($fields as $f){
-				
-				switch($f['type']){
-					case 'DATETIME':
-					$record[$f['field']] = strtotime(formatdatetime($a1[$f['field']],8));
-					break;
-					case 'MONEY':
-					$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
-					break;
-					case 'DECIMAL':
-					$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
-					break;
-					default:
-					$value = ($this->utf8 === true)?utf8_encode(trim($a1[$f['field']])):trim($a1[$f['field']]);
-					$record[$f['field']] = $value;
-					unset($value);
-					break;
-				}
+		switch($this->type){
+
+			case SQL::SQLSERVER:
+
+				while($a1 = sqlsrv_fetch_array($a)){
+		            $record = array();
+		            foreach($fields as $f) {
+						
+		                switch ((int)$f['type']) {
+							case 4:
+								$record[$f['field']] = (int)($a1[$f['field']]);
+								break;
+							case -6:
+								$record[$f['field']] = (int)($a1[$f['field']]);
+								break;
+							case 3:
+								$record[$f['field']] = (float)($a1[$f['field']]);
+								break;
+							case 16:
+								$record[$f['field']] = (int)($a1[$f['field']]);
+								break;
+							case 20:
+								$record[$f['field']] = (float)($a1[$f['field']]);
+								break;
+							case 11:
+								$record[$f['field']] = (bool)($a1[$f['field']]);
+								break;
+							case -7:
+								$record[$f['field']] = (bool)($a1[$f['field']]);
+								break;
+							case 6:
+								$record[$f['field']] = (float)number_format($a1[$f['field']], 2, '.', '');
+								break;
+							case 14:
+								$record[$f['field']] = (float)number_format($a1[$f['field']], 2, '.', '');
+								break;
+							case -154:
+								if($datetime){
+									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
+								}else{
+									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('H:i:s'):NULL;
+								}
+							break;
+							case 7:
+								if($datetime){
+									if($datasql){
+										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('Y-m-d H:i'):NULL;
+									}else{
+										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
+									}
+								}else{
+									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('U'):NULL;
+								}
+								$record["des".$f['field']] = date("d/m/Y H:i", $record[$f['field']]);
+							break;	
+							case 93:
+								if($datetime){
+									if($datasql){
+										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('Y-m-d H:i'):NULL;
+									}else{
+										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
+									}
+								}else{
+									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('U'):NULL;
+									$record["des".$f['field']] = date("d/m/Y", $record[$f['field']]);
+								}
+							break;
+							case 12:
+								$record[$f['field']] = trim(utf8_encode(trim($a1[$f['field']])));
+								break;
+							case 91:
+								$record[$f['field']] = strtotime($a1[$f['field']]->format('Y-m-d H:i:s'));
+								break;
+							default:
+								$record[$f['field']] = trim(utf8_encode(trim($a1[$f['field']])));
+								break;
+							}
+		            }
+		            if(is_array($record)) array_push($data, $record);
+		        }
+
+			break;
+
+			case SQL::MYSQL:
+
+				while($a1 = $a->fetch_array()){
 					
-			}
-			
-			array_push($data, $record);
-				
+					$record = array();
+					
+					foreach($fields as $f){
+						
+						switch($f['type']){
+							case 'DATETIME':
+							$record[$f['field']] = strtotime(formatdatetime($a1[$f['field']],8));
+							break;
+							case 'MONEY':
+							$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
+							break;
+							case 'DECIMAL':
+							$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
+							break;
+							default:
+							$value = ($this->utf8 === true)?utf8_encode(trim($a1[$f['field']])):trim($a1[$f['field']]);
+							$record[$f['field']] = $value;
+							unset($value);
+							break;
+						}
+							
+					}
+					
+					array_push($data, $record);
+						
+				}
+
+			break;
+
 		}
 		
 		if(!$array){
@@ -264,6 +485,20 @@ class Sql {
 			}
 		}
 			
+	}
+
+	public function objects($query, $array = true, $params = array()){
+		$data = $this->arrays($query, $array, $params);
+		foreach($data as &$a){
+			$a = (object)$a;
+		}
+		return $data;
+	}
+
+	public function insert($query, $params = array()){
+		
+		return $this->select($query, $params);
+		
 	}
 	
 	public function getDataBases(){

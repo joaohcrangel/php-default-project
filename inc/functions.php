@@ -12,6 +12,10 @@ function __autoload($class){
     	return true;
     }
 }
+if(URL === "/inc/configuration.php"){
+	phpinfo();
+	exit;
+}
 function removeSimplesQuotes($val){
 	return str_replace("'", "", $val);
 }

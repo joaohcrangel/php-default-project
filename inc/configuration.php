@@ -7,5 +7,5 @@ define("URL", str_replace("\\", "/", str_replace(PATH, "", str_replace("/", "\\"
 define("SITE_NAME", basename(PATH));
 
 require_once("functions.php");
-require_once("raintpl-v.2.7.2/inc/rain.tpl.class.php");
+require_once("raintpl/inc/rain.tpl.class.php");
 ?>

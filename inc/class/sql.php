@@ -10,12 +10,12 @@ class Sql {
 	const MYSQL = 0;
 	const SQLSERVER = 1;
 
-	private $type = 0;//MySQL
+	private $type = 1;//MySQL
 	
-	private $server = 'localhost';
-	private $username = 'root';
-	private $password = 'root';
-	private $database = 'test';
+	private $server = 'bwork.ddns.net';
+	private $username = 'netfashion';
+	private $password = 'NET@123Fashion';
+	private $database = 'blesswork';
 	
 	private $utf8 = true;
 	

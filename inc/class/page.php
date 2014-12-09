@@ -28,10 +28,10 @@ class Page {
  	
 		$options['data']['string'] = $this->loadString($options["strings"]);
 		
-		if(isset($_SESSION)) $this->options['data']['session'] = $_SESSION;
-		if(isset($_SERVER)) $this->options['data']['server'] = $_SERVER;
+		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
+		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;
 		
-		$this->options['data']['path'] = SITE_PATH;
+		$options['data']['path'] = SITE_PATH;
 
 		$tpl = $this->getTpl();
 		$this->options = $options;	

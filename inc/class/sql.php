@@ -19,6 +19,47 @@ class Sql {
 	
 	private $utf8 = true;
 	
+	public function getType(){
+
+		return $this->type;
+
+	}
+
+	public function getDataTypes(){
+
+		switch ($this->type) {
+			case Sql::MYSQL:
+				return array(
+		    		"BIGINT",
+		    		"DECIMAL",
+		    		"DOUBLE",
+		    		"FLOAT",
+		    		"INT",
+		    		"MEDIUMINT",
+		    		"SMALLINT",
+		    		"TINYINT",
+
+		    		"CHAR",
+		    		"VARCHAR",
+
+		    		"DATE",
+		    		"DATETIME",
+		    		"TIME",
+		    		"TIMESTAMP",
+		    		"YEAR",
+
+		    		"TEXT",
+		    		""
+		    	);
+				break;
+			
+			case Sql::SQLSERVER:
+				return array();
+				break;
+		}
+
+	}
+	
 	/*********************************************************************************************************/	
 	/**
 	* Método usado para abrir o banco de dados com os atributos private supradeclarados
@@ -42,7 +83,21 @@ class Sql {
 
 	private function conectaMySQL(){
 
-		return $this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->database);
+		$this->conn = @mysqli_connect($this->server, $this->username, $this->password);
+
+		if(!$this->conn){
+
+			throw new Exception("Não foi possível conectar com o servidor de banco de dados.");
+
+		}
+
+		if(!@mysqli_select_db($this->conn, $this->database)) {
+
+			throw new Exception("O banco de dados ".$this->database." não foi encontrado. ".mysqli_error($this->conn));			
+
+		}
+
+		return $this->conn;
 
 	}
 

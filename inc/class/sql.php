@@ -7,15 +7,15 @@ class Sql {
 	
 	public $conn;
 
-	const MYSQL = 0;
-	const SQLSERVER = 1;
+	const MYSQL = 1;
+	const SQLSERVER = 2;
 
 	private $type = 1;//MySQL
 	
-	private $server = 'bwork.ddns.net';
-	private $username = 'netfashion';
-	private $password = 'NET@123Fashion';
-	private $database = 'blesswork';
+	private $server = 'localhost';
+	private $username = 'root';
+	private $password = 'root';
+	private $database = 'test';
 	
 	private $utf8 = true;
 	
@@ -554,6 +554,30 @@ class Sql {
 		
 		return $this->select($query, $params);
 		
+	}
+	
+	public function proc($name, $params = array()){
+
+		switch($this->getType()){
+
+			case Sql::MYSQL:
+			$i = array();
+			foreach ($params as $p) {
+				array_push($i, "?");
+			}
+			return $this->arrays("CALL ".$name."(".implode(", ", $i).");", $params);
+			break;
+
+			case Sql::SQLSERVER:
+			$i = array();
+			foreach ($params as $p) {
+				array_push($i, "?");
+			}
+			return $this->arrays("EXEC ".$name." ".implode(", ", $i), $params);
+			break;
+
+		}
+
 	}
 	
 	public function getDataBases(){

@@ -216,9 +216,34 @@ abstract class Model implements ModelInterface {
 
 		$sql = $this->getSql();
 
-		$result = $sql->arrays($query, true, $params);
-		
-		return (int)$result['_id'];
+		$result = $sql->proc($query, $params);
+		$result = $result[0];
+
+		if($this->pk === NULL) throw new Exception("O model está sem PK definido");		
+
+		if(gettype($result) === 'array'){
+
+			foreach ($result as $key => $value) {
+				$this->{'set'.$key}($value);
+			}
+
+		}
+
+		if(gettype($this->pk) === "array"){
+			
+			$pks = array();
+
+			foreach ($this->pk as $pk) {
+				array_push($pks, (int)$result[$pk]);
+			}
+
+			return $pks;
+
+		}else{
+
+			return (int)$result[$this->pk];
+
+		}
 			
 	}
 	

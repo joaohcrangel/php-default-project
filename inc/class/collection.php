@@ -24,7 +24,19 @@ abstract class Collection extends Model {
 
 			return $object;
 
+		}elseif(gettype($object) === "object" && gettype($this->class) === "array" && in_array(get_class($object), $this->class)){
+
+			array_push($this->itens, $object);
+
+			return $object;
+			
 		}elseif(gettype($object) === $this->type){
+
+			array_push($this->itens, $object);
+
+			return $object;
+
+		}elseif(gettype($this->type) === "array" && in_array(gettype($object), $this->type)){
 
 			array_push($this->itens, $object);
 
@@ -158,6 +170,15 @@ abstract class Collection extends Model {
 
 		unset($args);
 
+		for ($i = 0; $i < count($querys); $i++) {
+
+			$q = $querys[$i];
+			$param = $params[$i];
+
+			$querys[$i] = $this->getSql()->proc($q, $param, true);
+			
+		}
+
 		$results = $this->getSql()->querys($querys, $params);
 
 		$success = true;
@@ -165,7 +186,7 @@ abstract class Collection extends Model {
 		for ($i = 0; $i < count($itens); $i++) { 
 			
 			$item = $itens[$i];
-			$result = $results[$i];
+			$result = $results[$i][0];
 
 			if(isset($result[$this->pk])){
 

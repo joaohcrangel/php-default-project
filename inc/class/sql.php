@@ -10,18 +10,58 @@ class Sql {
 	const MYSQL = 1;
 	const SQLSERVER = 2;
 
-	private $type = 1;//MySQL
+	private $type = DB_TYPE;
 	
-	private $server = 'localhost';
-	private $username = 'root';
-	private $password = 'root';
-	private $database = 'test';
+	private $server = DB_HOST;
+	private $username = DB_USER;
+	private $password = DB_PASSWORD;
+	private $database = DB_NAME;
 	
 	private $utf8 = true;
 	
+	/*********************************************************************************************************/	
+	/**
+	* Método usado para abrir o banco de dados com os atributos private supradeclarados
+	* @metodo conecta
+	*/	
+	public function conecta($config = array()){
+
+		try {
+
+			if(count($config)){
+
+				$this->server = $config['server'];
+				$this->username = $config['username'];
+				$this->password = $config['password'];
+				$this->database = $config['database'];
+
+			}
+			
+			switch($this->type){
+
+				case Sql::MYSQL:
+				return $this->conectaMySQL();
+				break;
+
+				case Sql::SQLSERVER:
+				return $this->conectaSQLServer();
+				break;
+
+			}
+
+		} catch (Exception $e) {
+			
+			var_dump($e->getMessage(), $e);
+
+			header("location: ".SITE_PATH."/modules/install");
+
+		}
+
+	}
+
 	public function getType(){
 
-		return $this->type;
+		return (int)$this->type;
 
 	}
 
@@ -56,27 +96,6 @@ class Sql {
 			case Sql::SQLSERVER:
 				return array();
 				break;
-		}
-
-	}
-	
-	/*********************************************************************************************************/	
-	/**
-	* Método usado para abrir o banco de dados com os atributos private supradeclarados
-	* @metodo conecta
-	*/	
-	public function conecta(){
-
-		switch($this->type){
-
-			case Sql::MYSQL:
-			return $this->conectaMySQL();
-			break;
-
-			case Sql::SQLSERVER:
-			return $this->conectaSQLServer();
-			break;
-
 		}
 
 	}
@@ -126,7 +145,11 @@ class Sql {
 	*/	
 	public function __construct(){
 		
-		return $this->conecta();
+		if($this->database !== 'database_name_here'){
+
+			return $this->conecta();
+
+		}
 			
 	}
 	/*********************************************************************************************************/	
@@ -168,7 +191,37 @@ class Sql {
 			
 		}
 		
-		return $this->query(implode(";",$querys), $p, true);
+		$this->query(implode(";",$querys), $p, true);
+
+		$results = array();
+
+		switch($this->type){
+
+			case Sql::MYSQL:
+
+				do{
+
+					if ($result = mysqli_store_result($this->conn)) {
+
+			            array_push($results, $this->getArrayRows($result));
+
+			            mysqli_free_result($result);
+			        }
+
+		    	}while(mysqli_more_results($this->conn) && mysqli_next_result($this->conn));
+
+		    break;
+
+		    case Sql::SQLSERVER:
+
+		    throw new Exception("Pendente");
+
+		    break;
+
+		}
+
+		return $results;
+
 		
 	}
 	/*********************************************************************************************************/	
@@ -177,7 +230,7 @@ class Sql {
 	* @metodo query
 	*/
 	public function query($query, $params = array(), $multi = false){
-		
+
 		$this->conecta();
 
 		if(count($params)){
@@ -196,10 +249,11 @@ class Sql {
 
 				case Sql::MYSQL:
 				if($multi === false){
-					pre($params);
 					$resource = mysqli_query($this->conn, $query);
 				}else{
+					$query = str_replace(';;', ';', $query);
 					$resource = mysqli_multi_query($this->conn, $query);
+
 				}
 				break;
 
@@ -375,14 +429,16 @@ class Sql {
 
 		switch($this->type){
 
-			case SQL::MYSQL:		
-			$finfo = $resource->fetch_fields();
-		    foreach($finfo as $val){
-				array_push($fields, array(
-					"field"=>$val->name,
-					"type"=>strtoupper($val->type),
-					"max_length"=>$val->max_length
-				));
+			case SQL::MYSQL:
+			if(gettype($resource) === 'object'){
+				$finfo = $resource->fetch_fields();
+			    foreach($finfo as $val){
+					array_push($fields, array(
+						"field"=>$val->name,
+						"type"=>strtoupper($val->type),
+						"max_length"=>$val->max_length
+					));
+				}
 			}
 			break;
 
@@ -398,25 +454,17 @@ class Sql {
 
 	}
 
-	/*********************************************************************************************************/	
-	/**
-	* Método que recebe uma query como parâmetro executa esta query guardando o resultado na variável local $a.
-	* Cria uma variável $fields do tipo array que irá armazenar todos os campos da query em questão por meio do resultado da função fetch_fields(), usando um forech ele armazenará o nome do campo, seu datatype e quantos caracteres são permitidos nesse campo.
-	*Cria uma variável $data do tipo array que irá armazenar o retorno dos dados obtidos pela query, antes porém ela executa um foreach para formatar os campos datetime, decimal e money no padrão americano e tirando espaços para os demais tipos. alimenta o array $data com os registros formatados em $record.
-	* @metodo arrays
-	*/	
-	public function arrays($query, $array = false, $params = array()){
+	public function getArrayRows($resource){
 
-		$a = $this->query($query, $params);
-		$fields = $this->getFieldsFromResouce($a);
-		
+		$fields = $this->getFieldsFromResouce($resource);
+
 		$data = array();
 		
 		switch($this->type){
 
 			case SQL::SQLSERVER:
 
-				while($a1 = sqlsrv_fetch_array($a)){
+				while($a1 = sqlsrv_fetch_array($resource)){
 		            $record = array();
 		            foreach($fields as $f) {
 						
@@ -497,7 +545,7 @@ class Sql {
 
 			case SQL::MYSQL:
 
-				while($a1 = $a->fetch_array()){
+				while(gettype($resource) === 'object' && $a1 = $resource->fetch_array()){
 					
 					$record = array();
 					
@@ -529,6 +577,21 @@ class Sql {
 			break;
 
 		}
+
+		return $data;
+
+	}
+
+	/*********************************************************************************************************/	
+	/**
+	* Método que recebe uma query como parâmetro executa esta query guardando o resultado na variável local $a.
+	* Cria uma variável $fields do tipo array que irá armazenar todos os campos da query em questão por meio do resultado da função fetch_fields(), usando um forech ele armazenará o nome do campo, seu datatype e quantos caracteres são permitidos nesse campo.
+	*Cria uma variável $data do tipo array que irá armazenar o retorno dos dados obtidos pela query, antes porém ela executa um foreach para formatar os campos datetime, decimal e money no padrão americano e tirando espaços para os demais tipos. alimenta o array $data com os registros formatados em $record.
+	* @metodo arrays
+	*/	
+	public function arrays($query, $array = false, $params = array()){
+
+		$data = $this->getArrayRows($this->query($query, $params));
 		
 		if(!$array){
 			return $data;	
@@ -555,8 +618,8 @@ class Sql {
 		return $this->select($query, $params);
 		
 	}
-	
-	public function proc($name, $params = array()){
+
+	public function proc($name, $params = array(), $returnQuery = false){
 
 		switch($this->getType()){
 
@@ -565,7 +628,7 @@ class Sql {
 			foreach ($params as $p) {
 				array_push($i, "?");
 			}
-			return $this->arrays("CALL ".$name."(".implode(", ", $i).");", $params);
+			$query = "CALL ".$name."(".implode(", ", $i).");";
 			break;
 
 			case Sql::SQLSERVER:
@@ -573,9 +636,15 @@ class Sql {
 			foreach ($params as $p) {
 				array_push($i, "?");
 			}
-			return $this->arrays("EXEC ".$name." ".implode(", ", $i), $params);
+			$query = "EXEC ".$name." ".implode(", ", $i);
 			break;
 
+		}
+
+		if($returnQuery === false){
+			return $this->arrays($query, false, $params);
+		}else{
+			return $query;
 		}
 
 	}

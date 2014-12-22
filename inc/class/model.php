@@ -41,6 +41,10 @@ abstract class Model implements ModelInterface {
 					case 'object':
 					$this->{"getBy".get_class($arg)}($arg);
 					break;
+					case 'string':
+					$this->getbystring($arg);
+					$this->setSaved();
+					break;
 				}
 			break;
 			
@@ -187,6 +191,12 @@ abstract class Model implements ModelInterface {
 
 	}
 	
+	public function set($data){
+
+		$this->arrayToAttr($data);
+
+	}
+
 	private function arrayToAttr($array){
 
 		foreach ($array as $key => $value) {
@@ -206,8 +216,8 @@ abstract class Model implements ModelInterface {
 	private function queryToAttr($query, $params = array()){
 		
 		$sql = $this->getSql();
-		$result = $sql->arrays($query, true, $params);
-		$this->arrayToAttr($result);
+		$result = $sql->proc($query, $params);
+		$this->arrayToAttr($result[0]);
 		return $result;
 			
 	}
@@ -251,6 +261,13 @@ abstract class Model implements ModelInterface {
 		
 		$sql = $this->getSql();
 		return $sql->query($query, $params);
+		
+	}
+
+	private function proc($query, $params = array()){
+		
+		$sql = $this->getSql();
+		return $sql->proc($query, $params);
 		
 	}
 	

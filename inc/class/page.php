@@ -27,14 +27,12 @@ class Page {
 		if(isset($_SESSION["lang"])) $options["strings"] = $_SESSION["lang"];
  	
 		$options['data']['string'] = $this->loadString($options["strings"]);
-		
 		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
 		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;
-		
 		$options['data']['path'] = SITE_PATH;
 
 		$tpl = $this->getTpl();
-		$this->options = $options;	
+		$this->options = $options;
  
 		if(gettype($this->options['data'])=='array'){
 			foreach($this->options['data'] as $key=>$val){

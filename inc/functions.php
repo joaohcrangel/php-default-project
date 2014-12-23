@@ -93,4 +93,19 @@ function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
 
     array_multisort($sort_col, $dir, $arr);
 }
+function ipinfo($ip = null){
+
+	if($ip === null) $ip = $_SERVER['REMOTE_ADDR'];
+
+	$result = file_get_contents('http://ipinfo.io/'.$ip.'/json');
+
+	if(!$result){
+
+		throw new Exception("Não foi possível conectar o servidor de IP.");
+
+	}
+
+	return json_decode($result, true);
+
+}
 ?>

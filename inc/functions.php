@@ -110,4 +110,19 @@ function abreviateTotalCount($value){
     }
 
 }
+function ipinfo($ip = null){
+
+	if($ip === null) $ip = $_SERVER['REMOTE_ADDR'];
+
+	$result = file_get_contents('http://ipinfo.io/'.$ip.'/json');
+
+	if(!$result){
+
+		throw new Exception("Não foi possível conectar o servidor de IP.");
+
+	}
+
+	return json_decode($result, true);
+
+}
 ?>

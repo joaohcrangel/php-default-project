@@ -93,4 +93,21 @@ function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
 
     array_multisort($sort_col, $dir, $arr);
 }
+function abreviateTotalCount($value){
+
+    $abbreviations = array(12 => 't', 9 => 'b', 6 => 'm', 3 => 'k', 0 => '');
+
+    foreach($abbreviations as $exponent => $abbreviation) 
+    {
+
+        if($value >= pow(10, $exponent)) 
+        {
+
+            return round(floatval($value / pow(10, $exponent)),1).$abbreviation;
+
+        }
+
+    }
+
+}
 ?>

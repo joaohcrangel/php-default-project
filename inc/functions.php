@@ -85,4 +85,21 @@ function getClass($class_name){
 function setClass($class){
 	$_SESSION[get_class($class)] = $class->getFields();
 }
+function ipinfo($ip = null){
+
+	if($ip === null) $ip = $_SERVER['REMOTE_ADDR'];
+
+	
+	
+	$result = file_get_contents('http://ipinfo.io/'.$ip.'/json');
+
+	if(!$result){
+
+		throw new Exception("Não foi possível conectar o servidor de IP.");
+
+	}
+
+	return json_decode($result, true);
+
+}
 ?>

@@ -1,10 +1,9 @@
 <?php
 class Page {
   	
-	private $strings;
+	private $language;
   	
 	public $options = array(
-		"strings"=>"pt-br",//Idioma padrão res/strings/pt-br.xml
 		"data"=>array(
 			"js"=>array(),
 			"head_title"=>"Título da Página",
@@ -24,12 +23,12 @@ class Page {
 
 		$options = array_merge($this->options, $options);
 
-		if(isset($_SESSION["lang"])) $options["strings"] = $_SESSION["lang"];
+		$this->language = new Language();
  	
-		$options['data']['string'] = $this->loadString($options["strings"]);
+		$options['data']['string'] = $this->language->loadString();
 
 		$tpl = $this->getTpl();
-		$this->options = $options;	
+		$this->options = $options;
  
 		if(gettype($this->options['data'])=='array'){
 			foreach($this->options['data'] as $key=>$val){
@@ -43,32 +42,7 @@ class Page {
 
 	public function getString($name){
 
-		$strings = $this->loadString($options["strings"]);
-		return $strings[$name];
-
-	}
-
-	public function loadString($lang){
-
-		if($this->strings && gettype($this->strings)==='array') return $this->strings;
-
-		$file_string = PATH."/res/strings/$lang.xml";
-
-		$strings = array();
-
-		if(file_exists($file_string)){
-
-			$xml = simplexml_load_file($file_string);
-
-			foreach($xml->children() as $string){
-                $val = $string->attributes();
-                //$strings[(string)$val[0]] = (string)$string;
-                $strings[(string)$string->attributes()[0]] = (string)$string;
-			}
-
-		}
-
-		return $this->strings = $strings;
+		return $this->language->getString($name);
 
 	}
  

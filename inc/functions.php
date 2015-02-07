@@ -85,12 +85,35 @@ function getClass($class_name){
 function setClass($class){
 	$_SESSION[get_class($class)] = $class->getFields();
 }
+function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
+    $sort_col = array();
+    foreach ($arr as $key=> $row) {
+        $sort_col[$key] = $row[$col];
+    }
+
+    array_multisort($sort_col, $dir, $arr);
+}
+function abreviateTotalCount($value){
+
+    $abbreviations = array(12 => 't', 9 => 'b', 6 => 'm', 3 => 'k', 0 => '');
+
+    foreach($abbreviations as $exponent => $abbreviation) 
+    {
+
+        if($value >= pow(10, $exponent)) 
+        {
+
+            return round(floatval($value / pow(10, $exponent)),1).$abbreviation;
+
+        }
+
+    }
+
+}
 function ipinfo($ip = null){
 
 	if($ip === null) $ip = $_SERVER['REMOTE_ADDR'];
 
-	
-	
 	$result = file_get_contents('http://ipinfo.io/'.$ip.'/json');
 
 	if(!$result){

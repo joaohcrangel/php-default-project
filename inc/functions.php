@@ -125,4 +125,10 @@ function ipinfo($ip = null){
 	return json_decode($result, true);
 
 }
+function is_email($text){
+	return (filter_var($text, FILTER_VALIDATE_EMAIL)===false)?false:true;
+}
+function is_ip($text){
+	return (filter_var($text, FILTER_VALIDATE_IP)===false)?false:true;
+}
 ?>

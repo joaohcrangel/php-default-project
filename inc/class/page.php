@@ -2,6 +2,7 @@
 class Page {
   	
 	private $language;
+	private $Tpl;
   	
 	public $options = array(
 		"data"=>array(

@@ -1,6 +1,6 @@
 <?php
 if((float)PHP_VERSION < 5.3) require_once("functions-5-2.php");
-function __autoload($class){
+function autoload($class){
 	$filepath = __DIR__."/class/".strtolower($class).".php";
     if(file_exists($filepath)){
     	require_once($filepath);

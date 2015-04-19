@@ -302,7 +302,18 @@ function getObjectFromSession($object){
 }
 function setObjectInSession($object){
 
-	return $_SESSION[get_class($object)] = $object;
+	return $_SESSION[get_class($object)] = $object->getFields();
 
+}
+function setLocalCookie($name, $data, $time){
+	setcookie($name, encrypt($data), time()+$time, "/", $_SERVER['SERVER_NAME'], 1);
+}
+function getLocalCookie($name){
+	$data = $_COOKIE[$name];
+	if($data!==NULL && strlen($data)>0){
+		return decrypt($data);
+	}else{
+		return false;
+	}
 }
 ?>

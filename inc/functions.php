@@ -291,8 +291,6 @@ function setUrl($name, $value, $url = NULL){
 }
 function getObjectFromSession($object){
 
-	$obj = new $object($_SESSION[$object]);
-
 	if(isset($_SESSION[$object])){
 		return new $object($_SESSION[$object]);
 	}else{

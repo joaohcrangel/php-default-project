@@ -6,7 +6,7 @@
  */
 interface ModelInterface {
 
-	public function get($primarykey);
+	public function get();
     public function save();
     public function remove();
 

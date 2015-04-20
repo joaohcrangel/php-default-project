@@ -15,6 +15,8 @@ abstract class Collection extends Model {
 	//protected $saveQuery = "EXECUTE sp_model_save ?, ?";
 	//protected $saveArgs = array("idmodel","desmodel");	
 
+	public function get(){}
+
 	/** Insere um novo item na coleção : Mixed */
 	public function add($object){
 

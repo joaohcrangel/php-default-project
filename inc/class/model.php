@@ -15,6 +15,7 @@ interface ModelInterface {
 abstract class Model extends DefaultObject implements ModelInterface {
 
 	private $sql = NULL;
+	protected $pk;
 	
 	public function __construct(){
 		
@@ -197,6 +198,12 @@ abstract class Model extends DefaultObject implements ModelInterface {
 		}
 
 		return $fields;
+
+	}
+
+	public function checkPkValue(){
+
+		return ((int)$this->{'get'.$this->pk}() > 0)?true:false;
 
 	}
  

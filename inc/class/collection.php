@@ -92,6 +92,20 @@ abstract class Collection extends Model {
 
 	}
 
+	public function load($data){
+
+		if(!gettype($itens) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");
+
+		$this->itens = array();
+
+		foreach ($data as $item) {
+			$this->add(new $this->type($item));
+		}
+
+		return $this->getItens();
+
+	}
+
 	public function setItens($itens){
 
 		if(!gettype($itens) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");
@@ -257,6 +271,29 @@ abstract class Collection extends Model {
     		return NULL;
 
     	}
+
+    }
+
+    public function find($field, $value){
+
+    	pre("find")
+    	pre($field, $value);
+
+    	foreach ($this->itens as $object) {
+    		
+    		pre("get".$field);
+    		pre($object->{"get".$field}());
+    		pre($value);
+
+    		if($object->{"get".$field}() === $value){
+
+    			return $object;
+
+    		}
+
+    	}
+
+    	return false;
 
     }
 	

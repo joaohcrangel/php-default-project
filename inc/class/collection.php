@@ -92,6 +92,12 @@ abstract class Collection extends Model {
 
 	}
 
+	public function loadFormQuery($query, $params = array()){
+
+		return $this->load($this->getSql()->arrays($query, false, $params));
+
+	}
+
 	public function load($data){
 
 		if(!gettype($itens) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");

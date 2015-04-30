@@ -105,7 +105,7 @@ abstract class Collection extends Model {
 		$this->itens = array();
 
 		foreach ($data as $item) {
-			$this->add(new $this->type($item));
+			$this->add(new $this->class($item));
 		}
 
 		return $this->getItens();

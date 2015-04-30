@@ -109,41 +109,6 @@ abstract class Model extends DefaultObject implements ModelInterface {
 			
 	}
 	
-	private function queryGetID($query, $params = array()){
-
-		$sql = $this->getSql();
-
-		$result = $sql->proc($query, $params);
-		$result = $result[0];
-
-		if($this->pk === NULL) throw new Exception("O model está sem PK definido");		
-
-		if(gettype($result) === 'array'){
-
-			foreach ($result as $key => $value) {
-				$this->{'set'.$key}($value);
-			}
-
-		}
-
-		if(gettype($this->pk) === "array"){
-			
-			$pks = array();
-
-			foreach ($this->pk as $pk) {
-				array_push($pks, (int)$result[$pk]);
-			}
-
-			return $pks;
-
-		}else{
-
-			return (int)$result[$this->pk];
-
-		}
-			
-	}
-	
 	private function execute($query, $params = array()){
 		
 		$sql = $this->getSql();

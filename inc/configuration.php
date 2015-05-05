@@ -6,6 +6,6 @@ require_once("consts.php");
 require_once("functions.php");
 require_once("raintpl/inc/rain.tpl.class.php");
 
-spl_autoload_register('autoload');//Define a função autoload como uma função automatica de __autoload
+spl_autoload_register('autoload_php_default_project');//Define a função autoload como uma função automatica de __autoload
 
 ?>

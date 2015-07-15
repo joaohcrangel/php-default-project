@@ -29,9 +29,8 @@ class Language {
 			$xml = simplexml_load_file($file_string);
 
 			foreach($xml->children() as $string){
-                $val = $string->attributes();
-                //$strings[(string)$val[0]] = (string)$string;
-                $strings[(string)$string->attributes()[0]] = (string)$string;
+                $val = (string)$string->attributes();
+                $strings[$val[0]] = (string)$string;                
 			}
 
 		}

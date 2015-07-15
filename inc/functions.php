@@ -11,6 +11,11 @@ function autoload_php_default_project($class){
     	require_once($filepath);
     	return true;
     }
+    $filepath = __DIR__."/class/objects/vendor/".strtolower($class).".php";
+    if(file_exists($filepath)){
+    	require_once($filepath);
+    	return true;
+    }
 }
 if(URL === "/inc/configuration.php"){
 	phpinfo();

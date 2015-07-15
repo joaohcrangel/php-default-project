@@ -23,7 +23,7 @@ if(!function_exists('removeSimplesQuotes')){
 }
 if(!function_exists('request')){
 	function request($key){
-		return removeSimplesQuotes($_REQUEST[$key]);
+		return (isset($_REQUEST[$key]))?removeSimplesQuotes($_REQUEST[$key]):NULL;
 	}
 }
 if(!function_exists('r')){
@@ -33,7 +33,7 @@ if(!function_exists('r')){
 }
 if(!function_exists('post')){
 	function post($key){
-		return removeSimplesQuotes($_POST[$key]);
+		return (isset($_POST[$key]))?removeSimplesQuotes($_POST[$key]):NULL;
 	}
 }
 if(!function_exists('p')){
@@ -43,7 +43,7 @@ if(!function_exists('p')){
 }
 if(!function_exists('get')){
 	function get($key){
-		return removeSimplesQuotes($_GET[$key]);
+		return (isset($_GET[$key]))?removeSimplesQuotes($_GET[$key]):NULL;
 	}
 }
 if(!function_exists('g')){

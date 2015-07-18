@@ -170,7 +170,7 @@ if(!function_exists('is_ip')){
 		return (filter_var($text, FILTER_VALIDATE_IP)===false)?false:true;
 	}
 }
-define('KEY_ENCRYPT', 'PHP-DEFAULT-PROJECT-BY-JOAORANGEL');
+define('KEY_ENCRYPT', pack('a16', 'PHP-DEFAULT-PROJECT-BY-JOAORANGEL')));
 if(!function_exists('encrypt')){
 	function encrypt($data = array()){
 		return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, KEY_ENCRYPT, json_encode($data), MCRYPT_MODE_ECB));

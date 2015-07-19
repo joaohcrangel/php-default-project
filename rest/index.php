@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: application/json');
+define('START_EXECUTION', microtime(true));
 
 require_once("../inc/configuration.php");
 
@@ -8,7 +8,7 @@ require_once("../inc/configuration.php");
 
 $app = new \Slim\Slim();
 
-$app->config('debug', false);
+$app->config('debug', true);
 
 $app->error(function (\Exception $e) use ($app) {
 
@@ -31,17 +31,21 @@ $app->notFound(function () use ($app) {
 
 });
 
-foreach (scandir(__DIR__."\\modules") as $file) {
+$app->get("/", function(){
 
-	if($file !== '.' && $file !== '..'){
-		require_once(__DIR__."\\modules\\".$file);
+	echo "RESTful API";
+
+});
+
+$modules_path = __DIR__."\\modules\\";
+
+foreach (scandir($modules_path) as $file) {
+
+	if ($file !== '.' && $file !== '..') {
+		require_once($modules_path.$file);
 	}
 
 }
-
-$app->get('/', function () {
-    echo "Welcome RestAPI";
-});
 
 $app->run();
 

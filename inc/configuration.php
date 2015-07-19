@@ -1,4 +1,6 @@
 <?php
+if (isset($_GET['token'])) session_id($_GET['token']);
+session_start();
 
 if((float)PHP_VERSION < 5.3) define("__DIR__", dirname(__FILE__));//Fixbug PHP < 5.3
 

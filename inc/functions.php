@@ -216,14 +216,13 @@ if(!function_exists('send_email')){
 		require_once($classpath."class.smtp.php");
 		/************************************************************/
 		$opt = array_merge(array(
-			"username"=>"servweb",
-			"password"=>"q1a2s3",
-			//"Host"=>"172.17.2.5", IP antigo do servidor que o michel mudou por algum motivo D:
-			"Host"=>"172.17.2.1",
+			"username"=>"",
+			"password"=>"",
+			"Host"=>"",
 			"SMTPAuth"=>true,
 			"Port"=>25,
-			"from"=>"servweb@impacta.com.br",
-			"fromName"=>"Site Grupo Impacta Tecnologia",
+			"from"=>"",
+			"fromName"=>"",
 			"reply"=>false,
 			"replayName"=>false,
 			"AltBody"=>"Por favor, utilize um visualizador de e-mail compátivel com HTML para visuliazar esta mensagem.",
@@ -365,6 +364,24 @@ if(!function_exists('getLocalCookie')){
 		}else{
 			return false;
 		}
+	}
+}
+if(!function_exists('success')){
+	function success($data){
+
+		$json = json_encode(array_merge(array(
+			'success'=>true,
+			'delay'=>microtime(true)-START_EXECUTION
+		), $data));
+
+		if(isset($_GET['callback'])){
+			return get('callback').'('.$json.')';
+		}elseif(isset($_GET['jsonp'])){
+			return get('jsonp').'('.$json.')';
+		}else{
+			return $json;
+		}
+
 	}
 }
 ?>

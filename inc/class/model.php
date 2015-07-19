@@ -84,7 +84,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 	}
 
-	private function arrayToAttr($array){
+	protected function arrayToAttr($array){
 
 		foreach ($array as $key => $value) {
 			
@@ -103,8 +103,8 @@ abstract class Model extends DefaultObject implements ModelInterface {
 	private function queryToAttr($query, $params = array()){
 		
 		$sql = $this->getSql();
-		$result = $sql->proc($query, $params);
-		$this->arrayToAttr($result[0]);
+		$result = $sql->select($query, $params);
+		$this->arrayToAttr($result);
 		return $result;
 			
 	}

@@ -84,11 +84,43 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 	}
 
-	protected function arrayToAttr($array){
+	private function arrayToAttr($array){
 
-		foreach ($array as $key => $value) {
-			
-			$this->{"set".$key}($value);
+		foreach ((array)$array as $key => $value) {
+
+			switch(substr($key, 0, 3)){
+				case 'des':
+				$this->{"set".$key}($value);
+				break;
+				default:
+				switch(substr($key, 0, 2)){
+
+					case "id":
+					case "nr":
+					$this->{"set".$key}((int)$value);
+					break;
+
+					case "vl":
+					if(strpos($value, ",") !== false) $value = str_replace(",", ".", str_replace(".", "", $this->fields->{$namefield}));
+					$this->{"set".$key}((float)$value);
+					break;
+
+					case "in":
+					case "is":
+					$this->{"set".$key}((bool)$value);
+					break;
+
+					case "dt":
+					$this->{"set".$key}(date("Y-m-d H:i", $this->dateToTimestamp($value)));
+					break;
+
+					default:
+					$this->{"set".$key}($value);
+					break;
+
+				}
+				break;
+			}			
 
 		}
 		

@@ -30,7 +30,7 @@ class DefaultObject {
 					//Getters
 					$namefield = substr($name,3,strlen($name)-3);
 
-					if(!isset($this->fields->{$namefield})) return NULL;
+					if(!isset($this->fields->{$namefield})) $this->fields->{$namefield} = NULL;
 
 					if(gettype($namefield) === "object" && !in_array(get_class($namefield), array("DateTime"))){
 

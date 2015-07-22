@@ -50,7 +50,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 		
 	}
 	
-	private function isValid($silient = false){
+	protected function isValid($silient = false){
 		
 		$valid = true;
 		
@@ -84,7 +84,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 	}
 
-	private function arrayToAttr($array){
+	protected function arrayToAttr($array){
 
 		foreach ((array)$array as $key => $value) {
 
@@ -126,13 +126,13 @@ abstract class Model extends DefaultObject implements ModelInterface {
 		
 	}
 	
-	private function getSql(){
+	protected function getSql(){
 		
 		return (isset($this->sql) && $this->sql !== NULL)?$this->sql:$this->sql = new Sql();
 		
 	}
 	
-	private function queryToAttr($query, $params = array()){
+	protected function queryToAttr($query, $params = array()){
 		
 		$sql = $this->getSql();
 		$result = $sql->select($query, $params);
@@ -141,14 +141,14 @@ abstract class Model extends DefaultObject implements ModelInterface {
 			
 	}
 	
-	private function execute($query, $params = array()){
+	protected function execute($query, $params = array()){
 		
 		$sql = $this->getSql();
 		return $sql->query($query, $params);
 		
 	}
 
-	private function proc($query, $params = array()){
+	protected function proc($query, $params = array()){
 		
 		$sql = $this->getSql();
 		return $sql->proc($query, $params);
@@ -156,7 +156,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 	}
 	
 	/** Carrega o objeto se não estiver completo : void */
-	final private function getIfNotLoaded(){
+	final protected function getIfNotLoaded(){
 
 		if(isset($this->required) && gettype($this->required) === 'array' && isset($this->pk)){
 

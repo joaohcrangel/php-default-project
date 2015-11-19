@@ -1,17 +1,18 @@
 <?php
 if((float)PHP_VERSION < 5.3) require_once("functions-5-2.php");
 function autoload_php_default_project($class){
-	$filepath = __DIR__."/class/".strtolower($class).".php";
+	$filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR.strtolower($class).".php";
     if(file_exists($filepath)){
     	require_once($filepath);
     	return true;
     }
-    $filepath = __DIR__."/class/objects/".strtolower($class).".php";
+    $filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."objects".DIRECTORY_SEPARATOR.strtolower($class).".php";
     if(file_exists($filepath)){
     	require_once($filepath);
     	return true;
     }
-    $filepath = __DIR__."/class/objects/vendor/".strtolower($class).".php";
+    $filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR.strtolower($class).".php";
+
     if(file_exists($filepath)){
     	require_once($filepath);
     	return true;
@@ -170,7 +171,7 @@ if(!function_exists('is_ip')){
 		return (filter_var($text, FILTER_VALIDATE_IP)===false)?false:true;
 	}
 }
-define('KEY_ENCRYPT', pack('a16', 'PHP-DEFAULT-PROJECT-BY-JOAORANGEL')));
+define('KEY_ENCRYPT', pack('a16', 'PHP-DEFAULT-PROJECT-BY-JOAORANGEL'));
 if(!function_exists('encrypt')){
 	function encrypt($data = array()){
 		return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, KEY_ENCRYPT, json_encode($data), MCRYPT_MODE_ECB));

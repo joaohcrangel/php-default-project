@@ -135,5 +135,43 @@ class DefaultObject {
 
 	}
 
+	public function getObjectOrCreate($className, $pkValue){
+
+		$obj = new $className();
+
+		if (
+			isset($this->fields->{$className})
+		) {
+
+			if (
+				gettype($this->fields->{$className}) === 'object'
+				&&
+				get_class($this->fields->{$className}) === $className
+			) {
+				return $this->fields->{$className};
+			} else {
+					return new $className($this->fields->{$className});
+			}
+
+		}
+
+		$pks = array();
+
+		if (gettype($obj->getPkName()) === 'array') {
+			$pks =  $obj->getPkName();
+		} else {
+			array_push($pks, $obj->getPkName());
+		}
+
+		foreach ($pks as $pk) {
+			if (!$this->{'get'.$pk}() > 0) throw new Exception("Não há ".$pk.".");
+		}
+
+	    unset($obj);
+
+	    return $this->fields->{$className} = new $className($pkValue);
+
+	}
+
 }
 ?>

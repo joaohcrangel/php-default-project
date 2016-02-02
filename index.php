@@ -41,6 +41,10 @@ $app->get("/", function(){
 
 $modules_path = __DIR__."\\modules\\";
 
+if (!is_dir($modules_path)) {
+    mkdir($modules_path);
+}
+
 foreach (scandir($modules_path) as $file) {
 
 	if ($file !== '.' && $file !== '..') {

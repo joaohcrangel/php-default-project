@@ -1,4 +1,5 @@
-var gulp    = require('gulp'),
+var fs      = require('fs'),
+    gulp    = require('gulp'),
     sass    = require('gulp-sass'),
     rename  = require('gulp-rename'),
     cssmin  = require('gulp-cssmin'),
@@ -7,7 +8,8 @@ var gulp    = require('gulp'),
     concat  = require('gulp-concat'),
     uglify  = require('gulp-uglify'),
     addsrc  = require('gulp-add-src'),
-    watch   = require('gulp-watch');
+    watch   = require('gulp-watch'),
+    htmlmin = require('gulp-htmlmin');
 
 gulp.task('styles', function() {
     gulp.src('sass/**/*.scss')
@@ -17,13 +19,20 @@ gulp.task('styles', function() {
 
 gulp.task('cssmin', function() {
 
-	gulp.src('css/**/*.css')
-		.pipe(concat('all.min.css'))
-	    //.pipe(stripCssComments({all: true}))
-	    .pipe(cssmin())
-	    .pipe(gulp.dest('./css/'));;
+    if (fs.existsSync('css/all.css')) {
+        fs.unlinkSync('css/all.css');
+    }
 
-
+    gulp.src([
+        'css/**/*.css', 
+        'vendors/bootstrap/css/bootstrap.min.css',
+        'vendors/font-awesome/css/font-awesome.min.css'
+    ])
+		.pipe(concat('all.css'))
+	    .pipe(cssmin({
+	    	keepSpecialComments:0
+	    }))
+	    .pipe(gulp.dest('./css/'));
 
 });
 
@@ -39,8 +48,18 @@ gulp.task('javascript', function() {
 
 });
 
+gulp.task('minify', function() {
+  return gulp.src('html/*.html')
+    .pipe(htmlmin({
+    	collapseWhitespace: true,
+    	removeComments: true,
+    	removeOptionalTags: true
+    }))
+    .pipe(gulp.dest('tpl'))
+});
+
 gulp.task('default', function() {
-	gulp.watch('sass/**/*.scss',['styles']);
-	gulp.watch('css/**/*.css',['cssmin']);
+	gulp.watch('sass/**/*.scss',['styles', 'cssmin']);
 	gulp.watch('scripts/**/*.js',['javascript']);
+	gulp.watch('html/**/*.html',['minify']);
 });

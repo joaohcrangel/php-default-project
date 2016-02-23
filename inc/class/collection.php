@@ -98,7 +98,7 @@ abstract class Collection extends Model {
 
 	}
 
-	public function loadFormQuery($query, $params = array()){
+	public function loadFromQuery($query, $params = array()){
 
 		return $this->load($this->getSql()->arrays($query, false, $params));
 
@@ -288,9 +288,6 @@ abstract class Collection extends Model {
 
     public function find($field, $value){
 
-    	pre("find")
-    	pre($field, $value);
-
     	foreach ($this->itens as $object) {
     		
     		pre("get".$field);
@@ -311,7 +308,8 @@ abstract class Collection extends Model {
 
     public function filter($field, $value){
 
-    	$filtrated = new Collection();
+    	$colName = get_class($this);
+		$filtrated = new $colName();
 
     	foreach ($this->getItens() as $object) {
 
@@ -329,7 +327,8 @@ abstract class Collection extends Model {
 
     public function filterBy($fieldsAndValues = array()){
 
-    	$filtrated = new Collection();
+    	$colName = get_class($this);
+		$filtrated = new $colName();
 
     	foreach ($this->getItens() as $object) {
 

@@ -1,29 +1,25 @@
 <?php
-class Page {
+class AdminPage {
   	
 	private $language;
 	private $Tpl;
   	
 	public $options = array(
-		"header"=>true,
-		"footer"=>true,
 		"data"=>array(
 			"js"=>array(),
-			"head_title"=>"VnoMapa",
+			"head_title"=>"Adminsitração - VnoMapa",
 			"meta_description"=>"",
 			"meta_author"=>"HCODE"
 		)
 	);
  
 	public function __construct($options = array()){
-
-		$rootdir = PATH;
-
-		raintpl::configure("base_url", $rootdir );
-		raintpl::configure("tpl_dir", $rootdir."/res/tpl/" );
-		raintpl::configure("cache_dir", $rootdir."/res/tpl/tmp/" );
-		raintpl::configure("path_replace", false );
-
+		/*
+		RainTPL::configure("base_url", PATH );
+		RainTPL::configure("tpl_dir", PATH."/res/tpl/admin/" );
+		RainTPL::configure("cache_dir", PATH."/res/tpl/tmp/admin/" );
+		RainTPL::configure("path_replace", false );
+		*/
 		$options = array_merge($this->options, $options);
 
 		$this->language = new Language();
@@ -35,6 +31,13 @@ class Page {
 
 		$tpl = $this->getTpl();
 		$this->options = $options;
+
+		$tpl->configure(array(
+			'base_url'=>PATH,
+			'tpl_dir'=>PATH."/res/tpl/admin/",
+			'cache_dir'=>PATH."/res/tpl/tmp/admin/",
+			'path_replace'=>false
+		));
  
 		if(gettype($this->options['data'])=='array'){
 			foreach($this->options['data'] as $key=>$val){
@@ -42,7 +45,9 @@ class Page {
 			}
 		}
  
-		if ($this->options['header'] === true) $tpl->draw("header", false);
+		$tpl->draw("header", false);
+
+		exit('OK');
  
 	}
 
@@ -62,7 +67,7 @@ class Page {
 			}
 		}
  
-		if ($this->options['footer'] === true) $tpl->draw("footer", false);
+		$tpl->draw("footer", false);
  
 	}
  
@@ -75,7 +80,7 @@ class Page {
 				$tpl->assign($key, $val);
 			}
 		}
-
+ 
 		return $tpl->draw($tplname, $returnHTML);
  
 	}

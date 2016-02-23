@@ -10,7 +10,7 @@ class Sql {
 	const MYSQL = 1;
 	const SQLSERVER = 2;
 
-	private $type = DB_TYPE;
+	private $type = "1";//DB_TYPE;
 	
 	private $server = DB_HOST;
 	private $username = DB_USER;
@@ -36,7 +36,7 @@ class Sql {
 				$this->database = $config['database'];
 
 			}
-			
+
 			switch($this->type){
 
 				case Sql::MYSQL:
@@ -224,6 +224,17 @@ class Sql {
 
 		
 	}
+
+	public function queryFromFile($filename){
+
+		if (!file_exists($filename)) {
+			throw new Exception("O arquivo ".$filename." não existe.", 404);
+		}
+
+		return $this->query(file_get_contents($filename));
+
+	}
+
 	/*********************************************************************************************************/	
 	/**
 	* Método que executa qualquer instrução no banco de dados em uso
@@ -248,6 +259,7 @@ class Sql {
 			switch($this->type){
 
 				case Sql::MYSQL:
+
 				if($multi === false){
 					$resource = mysqli_query($this->conn, $query);
 				}else{
@@ -255,6 +267,7 @@ class Sql {
 					$resource = mysqli_multi_query($this->conn, $query);
 
 				}
+
 				break;
 
 				case Sql::SQLSERVER:

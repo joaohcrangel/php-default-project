@@ -14,15 +14,15 @@ class Session extends DefaultObject {
 	public static function getObjectFromSession($class_name){
 
 		if(isset($_SESSION[$class_name])){
-			if(class_exists($class_exists)){
+			try{
 				return new $class_name($_SESSION[$class_name]);
-			}else{
+			}catch(Exception $e){
 				return $_SESSION[$class_name];
 			}
 		}else{
-			if(class_exists($class_exists)){
+			try{
 				return new $class_name();
-			}else{
+			}catch(Exception $e){
 				return NULL;
 			}
 		}

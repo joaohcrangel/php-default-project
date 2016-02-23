@@ -4,9 +4,9 @@ class Session extends DefaultObject {
 	public static function setObjectInSession($object){
 
 		if(gettype($object) === 'object' && method_exists($object, "getFields")){
-			$_SESSION[$object] = $object->getFields();
+			$_SESSION[get_class($object)] = $object->getFields();
 		}else{
-			$_SESSION[$object] = $object;
+			$_SESSION[get_class($object)] = $object;
 		}
 
 	}

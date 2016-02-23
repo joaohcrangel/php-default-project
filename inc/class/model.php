@@ -198,6 +198,12 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 	}
 
+	public function getPkName(){
+
+		return $this->pk;
+
+	}
+
 	public function checkPkValue(){
 
 		return ((int)$this->{'get'.$this->pk}() > 0)?true:false;

@@ -1,4 +1,13 @@
-php-default-project
-===================
+# Ponta pé incial de Projeto em PHP
 
-PHP 5.3
+Estrutura padrão de projetos PHP.
+
+### Requisitos
+PHP 5.3 ou maior
+
+### Version
+1.0.0
+
+### Desenvolvido por
+
+João Rangel <joaohcrangel@gmail.com>

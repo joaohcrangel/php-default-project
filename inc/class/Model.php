@@ -47,7 +47,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 			break;
 				default:
 				if (count($args) > 0) {
-					call_user_method_array('get', $this, $args);
+					call_user_func_array(array($this, 'get'), $args);
 				}
 			break;
 			

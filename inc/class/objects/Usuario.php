@@ -7,6 +7,8 @@ class Usuario extends Model {
 
     const SESSION_NAME_LOCK = "USER.LOCK";
     const SESSION_NAME_REMEMBER = "LOGIN_REMEMBER";
+    const SESSION_INVALID_NAME = "Usuario-Login-Invalid";
+    const LOGIN_INVALID_MAX = 3;
 
     public function get(){
 

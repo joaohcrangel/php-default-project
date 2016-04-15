@@ -29,9 +29,15 @@ class Session extends DefaultObject {
 
 	}
 
+	public static function getPessoa(){
+
+		return Session::getUsuario()->getPessoa();
+
+	}
+
 	public static function getUsuario($lockRedirect = true){
 
-		if(isset($_SESSION[SESSION_NAME_LOCK])){
+		if(isset($_SESSION[Usuario::SESSION_NAME_LOCK])){
 			if ($lockRedirect === true) {
 				header('Location: '.SITE_PATH.'/lock');
 				exit;
@@ -40,9 +46,9 @@ class Session extends DefaultObject {
 
 		$usuario = Session::getObjectFromSession('Usuario');
 
-		if (!$usuario->getidusuario() > 0) {
+		if ($usuario !== NULL && !$usuario->getidusuario() > 0) {
 
-			$cookie = getLocalCookie(SESSION_NAME_REMEMBER);
+			$cookie = getLocalCookie(Usuario::SESSION_NAME_REMEMBER);
 
 			if ((int)$cookie['idusuario'] > 0) {
 
@@ -52,7 +58,7 @@ class Session extends DefaultObject {
 
 		}
 
-		if ($usuario->getidusuario() > 0) {
+		if ($usuario !== NULL && $usuario->getidusuario() > 0) {
 			return $usuario;
 		} else {
 			return new Usuario();
@@ -64,6 +70,74 @@ class Session extends DefaultObject {
 
 		return Session::setObjectInSession($usuario);
 		
+	}
+
+	public static function checkLogin($redirect = false){
+
+		$usuario = Session::getUsuario();
+
+		if (!$usuario->isLogged()) {
+
+			if ($redirect === true) {
+
+				http_response_code(403);
+				header('Location: '.SITE_PATH.'/login');
+				exit;
+
+			} else {
+
+				throw new Exception("Usuário não autenticado.", 403);				
+
+			}
+
+		}
+
+	}
+
+	public static function getUsuariosLogs(){
+
+		if (!isset($_SESSION[UsuarioLog::SESSION])) {
+			$_SESSION[UsuarioLog::SESSION] = array();
+		}
+
+		$usuariosLogs = new UsuariosLogs();
+
+		foreach($_SESSION[UsuarioLog::SESSION] as $usuarioLog){
+
+			$usuariosLogs->add(new UsuarioLog($usuarioLog));
+
+		}
+
+		return $usuariosLogs;
+
+	}
+
+	public static function clearUsuariosLogs(){
+
+		$_SESSION[UsuarioLog::SESSION] = array();
+
+	}
+
+	public static function addUsuarioLog(){
+
+		$usuario = Session::getUsuario();
+
+		if ($usuario->isLogged()) {
+
+			if (!isset($_SESSION[UsuarioLog::SESSION])) {
+				$_SESSION[UsuarioLog::SESSION] = array();
+			}
+
+			$log = new UsuarioLog(array(
+				'idusuario'=>$usuario->getidusuario()
+			));
+
+			$log->getDefaultValues();
+
+			array_push($_SESSION[UsuarioLog::SESSION], $log->getFields());
+
+		}
+
 	}
 	
 }

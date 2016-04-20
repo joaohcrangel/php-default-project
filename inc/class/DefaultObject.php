@@ -5,32 +5,41 @@ class DefaultObject {
 	private $changed = false;
 
 	public function __call($name, $args){
-		
+
 		if(!isset($this->fields)) $this->fields = (object)array();
 
 		if($name === 'get' && method_exists($this, $name)){
-			
+
 			$return = call_user_func_array(array($this,$name), $args);
-			
+
 			$this->setSaved();
-			
+
 			return $return;
-			
+
 		}elseif($name === 'save' && method_exists($this, $name) && $this->isValid()){
-			
+
 			return call_user_func_array(array($this,$name), $args);
-		
+
 		}else{
-		
+
 			//Crindo Getters e Setters automaticamento
 			if(!method_exists($this, $name) && strlen($name)>3 && in_array(substr($name,0,3), array('get', 'set'))){
-				
+
 				if(substr($name,0,3) == 'get'){
-					
+
 					//Getters
 					$namefield = substr($name,3,strlen($name)-3);
 
-					if(!isset($this->fields->{$namefield})) $this->fields->{$namefield} = NULL;
+					if (!isset($this->fields->{$namefield})) return NULL;
+
+					if (
+						$this->pk === $namefield &&
+						!(int)$this->fields->{$namefield} > 0
+					) {
+						return $this->fields->{$namefield} = 0;
+					}
+
+					if(!isset($this->fields->{$namefield})) return NULL;
 
 					if(gettype($namefield) === "object" && !in_array(get_class($namefield), array("DateTime"))){
 
@@ -49,6 +58,10 @@ class DefaultObject {
 					switch(substr($namefield, 0, 2)){
 
 						case "id":
+						if(!$this->fields->{$namefield} > 0) $this->fields->{$namefield} = 0;
+						return (int)$this->fields->{$namefield};
+						break;
+
 						case "nr":
 						return (int)$this->fields->{$namefield};
 						break;
@@ -73,42 +86,42 @@ class DefaultObject {
 						break;
 
 					}
-				
+
 				}else{
-					
+
 					//Setters
 					$this->setChanged();
 					$this->fields->{substr($name,3,strlen($name)-3)} = $args[0];
-					return true;
-						
+					return $args[0];
+
 				}
-				
+
 			}else{
-			
+
 	        	if($this) return call_user_func_array(array($this,$name),$args);
-				
+
 			}
-			
+
 		}
-			
+
 	}
 
 	public function getChanged(){
-		
+
 		return $this->changed;
-			
+
 	}
-	
+
 	public function setChanged(){
-		
+
 		$this->changed = true;
-			
+
 	}
-	
+
 	public function setSaved(){
-		
+
 		$this->changed = false;
-			
+
 	}
 
 	public function dateToTimestamp($value){
@@ -167,9 +180,21 @@ class DefaultObject {
 			if (!$this->{'get'.$pk}() > 0) throw new Exception("Não há ".$pk.".");
 		}
 
-	    unset($obj);
+    	unset($obj);
 
-	    return $this->fields->{$className} = new $className($pkValue);
+    	return $this->fields->{$className} = new $className($pkValue);
+
+	}
+
+	public static function getFirstDateTime($year, $month){
+
+		return new DateTime("{$year}-{$month}-1");
+
+	}
+
+	public static function getLastDateTime($year, $month){
+
+		return new DateTime(date("Y-m-t", strtotime("{$year}-{$month}-1")));
 
 	}
 

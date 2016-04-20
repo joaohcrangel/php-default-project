@@ -1,0 +1,103 @@
+<div class="page"><div class="page-content"><div class="row" ng-controller="sql-to-class"><div class="col-md-6"><div class="panel panel-bordered" id="panel-tables"><div class="panel-heading"><h4 class="panel-title">Tabelas</h4><div class="panel-actions"><a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" ng-click="loadTables()" aria-hidden="true"></a></div></div><div class="panel-body"><table class="table"><thead><tr><th>Nome<th>Linhas<th>&nbsp;<tbody ng-repeat="table in tables"><tr><td>{{table.Name}}<td>{{table.Rows}}<td><button type="button" class="btn btn-primary btn-xs pull-right" id="btn-selecionar-{{table.Name}}" ng-click="selecionar(table)">Selecionar</button></table></div></div></div><div class="col-md-6"><div class="panel panel-bordered" id="panel-form"><div class="panel-heading"><h4 class="panel-title">Detalhes da Tabela</h4></div><div class="panel-body"><form><div class="form-group form-material"><label class="control-label" for="inputText">Nome da Tabela</label><input type="text" class="form-control" id="destabela" name="destabela" ng-model="form.destabela"></div><div class="form-group form-material"><label class="control-label" for="inputText">Nome no Plural</label><input type="text" class="form-control" id="desplural" name="desplural" ng-model="form.desplural"></div><div class="form-group form-material"><label class="control-label" for="inputText">Nome no Singular</label><input type="text" class="form-control" id="dessingular" name="dessingular" ng-model="form.dessingular"></div><div class="form-group form-material"><label class="control-label" for="inputText">Campos</label></div><div class="col-md-6"><h4 class="example-title">Obrigatórios</h4><div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns"><input type="checkbox" ng-checked="Column.IS_NULLABLE === 'NO'" name="requireds[]" value="{{Column.COLUMN_NAME}}"><label for="inputUnchecked">{{Column.COLUMN_NAME}}</label></div></div><div class="col-md-6"><h4 class="example-title">Chave Primária</h4><div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns"><input type="checkbox" ng-checked="Column.COLUMN_KEY === 'PRI'" name="pks[]" value="{{Column.COLUMN_NAME}}"><label for="inputUnchecked">{{Column.COLUMN_NAME}}</label></div></div></form></div><div class="panel-footer"><div class="btn-group" id="actions-buttons"><button type="button" class="btn btn-default btn-sm" ng-click="download('model')">Model</button> <button type="button" class="btn btn-default btn-sm" ng-click="download('collection')">Collection</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('get')">SP GET</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('save')">SP SAVE</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('remove')">SP DELETE</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('list')">SP LIST</button> <button type="button" class="btn btn-default btn-sm" ng-click="download('rest')">REST</button></div></div></div></div></div></div></div><script>angular.module('qda', []).controller('sql-to-class', function($scope, $http){
+
+	$scope.form = {};
+	$scope.tables = [];
+
+	$scope.loadTables = function(){
+
+		var panel = $('#panel-tables').data('panel-api');
+
+		if (panel) panel.load();
+
+		rest({
+			$http:$http,
+			url:PATH+"/admin/sys/sql-to-class/tables",
+			success:function(r){
+
+				if (panel) panel.done();
+				$scope.tables = r.data;
+
+			}
+		});
+
+	};
+
+	$scope.selecionar = function(Table){
+
+		var $btn = $('#btn-selecionar-'+Table.Name);
+		var panel = $('#panel-form').data('panel-api');
+
+		$btn.btnload('load');
+		panel.load();
+
+		rest({
+			$http:$http,
+			url:PATH+"/admin/sys/sql-to-class/tables/"+Table.Name,
+			success:function(r){
+
+				$scope.form = r.data;
+				$btn.btnload('unload');
+				panel.done();
+
+			}
+		});
+
+	};
+
+	$scope.execute = function(what){
+
+		var $btns = $('#actions-buttons button');
+
+		$btns.btnload('load');
+
+		$scope.form.filetype = what;
+
+		$scope.form.requireds = [];
+		$('#panel-form [name=requireds]:checked').each(function(){
+			$scope.form.requireds.push($(this).val());
+		});
+
+		$scope.form.pks = [];
+		$('#panel-form [name=pks]:checked').each(function(){
+			$scope.form.pks.push($(this).val());
+		});
+
+		rest({
+			method:'POST',
+			$http:$http,
+			url:PATH+"/admin/sys/sql-to-class/execute",
+			data:$scope.form,
+			success:function(r){
+
+				$btns.btnload('unload');
+
+			}
+		});
+
+	};
+
+	$scope.download = function(what){
+
+		var target = "download"+new Date().getTime();
+		var $btns = $('#actions-buttons button');
+		var $form = $('#panel-form form');
+
+		$btns.btnload('load');
+
+		$form.find("[name=filetype]").remove();
+		$form.append('<input type="hidden" name="filetype" value="'+what+'">');
+		$form.attr({
+			'target':target,
+			'action':PATH+"/admin/sys/sql-to-class/execute",
+			'method':'POST'
+		});
+
+		$form.submit();
+
+		$btns.btnload('unload');
+
+	};
+
+	$scope.loadTables();
+
+});</script>

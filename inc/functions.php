@@ -1,21 +1,36 @@
 <?php
 if((float)PHP_VERSION < 5.3) require_once("functions-5-2.php");
 function autoload_php_default_project($class){
-	$filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR.strtolower($class).".php";
+
+	$class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+
+	$filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR.$class.".php";
     if(file_exists($filepath)){
     	require_once($filepath);
     	return true;
     }
-    $filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."objects".DIRECTORY_SEPARATOR.strtolower($class).".php";
-    if(file_exists($filepath)){
-    	require_once($filepath);
-    	return true;
-    }
-    $filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR.strtolower($class).".php";
+    $filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."objects".DIRECTORY_SEPARATOR.$class.".php";
 
     if(file_exists($filepath)){
     	require_once($filepath);
     	return true;
+    }
+    $filepath = __DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR.$class.".php";
+
+    if(file_exists($filepath)){
+
+    	require_once($filepath);
+    	return true;
+
+    }elseif(file_exists(__DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."autoload.php")){
+
+    	require_once(__DIR__.DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."autoload.php");
+    	return true;
+
+    }else{
+
+    	throw new Exception("Classe não encontrada em: ".$filepath, 400);	
+
     }
 }
 if(URL === "/inc/configuration.php"){
@@ -211,7 +226,7 @@ if(!function_exists('send_email')){
 
 		$options['body'] = $body;
 		/************************************************************/
-		$classpath = getClassPath().DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."PHPMailer".DIRECTORY_SEPARATOR;
+		$classpath = PATH.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."class".DIRECTORY_SEPARATOR."vendor".DIRECTORY_SEPARATOR."phpmailer".DIRECTORY_SEPARATOR."phpmailer".DIRECTORY_SEPARATOR;
 
 		require_once($classpath."class.phpmailer.php");
 		require_once($classpath."class.smtp.php");
@@ -245,20 +260,20 @@ if(!function_exists('send_email')){
 		$mail->Password   = $opt['password'];
 
 		//$mail->SMTPSecure = "tls";
-		if($opt['embeddedImage']){
+		if(isset($opt['embeddedImage'])){
 			foreach($opt['embeddedImage'] as $embeddedImage){
 				if($embeddedImage['path'] && $embeddedImage['id'])
 				$mail->AddEmbeddedImage($embeddedImage['path'],$embeddedImage['id']);
 			}	
 		}
 
-		if($opt['CharSet']) $mail->CharSet = $opt['CharSet'];
+		if(isset($opt['CharSet'])) $mail->CharSet = $opt['CharSet'];
 		
 		$mail->Priority = $opt['priority'];
 		
 		$mail->SetFrom($opt['from'], $opt['fromName']);
 		
-		if($opt['reply']) $mail->AddReplyTo($opt['reply'],$opt['replayName']);
+		if(isset($opt['reply'])) $mail->AddReplyTo($opt['reply'],$opt['replayName']);
 		
 		$mail->Subject    = $opt['subject'];
 		
@@ -359,6 +374,7 @@ if(!function_exists('setLocalCookie')){
 }
 if(!function_exists('getLocalCookie')){
 	function getLocalCookie($name){
+		if (!isset($_COOKIE[$name])) return false;
 		$data = $_COOKIE[$name];
 		if($data!==NULL && strlen($data)>0){
 			return decrypt($data);
@@ -367,8 +383,14 @@ if(!function_exists('getLocalCookie')){
 		}
 	}
 }
+if(!function_exists('unsetLocalCookie')){
+	function unsetLocalCookie($name){
+		if(isset($_COOKIE[$name])) unset($_COOKIE[$name]);
+		setcookie($name, null, -1, "/");
+	}
+}
 if(!function_exists('success')){
-	function success($data){
+	function success($data = array()){
 
 		$json = json_encode(array_merge(array(
 			'success'=>true,

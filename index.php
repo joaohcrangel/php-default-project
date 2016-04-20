@@ -3,6 +3,7 @@
 define('START_EXECUTION', microtime(true));
 
 require_once("inc/configuration.php");
+require_once("inc/class/vendor/Slim/Slim.php");
 
 \Slim\Slim::registerAutoloader();
 
@@ -31,26 +32,22 @@ $app->notFound(function () use ($app) {
 
 });
 
-$app->get("/", function(){
+$app->get("/info.php", function(){
 
-	$page = new Page();
-
-    $page->setTpl('index');
+    phpinfo();
 
 });
 
-$modules_path = __DIR__."\\modules\\";
+$modules_path = __DIR__.DIRECTORY_SEPARATOR."modules".DIRECTORY_SEPARATOR;
 
 if (!is_dir($modules_path)) {
     mkdir($modules_path);
 }
 
 foreach (scandir($modules_path) as $file) {
-
 	if ($file !== '.' && $file !== '..') {
 		require_once($modules_path.$file);
 	}
-
 }
 
 $app->run();

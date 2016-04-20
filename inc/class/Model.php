@@ -14,17 +14,17 @@ interface ModelInterface {
 
 abstract class Model extends DefaultObject implements ModelInterface {
 
-	private $sql = NULL;
+	protected $sql = NULL;
 	protected $pk;
-	
+
 	public function __construct(){
-		
+
 		$args = func_get_args();
-		
+
 		if(!isset($this->fields)) $this->fields = (object)array();
-		
+
 		switch(count($args)){
-			
+
 			case 1:
 				$arg = $args[0];
 				switch(gettype($arg)){
@@ -45,44 +45,45 @@ abstract class Model extends DefaultObject implements ModelInterface {
 					break;
 				}
 			break;
-				default:
-				if (count($args) > 0) {
-					call_user_func_array(array($this, 'get'), $args);
-				}
+			default:
+			if (count($args) > 0) {
+				call_user_func_array(array($this, 'get'), $args);
+				//call_user_method_array('get', $this, $args);
+			}
 			break;
-			
+
 		}
-		
+
 	}
-	
+
 	protected function isValid($silient = false){
-		
+
 		$valid = true;
-		
+
 		if(gettype($this->required)=='array'){
-		
+
 			foreach($this->required as $field){
-				
-				if($this->fields->{$field}===NULL){
-					
+
+				if(!isset($this->fields->{$field}) || $this->fields->{$field}===NULL){
+
 					if(!$silient) throw new Exception("O campo ".$field." é obrigatório para savar o objeto ".get_class($this).".", 1);
-					
+
 					$valid = false;
-					
+
 				}
-				
+
 			}
 
 			return $valid;
-			
+
 		}else{
-			
+
 			return $valid;
-			
+
 		}
-		
+
 	}
-	
+
 	public function set($data){
 
 		$this->arrayToAttr($data);
@@ -116,7 +117,18 @@ abstract class Model extends DefaultObject implements ModelInterface {
 					break;
 
 					case "dt":
-					$this->{"set".$key}(date("Y-m-d H:i", $this->dateToTimestamp($value)));
+					if (!$value) {
+						$this->{"set".$key}(NULL);
+					} else {
+						$weekdays = Language::getWeekdays();
+						$this->{"set".$key}(date("Y-m-d", $this->dateToTimestamp($value)));
+						$this->{"setdes".$key}(date("d/m/Y", $this->dateToTimestamp($value)));
+						$this->{"setdesweek".$key}(date("w", $this->dateToTimestamp($value)));
+						$this->{"setdesweekday".$key}($weekdays[date("w", $this->dateToTimestamp($value))]['desweekday']);
+						$this->{"sethr".$key}(date("H:i:s", $this->dateToTimestamp($value)));
+						$this->{"setiso".$key}(date("c", $this->dateToTimestamp($value)));
+						$this->{"setts".substr($key, 2, strlen($key))}($this->dateToTimestamp($value));
+					}
 					break;
 
 					default:
@@ -125,43 +137,43 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 				}
 				break;
-			}			
+			}
 
 		}
-		
+
 	}
-	
+
 	protected function getSql(){
-		
+
 		return (isset($this->sql) && $this->sql !== NULL)?$this->sql:$this->sql = new Sql();
-		
+
 	}
-	
+
 	protected function queryToAttr($query, $params = array()){
-		
+
 		$sql = $this->getSql();
 		$result = $sql->select($query, $params);
 		$this->arrayToAttr($result);
 		return $result;
-			
+
 	}
-	
+
 	protected function execute($query, $params = array()){
-		
+
 		$sql = $this->getSql();
 		return $sql->query($query, $params);
-		
+
 	}
 
 	protected function proc($query, $params = array()){
-		
+
 		$sql = $this->getSql();
 		return $sql->proc($query, $params);
-		
+
 	}
-	
+
 	/** Carrega o objeto se não estiver completo : void */
-	final protected function getIfNotLoaded(){
+	final private function getIfNotLoaded(){
 
 		if(isset($this->required) && gettype($this->required) === 'array' && isset($this->pk)){
 
@@ -214,6 +226,6 @@ abstract class Model extends DefaultObject implements ModelInterface {
 		return ((int)$this->{'get'.$this->pk}() > 0)?true:false;
 
 	}
- 
+
 }
 ?>

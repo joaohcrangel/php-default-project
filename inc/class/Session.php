@@ -39,7 +39,7 @@ class Session extends DefaultObject {
 
 		if(isset($_SESSION[Usuario::SESSION_NAME_LOCK])){
 			if ($lockRedirect === true) {
-				header('Location: '.SITE_PATH.'/lock');
+				header('Location: '.SITE_PATH.'/'.DIR_ADMIN.'/lock');
 				exit;
 			}
 		}
@@ -81,7 +81,7 @@ class Session extends DefaultObject {
 			if ($redirect === true) {
 
 				http_response_code(403);
-				header('Location: '.SITE_PATH.'/login');
+				header('Location: '.SITE_PATH.'/'.DIR_ADMIN.'/login');
 				exit;
 
 			} else {

@@ -19,7 +19,7 @@ class Menu extends Model {
 
         if ($this->getChanged() && $this->isValid()) {
 
-            $this->queryToAttr("CALL sp_menu_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_menu_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidmenupai(),
                 $this->getidmenu(),
                 $this->getdesicone(),
@@ -45,6 +45,32 @@ class Menu extends Model {
         
     }
 
+    public static function getMenus(Menu $menuPai, Menus $menusTodos) {
+
+        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
+
+        $subs = new Menus();
+
+        foreach ($roots->getItens() as $menu) {
+
+            if ($menu->getnrsubmenus() > 0) {
+                $menu->setMenus(Menu::getMenus($menu, $menusTodos));
+            }
+
+            $subs->add($menu);
+
+        }
+
+        return $subs;
+
+    }
+
+    public static function getAllMenus(){
+        $root = new Menu(array('idmenu' => 0));
+        $menus = Menus::listAll();
+        return Menu::getMenus($root, $menus);
+    }
+
     public static function getMenuHTML(Menu $menuPai, Menus $menusTodos) {
 
         $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
@@ -54,11 +80,11 @@ class Menu extends Model {
         foreach ($roots->getItens() as $menu) {
 
             $html .= '
-                <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenu() > 0)?'has-sub':'').'">
+                <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenus() > 0)?'has-sub':'').'">
                     <a title="'.$menu->getdesmenu().'" href="'.(($menu->getdeshref() === 'javascript:void(0)')?'javascript:void(0)':SITE_PATH.'/'.$menu->getdeshref()).'" data-slug="layout">
                         <i class="site-menu-icon '.$menu->getdesicone().'" aria-hidden="true"></i>
                         <span class="site-menu-title">'.$menu->getdesmenu().'</span>
-                        '.(($menu->getnrsubmenu() > 0)?'<span class="site-menu-arrow"></span>':'').'
+                        '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'
                     </a>
                     '.Menu::getMenuHTML($menu, $menusTodos).'
                 </li>

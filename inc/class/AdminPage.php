@@ -5,22 +5,23 @@ class AdminPage {
 	private $Tpl;
   	
 	public $options = array(
+		"header"=>true,
+		"footer"=>true,
 		"data"=>array(
+			"body"=>array(
+				"class"=>""
+			),
 			"js"=>array(),
-			"head_title"=>"Adminsitração - VnoMapa",
+			"head_title"=>"Adminsitração",
 			"meta_description"=>"",
 			"meta_author"=>"HCODE"
 		)
 	);
  
 	public function __construct($options = array()){
-		/*
-		RainTPL::configure("base_url", PATH );
-		RainTPL::configure("tpl_dir", PATH."/res/tpl/admin/" );
-		RainTPL::configure("cache_dir", PATH."/res/tpl/tmp/admin/" );
-		RainTPL::configure("path_replace", false );
-		*/
-		$options = array_merge($this->options, $options);
+
+		$options = array_merge_recursive_distinct($this->options, $options);
+		$options['data']['head_title'] .= " - CM Stands";
 
 		$this->language = new Language();
 
@@ -45,9 +46,7 @@ class AdminPage {
 			}
 		}
  
-		$tpl->draw("header", false);
-
-		exit('OK');
+		if ($this->options['header'] === true) $tpl->draw("header", false);
  
 	}
 
@@ -67,7 +66,7 @@ class AdminPage {
 			}
 		}
  
-		$tpl->draw("footer", false);
+		if ($this->options['footer'] === true) $tpl->draw("footer", false);
  
 	}
  

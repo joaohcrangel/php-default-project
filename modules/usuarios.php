@@ -71,11 +71,9 @@ $app->get('/usuarios/lock', function () {
 
 	$usuario = Session::getUsuario();
 
-	$usuario->addLog('Tela Bloqueada');
-
 	unset($usuario);
 
-	$url = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:SITE_PATH.'/';
+	$url = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:SITE_PATH.'/'.DIR_ADMIN;
 
 	$_SESSION[Usuario::SESSION_NAME_LOCK] = array(
 		'url'=>$url,
@@ -112,8 +110,6 @@ $app->post('/usuarios/unlock', function () {
 	}
 
 	Session::setUsuario($u);
-
-	$u->addLog('Tela Desbloqueada');
 
 	$url = $_SESSION[Usuario::SESSION_NAME_LOCK]['url'];
 

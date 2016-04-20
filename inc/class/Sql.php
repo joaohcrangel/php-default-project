@@ -4,26 +4,27 @@
 * @package Sql
 */
 class Sql {
-	
+
 	public $conn;
 
 	const MYSQL = 1;
 	const SQLSERVER = 2;
 
-	private $type = "1";//DB_TYPE;
-	
+	private $type = DB_TYPE;
+
 	private $server = DB_HOST;
 	private $username = DB_USER;
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
-	
+
 	private $utf8 = true;
-	
-	/*********************************************************************************************************/	
+	private $sessionLog = true;
+
+	/*********************************************************************************************************/
 	/**
 	* Método usado para abrir o banco de dados com os atributos private supradeclarados
 	* @metodo conecta
-	*/	
+	*/
 	public function conecta($config = array()){
 
 		try {
@@ -50,10 +51,10 @@ class Sql {
 			}
 
 		} catch (Exception $e) {
-			
+
 			var_dump($e->getMessage(), $e);
 
-			header("location: ".SITE_PATH."/modules/install");
+			// header("location: ".SITE_PATH."/modules/install");
 
 		}
 
@@ -92,7 +93,7 @@ class Sql {
 		    		""
 		    	);
 				break;
-			
+
 			case Sql::SQLSERVER:
 				return array();
 				break;
@@ -112,7 +113,7 @@ class Sql {
 
 		if(!@mysqli_select_db($this->conn, $this->database)) {
 
-			throw new Exception("O banco de dados ".$this->database." não foi encontrado. ".mysqli_error($this->conn));			
+			throw new Exception("O banco de dados ".$this->database." não foi encontrado. ".mysqli_error($this->conn));
 
 		}
 
@@ -138,27 +139,27 @@ class Sql {
 		return $this->conn;
 
 	}
-	/*********************************************************************************************************/	
+	/*********************************************************************************************************/
 	/**
 	* Método Construtor que chama o método conecta() para abrir o banco de dados
 	* @metodo __construct
-	*/	
+	*/
 	public function __construct(){
-		
+
 		if($this->database !== 'database_name_here'){
 
 			return $this->conecta();
 
 		}
-			
+
 	}
-	/*********************************************************************************************************/	
+	/*********************************************************************************************************/
 	/**
 	* Método destrutor que fecha a conexão previamente aberta
 	* @metodo __destruct
-	*/	
+	*/
 	public function __desconstruct(){
-		
+
 		switch($this->type){
 
 			case Sql::MYSQL:
@@ -170,27 +171,27 @@ class Sql {
 			break;
 
 		}
-			
+
 	}
-	/*********************************************************************************************************/	
+	/*********************************************************************************************************/
 	/**
 	* Método que executa várias instruções no banco de dados
 	* @metodo querys
 	*/
 	public function querys($querys = array(), $params = array()){
-		
+
 		$p = array();
-		
+
 		foreach($params as $param){
-			
+
 			foreach($param as $val){
-				
+
 				array_push($p, $val);
-				
+
 			}
-			
+
 		}
-		
+
 		$this->query(implode(";",$querys), $p, true);
 
 		$results = array();
@@ -222,20 +223,8 @@ class Sql {
 
 		return $results;
 
-		
 	}
-
-	public function queryFromFile($filename){
-
-		if (!file_exists($filename)) {
-			throw new Exception("O arquivo ".$filename." não existe.", 404);
-		}
-
-		return $this->query(file_get_contents($filename));
-
-	}
-
-	/*********************************************************************************************************/	
+	/*********************************************************************************************************/
 	/**
 	* Método que executa qualquer instrução no banco de dados em uso
 	* @metodo query
@@ -251,15 +240,25 @@ class Sql {
 			$query = $this->setParamsToQuery($query, $this->trataParams($params));
 
 		}
-		
-		if($_SERVER['HTTP_HOST'] === 'locahost' && isset($_GET['query-debug'])) pre($query);
+
+		if ($_SERVER['HTTP_HOST'] === 'locahost' && isset($_GET['query-debug'])) pre($query);
 
 		try{
+
+			if ($this->sessionLog === true) {
+				if (!isset($_SESSION['querys']) || gettype($_SESSION['querys']) !== 'array') {
+					$_SESSION['querys'] = array();
+				}
+
+				array_push($_SESSION['querys'], array(
+					'query'=>$query,
+					'date'=>date('Y-m-d H:i:s')
+				));
+			}
 
 			switch($this->type){
 
 				case Sql::MYSQL:
-
 				if($multi === false){
 					$resource = mysqli_query($this->conn, $query);
 				}else{
@@ -267,19 +266,18 @@ class Sql {
 					$resource = mysqli_multi_query($this->conn, $query);
 
 				}
-
 				break;
 
 				case Sql::SQLSERVER:
-				if($multi === false){			
+				if($multi === false){
 					$resource = sqlsrv_query($this->conn, $query);
 				}else{
-					
+
 					$queryFinal = array();
 					$paramFinal = array();
 
-					for ($i = 0; $i < count($querys); $i++) { 
-						
+					for ($i = 0; $i < count($querys); $i++) {
+
 						$query = $querys[$i];
 						$param = $this->trataParams($params[$i]);
 
@@ -333,8 +331,8 @@ class Sql {
 			 var_dump($e, debug_backtrace());
 
 		}
-		
-		if(!$resource){
+
+		if(!isset($resource) || !$resource){
 
 			switch($this->type){
 
@@ -347,11 +345,11 @@ class Sql {
 				break;
 
 			}
-			
+
 		}
 
 		return $resource;
-		
+
 	}
 
 	private function setParamsToQuery($query, $params = array()){
@@ -404,36 +402,36 @@ class Sql {
 		return $params_new;
 
 	}
-	
-	/*********************************************************************************************************/	
+
+	/*********************************************************************************************************/
 	/**
 	* Método que retorna um registro fatiado em array
 	* @metodo query
-	*/	
+	*/
 	public function select($query, $params = array()){
-		
+
 		return $this->arrays($query, true, $params);
-			
+
 	}
-	/*********************************************************************************************************/	
+	/*********************************************************************************************************/
 	/**
 	* Método que recebe o nome da tabela como parâmetro cria uma consulta para retornar todos os campos de uma tabela com seus respectivos datatypes. Transforma esse resultado em um array e retorna este array
 	* @metodo fields
-	*/	
+	*/
 	public function fields($table){
-		
+
 		$fields = array();
-		
+
 		$result = $this->query("SHOW COLUMNS FROM tbl_".strtolower($table));
-		
+
 		while($row = $result->fetch_object()){
-			
+
 			array_push($fields, $row);
-				
+
 		}
-		
+
 		return $fields;
-			
+
 	}
 
 	private function getFieldsFromResouce($resource){
@@ -472,7 +470,7 @@ class Sql {
 		$fields = $this->getFieldsFromResouce($resource);
 
 		$data = array();
-		
+
 		switch($this->type){
 
 			case SQL::SQLSERVER:
@@ -480,7 +478,7 @@ class Sql {
 				while($a1 = sqlsrv_fetch_array($resource)){
 		            $record = array();
 		            foreach($fields as $f) {
-						
+
 		                switch ((int)$f['type']) {
 							case 4:
 								$record[$f['field']] = (int)($a1[$f['field']]);
@@ -515,6 +513,7 @@ class Sql {
 								}else{
 									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('H:i:s'):NULL;
 								}
+								$record["des".$f['field']] = date("d/m/Y H:i", strtotime($record[$f['field']]));
 							break;
 							case 7:
 								if($datetime){
@@ -527,11 +526,12 @@ class Sql {
 									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('U'):NULL;
 								}
 								$record["des".$f['field']] = date("d/m/Y H:i", $record[$f['field']]);
-							break;	
+							break;
 							case 93:
 								if($datetime){
 									if($datasql){
 										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('Y-m-d H:i'):NULL;
+										$record["des".$f['field']] = date("d/m/Y", strtotime($record[$f['field']]));
 									}else{
 										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
 									}
@@ -559,11 +559,11 @@ class Sql {
 			case SQL::MYSQL:
 
 				while(gettype($resource) === 'object' && $a1 = $resource->fetch_array()){
-					
+
 					$record = array();
-					
+
 					foreach($fields as $f){
-						
+
 						switch($f['type']){
 							case 'DATETIME':
 							$record[$f['field']] = strtotime(formatdatetime($a1[$f['field']],8));
@@ -580,11 +580,11 @@ class Sql {
 							unset($value);
 							break;
 						}
-							
+
 					}
-					
+
 					array_push($data, $record);
-						
+
 				}
 
 			break;
@@ -595,27 +595,27 @@ class Sql {
 
 	}
 
-	/*********************************************************************************************************/	
+	/*********************************************************************************************************/
 	/**
 	* Método que recebe uma query como parâmetro executa esta query guardando o resultado na variável local $a.
 	* Cria uma variável $fields do tipo array que irá armazenar todos os campos da query em questão por meio do resultado da função fetch_fields(), usando um forech ele armazenará o nome do campo, seu datatype e quantos caracteres são permitidos nesse campo.
 	*Cria uma variável $data do tipo array que irá armazenar o retorno dos dados obtidos pela query, antes porém ela executa um foreach para formatar os campos datetime, decimal e money no padrão americano e tirando espaços para os demais tipos. alimenta o array $data com os registros formatados em $record.
 	* @metodo arrays
-	*/	
+	*/
 	public function arrays($query, $array = false, $params = array()){
 
 		$data = $this->getArrayRows($this->query($query, $params));
-		
+
 		if(!$array){
-			return $data;	
-		}else{		
+			return $data;
+		}else{
 			if(count($data)==1 && $array){
 				return $data[0];
 			}else{
 				return $data;
 			}
 		}
-			
+
 	}
 
 	public function objects($query, $array = true, $params = array()){
@@ -627,9 +627,9 @@ class Sql {
 	}
 
 	public function insert($query, $params = array()){
-		
+
 		return $this->select($query, $params);
-		
+
 	}
 
 	public function proc($name, $params = array(), $returnQuery = false){
@@ -661,7 +661,7 @@ class Sql {
 		}
 
 	}
-	
+
 	public function getDataBases(){
 
 		$rows = array();
@@ -681,6 +681,7 @@ class Sql {
 		return $rows;
 
 	}
-		
+
 }
+if (isset($_SESSION['querys'])) unset($_SESSION['querys']);
 ?>

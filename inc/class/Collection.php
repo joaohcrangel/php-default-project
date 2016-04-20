@@ -86,12 +86,6 @@ abstract class Collection extends Model {
 
 	}
 
-	public function getAt($index){
-
-		return $this->itens[$index];
-
-	}
-
 	public function &getItens(){
 
 		return $this->itens;
@@ -106,7 +100,7 @@ abstract class Collection extends Model {
 
 	public function load($data){
 
-		if(!gettype($itens) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");
+		if(!gettype($data) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");
 
 		$this->itens = array();
 
@@ -236,7 +230,7 @@ abstract class Collection extends Model {
 
 	}
 
-	private function rowsToItens($rows){
+	protected function rowsToItens($rows){
 
 		if(gettype($rows) === "array" && count($rows)){
 
@@ -290,10 +284,6 @@ abstract class Collection extends Model {
 
     	foreach ($this->itens as $object) {
     		
-    		pre("get".$field);
-    		pre($object->{"get".$field}());
-    		pre($value);
-
     		if($object->{"get".$field}() === $value){
 
     			return $object;
@@ -307,42 +297,27 @@ abstract class Collection extends Model {
     }
 
     public function filter($field, $value){
-
     	$colName = get_class($this);
-		$filtrated = new $colName();
-
+    	$filtrated = new $colName();
     	foreach ($this->getItens() as $object) {
-
     		if($object->{"get".$field}() === $value){
-
     			$filtrated->add($object);
-
     		}
-
     	}
-
     	return $filtrated;
-
     }
 
     public function filterBy($fieldsAndValues = array()){
-
     	$colName = get_class($this);
-		$filtrated = new $colName();
-
+    	$filtrated = new $colName();
     	foreach ($this->getItens() as $object) {
-
     		$is = true;
     		foreach ($fieldsAndValues as $key => $value) {
     			if($object->{"get".$key}() !== $value) $is = false;
     		}
-
     		if($is === true) $filtrated->add($object);
-
     	}
-
     	return $filtrated;
-
     }
 
     private function aasort(&$array, $key) {
@@ -358,33 +333,33 @@ abstract class Collection extends Model {
 	    }
 	    $array=$ret;
 	}
-
 	public function sort($key) {
-
 		$itens = $this->getFields();
-
 		$this->aasort($itens, $key);
-
 		$this->itens = array();
-
 		$this->rowsToItens($itens);
-
 		return $this->getItens();
-
 	}
 
 	public function setType($type){
-
 		$this->type = $type;
-
 	}
 
 	public function setClass($class){
-
 		if(!class_exists($class)) throw new Exception("A classe $class não existe.");
-
 		$this->type = "object";
 		$this->class = $class;
+	}
+
+	public function toString($field){
+
+		$fields = array();
+
+		foreach ($this->getItens() as $object) {
+			array_push($fields, $object->{'get'.$field}());
+		}
+
+		return implode(",", $fields);
 
 	}
 	

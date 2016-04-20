@@ -8,10 +8,11 @@ class Page {
 		"header"=>true,
 		"footer"=>true,
 		"data"=>array(
+			"body"=>array(),
 			"js"=>array(),
-			"head_title"=>"VnoMapa",
-			"meta_description"=>"",
-			"meta_author"=>"HCODE"
+			"head_title"=>"CM Stands - Montagens Promocionais",
+			"meta_description"=>"Na CM Stands Atendemos nossos clientes em todas as suas necessidades em estandes, da criação à execução, numa gama imensa de opções, em produtos e serviços.",
+			"meta_author"=>"João Rangel"
 		)
 	);
  
@@ -29,20 +30,20 @@ class Page {
 		$this->language = new Language();
 
 		$options['data']['string'] = $this->language->loadString();
-		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
-		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;
+		if (isset($_SESSION)) $options['data']['session'] = $_SESSION;
+		if (isset($_SERVER)) $options['data']['server'] = $_SERVER;
 		$options['data']['path'] = SITE_PATH;
 
 		$tpl = $this->getTpl();
 		$this->options = $options;
  
-		if(gettype($this->options['data'])=='array'){
+		if (gettype($this->options['data'])=='array') {
 			foreach($this->options['data'] as $key=>$val){
 				$tpl->assign($key, $val);
 			}
 		}
  
-		if ($this->options['header'] === true) $tpl->draw("header", false);
+		if ($options['header'] === true) $tpl->draw("header", false);
  
 	}
 
@@ -75,7 +76,7 @@ class Page {
 				$tpl->assign($key, $val);
 			}
 		}
-
+ 
 		return $tpl->draw($tplname, $returnHTML);
  
 	}

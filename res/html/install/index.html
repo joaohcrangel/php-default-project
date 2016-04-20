@@ -1,0 +1,326 @@
+<html ng-app="install">
+<head>
+	<meta charset="utf-8">
+	<title>Instalação</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="{$path}/res/js/alertifyjs/css/alertify.min.css">
+	<script>
+    window.PATH = '{$path}';
+	</script>
+</head>
+<body>
+	<div class="container" ng-controller="sql">
+		<h1>Instalação</h1>
+		<hr>
+		<h2>Banco de Dados</h2>
+		<p>O servidor, usuário e senha devem ser definidos no arquivo <code>inc/consts.php</code></p>
+		<button id="btn-installDB" ng-click="installDataBase(0, objects)" class="btn btn-success btn-block">Instalar Banco de Dados</button>
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+					<th>Objetos</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="object in objects" ng-class="{success:object.success, warning:object.warning, danger:object.danger}">
+					<td>{{object.name}}</td>
+					<td>{{object.status}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script src="{$path}/res/vendor/jquery/jquery.js"></script>
+<script src="{$path}/res/js/alertifyjs/alertify.min.js"></script>
+
+<script src="{$path}/res/js/jrangel/jquery.core.js"></script>
+<script src="{$path}/res/js/jrangel/jquery.btnload.js"></script>
+<script src="{$path}/res/js/jrangel/jquery.btnrest.js"></script>
+<script src="{$path}/res/js/jrangel/jquery.store.js"></script>
+<script src="{$path}/res/js/jrangel/jquery.form.js"></script>
+<script>
+angular.module("install", []).controller("sql", function($scope, $http){
+
+	$scope.installDataBase = function(_index, _objects){
+
+		console.log('installDataBase');
+
+		$('#btn-installDB').btnload('load');
+
+		if (_index >= _objects.length) {
+
+			$('#btn-installDB').btnload('unload');
+
+			alertify.alert("Banco Criado com Sucesso!");
+
+		} else {
+
+			if (_objects[_index].enabled === true) {
+
+				_objects[_index].status = "processing";
+				_objects[_index].warning = true;
+
+				rest({
+					$http:$http,
+					url:PATH+'/install-admin'+_objects[_index].url,
+					success:function(r){
+
+						_objects[_index].status = "success";
+						_objects[_index].warning = false;
+						_objects[_index].success = true;
+						$scope.installDataBase(++_index, _objects);
+
+					},
+					failure:function(r){
+
+						_objects[_index].warning = false;
+						_objects[_index].danger = true;
+						_objects[_index].status = r.error | "failure";
+						$scope.installDataBase(++_index, _objects);
+
+					}
+				});
+
+
+			} else {
+
+				_objects[_index].status = "disabled";
+				$scope.installDataBase(++_index, _objects);
+
+			}
+
+		}
+
+	};
+
+	$scope.objects = [
+		{
+			url:"/sql/pessoas/tables",
+			name:"Pessoas - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pessoas/inserts",
+			name:"Pessoas - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pessoas/get",
+			name:"Pessoas - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pessoas/list",
+			name:"Pessoas - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pessoas/save",
+			name:"Pessoas - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pessoas/remove",
+			name:"Pessoas - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/usuarios/tables",
+			name:"Usuários - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/usuarios/inserts",
+			name:"Usuários - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/usuarios/get",
+			name:"Usuários - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/usuarios/list",
+			name:"Usuários - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/usuarios/save",
+			name:"Usuários - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/usuarios/remove",
+			name:"Usuários - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/menus/tables",
+			name:"Menus - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/inserts",
+			name:"Menus - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/get",
+			name:"Menus - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/list",
+			name:"Menus - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/save",
+			name:"Menus - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/remove",
+			name:"Menus - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/contatos/tables",
+			name:"Contatos - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/contatos/inserts",
+			name:"Contatos - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/contatos/get",
+			name:"Contatos - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/contatos/list",
+			name:"Contatos - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/contatos/save",
+			name:"Contatos - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/contatos/remove",
+			name:"Contatos - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/documentos/tables",
+			name:"Documentos - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/documentos/inserts",
+			name:"Documentos - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/documentos/get",
+			name:"Documentos - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/documentos/list",
+			name:"Documentos - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/documentos/save",
+			name:"Documentos - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/documentos/remove",
+			name:"Documentos - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/enderecos/tables",
+			name:"Endereços - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/enderecos/inserts",
+			name:"Endereços - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/enderecos/get",
+			name:"Endereços - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/enderecos/list",
+			name:"Endereços - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/enderecos/save",
+			name:"Endereços - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/enderecos/remove",
+			name:"Endereços - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/permissoes/tables",
+			name:"Permissões - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/permissoes/inserts",
+			name:"Permissões - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/permissoes/get",
+			name:"Permissões - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/permissoes/list",
+			name:"Permissões - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/permissoes/save",
+			name:"Permissões - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/permissoes/remove",
+			name:"Permissões - Procedure REMOVE",
+			status:"",
+			enabled:true
+		}
+	];
+
+});
+</script>
+</html>

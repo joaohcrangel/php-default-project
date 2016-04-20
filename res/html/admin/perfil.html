@@ -1,0 +1,141 @@
+<!-- Page -->
+<div class="page" ng-controller="perfil">
+  <div class="page-content">
+    <h2>Perfil</h2>
+    <p>Mantenha os seus dados atualizados.</p>
+    <div class="row">
+		<div class="col-md-6">
+			<div class="panel">
+			    <div class="panel-heading">
+			      <h3 class="panel-title">Dados Pessoais</h3>
+			    </div>
+			    <div class="alert alert-{{form.perfil.alertClass}} alert-dismissible hide" role="alert">
+	              <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
+	                <span aria-hidden="true">×</span>
+	                <span class="sr-only">Fechar</span>
+	              </button>
+	              {{form.perfil.alertMessage}}
+	            </div>
+			    <div class="panel-body">
+			    	<form autocomplete="off">
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="despessoa">Nome Completo</label>
+		                	<input type="text" class="form-control" ng-model="pessoa.despessoa" id="despessoa" name="despessoa" placeholder="Nome Completo">
+		                </div>
+		                <div class="form-group form-material">
+		                    <label class="control-label">Sexo</label>
+		                    <div>
+		                      <div class="radio-custom radio-default radio-inline">
+		                        <input type="radio" id="sexoMasculino" ng-model="pessoa.dessexo" value="M" />
+		                        <label for="sexoMasculino">Masculino</label>
+		                      </div>
+		                      <div class="radio-custom radio-default radio-inline">
+		                        <input type="radio" id="sexoFeminino" ng-model="pessoa.dessexo" value="F" />
+		                        <label for="sexoFeminino">Feminino</label>
+		                      </div>
+		                    </div>
+		                </div>
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="dtnascimento">Data de Nascimento</label>
+		                	<input type="date" class="form-control" ng-model="pessoa.dtnascimento" id="dtnascimento" name="dtnascimento">
+		                </div>
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="dtbatismo">Data de Batismo</label>
+		                	<input type="date" class="form-control" ng-model="pessoa.dtbatismo" id="dtbatismo" name="dtbatismo">
+		                </div>
+		                <div class="form-group">
+	                    	<button type="button" ng-click="savePerfil(pessoa)" class="btn btn-primary">Salvar</button>
+	                    </div>
+		              </form>
+			    </div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel">
+			    <div class="panel-heading">
+			      <h3 class="panel-title">Dados de Acesso<span class="panel-desc">Nome de usuário e senha para acessar o sistema pelo computador ou smartphone.</span></h3>
+			    </div>
+			    <div class="alert alert-{{form.acesso.alertClass}} alert-dismissible hide" role="alert">
+	              <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
+	                <span aria-hidden="true">×</span>
+	                <span class="sr-only">Fechar</span>
+	              </button>
+	              {{form.acesso.alertMessage}}
+	            </div>
+			    <div class="panel-body">
+			      	<form autocomplete="off">
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="desusuario">Usuário/Login</label>
+		                	<input type="text" class="form-control" ng-model="usuario.desusuario" id="desusuario" name="desusuario" placeholder="Login de acesso">
+		                </div>
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="dessenha">Senha Atual</label>
+		                	<input type="password" class="form-control" id="dessenha" name="dessenha" placeholder="Coloque a sua senha atual">
+		                </div>
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="dessenha2">Nova Senha</label>
+		                	<input type="password" class="form-control" id="dessenha2" name="dessenha2" placeholder="Crie uma nova senha">
+		                </div>
+		                <div class="form-group form-material">
+		                	<label class="control-label" for="dessenha3">Confirme a Nova Senha</label>
+		                	<input type="password" class="form-control" id="dessenha3" name="dessenha3" placeholder="Repita a nova uma nova senha">
+		                </div>
+		                <div class="form-group">
+	                    	<button type="button" ng-click="saveAcesso(usuario)" class="btn btn-primary">Salvar</button>
+	                    </div>
+		            </form>
+			    </div>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+<script>
+angular.module('qda', []).controller('perfil', function($scope, $http){
+
+  try{
+    $scope.usuario = {function="json_encode($usuario)"};  
+  }catch(e){
+    $scope.usuario = {};
+  }
+
+  try{
+    $scope.pessoa = {function="json_encode($pessoa)"};  
+  }catch(e){
+    $scope.pessoa = {};
+  }
+
+  $scope.pessoa.dtnascimento = moment($scope.pessoa.dtnascimento).toDate();
+  $scope.pessoa.dtbatismo = moment($scope.pessoa.dtbatismo).toDate();
+  
+  $scope.grupos = [];
+  $scope.privilegios = [];
+
+  console.log('pessoa', $scope.pessoa);
+  console.log('usuario', $scope.usuario);
+
+  $scope.form = {
+  	perfil:{
+  		alertMessage:'Mensagem do alerta!',
+  		alertClass:'success',
+  	},
+  	acesso:{
+  		alertMessage:'Mensagem do alerta!',
+  		alertClass:'danger'
+  	}
+  };
+
+  $scope.saveAcesso = function(usuario){
+
+
+
+  };
+
+  $scope.savePerfil = function(pessoa){
+
+
+
+  };
+
+});
+</script>

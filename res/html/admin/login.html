@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="no-js before-run" lang="en">
+{include="header-head"}
+<link rel="stylesheet" href="{$path}/res/css/pages/login.css">
+<body class="page-login layout-full page-dark">
+  <!--[if lt IE 8]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <!-- Page -->
+  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
+  data-animsition-out="fade-out">>
+    <div class="page-content vertical-align-middle">
+      <div class="brand">
+        <h2 class="brand-text"><img src="{$path}/res/img/logo-navbar-cmstands.png" alt="Logo CM Stands"></h2>
+      </div>
+      <p>Acesse com sua conta.</p>
+      <form method="post" id="form-login">
+        <div class="form-group">
+          <label class="sr-only" for="inputEmail">Login</label>
+          <input type="text" class="form-control" id="inputEmail" name="username" placeholder="Login">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="inputPassword">Senha</label>
+          <input type="password" class="form-control" id="inputPassword" name="password"
+          placeholder="Senha">
+        </div>
+        <div class="form-group clearfix">
+          <div class="checkbox-custom checkbox-inline pull-left">
+            <input type="checkbox" id="inputCheckbox" name="checkbox" value="1">
+            <label for="inputCheckbox">Manter conectado</label>
+          </div>
+          <a class="pull-right" href="{$path}/recuperar-senha">Esqueceu a senha?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Acessar</button>
+      </form>
+
+    </div>
+  </div>
+  <!-- End Page -->
+  {include="footer-scripts"}  
+  <script>
+  $(function(){
+
+    $("#form-login").form({
+      url:PATH+"/usuarios/login",
+      success:function(r){
+
+        $("#form-login").fadeOut();
+        $(".page-content p").html("Por favor, aguarde...");
+        $(".page-content h2").html("Olá "+r.data.Pessoa.despessoa+"!");
+        window.location.href = PATH+"/admin";
+
+      }
+    });
+
+  });
+  </script>
+
+</body>
+
+</html>

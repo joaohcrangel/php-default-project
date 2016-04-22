@@ -236,7 +236,6 @@ class Sql {
 		if(count($params)){
 
 			$query = str_replace('?','{?}', $query);
-
 			$query = $this->setParamsToQuery($query, $this->trataParams($params));
 
 		}
@@ -260,7 +259,9 @@ class Sql {
 
 				case Sql::MYSQL:
 				if($multi === false){
+
 					$resource = mysqli_query($this->conn, $query);
+
 				}else{
 					$query = str_replace(';;', ';', $query);
 					$resource = mysqli_multi_query($this->conn, $query);
@@ -356,7 +357,7 @@ class Sql {
 
 		if(strpos($query, '{?}')>-1 && count($params) > 0){
 
-			$first = array_shift($params);
+			$first = preg_quote(array_shift($params));
 			$query = preg_replace('/\{\?\}/', $first, $query, 1);
 
 			return $this->setParamsToQuery($query, $params);

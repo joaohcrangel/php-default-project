@@ -2,7 +2,10 @@
 if (isset($_GET['token'])) session_id($_GET['token']);
 session_start();
 
-if((float)PHP_VERSION < 5.3) define("__DIR__", dirname(__FILE__));//Fixbug PHP < 5.3
+if((float)PHP_VERSION < 5.5) {
+	throw new Exception("PHP 5.5 required!");
+	exit;
+}
 
 require_once("consts.php");
 require_once("functions.php");

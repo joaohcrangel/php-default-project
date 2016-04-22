@@ -1,5 +1,4 @@
 <?php
-if((float)PHP_VERSION < 5.3) require_once("functions-5-2.php");
 function autoload_php_default_project($class){
 
 	$class = str_replace('\\', DIRECTORY_SEPARATOR, $class);

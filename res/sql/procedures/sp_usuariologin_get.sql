@@ -1,6 +1,5 @@
 CREATE PROCEDURE sp_usuariologin_get(
-pdesusuario VARCHAR(128),
-pdessenha VARCHAR(256)
+pdesusuario VARCHAR(128)
 )
 BEGIN
 	
@@ -10,9 +9,7 @@ BEGIN
     idusuario INTO pidusuario    
     FROM tb_usuarios
     WHERE 
-		desusuario = pdesusuario 
-        AND 
-        dessenha = MD5(pdessenha);
+		desusuario = pdesusuario;
 	
 	IF pidusuario > 0 THEN
     

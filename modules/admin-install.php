@@ -162,11 +162,13 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 
 	$sql = new Sql();
 
+	$hash = Usuario::getPasswordHash("root");
+
 	$sql->query("
 		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha) VALUES
 		(?, ?, ?);
 	", array(
-		1, 'root', md5("root")
+		1, 'root', $hash
 	));
 
 	echo success();

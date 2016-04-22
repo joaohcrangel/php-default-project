@@ -7,7 +7,7 @@ BEGIN
 	a.idusuario, a.idpessoa, a.desusuario, a.dessenha, a.inbloqueado, a.dtcadastro,
 	GROUP_CONCAT(b.idpermissao) AS despermissoes
 	FROM tb_usuarios a
-	INNER JOIN tb_permissoesusuarios b ON a.idusuario = b.idusuario
+	LEFT JOIN tb_permissoesusuarios b ON a.idusuario = b.idusuario
 	WHERE a.idusuario = pidusuario
 	GROUP BY a.idusuario, a.idpessoa, a.desusuario, a.dessenha, a.inbloqueado, a.dtcadastro;
 

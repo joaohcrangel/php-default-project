@@ -32,6 +32,8 @@ $app->post("/usuarios", function(){
 		throw new Exception("Pessoa não encontrada.", 404);
 	}
 
+	$_POST['dessenha'] = Usuario::getPasswordHash(post('dessenha'));
+
 	$usuario = new Usuario($_POST);
 	$usuario->save();
 

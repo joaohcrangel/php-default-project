@@ -11,7 +11,7 @@ BEGIN
     IF pidusuario = 0 THEN
     
         INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, inbloqueado)
-        VALUES(pidpessoa, pdesusuario, md5(pdessenha), pinbloqueado);
+        VALUES(pidpessoa, pdesusuario, pdessenha, pinbloqueado);
         
         SET pidusuario = LAST_INSERT_ID();
 
@@ -22,7 +22,7 @@ BEGIN
         SET 
             idpessoa = pidpessoa,
             desusuario = pdesusuario,
-            dessenha = md5(pdessenha),
+            dessenha = pdessenha,
             inbloqueado = pinbloqueado
 
         WHERE idusuario = pidusuario;

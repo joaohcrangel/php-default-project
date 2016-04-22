@@ -9,6 +9,7 @@ class Usuario extends Model {
     const SESSION_NAME_REMEMBER = "LOGIN_REMEMBER";
     const SESSION_INVALID_NAME = "Usuario-Login-Invalid";
     const LOGIN_INVALID_MAX = 3;
+    const PASSWORD_HASH_COST = 12;
 
     public function get(){
 
@@ -49,6 +50,24 @@ class Usuario extends Model {
 
     }
 
+    public static function getPasswordHash($dessenha){
+
+        return password_hash($dessenha, PASSWORD_DEFAULT, array(
+            'cost'=>Usuario::PASSWORD_HASH_COST
+        ));
+
+    }
+
+    public function checkPassword($dessenha){
+
+        if (!$this->getdessenha()) {
+            throw new Exception("O hash da senha não foi carregado.", 404);
+        }
+
+        return password_verify($dessenha, $this->getdessenha());
+
+    }
+
     public static function login($desusuario, $dessenha){
 
       if (!$desusuario) {
@@ -62,15 +81,18 @@ class Usuario extends Model {
         $sql = new Sql();
 
         $data = $sql->proc("sp_usuariologin_get", array(
-            $desusuario,
-            $dessenha
+            $desusuario
         ));
 
         if (!isset($data[0]) || !(int)$data[0]['idusuario'] > 0) {
-            throw new Exception("Usuário e/ou senha incorretos.");
+            throw new Exception("Usuário e/ou senha incorretos.", 403);
         }
 
         $usuario = new Usuario($data[0]);
+
+        if (!$usuario->checkPassword($dessenha)) {
+            throw new Exception("Usuário e/ou senha incorretos.", 403);
+        }
         
         return $usuario;
 

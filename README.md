@@ -3,7 +3,7 @@
 Estrutura padrão de projetos PHP.
 
 ### Requisitos
-PHP 5.3 ou maior
+PHP 5.5 ou maior
 
 ### Version
 1.0.0

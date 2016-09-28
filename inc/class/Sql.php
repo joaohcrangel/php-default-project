@@ -224,6 +224,18 @@ class Sql {
 		return $results;
 
 	}
+
+	public function queryFromFile($filename, $params = array()){
+
+		if (file_exists($filename)) {
+
+			return $this->query(file_get_contents($filename), $params);
+
+		} else {
+			throw new Exception("O arquivo {$filename} não existe.", 400);
+		}
+
+	}
 	/*********************************************************************************************************/
 	/**
 	* Método que executa qualquer instrução no banco de dados em uso

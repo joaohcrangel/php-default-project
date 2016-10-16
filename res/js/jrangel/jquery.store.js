@@ -13,7 +13,7 @@ $.store = (function(){
 	
 	return function(options){
 
-		var store = new (function(options){
+		return new (function(options){
 
 			var tryRest = 0;
 			var t = this, defaults = {
@@ -27,9 +27,6 @@ $.store = (function(){
 			};
 
 			var o =  $.extend(defaults, options);
-
-			t.id = o.url;
-			//t.fromServer = false;
 
 			if (!typeof sessionStorage === 'object') console.warn('O navegador não suporte sessionStorage.');
 
@@ -106,13 +103,7 @@ $.store = (function(){
 
 					if (o.debug === true) console.log('cache OK');
 
-					if (typeof o.success === 'function') {
-
-						//console.info('call success()', data[key]);
-
-						o.success(data[key]);
-						
-					}
+					if (typeof o.success === 'function') o.success(data[key]);
 
 				} else {
 
@@ -130,14 +121,9 @@ $.store = (function(){
 
 							if (o.debug === true) console.log('store rest success', r);
 
-							//t.fromServer = true;
 							o.cache = true;
 							t.setItem(key, r.data);
 							t.getItem(key);
-
-							t.checkStores();
-
-							//console.info('store from server', o.url);
 
 						},
 						failure:function(r){
@@ -150,35 +136,9 @@ $.store = (function(){
 
 			};
 
-			t.checkStores = function(){
-
-				$.each(window.stores[store.id], function(index, _store){
-
-					//console.log('o.$scope', typeof o.$scope);
-
-					if (typeof o.$scope !== 'undefined') {
-						o.$scope.$apply(function(){
-							t.getItem(o.url);
-						});
-					} else {
-						t.getItem(o.url);
-					}
-
-				});
-
-			};
-
 			t.getItem(o.url);
 
-			t.options = o;
-
 		})(options);
-
-		if (typeof window.stores !== 'object') window.stores = {};
-
-		if (!(window.stores[store.id] instanceof Array)) window.stores[store.id] = [];
-
-		window.stores[store.id].push(store);
 
 	};
 

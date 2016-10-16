@@ -53,23 +53,23 @@
 					
 	    			var $btn = $(this);
 
-	    			var fn = function(_btn){
+	    			var fn = function(){
 
-	    				_btn.btnload('load');
+	    				$btn.btnload('load');
 
 		    			var success = o.success;
 		    			var failure = o.failure;
 
 		    			o.success = function(r){
 
-		    				_btn.btnload('unload');
+		    				$btn.btnload('unload');
 		    				success(r);
 
 		    			};
 
 		    			o.failure = function(r){
 
-		    				_btn.btnload('unload');
+		    				$btn.btnload('unload');
 		    				failure(r);
 
 		    			};
@@ -82,32 +82,19 @@
 
 	    				if (o.confirm === true) {
 
-	    					if (typeof System.confirm) {
+	    					alertify.confirm(o.confirmText, function (closeEvent) {
 
-	    						System.confirm(o.confirmText, function (r) {
+	    						if (closeEvent.cancel === false) {
 
-		    						if (r === true) {
+	    							fn();
 
-		    							fn($btn);
-
-		    						}
-
-		    					});
-
-	    					} else {
-
-	    						if (confirm(o.confirmText)) {
-
-	    							fn($btn);
-	    							
 	    						}
 
-	    					}
-
+	    					}).set('title', 'Confirmação');
 
 	    				} else {
 
-	    					fn($btn);
+	    					fn();
 
 	    				}
 

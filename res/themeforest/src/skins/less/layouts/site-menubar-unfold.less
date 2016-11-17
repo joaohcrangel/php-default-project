@@ -1,0 +1,27 @@
+@site-menu-unfold: {
+  .site-menu {
+    &-category {
+      color: @site-menu-category-color;
+    }
+  }
+};
+
+@media screen and (max-width: @grid-float-breakpoint-max),
+screen and (min-width: @screen-lg-min) {
+  .before-run {
+    @site-menu-unfold();
+  }
+}
+
+
+.after-run .site-menubar-unfold {
+  @site-menu-unfold();
+}
+
+@media (max-width: @grid-float-breakpoint-max) {
+  .after-run {
+    .site-gridmenu {
+      background: fade(@site-gridmenu-bg, 90%);
+    }
+  }
+}

@@ -1,0 +1,67 @@
+//Fix action
+@site-action-z-index: (@zindex-overlay - 10);
+
+.site-action {
+  position: fixed;
+  // z-index: 499;
+  z-index: @site-action-z-index;
+  bottom: 55px;
+  right: 32px;
+
+  input {
+    display: none;
+  }
+
+  .btn {
+    box-shadow: 0 10px 10px 0 rgba(60, 60, 60, 0.1);
+  }
+
+  .back-icon {
+    display: none;
+  }
+}
+
+.site-action-buttons {
+  display: none;
+  position: absolute;
+  top: -130px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  .btn {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+}
+
+.site-action-toggle {
+  .back-icon {
+    display: block;
+  }
+
+  .front-icon {
+    display: none;
+  }
+
+  .site-action-buttons {
+    display: block;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .site-action-buttons {
+    top: -100px;
+  }
+
+  .site-action {
+    .btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      font-size: 15px;
+      box-shadow: 0 6px 6px 0 rgba(60, 60, 60, .1);
+     }
+  }
+}

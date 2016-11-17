@@ -1,0 +1,44 @@
+// Name:            Testimonial
+//
+// Component:       `testimonial`
+//
+// Modifiers:       'testimonial-reverse'
+//                  'testimonial-top'
+//                  'testimonial-carousel'
+//
+// ========================================================================
+
+// Variables
+// ========================================================================
+
+@testimonial-content-bg:          @bg-color-base;
+@testimonial-content-border:      @border-color-base;
+@testimonial-control-color:       @gray-light;
+@testimonial-control-hover-color: @hover-color-base;
+
+// Component: Testimonial
+// ========================================================================
+
+.testimonial {
+  &-content {
+    background-color: @testimonial-content-bg;
+
+    &:before {
+      background-color: @testimonial-content-bg;
+    }
+
+    > p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &-control {
+    a {
+      color: @testimonial-control-color;
+
+      &:hover {
+        color: @testimonial-control-hover-color;
+      }
+    }
+  }
+}

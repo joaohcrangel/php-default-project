@@ -1,0 +1,31 @@
+{
+  "html": "html",
+  "destination": {
+    "css": "assets/css",
+    "js": "assets/js",
+    "fonts": "assets/fonts",
+    "vendor": "assets/vendor",
+    "skins": "assets/skins"
+  },
+  "source": {
+    "js": "src/js",
+    "less": "src/less",
+    "fonts": "src/fonts",
+    "vendor": "src/vendor",
+    "skins": "src/skins"
+  },
+  "bootstrap": {
+    "less": "src/less/bootstrap",
+    "mixins": "src/less/mixins"
+  },
+  "autoprefixerBrowsers": [
+    "Android 2.3",
+    "Android >= 4",
+    "Chrome >= 20",
+    "Firefox >= 24",
+    "Explorer >= 8",
+    "iOS >= 6",
+    "Opera >= 12",
+    "Safari >= 6"
+  ]
+}

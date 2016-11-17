@@ -1,0 +1,158 @@
+// Name:            Alerts
+//
+// Component:       `alert`
+//
+// Modifiers:       `alert-info`
+//                  `alert-success`
+//                  `alert-warning`
+//                  `alert-danger`
+//                  `alert-dismissible`
+//                  `alert-alt`
+//                  `alert-icon`
+//                  `page-alert`
+//
+// Markup:
+//
+// <!-- alert -->
+// <div class="alert" role="alert">
+//     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+//     <p></p>
+// </div>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@alert-success-link-color:        @brand-success-active;
+@alert-info-link-color:           @brand-info-active;
+@alert-warning-link-color:        @brand-warning-active;
+@alert-danger-link-color:         @brand-danger-active;
+
+@alert-alt-color:                 @text-color;
+@alert-alt-bg:                    fade(@bg-color-base, 80%);
+@alert-alt-close-color:           @gray;
+
+@alert-alt-success-border:        @brand-success;
+@alert-alt-success-text:          @brand-success;
+
+@alert-alt-info-border:           @brand-primary;
+@alert-alt-info-text:             @brand-primary;
+
+@alert-alt-warning-border:        @brand-warning;
+@alert-alt-warning-text:          @brand-warning;
+
+@alert-alt-danger-border:         @brand-danger;
+@alert-alt-danger-text:           @brand-danger;
+
+// Component: Alert
+// ========================================================================
+
+
+// Alternate styles
+// -------------------------
+
+.alert-alt {
+  color: @alert-alt-color;
+  background-color: @alert-alt-bg;
+}
+
+
+
+// Modifier: `alert-dismissible`
+// -------------------------
+
+.alert-dismissible {
+  &.alert-alt {
+    .close {
+      color: @alert-alt-close-color;
+      &:hover,
+      &:focus {
+        color: @alert-alt-close-color;
+      }
+    }
+  }
+}
+
+
+// Color Modifier
+// ========================================================================
+
+// Modifier: `alert-success`
+// -------------------------
+
+.alert-success {
+  .alert-link {
+    color: @alert-success-link-color;
+  }
+
+  .alert-alt& {
+    .alert-alt-variant(@alert-alt-success-border, @alert-alt-success-text);
+  }
+}
+
+
+// Modifier: `alert-info`
+// -------------------------
+
+.alert-info {
+  .alert-link {
+    color: @alert-info-link-color;
+  }
+
+  .alert-alt& {
+    .alert-alt-variant(@alert-alt-info-border, @alert-alt-info-text);
+  }
+}
+
+
+// Modifier: `alert-warning`
+// -------------------------
+
+.alert-warning {
+  .alert-link {
+    color: @alert-warning-link-color;
+  }
+
+  .alert-alt& {
+    .alert-alt-variant(@alert-alt-warning-border, @alert-alt-warning-text);
+  }
+}
+
+
+// Modifier: `alert-danger`
+// -------------------------
+.alert-danger {
+  .alert-link {
+    color: @alert-danger-link-color;
+  }
+
+  .alert-alt& {
+    .alert-alt-variant(@alert-alt-danger-border, @alert-alt-danger-text);
+  }
+}
+
+
+// Mixins
+// ========================================================================
+
+.alert-variant(@background; @border; @text-color) {
+  .close {
+    color: @text-color;
+
+    &:hover,
+    &:focus {
+      color: @text-color;
+    }
+  }
+}
+
+.alert-alt-variant(@border, @text) {
+  border-color: @border;
+
+  a,
+  .alert-link {
+    color: @text;
+  }
+}

@@ -1,0 +1,25 @@
+
+.page {
+  background: @page-bg;
+}
+
+.page-content-table {
+  .table {
+    > tbody > tr {
+      &:hover {
+        > td {
+          background-color: @gray-lightest;
+        }
+      }
+      &:last-child {
+        td {
+          border-bottom: 1px solid @gray-lighter;
+        }
+      }
+    }
+  }
+}
+
+.page-copyright {
+  color: @gray-darkest;
+}

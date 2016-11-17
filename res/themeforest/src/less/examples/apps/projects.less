@@ -1,0 +1,57 @@
+@import "vars.less";
+
+.app-projects {
+  .projects-sort-label {
+    margin-right: 3px;
+    cursor: default;
+  }
+
+  .dropdown-toggle {
+    cursor: pointer;
+  }
+
+  .projects-wrap {
+    padding-top: 30px;
+  }
+
+  .panel {
+    padding: 10px;
+    margin-bottom: 0;
+  }
+
+  .blocks {
+    > li {
+      margin-bottom: 30px;
+    }
+  }
+
+  .overlay {
+    margin-bottom: 12px;
+    border-radius: @border-radius-large;
+
+    .btn-group {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+
+    .btn-icon {
+      color: @color-grey-400;
+      &:hover {
+        color: white;
+      }
+    }
+
+    .project-button {
+      color: white;
+      &:hover {
+        background-color: white;
+        color: @gray-darker;
+      }
+    }
+  }
+
+  .overlay-panel {
+    background: rgba(38, 50, 56, .8);
+  }
+}

@@ -1,0 +1,2871 @@
+<!DOCTYPE html>
+<html class="no-js before-run" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="">
+
+  <title>Flot Charts | Remark Admin Template</title>
+
+  <link rel="apple-touch-icon" href="../../assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="../../assets/css/site.min.css">
+
+  <!-- Plugins -->
+  <link rel="stylesheet" href="../../assets/vendor/animsition/animsition.css">
+  <link rel="stylesheet" href="../../assets/vendor/asscrollable/asScrollable.css">
+  <link rel="stylesheet" href="../../assets/vendor/switchery/switchery.css">
+  <link rel="stylesheet" href="../../assets/vendor/intro-js/introjs.css">
+  <link rel="stylesheet" href="../../assets/vendor/slidepanel/slidePanel.css">
+  <link rel="stylesheet" href="../../assets/vendor/flag-icon-css/flag-icon.css">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="../../assets/fonts/web-icons/web-icons.min.css">
+  <link rel="stylesheet" href="../../assets/fonts/brand-icons/brand-icons.min.css">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+  <!-- Inline -->
+  <style>
+    #exampleFlotCurve,
+    #exampleFlotRealtime,
+    #exampleFlotMix,
+    #exampleFlotFullBg,
+    #exampleFlotStackBar,
+    #exampleFlotHorizontalBar,
+    #exampleFlotPie,
+    #exampleFlotVisitors {
+      height: 300px;
+    }
+    
+    #exampleFlotVisitorsOverview {
+      height: 120px;
+    }
+    
+    .legend td {
+      padding: 3px;
+    }
+    
+    @media (max-width: 586px) {
+      .example-responsive {
+        padding-bottom: 10px;
+      }
+    }
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="../../assets/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 10]>
+    <script src="../../assets/vendor/media-match/media.match.min.js"></script>
+    <script src="../../assets/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+  <!-- Scripts -->
+  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
+  <script src="../../assets/vendor/breakpoints/breakpoints.js"></script>
+  <script>
+    Breakpoints();
+  </script>
+</head>
+<body>
+  <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+      data-toggle="menubar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
+      data-toggle="collapse">
+        <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
+      data-toggle="collapse">
+        <span class="sr-only">Toggle Search</span>
+        <i class="icon wb-search" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+        <img class="navbar-brand-logo" src="../../assets/images/logo.png" title="Remark">
+        <span class="navbar-brand-text"> Remark</span>
+      </div>
+    </div>
+
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="hidden-float" id="toggleMenubar">
+            <a data-toggle="menubar" href="#" role="button">
+              <i class="icon hamburger hamburger-arrow-left">
+                  <span class="sr-only">Toggle menubar</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+            </a>
+          </li>
+          <li class="hidden-xs" id="toggleFullscreen">
+            <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+              <span class="sr-only">Toggle fullscreen</span>
+            </a>
+          </li>
+          <li class="hidden-float">
+            <a class="icon wb-search" data-toggle="collapse" href="#site-navbar-search" role="button">
+              <span class="sr-only">Toggle Search</span>
+            </a>
+          </li>
+          <li class="dropdown dropdown-fw dropdown-mega">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="slide-bottom" role="button">Mega <i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <div class="mega-content">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <h5>UI Kit</h5>
+                      <ul class="blocks-2">
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../advanced/animation.html">Animation</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/buttons.html">Buttons</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/colors.html">Colors</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/dropdowns.html">Dropdowns</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/icons.html">Icons</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../advanced/lightbox.html">Lightbox</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/modals.html">Modals</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/panels.html">Panels</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../structure/overlay.html">Overlay</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/tooltip-popover.html ">Tooltips</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../advanced/scrollable.html">Scrollable</a>
+                            </li>
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/typography.html">Typography</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4">
+                      <h5>Media
+                        <span class="badge badge-success">4</span>
+                      </h5>
+                      <ul class="blocks-3">
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="../../assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="../../assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="../../assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="../../assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="../../assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="../../assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4">
+                      <h5 class="margin-bottom-0">Accordion</h5>
+                      <!-- Accordion -->
+                      <div class="panel-group panel-group-simple" id="siteMegaAccordion" aria-multiselectable="true"
+                      role="tablist">
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingOne" role="tab">
+                            <a class="panel-title" data-toggle="collapse" href="#siteMegaCollapseOne" data-parent="#siteMegaAccordion"
+                            aria-expanded="false" aria-controls="siteMegaCollapseOne">
+                                Collapsible Group Item #1
+                              </a>
+                          </div>
+                          <div class="panel-collapse collapse" id="siteMegaCollapseOne" aria-labelledby="siteMegaAccordionHeadingOne"
+                          role="tabpanel">
+                            <div class="panel-body">
+                              De moveat laudatur vestra parum doloribus labitur sentire partes, eripuit praesenti
+                              congressus ostendit alienae, voluptati ornateque
+                              accusamus clamat reperietur convicia albucius.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingTwo" role="tab">
+                            <a class="panel-title collapsed" data-toggle="collapse" href="#siteMegaCollapseTwo"
+                            data-parent="#siteMegaAccordion" aria-expanded="false"
+                            aria-controls="siteMegaCollapseTwo">
+                                Collapsible Group Item #2
+                              </a>
+                          </div>
+                          <div class="panel-collapse collapse" id="siteMegaCollapseTwo" aria-labelledby="siteMegaAccordionHeadingTwo"
+                          role="tabpanel">
+                            <div class="panel-body">
+                              Praestabiliorem. Pellat excruciant legantur ullum leniter vacare foris voluptate
+                              loco ignavi, credo videretur multoque choro fatemur
+                              mortis animus adoptionem, bello statuat expediunt
+                              naturales.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingThree" role="tab">
+                            <a class="panel-title collapsed" data-toggle="collapse" href="#siteMegaCollapseThree"
+                            data-parent="#siteMegaAccordion" aria-expanded="false"
+                            aria-controls="siteMegaCollapseThree">
+                                Collapsible Group Item #3
+                              </a>
+                          </div>
+                          <div class="panel-collapse collapse" id="siteMegaCollapseThree" aria-labelledby="siteMegaAccordionHeadingThree"
+                          role="tabpanel">
+                            <div class="panel-body">
+                              Horum, antiquitate perciperet d conspectum locus obruamus animumque perspici probabis
+                              suscipere. Desiderat magnum, contenta poena desiderant
+                              concederetur menandri damna disputandum corporum.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Accordion -->
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar -->
+
+        <!-- Navbar Toolbar Right -->
+        <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+            aria-expanded="false" role="button">
+              <span class="flag-icon flag-icon-us"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-gb"></span> English</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-fr"></span> French</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-cn"></span> Chinese</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-de"></span> German</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-nl"></span> Dutch</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <span class="avatar avatar-online">
+                <img src="../../assets/portraits/5.jpg" alt="...">
+                <i></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-payment" aria-hidden="true"></i> Billing</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+              </li>
+              <li class="divider" role="presentation"></li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <i class="icon wb-bell" aria-hidden="true"></i>
+              <span class="badge badge-danger up">5</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+              <li class="dropdown-menu-header" role="presentation">
+                <h5>NOTIFICATIONS</h5>
+                <span class="label label-round label-danger">New 5</span>
+              </li>
+
+              <li class="list-group" role="presentation">
+                <div data-role="container">
+                  <div data-role="content">
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">A new order has been placed</h6>
+                          <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">5 hours ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Completed the task</h6>
+                          <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">2 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Settings updated</h6>
+                          <time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Event started</h6>
+                          <time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Message received</h6>
+                          <time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-menu-footer" role="presentation">
+                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                  <i class="icon wb-settings" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:void(0)" role="menuitem">
+                    All notifications
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <i class="icon wb-envelope" aria-hidden="true"></i>
+              <span class="badge badge-info up">3</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+              <li class="dropdown-menu-header" role="presentation">
+                <h5>MESSAGES</h5>
+                <span class="label label-round label-info">New 3</span>
+              </li>
+
+              <li class="list-group" role="presentation">
+                <div data-role="container">
+                  <div data-role="content">
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-online">
+                            <img src="../../assets/portraits/2.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Mary Adams</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-17T20:22:05+08:00">30 minutes ago</time>
+                          </div>
+                          <div class="media-detail">Anyways, i would like just do it</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-off">
+                            <img src="../../assets/portraits/3.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Caleb Richards</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-17T12:30:30+08:00">12 hours ago</time>
+                          </div>
+                          <div class="media-detail">I checheck the document. But there seems</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-busy">
+                            <img src="../../assets/portraits/4.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">June Lane</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-16T18:38:40+08:00">2 days ago</time>
+                          </div>
+                          <div class="media-detail">Lorem ipsum Id consectetur et minim</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-away">
+                            <img src="../../assets/portraits/5.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Edward Fletcher</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-15T20:34:48+08:00">3 days ago</time>
+                          </div>
+                          <div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-menu-footer" role="presentation">
+                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                  <i class="icon wb-settings" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:void(0)" role="menuitem">
+                    See all messages
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li id="toggleChat">
+            <a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="../site-sidebar.tpl">
+              <i class="icon wb-chat" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar Right -->
+      </div>
+      <!-- End Navbar Collapse -->
+
+      <!-- Site Navbar Seach -->
+      <div class="collapse navbar-search-overlap" id="site-navbar-search">
+        <form role="search">
+          <div class="form-group">
+            <div class="input-search">
+              <i class="input-search-icon wb-search" aria-hidden="true"></i>
+              <input type="text" class="form-control" name="site-search" placeholder="Search...">
+              <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
+              data-toggle="collapse" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- End Site Navbar Seach -->
+    </div>
+  </nav>
+  <div class="site-menubar">
+    <div class="site-menubar-body">
+      <div>
+        <div>
+          <ul class="site-menu">
+            <li class="site-menu-category">General</li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="dashboard">
+                <i class="site-menu-icon wb-dashboard" aria-hidden="true"></i>
+                <span class="site-menu-title">Dashboard</span>
+                <div class="site-menu-badge">
+                  <span class="badge badge-success">2</span>
+                </div>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../index.html" data-slug="dashboard-v1">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Dashboard v1</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../dashboard/v2.html" data-slug="dashboard-v2">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Dashboard v2</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="layout">
+                <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                <span class="site-menu-title">Layouts</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/menu-expended.html" data-slug="layout-menu-expended">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Expended</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/menu-collapsed.html" data-slug="layout-menu-collapsed">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Collapsed</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/boxed.html" data-slug="layout-boxed">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Boxed Layout</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/panel-transition.html" data-slug="layout-grids">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Panel Transition</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/two-columns.html" data-slug="layout-two-columns">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Two Columns</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/menubar-flipped.html" data-slug="layout-menubar-flipped">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menubar Flipped</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/grids.html" data-slug="layout-grids">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Grid Scaffolding</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/headers.html" data-slug="layout-headers">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Different Headers</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../layouts/bordered-header.html" data-slug="layout-bordered-header">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Bordered Header</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="page">
+                <i class="site-menu-icon wb-file" aria-hidden="true"></i>
+                <span class="site-menu-title">Pages</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item has-sub">
+                  <a href="javascript:void(0)" data-slug="">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Errors</span>
+                    <span class="site-menu-arrow"></span>
+                  </a>
+                  <ul class="site-menu-sub">
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/400.html" data-slug="page-error-400">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">400</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/403.html" data-slug="page-error-403">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">403</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/404.html" data-slug="page-error-404">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">404</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/500.html" data-slug="page-error-500">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">500</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/503.html" data-slug="page-error-503">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">503</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/faq.html" data-slug="page-faq">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">FAQ</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/search-result.html" data-slug="page-search-result">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Search Result</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/gallery.html" data-slug="page-gallery">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Gallery</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/gallery-grid.html" data-slug="page-gallery-grid">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Gallery Grid</span>
+                  </a>
+                </li>
+                <li class="site-menu-item has-sub">
+                  <a href="javascript:void(0)" data-slug="page-map">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Maps</span>
+                    <span class="site-menu-arrow"></span>
+                  </a>
+                  <ul class="site-menu-sub">
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/map-google.html" data-slug="page-map-google">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Google Maps</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../pages/map-vector.html" data-slug="page-map-vector">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Vector Maps</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/forgot-password.html" data-slug="page-forgot-password">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Forgot Password</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/maintenance.html" data-slug="page-maintenance">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Maintenance</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/lockscreen.html" data-slug="page-lockscreen">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Lockscreen</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/register.html" data-slug="page-register">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Register</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/login.html" data-slug="page-login">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Login</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/user.html" data-slug="page-user">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">User List</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/invoice.html" data-slug="page-invoice">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Invoice</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/blank.html" data-slug="page-blank">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Blank Page</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/email.html" data-slug="page-email">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Email</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/code-editor.html" data-slug="page-code-editor">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Code Editor</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../pages/profile.html" data-slug="page-profile">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Profile</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-category">Elements</li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="uikit">
+                <i class="site-menu-icon wb-bookmark" aria-hidden="true"></i>
+                <span class="site-menu-title">Basic UI</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item has-sub">
+                  <a href="javascript:void(0)" data-slug="uikit-panel">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Panel</span>
+                    <span class="site-menu-arrow"></span>
+                  </a>
+                  <ul class="site-menu-sub">
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../uikit/panel-structure.html" data-slug="uikit-panel-structure">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Panel Structure</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../uikit/panel-actions.html" data-slug="uikit-panel-actions">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Panel Actions</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../uikit/panel-portlets.html" data-slug="uikit-panel-portlets">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Panel Portlets</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/icons.html" data-slug="uikit-icons">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Icons</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/badges-labels.html" data-slug="uikit-badges-labels">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Badges &amp; Labels</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/list.html" data-slug="uikit-list">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">List</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/images.html" data-slug="uikit-images">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Images</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/buttons.html" data-slug="uikit-buttons">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Buttons</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/dropdowns.html" data-slug="uikit-dropdowns">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Dropdowns</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/tooltip-popover.html" data-slug="uikit-tooltip-popover">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Tooltip &amp; Popover</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/modals.html" data-slug="uikit-modals">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Modals</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/progress-bars.html" data-slug="uikit-progress-bars">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Progress Bars</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/utilities.html" data-slug="uikit-utilities">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Utilties</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/carousel.html" data-slug="uikit-carousel">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Carousel</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/typography.html" data-slug="uikit-typography">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Typography</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/colors.html" data-slug="uikit-colors">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Colors</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../uikit/tabs-accordions.html" data-slug="uikit-tabs-accordions">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Tabs &amp; Accordions</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="advanced">
+                <i class="site-menu-icon wb-hammer" aria-hidden="true"></i>
+                <span class="site-menu-title">Advanced UI</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/animation.html" data-slug="advanced-animation">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Animation</span>
+                  </a>
+                </li>
+                <li class="site-menu-item hidden-xs">
+                  <a href="javascript:void(0)" data-slug="advanced-tour">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Tour</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/rating.html" data-slug="advanced-rating">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Rating</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/highlight.html" data-slug="advanced-highlight">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Highlight</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/scrollable.html" data-slug="advanced-scrollable">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Scrollable</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/context-menu.html" data-slug="advanced-context-menu">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Context Menu</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/alertify.html" data-slug="advanced-alertify">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Alertify</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/masonry.html" data-slug="advanced-masonry">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Masonry</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/treeview.html" data-slug="advanced-treeview">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Treeview</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/toastr.html" data-slug="advanced-toastr">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Toastr</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/maps-vector.html" data-slug="advanced-maps-vector">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Vector Maps</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/maps-google.html" data-slug="advanced-maps-google">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Google Maps</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/sortable-nestable.html" data-slug="advanced-sortable-nestable">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Sortable &amp; Nestable</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/bootbox-sweetalert.html" data-slug="advanced-bootbox-sweetalert">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Bootbox &amp; Sweetalert</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../advanced/lightbox.html" data-slug="advanced-lightbox">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Lightbox</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="structure">
+                <i class="site-menu-icon wb-plugin" aria-hidden="true"></i>
+                <span class="site-menu-title">Structure</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/comments.html" data-slug="structure-comments">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Comments</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/alerts.html" data-slug="structure-alerts">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Alerts</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/ribbon.html" data-slug="structure-ribbon">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Ribbon</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/pricing-tables.html" data-slug="structure-pricing-tables">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Pricing Tables</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/pagination.html" data-slug="structure-pagination">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Pagination</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/breadcrumbs.html" data-slug="structure-breadcrumbs">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Breadcrumbs</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/step.html" data-slug="structure-step">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Step</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/cover.html" data-slug="structure-cover">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Cover</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/blockquotes.html" data-slug="structure-blockquotes">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Blockquotes</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/timeline-simple.html" data-slug="structure-timeline-simple">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Simple Timeline</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/timeline.html" data-slug="structure-timeline">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Timeline</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/media.html" data-slug="structure-media">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Media</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/chat.html" data-slug="structure-chat">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Chat</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/testimonials.html" data-slug="structure-testimonials">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Testimonials</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/nav.html" data-slug="structure-nav">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Nav</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/navbars.html" data-slug="structure-navbars">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Navbars</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../structure/overlay.html" data-slug="structure-overlay">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Overlay</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="widgets">
+                <i class="site-menu-icon wb-extension" aria-hidden="true"></i>
+                <span class="site-menu-title">Widgets</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../widgets/statistics.html" data-slug="widgets-statistics">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Statistics Widgets</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../widgets/data.html" data-slug="widgets-data">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Data Widgets</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../widgets/blog.html" data-slug="widgets-blog">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Blog Widgets</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../widgets/chart.html" data-slug="widgets-chart">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Chart Widgets</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../widgets/social.html" data-slug="widgets-social">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Social Widgets</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../widgets/weather.html" data-slug="widgets-weather">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Weather Widgets</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="forms">
+                <i class="site-menu-icon wb-library" aria-hidden="true"></i>
+                <span class="site-menu-title">Forms</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/general.html" data-slug="forms-general">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">General Elements</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/material.html" data-slug="forms-material">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Material Elements</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/advanced.html" data-slug="forms-advanced">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Advanced Elements</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/layouts.html" data-slug="forms-layouts">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Form Layouts</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/masks.html" data-slug="forms-masks">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Form Masks</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/editable.html" data-slug="forms-editable">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Form Editable</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/validation.html" data-slug="forms-validation">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Form Validation</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/wizard.html" data-slug="forms-wizard">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Form Wizard</span>
+                  </a>
+                </li>
+                <li class="site-menu-item has-sub">
+                  <a href="javascript:void(0)" data-slug="forms-editor">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Editors</span>
+                    <span class="site-menu-arrow"></span>
+                  </a>
+                  <ul class="site-menu-sub">
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../forms/editor-summernote.html" data-slug="forms-editor-summernote">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Summernote</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../forms/editor-markdown.html" data-slug="forms-editor-markdown">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Markdown</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../forms/editor-ace.html" data-slug="forms-editor-ace">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Ace Editor</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/image-cropping.html" data-slug="forms-image-cropping">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Image Cropping</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../forms/file-uploads.html" data-slug="forms-file-uploads">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">File Uploads</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="tables">
+                <i class="site-menu-icon wb-table" aria-hidden="true"></i>
+                <span class="site-menu-title">Tables</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/basic.html" data-slug="tables-basic">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Basic Tables</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/bootstrap.html" data-slug="tables-bootstrap">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Bootstrap Tables</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/floatthead.html" data-slug="tables-floatthead">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">floatThead</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/responsive.html" data-slug="tables-responsive">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Responsive Tables</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/editable.html" data-slug="tables-editable">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Editable Tables</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/footable.html" data-slug="tables-foo">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">FooTable</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../tables/datatable.html" data-slug="tables-datatable">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">DataTables</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-item has-sub active open">
+              <a href="javascript:void(0)" data-slug="chart">
+                <i class="site-menu-icon wb-pie-chart" aria-hidden="true"></i>
+                <span class="site-menu-title">Chart</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="chartjs.html" data-slug="chart-chartjs">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Chart.js</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="gauges.html" data-slug="chart-gauges">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Gauges</span>
+                  </a>
+                </li>
+                <li class="site-menu-item active">
+                  <a class="animsition-link" href="flot.html" data-slug="chart-flot">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Flot</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="peity.html" data-slug="chart-peity">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Peity</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="sparkline.html" data-slug="chart-sparkline">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Sparkline</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="morris.html" data-slug="chart-morris">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Morris</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="chartist.html" data-slug="chart-chartist">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Chartist.js</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="rickshaw.html" data-slug="chart-rickshaw">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Rickshaw</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="pie-progress.html" data-slug="chart-pie-progress">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Pie Progress</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="c3.html" data-slug="chart-c3">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">C3</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-category">Apps</li>
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="app">
+                <i class="site-menu-icon wb-grid-4" aria-hidden="true"></i>
+                <span class="site-menu-title">Apps</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item has-sub">
+                  <a href="javascript:void(0)" data-slug="app-document">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Documents</span>
+                    <span class="site-menu-arrow"></span>
+                  </a>
+                  <ul class="site-menu-sub">
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../apps/documents/articles.html" data-slug="app-document-articles">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Articles</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../apps/documents/categories.html" data-slug="app-document-categories">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Categories</span>
+                      </a>
+                    </li>
+                    <li class="site-menu-item">
+                      <a class="animsition-link" href="../apps/documents/article.html" data-slug="app-document-article">
+                        <i class="site-menu-icon " aria-hidden="true"></i>
+                        <span class="site-menu-title">Article</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../apps/projects/projects.html" data-slug="app-projects">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Projects</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../apps/calendar/calendar.html" data-slug="app-calendar">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Calendar</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../apps/forum/forum.html" data-slug="app-forum">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Forum</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../apps/contacts/contacts.html" data-slug="app-contacts">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Contacts</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../apps/mailbox/mailbox.html" data-slug="app-mailbox">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Mailbox</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="../apps/media/overview.html" data-slug="app-media">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Media</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="site-menu-category">Angular UI</li>
+            <li class="site-menu-item">
+              <a class="animsition-link" href="../angular/#/angularui/alert" data-slug="angular">
+                <i class="site-menu-icon bd-angular" aria-hidden="true"></i>
+                <span class="site-menu-title">Angular UI</span>
+                <div class="site-menu-label">
+                  <span class="label label-danger label-round">new</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+
+          <div class="site-menubar-section">
+            <h5>
+              Milestone
+              <span class="pull-right">30%</span>
+            </h5>
+            <div class="progress progress-xs">
+              <div class="progress-bar active" style="width: 30%;" role="progressbar"></div>
+            </div>
+            <h5>
+              Release
+              <span class="pull-right">60%</span>
+            </h5>
+            <div class="progress progress-xs">
+              <div class="progress-bar progress-bar-warning" style="width: 60%;" role="progressbar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-menubar-footer">
+      <a href="javascript: void(0);" class="fold-show" data-placement="top" data-toggle="tooltip"
+      data-original-title="Settings">
+        <span class="icon wb-settings" aria-hidden="true"></span>
+      </a>
+      <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Lock">
+        <span class="icon wb-eye-close" aria-hidden="true"></span>
+      </a>
+      <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
+        <span class="icon wb-power" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  <div class="site-gridmenu">
+    <ul>
+      <li>
+        <a href="../apps/mailbox/mailbox.html">
+          <i class="icon wb-envelope"></i>
+          <span>Mailbox</span>
+        </a>
+      </li>
+      <li>
+        <a href="../apps/calendar/calendar.html">
+          <i class="icon wb-calendar"></i>
+          <span>Calendar</span>
+        </a>
+      </li>
+      <li>
+        <a href="../apps/contacts/contacts.html">
+          <i class="icon wb-user"></i>
+          <span>Contacts</span>
+        </a>
+      </li>
+      <li>
+        <a href="../apps/media/overview.html">
+          <i class="icon wb-camera"></i>
+          <span>Media</span>
+        </a>
+      </li>
+      <li>
+        <a href="../apps/documents/categories.html">
+          <i class="icon wb-order"></i>
+          <span>Documents</span>
+        </a>
+      </li>
+      <li>
+        <a href="../apps/projects/projects.html">
+          <i class="icon wb-image"></i>
+          <span>Project</span>
+        </a>
+      </li>
+      <li>
+        <a href="../apps/forum/forum.html">
+          <i class="icon wb-chat-group"></i>
+          <span>Forum</span>
+        </a>
+      </li>
+      <li>
+        <a href="../index.html">
+          <i class="icon wb-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- Page -->
+  <div class="page animsition">
+    <div class="page-header">
+      <h1 class="page-title">Flot Charts</h1>
+      <ol class="breadcrumb">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="javascript:void(0)">Charts</a></li>
+        <li class="active">Flot</li>
+      </ol>
+      <div class="page-header-actions">
+        <a class="btn btn-sm btn-default btn-outline btn-round" href="http://www.flotcharts.org"
+        target="_blank">
+          <i class="icon wb-link" aria-hidden="true"></i>
+          <span class="hidden-xs">Official Website</span>
+        </a>
+      </div>
+    </div>
+    <div class="page-content">
+      <!-- Panel -->
+      <div class="panel">
+        <div class="panel-body container-fluid">
+          <div class="row row-lg">
+            <div class="col-md-6">
+              <!-- Example Realtime -->
+              <div class="example-wrap">
+                <h4 class="example-title">Realtime</h4>
+                <div class="example">
+                  <div id="exampleFlotRealtime"></div>
+                </div>
+              </div>
+              <!-- End Example Realtime -->
+            </div>
+
+            <div class="col-md-6">
+              <!-- Example Full-Bg Line -->
+              <div class="example-wrap">
+                <h4 class="example-title">Full-Bg Line</h4>
+                <div class="example example-responsive">
+                  <div class="width-xs-400" id="exampleFlotFullBg"></div>
+                </div>
+              </div>
+              <!-- End Example Full-Bg Line -->
+            </div>
+
+            <div class="clearfix hidden-xs hidden-sm"></div>
+
+            <div class="col-md-6">
+              <!-- Example Curve -->
+              <div class="example-wrap margin-md-0">
+                <h4 class="example-title">Curve</h4>
+                <div class="example example-responsive">
+                  <div class="width-xs-400" id="exampleFlotCurve"></div>
+                </div>
+              </div>
+              <!-- End Example Curve -->
+            </div>
+
+            <div class="col-md-6">
+              <!-- Example Mix -->
+              <div class="example-wrap">
+                <h4 class="example-title">Mix</h4>
+                <div class="example example-responsive">
+                  <div class="width-xs-400" id="exampleFlotMix"></div>
+                </div>
+              </div>
+              <!-- End Example Mix -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Panel -->
+
+      <div class="panel">
+        <div class="panel-body container-fluid">
+          <div class="row row-lg">
+            <div class="col-lg-6">
+              <!-- Example Stack Bar -->
+              <div class="example-wrap margin-lg-0">
+                <h4 class="example-title">Stack Bar</h4>
+                <div class="example">
+                  <div id="exampleFlotStackBar"></div>
+                </div>
+              </div>
+              <!-- End Example Stack Bar -->
+            </div>
+
+            <div class="col-lg-6">
+              <!-- Example Horizontal Bar -->
+              <div class="example-wrap">
+                <h4 class="example-title">Horizontal Bar</h4>
+                <div class="example">
+                  <div id="exampleFlotHorizontalBar"></div>
+                </div>
+              </div>
+              <!-- End Example Horizontal Bar -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Pie -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Pie</h3>
+        </div>
+        <div class="panel-body">
+          <!-- Example Pie -->
+          <div class="example-wrap">
+            <div class="example text-center">
+              <div id="exampleFlotPie"></div>
+            </div>
+            <div class="example-buttons text-center margin-bottom-30">
+              <button class="btn btn-primary btn-outline" id="btnPieDefault" type="button">Default Options</button>
+              <button class="btn btn-primary btn-outline" id="btnPieWithoutLegend" type="button">Without Legend</button>
+              <button class="btn btn-primary btn-outline" id="btnPieLabelRadius" type="button">Label Radius</button>
+              <button class="btn btn-primary btn-outline" id="btnPieRectangular" type="button">Rectangular Pie</button>
+              <button class="btn btn-primary btn-outline" id="btnPieDonutHole" type="button">Donut Hole</button>
+              <button class="btn btn-primary btn-outline" id="btnPieInteractivity" type="button">Interactivity</button>
+            </div>
+          </div>
+          <!-- End Example Pie -->
+        </div>
+      </div>
+      <!-- End Panel Pie -->
+
+      <!-- Panel Visitors -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Visitors</h3>
+        </div>
+        <div class="panel-body">
+          <!-- Example Visitors -->
+          <div class="example-wrap">
+            <div class="example">
+              <div id="exampleFlotVisitors"></div>
+              <div id="exampleFlotVisitorsOverview"></div>
+            </div>
+          </div>
+          <!-- End Example Visitors -->
+        </div>
+      </div>
+      <!-- End Panel Visitors -->
+    </div>
+  </div>
+  <!-- End Page -->
+
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <span class="site-footer-legal">© 2015 Remark</span>
+    <div class="site-footer-right">
+      Crafted with <i class="red-600 wb wb-heart"></i> by <a href="http://themeforest.net/user/amazingSurge">amazingSurge</a>
+    </div>
+  </footer>
+
+  <!-- Core  -->
+  <script src="../../assets/vendor/jquery/jquery.js"></script>
+  <script src="../../assets/vendor/bootstrap/bootstrap.js"></script>
+  <script src="../../assets/vendor/animsition/jquery.animsition.js"></script>
+  <script src="../../assets/vendor/asscroll/jquery-asScroll.js"></script>
+  <script src="../../assets/vendor/mousewheel/jquery.mousewheel.js"></script>
+  <script src="../../assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+  <script src="../../assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+
+  <!-- Plugins -->
+  <script src="../../assets/vendor/switchery/switchery.min.js"></script>
+  <script src="../../assets/vendor/intro-js/intro.js"></script>
+  <script src="../../assets/vendor/screenfull/screenfull.js"></script>
+  <script src="../../assets/vendor/slidepanel/jquery-slidePanel.js"></script>
+
+  <!-- Plugins For This Page -->
+  <script src="../../assets/vendor/flot/jquery.flot.js"></script>
+  <script src="../../assets/vendor/flot/jquery.flot.resize.js"></script>
+  <script src="../../assets/vendor/flot/jquery.flot.time.js"></script>
+  <script src="../../assets/vendor/flot/jquery.flot.stack.js"></script>
+  <script src="../../assets/vendor/flot/jquery.flot.pie.js"></script>
+  <script src="../../assets/vendor/flot/jquery.flot.selection.js"></script>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/core.js"></script>
+  <script src="../../assets/js/site.js"></script>
+
+  <script src="../../assets/js/sections/menu.js"></script>
+  <script src="../../assets/js/sections/menubar.js"></script>
+  <script src="../../assets/js/sections/sidebar.js"></script>
+
+  <script src="../../assets/js/configs/config-colors.js"></script>
+  <script src="../../assets/js/configs/config-tour.js"></script>
+
+  <script src="../../assets/js/components/asscrollable.js"></script>
+  <script src="../../assets/js/components/animsition.js"></script>
+  <script src="../../assets/js/components/slidepanel.js"></script>
+  <script src="../../assets/js/components/switchery.js"></script>
+
+
+  <!-- Scripts For This Page -->
+
+
+  <script>
+    (function(document, window, $) {
+      'use strict';
+
+      var Site = window.Site;
+
+      $(document).ready(function($) {
+        Site.run();
+      });
+
+      // Example Flot Realtime
+      // ---------------------
+      (function() {
+        if (!$.isFunction($.fn.plot) || $("#exampleFlotRealtime").length ===
+          0) {
+          return;
+        }
+
+        var data = [];
+        var totalPoints = 250;
+
+        function getRandomData() {
+          if (data.length > 0) {
+            data = data.slice(1);
+          }
+          // Do a random walk
+          while (data.length < totalPoints) {
+            var prev = data.length > 0 ? data[data.length - 1] : 50;
+            var y = prev + Math.random() * 10 - 5;
+            if (y < 0) {
+              y = 0;
+            } else if (y > 100) {
+              y = 100;
+            }
+            data.push(y);
+          }
+          // Zip the generated y values with the x values
+          var res = [];
+          for (var i = 0; i < data.length; ++i) {
+            res.push([i, data[i]]);
+          }
+          return res;
+        }
+        var labelColor = $.colors("grey", 600);
+        // Set up the control widget
+        var updateInterval = 30;
+
+        var plot = $.plot($("#exampleFlotRealtime"), [{
+          data: getRandomData()
+        }], {
+
+          colors: [$.colors("blue-grey", 100)],
+          series: {
+            shadowSize: 0,
+            lines: {
+              show: true,
+              lineWidth: 0,
+              fill: true,
+              fillColor: $.colors("blue-grey", 100)
+            }
+          },
+          legend: {
+            show: false
+          },
+          xaxis: {
+            show: false,
+            font: {
+              color: labelColor
+            }
+          },
+          yaxis: {
+            tickColor: "#edeff2",
+            color: "#474e54",
+            min: 0,
+            max: 100,
+            font: {
+              size: 14,
+              color: labelColor,
+              weight: "300"
+                // family: "OpenSans Light"
+            }
+          },
+          grid: {
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 0,
+              right: 0,
+              bottom: 1,
+              left: 0
+            },
+            borderColor: "#eef0f2"
+          }
+        });
+
+        function update() {
+          plot.setData([getRandomData()]);
+          // Since the axes don't change, we don't need to call plot.setupGrid()
+          plot.draw();
+          setTimeout(update, updateInterval);
+        }
+        update();
+
+      })();
+
+      // Example Flot Full-Bg Line
+      // -------------------------
+      (function() {
+        var b = [
+          [1262304000000, 0],
+          [1264982400000, 500],
+          [1267401600000, 700],
+          [1270080000000, 1300],
+          [1272672000000, 2600],
+          [1275350400000, 1300],
+          [1277942400000, 1700],
+          [1280620800000, 1300],
+          [1283299200000, 1500],
+          [1285891200000, 2000],
+          [1288569600000, 1500],
+          [1291161600000, 1200]
+        ];
+        var a = [{
+          label: "Fish values",
+          data: b
+        }];
+
+        $.plot("#exampleFlotFullBg", a, {
+          xaxis: {
+            min: (new Date(2009, 12, 1)).getTime(),
+            max: (new Date(2010, 11, 2)).getTime(),
+            mode: "time",
+            tickSize: [1, "month"],
+            monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ],
+            tickLength: 0,
+            // tickColor: "#edeff2",
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: 300
+                // family: "OpenSans Light"
+            }
+          },
+          yaxis: {
+            tickColor: "#edeff2",
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: "300"
+                // family: "OpenSans Light"
+            }
+          },
+          series: {
+            shadowSize: 0,
+            lines: {
+              show: true,
+              // fill: true,
+              // fillColor: "#ff0000",
+              lineWidth: 1.5
+            },
+            points: {
+              show: true,
+              fill: true,
+              fillColor: $.colors("primary", 600),
+              radius: 3,
+              lineWidth: 1
+            }
+          },
+          colors: [$.colors("primary", 400)],
+          grid: {
+            // show: true,
+            hoverable: true,
+            clickable: true,
+            // color: "green",
+            // tickColor: "red",
+            backgroundColor: {
+              colors: ["#fcfdfe", "#fcfdfe"]
+            },
+            borderWidth: 0
+              // borderColor: "#ff0000"
+          },
+          legend: {
+            show: false
+          }
+        });
+
+      })();
+
+      // Example Flot Curve
+      // ------------------
+      (function() {
+        var dt1 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.25) {
+          dt1.push([i, Math.sin(i)]);
+        }
+
+        var dt2 = [];
+        for (i = 0; i < Math.PI * 2; i += 0.25) {
+          dt2.push([i, Math.cos(i)]);
+        }
+
+        var f_chart = $("#exampleFlotCurve");
+
+        $.plot(f_chart, [{
+          label: "sin(x)",
+          data: dt1,
+          color: $.colors("primary", 400),
+          points: {
+            show: true,
+            fill: true,
+            radius: 3,
+            fillColor: $.colors("primary", 400)
+          }
+        }, {
+          label: "cos(x)",
+          data: dt2,
+          yaxis: 2,
+          color: $.colors("green", 400),
+          points: {
+            show: true,
+            fill: true,
+            radius: 3,
+            fillColor: $.colors("green", 600)
+          }
+        }, ], {
+          series: {
+            shadowSize: 0,
+            lines: {
+              show: true,
+              lineWidth: 1.5
+            },
+            points: {
+              show: true,
+              radius: 3,
+              lineWidth: 1
+            }
+          },
+          xaxes: [{
+              ticks: [
+                0, [Math.PI / 2, "\u03c0/2"],
+                [Math.PI, "\u03c0"],
+                [Math.PI * 3 / 2, "3\u03c0/2"],
+                [Math.PI * 2, "2\u03c0"]
+              ]
+            }
+
+          ],
+          yaxes: [{
+            ticks: 5,
+            min: -2,
+            max: 2,
+            tickDecimals: 3
+          }, {
+            ticks: 5,
+            min: -1,
+            max: 1,
+            tickLength: 0,
+            tickDecimals: 2,
+            position: "right"
+          }],
+          grid: {
+            hoverable: true,
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 1,
+              right: 1,
+              bottom: 1,
+              left: 1
+            },
+            borderColor: "#eef0f2"
+          },
+          legend: {
+            show: false
+          }
+        });
+
+      })();
+
+      // Example Flot Mix
+      // ----------------
+      (function() {
+        var b1 = [];
+        for (var i = 0; i < 14; i += 0.5) {
+          b1.push([i, Math.cos(i) + 1]);
+        }
+
+        var b2 = [
+          [2, 3],
+          [4, 8],
+          [6, 5],
+          [9, 13]
+        ];
+
+        var b3 = [];
+        for (i = 0; i < 14; i += 0.5) {
+          b3.push([i, Math.cos(i) + Math.sin(i) - 1]);
+        }
+
+        var b4 = [];
+        for (i = 0; i < 14; i += 0.1) {
+          b4.push([i, Math.sqrt(i * 10) - 4 * Math.cos(i)]);
+        }
+
+        var b5 = [];
+        for (i = 0; i < 14; i += 1.5) {
+          b5.push([i, (Math.cos(i) + 2 * Math.sin(i)) + 6]);
+        }
+
+        var b6 = [];
+        for (i = 0; i < 14; i += 0.5 + Math.random()) {
+          b6.push([i, Math.sqrt(i + 2 * Math.cos(i)) - Math.sin(i) - 3]);
+        }
+
+        $.plot("#exampleFlotMix", [{
+          data: b2,
+          bars: {
+            show: true,
+            align: "center",
+            fill: true,
+            fillColor: $.colors("blue-grey", 100)
+          }
+        }, {
+          data: b1,
+          lines: {
+            show: true,
+            fill: true,
+            fillColor: "rgba(251,213,181,.1)"
+          }
+        }, {
+          data: b3,
+          points: {
+            show: true,
+            fill: true,
+            fillColor: $.colors("green", 600),
+            radius: 2
+          }
+        }, {
+          data: b4,
+          lines: {
+            show: true
+          },
+          points: {
+            show: false
+          }
+        }, {
+          data: b5,
+          lines: {
+            show: true
+          },
+          points: {
+            show: true,
+            fill: true,
+            fillColor: $.colors("primary", 600),
+            radius: 2
+          }
+        }, {
+          data: b6,
+          lines: {
+            show: true,
+            steps: true
+          }
+        }], {
+          xaxis: {
+            tickLength: 0,
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: 300
+                // family: "OpenSans Light"
+            }
+          },
+          yaxis: {
+            tickColor: "#edeff2",
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: "300"
+                // family: "OpenSans Light"
+            }
+          },
+          grid: {
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 0,
+              right: 0,
+              bottom: 1,
+              left: 0
+            },
+            borderColor: "#eef0f2"
+          },
+          series: {
+            shadowSize: 0
+          },
+          colors: [$.colors("blue-grey", 100),
+            $.colors("orange", 200),
+            $.colors("green", 600),
+            $.colors("yellow", 600),
+            $.colors("primary", 600),
+            $.colors("purple", 200)
+          ]
+        });
+      })();
+
+      // Example Flot Stack Bar
+      // ----------------------
+      (function() {
+        var a1 = [];
+        for (var i = 1; i <= 4; i += 1) {
+          a1.push([i, parseInt(Math.random() * 30)]);
+        }
+
+        var a2 = [];
+        for (i = 1; i <= 4; i += 1) {
+          a2.push([i, parseInt(Math.random() * 30)]);
+        }
+
+        var a3 = [];
+        for (i = 1; i <= 4; i += 1) {
+          a3.push([i, parseInt(Math.random() * 30)]);
+        }
+
+        var a4 = [];
+        for (i = 1; i <= 4; i += 1) {
+          a4.push([i, parseInt(Math.random() * 30 - 10)]);
+        }
+
+        $.plot("#exampleFlotStackBar", [{
+          data: a1,
+          bars: {
+            fill: true,
+            fillColor: $.colors("light-green", 500)
+          }
+        }, {
+          data: a2,
+          bars: {
+            fill: true,
+            fillColor: $.colors("blue-grey", 300)
+          }
+        }, {
+          data: a3,
+          bars: {
+            fill: true,
+            fillColor: $.colors("primary", 500)
+          }
+        }, {
+          data: a4,
+          bars: {
+            fill: true,
+            fillColor: $.colors("purple", 500)
+          }
+        }], {
+          series: {
+            stack: true,
+            shadowSize: 0,
+            lines: {
+              show: false,
+              fill: true,
+              steps: false
+            },
+            bars: {
+              show: true,
+              align: "center",
+              barWidth: 0.38
+            }
+          },
+          colors: [$.colors("light-green", 500), $.colors("blue-grey",
+            300), $.colors("primary", 500), $.colors("purple",
+            500)],
+          xaxis: {
+            tickLength: 0,
+            color: "#474e54",
+            min: 0,
+            max: 5.5,
+            ticks: [1, 2, 3, 4, ],
+            font: {
+              size: 14,
+              weight: 300
+                // family: "OpenSans Light"
+            }
+          },
+          yaxis: {
+            tickColor: "#edeff2",
+            color: "#474e54",
+            min: -10,
+            font: {
+              size: 14,
+              weight: "300"
+                // family: "OpenSans Light"
+            }
+          },
+          grid: {
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 0,
+              right: 0,
+              bottom: 1,
+              left: 0
+            },
+            borderColor: "#eef0f2"
+          }
+        });
+      })();
+
+      // Example Flot Horizontal Bar
+      // ---------------------------
+      (function() {
+        var a11 = [];
+        for (var i = 1; i <= 5; i += 1) {
+          a11.push([parseInt(Math.random() * 30), i]);
+        }
+
+        var a22 = [];
+        for (i = 1; i <= 5; i += 1) {
+          a22.push([parseInt(Math.random() * 30), i]);
+        }
+
+        var a33 = [];
+        for (i = 1; i <= 5; i += 1) {
+          a33.push([parseInt(Math.random() * 30), i]);
+        }
+
+        $.plot("#exampleFlotHorizontalBar", [{
+          data: a11,
+          bars: {
+            fill: true,
+            fillColor: $.colors("primary", 500)
+          }
+        }, {
+          data: a22,
+          bars: {
+            fill: true,
+            fillColor: $.colors("blue-grey", 300)
+          }
+        }, {
+          data: a33,
+          bars: {
+            fill: true,
+            fillColor: $.colors("red", 500)
+          }
+        }], {
+          series: {
+            stack: true,
+            lines: {
+              show: false,
+              fill: true,
+            },
+            bars: {
+              show: true,
+              barWidth: 0.55,
+              align: "center",
+              horizontal: true
+            }
+          },
+          colors: [$.colors("primary", 500), $.colors("blue-grey",
+            300), $.colors("red", 500)],
+          xaxis: {
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: 300
+                // family: "OpenSans Light"
+            }
+          },
+          yaxis: {
+            tickLength: 0,
+            tickColor: "#edeff2",
+            color: "#474e54",
+            min: 0,
+            max: 6,
+            ticks: [1, 2, 3, 4, 5],
+            font: {
+              size: 14,
+              weight: "300"
+                // family: "OpenSans Light"
+            }
+          },
+          grid: {
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 1,
+              right: 1,
+              bottom: 1,
+              left: 1
+            },
+            borderColor: "#eef0f2"
+          }
+        });
+      })();
+
+      // Example Flot Pie
+      // ----------------
+      (function() {
+        var pieData = [],
+          series = 2;
+
+        for (var i = 0; i < series; i++) {
+          pieData[i] = {
+            label: "Example Pie S" + (i + 1),
+            data: Math.floor(Math.random() * 100) + 1
+          };
+        }
+
+        var placeholder = $("#exampleFlotPie");
+
+        // Default Options
+        $("#btnPieDefault").click(function() {
+          placeholder.unbind();
+
+          $.plot(placeholder, pieData, {
+            series: {
+              pie: {
+                show: true
+              }
+            },
+            colors: [$.colors("primary", 500), $.colors(
+              "blue-grey", 200)]
+          });
+        });
+
+        // Without Legend
+        $("#btnPieWithoutLegend").click(function() {
+          placeholder.unbind();
+
+          $.plot(placeholder, pieData, {
+            series: {
+              pie: {
+                show: true,
+                label: {
+                  show: true
+                }
+              }
+            },
+            colors: [$.colors("primary", 500), $.colors(
+              "blue-grey", 200)],
+            legend: {
+              show: false
+            }
+          });
+        });
+
+        // Label Radius
+        $("#btnPieLabelRadius").click(function() {
+          placeholder.unbind();
+
+          $.plot(placeholder, pieData, {
+            series: {
+              pie: {
+                show: true,
+                radius: 1,
+                label: {
+                  show: true,
+                  radius: 3 / 4,
+                  formatter: labelFormatter
+                }
+              }
+            },
+            colors: [$.colors("primary", 500), $.colors(
+              "blue-grey", 200)],
+            legend: {
+              show: false
+            }
+          });
+        });
+
+        // Rectangular Pie
+        $("#btnPieRectangular").click(function() {
+          placeholder.unbind();
+
+          $.plot(placeholder, pieData, {
+            series: {
+              pie: {
+                show: true,
+                radius: 500,
+                label: {
+                  show: true,
+                  formatter: labelFormatter,
+                  threshold: 0.1
+                }
+              }
+            },
+            colors: [$.colors("primary", 500), $.colors(
+              "blue-grey", 200)],
+            legend: {
+              show: false
+            }
+          });
+        });
+
+        // Donut Hole
+        $("#btnPieDonutHole").click(function() {
+          placeholder.unbind();
+
+          $.plot(placeholder, pieData, {
+            series: {
+              pie: {
+                innerRadius: 0.5,
+                show: true
+              }
+            },
+            colors: [$.colors("primary", 500), $.colors(
+              "blue-grey", 200)]
+          });
+        });
+
+        // Interactivity
+        $("#btnPieInteractivity").click(function() {
+          placeholder.unbind();
+
+          $.plot(placeholder, pieData, {
+            series: {
+              pie: {
+                show: true
+              }
+            },
+            colors: [$.colors("primary", 500), $.colors(
+              "blue-grey", 200)],
+            grid: {
+              hoverable: true,
+              clickable: true
+            }
+
+          });
+
+          placeholder.bind("plothover", function(event, pos, obj) {
+            if (!obj) {
+              return;
+            }
+
+            var percent = parseFloat(obj.series.percent).toFixed(
+              2);
+            $("#hover").html(
+              "<span style='font-weight:bold; color:" + obj.series
+              .color + "'>" + obj.series.label + " (" + percent +
+              "%)</span>");
+          });
+
+          placeholder.bind("plotclick", function(event, pos, obj) {
+            if (!obj) {
+              return;
+            }
+
+            percent = parseFloat(obj.series.percent).toFixed(2);
+            alert("" + obj.series.label + ": " + percent + "%");
+          });
+        });
+
+        // Show the initial default chart
+        $("#btnPieDefault").click();
+
+        // A custom label formatter used by several of the plots
+        console.log("out");
+
+        function labelFormatter(label, series) {
+          return "<div" + " style='" +
+            "font-size: 8pt; text-align: center; padding: 2px; color: #747474;'" +
+            ">" + label + "<br/>" + Math.round(series.percent) +
+            "%</div>";
+        }
+      })();
+
+      // Example Flot Visitors
+      // ---------------------
+      (function() {
+        var d = [
+          [1196463600000, 0],
+          [1196550000000, 0],
+          [1196636400000, 0],
+          [1196722800000, 77],
+          [1196809200000, 3636],
+          [1196895600000, 3575],
+          [1196982000000, 2736],
+          [1197068400000, 1086],
+          [1197154800000, 676],
+          [1197241200000, 1205],
+          [1197327600000, 906],
+          [1197414000000, 710],
+          [1197500400000, 639],
+          [1197586800000, 540],
+          [1197673200000, 435],
+          [1197759600000, 301],
+          [1197846000000, 575],
+          [1197932400000, 481],
+          [1198018800000, 591],
+          [1198105200000, 608],
+          [1198191600000, 459],
+          [1198278000000, 234],
+          [1198364400000, 1352],
+          [1198450800000, 686],
+          [1198537200000, 279],
+          [1198623600000, 449],
+          [1198710000000, 468],
+          [1198796400000, 392],
+          [1198882800000, 282],
+          [1198969200000, 208],
+          [1199055600000, 229],
+          [1199142000000, 177],
+          [1199228400000, 374],
+          [1199314800000, 436],
+          [1199401200000, 404],
+          [1199487600000, 253],
+          [1199574000000, 218],
+          [1199660400000, 476],
+          [1199746800000, 462],
+          [1199833200000, 448],
+          [1199919600000, 442],
+          [1200006000000, 403],
+          [1200092400000, 204],
+          [1200178800000, 194],
+          [1200265200000, 327],
+          [1200351600000, 374],
+          [1200438000000, 507],
+          [1200524400000, 546],
+          [1200610800000, 482],
+          [1200697200000, 283],
+          [1200783600000, 221],
+          [1200870000000, 483],
+          [1200956400000, 523],
+          [1201042800000, 528],
+          [1201129200000, 483],
+          [1201215600000, 452],
+          [1201302000000, 270],
+          [1201388400000, 222],
+          [1201474800000, 439],
+          [1201561200000, 559],
+          [1201647600000, 521],
+          [1201734000000, 477],
+          [1201820400000, 442],
+          [1201906800000, 252],
+          [1201993200000, 236],
+          [1202079600000, 525],
+          [1202166000000, 477],
+          [1202252400000, 386],
+          [1202338800000, 409],
+          [1202425200000, 408],
+          [1202511600000, 237],
+          [1202598000000, 193],
+          [1202684400000, 357],
+          [1202770800000, 414],
+          [1202857200000, 393],
+          [1202943600000, 353],
+          [1203030000000, 364],
+          [1203116400000, 215],
+          [1203202800000, 214],
+          [1203289200000, 356],
+          [1203375600000, 399],
+          [1203462000000, 334],
+          [1203548400000, 348],
+          [1203634800000, 243],
+          [1203721200000, 126],
+          [1203807600000, 157],
+          [1203894000000, 288]
+        ];
+
+        // first correct the timestamps - they are recorded as the daily
+        // midnights in UTC+0100, but Flot always displays dates in UTC
+        // so we have to add one hour to hit the midnights in the plot
+
+        for (var i = 0; i < d.length; ++i) {
+          d[i][0] += 60 * 60 * 1000;
+        }
+
+        // helper for returning the weekends in a period
+
+        function weekendAreas(axes) {
+
+          var markings = [],
+            d = new Date(axes.xaxis.min);
+
+          // go to the first Saturday
+
+          d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7));
+          d.setUTCSeconds(0);
+          d.setUTCMinutes(0);
+          d.setUTCHours(0);
+
+          var i = d.getTime();
+
+          // when we don't set yaxis, the rectangle automatically
+          // extends to infinity upwards and downwards
+
+          do {
+            markings.push({
+              xaxis: {
+                from: i,
+                to: i + 2 * 24 * 60 * 60 * 1000
+              }
+            });
+            i += 7 * 24 * 60 * 60 * 1000;
+          } while (i < axes.xaxis.max);
+
+          return markings;
+        }
+
+        var options = {
+          series: {
+            lines: {
+              show: true,
+              lineWidth: 1
+            },
+            shadowSize: 0
+          },
+          colors: [$.colors("primary", 600)],
+          selection: {
+            mode: "x",
+            color: [$.colors("primary", 300)]
+          },
+          xaxis: {
+            tickLength: 0,
+            mode: "time",
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: 300
+                // family: "OpenSans Light"
+            }
+          },
+          yaxis: {
+            tickColor: "#edeff2",
+            color: "#474e54",
+            font: {
+              size: 14,
+              weight: "300"
+                // family: "OpenSans Light"
+            }
+          },
+          grid: {
+            markings: weekendAreas,
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 0,
+              right: 0,
+              bottom: 1,
+              left: 0
+            },
+            borderColor: "#eef0f2"
+          }
+        };
+
+        var _plot = $.plot("#exampleFlotVisitors", [d], options);
+
+        var overview = $.plot("#exampleFlotVisitorsOverview", [d], {
+          series: {
+            lines: {
+              show: true,
+              lineWidth: 1
+            },
+            shadowSize: 0
+          },
+          colors: [$.colors("primary", 600)],
+          xaxis: {
+            ticks: [],
+            mode: "time"
+          },
+          yaxis: {
+            ticks: [],
+            min: 0,
+            autoscaleMargin: 0.1
+          },
+          selection: {
+            mode: "x",
+            color: [$.colors("primary", 300)]
+          },
+          grid: {
+            // markings: weekendAreas,
+            color: "#474e54",
+            tickColor: "#e3e6ea",
+            backgroundColor: {
+              colors: ["#fff", "#fff"]
+            },
+            borderWidth: {
+              top: 1,
+              right: 1,
+              bottom: 1,
+              left: 1
+            },
+            borderColor: "#eef0f2"
+          }
+        });
+
+        // now connect the two
+        $("#exampleFlotVisitors").bind("plotselected", function(event,
+          ranges) {
+
+          // do the zooming
+          $.each(_plot.getXAxes(), function(_, axis) {
+            var opts = axis.options;
+            opts.min = ranges.xaxis.from;
+            opts.max = ranges.xaxis.to;
+          });
+          _plot.setupGrid();
+          _plot.draw();
+          _plot.clearSelection();
+
+          // don't fire event on the overview to prevent eternal loop
+          overview.setSelection(ranges, true);
+        });
+
+        $("#exampleFlotVisitorsOverview").bind("plotselected", function(
+          event, ranges) {
+          _plot.setSelection(ranges);
+        });
+      })();
+
+      // Example Flot Tooltip
+      // --------------------
+      (function() {
+        $("<div class='flot-tooltip'></div>").css({
+          position: "absolute",
+          color: "#fff",
+          display: "none",
+          border: "1px solid #777",
+          padding: "2px",
+          "background-color": "#777",
+          opacity: 0.80
+        }).appendTo("body");
+
+        $("#exampleFlotCurve").bind("plothover", function(event, pos,
+          item) {
+          if (item) {
+            var x = item.datapoint[0].toFixed(2),
+              y = item.datapoint[1].toFixed(2);
+            $(".flot-tooltip").html(item.series.label + " of " + x +
+                " = " + y)
+              .css({
+                top: item.pageY + 5,
+                left: item.pageX + 5
+              })
+              .fadeIn(200);
+          } else {
+            $(".flot-tooltip").hide();
+          }
+        });
+
+        $("#exampleFlotFullBg").bind("plothover", function(event, pos,
+          item) {
+          if (item) {
+            var x = item.datapoint[0].toFixed(2),
+              y = item.datapoint[1].toFixed(2);
+            $(".flot-tooltip").html(item.series.label + " of " + x +
+                " = " + y)
+              .css({
+                top: item.pageY + 5,
+                left: item.pageX + 5
+              })
+              .fadeIn(200);
+          } else {
+            $(".flot-tooltip").hide();
+          }
+        });
+
+        $("#exampleFlotRealtime").bind("plothover", function(event, pos,
+          item) {
+          if (item) {
+            var x = item.datapoint[0].toFixed(2),
+              y = item.datapoint[1].toFixed(2);
+            $(".flot-tooltip").html("x | " + x + "," + " y | " + y)
+              .css({
+                top: item.pageY + 5,
+                left: item.pageX + 5
+              })
+              .fadeIn(200);
+          } else {
+            $(".flot-tooltip").hide();
+          }
+        });
+
+      })();
+
+    })(document, window, jQuery);
+  </script>
+
+
+</body>
+
+</html>

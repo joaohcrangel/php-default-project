@@ -54,7 +54,7 @@
 	 						case 'checkbox':
 	 						$element.prop('checked', true).val(data[item]);
 	 						break;
-	 						
+
 	 						default:
 	 						$element.val(data[item]);
 	 						break;
@@ -63,7 +63,11 @@
 
 	 					case 'select':
 	 					$element.find(':selected').removeAttr('selected').prop('selected', false);
-	 					$element.find('[value='+data[item]+']').attr('selected', 'selected').prop('selected', true);
+	 					if (data[item]) {
+                $element.find('[value='+data[item]+']').attr('selected', 'selected').prop('selected', true);
+            } else {
+              $element.find(':disabled').removeAttr('disabled').prop('selected', true).prop('disabled', true);
+            }
 	 					break;
 
 	 					case 'textarea':
@@ -75,7 +79,11 @@
 	 			} else if($element.length > 1) {
 
 	 				$element.removeAttr('checked').prop('checked', false);
-	 				$element.filter('[value='+data[item]+']').attr('checked', 'checked').prop('checked', true);
+	 				if (data[item]) {
+            $element.filter('[value='+data[item]+']').attr('checked', 'checked').prop('checked', true);
+          } else {
+            $element.find(':disabled').removeAttr('disabled').prop('selected', true).prop('disabled', true);
+          }
 
 	 			}
 
@@ -94,7 +102,7 @@
 
 			//Set the default values, use comma to separate the settings, example:
 			var defaults = {
-				debug:false,
+				debug:true,
 				params:{},
 				url:"",
 				method:"POST",
@@ -211,13 +219,17 @@
 							t.data[$(this).next("select").attr("name")] = $(this).next("select").select2("val");
 						});
 
-						if(o.debug === true) console.info("data", t.data);
+						if(o.debug === true) console.info("data 1", t.data);
 
 						if(typeof o.startAjax === "function") o.startAjax(t.data);
 
 						if (typeof o.beforeParams === 'function') t.data =  $.extend({}, o.beforeParams(t.data), t.data);
 
+            if(o.debug === true) console.info("data 2", t.data);
+
 						var data = $.param(t.data);
+
+            if(o.debug === true) console.info("data 3", data);
 
 						var datas = [];
 						$form.find("[name*='[]']").each(function(){
@@ -230,24 +242,17 @@
 
 						data += datas.join("&");
 
-						var request = $.ajax({
-							url: o.url,
-							type: o.method,
+            if(o.debug === true) console.info("data 4", data);
+
+            rest({
+              $http: o.$http,
+              url: o.url,
+							method: o.method,
 							data: data,
-							dataType: o.dataType
-						});
+              success:function(r) {
 
-						if(o.debug === true) console.info("request", request);
-
-						request.done(function( response ) {
-
-							if(o.debug === true) console.info("done", response);
-
-							if(typeof response === "string") response = $.parseJSON(response);
-
-							if(response.success){
-
-								if(typeof o.success === "function") o.success(response);
+                $btn.btnload("unload");
+                if(typeof o.success === "function") o.success(r);
 
 								if(o.resetForm === true){
 									$form.find('[name]:not([data-no-reset-form])').each(function(){
@@ -259,36 +264,16 @@
 
 								o.alertSuccess("Formulário enviado com sucesso!");
 
-								if(o.debug === true) console.info("success", response);
+								if(o.debug === true) console.info("success", r);
 
-							}else{
+              },
+              failure:function(e) {
 
-								if(typeof o.failure === "function") o.failure(response);
+  							$btn.btnload("unload");
+                if(typeof o.failure === "function") o.failure(e);
 
-								o.alertError(response.error || "Tente novamente mais tarde.");
-
-								if(o.debug === true) console.info("failure", response);
-
-							}
-
-							$btn.btnload("unload");
-
-						});
-
-						request.fail(function( jqXHR, textStatus ) {
-
-							if(o.debug === true) console.info("fail", jqXHR, textStatus);
-
-							$btn.btnload("unload");
-
-							if(typeof o.failure === "function") o.failure({
-								success:false,
-								error:(typeof jqXHR.responseJSON === 'object' && jqXHR.responseJSON.error)?jqXHR.responseJSON.error:"Não foi possível concluir o envio. Tente novamente mais tarde."
-							});
-
-							o.alertError(((typeof jqXHR.responseJSON === 'object' && jqXHR.responseJSON.error)?jqXHR.responseJSON.error:"Não foi possível concluir o envio. Tente novamente mais tarde."));
-
-						});
+              }
+            });
 
 					}
 

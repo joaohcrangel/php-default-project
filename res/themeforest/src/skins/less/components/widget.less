@@ -1,0 +1,130 @@
+// Name:            Widget
+//
+// Component:       `widget`
+// ========================================================================
+
+// Variables
+// ========================================================================
+
+@widget-shadow:                    0 1px 1px rgba(0, 0, 0, .05);
+
+@widget-article-bg:                @inverse;
+
+@widget-title-color:               @title-color;
+
+@widget-meta-color:                @prompt-color;
+@widget-meta-font-size:            @font-size-small;
+
+@widget-actions-link-color:        @gray;
+@widget-actions-link-hover-color:  @gray-light;
+
+@widget-posts-horizontal-border:   @border-color-base;
+
+@widget-posts-hasBg-bg:            @bg-color-base;
+
+
+// Modifier: `widget-article`
+// -------------------------
+
+.widget-article {
+  background-color: @widget-article-bg;
+}
+
+// Modifier: `widget-shadow`
+// -------------------------
+
+.widget-shadow {
+  .box-shadow(@widget-shadow);
+}
+
+// Strucutes
+// ========================================================================
+
+.widget-metas {
+  color: @widget-meta-color;
+
+  &.type-link {
+    > a {
+      color: @gray;
+
+      &:hover {
+        color: @gray-light;
+      }
+
+      + a:before {
+        background-color: @gray;
+      }
+    }
+  }
+}
+
+.widget-time {
+  .overlay-background & {
+    color: @inverse;
+  }
+}
+
+// Widget Actions
+// ========================================================================
+
+.widget-actions {
+
+  a {
+    color: @widget-actions-link-color;
+
+    &.active, &:hover, &:focus {
+      color: @widget-actions-link-hover-color;
+    }
+  }
+}
+
+.widget-actions-sidebar {
+  a {
+    border-right: 1px solid @widget-posts-horizontal-border;
+    + a {
+      border-top: 1px solid @widget-posts-horizontal-border;
+    }
+  }
+}
+
+// Widget Watermark
+// ========================================================================
+
+.widget-watermark {
+  &.darker {
+    color: black;
+  }
+
+  &.lighter {
+    color: white;
+  }
+}
+
+// Widget Cover
+// ========================================================================
+
+.widget-cover {
+  .widget-time, .widget-category, .widget-title {
+    color: @inverse;
+  }
+
+  .widget-time {
+    background-color: @gray-dark;
+  }
+
+  .widget-category {
+    background-color: @brand-primary;
+  }
+
+  .widget-title {
+    background-color: @gray-base;
+  }
+}
+// Widget divider
+// ========================================================================
+
+.widget-divider {
+  &:after {
+    background-color: @inverse;
+  }
+}

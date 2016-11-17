@@ -1,0 +1,42 @@
+// Name:            Accordion
+//
+// Component:       `accordion`
+//
+// Modifiers:       'panel-group-continuous'
+//                  'panel-group-simple'
+//
+// Markup:
+//
+// ========================================================================
+
+// Variables
+// ========================================================================
+
+@accordion-panel-title-font-size:         @font-size-base;
+@accordion-panel-color:                   @text-color;
+@accordion-panel-border:                  @border-color-base;
+@accordion-panel-radius:                  @panel-border-radius;
+
+// Component: Accordion
+// ========================================================================
+
+.panel-group {
+
+  .panel-title {
+    &:hover,
+    &:focus {
+      color: @accordion-panel-color;
+    }
+  }
+}
+
+
+// Modifier: `panel-group-simple`
+// ========================================================================
+
+.panel-group-simple {
+  .panel {
+    background: transparent;
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,107 @@
+// Name:            Dotnav
+//
+// Component:       `dotnav`
+//
+// Modifiers:       'dotnav-scaleup'
+//                  'dotnav-stroke'
+//                  'dotnav-fillin'
+//                  'dotnav-dotstroke'
+//                  'dotnav-fall'
+//
+// ========================================================================
+
+// Variables
+// ========================================================================
+
+@dotnav-list-bgColor:                    rgba(255, 255, 255, 0.3);
+@dotnav-list-active-bgColor:             @inverse;
+
+@dotnav-stroke-list-active-border-color: @inverse;
+
+// Component: Dotnav
+// ========================================================================
+
+.dotnav {
+  > li {
+    > a {
+      background-color: @dotnav-list-bgColor;
+      border-radius: 50%;
+    }
+    &.active,
+    &:hover,
+    &:focus {
+      > a {
+        background-color: @dotnav-list-active-bgColor;
+      }
+    }
+  }
+}
+
+// Modifier: `dotnav-stroke`
+// ========================================================================
+
+.dotnav-stroke {
+  > li {
+    > a {
+      border: 2px solid transparent;
+    }
+    &.active {
+      > a {
+        background-color: transparent;
+        border-color: @dotnav-stroke-list-active-border-color;
+      }
+    }
+  }
+}
+
+// Modifier: `dotnav-fillin`
+// ========================================================================
+
+.dotnav-fillin {
+  > li {
+    > a {
+      background-color: transparent;
+      box-shadow: 0 0 0 2px #fff inset;
+    }
+    &:hover,
+    &:focus {
+      > a {
+        background-color: transparent;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, .6) inset;
+      }
+    }
+    &.active {
+      > a {
+        box-shadow: 0 0 0 8px #fff inset;
+      }
+    }
+  }
+}
+
+// Modifier: `dotnav-dotstroke`
+// ========================================================================
+
+.dotnav-dotstroke {
+  > li {
+    > a {
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, .5) inset;
+    }
+    &.active {
+      > a {
+        background-color: rgba(255, 255, 255, .3);
+        box-shadow: 0 0 0 2px #fff inset;
+      }
+    }
+  }
+}
+
+// Modifier: `dotnav-fall`
+// ========================================================================
+
+.dotnav-fall {
+  > li {
+    &:after {
+      background-color: rgba(0, 0, 0, .3);
+    }
+  }
+}

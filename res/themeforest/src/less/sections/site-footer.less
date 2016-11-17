@@ -1,0 +1,26 @@
+
+
+.site-footer {
+  padding: @site-footer-vertical-padding @page-horizontal-padding;
+  background-color:  @site-footer-bg;
+  border-top: 1px solid @site-footer-divider-color;
+  height:@site-footer-height;
+
+  .clearfix();
+
+  &-actions {
+    float: right;
+  }
+
+  &-right {
+    float: right;
+  }
+
+  .scroll-to-top {
+    color: @text-color;
+
+    &, &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+}

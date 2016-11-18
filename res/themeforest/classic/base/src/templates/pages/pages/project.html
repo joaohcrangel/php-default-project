@@ -1,0 +1,573 @@
+---
+title: Project
+body_class: page-project
+---
+
+{{#extend "layout-default"}}
+  {{#content "css_vendor" mode="append"}}
+    <link rel="stylesheet" href="{{global}}/vendor/blueimp-file-upload/jquery.fileupload.css">
+    <link rel="stylesheet" href="{{global}}/vendor/dropify/dropify.css">
+    <link rel="stylesheet" href="{{global}}/vendor/summernote/summernote.css">
+  {{/content}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/pages/project.css">
+  {{/content}}
+
+
+  {{#content "fonts" mode="prepend"}}
+    <link rel="stylesheet" href="{{global}}/fonts/font-awesome/font-awesome.css">
+  {{/content}}
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="{{global}}/vendor/asprogress/jquery-asProgress.js"></script>
+    <script src="{{global}}/vendor/blueimp-tmpl/tmpl.js"></script>
+    <script src="{{global}}/vendor/blueimp-canvas-to-blob/canvas-to-blob.js"></script>
+    <script src="{{global}}/vendor/blueimp-load-image/load-image.all.min.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload-process.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload-image.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload-audio.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload-video.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload-validate.js"></script>
+    <script src="{{global}}/vendor/blueimp-file-upload/jquery.fileupload-ui.js"></script>
+    <script src="{{global}}/vendor/summernote/summernote.min.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/asprogress.js"></script>
+    <script src="{{global}}/js/Plugin/summernote.js"></script>
+  {{/content}}
+
+
+  {{#content "scripts" mode="replace"}}
+    <script src="{{assets}}/examples/js/pages/project.js"></script>
+  {{/content}}
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-content">
+        <div class="row">
+          <div class="col-xxl-9 col-xl-8 col-lg-12 col-xs-12">
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title project-title">
+                  Logo Portal Banese
+                  <btn class="btn btn-pure btn-default icon wb-pencil btn-edit"></btn>
+                </h4>
+                <p class="card-text">
+                  Project:<a href="#" class="m-l-5">Lorem Ipsum</a>
+                </p>
+              </div>
+              <div class="card-block">
+                <ul class="project-team-items clearfix">
+                  <li class="team-item">
+                    <a href="#" class="avatar avatar-sm m-y-5">
+                      <img src="{{global}}/portraits/4.jpg">
+                    </a>
+                  </li>
+                  <li class="team-item item-divider">
+                    <i class="icon wb-chevron-right m-r-0"></i>
+                  </li>
+                  <li class="team-item">
+                    <a class="avatar avatar-sm m-y-5 m-r-5" data-member-id="m_1">
+                      <img src="{{global}}/portraits/1.jpg" />
+                    </a>
+                    <a class="avatar avatar-sm m-y-5 m-r-5" data-member-id="m_2">
+                      <img src="{{global}}/portraits/2.jpg" />
+                    </a>
+                    <a class="avatar avatar-sm m-y-5 m-r-5" data-member-id="m_3">
+                      <img src="{{global}}/portraits/3.jpg" />
+                    </a>
+                    <a class="avatar avatar-sm m-y-5 m-r-5" data-member-id="m_4">
+                      <img src="{{global}}/portraits/5.jpg" />
+                    </a>
+                    <a class="avatar avatar-sm m-y-5 m-r-5" data-member-id="m_5">
+                      <img src="{{global}}/portraits/6.jpg" />
+                    </a>
+                    <a class="avatar avatar-sm m-y-5 m-r-5" data-member-id="m_6">
+                      <img src="{{global}}/portraits/7.jpg" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-block ">
+                <div class="project-controls clearfix">
+                  <div class="pull-xs-left">
+                    <button class="btn btn-outline btn-default">
+                      Assign
+                    </button>
+                    <div class="dropdown">
+                      <button type="button" class="btn btn-default btn-outline dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="true">
+                        More
+                      </button>
+                      <div class="dropdown-menu">
+                        <a href="javascript:void(0)" class="dropdown-item" role="menuitem">
+                        more
+                      </a>
+                        <a href="javascript:void(0)" class="dropdown-item" role="menuitem">
+                        more
+                      </a>
+                        <a href="javascript:void(0)" class="dropdown-item" role="menuitem">
+                        more
+                      </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pull-xs-right">
+                    <button class="btn btn-outline btn-default">
+                      Start Project
+                    </button>
+                    <button class="btn btn-outline btn-default">
+                      Resolve Issue
+                    </button>
+                    <div class="dropdown">
+                      <button type="button" class="btn btn-default btn-outline dropdown-toggle m-r-0"
+                        data-toggle="dropdown" aria-expanded="true">
+                        Workflow
+                      </button>
+                      <div class="dropdown-menu">
+                        <a href="javascript:void(0)" class="dropdown-item" role="menuitem">
+                        workflow
+                      </a>
+                        <a href="javascript:void(0)" class="dropdown-item" role="menuitem">
+                        workflow
+                      </a>
+                        <a href="javascript:void(0)" class="dropdown-item" role="menuitem">
+                        workflow
+                      </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4 class="card-title">Lorem Ipsum</h4>
+                <p class="card-text">
+                  Dolor fugiat duis nostrud ipsum commodo eiusmod Lorem ex. Sunt eu anim dolor consectetur.
+                  In ea adipisicing ex aliqua sunt veniam veniam. Sit velit sit
+                  et minim irure sit. Cupidatat ex non ipsum exercitation ad. Proident
+                  veniam laboris excepteur veniam adipisicing non dolore eiusmod.
+                  Anim occaecat qui laborum voluptate aliquip pariatur nostrud
+                  tempor ad. Qui ipsum fugiat do amet aliqua irure velit deserunt.
+                </p>
+              </div>
+              <div class="card-block project-checklist">
+                <h4 class="project-checklist-title project-option-title">
+                  <button type="button" class="btn btn-pure btn-default icon wb-trash btn-trash"></button>
+                  Checklist programming
+                </h4>
+                <div class="progress progress-xs" data-plugin="progress" data-labeltype="percentage">
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemax="100"
+                    aria-valuemin="0" aria-valuenow="50">
+                  </div>
+                  <div class="progress-label progress-percent blue-grey-400"></div>
+                </div>
+                <div class="checkbox-custom checkbox-primary m-b-15">
+                  <input type="checkbox" name="checkbox">
+                  <label class="title">Checklist item1</label>
+                </div>
+                <div class="checkbox-custom checkbox-primary m-b-15">
+                  <input type="checkbox" checked="checked" name="checkbox">
+                  <label class="title">Checklist item2</label>
+                </div>
+                <div class="checkbox-custom checkbox-primary m-b-15">
+                  <input type="checkbox" name="checkbox" disabled>
+                  <label class="title">Checklist item3</label>
+                </div>
+                <div class="checkbox-custom checkbox-primary m-b-15">
+                  <input type="checkbox" checked="checked" name="checkbox" disabled>
+                  <label class="title">Checklist item4</label>
+                </div>
+                <button type="button" class="btn btn-default btn-add">Add checklist item</button>
+                <div class="project-checklist-add bg-blue-grey-200">
+                  <form>
+                    <input type="text" name="title" class="form-control">
+                    <div class="operations">
+                      <button type="button" class="btn btn-primary">Add</button>
+                      <button type="button" class="btn btn-pure btn-default icon wb-trash p-0 btn-trash m-l-10"></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="card-block">
+                <h4 class="project-option-title">Uploading</h4>
+                <form class="upload-form" id="projectUploadForm" method="POST">
+                  <input type="file" id="inputUpload" name="files[]" multiple="" />
+                  <div class="uploader-inline">
+                    <p class="upload-instructions">Click Or Drop Files To Upload.</p>
+                  </div>
+                  <div class="file-wrap container-fluid">
+                    <div class="file-list row"></div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-block project-comments">
+                <h4 class="m-0">Comments</h4>
+                <div class="comments">
+                  <div class="comment media">
+                    <div class="media-left p-r-15">
+                      <a href="#" class="avatar avatar-sm">
+                        <img src="{{global}}/portraits/1.jpg" alt="...">
+                      </a>
+                    </div>
+                    <div class="comment-body media-body">
+                      <div class="comment-title">
+                        <div class="comment-meta pull-xs-right">
+                          <span>04.07.11, 8:02 AM</span>
+                        </div>
+                        <a href="javascript:void(0)" class="comment-author">
+                      Tom Boy
+                    </a>
+                      </div>
+                      <div class="comment-content">
+                        <p>
+                          Commodo duis irure nostrud esse qui officia enim. Exercitation Lorem dolor nulla
+                          elit aute commodo ipsum minim. Reprehenderit cupidatat
+                          veniam consequat sint excepteur. Cupidatat cupidatat
+                          nulla culpa sint reprehenderit occaecat anim. Pariatur
+                          magna minim aliquip pariatur esse in dolor elit. Laboris
+                          veniam commodo eu occaecat sit nostrud. Enim dolor minim
+                          minim irure deserunt non incididunt sit ad. Labore veniam
+                          culpa consequat magna.
+                        </p>
+                        <button type="button" class="btn btn-pure btn-default icon wb-pencil p-0 btn-edit">
+                        </button>
+                        <button type="button" class="btn btn-pure btn-default icon wb-trash p-0 btn-trash">
+                        </button>
+                      </div>
+                      <div class="comment-actions text-xs-left">
+                        <a href="javascript:void(0)" role="button">Replay</a>
+                        <a>
+                          <i class="icon wb-chevron-down"></i>
+                          <span class="pos-number m-x-5">1</span>
+                          <i class="icon wb-chevron-up"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment media">
+                    <div class="media-left p-r-15">
+                      <a href="#" class="avatar avatar-sm">
+                        <img src="{{global}}/portraits/4.jpg" alt="...">
+                      </a>
+                    </div>
+                    <div class="comment-body media-body">
+                      <div class="comment-title">
+                        <div class="comment-meta pull-xs-right">
+                          <span>04.07.15, 20:02 PM</span>
+                        </div>
+                        <a href="javascript:void(0)" class="comment-author">
+                      Vasilisa
+                    </a>
+                      </div>
+                      <div class="comment-content">
+                        <p>
+                          Culpa magna exercitation enim fugiat. Voluptate enim elit incididunt et. Exercitation
+                          nisi enim proident laborum excepteur do. Incididunt ea
+                          anim non aliquip. Anim in ut mollit incididunt dolore.
+                          Velit elit esse in veniam. Reprehenderit velit ad mollit
+                          esse magna commodo aliquip et. Ad reprehenderit consequat
+                          sunt non voluptate fugiat magna duis.
+                        </p>
+                        <button type="button" class="btn btn-pure btn-default icon wb-pencil p-0 btn-edit">
+                        </button>
+                        <button type="button" class="btn btn-pure btn-default icon wb-trash p-0 btn-trash">
+                        </button>
+                      </div>
+                      <div class="comment-actions text-xs-left">
+                        <a href="javascript:void(0)" role="button">Replay</a>
+                        <a>
+                          <i class="icon wb-chevron-down"></i>
+                          <span>0</span>
+                          <i class="icon wb-chevron-up"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment media">
+                    <div class="media-left p-r-15">
+                      <a href="#" class="avatar avatar-sm">
+                        <img src="{{global}}/portraits/2.jpg" alt="...">
+                      </a>
+                    </div>
+                    <div class="comment-body media-body">
+                      <div class="comment-title">
+                        <div class="comment-meta pull-xs-right">
+                          <span>04.08.15, 16:02 PM</span>
+                        </div>
+                        <a href="javascript:void(0)" class="comment-author">
+                      Andy
+                    </a>
+                      </div>
+                      <div class="comment-content">
+                        <p>
+                          Nostrud ut reprehenderit id aliqua veniam cupidatat duis id commodo. Exercitation
+                          sint aute aliquip ea nulla aliqua dolore nostrud do.
+                          Laborum officia non adipisicing veniam. Non est nostrud
+                          reprehenderit commodo Lorem occaecat. Ipsum aute laborum
+                          anim ea. Excepteur aliqua proident ullamco irure. Ea
+                          aute cupidatat tempor eu dolore tempor commodo. Quis
+                          et proident aliquip nostrud labore pariatur enim.
+                        </p>
+                        <button type="button" class="btn btn-pure btn-default icon wb-pencil p-0 btn-edit">
+                        </button>
+                        <button type="button" class="btn btn-pure btn-default icon wb-trash p-0 btn-trash">
+                        </button>
+                      </div>
+                      <div class="comment-actions text-xs-left">
+                        <a href="javascript:void(0)" role="button">Replay</a>
+                        <a>
+                          <i class="icon wb-chevron-down"></i>
+                          <span class="neg-number m-x-5">-5</span>
+                          <i class="icon wb-chevron-up"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment media">
+                    <div class="media-left p-r-15">
+                      <a href="#" class="avatar avatar-sm">
+                        <img src="{{global}}/portraits/5.jpg" alt="...">
+                      </a>
+                    </div>
+                    <div class="comment-body media-body">
+                      <div class="comment-title">
+                        <div class="comment-meta pull-xs-right">
+                          <span>04.08.19, 16:09 PM</span>
+                        </div>
+                        <a href="javascript:void(0)" class="comment-author">
+                      Mask Roy
+                    </a>
+                      </div>
+                      <div class="comment-content">
+                        <p>
+                          Qui deserunt enim occaecat labore sit do nulla. Nisi dolor ex nisi adipisicing
+                          reprehenderit. Commodo amet tempor sint officia exercitation
+                          et eu. Tempor nulla consectetur nulla anim nostrud dolor
+                          deserunt amet. Amet culpa dolor ut veniam et pariatur
+                          ex. Voluptate Lorem minim enim quis incididunt et ex
+                          laboris. Duis exercitation cillum aliquip labore pariatur
+                          minim in. Velit consectetur et proident sunt occaecat
+                          dolor ullamco fugiat.
+                        </p>
+                        <button type="button" class="btn btn-pure btn-default icon wb-pencil p-0 btn-edit">
+                        </button>
+                        <button type="button" class="btn btn-pure btn-default icon wb-trash p-0 btn-trash">
+                        </button>
+                      </div>
+                      <div class="comment-actions text-xs-left">
+                        <a href="javascript:void(0)" role="button">Replay</a>
+                        <a>
+                          <i class="icon wb-chevron-down"></i>
+                          <span class="pos-number m-x-5">3</span>
+                          <i class="icon wb-chevron-up"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comments-add media m-t-25">
+                    <div class="media-left">
+                      <a class="avatar avatar-sm" href="javascript:void(0)">
+                        <img src="{{global}}/portraits/3.jpg">
+                      </a>
+                    </div>
+                    <div class="media-body">
+                      <form action="#" method="post">
+                        <div class="comment-summernote-custom form-group">
+                          <div data-plugin="summernote" data-plugin-options='{"toolbar":[["style", ["bold", "italic", "underline", "clear"]],["color", ["color"]],["para", ["ul", "ol", "paragraph"]]]}'>
+                            <h3>Heading is here</h3>
+                            <p>Lorem ipsum dolor sit amet,
+                              <strong><b>consectetur adipisicing elit</b></strong>consectetur
+                              adipisicing elit, sed do eiusmod tempor incididunt
+                              ut labore et dolore magna aliqua. Ut enim ad minim
+                              veniam, quis nostrud <u>Exercitation</u> ullamco
+                              laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <ul>
+                              <li>list text here</li>
+                              <li>list text here</li>
+                              <li>list text here</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="dropdown dropup comment-visibility">
+                            <button type="button" class="btn btn-pure btn-default dropdown-toggle p-0" data-toggle="dropdown"
+                              aria-expanded="false">
+                              <i class="icon wb-lock"></i>
+                            </button>
+                            <div class="dropdown-menu" role="menu">
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">Action</a>
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">Another action</a>
+                            </div>
+                          </div>
+                          <span class="blue-grey-400">View by All Users</span>
+                        </div>
+                        <div class="form-group m-b-0">
+                          <button type="submit" class="btn btn-primary m-r-10">Send</button>
+                          <button type="reset" class="btn btn-default">Clear</button>
+                          <div class="dropdown dropup comment-attach">
+                            <button type="button" class="btn btn-pure btn-primary" data-toggle="dropdown" aria-expanded="false">Attach
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" role="menu">
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <i class="icon wb-camera" aria-hidden="true"></i>                                Photo
+                              </a>
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <i class="icon wb-video" aria-hidden="true"></i>                                Video
+                              </a>
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <i class="icon wb-volume-high" aria-hidden="true"></i>                                Audio
+                              </a>
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <i class="icon wb-file" aria-hidden="true"></i>                                Document
+                              </a>
+                              <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <i class="icon wb-map" aria-hidden="true"></i>                                Map
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-3 col-xl-4 col-lg-12 col-xs-12">
+            <div class="card">
+              <div class="card-block">
+                <p class="m-b-10">
+                  <span class="pull-xs-right p-l-10">4h 30m</span>
+                  Time estimated
+                </p>
+                <p>
+                  <span class="pull-xs-right p-l-10">2h 10m</span>
+                  Time working
+                </p>
+                </ul>
+                <div class="progress progress-xs m-b-10">
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemax="100"
+                    aria-valuemin="0" aria-valuenow="60" style="width: 60%;">
+                  </div>
+                </div>
+              </div>
+              <div class="card-block">
+                <h4 class="project-option-title">Label</h4>
+                <span class="tag tag-default m-r-5 m-b-5">Default</span>
+                <span class="tag tag-primary m-r-5 m-b-5">Primary</span>
+                <span class="tag tag-success m-r-5 m-b-5">Success</span>
+                <span class="tag tag-info m-r-5 m-b-5">Info</span>
+                <span class="tag tag-warning m-r-5 m-b-5">Warning</span>
+                <span class="tag tag-danger m-r-5 m-b-5">Danger</span>
+                <span class="tag tag-dark m-r-5 m-b-5">Dark</span>
+              </div>
+              <div class="card-block">
+                <h4 class="project-option-title">Assigned to</h4>
+                <div class="media m-t-0">
+                  <div class="media-left text-middle">
+                    <a href="javascript:void(0)" class="avatar">
+                      <img src="{{global}}/portraits/4.jpg">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading font-size-16">Tim Collins</h4>
+                    <span>Developer</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-block project-participators">
+                <h4 class="project-option-title">People</h4>
+                <div class="media m-t-0">
+                  <div class="media-left text-middle">
+                    <span>Assignee</span>
+                  </div>
+                  <div class="media-body">
+                    <a href="javascript:void(0)" class="avatar avatar-sm text-middle">
+                      <img src="{{global}}/portraits/4.jpg">
+                    </a>
+                    <span class="font-size-16 m-l-5">Tim Collins</span>
+                  </div>
+                </div>
+                <div class="media">
+                  <div class="media-left text-middle">
+                    <span>Reporter</span>
+                  </div>
+                  <div class="media-body">
+                    <a href="javascript:void(0)" class="avatar avatar-sm text-middle">
+                      <img src="{{global}}/portraits/4.jpg">
+                    </a>
+                    <span class="font-size-16 m-l-5">Tim Collins</span>
+                  </div>
+                </div>
+                <div class="media">
+                  <div class="media-left">
+                    <span>Votes
+                      <span>
+                  </div>
+                  <div class="media-body">
+                    <a class="media-content">
+                      <span>11</span>
+                      vote for this issue
+                    </a>
+                  </div>
+                </div>
+                <div class="media">
+                  <div class="media-left">
+                    <span>Watches
+                      <span>
+                  </div>
+                  <div class="media-body">
+                    <a class="media-content">
+                      <span>56</span>
+                      start watching this issue
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-block project-dates">
+                <h4 class="project-option-title">Dates</h4>
+                <p class="m-b-10">
+                  <span>Created:</span>
+                  5 days ago
+                </p>
+                <p class="m-b-10">
+                  <span>Updates:</span>
+                  6 days ago
+                </p>
+              </div>
+              <div class="card-block">
+                <h4 class="project-option-title">Developers</h4>
+                <a href="#">Create branch</a>
+              </div>
+              <div class="card-block">
+                <h4 class="card-title">Agile</h4>
+                <span class="p-r-50">Future Sprint</span>
+                <span>Sprit - Signature</span>
+                <a href="#" class="project-agility-view">View on Board</a>
+              </div>
+              <div class="card-block project-fast-operation">
+                <a href="#">
+                  <i class="icon wb-check-circle m-r-10"></i>
+                  <span>Create checklist</span>
+                </a>
+                <a href="#">
+                  <i class="icon wb-bell m-r-10"></i>
+                  <span>Due date</span>
+                </a>
+                <a href="#">
+                  <i class="icon wb-folder m-r-10"></i>
+                  <span>Move to archive</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {{/content}}
+{{/extend}}

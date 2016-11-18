@@ -1,0 +1,647 @@
+---
+title: Mailbox
+body_class: app-mailbox page-aside-left
+---
+
+{{#extend "layout-default"}}
+  {{#content "css_vendor" mode="append"}}
+    <link rel="stylesheet" href="{{global}}/vendor/bootstrap-markdown/bootstrap-markdown.css">
+    <link rel="stylesheet" href="{{global}}/vendor/select2/select2.css">
+  {{/content}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/apps/mailbox.css">
+  {{/content}}
+
+
+  {{#content "fonts" mode="prepend"}}
+    <link rel="stylesheet" href="{{global}}/fonts/font-awesome/font-awesome.css">
+  {{/content}}
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/select2/select2.min.js"></script>
+    <script src="{{global}}/vendor/slidepanel/jquery-slidePanel.js"></script>
+    <script src="{{global}}/vendor/bootstrap-markdown/bootstrap-markdown.js"></script>
+    <script src="{{global}}/vendor/marked/marked.js"></script>
+    <script src="{{global}}/vendor/to-markdown/to-markdown.js"></script>
+    <script src="{{global}}/vendor/aspaginator/jquery.asPaginator.min.js"></script>
+    <script src="{{global}}/vendor/bootbox/bootbox.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/action-btn.js"></script>
+    <script src="{{global}}/js/Plugin/asselectable.js"></script>
+    <script src="{{global}}/js/Plugin/editlist.js"></script>
+    <script src="{{global}}/js/Plugin/select2.js"></script>
+    <script src="{{global}}/js/Plugin/aspaginator.js"></script>
+    <script src="{{global}}/js/Plugin/animate-list.js"></script>
+    <script src="{{global}}/js/Plugin/selectable.js"></script>
+    <script src="{{global}}/js/Plugin/material.js"></script>
+    <script src="{{global}}/js/Plugin/bootbox.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{assets}}/js/BaseApp.js"></script>
+    <script src="{{assets}}/js/App/Mailbox.js"></script>
+  {{/content}}
+
+  {{#content "scripts" mode="replace"}}
+    <script src="{{assets}}/examples/js/apps/mailbox.js"></script>
+  {{/content}}
+
+  {{#content "body"}}
+
+    <div class="page bg-white">
+      <!-- Mailbox Sidebar -->
+      <div class="page-aside">
+        <div class="page-aside-switch">
+          <i class="icon wb-chevron-left" aria-hidden="true"></i>
+          <i class="icon wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="page-aside-inner page-aside-scroll">
+          <div data-role="container">
+            <div data-role="content">
+              <div class="page-aside-section">
+                <div class="list-group">
+                  <a class="list-group-item active" href="javascript:void(0)">
+                    <span class="tag tag-pill tag-danger">6</span><i class="icon wb-inbox" aria-hidden="true"></i>Inbox</a>
+                  <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-envelope" aria-hidden="true"></i>Sent</a>
+                  <a class="list-group-item" href="javascript:void(0)">
+                    <span class="tag tag-pill tag-info">2</span><i class="icon wb-edit" aria-hidden="true"></i>Draft</a>
+                  <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-star" aria-hidden="true"></i>Important</a>
+                  <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-trash" aria-hidden="true"></i>Trash</a>
+                </div>
+              </div>
+              <div class="page-aside-section">
+                <h5 class="page-aside-title">LABEL</h5>
+                <div class="list-group has-actions">
+                  <div class="list-group-item" data-plugin="editlist">
+                    <div class="list-content">
+                      <i class="item-right wb-medium-point red-600" aria-hidden="true"></i>
+                      <span class="list-text">Work</span>
+                      <div class="item-actions">
+                        <span class="btn btn-pure btn-icon" data-toggle="list-editable"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                        <span class="btn btn-pure btn-icon" data-toggle="list-delete"><i class="icon wb-trash" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <div class="list-editable">
+                      <div class="form-group form-material" data-plugin="formMaterial">
+                        <input type="text" class="form-control empty" name="label" value="Work">
+                        <button type="button" class="input-editable-close icon wb-close" data-toggle="list-editable-close"
+                          aria-label="Close" aria-expanded="true"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item" data-plugin="editlist">
+                    <div class="list-content">
+                      <i class="item-right wb-medium-point orange-600" aria-hidden="true"></i>
+                      <span class="list-text">Family</span>
+                      <div class="item-actions">
+                        <span class="btn btn-pure btn-icon" data-toggle="list-editable"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                        <span class="btn btn-pure btn-icon" data-toggle="list-delete"><i class="icon wb-trash" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <div class="list-editable">
+                      <div class="form-group form-material" data-plugin="formMaterial">
+                        <input type="text" class="form-control empty" name="label" value="Family">
+                        <button type="button" class="input-editable-close icon wb-close" data-toggle="list-editable-close"
+                          aria-label="Close" aria-expanded="true"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item" data-plugin="editlist">
+                    <div class="list-content">
+                      <i class="item-right wb-medium-point cyan-600" aria-hidden="true"></i>
+                      <span class="list-text">Private</span>
+                      <div class="item-actions">
+                        <span class="btn btn-pure btn-icon" data-toggle="list-editable"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                        <span class="btn btn-pure btn-icon" data-toggle="list-delete"><i class="icon wb-trash" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <div class="list-editable">
+                      <div class="form-group form-material" data-plugin="formMaterial">
+                        <input type="text" class="form-control empty" name="label" value="Private">
+                        <button type="button" class="input-editable-close icon wb-close" data-toggle="list-editable-close"
+                          aria-label="Close" aria-expanded="true"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item" data-plugin="editlist">
+                    <div class="list-content">
+                      <i class="item-right wb-medium-point green-600" aria-hidden="true"></i>
+                      <span class="list-text">Friends</span>
+                      <div class="item-actions">
+                        <span class="btn btn-pure btn-icon" data-toggle="list-editable"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                        <span class="btn btn-pure btn-icon" data-toggle="list-delete"><i class="icon wb-trash" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <div class="list-editable">
+                      <div class="form-group form-material" data-plugin="formMaterial">
+                        <input type="text" class="form-control empty" name="label" value="Friends">
+                        <button type="button" class="input-editable-close icon wb-close" data-toggle="list-editable-close"
+                          aria-label="Close" aria-expanded="true"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <a id="addLabelToggle" class="list-group-item" href="javascript:void(0)" data-toggle="modal"
+                    data-target="#addLabelForm">
+                    <i class="icon wb-plus" aria-hidden="true"></i> Add New Label
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mailbox Content -->
+      <div class="page-main">
+
+        <!-- Mailbox Header -->
+        <div class="page-header">
+          <h1 class="page-title">Mailbox</h1>
+          <div class="page-header-actions">
+            <form>
+              <div class="input-search input-search-dark">
+                <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                <input type="text" class="form-control" name="" placeholder="Search...">
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Mailbox Content -->
+        <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+
+          <!-- Actions -->
+          <div class="page-content-actions">
+            <div class="pull-xs-right filter">
+              <span>Filter :</span>
+              <div class="dropdown">
+                <button type="button" class="btn btn-pure" data-toggle="dropdown" aria-expanded="false">
+                  Check all
+                  <span class="icon wb-chevron-down-mini" aria-hidden="true"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right animation-scale-up animation-top-right animation-duration-250"
+                  role="menu">
+                  <a class="dropdown-item" href="javascript:void(0)">Check read</a>
+                  <a class="dropdown-item" href="javascript:void(0)">Check unread</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:void(0)">French</a>
+                  <a class="dropdown-item" href="javascript:void(0)">Spanish</a>
+                </div>
+              </div>
+            </div>
+            <div class="actions-main">
+              <span class="checkbox-custom checkbox-primary checkbox-lg inline-block vertical-align-bottom">
+                <input type="checkbox" class="mailbox-checkbox selectable-all" id="select_all"
+                />
+                <label for="select_all"></label>
+              </span>
+              <div class="btn-group">
+                <div class="dropdown">
+                  <button class="btn btn-icon btn-pure btn-default" data-toggle="dropdown" aria-expanded="false"
+                    type="button"><i class="icon wb-folder" aria-hidden="true" data-toggle="tooltip"
+                      data-original-title="Folder" data-container="body" title=""></i></button>
+                  <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" href="javascript:void(0)">work</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Family</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Private</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Friends</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="javascript:void(0)">Trash</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Spam</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <button class="btn btn-icon btn-pure btn-default" data-toggle="dropdown" aria-expanded="false"
+                    type="button"><i class="icon wb-tag" aria-hidden="true" data-toggle="tooltip"
+                      data-original-title="Tag" data-container="body" title=""></i></button>
+                  <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" href="javascript:void(0)">work</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Family</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Private</a>
+                    <a class="dropdown-item" href="javascript:void(0)">Friends</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mailbox -->
+          <table id="mailboxTable" class="table" data-plugin="animateList" data-animate="fade"
+            data-child="tr">
+            <tbody>
+
+              <tr id="mid_1" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
+                    />
+                    <label for="mail_mid_1"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_1_important"
+                    />
+                    <label for="mail_mid_1_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/5.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Edward Fletcher</div>
+                    <div class="abstract">Genus alteram linguam ut isdem, desiderent litteris allicit
+                      acuti iuvaret</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                </td>
+                <td class="cell-130">
+                  <div class="time">2 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point red-600" aria-hidden="true"></i>Work</div>
+                </td>
+              </tr>
+
+              <tr id="mid_2" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_2"
+                    />
+                    <label for="mail_mid_2"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_2_important"
+                      checked="checked" />
+                    <label for="mail_mid_2_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/6.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Crystal Bates</div>
+                    <div class="abstract">Ineruditus defendere docti scribimus voluptatis, suis constituant
+                      possent,desiderent litteris allicit</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <i class="icon wb-paperclip" aria-hidden="true"></i>
+                </td>
+                <td class="cell-130">
+                  <div class="time">5 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point red-600" aria-hidden="true"></i>Work</div>
+                </td>
+              </tr>
+
+              <tr id="mid_3" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_3"
+                    />
+                    <label for="mail_mid_3"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_3_important"
+                      checked="checked" />
+                    <label for="mail_mid_3_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/7.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Nathan Watts</div>
+                    <div class="abstract">Suas habent abducat angore exercitumque. Medium successerit
+                      amplificarique congressus delectamur claudicare fruuntur
+                      poena.</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <i class="icon wb-paperclip" aria-hidden="true"></i>
+                </td>
+                <td class="cell-130">
+                  <div class="time">11 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point orange-600" aria-hidden="true"></i>Family</div>
+                </td>
+              </tr>
+
+              <tr id="mid_4" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_4"
+                    />
+                    <label for="mail_mid_4"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_4_important"
+                    />
+                    <label for="mail_mid_4_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/8.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Heather Harper</div>
+                    <div class="abstract">Ineruditus defendere docti scribimus voluptatis, suis constituant
+                      possent,desiderent litteris allicit</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                </td>
+                <td class="cell-130">
+                  <div class="time">20 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point cyan-600" aria-hidden="true"></i>Private</div>
+                </td>
+              </tr>
+
+              <tr id="mid_5" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_5"
+                    />
+                    <label for="mail_mid_5"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_5_important"
+                    />
+                    <label for="mail_mid_5_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/9.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Willard Wood</div>
+                    <div class="abstract">Tria fatendum facultas res concursio necessitatibus futuros
+                      gessisse recordamur intercapedo, vix doceat</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                </td>
+                <td class="cell-130">
+                  <div class="time">22 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point green-600" aria-hidden="true"></i>Friends</div>
+                </td>
+              </tr>
+
+              <tr id="mid_6" data-url="panel.tpl" data-toggle="slidePanel" class="unread">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_6"
+                    />
+                    <label for="mail_mid_6"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_6_important"
+                    />
+                    <label for="mail_mid_6_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/10.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Ronnie Ellis</div>
+                    <div class="abstract">Relinqueret vera fama vocent hortatore constituant aperiri
+                      compositis</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <i class="icon wb-paperclip" aria-hidden="true"></i>
+                </td>
+                <td class="cell-130">
+                  <div class="time">26 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point cyan-600" aria-hidden="true"></i>Private</div>
+                </td>
+              </tr>
+
+              <tr id="mid_7" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_7"
+                    />
+                    <label for="mail_mid_7"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_7_important"
+                    />
+                    <label for="mail_mid_7_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/11.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Gwendolyn Wheeler</div>
+                    <div class="abstract">Cum personae causas hae diligamus opibus morbi formidinum voluntates.
+                      </div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <i class="icon wb-paperclip" aria-hidden="true"></i>
+                </td>
+                <td class="cell-130">
+                  <div class="time">30 hours ago</div>
+                  <div class="identity"><i class="wb-medium-point green-600" aria-hidden="true"></i>Friends</div>
+                </td>
+              </tr>
+
+              <tr id="mid_8" data-url="panel.tpl" data-toggle="slidePanel" class="unread">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_8"
+                    />
+                    <label for="mail_mid_8"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_8_important"
+                    />
+                    <label for="mail_mid_8_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/12.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Daniel Russell</div>
+                    <div class="abstract">Ineruditus defendere docti scribimus voluptatis, suis constituant
+                      possent,desiderent litteris allicit</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                </td>
+                <td class="cell-130">
+                  <div class="time">2 days ago</div>
+                  <div class="identity"><i class="wb-medium-point red-600" aria-hidden="true"></i>Work</div>
+                </td>
+              </tr>
+
+              <tr id="mid_9" data-url="panel.tpl" data-toggle="slidePanel">
+                <td class="cell-60">
+                  <span class="checkbox-custom checkbox-primary checkbox-lg">
+                    <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_9"
+                    />
+                    <label for="mail_mid_9"></label>
+                  </span>
+                </td>
+                <td class="cell-30 responsive-hide">
+                  <span class="checkbox-important checkbox-default">
+                    <input type="checkbox" class="mailbox-checkbox mailbox-important" id="mail_mid_9_important"
+                    />
+                    <label for="mail_mid_9_important"></label>
+                  </span>
+                </td>
+                <td class="cell-60 responsive-hide">
+                  <a class="avatar" href="javascript:void(0)">
+                    <img class="img-fluid" src="{{global}}/portraits/13.jpg" alt="...">
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="title">Sarah Graves</div>
+                    <div class="abstract">Loca invitat maior ferre amicitiae, neque profecta fictae ferae</div>
+                  </div>
+                </td>
+                <td class="cell-30 responsive-hide">
+                </td>
+                <td class="cell-130">
+                  <div class="time">2 days ago</div>
+                  <div class="identity"><i class="wb-medium-point orange-600" aria-hidden="true"></i>Family</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- pagination -->
+          <ul data-plugin="paginator" data-total="50" data-skin="pagination-gap"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-action" data-plugin="actionBtn">
+      <button type="button" data-action="add" class="site-action-toggle btn-raised btn btn-success btn-floating">
+        <i class="front-icon wb-pencil animation-scale-up" aria-hidden="true"></i>
+        <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
+      </button>
+      <div class="site-action-buttons">
+        <button type="button" data-action="trash" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
+          <i class="icon wb-trash" aria-hidden="true"></i>
+        </button>
+        <button type="button" data-action="inbox" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
+          <i class="icon wb-inbox" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Create New Messages Modal -->
+    <div class="modal fade" id="addMailForm" aria-hidden="true" aria-labelledby="addMailForm"
+      role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+            <h4 class="modal-title">Create New Messages</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <select id="topicTo" class="form-control" data-plugin="select2" multiple="multiple"
+                  data-placeholder="To:">
+                  <optgroup label="">
+                    <option value="AK">Alaska</option>
+                    <option value="HI">Hawaii</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="form-group">
+                <select id="topicSubject" class="form-control" data-plugin="select2" multiple="multiple"
+                  data-placeholder="Subject:">
+                  <optgroup label="">
+                    <option value="AK">Alaska</option>
+                    <option value="HI">Hawaii</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="form-group">
+                <textarea name="content" data-provide="markdown" data-iconlibrary="fa" rows="10"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer text-xs-left">
+            <button class="btn btn-primary" data-dismiss="modal" type="submit">Send</button>
+            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Create New Messages Modal -->
+
+    <!-- Add Label Form -->
+    <div class="modal fade" id="addLabelForm" aria-hidden="true" aria-labelledby="addLabelForm"
+      role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+            <h4 class="modal-title">Add New Label</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control" name="lablename" placeholder="Label Name"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" type="submit">Save</button>
+            <a class="btn btn-sm btn-white" data-dismiss="modal" href="javascript:void(0)">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Add Label Form -->
+
+  {{/content}}
+{{/extend}}

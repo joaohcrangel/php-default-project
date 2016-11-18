@@ -1,0 +1,7 @@
+@include media-breakpoint-down(sm) {
+  //.js-menubar {
+    .site-gridmenu {
+      background: rgba($site-gridmenu-bg, (90/100));
+    }
+  //}
+}

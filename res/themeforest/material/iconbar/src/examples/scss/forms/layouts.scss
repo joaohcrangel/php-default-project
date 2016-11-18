@@ -1,0 +1,14 @@
+@import "vars";
+
+
+@include media-breakpoint-only(md) {
+  .form-inline {
+    .form-control-label {
+    display: block;
+  }
+  .form-group {
+      margin-bottom: 20px;
+      vertical-align: baseline;
+    }
+  }  
+}

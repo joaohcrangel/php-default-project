@@ -1,0 +1,79 @@
+{
+  "name": "remark",
+  "title": "Remark",
+  "description": "The best backend-end framework for developing responsive, mobile first projects on the web.",
+  "version": "3.0.1",
+  "homepage": "http://getbootstrapadmin.com/remark",
+  "private": true,
+  "keywords": [
+    "css",
+    "js",
+    "less",
+    "mobile-first",
+    "responsive",
+    "framework",
+    "web",
+    "admin",
+    "bootstrap",
+    "scss",
+    "material design",
+    "bootstrap-v4"
+  ],
+  "author": {
+    "name": "amazingsurge",
+    "url": "http://amazingSurge.com"
+  },
+  "bugs": {
+    "url": "https://forum.getbootstrapadmin.com/remark"
+  },
+  "license": "Themeforest Standard Licenses",
+  "licenses": [{
+    "type": "Themeforest Standard Licenses",
+    "url": "http://themeforest.net/licenses/standard"
+  }],
+  "devDependencies": {
+    "del": "*",
+    "glob": "*",
+    "gulp": "*",
+    "gulp-babel": "*",
+    "babel-cli": "*",
+    "babel-plugin-add-module-exports": "*",
+    "babel-plugin-external-helpers": "*",
+    "babel-plugin-transform-es2015-modules-umd": "*",
+    "babel-preset-es2015": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-bootlint": "*",
+    "gulp-concat": "*",
+    "gulp-csscomb": "*",
+    "gulp-csslint": "*",
+    "gulp-front-matter": "*",
+    "gulp-hb": "^5.1.4",
+    "gulp-header": "*",
+    "gulp-html": "*",
+    "gulp-jshint": "*",
+    "gulp-jslint": "*",
+    "gulp-sass": "*",
+    "gulp-clean-css": "*",
+    "gulp-notify": "*",
+    "gulp-plumber": "*",
+    "gulp-prettify": "*",
+    "gulp-rename": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "handlebars-layouts": "*",
+    "node-notifier": "*",
+    "run-sequence": "*"
+  },
+  "engines": {
+    "node": ">=0.10.1"
+  },
+  "files": [
+    "assets/js/**/*.js",
+    "assets/css/**/*.css",
+    "assets/skins/*.css",
+    "src/js/**/*.js",
+    "src/scss/**/*.scss",
+    "src/skins/**/*.scss",
+    "src/es/**/*.js"
+  ]
+}

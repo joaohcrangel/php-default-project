@@ -1,0 +1,34 @@
+@import "vars";
+
+
+.has-feedback {
+	.form-control-feedback {
+	  right: 15px;
+	}
+}
+
+.summary-errors {
+	p {
+		color: inherit;
+	}
+	ul {
+    li {
+      a {
+        color: inherit;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  #exampleFullForm {
+  	.form-horizontal {
+	  	.form-control-label {
+	  	  text-align: inherit;
+	  	}
+	  }
+  }
+}

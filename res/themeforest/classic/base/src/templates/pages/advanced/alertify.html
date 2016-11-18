@@ -1,0 +1,178 @@
+---
+title: Alertify
+---
+
+{{#extend "layout-default"}}
+  {{#content "css_vendor" mode="append"}}
+    <link rel="stylesheet" href="{{global}}/vendor/alertify/alertify.css">
+    <link rel="stylesheet" href="{{global}}/vendor/notie/notie.css">
+  {{/content}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/advanced/alertify.css">
+  {{/content}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/alertify/alertify.js"></script>
+    <script src="{{global}}/vendor/notie/notie.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/alertify.js"></script>
+    <script src="{{global}}/js/Plugin/notie-js.js"></script>
+  {{/content}}
+
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest 'index.html'}}">Home</a></li>
+          <li class="breadcrumb-item active">Advanced UI</li>
+        </ol>
+        <h1 class="page-title">Alertify</h1>
+        <div class="page-header-actions">
+          <a class="btn btn-sm btn-inverse btn-round" href="https://alertifyjs.org/" target="_blank">
+            <i class="icon wb-link" aria-hidden="true"></i>
+            <span class="hidden-sm-down">Official Website</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- Panel Alertify -->
+        <div class="panel">
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Alert Dialog -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Alert Dialog</h4>
+                  <p>You want to make sure information comes through to the user.</p>
+                  <div class="example">
+                    <button type="button" class="btn btn-primary" id="alert" data-plugin="alertify"
+                      data-alert-message="This is an alert dialog">Generate</button>
+                  </div>
+                </div>
+                <!-- End Example Alert Dialog -->
+              </div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Confirm Dialog -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Confirm Dialog</h4>
+                  <p>You want the user to verify or accept something.</p>
+                  <div class="example">
+                    <button type="button" class="btn btn-primary" id="confirm" data-plugin="alertify"
+                      data-type="confirm" data-confirm-title="This is a confirm dialog"
+                      data-success-message="You've clicked OK" data-error-message="You've clicked Cancel">Generate</button>
+                  </div>
+                </div>
+                <!-- End Example Confirm Dialog -->
+              </div>
+
+              <div class="clearfix hidden-sm-down hidden-xl-up"></div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Prompt Dialog -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Prompt Dialog</h4>
+                  <p>A prompt dialog is often used if you want the user to input a
+                    value. </p>
+                  <div class="example">
+                    <button type="button" class="btn btn-primary" id="prompt" data-plugin="alertify"
+                      data-type="prompt" data-prompt-title="This is a prompt dialog"
+                      data-success-message="You've clicked OK and typed: %s" data-error-message="You've clicked Cancel"
+                      data-default-message="Default Value">Generate</button>
+                  </div>
+                </div>
+                <!-- End Example Prompt Dialog -->
+              </div>
+
+              <div class="col-xs-12 col-xl-4 col-md-6">
+                <!-- Example Delay -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Delay</h4>
+                  <p>The callback function will be delay for 10 seconds when user
+                    clicks “ok” button.</p>
+                  <div class="example">
+                    <button type="button" class="btn btn-primary" id="exampleDelay" data-plugin="alertify"
+                      data-type="log" data-delay="10000" data-log-message="Hiding in 10 seconds">Generate</button>
+                  </div>
+                </div>
+                <!-- End Example Delay -->
+              </div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Button Labels -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Button Labels</h4>
+                  <p>Click on the bottom of the different location of the button to
+                    show you.</p>
+                  <div class="example">
+                    <button type="button" class="btn btn-primary" id="exampleLabels" data-plugin="alertify"
+                      data-type="confirm" data-ok-label="Accept" data-cancel-label="Deny"
+                      data-confirm-title="Confirm dialog with custom button labels"
+                      data-success-message="You've clicked OK" data-error-message="You've clicked Cancel">Generate</button>
+                  </div>
+                </div>
+                <!-- End Example Button Labels -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel Alertify -->
+
+        <!-- Notie Plugin -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Notie.js
+              <small>
+                <a class="example-plugin-link" href="https://github.com/jaredreich/notie" target="_blank">official website</a>
+              </small>
+            </h3>
+          </div>
+          <div class="panel-body container-fluid">
+            <div class="example-warp">
+              <p>
+                use <code>data-plugin='notie'</code> to make popup panel.
+              </p>
+              <p>
+                use <code>data-type='success'</code>,<code>data-type='warning'</code>                and so on to change type.
+              </p>
+              <div class="example">
+                <button type="button" class="btn btn-success" name="notie-success" data-plugin="notie"
+                  data-type="success" data-text="success" data-delay=1.5>success</button>
+
+                <button type="button" class="btn btn-warning" name="notie-warning" data-plugin="notie"
+                  data-type="warning" data-text="warning" data-delay=1.5>warning</button>
+
+                <button type="button" class="btn btn-danger" name="notie-error" data-plugin="notie"
+                  data-type="error" data-text="error" data-delay=1.5 data-bgclickdismiss=false>error</button>
+
+                <button type="button" class="btn btn-primary" name="notie-info" data-plugin="notie"
+                  data-type="info" data-text="infomation" data-delay=1.5>infomation</button>
+
+                <button type="button" class="btn btn-primary" name="notie-confirm" data-plugin="notie"
+                  data-type="confirm" data-text="Are you sure?" data-yes-text="Yes"
+                  data-no-text="No" data-yes-msg="Congratulation!" data-no-msg="Okay, jeez...">confirm</button>
+
+                <button type="button" class="btn btn-primary" name="notie-input" data-plugin="notie"
+                  data-type="input" data-text="Please enter your email address: "
+                  data-input-type="email" data-placeholder="name@example.com" data-prefilled-value="jane@doe.com"
+                  data-yes-text="Yes" data-no-text="No">input</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Notie Plugin -->
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

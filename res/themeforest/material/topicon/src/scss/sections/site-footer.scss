@@ -1,0 +1,69 @@
+.site-footer {
+  padding: $site-footer-vertical-padding $page-horizontal-padding;
+  background-color:  $site-footer-bg;
+  border-top: 1px solid $site-footer-divider-color;
+  height:$site-footer-height;
+  box-shadow: $site-footer-shadow;
+
+  @include clearfix();
+
+  &-legal {
+    float: left;
+    margin-left: $site-footer-horizontal-padding;
+  }
+
+  &-actions {
+    float: right;
+    margin-right: $site-footer-horizontal-padding;
+  }
+
+  &-right {
+    float: right;
+    margin-right: $site-footer-horizontal-padding;
+  }
+
+  .scroll-to-top {
+    color: $text-color;
+
+    &, &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+
+  @include media-breakpoint-down(xs) {  
+    height: auto;
+  }
+
+  &-legal, &-right, &-actions {
+    @include media-breakpoint-down(xs) {
+      display: block;
+      float: none;
+      text-align: center;
+    }
+  }
+}
+
+.site-footer {
+  @include media-breakpoint-up(xxl) {
+    $padding: (100% - #{$site-container-width-xxl});
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(xl) {
+    $padding: (100% - #{$site-container-width-xl});
+
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(lg) {
+    $padding: (100% - #{$site-container-width-lg});
+
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(md) {
+    $padding: (100% - #{$site-container-width-md});
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+}

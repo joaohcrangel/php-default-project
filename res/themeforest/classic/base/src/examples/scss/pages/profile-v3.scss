@@ -1,0 +1,113 @@
+@import "vars";
+
+// wall
+// ==================================
+.page-profile-v3 .imgs-gallery {
+  margin: -2px;
+  .gallery-item {
+    display: block;
+    border: 2px solid transparent;
+  }
+}
+
+.wall-attrs {
+  list-style: none;
+  .success {
+    color: $color-green-600;
+  }
+
+  .attrs-meta {
+    line-height: 30px;
+  }
+  i {
+    margin-right: 2px;
+  }
+
+  .avatar {
+    margin-left: 2px;
+  }
+}
+
+//wall-comment
+.wall-comment {
+  position: relative;
+  margin-bottom: 15px;
+  .comment-operation {
+    position: absolute;
+    right: 0;
+    top: -10px;
+    display: none;
+  }
+  &:hover .comment-operation,
+  &:focus .comment-operation {
+    display: block;
+  }
+}
+
+//wall-comment-reply
+.wall-comment-reply .reply-opration{
+  display: none;
+  &.is-show  {
+    display: block;
+  }
+}
+
+// wall-person-info
+// =====================================
+.wall-person-info {
+  position: relative;
+  padding-left: 190px;
+  padding-bottom: 45px;
+
+  .person-avatar {
+    position: absolute;
+    top: -75px;
+    left: 30px;
+    width: 140px;
+    height: 140px;
+  }
+
+  .person-name {
+    position: absolute;
+    top: -55px;
+    left: 190px;
+    margin: 0;
+    a {
+      color: #fff;
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// wall-post
+.wall-posting .form-control{
+  border: none;
+  border-bottom: 1px solid $color-blue-grey-200;
+  border-radius: 0;
+}
+
+// page aside
+// =============================================
+.wall-recent-comments .comments-view {
+  border-top: 1px solid $color-blue-grey-200;
+  padding: 10px 0;
+  text-align: center;
+}
+
+// media
+// ==============================================
+@include media-breakpoint-up(xl) {
+  .page-profile-v3 {
+    .card-img-top {
+      height: 350px;
+    }
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .wall-person-info .person-name {
+    font-size: 24px;
+  }
+}

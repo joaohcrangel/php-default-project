@@ -1,0 +1,192 @@
+---
+title: Form Masks
+---
+
+{{#extend "layout-default"}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/forms/masks.css">
+  {{/content}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/formatter/jquery.formatter.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/formatter.js"></script>
+  {{/content}}
+
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Form Masks</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest 'index.html'}}">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Forms</a></li>
+          <li class="breadcrumb-item active">Masks</li>
+        </ol>
+        <div class="page-header-actions">
+          <a class="btn btn-sm btn-default btn-outline btn-round" href="https://github.com/firstopinion/formatter.js"
+            target="_blank">
+            <i class="icon wb-link" aria-hidden="true"></i>
+            <span class="hidden-sm-down">Official Website</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-content container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-xs-12">
+            <!-- Panel Basic -->
+            <div class="panel">
+              <div class="panel-heading">
+                <h3 class="panel-title">Basic</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Date</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputDate1" data-plugin="formatter"
+                        data-pattern="[[9999]]-[[99]]-[[99]]" />
+                      <p class="text-help">2016-01-01</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Date</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputDate2" data-plugin="formatter"
+                        data-pattern="[[99]]/[[99]]/[[9999]]" />
+                      <p class="text-help">01/01/2016</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Time</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputTime" data-plugin="formatter"
+                        data-pattern="[[99]]: [[99]]" />
+                      <p class="text-help">00: 00</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Time-Date</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputTimeDate" data-plugin="formatter"
+                        data-pattern="[[99]]: [[99]] [[99]]/[[99]]/[[9999]]" />
+                      <p class="text-help">00: 00 01/01/2016</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Characters (only)</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputCharacters" data-plugin="formatter"
+                        data-pattern="[[aaaaaaaaa]]" />
+                      <p class="text-help">abcdefghk (max 9)</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-xs-12 col-md-9 offset-md-3">
+                      <button type="button" class="btn-primary btn">Submit</button>
+                      <button type="button" class="btn-default btn">Cancel</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- End Panel Basic -->
+          </div>
+
+          <div class="col-lg-6 col-xs-12">
+            <!-- Panel Extended -->
+            <div class="panel">
+              <div class="panel-heading">
+                <h3 class="panel-title">Extended</h3>
+              </div>
+              <div class="panel-body">
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Phone</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputPhone" data-plugin="formatter"
+                        data-pattern="([[999]]) [[999]]-[[9999]]" />
+                      <p class="text-help">(123) 123-1234</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Phone2</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputPhone2" data-plugin="formatter"
+                        data-pattern="+186 [[999]]-[[999]]-[[9999]]" />
+                      <p class="text-help">+186 123-123-1234</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Phone Ext</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputPhoneExt" data-plugin="formatter"
+                        data-pattern="([[999]]) [[999]]-[[9999]] x[[99999]]" />
+                      <p class="text-help">(123) 123-1234 x12345</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Credit Card</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputCredit" data-plugin="formatter"
+                        data-pattern="[[9999]]-[[9999]]-[[9999]]-[[9999]]" />
+                      <p class="text-help">1234-1234-1234-1234</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Product Key</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputProduct" data-plugin="formatter"
+                        data-pattern="a[[*]]-[[9999]]-C[[999]]" />
+                      <p class="text-help">a*-1234-C123</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Percent</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputPercent" data-plugin="formatter"
+                        data-pattern="[[99]].[[99]]%" />
+                      <p class="text-help">99.99%</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Currency</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control" id="inputCurrency" data-plugin="formatter"
+                        data-pattern="$[[999]],[[999]],[[999]].[[99]]" />
+                      <p class="text-help">$999,999,999.99</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xs-12 col-md-3 form-control-label">Currency</label>
+                    <div class="col-md-9 col-xs-12">
+                      <input type="text" class="form-control text-xs-right" id="inputCurrency2" data-plugin="formatter"
+                        data-pattern="$[[999]],[[999]],[[999]].[[99]]" />
+                      <p class="text-help">$999,999,999.99</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-xs-12 col-md-9 offset-md-3">
+                      <button type="button" class="btn-primary btn">Submit</button>
+                      <button type="button" class="btn-default btn">Cancel</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- End Panel Extended -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

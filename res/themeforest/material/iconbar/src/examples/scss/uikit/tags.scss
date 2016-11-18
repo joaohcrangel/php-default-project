@@ -1,0 +1,20 @@
+@import "vars";
+
+
+.example {
+  > span {
+    margin: 0 16px 8px 0;
+  }
+
+//   .tag {
+// 	line-height: 30px;
+//   }
+  
+  &-2 > span {
+	  margin-right: 35px;
+  }
+
+//   .tag-pill {
+//   	line-height: 1;
+//   }
+}

@@ -1,0 +1,222 @@
+
+@mixin site-page-fold {
+  .page, .site-footer {
+    margin-left: $site-menubar-fold-width;
+  }
+
+  &.page-aside-fixed {
+    &.page-aside-left {
+      .page-aside {
+        left: $site-menubar-fold-width;
+      }
+
+      .site-footer {
+        margin-left: ($page-aside-width + $site-menubar-fold-width);
+      }
+    }
+
+    &.page-aside-right {
+      .site-footer {
+        margin-right: $page-aside-width;
+      }
+    }
+  }
+};
+
+@mixin site-page-md-fold {
+  &.page-aside-fixed {
+    &.page-aside-left {
+      .site-footer {
+        margin-left: ($page-aside-width + $site-menubar-fold-width);
+      }
+    }
+    &.page-aside-right {
+      .site-footer {
+        margin-right: $page-aside-width;
+      }
+    }
+  }
+};
+
+@mixin site-menu-fold {
+  .site-menu {
+    // overflow: visible;
+
+    > .site-menu-item {
+      font-size: 14px;
+
+      > a {
+        height: $site-menu-top-height;
+
+        .site-menu-title, .site-menu-arrow, .site-menu-badge {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+    }
+  }
+};
+
+@mixin site-menubar-mm-panel-fold {
+  &:not(.site-menubar-hover) {
+    .mm-panels {
+      > .mm-panel {
+        -ms-transform: translate(100%, 0);
+        @include transform(translate3d(100%, 0, 0));
+
+        &.mm-current:first-child,
+        &.mm-subopened:first-child {
+          display: block !important;
+          -ms-transform: translate(0, 0);
+          @include transform(translate3d(0, 0, 0));
+        }
+      }
+    }
+  }
+};
+
+@mixin site-menubar-fold {
+  .site-menubar {
+    width: $site-menubar-fold-width;
+  }
+};
+
+@mixin site-menubar-fold-hover {
+  &.site-menubar-hover {
+    .site-navbar {
+      .navbar-header {
+        @include media-breakpoint-up(md) {
+          width: $site-menubar-width;
+        }
+      }
+
+      .navbar-container {
+        @include media-breakpoint-up(md) {
+          margin-left: $site-menubar-width;
+        }
+      }
+
+      .navbar-brand {
+        float: left;
+        text-align: left;
+
+        &-logo {
+          height: 26px;
+        }
+      }
+
+      .navbar-brand-text {
+        display: inline-block;
+      }
+    }
+
+    .site-menubar {
+      width: $site-menubar-width;
+    }
+
+    .site-menu {
+      > .site-menu-item {
+        > a {
+          .site-menu-arrow,
+          .site-menu-badge,
+          .site-menu-title {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+      }
+    }
+
+    .site-menubar-footer {
+      width: $site-menubar-width;
+    }
+  }
+};
+
+@mixin site-gridmenu-fold {
+  .site-gridmenu {
+    width: $site-menubar-fold-width;
+
+    li {
+      float: none;
+      width: 100%;
+
+      > a {
+        padding: 15px 0;
+      }
+    }
+
+    &-toggle {
+      &:after {
+        display: none;
+      }
+    }
+  }
+};
+
+@mixin site-menubar-footer-fold {
+  &:not(.site-menubar-hover) {
+    .site-menubar-footer {
+      overflow: hidden;
+      width: $site-menubar-fold-width;
+
+      > a {
+        width: $site-menubar-fold-width;
+      }
+    }
+  }
+};
+
+//.js-menubar {
+  .site-menubar-fold {
+    @include site-page-fold;
+    @include site-menu-fold;
+    @include site-menubar-fold;
+    @include site-menubar-fold-hover;
+    @include site-menubar-mm-panel-fold;
+    @include site-gridmenu-fold;
+    @include site-menubar-footer-fold;
+
+
+    &.site-menubar-changing {
+      .site-menu > .site-menu-item > .site-menu-sub {
+        display: none;
+      }
+    }
+  }
+//}
+
+@include media-breakpoint-up(md) {
+  .css-menubar {
+    @include site-page-fold;// fish-20160705-#issue163
+    @include site-page-md-fold;
+    @include site-menu-fold;
+    @include site-menubar-fold;
+    @include site-gridmenu-fold;
+    @include site-menubar-footer-fold;
+
+    .site-menu {
+      .site-menu-item {
+        &:hover {
+          > .site-menu-sub {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            display: block;
+            width: $site-menubar-fold-sub-width;
+          }
+        }
+      }
+
+      .site-menu-sub {
+        display: none;
+      }
+    }
+  }
+
+  .site-menubar-fold {
+    @include site-page-md-fold;
+  }
+}
+
+

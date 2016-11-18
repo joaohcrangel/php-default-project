@@ -1,0 +1,91 @@
+// Widget Data
+//=============================
+@import "vars";
+
+.fixed-table-body {
+  height: 100%;
+  overflow: auto;
+}
+
+#daily-feed {
+  .name {
+    font-weight: 500;
+    color:  $gray-darker;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .content {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+
+#tickets {
+  .hightlight {
+    color: $gray-darker;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
+#projects {
+  .table > tbody > tr > td, .table > thead > tr > th {
+    vertical-align: middle;
+  }
+}
+
+
+// 20160811--fish move from panel-structure
+// i think must re-factoring--fish
+// team panel
+// ===============================
+.team-panel .avatar{
+  margin: 10px;
+  padding: 0;
+}
+
+// tags panel
+// ===============================
+.tags-panle .tag{
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
+
+// Input Panel
+// ===============================
+.input-panel{
+  .form-control{
+    border: 1px solid $color-blue-grey-200;
+    border-left: 0;
+    border-left: none;
+    border-right: 0;
+    border-right: none;
+    border-radius: 0;
+  }
+  .input-panle-btn{
+    background-color: transparent;
+    border-right:1px solid $color-blue-grey-200;
+    display: inline;
+    padding: 12px 15px;
+    &:hover {
+      color: $color-blue-600;
+    }
+    i{
+      margin: 12px 0;
+    }
+  }
+  .submit{
+    float: right;
+    padding: 8px 15px 9px;
+    border: none;
+    border-left: 1px solid $color-blue-grey-200;
+    color: $color-blue-600;
+    border-radius: 0;
+    background-color: transparent;
+    &:hover{
+      color: $color-blue-400
+    }
+  }
+}
+// end 20160811--fish 

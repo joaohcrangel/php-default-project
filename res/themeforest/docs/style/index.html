@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3. Customize Styles - Remark Admin Template Docs</title>
+  <title>6. Customize Styles - Remark Admin Template Docs</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -20,7 +20,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "3. Customize Styles";
+    var mkdocs_page_name = "6. Customize Styles";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -65,24 +65,45 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../build/index.html">2. Building Tools</a>
+        <a class="" href="../generator/index.html">2. Generator</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../build/index.html">3. Building Tools</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../files/index.html">4. File Structure</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../global/index.html">5. Global Assets</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="index.html">3. Customize Styles</a>
+        <a class="current" href="index.html">6. Customize Styles</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#3-customize-styles">3. Customize Styles</a></li>
+                <li class="toctree-l3"><a href="#6-customize-styles">6. Customize Styles</a></li>
                 
-                    <li><a class="toctree-l4" href="#31-using-css">3.1 Using CSS</a></li>
+                    <li><a class="toctree-l4" href="#61-using-css">6.1 Using CSS</a></li>
                 
-                    <li><a class="toctree-l4" href="#32-using-less">3.2 Using LESS</a></li>
+                    <li><a class="toctree-l4" href="#62-using-sass">6.2 Using Sass</a></li>
                 
-                    <li><a class="toctree-l4" href="#33-easily-customize">3.3 Easily Customize</a></li>
+                    <li><a class="toctree-l4" href="#63-easily-customize">6.3 Easily Customize</a></li>
                 
             
             </ul>
@@ -92,49 +113,56 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../javascript/index.html">4. Modular JavaScript</a>
+        <a class="" href="../javascript/index.html">7. Modular JavaScript</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../structure/index.html">5. Theme Structure</a>
+        <a class="" href="../structure/index.html">8. Template Structure</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../components/index.html">6. Components</a>
+        <a class="" href="../components/index.html">9. Components</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../psd/index.html">7. PSD Files</a>
+        <a class="" href="../psd/index.html">10. PSD Files</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../credits/index.html">8. Sources and Credits</a>
+        <a class="" href="../credits/index.html">11. Sources and Credits</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../support/index.html">9. Support</a>
+        <a class="" href="../support/index.html">12. Support</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../changelog/index.html">10. Changelog</a>
+        <a class="" href="../changelog/index.html">13. Changelog</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../migration/index.html">14. Migration</a>
         
     </li>
 <li>
@@ -161,7 +189,7 @@
     
       
     
-    <li>3. Customize Styles</li>
+    <li>6. Customize Styles</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -175,45 +203,54 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="3-customize-styles">3. Customize Styles</h1>
-<h2 id="31-using-css">3.1 Using CSS</h2>
-<p>All style changes, fixes, and improvements made for Remark will typically be added to <code>assets/css</code> folder.
-The customize styles for 3rd plugins are in each plugin folders under <code>assets/lib/</code> folder.</p>
-<p>To prevent losing your changes, you should add all of your customizations to a new stylesheet and include it separately in your pages. <strong>Note</strong> Also you must disable all <code>grunt-less</code> tasks in <code>Gruntfile.js</code>.</p>
-<h2 id="32-using-less">3.2 Using LESS</h2>
-<p><a href="http://getbootstrap.com/">Bootstrap</a> is use <a href="http://lesscss.org/">Less</a> as CSS pre-processor system. It will give you access to all the tools to perform even the most complex customizations with ease. So it is highly recommended that you switch to use the <a href="http://lesscss.org/">Less</a> system as it is far superior, and offers a great deal of features and optimizations.</p>
-<p>All the original <a href="http://lesscss.org/">Less</a> files used for development are included for you to modify.</p>
-<pre><code>src/less/
-├── bootstrap/ (basic bootstrap less styles)
-├── bootstrap_extend/ (improvements styles for remark)
-├── mixins/ (basic less mixins from bootstrap)
-├── mixins_extend/ (more useful mixins we defined)
-├── components/
-├── examples/
-├── fonts/
+                <h1 id="6-customize-styles">6. Customize Styles</h1>
+<h2 id="61-using-css">6.1 Using CSS</h2>
+<p>All style changes, fixes, and improvements made for Remark will typically be added to <code>(layout)/assets/css</code> folder.
+The pre-complied styles for 3rd plugins are in each plugin folders under <code>global/vendor/(plugin name)</code> folder.</p>
+<p>To prevent losing your changes, you should add all of your customizations to a new stylesheet and include it separately in your pages. <strong>Note</strong> Also you must disable all <code>grunt dist-css</code> tasks in <code>Gruntfile.js</code>.</p>
+<h2 id="62-using-sass">6.2 Using Sass</h2>
+<p><a href="http://getbootstrap.com/">Bootstrap</a> uses <a href="http://sass-lang.com/">Sass</a> as its CSS pre-processor system. It will give you access to all the tools to perform even the most complex customizations with ease. So it is highly recommended that you switch to use the <a href="http://sass-lang.com/">Sass</a> system as it is far superior, and offers a great deal of features and optimizations.</p>
+<p>All the original <a href="http://sass-lang.com/">Sass</a> files used for development are included for you to modify.</p>
+<pre><code>(layout)/src/scss/
+├── layouts/
 ├── sections/
-├── widgets/
-└── layouts/
+├── _vars-customs.scss
+├── _vars-site.scss
+├── _vars.scss
+└── site.scss
+
+global/src/scss/
+├── bootstrap/ (bootstrap source files)
+├── bootstrap_extend/ (improvements styles for remark)
+├── mixins/ (basic scss mixins from bootstrap)
+├── mixins_extend/ (more useful mixins we defined)
+├── fonts/ (the fonts config we added to remark)
+├── components/ (the components we added to remark)
+├── _vars-bootstrap.scss
+├── _vars-components.scss
+├── _vars.scss
+├── bootstrap-extend.scss
+└── bootstrap.scss
 </code></pre>
-<p>We also contain the 3rd plugins less files in <code>src/vendor</code> folder.</p>
-<p>If you're new to <a href="http://lesscss.org/">Less</a> and want to give it a try, you can find all the information you need here: <strong><a href="http://lesscss.org/">http://lesscss.org/</a></strong></p>
-<h2 id="33-easily-customize">3.3 Easily Customize</h2>
-<p>This section is only for <a href="http://lesscss.org/">Less</a> users.</p>
-<p>We have added many features that allow variables, mixins, functions and many other techniques that allow you to make CSS more maintainable, themable and extendable. You will find them in <code>src/less/mixins_extend</code> and you can use them to write the styles you like.</p>
+<p>If you're new to <a href="http://sass-lang.com/">Sass</a> and want to give it a try, you can find all the information you need here: <strong><a href="http://sass-lang.com/">http://sass-lang.com/</a></strong></p>
+<p>Note that when compile the <code>layout</code> scss files, it will use the <code>global</code> scss files. Keep the global folder and if you need move the global folder to other level, you need modify the <code>(layout)/config.json</code> file.</p>
+<h2 id="63-easily-customize">6.3 Easily Customize</h2>
+<p>This section is only for <a href="http://sass-lang.com/">Sass</a> users.</p>
+<p>We have added many features that allow variables, mixins, functions and many other techniques that allow you to make CSS more maintainable, themable and extendable. You will find them in <code>global/src/scss/mixins_extend</code> and you can use them to write the styles you like.</p>
 <p>In fact there is a simpler way to customize Remark. We have defined many variables in remark.
-If you want a customized site, you just change them and use <code>grunt css</code> command to compile <strong>css</strong>. The style will be changed.</p>
+If you want a customized site, you just change them and use <code>grunt dist-css</code> command to compile <strong>css</strong>. The style will be changed.</p>
 <p>The core variables is defined in:</p>
 <ul>
-<li><strong>src/less/vars_bootstrap.less</strong>: bootstrap override variables</li>
-<li><strong>src/less/vars_site.less</strong>: site variables</li>
-<li><strong>src/less/vars_color.less</strong>: color variables</li>
+<li><strong>global/src/scss/vars_bootstrap.scss</strong>: bootstrap override variables</li>
+<li><strong>global/src/scss/vars_color.scss</strong>: color variables</li>
+<li><strong>(layout)/scss/vars_site.scss</strong>: site variables</li>
 </ul>
-<p>More variables is defined on the header of each <strong>less</strong> files. For example:</p>
-<pre><code>/* src/less/bootstrap_extend/alerts.less */
-@alert-padding-horizontal:        20px;
+<p>More variables is defined on the header of each <strong>scss</strong> files. For example:</p>
+<pre><code>/* global/src/scss/bootstrap_extend/alerts.scss */
+$alert-padding-horizontal:        20px;
 
-@alert-list-padding-left:         13px;
-@alert-list-item-padding-left:    7px;
+$alert-list-padding-left:         13px;
+$alert-list-item-padding-left:    7px;
 </code></pre>
               
             </div>
@@ -222,10 +259,10 @@ If you want a customized site, you just change them and use <code>grunt css</cod
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../javascript/index.html" class="btn btn-neutral float-right" title="4. Modular JavaScript"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../javascript/index.html" class="btn btn-neutral float-right" title="7. Modular JavaScript"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../build/index.html" class="btn btn-neutral" title="2. Building Tools"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../global/index.html" class="btn btn-neutral" title="5. Global Assets"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -253,7 +290,7 @@ If you want a customized site, you just change them and use <code>grunt css</cod
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../build/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../global/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../javascript/index.html" style="color: #fcfcfc">Next &raquo;</a></span>

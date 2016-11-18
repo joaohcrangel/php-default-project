@@ -1,0 +1,43 @@
+
+
+.site-footer {
+  padding: $site-footer-vertical-padding $page-horizontal-padding;
+  background-color:  $site-footer-bg;
+  border-top: 1px solid $site-footer-divider-color;
+  height: $site-footer-height;
+  box-shadow: $site-footer-shadow;
+
+  @include clearfix;
+
+  &-legal {
+    float: left;
+  }
+
+  &-actions {
+    float: right;
+  }
+
+  &-right {
+    float: right;
+  }
+
+  .scroll-to-top {
+    color: $text-color;
+
+    &, &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    height: $site-footer-xs-height;
+  }
+
+  &-legal, &-right, &-actions {
+    @include media-breakpoint-down(sm) {
+      display: block;
+      float: none;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+
+.site-navbar {
+  background-color: $site-navbar-header-bg;
+  
+  .navbar-container {
+    background-color: $inverse;
+
+    .navbar-toolbar {
+      [data-toggle="menubar"] {
+        &:focus,
+        &:hover {
+          color: $site-navbar-header-toolbar-hover-color;
+          background-color: $site-navbar-header-toolbar-hover-bg;
+        }
+      }
+    }
+  }
+  
+  &.navbar-inverse {
+    .navbar-container {
+      background-color: transparent;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    &.navbar-default {
+      .navbar-toggler {
+        color: #fff;
+      }
+      .navbar-brand {
+        color: #fff;
+      }
+      .hamburger {
+        &:before,
+        &:after,
+        .hamburger-bar {
+          background: #fff;
+        }
+      }
+    }
+  }
+}

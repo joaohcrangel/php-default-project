@@ -1,0 +1,20 @@
+.site-menubar {
+  background: $site-menubar-bg;
+  color: $site-menubar-color;
+
+  .scrollable-inverse.scrollable .scrollable-bar-handle {
+    background: rgba($gray, (60/100));;
+  }
+
+  //Site Menubar Dark
+  &.site-menubar-dark {
+    background: $site-menubar-dark-bg;
+    color: $site-menubar-dark-color;
+  }
+  &.site-menubar-light {
+    background: $site-menubar-light-bg;
+    color: $site-menubar-light-color;
+  }
+}
+
+

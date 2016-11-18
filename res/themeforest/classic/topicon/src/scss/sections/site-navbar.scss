@@ -1,0 +1,138 @@
+
+.site-navbar {
+  .navbar-header {
+    .navbar-brand-logo {
+      height: 24px;
+    }
+
+    .navbar-brand-logo-normal {
+      display: none;
+    }
+
+    .navbar-brand {
+      font-family: $brand-font-family;
+      cursor: pointer;
+    }
+
+    // @media (min-width: @screen-sm-min) {
+    //   width: $brand-width;
+    // }
+
+    @include media-breakpoint-up(md) {
+      width: $brand-width;
+    }
+  }
+
+  .navbar-container {
+    background-color: transparent;
+
+    // @media (min-width: @screen-sm-min) {
+    //   margin-left: $brand-width;
+
+    //   #toggleMenubar {
+    //     display: none;
+    //   }
+    // }
+
+    @include media-breakpoint-up(md) {
+      margin-left: $brand-width;
+
+      #toggleMenubar {
+        display: none;
+      }
+    }
+
+    // @media (max-width: @screen-xs-max) {
+    //   background-color: $inverse;
+    // }
+    @include media-breakpoint-down(sm) {
+      background-color: $inverse;
+    }
+  }
+
+  &.navbar-inverse {
+    .navbar-header {
+      .hamburger {
+        &:before,
+        &:after,
+        .hamburger-bar {
+          background-color: $site-navbar-header-color;
+        }
+      }
+
+      .navbar-brand-logo {
+        &-normal {
+          display: inline-block;
+        }
+
+        &-special {
+          display: none;
+        }
+      }
+    }
+
+    .navbar-container {
+      background-color: transparent;
+      // @media (max-width: @screen-xs-max) {
+      //   background-color: $inverse;
+      // }
+      @include media-breakpoint-down(sm) {
+        background-color: $inverse;
+      }
+    }
+
+    // @media (max-width: @screen-xs-max) {
+    //   .navbar-toolbar > li > a {
+    //     color: inherit;
+    //   }
+    // }
+    @include media-breakpoint-down(sm) {
+      .navbar-toolbar > li > a {
+        color: inherit;
+      }
+    }
+  }
+}
+
+.site-navbar {
+  // @media screen and (min-width: @screen-xlg) {
+  //   padding-left: %(~"calc((100% - %d) / 2 + 10px)", @site-container-width-xlg) !important;
+  //   padding-right: %(~"calc((100% - %d) / 2 + 30px)", @site-container-width-xlg) !important;
+  // }
+  // @media (min-width: @screen-lg) and (max-width: @screen-lg-max) {
+  //   padding-left: %(~"calc((100% - %d) / 2 + 10px)", @site-container-width-lg) !important;
+  //   padding-right: %(~"calc((100% - %d) / 2 + 30px)", @site-container-width-lg) !important;
+  // }
+  // @media (min-width: @screen-md) and (max-width: @screen-md-max) {
+  //   padding-left: %(~"calc((100% - %d) / 2 + 10px)", @site-container-width-md) !important;
+  //   padding-right: %(~"calc((100% - %d) / 2 + 30px)", @site-container-width-md) !important;
+  // }
+  // @media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
+  //   padding-left: %(~"calc((100% - %d) / 2 + 10px)", @site-container-width-sm) !important;
+  //   padding-right: %(~"calc((100% - %d) / 2 + 30px)", @site-container-width-sm) !important;
+  // }
+
+  // @media screen and (min-width: @screen-xlg1600) {
+  @include media-breakpoint-up(xxl) {
+    padding-left: calc((100% - #{$site-container-width-xxl}) / 2 + 10px) !important;
+    padding-right: calc((100% - #{$site-container-width-xxl}) / 2 + 30px) !important;
+  }
+
+  // @media (min-width: @screen-lg 1200) and (max-width: @screen-lg-max 1599) {
+  @include media-breakpoint-only(xl) {
+    padding-left: calc((100% - #{$site-container-width-xl}) / 2 + 10px) !important;
+    padding-right: calc((100% - #{$site-container-width-xl}) / 2 + 30px) !important;
+  }
+
+  // @media (min-width: @screen-md992) and (max-width: @screen-md-max1199) {
+  @include media-breakpoint-only(lg) {  
+    padding-left: calc((100% - #{$site-container-width-lg}) / 2 + 10px) !important;
+    padding-right: calc((100% - #{$site-container-width-lg}) / 2 + 30px) !important;
+  }
+
+  // @media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
+  @include media-breakpoint-only(md) {
+    padding-left: calc((100% - #{$site-container-width-md}) / 2 + 10px) !important;
+    padding-right: calc((100% - #{$site-container-width-md}) / 2 + 30px) !important;
+  }  
+}

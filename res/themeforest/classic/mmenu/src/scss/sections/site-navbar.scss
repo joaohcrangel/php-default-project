@@ -1,0 +1,60 @@
+
+.site-navbar {
+  background-color: $site-navbar-header-bg;
+  
+  .navbar-header {
+    background-color: transparent;
+    color: $site-navbar-header-color;
+
+    .navbar-toggler {
+      color: $site-navbar-header-color;
+    }
+
+    .hamburger {
+      &:before,
+      &:after,
+      .hamburger-bar {
+        background-color: $site-navbar-header-color;
+      }
+    }
+
+    .navbar-brand {
+      float: none; 
+      margin-right: 0;
+      color: $site-navbar-brand-color;
+      font-family: $brand-font-family;
+      cursor: pointer;
+      text-align: center;
+
+      @include text-truncate();
+
+      &-logo {
+        height: 22px;
+        transition: height .25s;
+      }
+
+      &-text {
+        display: none;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      width: $site-menubar-fold-width;
+    }
+  }
+
+  .navbar-container {
+    @include media-breakpoint-up(md) {
+      margin-left: $site-menubar-fold-width;
+      transition: margin-left .25s;
+    }
+
+    background-color: $inverse;
+  }
+
+  &.navbar-inverse {
+    .navbar-container {
+      background-color: transparent;
+    }
+  }
+}

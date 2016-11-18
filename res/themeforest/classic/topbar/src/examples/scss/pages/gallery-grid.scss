@@ -1,0 +1,13 @@
+@import "vars";
+
+
+.page-gallery-grid {
+  .card {
+    margin-bottom: 0;
+  }
+
+  .card, .cover, .cover-image {
+    height: 100%;
+    border-radius: 0;
+  }
+}

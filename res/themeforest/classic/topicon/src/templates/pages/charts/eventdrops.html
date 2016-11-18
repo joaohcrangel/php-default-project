@@ -1,0 +1,54 @@
+---
+title: EventDrops
+---
+
+{{#extend "layout-default"}}
+  {{#content "css_vendor" mode="append"}}
+    <link rel="stylesheet" href="{{global}}/vendor/eventdrops/eventDrops.css">
+  {{/content}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/charts/eventdrops.css">
+  {{/content}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/d3/d3.js"></script>
+    <script src="{{global}}/vendor/eventdrops/eventDrops.js"></script>
+  {{/content}}
+
+
+  {{#content "scripts" mode="replace"}}
+    <script src="{{assets}}/examples/js/charts/eventdrops.js"></script>
+  {{/content}}
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page animsition">
+      <div class="page-header">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest 'index.html'}}">Home</a></li>
+          <li class="breadcrumb-item active">Pages</li>
+        </ol>
+        <h1 class="page-title">Event Drops</h1>
+        <div class="page-header-actions">
+          <a class="btn btn-sm btn-inverse btn-round" href="https://github.com/marmelab/EventDrops"
+            target="_blank">
+            <i class="icon wb-link" aria-hidden="true"></i>
+            <span class="hidden-sm-down">Official Website</span>
+          </a>
+        </div>
+      </div>
+      <div class="page-content">
+        <div class="panel">
+          <div class="panel-body">
+            <div id="eventdropsExample"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

@@ -1,0 +1,20 @@
+@import "vars";
+
+.page-register {
+  &:before {
+    background-image: url("../../images/login.jpg");
+  }
+
+  form {
+    width: 340px;
+    margin: $line-height-computed auto;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .page-register {
+    form {
+      width: auto;
+    }
+  }
+}

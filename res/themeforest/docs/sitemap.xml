@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,15 @@
     
     <url>
      <loc>None/overview/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/generator/index.html</loc>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +28,23 @@
     
     <url>
      <loc>None/build/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/files/index.html</loc>
+     <lastmod>2016-11-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/global/index.html</loc>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -28,7 +52,7 @@
     
     <url>
      <loc>None/style/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -36,7 +60,7 @@
     
     <url>
      <loc>None/javascript/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -44,7 +68,7 @@
     
     <url>
      <loc>None/structure/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -52,7 +76,7 @@
     
     <url>
      <loc>None/components/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -60,7 +84,7 @@
     
     <url>
      <loc>None/psd/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -68,7 +92,7 @@
     
     <url>
      <loc>None/credits/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -76,7 +100,7 @@
     
     <url>
      <loc>None/support/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -84,7 +108,15 @@
     
     <url>
      <loc>None/changelog/index.html</loc>
-     <lastmod>2015-07-29</lastmod>
+     <lastmod>2016-11-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/migration/index.html</loc>
+     <lastmod>2016-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

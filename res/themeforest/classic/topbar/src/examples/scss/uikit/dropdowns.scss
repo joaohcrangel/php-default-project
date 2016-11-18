@@ -1,0 +1,23 @@
+@import "vars";
+
+
+
+.page-content {
+	.dropdown-menu {
+	  width: 240px;
+	}
+}
+.blocks-dropdowns {
+	> li {
+	  margin-bottom: 50px;
+	}
+	.dropdown-menu {
+	  width: 100%;
+	}
+}
+
+@include media-breakpoint-up(lg) {
+  .blocks-dropdowns > li {
+    max-width: 300px;
+  }
+}

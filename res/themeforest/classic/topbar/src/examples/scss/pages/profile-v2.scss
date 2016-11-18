@@ -1,0 +1,231 @@
+@import "vars";
+.page-profile-v2 {
+
+  .card .card-block {
+    padding-top: 0;
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+
+    & > *:first-child {
+      margin-top: 0;
+    }
+
+    &:first-child {
+      padding-top: 20px;
+    }
+  }
+  
+  //user-base
+  .user-name {
+    margin-bottom: 10px;
+    color: $gray-base;
+  }
+  .user-job {
+    margin-bottom: 5px;
+    color: $gray;
+  }
+  .user-location {
+    margin-bottom: 10px;
+    color: $gray;
+  }
+  // user-actions
+  .user-actions {
+    margin-bottom: 10px;
+    .btn {
+      width: 100px;
+    }
+    
+    .btn,
+    .dropdown {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .dropdown {
+      margin-left: 10px;
+    }
+  }
+
+  // use-stats
+  .user-stats {
+    margin-bottom: 12px;
+    border: 1px solid $color-blue-grey-200;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    overflow: hidden;
+
+    .user-stat {
+      float: left;
+      width: 50%;
+      padding: 15px;
+      border-left: 1px solid $color-blue-grey-200;
+
+      &:first-child {
+        border-left-color: transparent;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  // user-socials
+  .user-socials {
+    margin-bottom: 12px;
+  }
+
+  // user-content-release
+  .user-release {
+    &-input {
+      border: none;
+      border-bottom: 1px solid $color-blue-grey-200;
+      border-radius: 0;
+    }
+    
+    &-actions {
+      padding: 5px 10px;
+    }
+  }
+
+  // user-posts
+  .user-posts {
+    &-list {
+      padding: 0;
+      margin: 0 -10px;
+    }
+  }
+  .user-post {
+    padding: 0 10px;
+    img {
+      width: 100%;
+    }
+
+    &-title {
+      font-size: 16px;
+      margin-bottom: 8px;
+      &:hover {
+        cursor: pointer;
+        color: $color-blue-600;
+      }
+    }
+
+    &-time {
+      display: block;
+      font-size: 13px;
+      color: $color-grey-500;
+      margin-bottom: 5px;
+    }
+
+    &-data {
+      .icon {
+        margin-right: 5px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  // user-background
+  .user-background {
+    .timeline {
+      &-item,
+      &-single &-item {
+        margin-bottom: 12px;
+        padding-left: 20px;
+      }
+
+      &-dot {
+        height: 10px;
+        width: 10px;
+        margin-left: -5px;
+        line-height: 10px;
+        background-color: $color-blue-grey-300;
+      }
+
+      &-content {
+        > img {
+          max-width: 120px;
+        }
+      }
+    }    
+  }
+  .user-skills {
+    .skill {
+      margin-bottom: 12px;
+      line-height: 40px;
+      overflow: hidden;
+
+      &-name,
+      &-num,
+      &-team {
+        float: left;
+        margin-right: 10px;
+      }
+
+      &-team {
+        float: right;
+        margin-left: 10px;
+        margin-right: 0;
+        .avatar {
+          width: 40px;
+        }
+      }
+
+      &-num {
+        .tag {
+          vertical-align: middle;
+        }
+      }
+    }
+    .skill:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // user-recomendations
+  .user-recomendations {
+    .testimonial.carousel {
+       margin: 0;
+      .testimonial-item {
+        padding: 0;
+      }
+
+      .testimonial-content {
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      // when show one col 
+      @media (max-width: 992px) {
+        .testimonial-content {
+          margin-top: 20px;
+        }
+        .testimonial-item > .row > [class^="col-"] {
+          &:first-child .testimonial-content {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+
+  // user-following
+  .user-following {
+    .card-block img {
+      width: 100%;
+    }
+  }
+  
+  // user-riends/visitors
+  .user-friends,
+  .user-visitors {
+    .list-group > .list-group-item:first-child {
+      padding-top: 0;
+    }
+
+    .list-group > .list-group-item:last-child {
+      padding-bottom: 0;
+    }
+  }
+}

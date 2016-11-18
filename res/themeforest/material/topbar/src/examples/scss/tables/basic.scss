@@ -1,0 +1,76 @@
+@import "vars";
+
+#exampleTable1 {
+	table{
+		min-width: 800px;
+	  margin-top: -1px;
+	  margin-bottom: 17px;
+	}
+  
+	.progress {
+		display: inline-block;
+		vertical-align: middle;
+    margin-bottom: 0;
+    width: 80%;
+  }
+
+  .progress-percent {
+    display: inline-block;
+    width: 20%;
+    font-size: 14px;
+    text-align: right;
+    vertical-align: middle;
+    color: $color-blue-grey-500;
+  }
+
+  td {
+  	vertical-align: middle;
+  }
+  
+  thead th {
+  	border-bottom-width: 0;
+  }
+  
+  .example {
+    margin-top: 0;
+  	border: 1px solid #e4eaec;
+  	border-top: none;
+  }
+
+  .example-title {
+	  border: 1px solid #e4eaec;
+	  margin-bottom: 0;
+	  padding: 15px 20px;
+  }
+}
+
+#exampleReport {
+  table {
+  	min-width: 800px;
+    margin-bottom: 0;
+
+  	td {
+  		vertical-align: middle;
+  	}
+  }
+
+  .panel-heading {
+    border-bottom: 0;
+  }
+
+  .panel-title {
+	  border: 1px solid #e4eaec;
+	  margin-bottom: 0;
+	  padding: 15px 20px;
+  }
+
+  .panel-actions {
+    right: 15px;
+  }
+
+	.example {
+    margin-top: 0;
+  	border: 1px solid #e4eaec;
+  	border-top: none;
+  }
+}

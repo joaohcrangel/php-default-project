@@ -1,0 +1,20 @@
+@import 'vars';
+
+
+$dropdown-arrow-color:  $input-color-placeholder;
+$dropdown-box-shadow:   0 6px 12px rgba(0, 0, 0, .175);
+$clear-selection-color: $dropdown-arrow-color;
+
+$form-material-focus-text:                $brand-primary;
+$form-material-underline-color:           $gray-lighter;
+
+$form-material-disabled-underline-color:  $gray-light;
+$form-material-disabled-color:            $gray-light;
+
+
+@import 'scss/core';
+
+// fix /remark-material-v4/issues/193
+.modal-open .select2-container {
+	z-index: $zindex-modal + 1;
+}

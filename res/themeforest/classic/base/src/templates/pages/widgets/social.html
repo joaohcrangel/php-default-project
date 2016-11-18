@@ -1,0 +1,583 @@
+---
+title: Social Widgets
+---
+
+{{#extend "layout-default"}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/widgets/social.css">
+  {{/content}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/matchheight/jquery.matchHeight-min.js"></script>
+    <script src="{{global}}/vendor/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="{{global}}/vendor/masonry/masonry.pkgd.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/matchheight.js"></script>
+    <script src="{{global}}/js/Plugin/masonry.js"></script>
+  {{/content}}
+
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page ">
+      <div class="page-header">
+        <h1 class="page-title">Social Widgets</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest 'index.html'}}">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Widgets</a></li>
+          <li class="breadcrumb-item active">Social</li>
+        </ol>
+        <div class="page-header-actions">
+          <button type="button" class="btn btn-sm btn-outline btn-default btn-round">
+            <span class="text hidden-sm-down">Settings</span>
+            <i class="icon wb-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="page-content container-fluid">
+        <div class="row" data-plugin="matchHeight" data-by-row="true">
+          <!-- Panel Example1 -->
+          <div class="col-xl-4 col-lg-6 col-xs-12">
+            <div class="card card-shadow text-xs-center">
+              <div class="card-header card-header-transparent cover overlay" style="height: calc(100% - 100px);">
+                <img class="cover-image" src="{{global}}/photos/placeholder.png" alt="..." style="height: 100%;">
+                <div class="overlay-panel vertical-align">
+                  <div class="vertical-align-middle">
+                    <a class="avatar avatar-100 bg-white m-b-10 m-xs-0 img-bordered" href="javascript:void(0)">
+                      <img src="{{global}}/portraits/1.jpg" alt="">
+                    </a>
+                    <div class="font-size-20">Herman Beck</div>
+                    <div class="font-size-14 grey-400">Designer</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer bg-white p-x-30 p-y-20 h-100">
+                <div class="row no-space">
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <div class="counter-label">Followers</div>
+                      <span class="counter-number">11.2K</span>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <div class="counter-label">Following</div>
+                      <span class="counter-number">683</span>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <div class="counter-label">Tweets</div>
+                      <span class="counter-number">326</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Panel Example1 -->
+
+          <div class="col-xl-4 col-lg-6 col-xs-12">
+            <div class="card card-shadow">
+              <div class="card-header card-header-transparent cover overlay" style="height: calc(100% - 100px);">
+                <img class="cover-image" src="{{global}}/photos/placeholder.png" alt="..." style="height: 100%;">
+                <div class="overlay-panel overlay-background overlay-top">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <div class="font-size-20 white">Mary Adams</div>
+                      <div class="font-size-14 grey-400">Designer</div>
+                    </div>
+                    <div class="col-xs-6 text-xs-right">
+                      <div class="avatar">
+                        <img src="{{global}}/portraits/2.jpg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer bg-white p-x-30 p-y-20 h-100">
+                <div class="row no-space">
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number">6809</span>
+                      <div class="counter-label">Followers</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number">569</span>
+                      <div class="counter-label">Following</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number">357</span>
+                      <div class="counter-label">Tweets</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-lg-6 col-xs-12">
+            <div class="card card-shadow">
+              <div class="card-header card-header-transparent cover overlay">
+                <div class="cover-background h-150" style="background-image: url('{{global}}/photos/placeholder.png')"></div>
+              </div>
+              <div class="card-block p-x-30 p-y-20" style="height:calc(100% - 250px);">
+                <div style="position:relative;padding-left:110px;">
+                  <a class="avatar avatar-100 bg-white img-bordered" href="javascript:void(0)" style="position:absolute;top:-50px;left:0;">
+                    <img src="{{global}}/portraits/2.jpg" alt="">
+                  </a>
+                  <div class="m-b-20">
+                    <div class="font-size-20">Caleb Richards</div>
+                    <div class="font-size-14">Designer</div>
+                  </div>
+                </div>
+                <p>
+                  Reiciendis iactant eligendi. Vestrae referenda mundus asperum physico miserum viderer
+                  potiendi, audaces.
+                </p>
+              </div>
+              <div class="card-footer bg-blue-grey-400 p-30 h-100">
+                <div class="row no-space">
+                  <div class="col-xs-6">
+                    <div class="counter counter-inverse">
+                      <span class="counter-number">7896</span>
+                      <div class="counter-label inline-block m-l-5">Followers</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="counter counter-inverse">
+                      <span class="counter-number">621</span>
+                      <div class="counter-label inline-block m-l-5">Following</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-lg-6 col-xs-12">
+            <div class="card card-inverse card-shadow bg-green-500 white">
+              <div class="card-block p-20 h-full">
+                <a class="avatar pull-xs-left m-r-20" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/15.jpg" alt="">
+                </a>
+                <div style="overflow:hidden;">
+                  <small class="pull-xs-right grey-200">Yeserday, 13:48</small>
+                  <div class="font-size-18">Robin Ahrens</div>
+                  <div class="grey-200 font-size-14 m-b-10">Web Designer</div>
+                  <blockquote class="blockquote cover-quote font-size-16 white">Oportet magnopere optio ignavia tribuat derigatur, idem, vituperatum.
+                    </blockquote>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-lg-6 col-xs-12">
+            <div class="card card-shadow card-inverse white bg-twitter">
+              <div class="card-block p-20 h-full">
+                <h3 class="white m-t-0">Astris fere mediocris evertunt deterruisset impetu, fabulae praetorem.</h3>
+                <small>21 May, 2016 via mobile</small>
+                <div class="m-t-30">
+                  <i class="icon bd-twitter font-size-26"></i>
+                  <ul class="list-inline pull-xs-right m-t-15">
+                    <li class="list-inline-item">
+                      <i class="icon wb-heart"></i> 598
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="icon wb-thumb-up"></i> 96
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-lg-6 col-xs-12">
+            <div class="card card-shadow card-inverse white bg-facebook">
+              <div class="card-block p-20 h-full">
+                <h3 class="white m-t-0">Pertinerent iucunditatem animal dixit ipsos, probabo proprius universas.</h3>
+                <small>21 May, 2016 via mobile</small>
+                <div class="m-t-30">
+                  <i class="icon bd-facebook font-size-26"></i>
+                  <ul class="list-inline pull-xs-right m-t-15">
+                    <li class="list-inline-item">
+                      <i class="icon wb-heart"></i> 1256
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="icon wb-star"></i> 379
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="card card-inverse card-shadow bg-green-600 white">
+              <div class="card-block p-30">
+                <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/11.jpg" alt="">
+                </a>
+                <div class="vertical-align h-100 text-truncate">
+                  <div class="vertical-align-middle">
+                    <div class="font-size-20 m-b-5 text-truncate">Gwendolyn Wheeler</div>
+                    <div class="font-size-14 text-truncate">Adminnistrator</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="card card-inverse card-shadow bg-blue-600 white text-xs-center">
+              <div class="card-block p-30">
+                <a class="avatar avatar-100 img-bordered bg-white" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/12.jpg" alt="">
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="card card-inverse card-shadow bg-white">
+              <div class="card-block p-30">
+                <a class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/13.jpg" alt="">
+                </a>
+                <div class="vertical-align text-xs-right h-100 text-truncate">
+                  <div class="vertical-align-middle">
+                    <div class="font-size-20 m-b-5 blue-600 text-truncate">Sarah Graves</div>
+                    <div class="font-size-14 text-truncate">Web Designer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6 col-xs-12">
+            <div class="card card-inverse card-shadow bg-blue-600 white">
+              <div class="card-block p-30">
+                <a class="avatar avatar-100 img-bordered bg-white pull-xs-right" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/14.jpg" alt="">
+                </a>
+                <div class="vertical-align h-100 text-truncate">
+                  <div class="vertical-align-middle">
+                    <div class="font-size-20 m-b-5 text-truncate">Andrew Hoffman</div>
+                    <div class="font-size-14 text-truncate">Web Designer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" data-plugin="masonry">
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow">
+              <div class="card-header bg-blue-600 text-xs-center p-30 p-b-15">
+                <div class="font-size-20 white">June Lane</div>
+                <div class="grey-300 font-size-14 m-b-20">Web Designer</div>
+                <a class="avatar avatar-100 img-bordered m-b-10 bg-white" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/4.jpg" alt="">
+                </a>
+              </div>
+              <div class="card-footer bg-white p-x-30 p-y-20 text-xs-center">
+                <div class="row no-space">
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number blue-600">102</span>
+                      <div class="counter-label">Projects</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number blue-600">83</span>
+                      <div class="counter-label">Clients</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number blue-600">13.5K</span>
+                      <div class="counter-label">Followers</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card">
+              <div class="card-header white bg-cyan-600 p-30 clearfix">
+                <a class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/5.jpg" alt="">
+                </a>
+                <div class="pull-xs-left">
+                  <div class="font-size-20 m-b-15">Robin Ahrens</div>
+                  <p class="m-b-5 text-nowrap"><i class="icon wb-map m-r-10" aria-hidden="true"></i>
+                    <span class="text-break">Mountain View,CA 94043, United States</span>
+                  </p>
+                  <p class="m-b-5 text-nowrap"><i class="icon wb-envelope m-r-10" aria-hidden="true"></i>
+                    <span
+                      class="text-break">amazingSurge@yahoo.com</span>
+                  </p>
+                  <p class="m-b-5 text-nowrap"><i class="icon bd-twitter m-r-10" aria-hidden="true"></i>
+                    <span
+                      class="text-break">Kolage</span>
+                  </p>
+                </div>
+              </div>
+              <div class="card-footer bg-white">
+                <div class="row no-space p-y-20 p-x-30 text-xs-center">
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number cyan-600">102</span>
+                      <div class="counter-label">Projects</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number cyan-600">125</span>
+                      <div class="counter-label">Clients</div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter">
+                      <span class="counter-number cyan-600">10.8K</span>
+                      <div class="counter-label">Followers</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow avatar-group">
+              <div class="card-header bg-white text-xs-center p-30">
+                <ul class="list-unstyled list-inline">
+                  <li class="list-inline-item">
+                    <a class="avatar avatar-lg m-5" href="javascript:void(0)">
+                      <img src="{{global}}/portraits/7.jpg" alt="">
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="avatar avatar-lg m-5" href="javascript:void(0)">
+                      <img src="{{global}}/portraits/8.jpg" alt="">
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="avatar avatar-lg m-5" href="javascript:void(0)">
+                      <img src="{{global}}/portraits/9.jpg" alt="">
+                    </a>
+                  </li>
+                </ul>
+                <div class="font-size-18 blue-600">Amazing Surge</div>
+                <div class="font-size-14">Design</div>
+              </div>
+              <div class="card-footer bg-blue-grey-400 white text-xs-center p-y-20 p-x-30">
+                <div class="row no-space ">
+                  <div class="col-xs-4">
+                    <div class="counter counter-inverse">
+                      <span class="counter-icon"><i class="icon wb-eye m-r-15" aria-hidden="true"></i></span>
+                      <span class="counter-number">102</span>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter counter-inverse">
+                      <span class="counter-icon"><i class="icon wb-heart m-r-15" aria-hidden="true"></i></span>
+                      <span class="counter-number">8</span>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="counter counter-inverse">
+                      <span class="counter-icon"><i class="icon wb-user m-r-15" aria-hidden="true"></i></span>
+                      <span class="counter-number">12.6K</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow background-bottom">
+              <div class="card-header card-header-transparent cover overlay">
+                <div class="cover-background h-250" style="background-image: url({{global}}/photos/placeholder.png)"></div>
+                <div class="overlay-panel overlay-background overlay-bottom">
+                  <div class="row no-space">
+                    <div class="col-sm-6 col-xs-12">
+                      <a class="avatar avatar-lg bg-white pull-xs-left m-r-20 img-bordered" href="javascript:void(0)">
+                        <img src="{{global}}/portraits/10.jpg" alt="">
+                      </a>
+                      <div>
+                        <div class="font-size-20">William Dalebout</div>
+                        <div class="font-size-14">CEO</div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="row no-space text-xs-center">
+                        <div class="col-xs-4">
+                          <div class="counter counter-inverse">
+                            <div class="counter-label">Followers</div>
+                            <span class="counter-number">6584</span>
+                          </div>
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="counter counter-inverse">
+                            <div class="counter-label">Following</div>
+                            <span class="counter-number">2046</span>
+                          </div>
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="counter counter-inverse">
+                            <div class="counter-label">Tweets</div>
+                            <span class="counter-number">325</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow text-xs-center">
+              <div class="card-header card-header-transparent cover overlay">
+                <div class="cover-background" style="background-image: url({{global}}/photos/placeholder.png)">
+                  <div class="vertical-align p-x-0">
+                    <div class="vertical-align-bottom w-full">
+                      <a class="avatar avatar-100 img-bordered bg-white m-t-20" href="javascript:void(0)">
+                        <img src="{{global}}/portraits/17.jpg" alt="">
+                      </a>
+                      <h3 class="white">Herman Beck</h3>
+                      <p class="white"><i class="icon wb-map m-r-10" aria-hidden="true"></i>United
+                        States</p>
+                      <button type="button" class="btn btn-primary m-b-20">Follow</button>
+                      <div class="row no-space overlay-background p-y-10">
+                        <div class="col-xs-4">
+                          <div class="counter counter-inverse">
+                            <span class="counter-number">13.2K</span>
+                            <div class="counter-label">Followers</div>
+                          </div>
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="counter counter-inverse">
+                            <span class="counter-number">246</span>
+                            <div class="counter-label">Following</div>
+                          </div>
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="counter counter-inverse">
+                            <span class="counter-number">32</span>
+                            <div class="counter-label">Tweets</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow">
+              <div class="card-header bg-blue-600 white p-15 clearfix">
+                <a class="avatar avatar-lg pull-xs-left m-r-20" href="javascript:void(0)">
+                  <img src="{{global}}/portraits/16.jpg" alt="">
+                </a>
+                <div class="font-size-18">Robin Ahrens</div>
+                <div class="grey-300 font-size-14">Web Designer</div>
+              </div>
+              <ul class="list-group list-group-bordered m-b-0">
+                <li class="list-group-item">
+                  <span class="tag tag-pill tag-success">6</span>
+                  <i class="icon wb-inbox" aria-hidden="true" draggable="true"></i>                  Cras justo odio
+                </li>
+                <li class="list-group-item">
+                  <span class="tag tag-pill tag-info">2</span>
+                  <i class="icon wb-user" aria-hidden="true" draggable="true"></i>                  Dapibus ac facilisis in
+                </li>
+                <li class="list-group-item">
+                  <i class="icon wb-bell" aria-hidden="true" draggable="true"></i>                  Morbi leo risus
+                </li>
+                <li class="list-group-item">
+                  <span class="tag tag-pill tag-info">10</span>
+                  <i class="icon wb-info-circle" aria-hidden="true" draggable="true"></i>                  Porta ac consectetur ac
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow">
+              <div class="card-header card-header-transparent cover">
+                <div class="cover-background p-30" style="background-image: url('{{global}}/photos/placeholder.png')">
+                  <blockquote class="blockquote cover-quote white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+                    nec odio. </blockquote>
+                </div>
+              </div>
+              <div class="card-block">
+                <div class="avatar avatar-sm pull-xs-left m-r-10 m-t-5">
+                  <img src="{{global}}/portraits/3.jpg" alt="">
+                </div>
+                <div class="info m-b-25">
+                  <div class="blue-grey-700 text-uppercase">John Doe</div>
+                  <div class="blue-grey-400 text-capitalize">Design</div>
+                </div>
+                <p class="m-b-40">Rudem falso dicitis, curis depravatum affecti stoicos rerum.</p>
+                <div class="text-xs-right">
+                  <a class="text-action" href="javascript:void(0)">
+                    <i class="icon wb-heart"></i>
+                    <span>23</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-xs-12 masonry-item">
+            <div class="card card-shadow">
+              <div class="card-header h-150 bg-blue-600 vertical-align p-y-20 p-x-25">
+                <blockquote class="blockquote cover-quote vertical-align-middle white font-size-20">Corporis dicere disputatione laborat quamque. </blockquote>
+              </div>
+              <div class="card-block p-t-0" style="margin-top: -30px">
+                <div class="avatar avatar-lg img-bordered bg-white m-b-10">
+                  <img src="{{global}}/portraits/13.jpg" alt="">
+                </div>
+                <div class="info m-b-25">
+                  <div class="blue-grey-700">Sarah Graves</div>
+                  <div class="blue-grey-400">Developer</div>
+                </div>
+                <p class="m-b-35 blue-grey-500">Menandri nixam arguerent quanti fecerit laudem vidisse elegantis.
+                  </p>
+                <div class="text-xs-right">
+                  <a class="text-action" href="javascript:void(0)">
+                    <i class="icon wb-heart"></i>
+                    <span>16</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

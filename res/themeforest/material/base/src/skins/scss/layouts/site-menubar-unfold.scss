@@ -1,0 +1,31 @@
+@mixin site-menu-unfold() {
+  .site-menu {
+    &-category {
+      color: $site-menu-category-color;
+    }
+  }
+};
+
+.css-menubar {
+  @include media-breakpoint-down(sm) {
+    @include site-menu-unfold;
+  }
+
+  @include media-breakpoint-up(xl) {
+    @include site-menu-unfold;
+  }
+}
+
+//.js-menubar {
+  .site-menubar-unfold {
+    @include site-menu-unfold;
+  }
+//}
+
+@include media-breakpoint-down(sm) {
+  //.js-menubar {
+    .site-gridmenu {
+      background: rgba($site-gridmenu-bg, (90/100));
+    }
+  //}
+}

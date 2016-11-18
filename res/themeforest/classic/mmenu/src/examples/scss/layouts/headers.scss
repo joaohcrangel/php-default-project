@@ -1,0 +1,21 @@
+@import "vars";
+
+.example-well {
+  .page-header {
+    padding: 30px 20px;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .page-header-actions {
+    position: relative;
+    right: auto;
+    top: auto;
+    padding: 5px 0;
+    -webkit-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    margin: auto;
+  }
+}

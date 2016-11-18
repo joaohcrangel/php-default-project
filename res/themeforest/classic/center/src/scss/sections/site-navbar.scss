@@ -1,0 +1,102 @@
+
+
+.site-navbar {
+  background-color: $site-navbar-header-bg;
+
+  .navbar-header {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+  
+  .navbar-container {
+    background-color: $inverse;
+
+    .navbar-brand-center {
+      position: absolute;
+      left: 50%;
+      padding: 0;
+      margin: 0;
+      transform: translate(-50%, 0);
+
+      > a {
+        display: block;
+        padding: 20px;
+      }
+
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+
+      //fixed the logo color when navbar-inverse state change --20161017//kevin_y
+      .navbar-brand-logo {
+        &-normal {
+          display: none;
+        }
+
+        &-special {
+          display: inline-block;
+        }
+      }
+      //--20161017//kevin_y
+    }
+
+    .navbar-toolbar {
+      [data-toggle="menubar"] {
+        margin-top: 16px;
+        margin-right: 10px;
+        margin-bottom: 16px;
+        padding: 6px 7px;
+        border-radius: 1000px;
+
+        &:focus,
+        &:hover {
+          color: $site-navbar-header-toolbar-hover-color;
+          background-color: $site-navbar-header-toolbar-hover-bg;
+        }
+      }
+    }
+
+    .navbar-search-overlap {
+      z-index: 1;
+    }
+  }
+  
+  &.navbar-inverse {
+    .navbar-container {
+      background-color: transparent;
+
+      //fixed the logo color when navbar-inverse state change --20161017//kevin_y
+      .navbar-brand-center {
+        .navbar-brand-logo {
+          &-normal {
+            display: inline-block;
+          }
+
+          &-special {
+            display: none;
+          }
+        }
+      }
+      //--20161017//kevin_y
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    &.navbar-default {
+      .navbar-toggler {
+        color: #fff;
+      }
+      .navbar-brand {
+        color: #fff;
+      }
+      .hamburger {
+        &:before,
+        &:after,
+        .hamburger-bar {
+          background: #fff;
+        }
+      }
+    }
+  }
+}

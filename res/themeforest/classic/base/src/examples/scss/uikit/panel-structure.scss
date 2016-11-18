@@ -1,0 +1,160 @@
+@import "vars";
+
+// panel with rating
+// ==================
+.rating-xlg .icon {
+  font-size: 55px;
+}
+.rating-info {
+  width: 575px;
+  height: 10px;
+  margin: 10px 0 30px;
+  position: relative;
+  span {
+    position: absolute;
+    &:nth-child(1) {
+      left: 0;
+      transform: translateX(65%);
+    }
+    &:nth-child(2) {
+      left: 50%;
+      transform: translateX(-60%);
+    }
+    &:nth-child(3) {
+      left: 100%;
+      transform: translateX(-95%);
+    }
+  }
+}
+@media (max-width:1600px),(max-width:768px) {
+  .rating-xlg .icon {
+    font-size: 50px;
+  }
+  .rating-info{
+    width: 530px;
+    span:nth-child(1){
+      transform: translateX(50%);
+    }
+    span:nth-child(2){
+      transform: translateX(-50%);
+    }
+    span:nth-child(3){
+      transform: translateX(-90%);
+    }
+  }
+}
+
+@media all and (min-width:992px) and (max-width:1200px) {
+  .rating-xlg .icon {
+    font-size: 27px;
+  }
+  .rating-info{
+    width: 332px;
+    span:nth-child(1){
+      transform: translateX(10%);
+    }
+    span:nth-child(3){
+      transform: translateX(-70%);
+    }
+  }
+}
+@media all and (min-width:769px) and (max-width:991px) {
+  .rating-xlg .icon {
+    font-size: 30px;
+  }
+  .rating-info{
+    width: 350px;
+  }
+}
+@media (max-width:480px) {
+  .rating-xlg .icon {
+    font-size: 20px;
+  }
+  .rating-info{
+    width: 260px;
+    span:nth-child(1){
+      transform: translateX(0%);
+    }
+    span:nth-child(3){
+      transform: translateX(-70%);
+    }
+  }
+}
+
+// average rating
+// ==================================
+.average-rating{
+  .panel-heading{
+    text-align: center;
+    .rating{
+      transform: translateX(8%);
+    }
+  }
+  .progress{
+    width: 85%;
+    left: 0;
+    transform: translateX(10%);
+    .rating-icon,.rating-num,.rating-list{
+      position: absolute;
+      top: -7px;
+    }
+    .rating-list{
+      left: -40px;
+    }
+    .rating-icon{
+      left: -25px;
+    }
+    .rating-num{
+      right: 0;
+      transform: translateX(200%);
+    }
+  }
+}
+
+// team panel
+// ===============================
+.team-panel .avatar{
+  margin: 10px;
+  padding: 0;
+}
+
+// tags panel
+// ===============================
+.tags-panle .tag{
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
+
+// Input Panel
+// ===============================
+.input-panel{
+  .form-control{
+    border: 1px solid $color-blue-grey-200;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .input-panle-btn{
+    background-color: transparent;
+    border-right:1px solid $color-blue-grey-200;
+    display: inline;
+    padding: 12px 15px;
+    &:hover {
+      color: $color-blue-600;
+    }
+    i{
+      margin: 12px 0;
+    }
+  }
+  .submit{
+    position: absolute;
+    right: 0;
+    border: none;
+    border-left: 1px solid $color-blue-grey-200;
+    color: $color-blue-600;
+    border-radius: 0;
+    background-color: transparent;
+    &:hover{
+      color: $color-blue-400
+    }
+  }
+}

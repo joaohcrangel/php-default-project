@@ -1,0 +1,65 @@
+.bootstrap-select {
+  width: 100% !important;
+}
+
+.datepair-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.input-daterange-wrap {
+  float: left;
+}
+
+.input-daterange-to {
+  float: left;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+@media (max-width: 1360px) {
+  .input-daterange-wrap, .input-daterange-to {
+    display: block;
+    float: none;
+  }
+}
+
+.form-icons .icon {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 99;
+}
+
+.form-icons .round-input-control .form-control {
+  border-radius: 200px;
+}
+
+.form-icons .large-icon .form-control {
+  height: 3.2rem !important;
+}
+
+.form-icons .small-icon .form-control {
+  height: 2.2rem !important;
+}
+
+.form-icons .left-icon .form-control {
+  padding-left: 30px;
+}
+
+.form-icons .left-icon .icon {
+  left: 10px;
+}
+
+.form-icons .right-icon .form-control {
+  padding-right: 30px;
+}
+
+.form-icons .right-icon .icon {
+  right: 10px;
+}

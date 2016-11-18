@@ -1,0 +1,14 @@
+@import "vars";
+
+
+.page-content {
+  .blocks {
+    > li {
+      margin-bottom: 30px;
+
+      > .card {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

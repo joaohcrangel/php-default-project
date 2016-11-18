@@ -1,0 +1,343 @@
+---
+title: Treeview
+---
+
+{{#extend "layout-default"}}
+  {{#content "css_vendor" mode="append"}}
+    <link rel="stylesheet" href="{{global}}/vendor/toastr/toastr.css">
+    <link rel="stylesheet" href="{{global}}/vendor/bootstrap-treeview/bootstrap-treeview.css">
+    <link rel="stylesheet" href="{{global}}/vendor/jstree/jstree.min.css">
+  {{/content}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/toastr/toastr.js"></script>
+    <script src="{{global}}/vendor/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <script src="{{global}}/vendor/jstree/jstree.min.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/toastr.js"></script>
+    <script src="{{global}}/js/Plugin/bootstrap-treeview.js"></script>
+    <script src="{{global}}/js/Plugin/jstree.js"></script>
+  {{/content}}
+
+
+  {{#content "scripts" mode="replace"}}
+    <script src="{{assets}}/examples/js/advanced/treeview.js"></script>
+  {{/content}}
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest 'index.html'}}">Home</a></li>
+          <li class="breadcrumb-item active">Advanced UI</li>
+        </ol>
+        <h1 class="page-title">Treeview</h1>
+        <div class="page-header-actions">
+          <a class="btn btn-sm btn-inverse btn-round" href="https://github.com/jonmiles/bootstrap-treeview"
+            target="_blank">
+            <i class="icon wb-link" aria-hidden="true"></i>
+            <span class="hidden-sm-down">Official Website</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- Panel -->
+        <div class="panel">
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Basic -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Basic</h4>
+                  <div class="example">
+                    <div data-plugin="treeview" data-source="getExampleTreeview" id="exampleBasic"></div>
+                  </div>
+                </div>
+                <!-- End Example Basic -->
+              </div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Collapsed -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Collapsed</h4>
+                  <div class="example">
+                    <div data-plugin="treeview" data-source="getExampleTreeview" data-levels="1" id="exampleCollapsed"></div>
+                  </div>
+                </div>
+                <!-- End Example Collapsed -->
+              </div>
+
+              <div class="clearfix hidden-sm-down hidden-xl-up"></div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Expanded -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Expanded</h4>
+                  <div class="example">
+                    <div data-plugin="treeview" data-source="getExampleTreeview" data-levels="99" id="exampleExpanded"></div>
+                  </div>
+                </div>
+                <!-- End Example Expanded -->
+              </div>
+
+              <div class="clearfix hidden-lg-down"></div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Custom Icons -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Custom Icons</h4>
+                  <div class="example">
+                    <div data-plugin="treeview" data-source="getExampleTreeview" data-expand-icon="icon wb-chevron-right"
+                      data-collapse-icon="icon wb-chevron-down" data-node-icon="icon wb-bookmark"
+                      id="exampleCustomIcons"></div>
+                  </div>
+                </div>
+                <!-- End Example Custom Icons -->
+              </div>
+
+              <div class="clearfix hidden-sm-down hidden-xl-up"></div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Tags As Label pills -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Tags As Label pills</h4>
+                  <div class="example">
+                    <div data-plugin="treeview" data-source="getExampleTreeview" data-expand-icon="icon wb-check"
+                      data-collapse-icon="icon wb-check-circle" data-node-icon="icon wb-user"
+                      data-show-tags="true" id="exampleTagsAsBadges"></div>
+                  </div>
+                </div>
+                <!-- End Example Tags As Label pills -->
+              </div>
+
+              <div class="col-xl-4 col-md-6 col-xs-12">
+                <!-- Example Json Data -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Json Data</h4>
+                  <div class="example">
+                    <div id="exampleJsonData"></div>
+                  </div>
+                </div>
+                <!-- End Example Json Data -->
+              </div>
+
+              <div class="clearfix hidden-md-down"></div>
+
+              <div class="col-lg-4 col-md-6 col-xs-12">
+                <!-- Example Searchable Tree -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Searchable Tree</h4>
+                  <form class="form-group" id="exampleSearchForm" role="search">
+                    <div class="input-search">
+                      <input type="search" class="form-control" id="inputSearchable" placeholder="Search ...">
+                      <button type="submit" class="input-search-btn">
+                        <i class="icon wb-search" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </form>
+                  <div class="example">
+                    <div id="exampleSearchableTree"></div>
+                  </div>
+                </div>
+                <!-- End Example Searchable Tree -->
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-xs-12">
+                <!-- Example Expandible Tree -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Expandible Tree</h4>
+                  <button type="button" class="btn btn-outline btn-default" id="exampleExpandAll">Expand All</button>
+                  <button type="button" class="btn btn-outline btn-default" id="exampleCollapseAll">Collapse All</button>
+                  <div class="example">
+                    <div id="exampleExpandibleTree"></div>
+                  </div>
+                </div>
+                <!-- End Example Expandible Tree -->
+              </div>
+
+              <div class="col-lg-4 col-md-6 col-xs-12">
+                <!-- Example Events -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Events</h4>
+                  <div class="example">
+                    <div id="exampleEvents"></div>
+                  </div>
+                </div>
+                <!-- End Example Events -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel -->
+        <!-- jstree plugin -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              jstree
+              <small>
+                <a class="example-plugin-link" href="https://github.com/vakata/jstree/" target="_blank">official website</a>
+              </small>
+            </h3>
+          </div>
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+              <div class="col-md-6 col-xs-12">
+                <div class="example-warp">
+                  <h4 class="example-title">
+                    basic
+                  </h4>
+                  <p>
+                    use <code>data-plugin="jstree"</code> to make view tree.
+                  </p>
+                  <div class="example">
+                    <div id="jstreeExample_1" data-plugin="jstree">
+                      <ul>
+                        <li>Root node 1</li>
+                        <li>Root node 2
+                          <ul>
+                            <li>Child node 1</li>
+                            <li>Child node 2</li>
+                          </ul>
+                        </li>
+                        <li>Root node 3</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-warp">
+                  <h4 class="example-title">
+                    Setting initial
+                  </h4>
+                  <p>
+                    use <code>data-jstree='{"selected":true}'</code> to selected
+                    node.
+                  </p>
+                  <div class="example">
+                    <div id="jstreeExample_2" data-plugin="jstree">
+                      <ul>
+                        <li data-jstree='{"selected":true}'>selected node</li>
+                        <li data-jstree='{"opened":true}'>opened node
+                          <ul>
+                            <li data-jstree='{"disabled":true}'>disabled node</li>
+                            <li data-jstree='{"icon":"//jstree.com/tree.png"}'>internet icon node</li>
+                          </ul>
+                        </li>
+                        <li data-jstree='{"icon":"wb-folder"}'>local icon node</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="clearfix hidden-xs-down"></div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-warp">
+                  <h4 class="example-title">
+                    use JSON formart
+                  </h4>
+                  <div class="example">
+                    <div id="jstreeExample_3"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-warp">
+                  <h4 class="example-title">
+                    Use AJAX format
+                  </h4>
+                  <div class="example">
+                    <div id="jstreeExample_4"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="clearfix hidden-xs-down"></div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-warp">
+                  <h4 class="example-title">
+                    Checkbox Plugin
+                  </h4>
+                  <p>
+                    use <code>"plugins":["checkbox"]</code> to make checkbox jstree.
+                  </p>
+                  <div class="example">
+                    <div id="jstreeExample_5"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-warp">
+                  <h4 class="example-title">
+                    Contextmenu Plugin
+                  </h4>
+                  <p>
+                    use <code>"plugins":["contextmenu"]</code> to make contextmenu
+                    jstree.
+                  </p>
+                  <div class="example">
+                    <div id="jstreeExample_6"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="clearfix hidden-xs-down"></div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-wrap">
+                  <h4 class="example-title">
+                    Search plugin
+                  </h4>
+                  <p>
+                    use <code>"plugins":["search"]</code> to make search jstree.
+                  </p>
+                  <div class="example">
+                    <form class="form-group" role="search">
+                      <div class="input-search">
+                        <input type="search" class="form-control" id="jstreeSearch" placeholder="Search ...">
+                        <button type="submit" class="input-search-btn">
+                          <i class="icon wb-search" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </form>
+                    <div id="jstreeExample_7"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-xs-12">
+                <div class="example-wrap">
+                  <h4 class="example-title">
+                    Drag & drop plugin
+                  </h4>
+                  <p>
+                    use <code>"plugins":["dnd"]</code> to make Drag & drop jstree.
+                  </p>
+                  <div class="example">
+                    <div id="jstreeExample_8"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- End jstree plugin -->
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

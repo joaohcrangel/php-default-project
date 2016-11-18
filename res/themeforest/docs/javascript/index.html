@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4. Modular JavaScript - Remark Admin Template Docs</title>
+  <title>7. Modular JavaScript - Remark Admin Template Docs</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -20,7 +20,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "4. Modular JavaScript";
+    var mkdocs_page_name = "7. Modular JavaScript";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -65,33 +65,58 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../build/index.html">2. Building Tools</a>
+        <a class="" href="../generator/index.html">2. Generator</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../style/index.html">3. Customize Styles</a>
+        <a class="" href="../build/index.html">3. Building Tools</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../files/index.html">4. File Structure</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../global/index.html">5. Global Assets</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../style/index.html">6. Customize Styles</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="index.html">4. Modular JavaScript</a>
+        <a class="current" href="index.html">7. Modular JavaScript</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#4-modular-javascript">4. Modular JavaScript</a></li>
+                <li class="toctree-l3"><a href="#7-modular-javascript">7. Modular JavaScript</a></li>
                 
-                    <li><a class="toctree-l4" href="#41-source-structure">4.1 Source Structure</a></li>
+                    <li><a class="toctree-l4" href="#71-source-structure">7.1 Source Structure</a></li>
                 
-                    <li><a class="toctree-l4" href="#42-data-api">4.2 Data API</a></li>
+                    <li><a class="toctree-l4" href="#72-es2015">7.2 ES2015</a></li>
                 
-                    <li><a class="toctree-l4" href="#43-options">4.3 Options</a></li>
+                    <li><a class="toctree-l4" href="#73-core-script">7.3 Core Script</a></li>
                 
-                    <li><a class="toctree-l4" href="#44-javascript-initialization">4.4 Javascript Initialization</a></li>
+                    <li><a class="toctree-l4" href="#74-site-initialization">7.4 Site initialization</a></li>
+                
+                    <li><a class="toctree-l4" href="#75-config-api">7.5 Config api</a></li>
+                
+                    <li><a class="toctree-l4" href="#76-plugin-adapter-and-data-api">7.6 Plugin adapter and Data API</a></li>
                 
             
             </ul>
@@ -101,42 +126,49 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../structure/index.html">5. Theme Structure</a>
+        <a class="" href="../structure/index.html">8. Template Structure</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../components/index.html">6. Components</a>
+        <a class="" href="../components/index.html">9. Components</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../psd/index.html">7. PSD Files</a>
+        <a class="" href="../psd/index.html">10. PSD Files</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../credits/index.html">8. Sources and Credits</a>
+        <a class="" href="../credits/index.html">11. Sources and Credits</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../support/index.html">9. Support</a>
+        <a class="" href="../support/index.html">12. Support</a>
         
     </li>
 <li>
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../changelog/index.html">10. Changelog</a>
+        <a class="" href="../changelog/index.html">13. Changelog</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../migration/index.html">14. Migration</a>
         
     </li>
 <li>
@@ -163,7 +195,7 @@
     
       
     
-    <li>4. Modular JavaScript</li>
+    <li>7. Modular JavaScript</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -177,86 +209,337 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="4-modular-javascript">4. Modular JavaScript</h1>
-<h2 id="41-source-structure">4.1 Source Structure</h2>
-<p>Remark template features a highly modular JavaScript source system. Each page can only uses the JavaScript it needs and nothing more.</p>
-<p>All javascript source files are under <code>src/js/</code> folder:</p>
-<pre><code>  src/js/
-  ├── angular/
-  │   ├── app.js (angular app)
-  │   ├── router.js (angular router)
-  │   └── ui/
-  ├── apps/ (app initialize function extend from site initialize)
-  ├── components/ (components data api)
-  ├── configs/ (js config file)
-  ├── plugins/ (template plugins)
-  ├── sections/ (site section script, such as: nav, sidebar...)
-  ├── site.js (site initialize function)
-  └── core.js (define root object $.site and $.components)
-</code></pre>
-<p>All minified and combined files are under <code>assets/js/</code> folder.</p>
-<h2 id="42-data-api">4.2 Data API</h2>
-<p>We appreciate <strong>data-api</strong> syntax defined by <a href="http://getbootstrap.com/">Bootstrap</a>. It's a modualr way to organize the initialize script for the 3rd plugin.</p>
-<h3 id="register">Register</h3>
-<p>We use the function below to register data-api:</p>
-<pre><code>$.components.register(name, obj);
-</code></pre>
-<p>The <code>obj</code> is defined <code>data-api</code> mode and plugin initialize function. There are three modes in Remark template:</p>
-<ul>
-<li><code>api</code>: will use <strong>dataAPI{plugin name}</strong> function and not need to be re-initialized when new elements added in <code>document</code>.</li>
-<li><code>default</code>: will use <strong>default initialize function</strong>.</li>
-<li><code>init</code>: will use <strong>init{plugin name}</strong> function and need to be re-initialized when new elements added in <code>document</code>.</li>
-</ul>
-<p>The card  <code>obj</code> example:</p>
-<pre><code>/*src/js/components/card.js*/
-$.components.register("card", {
-  mode: "init",
-  init: function(context) {
-    if (!$.fn.card) return;
-    var defaults = $.components.getDefaults("card");
+                <h1 id="7-modular-javascript">7. Modular JavaScript</h1>
+<h2 id="71-source-structure">7.1 Source Structure</h2>
+<p>Remark template features a highly modular JavaScript source system. Each page only uses the JavaScript it needs and nothing more.
+The complied files are under <code>(layout)/assets/js</code> and <code>global/js/</code> folder:</p>
+<pre><code>(layout)/assets/js/
+├── config/
+├── Plugin/ (speical plugin for site)
+├── App/ (app script, such as: Calendar, Forum...)
+├── Section/ (site section script, such as: nav, sidebar...)
+├── BaseApp.js (basic script for app)
+└── Site.js (site initialize function)
 
-    $('[data-plugin="card"]', context).each(function() {
-      var options = $.extend({}, defaults, $(this).data());
+global/js/
+├── config/ (global config, such as color)
+├── Plugin/ (3rd plugins adapter)
+├── Base.js (core script)
+├── Component.js (simple viewmodel class)
+├── Config.js (getter/setter helper for config)
+├── Plugin.js (base plugin class)
+└── State.js (simple state container for apps)
+</code></pre>
+<p>You can find their source files from <code>(layout)/src/es/</code> and <code>global/src/es</code> folder.</p>
+<h2 id="72-es2015">7.2 ES2015</h2>
+<p>When remark3.0 is coming, every js scripts have been rewritten in ES2015 to take advantage of the newest JavaScript enhancements and use <code>bablejs</code> as a compiler.
+The new features make our code more strong and readable.</p>
+<p>We use <code>babel-es2015-preset</code> and UMD support in the babel config. You can customize them in <code>global/grunt/babel.js</code> or <code>global/gulp/options/script.js</code>.</p>
+<h2 id="73-core-script">7.3 Core Script</h2>
+<p>In the <code>remark 3.0</code>, we build components that manage their own state, in this case the code will have a better logic.</p>
+<p>In <code>global/js/core.js</code>, we provided three useful functionalities: <strong>Site initialization</strong>, <strong>Config api</strong>, and <strong>Component registration</strong>.</p>
+<h3 id="state-container">State Container</h3>
+<p><code>State</code>is a state container which is defined in <code>global/js/State.js</code>.</p>
+<p>You can initialize the new state with <code>State Class</code>:</p>
+<pre><code class="javascript">let initialState = {
+  x: 'valueX',
+  y: 'valueY'
+}
+let state = new State(initialState);
+</code></pre>
 
-      if (options.target) {
-        options.container = $(options.target);
-      }
-      $(this).card(options);
-    });
-  }
+<p>You can use getter/setter function in <code>State Object</code>:</p>
+<pre><code class="javascript">state.get('x') //valueX
+
+state.set('y', 'newValueY')
+state.get('y') //valueY
+</code></pre>
+
+<p>You can add listener to attach an handler when the value has been changed:</p>
+<pre><code class="javascript">state.on('x', ()=&gt;{
+  console.log('Value x has been changed');
 });
 </code></pre>
-<h3 id="usage">Usage</h3>
-<p>Just like <a href="http://getbootstrap.com/">Bootstrap</a> <code>data-api</code> usage, add data-plugin="{plugin name}" to element and add [data-{options}] to element. The plugin will be initialized. You can also manually initialize the <code>data-api</code> whose type is <code>default</code> or <code>init</code>:</p>
-<pre><code>$.components.get('multiSelect').init();
+
+<h3 id="base-component">Base Component</h3>
+<p><code>Component</code> is the core Class of Remark Template, it's defined in <code>global/js/Component.js</code>.</p>
+<p>It don't determine anything about your HTML or CSS for you. The general idea is to organize your interface into logical views, backed by state, each of which can be updated independently when the model changes, without having to redraw the page.</p>
+<p>You can define an component extend <code>Component</code>, and when you initialize it,  the component have to reference an element already in the DOM by pass the jquery element object as an option:</p>
+<pre><code class="javascript">class Menubar extends Component {
+  constructor(){
+
+  }
+  ...
+}
+
+let menubar = new Menubar({
+  $el: $('.site-menubar')
+})
 </code></pre>
-<h2 id="43-options">4.3 Options</h2>
-<p>We define the <strong>default options</strong> for 3rd plugin by default property in each components' object. You can modify the <strong>default</strong> property to suit your use case.
-When you manually initialize plugin, you can get the defaults options:</p>
-<pre><code>var defaults = $.components.getDefaults('{plugin name}');
+
+<p>We introduce mutable state to the component. <code>this.state</code> is private to the component and can be changed by calling <code>this.setState()</code> and get the value by <code>this.getState()</code>.
+<code>getDefaultState()</code> executes exactly once during the lifecycle of the component and sets up the initial state of the component.</p>
+<pre><code class="javascript">class Menubar extends Component {
+  getDefaultState(){
+     return {
+      menubarType: 'unfold'
+    };
+  }
+}
 </code></pre>
-<h2 id="44-javascript-initialization">4.4 Javascript Initialization</h2>
-<p>Site core javascript initialization implemented in <code>src/js/site.js'</code>.</p>
-<p>Run the code below:</p>
-<pre><code>$(document).ready(function(){
+
+<p>You add the value change handle in <code>getDefaultActions()</code>, and when you update the state by <code>this.setState()</code>, the handle will be called:</p>
+<pre><code class="javascript">class Menubar extends Component {
+  getDefaultState(){
+     return {
+      menubarType: 'unfold' // unfold, fold, open, hide;
+    };
+  }
+
+  getDefaultActions() {
+    return {
+      menubarType: 'change'
+    };
+  }
+
+  change(type) {
+    console.log(&quot;menubarType value is change to &quot;+type );
+  }
+}
+
+let menubar = new Menubar({
+  $el: $('.site-menubar')
+})
+
+menubar.setState('menubarType', 'fold') //menubarType value is fold
+</code></pre>
+
+<p>There are two methods are executed at specific points in a component's lifecycle. <code>willProccess()</code> will be invoked before component run and <code>proccessed()</code> will be invoked after component run.</p>
+<h2 id="74-site-initialization">7.4 Site initialization</h2>
+<p>We provided a site initialization script which helps you hook your scripts into the process easily.</p>
+<p>You can hook your scripts by extending <code>Site</code>. It's extend by <code>Component</code>, so you can defined the state or use <code>willProccess</code> and <code>proccessed</code> function in the <code>Site</code>.</p>
+<p>We also provided <code>assets/js/Site.js</code> file which sets up all theme functionalities e.g. menubar, gridmenu, sidebar...
+Example code snippet below:</p>
+<pre><code class="javascript">class Site extends Base {
+  willProcess() {
+    this.initializePluginAPIs();
+    this.initializePlugins();
+  }
+
+  processed() {
+    this.polyfillIEWidth();
+    this.initBootstrap();
+
+    this.setupMenubar();
+    this.setupGridMenu();
+  }
+
+  getDefaultState() {
+    return {
+      menubarType:'folded'
+    };
+  }
+
+  getDefaultActions() {
+    return {
+      menubarType(type) {
+        let toggle = function($el) {
+          $el.toggleClass('hided', !(type === 'open'));
+          $el.toggleClass('unfolded', !(type === 'fold'));
+        };
+
+        $('[data-toggle=&quot;menubar&quot;]').each(function() {
+          let $this = $(this);
+          let $hamburger = $(this).find('.hamburger');
+
+          if ($hamburger.length &gt; 0) {
+            toggle($hamburger);
+          } else {
+            toggle($this);
+          }
+        });
+      }
+    };
+  }
+  ....
+}
+</code></pre>
+
+<p>In your html, just add the scripts as follows:</p>
+<pre><code class="html">&lt;script&gt;
+$(document).ready(function(){
   Site.run();
 });
+&lt;/script&gt;
 </code></pre>
-<p>It will initialize the registed <code>data-api</code> and initialize site structure script. Maybe you need more customize initialization script, you can refer to the following example:</p>
-<pre><code>var MyApp = Site.extend({
-  customFunction : function(){
-      ....
-  },
 
-  run: function(next) {
-    this.customFunction();
+<p>All theme functionalities will be initialized. If you need to add some extensions, you can inherit <code>Site class</code>:</p>
+<pre><code class="javascript">//need complie by babel
+class YourSite extends Site{
+  ...
+}
 
-    next();//queue next run function
-  }
+$(document).ready(function(){
+  YourSite.run();
 });
-
-MyApp.run();
 </code></pre>
+
+<h2 id="75-config-api">7.5 Config api</h2>
+<p>In <code>global/js/Config.js</code>, we provide a simple getter/setter api. By them, you can share your config data on all your js files loaded in the page.
+For example, you can setup your site configs in your <code>assets/js/config/tour.js</code>:</p>
+<pre><code class="javascript">Config.set('tour', {
+    steps: [{
+      element: &quot;#toggleMenubar&quot;,
+      position: &quot;right&quot;,
+      intro: &quot;Offcanvas Menu &lt;p class='content'&gt;It is nice custom navigation for desktop users and a seek off-canvas menu for tablet and mobile users&lt;/p&gt;&quot;
+    }, {
+      element: &quot;#toggleFullscreen&quot;,
+      intro: &quot;Full Screen &lt;p class='content'&gt;Click this button you can view the admin template in full screen&lt;/p&gt;&quot;
+    }, {
+      element: &quot;#toggleChat&quot;,
+      position: 'left',
+      intro: &quot;Quick Conversations &lt;p class='content'&gt;This is a sidebar dialog box for user conversations list, you can even create a quick conversation with other users&lt;/p&gt;&quot;
+    }],
+    skipLabel: &quot;&lt;i class='wb-close'&gt;&lt;/i&gt;&quot;,
+    doneLabel: &quot;&lt;i class='wb-close'&gt;&lt;/i&gt;&quot;,
+    nextLabel: &quot;Next &lt;i class='wb-chevron-right-mini'&gt;&lt;/i&gt;&quot;,
+    prevLabel: &quot;&lt;i class='wb-chevron-left-mini'&gt;&lt;/i&gt;Prev&quot;,
+    showBullets: false
+  })
+</code></pre>
+
+<p>Then in your <code>assets/js/site.js</code>.</p>
+<pre><code class="javascript">let tourOptions = Config.get('tour');
+introJs().setOptions(tourOptions)
+</code></pre>
+
+<h2 id="76-plugin-adapter-and-data-api">7.6 Plugin adapter and Data API</h2>
+<p>In <code>global/js/Plugin.js</code> we also provide a simple adapter to registr and organize your 3rd component.</p>
+<p>The raty  <code>obj</code> example:</p>
+<pre><code class="javascript">    /*global/js/Plugin/raty.js*/
+    const NAME = 'rating';
+
+    class Rating extends Plugin {
+      getName() {
+        return NAME;
+      }
+
+      static getDefaults() {
+        return {
+          targetKeep: true,
+          icon: 'font',
+          starType: 'i',
+          starOff: 'icon wb-star',
+          starOn: 'icon wb-star orange-600',
+          cancelOff: 'icon wb-minus-circle',
+          cancelOn: 'icon wb-minus-circle orange-600',
+          starHalf: 'icon wb-star-half orange-500'
+        };
+      }
+
+      render() {
+        if (!$.fn.raty) {
+          return;
+        }
+
+        let $el = this.$el;
+
+        if (this.options.hints) {
+          this.options.hints = this.options.hints.split(',');
+        }
+
+        $el.raty(this.options);
+      }
+    }
+</code></pre>
+
+<p>You can defined the defaults options in the static function <code>getDefaults()</code> and initialize the plugin in the <code>render()</code>. The <code>render()</code> function will be invoked when Plugin is initialized;
+And then you can use the function below to register plugin:</p>
+<pre><code class="javascript">    Plugin.register(NAME, Rating);
+</code></pre>
+
+<h3 id="default-options-for-3rd-plugin">Default Options for 3rd plugin</h3>
+<p>We define the <strong>default options</strong> for 3rd plugin by default property in each components' object. You can modify the <strong>default</strong> property to suit your use case.
+When you manually initialize plugin, you can get the defaults options as follow:</p>
+<pre><code class="javascript">    import {getDefaults} from Plugin;
+
+    var defaults = getDefaults('{plugin name}');
+</code></pre>
+
+<h3 id="data-api">Data API</h3>
+<p>The full implementation code:</p>
+<p>Our plugin solution is very similar with <a href="http://getbootstrap.com/">Bootstrap</a> <strong>data-api</strong> syntax. It's a modular way to organize the initialize script for the 3rd plugin.
+Just like <a href="http://getbootstrap.com/">Bootstrap</a> <code>data-api</code> usage, add <code>data-plugin="{plugin name}"</code> to element and add <code>[data-{options}]</code> to element. The components will be initialized.</p>
+<p>For example:</p>
+<pre><code class="html">// Load plugin necessary files
+&lt;link rel=&quot;stylesheet&quot; href=&quot;assets/vendor/raty/jquery.raty.css&quot;&gt;
+&lt;script src=&quot;assets/vendor/raty/jquery.raty.js&quot;&gt;&lt;/script&gt;
+// Load Component register file
+&lt;script src=&quot;global/js/Plugin/raty.js&quot;&gt;&lt;/script&gt;
+// Plugin dom
+&lt;div class=&quot;rating&quot; data-score=&quot;4&quot; data-plugin=&quot;rating&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>The rating component will be initialized after when page ready.</p>
+<p>If we write script without our component solution, it will be</p>
+<pre><code class="html">// Load plugin necessary files
+&lt;link rel=&quot;stylesheet&quot; href=&quot;assets/vendor/raty/jquery.raty.css&quot;&gt;
+&lt;script src=&quot;../global/vendor/raty/jquery.raty.js&quot;&gt;&lt;/script&gt;
+// Component dom
+&lt;div class=&quot;rating&quot; data-score=&quot;4&quot;&gt;&lt;/div&gt;
+
+// Init Script
+&lt;script&gt;
+$(document).ready(function(){
+  $('.rating').each(function(){
+    var $this = $(this);
+    var score = $this.data('score');
+
+    $this.raty({
+      score: score,
+      targetKeep: true,
+      icon: &quot;font&quot;,
+      starType: &quot;i&quot;,
+      starOff: &quot;icon wb-star&quot;,
+      starOn: &quot;icon wb-star orange-600&quot;,
+      cancelOff: &quot;icon wb-minus-circle&quot;,
+      cancelOn: &quot;icon wb-minus-circle orange-600&quot;,
+      starHalf: &quot;icon wb-star-half orange-500&quot;
+    });
+  });
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>The code is simple for one instance, but if you need use a lot rating instaces in different pages, and all rating instaces have different options or can not be initialized with the same code, that will be hard to maintenance.</p>
+<h3 id="manually-call">Manually call</h3>
+<p>You can also initialize the component manually:</p>
+<pre><code class="javascript">  import {pluginFactory} from Plugin;
+
+  let plugin = pluginFactory('rating', $('.page'), options)
+  plugin.initialize();
+</code></pre>
+
+<p>And if you want get the registed plugin object, you can use the code below:</p>
+<pre><code class="javascript">  import {getPlugin} from Plugin;
+
+  let Rating = getPlugin('rating');
+  let plugin= new Rating($('.page'), options);
+  plugin.initialize();
+</code></pre>
+
+<h3 id="components-initialization">Components Initialization</h3>
+<p>The components initialization script is implemented in <code>assets/js/Site.js</code>.</p>
+<pre><code class="javascript">class Site extends Base {
+  willProcess() {
+    this.initializePluginAPIs();
+    this.initializePlugins();
+  }
+  ...
+}
+</code></pre>
+
+<p>You can remove it if you don't need our components solution.</p>
               
             </div>
           </div>
@@ -264,10 +547,10 @@ MyApp.run();
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../structure/index.html" class="btn btn-neutral float-right" title="5. Theme Structure"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../structure/index.html" class="btn btn-neutral float-right" title="8. Template Structure"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../style/index.html" class="btn btn-neutral" title="3. Customize Styles"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../style/index.html" class="btn btn-neutral" title="6. Customize Styles"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   

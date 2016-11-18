@@ -1,0 +1,611 @@
+---
+title: Grid Scaffolding
+---
+
+{{#extend "layout-default"}}
+
+
+  {{#content "body"}}
+
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Grid Scaffolding</h1>
+      </div>
+
+      <div class="page-content container-fluid">
+        <!-- Panel Options -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Grid Options
+              <span class="panel-desc">See how aspects of the Bootstrap grid system work across mdivtiple
+                devices with a handy table.</span>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>
+                      Extra small devices
+                      <small>Phones (&lt;480px)</small>
+                    </th>
+                    <th>
+                      Small devices
+                      <small>Tablets (&ge;480px)</small>
+                    </th>
+                    <th>
+                      Small devices
+                      <small>Tablets (&ge;768px)</small>
+                    </th>
+                    <th>
+                      Medium devices
+                      <small>Desktops (&ge;992px)</small>
+                    </th>
+                    <th>
+                      Large devices
+                      <small>Desktops (&ge;1200px)</small>
+                    </th>
+                    <th>
+                      Large devices
+                      <small>Desktops (&ge;1600px)</small>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th class="text-nowrap">Grid behavior</th>
+                    <td>Horizontal at all times</td>
+                    <td colspan="5">Collapsed to start, horizontal above breakpoints</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Container width</th>
+                    <td>None (auto)</td>
+                    <td>606px</td>
+                    <td>750px</td>
+                    <td>970px</td>
+                    <td>1170px</td>
+                    <td>1310px</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Class prefix</th>
+                    <td><code>.col-xs-</code></td>
+                    <td><code>.col-sm-</code></td>
+                    <td><code>.col-md-</code></td>
+                    <td><code>.col-lg-</code></td>
+                    <td><code>.col-xl-</code></td>
+                    <td><code>.col-xxl-</code></td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap"># of columns</th>
+                    <td colspan="6">12</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Column width</th>
+                    <td>Auto</td>
+                    <td>~50px</td>
+                    <td>~62px</td>
+                    <td>~81px</td>
+                    <td>~97px</td>
+                    <td>~109px</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Gutter width</th>
+                    <td colspan="6">30px (15px on each side of a column)</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Nestable</th>
+                    <td colspan="6">Yes</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Offsets</th>
+                    <td colspan="6">Yes</td>
+                  </tr>
+                  <tr>
+                    <th class="text-nowrap">Column ordering</th>
+                    <td colspan="6">Yes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel Options -->
+        <!-- Panel Stacked-To-Horizontal -->
+        <div class="panel">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Stacked-To-Horizontal -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Stacked-To-Horizontal</h4>
+                  <p>Using a single set of <code>.col-lg-*</code> grid classes, you
+                    can create a basic grid system that starts out stacked on mobile
+                    devices and tablet devices (the extra small to small range)
+                    before becoming horizontal on desktop (medium) devices. Place
+                    grid columns in any <code>.row</code>.</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-lg-2 col-xs-12">
+                        <div class="example-col">.col-lg-2</div>
+                      </div>
+                      <div class="col-lg-2 col-xs-12">
+                        <div class="example-col">.col-lg-2</div>
+                      </div>
+                      <div class="col-lg-2 col-xs-12">
+                        <div class="example-col">.col-lg-2</div>
+                      </div>
+                      <div class="col-lg-2 col-xs-12">
+                        <div class="example-col">.col-lg-2</div>
+                      </div>
+                      <div class="col-lg-2 col-xs-12">
+                        <div class="example-col">.col-lg-2</div>
+                      </div>
+                      <div class="col-lg-2 col-xs-12">
+                        <div class="example-col">.col-lg-2</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-8 col-xs-12">
+                        <div class="example-col">.col-lg-8</div>
+                      </div>
+                      <div class="col-lg-4 col-xs-12">
+                        <div class="example-col">.col-lg-4</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-4 col-xs-12">
+                        <div class="example-col">.col-lg-4</div>
+                      </div>
+                      <div class="col-lg-4 col-xs-12">
+                        <div class="example-col">.col-lg-4</div>
+                      </div>
+                      <div class="col-lg-4 col-xs-12">
+                        <div class="example-col">.col-lg-4</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6 col-xs-12">
+                        <div class="example-col">.col-lg-6</div>
+                      </div>
+                      <div class="col-lg-6 col-xs-12">
+                        <div class="example-col">.col-lg-6</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Stacked-To-Horizontal -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Mobile And Desktop -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Mobile And Desktop</h4>
+                  <p>Don't want your columns to simply stack in smaller devices? Use
+                    the extra small and medium device grid classes by adding <code>.col-sm-*</code>,
+                    <code>.col-lg-*</code> to your columns. See the example below
+                    for a better idea of how it all works.</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-8 col-xs-12">
+                        <div class="example-col">.col-sm-12 .col-lg-8</div>
+                      </div>
+                      <div class="col-sm-6 col-lg-4 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-lg-4</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6 col-lg-4 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-lg-4</div>
+                      </div>
+                      <div class="col-sm-6 col-lg-4 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-lg-4</div>
+                      </div>
+                      <div class="col-sm-6 col-lg-4 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-lg-4</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="example-col">.col-sm-6</div>
+                      </div>
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="example-col">.col-sm-6</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Mobile And Desktop -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Column Wrapping -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Column Wrapping</h4>
+                  <p>If more than 12 columns are placed within a single row, each
+                    group of extra columns will, as one unit, wrap onto a new divne.</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-sm-9 col-xs-12">
+                        <div class="example-col">.col-sm-9</div>
+                      </div>
+                      <div class="col-sm-4 col-xs-12">
+                        <div class="example-col">.col-sm-4
+                          <br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets
+                          wrapped onto a new divne as one contiguous unit.</div>
+                      </div>
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="example-col">.col-sm-6
+                          <br>Subsequent columns continue along the new divne.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Column Wrapping -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Responsive Column Resets -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Responsive Column Resets</h4>
+                  <p>With the four tiers of grids available you're bound to run into
+                    issues where, at certain breakpoints, your columns don't clear
+                    quite right as one is taller than the other. To fix that, use
+                    a combination of a <code>.clearfix</code> and our responsive
+                    utidivty classes.</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-sm-6 col-md-3 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-md-3
+                          <br> Resize your viewport or check it out on your phone for
+                          an example.</div>
+                      </div>
+                      <div class="col-sm-6 col-md-3 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-md-3</div>
+                      </div>
+                      <div class="clearfix hidden-md-up"></div>
+                      <div class="col-sm-6 col-md-3 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-md-3</div>
+                      </div>
+                      <div class="col-sm-6 col-md-3 col-xs-12">
+                        <div class="example-col">.col-sm-6 .col-md-3</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Responsive Column Resets -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Offsetting Columns -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Offsetting Columns</h4>
+                  <p>Move columns to the right using <code>.offset-lg-*</code> classes.
+                    These classes increase the left margin of a column by <code>*</code>                    columns. For example, <code>.offset-lg-4</code> moves <code>.col-lg-4</code>                    over four columns.</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-lg-4 col-xs-12">
+                        <div class="example-col">.col-lg-4</div>
+                      </div>
+                      <div class="col-xs-12 col-lg-4 offset-lg-4">
+                        <div class="example-col">.col-lg-4 .offset-lg-4</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-lg-3 offset-lg-3">
+                        <div class="example-col">.col-lg-3 .offset-lg-3</div>
+                      </div>
+                      <div class="col-xs-12 col-lg-3 offset-lg-3">
+                        <div class="example-col">.col-lg-3 .offset-lg-3</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-lg-6 offset-lg-3">
+                        <div class="example-col">.col-lg-6 .offset-lg-3</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Offsetting Columns -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Nesting Columns -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Nesting Columns</h4>
+                  <p>To nest your content with the defadivt grid, add a new <code>.row</code>                    and set of <code>.col-md-*</code> columns within an existing
+                    <code>.col-md-*</code> column. Nested rows shodivd include
+                    a set of columns that add up to 12 or fewer (it is not required
+                    that you use all 12 available columns).</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-md-9 col-xs-12">
+                        <div class="example-col">Level 1: .col-md-9
+                          <div class="row">
+                            <div class="col-sm-8 col-md-6 col-xs-12">
+                              <div class="example-col">Level 2: .col-sm-8 .col-md-6</div>
+                            </div>
+                            <div class="col-sm-4 col-md-6 col-xs-12">
+                              <div class="example-col">Level 2: .col-sm-4 .col-md-6</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Nesting Columns -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example Column Ordering -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Column Ordering</h4>
+                  <p>Easily change the order of our built-in grid columns with <code>.col-lg-push-*</code>                    and <code>.col-lg-pull-*</code> modifier classes.</p>
+                  <div class="example example-grid">
+                    <div class="row">
+                      <div class="col-xs-12 col-lg-9 col-lg-push-3">
+                        <div class="example-col">.col-lg-9 .col-lg-push-3</div>
+                      </div>
+                      <div class="col-xs-12 col-lg-3 col-lg-pull-9">
+                        <div class="example-col">.col-lg-3 .col-lg-pull-9</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Column Ordering -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel Stacked-To-Horizontal -->
+
+        <!-- Panel Blocks -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Blocks
+              <span class="panel-desc">Based on the technology of CSS3 <a href="http://caniuse.com/#search=flex">Flexible Box Layout Module</a>.</span>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Two -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Two</h4>
+                  <div class="example example-blocks">
+                    <ul class="blocks-2">
+                      <li>
+                        <div class="example-col">50%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">50%</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Two -->
+              </div>
+
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Three -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Three</h4>
+                  <div class="example example-blocks">
+                    <ul class="blocks-3">
+                      <li>
+                        <div class="example-col">33%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">33%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">33%</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Three -->
+              </div>
+
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Four -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Four</h4>
+                  <div class="example example-blocks">
+                    <ul class="blocks-4">
+                      <li>
+                        <div class="example-col">25%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">25%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">25%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">25%</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Four -->
+              </div>
+
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Five -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Five</h4>
+                  <div class="example example-blocks">
+                    <ul class="blocks-5">
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Five -->
+              </div>
+
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Six -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Six</h4>
+                  <div class="example example-blocks">
+                    <ul class="blocks-6">
+                      <li>
+                        <div class="example-col">16.6%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">16.6%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">16.6%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">16.6%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">16.6%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">16.6%</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Six -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- End Panel Blocks -->
+
+        <!-- Panel Blocks Responsive & Different Sizing  -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Blocks Complex Usage</h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Different Sizing -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Different Sizing</h4>
+                  <p>The block clear float automaticly when having different block
+                    sizes.</p>
+                  <div class="example example-blocks">
+                    <ul class="blocks-5">
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col h-100">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                      <li>
+                        <div class="example-col">20%</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Two -->
+              </div>
+
+              <div class="col-xl-6 col-xs-12">
+                <!-- Example Blocks Responsive -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Responsive</h4>
+                  <p>With <code>.blocks-sm-*</code>, <code>.blocks-md-*</code>, <code>.blocks-lg-*</code>                    classes, it can trun into responsive easily.</p>
+                  <div class="example example-blocks">
+                    <ul class="blocks-6 blocks-sm-100 blocks-md-2 blocks-lg-3 blocks-xl-4">
+                      <li>
+                        <div class="example-col">1</div>
+                      </li>
+                      <li>
+                        <div class="example-col">2</div>
+                      </li>
+                      <li>
+                        <div class="example-col">3</div>
+                      </li>
+                      <li>
+                        <div class="example-col">4</div>
+                      </li>
+                      <li>
+                        <div class="example-col">5</div>
+                      </li>
+                      <li>
+                        <div class="example-col">6</div>
+                      </li>
+                      <li>
+                        <div class="example-col">7</div>
+                      </li>
+                      <li>
+                        <div class="example-col">8</div>
+                      </li>
+                      <li>
+                        <div class="example-col">9</div>
+                      </li>
+                      <li>
+                        <div class="example-col">10</div>
+                      </li>
+                      <li>
+                        <div class="example-col">11</div>
+                      </li>
+                      <li>
+                        <div class="example-col">12</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example Blocks Three -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {{/content}}
+{{/extend}}

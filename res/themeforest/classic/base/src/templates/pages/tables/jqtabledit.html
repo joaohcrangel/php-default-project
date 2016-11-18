@@ -1,0 +1,404 @@
+---
+title: Jquery Tabledit
+---
+
+{{#extend "layout-default"}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/jquery-tabledit/jquery.tabledit.min.js"></script>
+    <script src="{{global}}/vendor/peity/jquery.peity.min.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/peity.js"></script>
+  {{/content}}
+
+
+  {{#content "scripts" mode="replace"}}
+    <script src="{{assets}}/examples/js/tables/jqtabledit.js"></script>
+  {{/content}}
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Jquery Tabledit</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest '/index.html'}}">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li>
+          <li class="breadcrumb-item active">Jquery Tabledit</li>
+        </ol>
+        <div class="page-header-actions">
+          <a class="btn btn-sm btn-default btn-outline btn-round" href="http://markcell.github.io/jquery-tabledit"
+            target="_blank">
+            <i class="icon wb-link" aria-hidden="true"></i>
+            <span class="hidden-sm-down">Official Website</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- Panel -->
+        <div class="panel">
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+              <div class="col-md-6 col-xs-12">
+                <!-- Example #exampleTableditToolbars -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Example #1</h4>
+                  <p>Add toolbar column with edit and delete buttons.</p>
+                  <div class="example table-responsive">
+                    <table id="exampleTableditToolbars" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nickname</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>@Elijah</td>
+                          <td>Teagan</td>
+                          <td>Prohaska</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>@Ramiro</td>
+                          <td>Andy</td>
+                          <td>Gaylord</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>@Maxime</td>
+                          <td>Veronica</td>
+                          <td>Gusikowski</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>@Maggio</td>
+                          <td>Bruce</td>
+                          <td>Rogahn</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>@Hammes</td>
+                          <td>Carolina</td>
+                          <td>Hickle</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td>@Amaya</td>
+                          <td>Madaline</td>
+                          <td>Eichmann</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Example #exampleTableditToolbars -->
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <!-- Example #exampleTableditInlineEdit -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Example #2</h4>
+                  <p>Inline edit like a spreadsheet with double click and "select"
+                    instead of text input.</p>
+                  <div class="example table-responsive">
+                    <table id="exampleTableditInlineEdit" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nickname</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>@Elijah</td>
+                          <td>Teagan</td>
+                          <td>Prohaska</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>@Ramiro</td>
+                          <td>Andy</td>
+                          <td>Gaylord</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>@Maxime</td>
+                          <td>Veronica</td>
+                          <td>Gusikowski</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>@Maggio</td>
+                          <td>Bruce</td>
+                          <td>Rogahn</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>@Hammes</td>
+                          <td>Carolina</td>
+                          <td>Hickle</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td>@Amaya</td>
+                          <td>Madaline</td>
+                          <td>Eichmann</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Example #exampleTableditInlineEdit -->
+              </div>
+
+              <div class="clearfix hidden-md-down"></div>
+
+              <div class="col-md-6 col-xs-12">
+                <!-- Example #exampleTableditInlineEdit -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Example #3</h4>
+                  <p>Inline edit like a spreadsheet on two columns only and without
+                    identifier column.</p>
+                  <div class="example table-responsive">
+                    <table id="InlineEditWithoutIndentify" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nickname</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>@Elijah</td>
+                          <td>Teagan</td>
+                          <td>Prohaska</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>@Ramiro</td>
+                          <td>Andy</td>
+                          <td>Gaylord</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>@Maxime</td>
+                          <td>Veronica</td>
+                          <td>Gusikowski</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>@Maggio</td>
+                          <td>Bruce</td>
+                          <td>Rogahn</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>@Hammes</td>
+                          <td>Carolina</td>
+                          <td>Hickle</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td>@Amaya</td>
+                          <td>Madaline</td>
+                          <td>Eichmann</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Example #exampleTableditInlineEdit -->
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <!-- Example #TableditWithEditButtonOnly -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Example #4</h4>
+                  <p>Inline edit like a spreadsheet, toolbar column with edit button
+                    only and without focus on first input.</p>
+                  <div class="example table-responsive">
+                    <table id="tableditWithEditButtonOnly" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Teagan</td>
+                          <td>Prohaska</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Andy</td>
+                          <td>Gaylord</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Veronica</td>
+                          <td>Gusikowski</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>Bruce</td>
+                          <td>Rogahn</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>Carolina</td>
+                          <td>Hickle</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td>Madaline</td>
+                          <td>Eichmann</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Example #exampleTableditInlineEdit -->
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <!-- ToolbarWithDeletebuttononly -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Example #5</h4>
+                  <p>Toolbar with delete button only and other name for row identifier
+                    attribute.</p>
+                  <div class="example table-responsive">
+                    <table id="tableditWithDeleteButtonOnly" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nickname</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>@Elijah</td>
+                          <td>Teagan</td>
+                          <td>Prohaska</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>@Ramiro</td>
+                          <td>Andy</td>
+                          <td>Gaylord</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>@Maxime</td>
+                          <td>Veronica</td>
+                          <td>Gusikowski</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>@Maggio</td>
+                          <td>Bruce</td>
+                          <td>Rogahn</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>@Hammes</td>
+                          <td>Carolina</td>
+                          <td>Hickle</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td>@Amaya</td>
+                          <td>Madaline</td>
+                          <td>Eichmann</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Example #ToolbarWithDeletebuttononly -->
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <!-- ToolbarWithLogAllHooks -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Example #6</h4>
+                  <p>Log all hooks and parameters to console.</p>
+                  <div class="example table-responsive">
+                    <table id="tableditLogAllHooks" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nickname</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>@Elijah</td>
+                          <td>Teagan</td>
+                          <td>Prohaska</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>@Ramiro</td>
+                          <td>Andy</td>
+                          <td>Gaylord</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>@Maxime</td>
+                          <td>Veronica</td>
+                          <td>Gusikowski</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>@Maggio</td>
+                          <td>Bruce</td>
+                          <td>Rogahn</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>@Hammes</td>
+                          <td>Carolina</td>
+                          <td>Hickle</td>
+                        </tr>
+                        <tr>
+                          <td>6</td>
+                          <td>@Amaya</td>
+                          <td>Madaline</td>
+                          <td>Eichmann</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Example #ToolbarWithLogAllHooks -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel -->
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

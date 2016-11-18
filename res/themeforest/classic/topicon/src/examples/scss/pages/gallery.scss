@@ -1,0 +1,18 @@
+@import "vars";
+
+.page-content {
+  .card-title {
+	margin-bottom: 0;
+  }
+  .card-block {
+	padding: 12px 20px;
+  } 
+}
+
+@include media-breakpoint-down(xs) {
+  .page-header-tabs {
+    .nav-tabs-line .nav-link {
+	  padding: 5px 12px;
+    }
+  }
+}

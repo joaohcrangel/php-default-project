@@ -1,0 +1,13 @@
+@import "vars";
+
+.page-aside-fix {
+  .page-aside {
+    .page-aside-inner {
+      position: fixed !important;
+      top: 66px;
+      bottom: 0;
+      width: $page-aside-width;
+      overflow-y: scroll;
+    }
+  }
+}

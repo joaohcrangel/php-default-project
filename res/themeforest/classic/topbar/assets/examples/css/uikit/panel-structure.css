@@ -1,0 +1,202 @@
+.rating-xlg .icon {
+  font-size: 55px;
+}
+
+.rating-info {
+  width: 575px;
+  height: 10px;
+  margin: 10px 0 30px;
+  position: relative;
+}
+
+.rating-info span {
+  position: absolute;
+}
+
+.rating-info span:nth-child(1) {
+  left: 0;
+  -webkit-transform: translateX(65%);
+  -ms-transform: translateX(65%);
+  -o-transform: translateX(65%);
+  transform: translateX(65%);
+}
+
+.rating-info span:nth-child(2) {
+  left: 50%;
+  -webkit-transform: translateX(-60%);
+  -ms-transform: translateX(-60%);
+  -o-transform: translateX(-60%);
+  transform: translateX(-60%);
+}
+
+.rating-info span:nth-child(3) {
+  left: 100%;
+  -webkit-transform: translateX(-95%);
+  -ms-transform: translateX(-95%);
+  -o-transform: translateX(-95%);
+  transform: translateX(-95%);
+}
+
+@media (max-width: 1600px), (max-width: 768px) {
+  .rating-xlg .icon {
+    font-size: 50px;
+  }
+  .rating-info {
+    width: 530px;
+  }
+  .rating-info span:nth-child(1) {
+    -webkit-transform: translateX(50%);
+    -ms-transform: translateX(50%);
+    -o-transform: translateX(50%);
+    transform: translateX(50%);
+  }
+  .rating-info span:nth-child(2) {
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+  .rating-info span:nth-child(3) {
+    -webkit-transform: translateX(-90%);
+    -ms-transform: translateX(-90%);
+    -o-transform: translateX(-90%);
+    transform: translateX(-90%);
+  }
+}
+
+@media all and (min-width: 992px) and (max-width: 1200px) {
+  .rating-xlg .icon {
+    font-size: 27px;
+  }
+  .rating-info {
+    width: 332px;
+  }
+  .rating-info span:nth-child(1) {
+    -webkit-transform: translateX(10%);
+    -ms-transform: translateX(10%);
+    -o-transform: translateX(10%);
+    transform: translateX(10%);
+  }
+  .rating-info span:nth-child(3) {
+    -webkit-transform: translateX(-70%);
+    -ms-transform: translateX(-70%);
+    -o-transform: translateX(-70%);
+    transform: translateX(-70%);
+  }
+}
+
+@media all and (min-width: 769px) and (max-width: 991px) {
+  .rating-xlg .icon {
+    font-size: 30px;
+  }
+  .rating-info {
+    width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rating-xlg .icon {
+    font-size: 20px;
+  }
+  .rating-info {
+    width: 260px;
+  }
+  .rating-info span:nth-child(1) {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    -o-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+  .rating-info span:nth-child(3) {
+    -webkit-transform: translateX(-70%);
+    -ms-transform: translateX(-70%);
+    -o-transform: translateX(-70%);
+    transform: translateX(-70%);
+  }
+}
+
+.average-rating .panel-heading {
+  text-align: center;
+}
+
+.average-rating .panel-heading .rating {
+  -webkit-transform: translateX(8%);
+  -ms-transform: translateX(8%);
+  -o-transform: translateX(8%);
+  transform: translateX(8%);
+}
+
+.average-rating .progress {
+  width: 85%;
+  left: 0;
+  -webkit-transform: translateX(10%);
+  -ms-transform: translateX(10%);
+  -o-transform: translateX(10%);
+  transform: translateX(10%);
+}
+
+.average-rating .progress .rating-icon, .average-rating .progress .rating-num, .average-rating .progress .rating-list {
+  position: absolute;
+  top: -7px;
+}
+
+.average-rating .progress .rating-list {
+  left: -40px;
+}
+
+.average-rating .progress .rating-icon {
+  left: -25px;
+}
+
+.average-rating .progress .rating-num {
+  right: 0;
+  -webkit-transform: translateX(200%);
+  -ms-transform: translateX(200%);
+  -o-transform: translateX(200%);
+  transform: translateX(200%);
+}
+
+.team-panel .avatar {
+  margin: 10px;
+  padding: 0;
+}
+
+.tags-panle .tag {
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
+
+.input-panel .form-control {
+  border: 1px solid #e4eaec;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-panel .input-panle-btn {
+  background-color: transparent;
+  border-right: 1px solid #e4eaec;
+  display: inline;
+  padding: 12px 15px;
+}
+
+.input-panel .input-panle-btn:hover {
+  color: #62a8ea;
+}
+
+.input-panel .input-panle-btn i {
+  margin: 12px 0;
+}
+
+.input-panel .submit {
+  position: absolute;
+  right: 0;
+  border: none;
+  border-left: 1px solid #e4eaec;
+  color: #62a8ea;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.input-panel .submit:hover {
+  color: #a2caee;
+}

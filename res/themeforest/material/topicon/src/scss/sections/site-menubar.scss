@@ -1,0 +1,83 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  padding-top: $site-navbar-height;
+}
+
+.site-menubar {
+  z-index: $zindex-menubar;
+
+  position: fixed;
+  top: $site-navbar-height;
+
+  background: $site-menubar-bg;
+  color: $site-menubar-color;
+  height: $site-menubar-height;
+  width: 100%;
+  font-family: $site-menubar-font-family;
+
+  // @shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 1px 5px rgba(0,0,0,.075);
+  box-shadow: $site-menubar-shadow;
+
+  ul {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    outline: none;
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+
+
+  //Site Menubar Dark
+  &.site-menubar-dark {
+    background: $site-menubar-dark-bg;
+    color: $site-menubar-dark-color;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .page {
+    padding-top: 0;
+  }
+
+  .site-menubar {
+    width: $site-menubar-responsive-width;
+
+    &-body {
+      height: 100%;
+    }
+  }
+}
+
+
+.site-menubar {
+  @include media-breakpoint-up(xxl) {
+    $padding: (100% - #{$site-container-width-xxl});
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(xl) {
+    $padding: (100% - #{$site-container-width-xl});
+
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(lg) {
+    $padding: (100% - #{$site-container-width-lg});
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(md) {
+    $padding: (100% - #{$site-container-width-md});
+    padding-left: calc((#{$padding}) / 2 + 30px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+}

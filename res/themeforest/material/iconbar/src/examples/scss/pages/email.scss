@@ -1,0 +1,185 @@
+@import "vars";
+
+.page-email {
+  .page-content {
+    .panel {
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    div.card {
+      &-img-top {
+        margin-bottom: 35px;
+      }
+
+      &-link {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .email-title {
+    padding: 15px 0 5px;
+    text-align: center;
+  }
+
+  .email-more {
+    margin-top: 40px;
+    padding: 35px 0 10px;
+    text-align: center;
+    border-top: 1px solid $divider-color-base;
+
+    &-title {
+      font-size: 20px;
+    }
+
+    &-content {
+      padding: 47px 0 54px;
+    }
+
+    &-social {
+      padding: 20px 0;
+
+      a {
+        margin: 0 7px;
+        padding: 5px;
+        text-decoration: none;
+      }
+
+      .icon {
+        color: $icon-color;
+        font-size: $font-size-icon;
+
+        &:hover,
+        &:focus {
+          color: $icon-hover-color;
+        }
+
+        &.active,
+        &:active {
+          color: $icon-active-color;
+        }
+      }
+    }
+    .card {
+      margin-bottom: pxToRem(22px);
+    }
+  }
+
+  .email-unsubscribe {
+    text-decoration: underline;
+  }
+  // Articles
+  // ==============================
+  &-articles {
+
+    .page-content .panel div.card {
+      padding: 20px 0;
+      margin: 0;
+
+      &-img-top {
+        margin-bottom: 35px;
+      }
+
+      &-link {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  // Welcome
+  // ===========================
+  &-welcome{
+    .welcome-content{
+      text-align: center;
+    }
+    .email-more{
+      margin-top: 0;
+    }
+  }
+
+  // thumbnail
+  // ===========================
+  &-thumbnail{
+    .card-list-item .card-block{
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+  // News
+  // ===========================
+  &-news{
+    .panel,
+    .panel-body>.card{
+      background-color: transparent;
+    }
+
+    .panel{
+      box-shadow: none;
+    }
+    .panel-body>.card{
+      margin-left: -17px;
+      margin-right: -17px;
+      >.card-block{
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+    }
+
+    [class^="col-"] {
+      padding-left: 3px;
+      padding-right: 3px;
+    }
+
+    .news {
+      .img-fluid{
+        height: 318px;
+        width:100%;
+      }
+      .card span{
+        margin-left: 1.429rem;
+      }
+      .card-title{
+        font-size: 22px;
+      }
+    }
+    .image-item{
+      position: relative;
+    }
+    .news-time,
+    .news-category,
+    .news-title{
+      position: absolute;
+      color:#fff;
+    }
+    .news-time{
+      right: 0;
+      top: 15px;
+      padding: 5px 12px;
+      background-color: #76838f;
+      opacity: 0.8;
+    }
+    .news-category{
+      background-color: #62a8ea;
+      left: 0;
+      bottom: 39px;
+      padding: 8px 10px;
+      text-transform: uppercase;
+    }
+    .news-title{
+      left: 0;
+      bottom: 0;
+      padding: 10px 10px;
+      font-size: 16px;
+      background-color: #263238;
+      margin-bottom: 0;
+
+      //start for email-news title  nowrap ,correct in iphone5
+      max-width: 95%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      //end --20160830 kevin
+    }
+  }
+}

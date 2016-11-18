@@ -1,0 +1,108 @@
+---
+title: Welcome
+body_class: page-email page-email-welcome
+---
+
+{{#extend "layout-default"}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/pages/email.css">
+  {{/content}}
+
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-content">
+        <!-- Panel -->
+        <div class="panel">
+          <div class="panel-body container-fluid">
+            <div class="email-title">
+              <img src="{{assets}}//images/logo-blue.png" alt="..." />
+              <h4 class="blue-grey-400 font-weight-400">Remark</h4>
+            </div>
+            <div class="card welcome-content">
+              <div class="card-block p-l-40 p-r-40  m-t-30 m-b-30">
+                <h2>Welcome to Remark!</h2>
+                <p>
+                  Thank you for signing up with awesome co! We hope you enjoy your time with us.
+                  Check out some of our newest offers below or the button to view
+                  your new account.
+                </p>
+                <a class="btn btn-primary" href="#">My Account</a>
+              </div>
+              <div class="card-block">
+                <h3>Check out our newest sales!</h3>
+                <div class="row">
+                  <div class="col-md-6 col-xs-12">
+                    <div class="card card-shadow card-bordered">
+                      <div class="card-header cover">
+                        <img class="cover-image" src="{{global}}/photos/placeholder.png" alt="...">
+                      </div>
+                      <div class="card-block">
+                        <h3 class="card-title">Genus Quaerimus</h3>
+                        <p class="card-text type-link">
+                          <small>
+                            By
+                            <a href="javascript:void(0)">Nathan Watts</a>
+                            <a href="javascript:void(0)">05, 2016</a>
+                            <a href="javascript:void(0)">
+                              <span>3</span> Comments</a>
+                          </small>
+                        </p>
+                        <p class="card-text">Dolemus late utriusque fore eveniet provincia spernat dissentiet.
+                          Fit intemperantes.</p>
+                      </div>
+                      <div class="card-block">
+                        <button type="button" class="btn btn-outline btn-primary card-link">Read more</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <div class="card card-shadow card-bordered">
+                      <div class="card-header cover">
+                        <img class="cover-image" src="{{global}}/photos/placeholder.png" alt="...">
+                      </div>
+                      <div class="card-block">
+                        <h3 class="card-title">Genus Quaerimus</h3>
+                        <p class="card-text type-link">
+                          <small>
+                            By
+                            <a href="javascript:void(0)">Nathan Watts</a>
+                            <a href="javascript:void(0)">05, 2016</a>
+                            <a href="javascript:void(0)">
+                              <span>3</span> Comments</a>
+                          </small>
+                        </p>
+                        <p class="card-text">Dolemus late utriusque fore eveniet provincia spernat dissentiet.
+                          Fit intemperantes.</p>
+                      </div>
+                      <div class="card-block">
+                        <button type="button" class="btn btn-outline btn-primary card-link">Read more</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="email-more">
+              <p>You are currently signed up to Company’s newsletters as: youremail@gmail.com
+                to <a class="email-unsubscribe" href="javascript:void(0)">unsubscribe</a></p>
+              <div class="email-more-social">
+                <a href="javascript:void(0)"><i class="icon bd-twitter" aria-hidden="true"></i></a>
+                <a href="javascript:void(0)"><i class="icon bd-facebook" aria-hidden="true"></i></a>
+                <a href="javascript:void(0)"><i class="icon bd-linkedin" aria-hidden="true"></i></a>
+                <a href="javascript:void(0)"><i class="icon bd-pinterest" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel -->
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

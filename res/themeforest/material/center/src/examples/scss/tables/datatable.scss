@@ -1,0 +1,34 @@
+@import "vars";
+
+
+@include media-breakpoint-down(xs) {
+  .panel-actions {
+    .dataTables_length {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .panel-actions {
+    .dataTables_filter {
+      display: none;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .dataTables_length {
+    float: left;
+  }
+
+  #exampleAddRow_wrapper .col-sm-12 {
+    overflow-x: auto;
+  }
+}
+
+.page-content {
+  th > .form-control {
+    box-sizing: border-box;
+  }
+}

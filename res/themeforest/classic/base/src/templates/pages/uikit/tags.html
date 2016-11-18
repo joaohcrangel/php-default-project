@@ -1,0 +1,330 @@
+---
+title: Tags
+---
+
+{{#extend "layout-default"}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/uikit/tags.css">
+  {{/content}}
+
+
+  {{#content "body"}}
+
+    <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{dest 'index.html'}}">Home</a></li>
+          <li class="breadcrumb-item active">Basic UI</li>
+        </ol>
+        <h1 class="page-title">Tags</h1>
+        <div class="page-header-actions">
+          <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+            data-original-title="Edit">
+            <i class="icon wb-pencil" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+            data-original-title="Refresh">
+            <i class="icon wb-refresh" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+            data-original-title="Setting">
+            <i class="icon wb-settings" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="page-content">
+        <!-- Panel tags -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Tags</h3>
+          </div>
+
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tags Default -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Tags Default</h4>
+                  <p>Add any of the default mentioned modifier classes to change the
+                    appearance of a tag.</p>
+                  <div class="example">
+                    <span class="tag tag-default">Default</span>
+                    <span class="tag tag-primary">Primary</span>
+                    <span class="tag tag-success">Success</span>
+                    <span class="tag tag-info">Info</span>
+                    <span class="tag tag-warning">Warning</span>
+                    <span class="tag tag-danger">Danger</span>
+                    <span class="tag tag-dark">Dark</span>
+                  </div>
+                </div>
+                <!-- End Example tags Default -->
+              </div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tags Round -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tags Round</h4>
+                  <p>Round tags can used in taxonomies to provide an ad-hoc, user-generated
+                    scheme for classification. Add <code>.tag-round</code> to change
+                    its shape.</p>
+                  <div class="example">
+                    <span class="tag tag-round tag-default">Default</span>
+                    <span class="tag tag-round tag-primary">Primary</span>
+                    <span class="tag tag-round tag-success">Success</span>
+                    <span class="tag tag-round tag-info">Info</span>
+                    <span class="tag tag-round tag-warning">Warning</span>
+                    <span class="tag tag-round tag-danger">Danger</span>
+                    <span class="tag tag-round tag-dark">Dark</span>
+                  </div>
+                </div>
+                <!-- End Example tags Round -->
+              </div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tags Outline -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tags Outline</h4>
+                  <p>The tag can have outline style and different border color options.
+                    Add <code>.tag-outline</code> to change its border style.</p>
+                  <div class="example">
+                    <span class="tag tag-outline tag-default">Default</span>
+                    <span class="tag tag-outline tag-primary">Primary</span>
+                    <span class="tag tag-outline tag-success">Success</span>
+                    <span class="tag tag-outline tag-info">Info</span>
+                    <span class="tag tag-outline tag-warning">Warning</span>
+                    <span class="tag tag-outline tag-danger">Danger</span>
+                    <span class="tag tag-outline tag-dark">Dark</span>
+                  </div>
+                </div>
+                <!-- End Example tags Outline -->
+              </div>
+
+              <div class="clearfix hidden-lg-down"></div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tags Sizes -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tags Sizes</h4>
+                  <p>Various tag sizes for common scenarios, from default size to
+                    large/small size, you can add additional class <code>.tag-lg</code>                    or <code>.tag-sm</code>.</p>
+                  <div class="example">
+                    <span class="tag tag-lg tag-primary">Large</span>
+                    <span class="tag tag-primary">Default</span>
+                    <span class="tag tag-sm tag-primary">Small</span>
+                  </div>
+                </div>
+                <!-- End Example tags Sizes -->
+              </div>
+
+              <div class="clearfix hidden-sm-down hidden-xl-up"></div>
+
+              <div class="col-xl-8 col-xs-12">
+                <!-- Example tags In Header -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tags In Header</h4>
+                  <p>They show the information in combination with other visual heading
+                    elements by adding <code>&lt;span class=”tag tag-primary”&gt;</code>.</p>
+                  <div class="example">
+                    <h1>h1. Bootstrap heading
+                      <span class="tag tag-primary">New</span>
+                    </h1>
+                    <h2>h2. Heading
+                      <span class="tag tag-primary">New</span>
+                    </h2>
+                    <h3>h3. Heading
+                      <span class="tag tag-primary">New</span>
+                    </h3>
+                    <h4>h4. Heading
+                      <span class="tag tag-primary">New</span>
+                    </h4>
+                    <h5>h5. Heading
+                      <span class="tag tag-primary">New</span>
+                    </h5>
+                    <h6>h6. Heading
+                      <span class="tag tag-primary">New</span>
+                    </h6>
+                  </div>
+                </div>
+                <!-- End Example tags In Header -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel tags -->
+
+        <!-- Panel tag-pills -->
+        <div class="panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Tag-pills</h3>
+          </div>
+
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tag-pills Default -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tag-pills Default</h4>
+                  <p>Wrap one of the seven contextual classes ( e.g. <code>.tag-success</code>                    ) for basic <code>.tag</code> <code>.tag-pill</code> class.
+                    Choose from success, info, warning, etc.</p>
+                  <div class="example">
+                    <span class="tag tag-pill tag-default">1</span>
+                    <span class="tag tag-pill tag-primary">2</span>
+                    <span class="tag tag-pill tag-success">3</span>
+                    <span class="tag tag-pill tag-info">4</span>
+                    <span class="tag tag-pill tag-warning">5</span>
+                    <span class="tag tag-pill tag-danger">6</span>
+                    <span class="tag tag-pill tag-dark">7</span>
+                  </div>
+
+                  <div class="example">
+                    <span class="tag tag-pill tag-default">11</span>
+                    <span class="tag tag-pill tag-primary">12</span>
+                    <span class="tag tag-pill tag-success">13</span>
+                    <span class="tag tag-pill tag-info">14</span>
+                    <span class="tag tag-pill tag-warning">15</span>
+                    <span class="tag tag-pill tag-danger">16</span>
+                    <span class="tag tag-pill tag-dark">17</span>
+                  </div>
+                </div>
+                <!-- End Example tag-pills Default -->
+              </div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tag-pills Sizes -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tag-pills Sizes</h4>
+                  <p>Various tag-pills sizes for common scenarios, from default size
+                    to large/small size, you can add additional class <code>.tag-lg</code>                    or <code>.tag-sm</code>.</p>
+                  <div class="example">
+                    <span class="tag tag-pill tag-lg tag-primary">Large</span>
+                    <span class="tag tag-pill tag-primary">Default</span>
+                    <span class="tag tag-pill tag-sm tag-primary">Small</span>
+                  </div>
+                </div>
+                <!-- End Example tag-pills Sizes -->
+              </div>
+
+              <div class="clearfix hidden-sm-down hidden-xl-up"></div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example tag-pills In Button -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tag-pills In Button</h4>
+                  <p>Easily highlight new or unread items by adding a <code>&lt;span class="tag tag-pill"&gt;</code>                    to button div.</p>
+                  <div class="example example-buttons">
+                    <button type="button" class="btn btn-primary">
+                      Update
+                      <span class="tag tag-pill">5</span>
+                    </button>
+                    <button type="button" class="btn btn-outline btn-primary">
+                      Update
+                      <span class="tag tag-pill">5</span>
+                    </button>
+                  </div>
+                </div>
+                <!-- End Example tag-pills In Button -->
+              </div>
+
+              <div class="clearfix hidden-lg-down"></div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example Absolute Positioning -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Absolute Positioning</h4>
+                  <p>They’re commonly found in email cilents like Mail.app or on mobile
+                    apps for push notifications. Highligh unread items by adding
+                    <code>.tag</code>, <code>.tag-pill</code>, <code>.up</code>,
+                    <code>.tag-warning</code> class in <code>&lt;span&gt;</code>                    mark</p>
+                  <div class="example-2 m-t-25">
+                    <span>
+                      <i class="icon wb-bell" aria-hidden="true"></i>
+                      <span class="tag tag-pill up tag-danger">5</span>
+                    </span>
+                    <span>
+                      <i class="icon wb-envelope" aria-hidden="true"></i>
+                      <span class="tag tag-pill up tag-warning">3</span>
+                    </span>
+                    <span>
+                      <i class="icon wb-user" aria-hidden="true"></i>
+                      <span class="tag tag-pill up tag-primary">3</span>
+                    </span>
+                    <span>
+                      <i class="icon wb-inbox" aria-hidden="true"></i>
+                      <span class="tag tag-pill up tag-info">3</span>
+                    </span>
+                  </div>
+                </div>
+                <!-- End Example Absolute Positioning -->
+              </div>
+
+              <div class="clearfix hidden-sm-down hidden-xl-up"></div>
+
+              <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example Status tag-pills -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Status tag-pills</h4>
+                  <p>You can use this examples to create status indicator tag-pills
+                    with <code>&lt;div class="avatar-online”&gt;</code> for profile
+                    images or similar elements.</p>
+                  <div class="example example-avatars">
+                    <div class="avatar avatar-online">
+                      <img src="{{global}}/portraits/2.jpg" alt="...">
+                      <i></i>
+                    </div>
+
+                    <div class="avatar avatar-off">
+                      <img src="{{global}}/portraits/3.jpg" alt="...">
+                      <i></i>
+                    </div>
+
+                    <div class="avatar avatar-busy">
+                      <img src="{{global}}/portraits/4.jpg" alt="...">
+                      <i></i>
+                    </div>
+
+                    <div class="avatar avatar-away">
+                      <img src="{{global}}/portraits/5.jpg" alt="...">
+                      <i></i>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Example Status tag-pills -->
+              </div>
+            </div>
+
+            <div class="row row-lg">
+              <div class="col-md-12 col-xs-12">
+                <!-- Example tag-pills In Nav -->
+                <div class="example-wrap">
+                  <h4 class="example-title">tag-pills In Nav</h4>
+                  <p>Built-in styles are included for placing tag-pills in active
+                    states in pill navigations. Highlight unread items by adding
+                    a <code>&lt;span class="tag tag-pill"&gt;</code> to tab div.</p>
+                  <div class="example">
+                    <ul class="nav nav-tabs nav-tabs-line">
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link active" href="javascript:void(0)">
+                          <span>Home</span>
+                          <span class="tag tag-pill tag-danger">5</span>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation"><a class="nav-link" href="javascript:void(0)">Blog</a></li>
+                      <li class="nav-item" role="presentation"><a class="nav-link" href="javascript:void(0)">Profile</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- End Example tag-pills In Nav -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel tag-pills -->
+      </div>
+    </div>
+    <!-- End Page -->
+
+  {{/content}}
+{{/extend}}

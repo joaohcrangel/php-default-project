@@ -1,0 +1,188 @@
+---
+title: Gallery Grid
+body_class: page-gallery-grid
+---
+
+{{#extend "layout-default"}}
+
+  {{#content "css" mode="prepend"}}
+    <link rel="stylesheet" href="{{assets}}/examples/css/pages/gallery-grid.css">
+  {{/content}}
+
+
+  {{#content "js_vendor" mode="append"}}
+    <script src="{{global}}/vendor/matchheight/jquery.matchHeight-min.js"></script>
+  {{/content}}
+
+  {{#content "js" mode="append"}}
+    <script src="{{global}}/js/Plugin/matchheight.js"></script>
+  {{/content}}
+
+
+  {{#content "body"}}
+
+    <div class="page">
+      <div class="page-content p-0">
+        <ul class="blocks no-space blocks-100 blocks-xxl-3 blocks-lg-2">
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>September 12, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Probantur Dubio Fortitudinem Istius.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>September 28, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Locus Referuntur Eruditus Finitum.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>October 05, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Atomi O Consentaneum Distrahi.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>October 15, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Summa Arbitratu Placebit Fruitur.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>October 23, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Beateque Civium Durissimis Equos.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>October 28, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Suas Cupio Conveniunt Insidiarum.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>November 16, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Misisti Accusantium Statue Beate.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>November 22, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Dominorum Erunt Primos Causas.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>November 25, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Accessio Iudicem Exiguam Instituit.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>December 11, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Lorem Ipsum Dolor Sit Amet.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>December 27, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Lorem Ipsum Dolor Sit Amet.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+          <li class="card card-inverse overlay overlay-hover">
+            <img class="card-img overlay-scale overlay-figure" src="{{global}}/photos/placeholder.png"
+              alt="...">
+            <div class="card-img-overlay overlay-background overlay-background-fixed text-xs-center vertical-align">
+              <div class="vertical-align-middle">
+                <div class="card-text card-divider">
+                  <span>December 30, 2016</span>
+                </div>
+                <h3 class="card-title m-b-20">Lorem Ipsum Dolor Sit Amet.</h3>
+                <a href="javascript:void(0);" class="btn btn-outline btn-inverse card-link">READ MORE</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  {{/content}}
+{{/extend}}

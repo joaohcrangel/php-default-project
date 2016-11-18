@@ -1,0 +1,26 @@
+@import "vars";
+
+.page-eventdrops {
+  overflow-x:hidden;
+}
+
+.event-drops-chart {
+  width: 1200px;
+  height: 600px;
+  padding: 20px 0;
+  background-color: #fff;
+}
+
+@include media-breakpoint-down(md) {
+  .page-eventdrops {
+	  .page {
+	  	min-height: calc(100% - 44px);
+	  }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+ 	.page-content {
+    overflow-x: scroll;
+  }
+}

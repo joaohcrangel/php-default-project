@@ -1,0 +1,109 @@
+
+.site-navbar {
+  // @padding: %(~"calc((100% - %d) / 2  + 10px)", @site-container-width-lg);
+  // padding-left: @padding !important;
+  // padding-right: @padding !important;
+
+  // .navbar-right {
+  //   margin-right: 0;
+  // }
+
+  .navbar-header {
+    .navbar-brand-logo {
+      height: 24px;
+    }
+
+    .navbar-brand-logo-normal {
+      display: none;
+    }
+
+    .navbar-brand {
+      font-family: $brand-font-family;
+      cursor: pointer;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: $brand-width;
+    }
+  }
+
+  .navbar-container {
+    @include media-breakpoint-up(md) {
+      margin-left: $brand-width;
+
+      #toggleMenubar {
+        display: none;
+      }
+    }
+
+    background-color: transparent;
+
+    @include media-breakpoint-down(sm) {
+      background-color: $inverse;
+    }
+  }
+
+  &.navbar-inverse {
+    .navbar-header {
+      .hamburger {
+        &:before,
+        &:after,
+        .hamburger-bar {
+          background-color: $site-navbar-header-color;
+        }
+      }
+
+      .navbar-brand-logo {
+        &-normal {
+          display: inline-block;
+        }
+
+        &-special {
+          display: none;
+        }
+      }
+    }
+
+    .navbar-container {
+      background-color: transparent;
+      @include media-breakpoint-down(sm) {
+        background-color: $inverse;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      .navbar-toolbar > li > a {
+        color: inherit;
+      }
+    }
+  }
+}
+
+.site-navbar {
+  @include media-breakpoint-up(xxl) {
+    $padding: (100% - #{$site-container-width-xxl});
+    padding-left: calc((#{$padding}) / 2 + 10px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(xl) {
+    $padding: (100% - #{$site-container-width-xl});
+    padding-left: calc((#{$padding}) / 2 + 10px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(lg) {
+    $padding: (100% - #{$site-container-width-lg});
+    padding-left: calc((#{$padding}) / 2 + 10px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+  @include media-breakpoint-only(md) {
+    $padding: (100% - #{$site-container-width-md});
+    padding-left: calc((#{$padding}) / 2 + 10px) !important;
+    padding-right: calc((#{$padding}) / 2 + 30px) !important;
+  }
+}
+
+//fix issue#250 in remark-v4 ---20161014kevin_y
+#site-navbar-search {
+  z-index: 1;
+}
+//end fix issue#250

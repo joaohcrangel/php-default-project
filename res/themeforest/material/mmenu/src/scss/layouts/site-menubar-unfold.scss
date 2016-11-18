@@ -1,0 +1,153 @@
+@mixin site-page-unfold() {
+  .page, .site-footer {
+    margin-left: $site-menubar-width;
+    transition: margin-left .25s;
+  }
+
+  &.page-aside-fixed {
+    .page-aside {
+      left: $site-menubar-width;
+    }
+
+    .site-footer {
+      margin-left: ($page-aside-width + $site-menubar-width);
+    }
+  }
+}
+
+@mixin site-page-md-unfold() {
+  &.page-aside-fixed {
+    .site-footer {
+      margin-left: ($page-aside-md-width + $site-menubar-width);
+    }  
+  }
+}
+
+@mixin site-navbar-unfold() {
+  .site-navbar {
+    @include media-breakpoint-up(md) {
+      .navbar-header {
+        width: $site-menubar-width;
+        transition: width .25s;
+      }
+      .navbar-container {
+        margin-left: $site-menubar-width;
+      }
+    }
+
+    .navbar-brand {
+      float: left;
+      text-align: left;
+
+      &-logo {
+        height: 26px;
+      }
+
+      &-text {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+@mixin site-menubar-unfold() {
+  &.site-menubar-native {
+    .site-menubar-body {
+      overflow-y: scroll;
+    }
+  }
+
+  .site-menubar {
+    width: $site-menubar-width;
+  }
+}
+
+@mixin site-gridmenu-unfold() {
+  .site-gridmenu {
+    width: $site-menubar-width;
+  }
+}
+
+@mixin site-menubar-footer-unfold() {
+  .site-menubar-footer {
+    width: $site-menubar-width;
+  }
+}
+
+@mixin site-menubar-toggle-unfold() {
+  [data-toggle="menubar"] {
+    .hamburger-arrow-left {
+      @include hamburger-arrow-left();
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .css-menubar {
+    @include site-page-unfold;
+  }
+}
+
+//.js-menubar {
+  .site-menubar-unfold {
+    @include site-page-unfold;
+
+    @include site-navbar-unfold;
+    @include site-menubar-unfold;
+    @include site-gridmenu-unfold;
+    @include site-menubar-footer-unfold;
+    @include site-menubar-toggle-unfold;
+
+    @include media-breakpoint-between(md, lg) {
+      @include site-page-md-unfold;
+    }
+  }
+//}
+
+@include media-breakpoint-down(sm) {
+  //.js-menubar {
+    .site-menubar-unfold {
+      .page, .site-footer {
+        margin-left: auto;
+      }
+      
+      &.page-aside-fixed {
+        .page-aside {
+          left: auto;
+        }
+      }
+    }
+
+    .site-menubar-open {
+      .page, .site-footer {
+        -ms-transform: translate($site-menubar-width, 0);
+        @include transform(translate3d($site-menubar-width, 0, 0));
+      }
+    }
+
+    .site-menubar-changing {
+      overflow: hidden;
+
+      .page, .site-footer {
+        transition: transform .25s;
+      }
+    }
+
+    .site-gridmenu {
+      width: 100% !important;
+      background: rgba($site-gridmenu-bg, (90/100));
+    }
+  //}
+
+  .site-menubar {
+    .site-menubar-hide &,
+    .site-menubar-open & {
+      transition: transform .25s, top .35s, height .35s;
+    }
+
+    .site-menubar-open & {
+      -ms-transform: translate(0, 0);
+      @include transform(translate3d(0, 0, 0));
+    }
+  }
+}

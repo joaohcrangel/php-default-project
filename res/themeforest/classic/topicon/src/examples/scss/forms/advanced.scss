@@ -1,0 +1,68 @@
+@import "vars";
+
+
+.bootstrap-select {
+  width: 100% !important;
+}
+
+.datepair-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.input-daterange-wrap {
+  float: left;
+}
+
+.input-daterange-to {
+  float: left;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+@media (max-width: 1360px) {
+  .input-daterange-wrap,
+  .input-daterange-to {
+    display: block;
+    float: none;
+  }
+}
+
+// form icons
+// =================================
+.form-icons{
+
+  .icon{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 99;
+  }
+  .round-input-control .form-control{
+    border-radius: 200px;
+  }
+  .large-icon .form-control{
+    height:3.2rem!important;
+  }
+  .small-icon .form-control{
+    height: 2.2rem!important;
+  }
+  .left-icon{
+    .form-control{
+      padding-left: 30px;
+    }
+    .icon{
+      left: 10px;
+    }
+  }
+  .right-icon{
+    .form-control{
+      padding-right: 30px;
+    }
+    .icon{
+      right: 10px;
+    }
+  }
+}

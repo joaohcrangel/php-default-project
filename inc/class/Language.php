@@ -1,7 +1,7 @@
-<?php 
+<?php
 class Language {
-	
-	private $default = "pt-br";
+
+	private $default = "pt-BR";
 	private $strings;
 
 	public function __construct($lang = NULL){

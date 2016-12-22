@@ -8,6 +8,12 @@ pdesmenu VARCHAR(128)
 )
 BEGIN
 
+    IF pidmenupai = 0 THEN
+    
+        SET pidmenupai = NULL;
+        
+    END IF;
+
     IF pidmenu = 0 THEN
     
         INSERT INTO tb_menus (idmenupai, desicone, deshref, nrordem, desmenu)

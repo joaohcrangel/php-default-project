@@ -44,11 +44,20 @@ if (!is_dir($modules_path)) {
     mkdir($modules_path);
 }
 
-foreach (scandir($modules_path) as $file) {
-	if ($file !== '.' && $file !== '..') {
-		require_once($modules_path.$file);
-	}
+function require_files($path) {
+    foreach (scandir($path) as $file) {
+        if ($file !== '.' && $file !== '..') {
+            if (is_dir($path.$file)) {
+                require_files($path.$file);
+            } else {
+                global $app;
+                require_once($path.$file);
+            }
+        }
+    }
 }
+
+require_files($modules_path);
 
 $app->run();
 

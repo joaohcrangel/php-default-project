@@ -50,12 +50,12 @@ gulp.task('javascript-libs', function() {
         .pipe(jshint())
         .pipe(uglify())
         .pipe(jsmin())
-        .pipe(concat('./../js/libs.js', {newLine: ';'}))
-        .pipe(gulp.dest('js'));
+        .pipe(concat('./../scripts/libs.js', {newLine: ';'}))
+        .pipe(gulp.dest('scripts'));
 
 });
 
-gulp.task('javascript', function() {
+gulp.task('scripts', function() {
 
 	gulp.src([
         './scripts/**/*.js'
@@ -69,7 +69,7 @@ gulp.task('javascript', function() {
 
 });
 
-gulp.task('minify', function() {
+gulp.task('html', function() {
     gulp.src('html/*.html')
     .pipe(htmlmin({
     	collapseWhitespace: true,
@@ -98,7 +98,7 @@ gulp.task('images', function(cb) {
 gulp.task('default', function() {
 	gulp.watch('sass/**/*.scss',['styles', /*'cssmin'*/]);
     gulp.watch('vendors/**/*.js',['javascript-libs']);
-	gulp.watch('scripts/**/*.js',['javascript']);
-    gulp.watch('html/**/*.html',['minify']);
+	gulp.watch('scripts/**/*.js',['scripts']);
+    gulp.watch('html/**/*.html',['html']);
 	gulp.watch('images_originals/**/*.*',['images']);
 });

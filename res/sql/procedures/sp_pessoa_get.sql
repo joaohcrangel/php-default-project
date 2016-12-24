@@ -5,7 +5,7 @@ BEGIN
 
   SELECT *		  
   FROM tb_pessoas a
-  LEFT JOIN tb_pessoastipos b ON a.idpessoa = b.idpessoa
+  LEFT JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
   WHERE a.idpessoa = pidpessoa;
 
 END

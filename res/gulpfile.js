@@ -52,7 +52,10 @@ gulp.task('cssmin', function() {
         './theme/material/global/fonts/material-design/material-design.min.css',
         './theme/material/global/fonts/brand-icons/brand-icons.min.css',
         './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.css',
-        './theme/material/global/vendor/toastr/toastr.css'
+        './theme/material/global/vendor/toastr/toastr.css',
+        './theme/material/global/vendor/alertify/alertify.css',
+        './theme/material/global/vendor/notie/notie.css',
+        './theme/assets/examples/css/advanced/alertify.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -95,6 +98,8 @@ gulp.task('scripts-libs-admin', function() {
         './theme/material/global/vendor/bootbox/bootbox.js',
         './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.js',
         './theme/material/global/vendor/toastr/toastr.js',
+        './theme/material/global/vendor/alertify/alertify.js',
+        './theme/material/global/vendor/notie/notie.js',
         //Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',

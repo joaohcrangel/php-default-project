@@ -66,14 +66,15 @@ window.System = {
       });
     };
 
-    System.alert = function(message, title){
+    System.alert = function(message, title, callback){
 
       if (!title) title = 'Atenção';
 
       if (typeof alertify === 'object') {
-        alertify.alert(message).set('title', title);
+        alertify.alert(title, message, callback);
       } else {
         alert(message);
+        if (typeof callback === 'function') callback();
       }
 
     };

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js css-menubar" lang="pt-br">
 {include="header-head"}
-<body class="animsition dashboard" ng-app="app" class="{$body.class}"> 
+<body class="animsition" ng-app="app" class="{$body.class}"> 
   <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
@@ -17,8 +17,8 @@
         <i class="icon md-more" aria-hidden="true"></i>
       </button>
       <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
-        <img class="navbar-brand-logo" src="../assets/images/logo.png" title="Remark">
-        <span class="navbar-brand-text hidden-xs-down"> Remark</span>
+        <img class="navbar-brand-logo" src="{$path}/res/theme/material/base/assets/images/logo.png" title="Remark">
+        <span class="navbar-brand-text hidden-xs-down"> Default Admin</span>
       </div>
       <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-search"
       data-toggle="collapse">
@@ -124,32 +124,32 @@
                     <ul class="blocks-3">
                       <li>
                         <a class="thumbnail m-0" href="javascript:void(0)">
-                          <img class="w-full" src="../../global/photos/placeholder.png" alt="..." />
+                          <img class="w-full" src="{$path}/res/theme/material/global/photos/placeholder.png" alt="..." />
                         </a>
                       </li>
                       <li>
                         <a class="thumbnail m-0" href="javascript:void(0)">
-                          <img class="w-full" src="../../global/photos/placeholder.png" alt="..." />
+                          <img class="w-full" src="{$path}/res/theme/material/global/photos/placeholder.png" alt="..." />
                         </a>
                       </li>
                       <li>
                         <a class="thumbnail m-0" href="javascript:void(0)">
-                          <img class="w-full" src="../../global/photos/placeholder.png" alt="..." />
+                          <img class="w-full" src="{$path}/res/theme/material/global/photos/placeholder.png" alt="..." />
                         </a>
                       </li>
                       <li>
                         <a class="thumbnail m-0" href="javascript:void(0)">
-                          <img class="w-full" src="../../global/photos/placeholder.png" alt="..." />
+                          <img class="w-full" src="{$path}/res/theme/material/global/photos/placeholder.png" alt="..." />
                         </a>
                       </li>
                       <li>
                         <a class="thumbnail m-0" href="javascript:void(0)">
-                          <img class="w-full" src="../../global/photos/placeholder.png" alt="..." />
+                          <img class="w-full" src="{$path}/res/theme/material/global/photos/placeholder.png" alt="..." />
                         </a>
                       </li>
                       <li>
                         <a class="thumbnail m-0" href="javascript:void(0)">
-                          <img class="w-full" src="../../global/photos/placeholder.png" alt="..." />
+                          <img class="w-full" src="{$path}/res/theme/material/global/photos/placeholder.png" alt="..." />
                         </a>
                       </li>
                     </ul>
@@ -242,7 +242,7 @@
             <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
             data-animation="scale-up" role="button">
               <span class="avatar avatar-online">
-                <img src="../../global/portraits/5.jpg" alt="...">
+                <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="...">
                 <i></i>
               </span>
             </a>
@@ -354,7 +354,7 @@
                       <div class="media">
                         <div class="media-left p-r-10">
                           <span class="avatar avatar-sm avatar-online">
-                            <img src="../../global/portraits/2.jpg" alt="..." />
+                            <img src="{$path}/res/theme/material/global/portraits/2.jpg" alt="..." />
                             <i></i>
                           </span>
                         </div>
@@ -371,7 +371,7 @@
                       <div class="media">
                         <div class="media-left p-r-10">
                           <span class="avatar avatar-sm avatar-off">
-                            <img src="../../global/portraits/3.jpg" alt="..." />
+                            <img src="{$path}/res/theme/material/global/portraits/3.jpg" alt="..." />
                             <i></i>
                           </span>
                         </div>
@@ -388,7 +388,7 @@
                       <div class="media">
                         <div class="media-left p-r-10">
                           <span class="avatar avatar-sm avatar-busy">
-                            <img src="../../global/portraits/4.jpg" alt="..." />
+                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="..." />
                             <i></i>
                           </span>
                         </div>
@@ -405,7 +405,7 @@
                       <div class="media">
                         <div class="media-left p-r-10">
                           <span class="avatar avatar-sm avatar-away">
-                            <img src="../../global/portraits/5.jpg" alt="..." />
+                            <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="..." />
                             <i></i>
                           </span>
                         </div>
@@ -457,6 +457,8 @@
       <!-- End Site Navbar Seach -->
     </div>
   </nav>
+  {include="header-menu"}
+  <!--
   <div class="site-menubar">
     <div class="site-menubar-body">
       <div>
@@ -1411,6 +1413,7 @@
       </a>
     </div>
   </div>
+  -->
   <div class="site-gridmenu">
     <div>
       <div>
@@ -1467,45 +1470,3 @@
       </div>
     </div>
   </div>
-  <script>
-  init.push(function(){
-
-    $('nav a.rest').each(function(){
-
-      $(this).btnrest({
-        url:$(this).attr('href'),
-        success:function(r){
-
-          $('body').fadeOut();
-          window.location.reload();
-
-        }
-      });
-
-    });
-
-    $('#site-navbar-search input').on('keyup', function(event){
-
-      var $input = $(this);
-
-      if (event.keyCode === 13 && $input.val().length > 0) {
-
-        $.slidePanel.show({
-            url: PATH+'/admin/search-panel?q='+$input.val(),
-            settings: {
-                method: 'GET'
-            }
-        },{
-            loading: {
-                template: function(options) {
-                    return '<div class="' + options.classes.loading + '"><div class="spinner"></div></div>';
-                }
-            }
-        });
-
-      }
-
-    });
-
-  });
-  </script>

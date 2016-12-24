@@ -17,20 +17,21 @@ $app->get("/install-admin/sql/clear/tables", function(){
 
 	$sql = new Sql();
 
-	$sql->query("DROP TABLE IF EXISTS tb_contatostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_contatos;");
-	$sql->query("DROP TABLE IF EXISTS tb_documentostipos;");
+	$sql->query("DROP TABLE IF EXISTS tb_contatostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_documentos;");
-	$sql->query("DROP TABLE IF EXISTS tb_enderecostipos;");
+	$sql->query("DROP TABLE IF EXISTS tb_documentostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_enderecos;");
+	$sql->query("DROP TABLE IF EXISTS tb_enderecostipos;");	
 	$sql->query("DROP TABLE IF EXISTS tb_permissoesmenus;");
 	$sql->query("DROP TABLE IF EXISTS tb_permissoesusuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_permissoes;");
 	$sql->query("DROP TABLE IF EXISTS tb_menususuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_menus;");
 	$sql->query("DROP TABLE IF EXISTS tb_usuarios;");
-	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoas;");
+	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
+	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
 
 	echo success();
 
@@ -235,12 +236,13 @@ $app->get("/install-admin/sql/menus/tables", function(){
 
 	$sql->query("
 		CREATE TABLE tb_menus (
-		  idmenupai int(11) DEFAULT NULL,
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
+		  idmenupai int(11) DEFAULT NULL,
 		  desmenu varchar(128) NOT NULL,
 		  desicone varchar(64) NOT NULL,
 		  deshref varchar(64) NOT NULL,
 		  nrordem int(11) NOT NULL,
+		  nrsubmenus int(11) DEFAULT '0' NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idmenu),
 		  KEY FK_menus_menus (idmenupai),
@@ -265,15 +267,31 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
-		INSERT INTO tb_menus (desmenu, desicone, deshref, nrordem) VALUES
-		(?, ?, ?, ?),
-		(?, ?, ?, ?),
-		(?, ?, ?, ?);
-	", array(
-		'Dashboard', 'wb-bookmark', '/', 0,
-		'Sistema', 'wb-cog', '', 0,
-		'Menu', '', 'sys-menu', 2
+	$sql->proc("sp_menu_save", array(
+		NULL,
+		0,
+		'md-view-dashboard', 
+		'/', 
+		0, 
+		'Dashboard'
+	));
+
+	$sql->proc("sp_menu_save", array(
+		NULL,
+		0,
+		'md-settings', 
+		'', 
+		0, 
+		'Sistema'
+	));
+
+	$sql->proc("sp_menu_save", array(
+		2,
+		0,
+		'wb-cog', 
+		'sys-menu', 
+		0, 
+		'Menu'
 	));
 
 	echo success();
@@ -319,6 +337,14 @@ $app->get("/install-admin/sql/menus/remove", function(){
 $app->get("/install-admin/sql/menus/save", function(){
 
 	$sql = new Sql();
+
+	$name = "sp_menusfromusuario_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_menutrigger_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
 	$name = "sp_menu_save";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");

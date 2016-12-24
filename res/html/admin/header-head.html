@@ -29,8 +29,6 @@
   <link rel="shortcut icon" href="{$path}/res/theme/assets/images/favicon.ico">
 
   <link rel="stylesheet" href="{$path}/res/css/all.css">
-  
-  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
   <!--[if lt IE 9]>
     <script src="{$path}/res/theme/material/global/vendor/html5shiv/html5shiv.min.js"></script>
     <![endif]-->
@@ -42,7 +40,7 @@
   <script src="{$path}/res/vendor/angular/angular.min.js"></script>
   <script src="{$path}/res/theme/material/global/vendor/breakpoints/breakpoints.js"></script>
   <script>
-  window.init = [], window.PATH = '{$path}';
+  window.init = [], window.PATH = '{$path}', window.PATH_ADMIN = '{$pathAdmin}';
   Breakpoints();
   var app = angular.module("app", []);
   </script>

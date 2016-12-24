@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_menu_save(
+CREATE PROCEDURE sp_menu_save (
 pidmenupai INT,
 pidmenu INT,
 pdesicone VARCHAR(64),
@@ -9,9 +9,7 @@ pdesmenu VARCHAR(128)
 BEGIN
 
     IF pidmenupai = 0 THEN
-    
         SET pidmenupai = NULL;
-        
     END IF;
 
     IF pidmenu = 0 THEN
@@ -30,10 +28,12 @@ BEGIN
             desicone = pdesicone,
             deshref = pdeshref,
             nrordem = pnrordem,
-			desmenu = pdesmenu
+            desmenu = pdesmenu
         WHERE idmenu = pidmenu;
 
     END IF;
+    
+    CALL sp_menutrigger_save(pidmenu, pidmenupai);
 
     CALL sp_menu_get(pidmenu);
 

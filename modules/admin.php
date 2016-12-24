@@ -42,9 +42,17 @@ $app->get("/".DIR_ADMIN."/forget", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/menu-refresh", function(){
+$app->get("/".DIR_ADMIN."/reset", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
+
+    $usuario = Session::getUsuario();
+
+    $usuario->reload();
+
+    $usuario->getPessoa();
+
+    Session::setUsuario($usuario);
 
     Menu::resetMenuSession();
 

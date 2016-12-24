@@ -75,13 +75,13 @@ class Menu extends Model {
 
         $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
 
-        $html = '<ul class="'.(($menuPai->getidmenu() === 0)?'site-menu':'site-menu-sub').'">';
+        $html = '<ul class="'.(($menuPai->getidmenu() === 0)?'site-menu':'site-menu-sub').'" '.(($menuPai->getidmenu() === 0)?'data-plugin="menu"':'').'>';
 
         foreach ($roots->getItens() as $menu) {
 
             $html .= '
                 <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenus() > 0)?'has-sub':'').'">
-                    <a title="'.$menu->getdesmenu().'" href="'.(($menu->getdeshref() === 'javascript:void(0)')?'javascript:void(0)':SITE_PATH.'/'.$menu->getdeshref()).'" data-slug="layout">
+                    <a '.(($menu->getdeshref() !== '')?'class="animsition-link"':'').' title="'.$menu->getdesmenu().'" href="'.(($menu->getdeshref() === '')?'javascript:void(0)':DIR_ADMIN.'/'.$menu->getdeshref()).'" data-slug="layout">
                         <i class="site-menu-icon '.$menu->getdesicone().'" aria-hidden="true"></i>
                         <span class="site-menu-title">'.$menu->getdesmenu().'</span>
                         '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'

@@ -227,5 +227,11 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 	}
 
+	public function reload(){
+
+		return $this->get($this->{'get'.$this->pk}());
+
+	}
+
 }
 ?>

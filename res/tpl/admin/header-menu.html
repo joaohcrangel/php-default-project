@@ -1,17 +1,1 @@
-<div class="site-menubar"><div class="site-menubar-body"><div><div>{function="echoMenuHTML()"}</div></div></div><div class="site-menubar-footer"><a href="{$path}/admin/settings" class="fold-show" data-placement="top" data-toggle="tooltip" data-original-title="Cofigurações Pessoais"><span class="icon wb-settings" aria-hidden="true"></span> </a><a href="javascript:void(0)" data-href="{$path}/usuarios/lock" class="rest" data-placement="top" data-toggle="tooltip" data-original-title="Lock"><span class="icon wb-eye-close" aria-hidden="true"></span> </a><a href="javascript:void(0)" data-href="{$path}/usuarios/logout" class="rest" data-placement="top" data-toggle="tooltip" data-original-title="Logout"><span class="icon wb-power" aria-hidden="true"></span></a></div></div><script>init.push(function(){
-
-    $('.site-menubar-footer a.rest').each(function(){
-
-      $(this).btnrest({
-        url:$(this).data('href'),
-        success:function(r){
-
-          $('body').fadeOut();
-          window.location.reload();
-
-        }
-      });
-
-    });
-
-  });</script>
+<div class="site-menubar"><div class="site-menubar-body"><div><div>{function="echoMenuHTML()"}</div></div></div><div class="site-menubar-footer"><a href="{$pathAdmin}/settings" class="fold-show" data-placement="top" data-toggle="tooltip" data-original-title="Settings"><span class="icon md-settings" aria-hidden="true"></span> </a><a href="javascript:void(0)" data-href="{$path}/usuarios/lock" data-placement="top" data-toggle="tooltip" data-original-title="Lock"><span class="icon md-eye-off" aria-hidden="true"></span> </a><a href="javascript: void(0);" data-href="{$path}/usuarios/logout" data-placement="top" data-toggle="tooltip" data-original-title="Logout"><span class="icon md-power" aria-hidden="true"></span></a></div></div>

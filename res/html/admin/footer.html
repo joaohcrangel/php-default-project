@@ -1,7 +1,7 @@
 <footer class="site-footer">
     <div class="site-footer-legal">© {function="date('Y')"} <a href="https://www.hcode.com.br">Hcode</a></div>
     <div class="site-footer-right">
-      <i class="wb-user"></i> <a href="{$path}/perfil">{function="Session::getPessoa()->getdesnomeabreviado()"}</a>
+      <i class="icon md-account-circle" aria-hidden="true"></i> <a href="{$path}/perfil">{function="Session::getPessoa()->getdespessoa()"}</a>
     </div>
   </footer>
   {include="footer-scripts"}

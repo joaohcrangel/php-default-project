@@ -187,6 +187,10 @@ $app->get("/install-admin/sql/usuarios/get", function(){
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
+	$name = "sp_usuariofromemail_get";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 
 });

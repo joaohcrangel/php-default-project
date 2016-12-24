@@ -34,23 +34,25 @@ gulp.task('cssmin', function() {
     }
 
     gulp.src([
-        'theme/material/global/css/bootstrap.min.css',
-        'theme/material/global/css/bootstrap-extend.min.css',
-        'vendors/owl-carousel/owl.carousel.css',
-        'theme/assets/css/site.min.css',
-        'theme/material/global/vendor/animsition/animsition.css',
-        'theme/material/global/vendor/asscrollable/asScrollable.css',
-        'theme/material/global/vendor/switchery/switchery.css',
-        'theme/material/global/vendor/intro-js/introjs.css',
-        'theme/material/global/vendor/slidepanel/slidePanel.css',
-        'theme/material/global/vendor/flag-icon-css/flag-icon.css',
-        'theme/material/global/vendor/waves/waves.css',
-        'theme/material/global/vendor/chartist/chartist.css',
-        'theme/material/global/vendor/jvectormap/jquery-jvectormap.css',
-        'theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css',
-        'theme/material/base/assets/examples/css/dashboard/v1.css',
-        'theme/material/global/fonts/material-design/material-design.min.css',
-        'theme/material/global/fonts/brand-icons/brand-icons.min.css'
+        './theme/material/global/css/bootstrap.min.css',
+        './theme/material/global/css/bootstrap-extend.min.css',
+        './vendors/owl-carousel/owl.carousel.css',
+        './theme/assets/css/site.min.css',
+        './theme/material/global/vendor/animsition/animsition.css',
+        './theme/material/global/vendor/asscrollable/asScrollable.css',
+        './theme/material/global/vendor/switchery/switchery.css',
+        './theme/material/global/vendor/intro-js/introjs.css',
+        './theme/material/global/vendor/slidepanel/slidePanel.css',
+        './theme/material/global/vendor/flag-icon-css/flag-icon.css',
+        './theme/material/global/vendor/waves/waves.css',
+        './theme/material/global/vendor/chartist/chartist.css',
+        './theme/material/global/vendor/jvectormap/jquery-jvectormap.css',
+        './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css',
+        './theme/material/base/assets/examples/css/dashboard/v1.css',
+        './theme/material/global/fonts/material-design/material-design.min.css',
+        './theme/material/global/fonts/brand-icons/brand-icons.min.css',
+        './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.css',
+        './theme/material/global/vendor/toastr/toastr.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -90,6 +92,9 @@ gulp.task('scripts-libs-admin', function() {
         './theme/material/global/vendor/jvectormap/maps/jquery-jvectormap-world-mill-en.js',
         './theme/material/global/vendor/matchheight/jquery.matchHeight-min.js',
         './theme/material/global/vendor/peity/jquery.peity.min.js',
+        './theme/material/global/vendor/bootbox/bootbox.js',
+        './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.js',
+        './theme/material/global/vendor/toastr/toastr.js',
         //Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',

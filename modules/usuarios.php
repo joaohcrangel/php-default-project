@@ -14,6 +14,22 @@ $app->post("/usuarios/login", function(){
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/forget", function(){
+
+	$usuario = Usuario::getByEmail(strtolower(post('email')));
+
+	if ($usuario->getidusuario() > 0) {
+
+		//Enviar e-mail
+
+	}
+
+	echo success(array('token'=>session_id(), 'data'=>array(
+		'message'=>'E-mail de recuperação de senha enviado com sucesso.'
+	)));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/usuarios", function(){
 
     $page = new Page();

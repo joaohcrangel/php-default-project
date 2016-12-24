@@ -20,6 +20,18 @@ class Usuario extends Model {
 
     }
 
+    public static function getByEmail($desemail){
+        
+        $usuario = new Usuario();
+
+        $usuario->queryToAttr("CALL sp_usuariofromemail_get(?)", array(
+            $desemail
+        ));
+
+        return $usuario;
+
+    }
+
     public function save(){
 
         if($this->getChanged() && $this->isValid()){

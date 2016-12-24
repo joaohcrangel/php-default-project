@@ -28,6 +28,20 @@ $app->get("/".DIR_ADMIN."/login", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/forget", function(){
+
+    $page = new AdminPage(array(
+        'header'=>false,
+        'footer'=>false,
+        'data'=>array(
+            'head_title'=>'Forget'
+        )
+    ));
+
+    $page->setTpl('forget');
+
+});
+
 $app->get("/".DIR_ADMIN."/menu-refresh", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

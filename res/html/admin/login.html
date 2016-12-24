@@ -4,9 +4,8 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/pages/login-v3.css">
 <body class="animsition page-login-v3 layout-full">
   <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-  <!-- Page -->
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
   <div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">>
     <div class="page-content vertical-align-middle">
       <div class="panel">
@@ -15,9 +14,9 @@
             <img class="brand-img" src="{$path}/res/theme/material/base/assets/images/logo-blue.png" alt="...">
             <h2 class="brand-text font-size-18">Default Admin</h2>
           </div>
-          <form method="post" action="#" autocomplete="off">
+          <form id="form-login" action="#" autocomplete="off">
             <div class="form-group form-material floating" data-plugin="formMaterial">
-              <input type="email" class="form-control" name="email" />
+              <input type="text" class="form-control" name="username" />
               <label class="floating-label">Usuário</label>
             </div>
             <div class="form-group form-material floating" data-plugin="formMaterial">
@@ -35,13 +34,28 @@
           </form>
         </div>
       </div>
-      <footer class="page-copyright page-copyright-inverse">
-        <p>Default Admin developer by João Rangel</p>
-        <p>© {function="date('Y')"}</p>
-      </footer>
+      {include="footer-login"}
     </div>
   </div>
-  <!-- End Page -->
   {include="footer-scripts"}
+  <script>
+    $(function(){
+
+      $(function(){
+
+        $("#form-login").form({
+          url:PATH+"/usuarios/login",
+          success:function(){
+
+            $("#form-login").fadeOut();
+            window.location.href = PATH+"/";
+
+          }
+        });
+
+      });
+
+    });
+  </script>
 </body>
 </html>

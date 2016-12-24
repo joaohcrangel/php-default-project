@@ -23,6 +23,18 @@ $app->error(function (\Exception $e) use ($app) {
 
 });
 
+$app->error(function (\Throwable $e) use ($app) {
+
+    echo json_encode(array(
+        'success'=>false,
+        'error'=>$e->getMessage(),
+        'errorcode'=>$e->getCode(),
+        'errorfile'=>$e->getFile(),
+        'errorline'=>$e->getLine()
+    ));
+
+}); 
+
 $app->notFound(function () use ($app) {
     
 	echo json_encode(array(

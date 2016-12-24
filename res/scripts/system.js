@@ -26,24 +26,24 @@ window.System = {
     };
 
     System.loadHeader = function(){
-
+      /*
       NProgress.done(true);
       NProgress.configure({
         template: '<div class="bar nprogress-bar-header" style="left:265px" role="bar"></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
       });
       NProgress.start();
-
+      
       setTimeout(function(){
 
         System.doneHeader();
 
       }, 30000);
-
+      */
     };
 
     System.doneHeader = function(){
 
-      NProgress.done(true);
+      //NProgress.done(true);
 
     };
 

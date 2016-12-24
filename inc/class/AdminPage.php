@@ -21,7 +21,7 @@ class AdminPage {
 	public function __construct($options = array()){
 
 		$options = array_merge_recursive_distinct($this->options, $options);
-		$options['data']['head_title'] .= " - CM Stands";
+		$options['data']['head_title'] .= " - Adminsitração";
 
 		$this->language = new Language();
 
@@ -29,6 +29,7 @@ class AdminPage {
 		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
 		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;
 		$options['data']['path'] = SITE_PATH;
+		$options['data']['pathAdmin'] = SITE_PATH."/".DIR_ADMIN;
 
 		$tpl = $this->getTpl();
 		$this->options = $options;

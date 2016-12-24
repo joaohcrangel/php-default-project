@@ -1,15 +1,3 @@
-<!DOCTYPE html><html class="no-js before-run" lang="en">{include="header-head"}<link rel="stylesheet" href="{$path}/res/css/pages/login.css"><body class="page-login layout-full page-dark"><!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.<![endif]--><div class="page animsition vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">><div class="page-content vertical-align-middle"><div class="brand"><h2 class="brand-text"><img src="{$path}/res/img/logo-navbar-cmstands.png" alt="Logo CM Stands"></h2></div><p>Acesse com sua conta.<form method="post" id="form-login"><div class="form-group"><label class="sr-only" for="inputEmail">Login</label><input type="text" class="form-control" id="inputEmail" name="username" placeholder="Login"></div><div class="form-group"><label class="sr-only" for="inputPassword">Senha</label><input type="password" class="form-control" id="inputPassword" name="password" placeholder="Senha"></div><div class="form-group clearfix"><div class="checkbox-custom checkbox-inline pull-left"><input type="checkbox" id="inputCheckbox" name="checkbox" value="1"><label for="inputCheckbox">Manter conectado</label></div><a class="pull-right" href="{$path}/recuperar-senha">Esqueceu a senha?</a></div><button type="submit" class="btn btn-primary btn-block">Acessar</button></form></div></div>{include="footer-scripts"}<script>$(function(){
-
-    $("#form-login").form({
-      url:PATH+"/usuarios/login",
-      success:function(r){
-
-        $("#form-login").fadeOut();
-        $(".page-content p").html("Por favor, aguarde...");
-        $(".page-content h2").html("Olá "+r.data.Pessoa.despessoa+"!");
-        window.location.href = PATH+"/admin";
-
-      }
-    });
-
-  });</script>
+<!DOCTYPE html><html class="no-js before-run" lang="en">{include="header-head"}<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/pages/login-v3.css"><body class="animsition page-login-v3 layout-full"><!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]--><div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">><div class="page-content vertical-align-middle"><div class="panel"><div class="panel-body"><div class="brand"><img class="brand-img" src="{$path}/res/theme/material/base/assets/images/logo-blue.png" alt="..."><h2 class="brand-text font-size-18">Default Admin</h2></div><form method="post" action="#" autocomplete="off"><div class="form-group form-material floating" data-plugin="formMaterial"><input type="email" class="form-control" name="email"><label class="floating-label">Usuário</label></div><div class="form-group form-material floating" data-plugin="formMaterial"><input type="password" class="form-control" name="password"><label class="floating-label">Senha</label></div><div class="form-group clearfix"><div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-xs-left"><input type="checkbox" id="inputCheckbox" name="remember"><label for="inputCheckbox">Manter conectado</label></div><a class="pull-xs-right" href="{$pathAdmin}/forget">Esqueceu a senha?</a></div><button type="submit" class="btn btn-primary btn-block btn-lg m-t-40">Entrar</button></form></div></div><footer class="page-copyright page-copyright-inverse"><p>Default Admin developer by João Rangel<p>© {function="date('Y')"}</footer></div></div>{include="footer-scripts"}

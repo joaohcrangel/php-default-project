@@ -1,58 +1,9 @@
-  <footer class="site-footer">
-    <span class="site-footer-legal">© {function="date('Y')"} CM Stands</span>
+<footer class="site-footer">
+    <div class="site-footer-legal">© {function="date('Y')"} <a href="https://www.hcode.com.br">Hcode</a></div>
     <div class="site-footer-right">
       <i class="wb-user"></i> <a href="{$path}/perfil">{function="Session::getPessoa()->getdesnomeabreviado()"}</a>
     </div>
   </footer>
   {include="footer-scripts"}
-  <script>
-  $(function(){
-
-  	$('select[data-type]').each(function(){
-
-  		var t = this, $select = $(t), opts = $select.data();
-
-  		$select.html('');
-
-  		var render = function(data){
-
-  			$.each(data, function(index, row){
-
-  				$select.append('<option value="'+row[opts.valuefield]+'">'+row[opts.displayfield]+'</option>');
-
-  			});
-
-  			if (opts.value) {
-  				$select.find('[value="'+opts.value+'"]').attr('selected', 'selected');
-  			}
-
-  		}
-
-  		if (window.stores && window.stores[$select.data('type')] && window.stores[$select.data('type')].length) {
-
-  			render(window.stores[$select.data('type')]);
-
-  		} else {
-
-  			rest({
-	  			url:PATH+'/rest/'+$select.data('type'),
-	  			success:function(r){
-
-	  				if (!window.stores) window.stores = [];
-	  				window.stores[$select.data('type')] = r.data;
-	  				render(r.data);
-
-	  			}
-	  		});
-
-  		}
-
-  	});
-
-  });
-  /*try{
-    window.debugSQL = {function="json_encode($session.querys)"};
-  }catch(e){}*/
-  </script>
 </body>
 </html>

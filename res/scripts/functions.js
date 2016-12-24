@@ -33,3 +33,35 @@ function abbrNum(number, decPlaces) {
 
     return number;
 }
+function getPageSize(){
+
+    var scnWid, scnHei;
+    if (self.innerHeight) {
+        scnWid = self.innerWidth;
+        scnHei = self.innerHeight;
+    } else if (document.documentElement && document.documentElement.clientHeight) {
+        scnWid = document.documentElement.clientWidth;
+        scnHei = document.documentElement.clientHeight;
+    } else if (document.body) {
+        scnWid = document.body.clientWidth;
+        scnHei = document.body.clientHeight;
+    }
+
+    return {width:scnWid, height:scnHei};
+
+}
+function searchToObject() {
+  var pairs = window.location.search.substring(1).split("&"),
+    obj = {},
+    pair,
+    i;
+
+  for ( i in pairs ) {
+    if ( pairs[i] === "" ) continue;
+
+    pair = pairs[i].split("=");
+    obj[ decodeURIComponent( pair[0] ) ] = decodeURIComponent( pair[1] );
+  }
+
+  return obj;
+}

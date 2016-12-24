@@ -2,7 +2,7 @@
 
 define("PATH_PROC", PATH."/res/sql/procedures/");
 
-$app->get("/install-admin", function(){
+$app->get("/install", function(){
 
 	$page = new Page(array(
 		'header'=>false,
@@ -215,6 +215,16 @@ $app->get("/install-admin/sql/usuarios/save", function(){
 
 });
 
+$app->get("/install-admin/sql/usuarios/list", function(){
+
+	$sql = new Sql();
+
+	
+
+	echo success();
+
+});
+
 $app->get("/install-admin/sql/menus/tables", function(){
 
 	$sql = new Sql();
@@ -253,9 +263,13 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 
 	$sql->query("
 		INSERT INTO tb_menus (desmenu, desicone, deshref, nrordem) VALUES
+		(?, ?, ?, ?),
+		(?, ?, ?, ?),
 		(?, ?, ?, ?);
 	", array(
-		'Dashboard', 'wb-bookmark', '/', 0
+		'Dashboard', 'wb-bookmark', '/', 0,
+		'Sistema', 'wb-cog', '', 0,
+		'Menu', '', 'sys-menu', 2
 	));
 
 	echo success();
@@ -685,6 +699,30 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 		2, 1,
 		3, 1
 	));
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/permissoes/get", function(){
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/permissoes/list", function(){
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/permissoes/save", function(){
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/permissoes/remove", function(){
 
 	echo success();
 

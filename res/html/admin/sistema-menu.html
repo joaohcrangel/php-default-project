@@ -69,124 +69,127 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-sm-6">
-                <div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
-                    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-                    	<li class="nav-item" role="presentation">
-                            <a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados"
-                            role="tab">
-                      <i class="icon md-edit" aria-hidden="true"></i> Editar Menu
-                    </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-toggle="tab" href="#tabMenuUsuarios" aria-controls="tabMenuUsuarios"
-                            role="tab">
-                      <i class="icon md-accounts" aria-hidden="true"></i> Usuários
-                    </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-toggle="tab" href="#tabMenuPermissoes" aria-controls="tabMenuPermissoes"
-                            role="tab">
-                      <i class="icon md-lock" aria-hidden="true"></i> Permissões
-                    </a>
-                        </li>
-                        <li class="pull-xs-right" role="presentation">
-                      		<button type="button" class="btn btn-pure btn-default icon md-close waves-effect"></button>
-                    </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content p-t-15">
-                        <div class="tab-pane active" id="tabMenuDados" role="tabpanel">
-                            <div class="panel">
-                            	<form id="menu-editar">
-                            		<div class="form-group form-material" data-plugin="formMaterial">
-					                  <label class="form-control-label" for="desmenu">Texto</label>
-					                  <input type="text" class="form-control" id="desmenu" name="desmenu" placeholder="Texto do menu">
-					                </div>
-					                <div class="form-group form-material" data-plugin="formMaterial">
-					                  <label class="form-control-label" for="deshref">Href/Link</label>
-					                  <input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação">
-					                </div>
-					                <div class="form-group form-material" data-plugin="formMaterial">
-					                  <label class="form-control-label" for="desicone">Icone</label>
-					                  <input type="text" class="form-control" id="desicone" name="desicone" placeholder="Icone">
-					                </div>
-					                <div class="form-group form-material">
-				                      <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
-				                    </div>
-                            	</form>                    
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tabMenuUsuarios" role="tabpanel">
-                            <div class="panel">
-                                <ul class="list-group list-group-full list-group-dividered">
-                                    <li class="list-group-item">
-                                        <div class="checkbox-custom checkbox-primary">
-                                            <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
-                                            <label for="inputSchedule">
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <a class="avatar" href="javascript:void(0)">
-				                        <img src="{$path}/res/theme/material/global/portraits/9.jpg" alt="">
-				                      </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <div>
-                                                            <a class="name" href="javascript:void(0)">Willard Wood</a>
-                                                        </div>
-                                                        <small>
-                                                            @heavybutterfly920
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="panel-footer p-10">
-                                    <button type="button" class="btn btn-success waves-effect">
-                                        <i class="icon md-plus" aria-hidden="true">
-                                        </i>
-                                        Adicionar
-                                    </button>
-                                    <button type="button" class="btn btn-danger waves-effect pull-xs-right">
-                                        <i class="icon md-close" aria-hidden="true">
-                                        </i>
-                                        Remover
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tabMenuPermissoes" role="tabpanel">
-                            <div class="panel">
-                                <ul class="list-group list-group-full list-group-dividered">
-                                    <li class="list-group-item">
-                                        <div class="checkbox-custom checkbox-primary">
-                                            <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
-                                            <label for="inputSchedule">
-                                                <span>
-                                                    Schedule meeting
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="panel-footer p-10">
-                                    <button type="button" class="btn btn-success waves-effect">
-                                        <i class="icon md-plus" aria-hidden="true">
-                                        </i>
-                                        Adicionar
-                                    </button>
-                                    <button type="button" class="btn btn-danger waves-effect pull-xs-right">
-                                        <i class="icon md-close" aria-hidden="true">
-                                        </i>
-                                        Remover
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            	<div class="example-wrap">
+	                <div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+	                    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+	                    	<li class="nav-item" role="presentation">
+	                            <a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados"
+	                            role="tab">
+	                      <i class="icon md-edit" aria-hidden="true"></i> Editar Menu
+	                    </a>
+	                        </li>
+	                        <li class="nav-item" role="presentation">
+	                            <a class="nav-link" data-toggle="tab" href="#tabMenuUsuarios" aria-controls="tabMenuUsuarios"
+	                            role="tab">
+	                      <i class="icon md-accounts" aria-hidden="true"></i> Usuários
+	                    </a>
+	                        </li>
+	                        <li class="nav-item" role="presentation">
+	                            <a class="nav-link" data-toggle="tab" href="#tabMenuPermissoes" aria-controls="tabMenuPermissoes"
+	                            role="tab">
+	                      <i class="icon md-lock" aria-hidden="true"></i> Permissões
+	                    </a>
+	                        </li>
+	                        <li class="pull-xs-right" role="presentation">
+	                      		<button type="button" class="btn btn-pure btn-default icon md-close waves-effect"></button>
+	                    </a>
+	                        </li>
+	                    </ul>
+	                    <div class="tab-content p-t-15">
+	                        <div class="tab-pane active" id="tabMenuDados" role="tabpanel">
+	                            <div class="panel">
+	                            	<form id="menu-editar">
+	                            		<div class="form-group form-material" data-plugin="formMaterial">
+						                  <label class="form-control-label" for="desmenu">Texto</label>
+						                  <input type="text" class="form-control" id="desmenu" name="desmenu" placeholder="Texto do menu">
+						                </div>
+						                <div class="form-group form-material" data-plugin="formMaterial">
+						                  <label class="form-control-label" for="deshref">Href/Link</label>
+						                  <input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação">
+						                </div>
+						                <div class="form-group form-material" data-plugin="formMaterial">
+						                  <label class="form-control-label" for="desicone">Icone</label>
+						                  <input type="text" class="form-control" id="desicone" name="desicone" placeholder="Icone">
+						                </div>
+						                <div class="form-group form-material">
+					                      <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+					                    </div>
+	                            	</form>                    
+	                            </div>
+	                        </div>
+	                        <div class="tab-pane" id="tabMenuUsuarios" role="tabpanel">
+	                            <div class="panel">
+	                                <ul class="list-group list-group-full list-group-dividered">
+	                                    <li class="list-group-item">
+	                                        <div class="checkbox-custom checkbox-primary">
+	                                            <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
+	                                            <label for="inputSchedule">
+	                                                <div class="media">
+	                                                    <div class="media-left">
+	                                                        <a class="avatar" href="javascript:void(0)">
+					                        <img src="{$path}/res/theme/material/global/portraits/9.jpg" alt="">
+					                      </a>
+	                                                    </div>
+	                                                    <div class="media-body">
+	                                                        <div>
+	                                                            <a class="name" href="javascript:void(0)">Willard Wood</a>
+	                                                        </div>
+	                                                        <small>
+	                                                            @heavybutterfly920
+	                                                        </small>
+	                                                    </div>
+	                                                </div>
+	                                            </label>
+	                                        </div>
+	                                    </li>
+	                                </ul>
+	                                <div class="panel-footer p-10">
+	                                    <button type="button" class="btn btn-success waves-effect">
+	                                        <i class="icon md-plus" aria-hidden="true">
+	                                        </i>
+	                                        Adicionar
+	                                    </button>
+	                                    <button type="button" class="btn btn-danger waves-effect pull-xs-right">
+	                                        <i class="icon md-close" aria-hidden="true">
+	                                        </i>
+	                                        Remover
+	                                    </button>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="tab-pane" id="tabMenuPermissoes" role="tabpanel">
+	                            <div class="panel">
+	                                <ul class="list-group list-group-full list-group-dividered">
+	                                    <li class="list-group-item">
+	                                        <div class="checkbox-custom checkbox-primary">
+	                                            <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
+	                                            <label for="inputSchedule">
+	                                                <span>
+	                                                    Schedule meeting
+	                                                </span>
+	                                            </label>
+	                                        </div>
+	                                    </li>
+	                                </ul>
+	                                <div class="panel-footer p-10">
+	                                    <button type="button" class="btn btn-success waves-effect">
+	                                        <i class="icon md-plus" aria-hidden="true">
+	                                        </i>
+	                                        Adicionar
+	                                    </button>
+	                                    <button type="button" class="btn btn-danger waves-effect pull-xs-right">
+	                                        <i class="icon md-close" aria-hidden="true">
+	                                        </i>
+	                                        Remover
+	                                    </button>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
             </div>
         </div>
     </div>
@@ -194,7 +197,7 @@
 <script>
 init.push(function(){
 
-	console.log($('#manager-menu'));
+	console.log($('#manager-menu').nestable());
 
 });
 </script>

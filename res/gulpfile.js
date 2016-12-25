@@ -56,7 +56,10 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/toastr/toastr.css',
         './theme/material/global/vendor/alertify/alertify.css',
         './theme/material/global/vendor/notie/notie.css',
-        './theme/assets/examples/css/advanced/alertify.css'
+        './theme/assets/examples/css/advanced/alertify.css',
+        './theme/material/global/vendor/nestable/nestable.css',
+        './theme/material/global/vendor/html5sortable/sortable.css',
+        './theme/material/global/vendor/tasklist/tasklist.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -72,7 +75,7 @@ gulp.task('cssmin', function() {
 
 });
 
-gulp.task('scripts-libs-admin', function() {
+gulp.task('scripts-admin', function() {
 
     gulp.src([
         //Plugins
@@ -101,6 +104,8 @@ gulp.task('scripts-libs-admin', function() {
         './theme/material/global/vendor/toastr/toastr.js',
         './theme/material/global/vendor/alertify/alertify.js',
         './theme/material/global/vendor/notie/notie.js',
+        './theme/material/global/vendor/html5sortable/html.sortable.js',
+        './theme/material/global/vendor/nestable/jquery.nestable.js',
         //Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',
@@ -124,6 +129,9 @@ gulp.task('scripts-libs-admin', function() {
         './theme/material/global/js/Plugin/jvectormap.js',
         './theme/material/global/js/Plugin/peity.js',
         './theme/material/global/js/Plugin/material.js',
+        './theme/material/global/js/Plugin/html5sortable.js',
+        './theme/material/global/js/Plugin/nestable.js',
+        './theme/material/global/js/Plugin/tasklist.js',
         //Others Plugins
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',
@@ -195,7 +203,7 @@ gulp.task('images', function(cb) {
 gulp.task('default', function() {
     gulp.watch('sass/**/*.scss',['styles']);
 	gulp.watch('theme/material/**/*.css',['cssmin']);
-    gulp.watch('theme/material/**/*.js',['scripts-libs-admin']);
+    gulp.watch('theme/material/**/*.js',['scripts-admin']);
 	gulp.watch('scripts/**/*.js',['scripts']);
     gulp.watch('html/**/*.html',['html']);
 	gulp.watch('images_originals/**/*.*',['images']);

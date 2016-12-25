@@ -72,7 +72,8 @@ $app->get('/usuarios/logout', function () {
 
 	session_destroy();
 
-	echo success();
+	header("Location: /".DIR_ADMIN);
+	exit;
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +99,8 @@ $app->get('/usuarios/lock', function () {
 		'time'=>time()
 	);
 
-	echo success();
+	header("Location: /".DIR_ADMIN);
+	exit;
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////

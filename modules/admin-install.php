@@ -288,11 +288,31 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$sql->proc("sp_menu_save", array(
 		2,
 		0,
-		'wb-cog', 
-		'sys-menu', 
+		'', 
+		'/sistema/menu', 
 		0, 
 		'Menu'
 	));
+
+	$sql->proc("sp_menu_save", array(
+		2,
+		0,
+		'', 
+		'/sistema/sql-to-class', 
+		1, 
+		'SQL to CLASS'
+	));
+
+	$sql->proc("sp_menu_save", array(
+		2,
+		0,
+		'', 
+		'/res/theme/material/base/html/index.html', 
+		2, 
+		'Template'
+	));
+
+	
 
 	echo success();
 

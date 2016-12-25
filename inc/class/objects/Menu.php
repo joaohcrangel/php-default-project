@@ -75,26 +75,66 @@ class Menu extends Model {
 
         $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
 
-        $html = '<ul class="'.(($menuPai->getidmenu() === 0)?'site-menu':'site-menu-sub').'" '.(($menuPai->getidmenu() === 0)?'data-plugin="menu"':'').'>';
+        $html = '';
 
-        foreach ($roots->getItens() as $menu) {
+        if ($roots->getSize() > 0) {
 
-            $html .= '
-                <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenus() > 0)?'has-sub':'').'">
-                    <a '.(($menu->getdeshref() !== '')?'class="animsition-link"':'').' title="'.$menu->getdesmenu().'" href="'.(($menu->getdeshref() === '')?'javascript:void(0)':DIR_ADMIN.'/'.$menu->getdeshref()).'" data-slug="layout">
-                        <i class="site-menu-icon '.$menu->getdesicone().'" aria-hidden="true"></i>
-                        <span class="site-menu-title">'.$menu->getdesmenu().'</span>
-                        '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'
-                    </a>
-                    '.Menu::getMenuHTML($menu, $menusTodos).'
-                </li>
-            ';
+            $html = '<ul class="'.(($menuPai->getidmenu() === 0)?'site-menu':'site-menu-sub').'" '.(($menuPai->getidmenu() === 0)?'data-plugin="menu"':'').'>';
 
-            unset($menu);
+            foreach ($roots->getItens() as $menu) {
+
+                $href = ($menu->getdeshref())?'/'.DIR_ADMIN.$menu->getdeshref():'javascript:void(0)';
+
+                $html .= '
+                    <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenus() > 0)?'has-sub':'').'">
+                        <a '.(($menu->getdeshref() !== '')?'class="animsition-link"':'').' title="'.$menu->getdesmenu().'" href="'.$href.'" data-slug="layout">
+                            <i class="site-menu-icon '.$menu->getdesicone().'" aria-hidden="true"></i>
+                            <span class="site-menu-title">'.$menu->getdesmenu().'</span>
+                            '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'
+                        </a>
+                        '.Menu::getMenuHTML($menu, $menusTodos).'
+                    </li>
+                ';
+
+                unset($menu);
+
+            }
+
+            $html .= '</ul>';
 
         }
 
-        $html .= '</ul>';
+        return $html;
+
+    }
+
+    public static function getMenuOL(Menu $menuPai, Menus $menusTodos) {
+
+        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
+
+        $html = '';
+        
+        if ($roots->getSize() > 0) {
+
+            $html = '<ol class="dd-list">';
+
+            foreach ($roots->getItens() as $menu) {
+
+                $html .= '
+                    <li data-idmenu="'.$menu->getidmenu().'" class="dd-item" data-id="'.$menu->getidmenu().'">                    
+                        <div class="dd-handle"><i class="icon '.$menu->getdesicone().'"></i> '.$menu->getdesmenu().'
+                        </div>
+                        '.Menu::getMenuOL($menu, $menusTodos).'
+                    </li>
+                ';
+
+                unset($menu);
+
+            }
+
+            $html .= '</ol>';
+
+        }
 
         return $html;
 
@@ -104,6 +144,12 @@ class Menu extends Model {
         $root = new Menu(array('idmenu' => 0));
         $menus = Menus::listAll();
         return Menu::getMenuHTML($root, $menus);
+    }
+
+    public static function getAllMenuOL(){
+        $root = new Menu(array('idmenu' => 0));
+        $menus = Menus::listAll();
+        return Menu::getMenuOL($root, $menus);
     }
 
     public static function getMenuSession(){

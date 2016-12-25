@@ -178,7 +178,7 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sys/menu", function(){
+$app->get("/".DIR_ADMIN."/sistema/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -187,11 +187,13 @@ $app->get("/".DIR_ADMIN."/sys/menu", function(){
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/sys-menu");
+    $page->setTpl("/admin/sistema-menu", array(
+        'menuHTML'=>Menu::getAllMenuOL()
+    ));
 
 });
 
-$app->delete("/".DIR_ADMIN."/sys/menu", function(){
+$app->delete("/".DIR_ADMIN."/sistema/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -203,7 +205,7 @@ $app->delete("/".DIR_ADMIN."/sys/menu", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sys/menus", function(){
+$app->get("/".DIR_ADMIN."/sistema/menus", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -238,7 +240,7 @@ $app->get("/".DIR_ADMIN."/sys/menus", function(){
 
 });
 
-$app->post("/".DIR_ADMIN."/sys/menu", function(){
+$app->post("/".DIR_ADMIN."/sistema/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -264,7 +266,7 @@ $app->post("/".DIR_ADMIN."/sys/menu", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sys/sql-to-class", function(){
+$app->get("/".DIR_ADMIN."/sistema/sql-to-class", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -277,7 +279,7 @@ $app->get("/".DIR_ADMIN."/sys/sql-to-class", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sys/sql-to-class/tables", function(){
+$app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -289,7 +291,7 @@ $app->get("/".DIR_ADMIN."/sys/sql-to-class/tables", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sys/sql-to-class/tables/:tableName", function($tableName){
+$app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables/:tableName", function($tableName){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -305,7 +307,7 @@ $app->get("/".DIR_ADMIN."/sys/sql-to-class/tables/:tableName", function($tableNa
 
 });
 
-$app->post("/".DIR_ADMIN."/sys/sql-to-class/execute", function(){
+$app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 

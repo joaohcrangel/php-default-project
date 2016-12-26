@@ -221,7 +221,7 @@
 
       });
 
-      panel.data("panel-api").load();
+      panel.data("panelAPI").load();
 
       rest({
 
@@ -233,7 +233,7 @@
         },
         success:function(r){
 
-          panel.data("panel-api").done();
+          panel.data("panelAPI").done();
 
           if(r.success){
 
@@ -248,7 +248,7 @@
         },
         failure:function(r){
 
-          panel.data("panel-api").done();
+          panel.data("panelAPI").done();
 
           System.showError(r);
 

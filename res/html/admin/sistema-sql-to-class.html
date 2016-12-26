@@ -88,20 +88,20 @@
   </div>
 </div>
 <script>
-angular.module('qda', []).controller('sql-to-class', function($scope, $http){
+angular.module('app', []).controller('sql-to-class', function($scope, $http){
 
 	$scope.form = {};
 	$scope.tables = [];
 
 	$scope.loadTables = function(){
 
-		var panel = $('#panel-tables').data('panel-api');
+		var panel = $('#panel-tables').data('panelAPI');
 
 		if (panel) panel.load();
 
 		rest({
 			$http:$http,
-			url:PATH+"/admin/sys/sql-to-class/tables",
+			url:PATH+"/admin/sistema/sql-to-class/tables",
 			success:function(r){
 
 				if (panel) panel.done();
@@ -115,19 +115,19 @@ angular.module('qda', []).controller('sql-to-class', function($scope, $http){
 	$scope.selecionar = function(Table){
 
 		var $btn = $('#btn-selecionar-'+Table.Name);
-		var panel = $('#panel-form').data('panel-api');
+		var panel = $('#panel-form').data('panelAPI');
 
 		$btn.btnload('load');
-		panel.load();
+		if (panel) panel.load();
 
 		rest({
 			$http:$http,
-			url:PATH+"/admin/sys/sql-to-class/tables/"+Table.Name,
+			url:PATH+"/admin/sistema/sql-to-class/tables/"+Table.Name,
 			success:function(r){
 
 				$scope.form = r.data;
 				$btn.btnload('unload');
-				panel.done();
+				if (panel) panel.done();
 
 			}
 		});
@@ -155,7 +155,7 @@ angular.module('qda', []).controller('sql-to-class', function($scope, $http){
 		rest({
 			method:'POST',
 			$http:$http,
-			url:PATH+"/admin/sys/sql-to-class/execute",
+			url:PATH+"/admin/sistema/sql-to-class/execute",
 			data:$scope.form,
 			success:function(r){
 
@@ -178,7 +178,7 @@ angular.module('qda', []).controller('sql-to-class', function($scope, $http){
 		$form.append('<input type="hidden" name="filetype" value="'+what+'">');
 		$form.attr({
 			'target':target,
-			'action':PATH+"/admin/sys/sql-to-class/execute",
+			'action':PATH+"/admin/sistema/sql-to-class/execute",
 			'method':'POST'
 		});
 

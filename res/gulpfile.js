@@ -133,6 +133,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/html5sortable.js',
         './theme/material/global/js/Plugin/nestable.js',
         './theme/material/global/js/Plugin/tasklist.js',
+        './theme/material/global/js/Plugin/panel.js',
         //Others Plugins
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',

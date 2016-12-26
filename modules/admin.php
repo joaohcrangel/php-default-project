@@ -275,7 +275,7 @@ $app->get("/".DIR_ADMIN."/sistema/sql-to-class", function(){
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/sys-sql-to-class");
+    $page->setTpl("/admin/sistema-sql-to-class");
 
 });
 

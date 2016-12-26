@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html class="no-js before-run" lang="en">
 {include="header-head"}
-<link rel="stylesheet" href="{$path}/res/css/pages/lockscreen.css">
-<body class="page-locked layout-full page-dark">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/pages/lockscreen.css">
+<body class="animsition page-locked layout-full page-dark">
   <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+    <![endif]-->
   <!-- Page -->
-  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
-  data-animsition-out="fade-out">
-    <div class="page-content vertical-align-middle" data-plugin="animateList" data-animate="slide-bottom"
-    data-child=".animate-item">
-      <div class="avatar avatar-lg animate-item">
-        <img src="{$path}/res/portraits/3.jpg" alt="...">
+  <div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
+    <div class="page-content vertical-align-middle">
+      <div class="avatar avatar-lg">
+        <img src="{$path}/res/theme/material/global/portraits/3.jpg" alt="...">
       </div>
-      <p class="locked-user animate-item">João Rangel</p>
-      <form method="post" role="form" class="animate-item" id="form-lock">
+      <p class="locked-user">{$session.Usuario.desusuario}</p>
+      <form method="post" role="form" id="form-lock">
         <div class="input-group">
-          <input type="hidden" name="username" value="{$session.Usuario.desusuario}">
           <input type="password" class="form-control last" id="inputPassword" name="password"
-          placeholder="Digite sua senha">
+          placeholder="Digite a senha">
           <span class="input-group-btn">
-            <button type="submit" class="btn btn-primary"><i class="icon wb-unlock" aria-hidden="true"></i>
+            <button type="submit" class="btn btn-primary"><i class="icon md-lock-open" aria-hidden="true"></i>
               <span class="sr-only">desbloquear</span>
             </button>
           </span>
         </div>
       </form>
-      <p class="animate-item">Digite sua senha para desbloquear</p>
-      <p class="animate-item"><a href="{$path}/login">Trocar usuário</a></p>
-
+      <p>Entre com a senha para recuperar sua sessão</p>
+      <p><a href="{$path}/usuarios/logout">Ou acesse com um usuário diferente</a></p>
+      {include="footer-scripts"}
     </div>
   </div>
   <!-- End Page -->

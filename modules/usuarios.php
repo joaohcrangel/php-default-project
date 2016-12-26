@@ -128,7 +128,9 @@ $app->post('/usuarios/unlock', function () {
 		throw new Exception("Digite a senha");
 	}
 
-	$u = Usuario::login(post('username'), post('password'));
+	$usuario = Session::getUsuario(false);
+
+	$u = Usuario::login($usuario->getdesusuario(), post('password'));
 
 	if (!(int)$u->getidusuario() > 0) {
 

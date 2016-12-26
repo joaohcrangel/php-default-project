@@ -1,6 +1,7 @@
 <?php
 
 define("PATH_PROC", PATH."/res/sql/procedures/");
+define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 
 $app->get("/install", function(){
 
@@ -42,21 +43,22 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 	$sql = new Sql();
 
 	$sql->query("
+		CREATE TABLE tb_pessoastipos (
+		  idpessoatipo int(11) NOT NULL AUTO_INCREMENT,
+		  despessoatipo varchar(64) NOT NULL,
+		  PRIMARY KEY (idpessoatipo)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
 		CREATE TABLE tb_pessoas (
 		  idpessoa int(11) NOT NULL AUTO_INCREMENT,
 		  idpessoatipo int(1) NOT NULL,
 		  despessoa varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idpessoa),
-		  KEY FK_pessoastipos (idpessoatipo)
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->query("
-		CREATE TABLE tb_pessoastipos (
-		  idpessoatipo int(11) NOT NULL AUTO_INCREMENT,
-		  despessoatipo varchar(64) NOT NULL,
-		  PRIMARY KEY (idpessoatipo)
+		  KEY FK_pessoastipos (idpessoatipo),
+		  CONSTRAINT FK_pessoas_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -69,13 +71,6 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 	$sql = new Sql();
 
 	$sql->query("
-		INSERT INTO tb_pessoas (despessoa, idpessoatipo) VALUES
-		(?, ?);
-	", array(
-		'Super Usuário (root)', 1
-	));
-
-	$sql->query("
 		INSERT INTO tb_pessoastipos (despessoatipo) VALUES
 		(?),
 		(?);
@@ -84,6 +79,12 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'Jurídica'
 	));
 
+	$sql->query("
+		INSERT INTO tb_pessoas (despessoa, idpessoatipo) VALUES
+		(?, ?);
+	", array(
+		'Super Usuário (root)', 1
+	));
 
 	echo success();
 
@@ -96,6 +97,14 @@ $app->get("/install-admin/sql/pessoas/get", function(){
 	$name = "sp_pessoa_get";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_pessoasdados_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_pessoasdados_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
 
 	echo success();
 
@@ -392,13 +401,34 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
 		  idcontatotipo int(11) NOT NULL,
 		  idpessoa int(11) NOT NULL,
-		  descontato varchar(64) NOT NULL,
+		  descontato varchar(128) NOT NULL,
+		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcontato),
 		  KEY FK_contatostipos (idcontatotipo),
 		  KEY FK_pessoascontatos (idpessoa)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/contatos/triggers", function(){
+
+	$sql = new Sql();
+
+	$name = "tg_contatos_AFTER_INSERT";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$name = "tg_contatos_AFTER_UPDATE";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$name = "tg_contatos_BEFORE_DELETE";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
 
 	echo success();
 
@@ -506,6 +536,26 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 
 });
 
+$app->get("/install-admin/sql/documentos/triggers", function(){
+
+	$sql = new Sql();
+
+	$name = "tg_documentos_AFTER_INSERT";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$name = "tg_documentos_AFTER_UPDATE";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$name = "tg_documentos_BEFORE_DELETE";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	echo success();
+
+});
+
 $app->get("/install-admin/sql/documentos/inserts", function(){
 
 	$sql = new Sql();
@@ -596,11 +646,18 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  idenderecotipo int(11) NOT NULL,
 		  idpessoa int(11) NOT NULL,
 		  desendereco varchar(64) NOT NULL,
+		  desnumero varchar(16) NOT NULL,
+		  desbairro varchar(64) NOT NULL,
+		  descidade varchar(64) NOT NULL,
+		  desestado varchar(32) NOT NULL,
+		  despais varchar(32) NOT NULL,
+		  descep char(8) NOT NULL,
+		  descomplemento varchar(32) DEFAULT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idendereco),
 		  KEY FK_enderecostipos (idenderecotipo),
 		  KEY FK_pessoasenderecos (idpessoa)
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	echo success();
@@ -773,6 +830,48 @@ $app->get("/install-admin/sql/permissoes/save", function(){
 });
 
 $app->get("/install-admin/sql/permissoes/remove", function(){
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/pessoasdados/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_pessoasdados (
+		  idpessoa int(11) NOT NULL,
+		  despessoa varchar(128) NOT NULL,
+		  desnome varchar(32) NOT NULL,
+		  desprimeironome varchar(64) NOT NULL,
+		  desultimonome varchar(64) NOT NULL,
+		  idpessoatipo int(11) NOT NULL,
+		  despessoatipo varchar(64) NOT NULL,
+		  desusuario varchar(128) DEFAULT NULL,
+		  dessenha varchar(256) DEFAULT NULL,
+		  idusuario int(11) DEFAULT NULL,
+		  inbloqueado bit(1) DEFAULT NULL,
+		  desemail varchar(128) DEFAULT NULL,
+		  idemail int(11) DEFAULT NULL,
+		  destelefone varchar(32) DEFAULT NULL,
+		  idtelefone int(11) DEFAULT NULL,
+		  descpf char(11) DEFAULT NULL,
+		  idcpf int(11) DEFAULT NULL,
+		  descnpj char(14) DEFAULT NULL,
+		  idcnpj int(11) DEFAULT NULL,
+		  desrg varchar(16) DEFAULT NULL,
+		  idrg int(11) DEFAULT NULL,
+		  dtatualizacao datetime NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpessoa),
+		  KEY FK_pessoasdados_pessoastipos_idx (idpessoatipo),
+		  KEY FK_pessoasdados_usuarios_idx (idusuario),
+		  CONSTRAINT FK_pessoasdados_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_pessoasdados_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_pessoasdados_usuarios FOREIGN KEY (idusuario) REFERENCES tb_usuarios (idusuario) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 
 	echo success();
 

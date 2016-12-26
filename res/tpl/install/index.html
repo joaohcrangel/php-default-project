@@ -102,11 +102,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/pessoas/inserts",
-			name:"Pessoas - Inserts",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/pessoas/get",
 			name:"Pessoas - Procedure GET",
 			status:"",
@@ -131,11 +126,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		{
 			url:"/sql/usuarios/tables",
 			name:"Usuários - Tabelas",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/usuarios/inserts",
-			name:"Usuários - Inserts",
 			status:"",
 			enabled:true
 		},{
@@ -166,11 +156,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/menus/inserts",
-			name:"Menus - Inserts",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/menus/get",
 			name:"Menus - Procedure GET",
 			status:"",
@@ -198,8 +183,8 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/contatos/inserts",
-			name:"Contatos - Inserts",
+			url:"/sql/contatos/triggers",
+			name:"Contatos - Triggers",
 			status:"",
 			enabled:true
 		},{
@@ -230,8 +215,8 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/documentos/inserts",
-			name:"Documentos - Inserts",
+			url:"/sql/documentos/triggers",
+			name:"Documentos - Triggers",
 			status:"",
 			enabled:true
 		},{
@@ -262,11 +247,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/enderecos/inserts",
-			name:"Endereços - Inserts",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/enderecos/get",
 			name:"Endereços - Procedure GET",
 			status:"",
@@ -294,11 +274,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/permissoes/inserts",
-			name:"Permissões - Inserts",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/permissoes/get",
 			name:"Permissões - Procedure GET",
 			status:"",
@@ -318,7 +293,50 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Permissões - Procedure REMOVE",
 			status:"",
 			enabled:true
+		},{
+			url:"/sql/pessoasdados/tables",
+			name:"PessoasDados - Tabelas",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/pessoas/inserts",
+			name:"Pessoas - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/usuarios/inserts",
+			name:"Usuários - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/inserts",
+			name:"Menus - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/contatos/inserts",
+			name:"Contatos - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/documentos/inserts",
+			name:"Documentos - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/enderecos/inserts",
+			name:"Endereços - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/permissoes/inserts",
+			name:"Permissões - Inserts",
+			status:"",
+			enabled:true
 		}
+
 	];
 
 });

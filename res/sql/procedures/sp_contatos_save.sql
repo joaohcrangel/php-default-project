@@ -26,6 +26,6 @@ BEGIN
 
     END IF;
 
-    CALL sp_contato_get(pidcontato);
+    CALL sp_contatos_get(pidcontato);
 
 END

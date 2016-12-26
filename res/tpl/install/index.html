@@ -61,7 +61,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 
 				rest({
 					$http:$http,
-					url:PATH+"/install-admin/sql/clear/tables",
+					url:PATH+"/install-admin/sql/clear",
 					success:function(r){
 
 						alertify.alert("Banco de Dados limpo!");

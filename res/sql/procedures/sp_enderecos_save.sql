@@ -27,6 +27,6 @@ BEGIN
 
     END IF;
 
-    CALL sp_endereco_get(pidendereco);
+    CALL sp_enderecos_get(pidendereco);
 
 END

@@ -5,6 +5,12 @@ define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 
 $app->get("/install", function(){
 
+	unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
+
+	if (isset($_SESSION)) unset($_SESSION);
+
+	session_destroy();
+
 	$page = new Page(array(
 		'header'=>false,
 		'footer'=>false
@@ -14,9 +20,15 @@ $app->get("/install", function(){
 
 });
 
-$app->get("/install-admin/sql/clear/tables", function(){
+$app->get("/install-admin/sql/clear", function(){
 
 	$sql = new Sql();
+
+	$procs = $sql->arrays("SHOW PROCEDURE STATUS WHERE Db = '".DB_NAME."';");
+
+	foreach ($procs as $row) {
+		$sql->query("DROP PROCEDURE IF EXISTS ".$row['Name'].";");
+	}
 
 	$sql->query("DROP TABLE IF EXISTS tb_contatos;");
 	$sql->query("DROP TABLE IF EXISTS tb_contatostipos;");
@@ -29,10 +41,10 @@ $app->get("/install-admin/sql/clear/tables", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_permissoes;");
 	$sql->query("DROP TABLE IF EXISTS tb_menususuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_menus;");
+	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
 	$sql->query("DROP TABLE IF EXISTS tb_usuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoas;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
 
 	echo success();
 
@@ -317,7 +329,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 
 	$sql = new Sql();
 
-	$sql->proc("sp_menu_save", array(
+	$sql->proc("sp_menus_save", array(
 		NULL,
 		0,
 		'md-view-dashboard', 
@@ -326,7 +338,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'Dashboard'
 	));
 
-	$sql->proc("sp_menu_save", array(
+	$sql->proc("sp_menus_save", array(
 		NULL,
 		0,
 		'md-settings', 
@@ -335,7 +347,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'Sistema'
 	));
 
-	$sql->proc("sp_menu_save", array(
+	$sql->proc("sp_menus_save", array(
 		2,
 		0,
 		'', 
@@ -344,7 +356,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'Menu'
 	));
 
-	$sql->proc("sp_menu_save", array(
+	$sql->proc("sp_menus_save", array(
 		2,
 		0,
 		'', 
@@ -353,7 +365,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'SQL to CLASS'
 	));
 
-	$sql->proc("sp_menu_save", array(
+	$sql->proc("sp_menus_save", array(
 		2,
 		0,
 		'', 

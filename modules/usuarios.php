@@ -14,6 +14,14 @@ $app->post("/usuarios/login", function(){
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/menus/reset", function(){
+
+	Menu::resetMenuSession();
+
+	echo success(array('token'=>session_id()));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/usuarios/forget", function(){
 
 	$usuario = Usuario::getByEmail(strtolower(post('email')));

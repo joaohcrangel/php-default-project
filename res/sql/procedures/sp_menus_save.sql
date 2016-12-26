@@ -33,8 +33,8 @@ BEGIN
 
     END IF;
     
-    CALL sp_menutrigger_save(pidmenu, pidmenupai);
+    CALL sp_menustrigger_save(pidmenu, pidmenupai);
 
-    CALL sp_menu_get(pidmenu);
+    CALL sp_menus_get(pidmenu);
 
 END

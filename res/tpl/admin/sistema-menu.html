@@ -117,14 +117,80 @@
             </div>
         </div>
     </div>
-</div></script><script>init.push(function(){
+</div></script><script>var menus_prepare = [];
+init.push(function(){
+
+    function saveMenu(index, menus, callback) {
+
+        if (index >= menus.length) {
+            rest({
+                url:PATH+"/usuarios/menus/reset",
+                success:function(){
+
+                    callback();
+
+                }
+            });
+        } else {
+
+            var menu = menus[index];
+
+            rest({
+                url:PATH+"/menus/"+menu.idmenu,
+                method:'POST',
+                data:menu,
+                success:function(r){
+                    saveMenu(++index, menus, callback);
+                    $('[data-idmenu="'+menu.idmenu+'"]').removeClass('isLoading');
+                },
+                failure:function(e){
+                    saveMenu(++index, menus, callback);
+                    System.showError(e);
+                    $('[data-idmenu="'+menu.idmenu+'"]').removeClass('isLoading');
+                }
+            });
+
+        }
+
+    }
+
+    function saveMenus(menus, idmenupai){
+
+        console.info('saveMenus', menus);
+
+        $.each(menus, function(index, menu){
+
+            $('[data-idmenu="'+menu.idmenu+'"]').addClass('isLoading');
+
+            menu.idmenupai = idmenupai;
+            menu.nrordem = index;
+
+            menus_prepare.push(menu);
+
+            if (menu.children && menu.children.length > 0) saveMenus(menu.children, menu.idmenu);
+
+        });
+
+        return menus_prepare;
+
+    }
 
 	$('#manager-menu').on('change', function(e){
 
 		var list   = e.length ? e : $(e.target),
             output = list.data('output');
-        
-        console.log(list.nestable('serialize'));
+
+        menus_prepare = [];
+
+        System.load();
+
+        saveMenu(0, saveMenus(list.nestable('serialize'), 0), function(){
+
+            System.done();
+
+            console.info("COMPLETE");
+
+        });
 
 	});
 

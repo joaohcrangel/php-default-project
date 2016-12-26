@@ -27,6 +27,6 @@ BEGIN
 
     END IF;
 
-    CALL sp_documento_get(piddocumento);
+    CALL sp_documentos_get(piddocumento);
 
 END

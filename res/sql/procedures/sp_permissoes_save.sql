@@ -20,6 +20,6 @@ BEGIN
 
     END IF;
 
-    CALL sp_permissao_get(pidpermissao);
+    CALL sp_permissoes_get(pidpermissao);
 
 END

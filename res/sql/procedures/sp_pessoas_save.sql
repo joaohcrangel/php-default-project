@@ -22,6 +22,6 @@ BEGIN
 
     END IF;
 
-    CALL sp_pessoa_get(pidpessoa);
+    CALL sp_pessoas_get(pidpessoa);
 
 END

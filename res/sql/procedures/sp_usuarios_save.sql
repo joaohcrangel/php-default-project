@@ -29,6 +29,6 @@ BEGIN
 
     END IF;
 
-    CALL sp_usuario_get(pidusuario);
+    CALL sp_usuarios_get(pidusuario);
 
 END

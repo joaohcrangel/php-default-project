@@ -3,6 +3,6 @@ pidpessoa INT
 )
 BEGIN
 	
-	SELECT * FROM v_documentos WHERE idpessoa = pidpessoa ORDER BY desdocumento;
+	SELECT * FROM tb_documentos WHERE idpessoa = pidpessoa ORDER BY desdocumento;
     
 END

@@ -307,7 +307,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		2,
 		0,
 		'', 
-		'/res/theme/material/base/html/index.html', 
+		'/../res/theme/material/base/html/index.html', 
 		2, 
 		'Template'
 	));

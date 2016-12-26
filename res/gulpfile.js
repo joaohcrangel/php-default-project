@@ -81,6 +81,7 @@ gulp.task('scripts-admin', function() {
         //Plugins
         './theme/material/global/vendor/babel-external-helpers/babel-external-helpers.js',
         './theme/material/global/vendor/jquery/jquery.js',
+        './theme/assets/vendor/handlebars/handlebars-v4.0.5.js',
         './theme/material/global/vendor/tether/tether.js',
         './theme/material/global/vendor/bootstrap/bootstrap.js',
         './theme/material/global/vendor/animsition/animsition.js',
@@ -143,7 +144,6 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.table.js',
         './js/jrangel/jquery.arquivos.js',
         './js/jrangel/jquery.panel.js',
-        './js/jrangel/jquery.picker.js',
         './js/aribeiro/selecionar.js'
     ])
         .pipe(jshint())

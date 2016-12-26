@@ -2,7 +2,7 @@
 
 class Menu extends Model {
 
-    public $required = array('desicone', 'deshref', 'nrordem', 'desmenu');
+    public $required = array('nrordem', 'desmenu');
     protected $pk = "idmenu";
     const SESSION_NAME = "SYSTEM_MENU";
 
@@ -121,8 +121,11 @@ class Menu extends Model {
             foreach ($roots->getItens() as $menu) {
 
                 $html .= '
-                    <li data-idmenu="'.$menu->getidmenu().'" class="dd-item" data-id="'.$menu->getidmenu().'">                    
-                        <div class="dd-handle"><i class="icon '.$menu->getdesicone().'"></i> '.$menu->getdesmenu().'
+                    <li data-idmenu="'.$menu->getidmenu().'" data-desmenu="'.$menu->getdesmenu().'" class="dd-item dd-item-alt">
+                        <div class="dd-handle"></div>
+                        <div class="dd-content"><span><i class="icon '.$menu->getdesicone().'"></i> '.$menu->getdesmenu().' </span>
+                            <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>
                         </div>
                         '.Menu::getMenuOL($menu, $menusTodos).'
                     </li>

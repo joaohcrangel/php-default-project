@@ -1,5 +1,263 @@
-<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-6"><div class="example-wrap"><h4 class="example-title">Menu do Sistema</h4><div class="example"><div class="dd" data-plugin="nestable" id="manager-menu"><ol class="dd-list"><li class="dd-item" data-id="1"><div class="dd-handle">ITEM 1 <span class="pull-xs-right text-info">Active</span></div><li class="dd-item" data-id="2"><div class="dd-handle">ITEM 2 <span class="pull-xs-right text-success">Approved</span></div><li class="dd-item" data-id="3"><div class="dd-handle">ITEM 3 <span class="pull-xs-right text-warning">Pending</span></div><ol class="dd-list"><li class="dd-item" data-id="4"><div class="dd-handle">ITEM 4</div><li class="dd-item" data-id="5" data-foo="bar"><div class="dd-handle">ITEM 5</div></ol><li class="dd-item" data-id="6"><div class="dd-handle">ITEM 6</div><ol class="dd-list"><li class="dd-item" data-id="7"><div class="dd-handle">ITEM 7</div><ol class="dd-list"><li class="dd-item" data-id="8"><div class="dd-handle">ITEM 8</div></ol></ol></ol></div></div></div></div><div class="col-sm-6"><div class="example-wrap"><div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados" role="tab"><i class="icon md-edit" aria-hidden="true"></i> Editar Menu</a><li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#tabMenuUsuarios" aria-controls="tabMenuUsuarios" role="tab"><i class="icon md-accounts" aria-hidden="true"></i> Usuários</a><li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#tabMenuPermissoes" aria-controls="tabMenuPermissoes" role="tab"><i class="icon md-lock" aria-hidden="true"></i> Permissões</a><li class="pull-xs-right" role="presentation"><button type="button" class="btn btn-pure btn-default icon md-close waves-effect"></button></ul><div class="tab-content p-t-15"><div class="tab-pane active" id="tabMenuDados" role="tabpanel"><div class="panel"><form id="menu-editar"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desmenu">Texto</label><input type="text" class="form-control" id="desmenu" name="desmenu" placeholder="Texto do menu"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="deshref">Href/Link</label><input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desicone">Icone</label><input type="text" class="form-control" id="desicone" name="desicone" placeholder="Icone"></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div></div><div class="tab-pane" id="tabMenuUsuarios" role="tabpanel"><div class="panel"><ul class="list-group list-group-full list-group-dividered"><li class="list-group-item"><div class="checkbox-custom checkbox-primary"><input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule"><label for="inputSchedule"><div class="media"><div class="media-left"><a class="avatar" href="javascript:void(0)"><img src="{$path}/res/theme/material/global/portraits/9.jpg" alt=""></a></div><div class="media-body"><div><a class="name" href="javascript:void(0)">Willard Wood</a></div><small>@heavybutterfly920</small></div></div></label></div></ul><div class="panel-footer p-10"><button type="button" class="btn btn-success waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Adicionar</button> <button type="button" class="btn btn-danger waves-effect pull-xs-right"><i class="icon md-close" aria-hidden="true"></i> Remover</button></div></div></div><div class="tab-pane" id="tabMenuPermissoes" role="tabpanel"><div class="panel"><ul class="list-group list-group-full list-group-dividered"><li class="list-group-item"><div class="checkbox-custom checkbox-primary"><input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule"><label for="inputSchedule"><span>Schedule meeting</span></label></div></ul><div class="panel-footer p-10"><button type="button" class="btn btn-success waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Adicionar</button> <button type="button" class="btn btn-danger waves-effect pull-xs-right"><i class="icon md-close" aria-hidden="true"></i> Remover</button></div></div></div></div></div></div></div></div></div></div><script>init.push(function(){
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-6"><div class="example-wrap"><h4 class="example-title">Menu do Sistema</h4><div class="example"><div class="dd" data-plugin="nestable" id="manager-menu">{$menuHTML}</div></div></div></div><div class="col-sm-6"><div class="example-wrap" id="sidePanel"></div></div></div></div></div><script id="tpl-panel-load" type="text/x-handlebars-template"><div class="example-loading example-well h-300 vertical-align text-xs-center">
+  <div class="loader vertical-align-middle loader-circle"></div>
+</div></script><script id="tpl-panel-edit" type="text/x-handlebars-template"><div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+    	<li class="nav-item" role="presentation">
+            <a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados"
+            role="tab">
+      <i class="icon md-edit" aria-hidden="true"></i> Editar Menu
+    </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" href="#tabMenuUsuarios" aria-controls="tabMenuUsuarios"
+            role="tab">
+      <i class="icon md-accounts" aria-hidden="true"></i> Usuários
+    </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" href="#tabMenuPermissoes" aria-controls="tabMenuPermissoes"
+            role="tab">
+      <i class="icon md-lock" aria-hidden="true"></i> Permissões
+    </a>
+        </li>
+        <li class="pull-xs-right" role="presentation">
+      		<button type="button" class="btn btn-pure btn-default icon md-close waves-effect"></button>
+    </a>
+        </li>
+    </ul>
+    <div class="tab-content p-t-15">
+        <div class="tab-pane active" id="tabMenuDados" role="tabpanel">
+            <div class="panel">
+            	<form id="menu-editar">
+            		<div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="desmenu">Texto</label>
+	                  <input type="text" class="form-control" id="desmenu" name="desmenu" placeholder="Texto do menu">
+	                </div>
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="deshref">Href/Link</label>
+	                  <input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação">
+	                </div>
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="desicone">Icone</label>
+	                  <input type="text" class="form-control" id="desicone" name="desicone" placeholder="Icone">
+	                </div>
+	                <div class="form-group form-material p-b-10">
+                      <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+                      <button type="button" class="btn btn-icon btn-delete btn-danger waves-effect pull-xs-right"><i class="icon md-delete" aria-hidden="true"></i></button>
+                    </div>
+            	</form>                    
+            </div>
+        </div>
+        <div class="tab-pane" id="tabMenuUsuarios" role="tabpanel">
+            <div class="panel">
+                <ul class="list-group list-group-full list-group-dividered">
+                    <li class="list-group-item">
+                        <div class="checkbox-custom checkbox-primary">
+                            <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
+                            <label for="inputSchedule">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a class="avatar" href="javascript:void(0)">
+                        <img src="{$path}/res/theme/material/global/portraits/9.jpg" alt="">
+                      </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <div>
+                                            <a class="name" href="javascript:void(0)">Willard Wood</a>
+                                        </div>
+                                        <small>
+                                            @heavybutterfly920
+                                        </small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="panel-footer p-10">
+                    <button type="button" class="btn btn-success waves-effect">
+                        <i class="icon md-plus" aria-hidden="true">
+                        </i>
+                        Adicionar
+                    </button>
+                    <button type="button" class="btn btn-danger waves-effect pull-xs-right">
+                        <i class="icon md-close" aria-hidden="true">
+                        </i>
+                        Remover
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tabMenuPermissoes" role="tabpanel">
+            <div class="panel">
+                <ul class="list-group list-group-full list-group-dividered">
+                    <li class="list-group-item">
+                        <div class="checkbox-custom checkbox-primary">
+                            <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
+                            <label for="inputSchedule">
+                                <span>
+                                    Schedule meeting
+                                </span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="panel-footer p-10">
+                    <button type="button" class="btn btn-success waves-effect">
+                        <i class="icon md-plus" aria-hidden="true">
+                        </i>
+                        Adicionar
+                    </button>
+                    <button type="button" class="btn btn-danger waves-effect pull-xs-right">
+                        <i class="icon md-close" aria-hidden="true">
+                        </i>
+                        Remover
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></script><script>init.push(function(){
 
-	console.log($('#manager-menu').nestable());
+	$('#manager-menu').on('change', function(e){
+
+		var list   = e.length ? e : $(e.target),
+            output = list.data('output');
+        
+        console.log(list.nestable('serialize'));
+
+	});
+
+	function addEvents(_$li) {
+
+		_$li.find('.btn-add').on("click", function(e){
+
+			var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
+
+			$('#sidePanel').html(tplLoad({}));
+
+			var $li = $(e.target).closest('li');
+
+			var $ol =  $li.find('ol:first');
+
+			if (!$ol.length) {
+				$ol = $('<ol class="dd-list"></ol>');
+				$li.append($ol);
+			}
+
+			var $liParent = $li.closest('li.dd-item');
+			var idmenupai = ($liParent.length > 0)?$liParent.data('idmenu'):0;
+			var nrordem = $liParent.find('ol').find('li').length;
+
+			rest({
+				url:PATH+"/menus",
+				method:'POST',
+				data:{
+					idmenu:0,
+					idmenupai:idmenupai,
+					desmenu:'Novo Menu',
+					nrordem:nrordem
+				},
+				success:function(r){
+
+					var $liNew = $(
+						'<li data-idmenu="'+r.data.idmenu+'" data-desmenu="'+r.data.desmenu+'" class="dd-item dd-item-alt">'+
+							'<div class="dd-handle"></div>'+
+			                '<div class="dd-content"><span>'+r.data.desmenu+'</span>'+
+			                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>'+
+			                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>'+
+			                '</div>'+
+						'</li>'
+					);
+
+					$ol.append($liNew);
+
+					addEvents($liNew);
+
+					$('#manager-menu').trigger('change');
+
+					$liNew.find('.btn-edit').trigger('click');
+
+				}
+			});
+
+		});
+
+		_$li.find('.btn-edit').on("click", function(e){
+
+			var $li = $(e.target).closest('li');
+			var tpl = Handlebars.compile($('#tpl-panel-edit').html());
+			var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
+
+			$('#sidePanel').html(tplLoad({}));
+
+			rest({
+				url:PATH+"/menus/"+$li.data('idmenu'),
+				success:function(r){
+
+					var $html = $(tpl(r.data));
+
+					$html.find('#menu-editar').formLoad(r.data);
+
+					$html.find('#menu-editar').form({
+						url:PATH+"/menus/"+r.data.idmenu,
+						resetForm:false,
+						success:function(r){
+
+							$('#manager-menu li[data-idmenu="'+r.data.idmenu+'"]').data({
+								idmenu:r.data.idmenu,
+								desmenu:r.data.desmenu
+							}).find('span').html(r.data.desmenu);
+
+						}
+					});
+
+					$html.find('.btn-delete').on('click', function(){
+
+						var $btn = $(this);
+
+						System.confirm('Deseja excluir o menu '+$li.data('desmenu')+'?', function(confirm, s, f){
+
+							if (confirm) {
+
+								$btn.btnload('load');
+
+								rest({
+									url:PATH+"/menus/"+$li.data('idmenu'),
+									method:'DELETE',
+									success:function(r){
+
+										$('#manager-menu li[data-idmenu="'+$li.data('idmenu')+'"]').remove();
+										$('#sidePanel').html('');
+										s();
+
+									},
+									failure:function(r){
+
+										System.showError(r);
+										$btn.btnload('unload');
+										f();
+
+									}
+								});
+
+							}
+
+						});
+
+					});
+
+					$('#sidePanel').html($html);
+
+				}
+			});
+
+		});
+
+	}
+
+	$('#manager-menu li').each(function(){
+		addEvents($(this));
+	});
 
 });</script>

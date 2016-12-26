@@ -3,9 +3,9 @@
 class Permissoes extends Collection {
 
     protected $class = "Permissao";
-    protected $saveQuery = "CALL sp_permissoe_save();";
-    protected $saveArgs = array();
-    protected $pk = "";
+    protected $saveQuery = "CALL sp_permissoes_save(?, ?);";
+    protected $saveArgs = array('idpermissao', 'despermissao');
+    protected $pk = "idpermissao";
 
     public function get(){}
 

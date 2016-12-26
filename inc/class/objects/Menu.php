@@ -11,7 +11,7 @@ class Menu extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_menu_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_menus_get(".$args[0].");");
                 
     }
 
@@ -19,7 +19,7 @@ class Menu extends Model {
 
         if ($this->getChanged() && $this->isValid()) {
 
-            $this->queryToAttr("CALL sp_menu_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_menus_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidmenupai(),
                 $this->getidmenu(),
                 $this->getdesicone(),
@@ -40,7 +40,7 @@ class Menu extends Model {
 
     public function remove() {
 
-        $this->execute("CALL sp_menu_remove(".$this->getidmenu().")");
+        $this->execute("CALL sp_menus_remove(".$this->getidmenu().")");
         return true;
         
     }

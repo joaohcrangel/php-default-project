@@ -350,6 +350,7 @@ $app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
         "sp_get"=>$table->getProcedureName("get"),
         "sp_save"=>$table->getProcedureName("save"),
         "sp_remove"=>$table->getProcedureName("remove"),
+        "sp_list"=>$table->getProcedureName("list"),
         "fieldssave"=>$columns->getStringFieldsSave(),
         "fieldssaveparams"=>$columns->getStringFieldsSaveParams(),  
         "fieldsinsert"=>$columns->getStringFieldsSaveInsert(),
@@ -404,12 +405,32 @@ $app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
 
         $sql = new Sql();
 
+        $spName = '';
+
+        switch (post("filetype")) {
+            case 'save':
+            $spName = $data['sp_save'];
+            break;
+            case 'get':
+            $spName = $data['sp_get'];
+            break;
+            case 'remove':
+            $spName = $data['sp_remove'];
+            break;
+            case 'list':
+            $spName = $data['sp_list'];
+            break;
+        }
+
+        $sql->query("DROP procedure IF EXISTS $spName;");
+
         $sql->query($template_code);
 
         echo success(array(
             'data'=>array(
                 'table'=>$table->getFields(),
                 'tplParams'=>$data,
+                'drop'=>"DROP procedure IF EXISTS $tpl_name;",
                 'query'=>$template_code
             )
         ));

@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tb_usuarios_BEFORE_DELETE BEFORE DELETE ON tb_usuarios FOR EACH ROW
+BEGIN
+	CALL sp_pessoasdados_save(OLD.idpessoa);
+END

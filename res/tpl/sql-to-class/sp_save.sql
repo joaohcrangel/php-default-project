@@ -1,5 +1,3 @@
-DROP procedure IF EXISTS {$sp_save};
-
 CREATE PROCEDURE {$sp_save}(
 {$fieldssaveparams}
 )
@@ -15,8 +13,10 @@ BEGIN
     ELSE
         
         UPDATE {$table}
+        
         SET 
             {$fieldsupdate}
+        
         WHERE {$primarykey[0]} = p{$primarykey[0]};
 
     END IF;

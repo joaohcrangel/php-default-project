@@ -16,7 +16,7 @@ class Usuario extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_usuario_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_usuarios_get(".$args[0].");");
 
     }
 
@@ -24,7 +24,7 @@ class Usuario extends Model {
         
         $usuario = new Usuario();
 
-        $usuario->queryToAttr("CALL sp_usuariofromemail_get(?)", array(
+        $usuario->queryToAttr("CALL sp_usuariosfromemail_get(?)", array(
             $desemail
         ));
 
@@ -36,7 +36,7 @@ class Usuario extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_usuario_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_usuarios_save(?, ?, ?, ?, ?);", array(
                 $this->getidusuario(),
                 $this->getidpessoa(),
                 $this->getdesusuario(),
@@ -56,7 +56,7 @@ class Usuario extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_usuario_remove(".$this->getidusuario().")");
+        $this->execute("CALL sp_usuarios_remove(".$this->getidusuario().")");
 
         return true;
 
@@ -92,7 +92,7 @@ class Usuario extends Model {
 
         $sql = new Sql();
 
-        $data = $sql->proc("sp_usuariologin_get", array(
+        $data = $sql->proc("sp_usuarioslogin_get", array(
             $desusuario
         ));
 

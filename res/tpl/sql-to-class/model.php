@@ -41,7 +41,9 @@ if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
     public function remove(){
 
-        $this->execute("CALL {$sp_remove}(".$this->get{$primarykey[0]}().")");
+        $this->proc("{$sp_remove}", array(
+            $this->get{$primarykey[0]}()
+        ));
 
         return true;
         

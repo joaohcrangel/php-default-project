@@ -14,7 +14,7 @@ class Permissao extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
         
-        $this->queryToAttr("CALL sp_permissoe_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_permissoes_get(".$args[0].");");
                 
     }
 
@@ -22,7 +22,7 @@ class Permissao extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_permissao_save(?, ?);", array(
+            $this->queryToAttr("CALL sp_permissoes_save(?, ?);", array(
                 $this->getidpermissao(),
                 $this->getdespermissao()
             ));
@@ -39,7 +39,7 @@ class Permissao extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_permissao_remove(".$this->getidpermissao().")");
+        $this->execute("CALL sp_permissoes_remove(".$this->getidpermissao().")");
 
         return true;
         

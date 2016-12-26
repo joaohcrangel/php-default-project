@@ -13,7 +13,7 @@ class Menus extends Collection {
 
     	$menus = new Menus();
 
-    	$menus->loadFromQuery("CALL sp_menu_list()");
+    	$menus->loadFromQuery("CALL sp_menus_list()");
 
     	return $menus;
 

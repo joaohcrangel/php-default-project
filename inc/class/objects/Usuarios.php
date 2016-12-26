@@ -13,7 +13,7 @@ class Usuarios extends Collection {
 
     	$usuarios = new Usuarios();
 
-    	$usuarios->loadFromQuery("CALL sp_usuario_list()");
+    	$usuarios->loadFromQuery("CALL sp_usuarios_list()");
 
     	return $usuarios;
 

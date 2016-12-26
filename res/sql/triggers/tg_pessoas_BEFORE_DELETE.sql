@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tb_pessoas_BEFORE_DELETE BEFORE DELETE ON tb_pessoas FOR EACH ROW
+BEGIN
+	CALL sp_pessoasdados_remove(OLD.idpessoa);
+END

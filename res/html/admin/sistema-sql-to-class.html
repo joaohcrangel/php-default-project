@@ -57,14 +57,14 @@
 	                <div class="col-md-6">
 	                	<h4 class="example-title">Obrigatórios</h4>
 	                	<div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns">
-		                  <input type="checkbox" ng-checked="Column.IS_NULLABLE === 'NO'" name="requireds[]" value="{{Column.COLUMN_NAME}}" />
+		                  <input type="checkbox" ng-checked="Column.IS_NULLABLE === 'NO'" name="requireds" value="{{Column.COLUMN_NAME}}" />
 		                  <label for="inputUnchecked">{{Column.COLUMN_NAME}}</label>
 		                </div>
 	                </div>
 	                <div class="col-md-6">
 	                	<h4 class="example-title">Chave Primária</h4>
 	                	<div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns">
-		                  <input type="checkbox" ng-checked="Column.COLUMN_KEY === 'PRI'" name="pks[]" value="{{Column.COLUMN_NAME}}" />
+		                  <input type="checkbox" ng-checked="Column.COLUMN_KEY === 'PRI'" name="pks" value="{{Column.COLUMN_NAME}}" />
 		                  <label for="inputUnchecked">{{Column.COLUMN_NAME}}</label>
 		                </div>
 	                </div>
@@ -170,12 +170,25 @@ angular.module('app', []).controller('sql-to-class', function($scope, $http){
 
 		var target = "download"+new Date().getTime();
 		var $btns = $('#actions-buttons button');
-		var $form = $('#panel-form form');
+		var $form = $('#panel-form form').clone();
 
 		$btns.btnload('load');
 
 		$form.find("[name=filetype]").remove();
+		$form.find("[name=requireds]").remove();
+		$form.find("[name=pks]").remove();
 		$form.append('<input type="hidden" name="filetype" value="'+what+'">');
+		
+		$scope.form.requireds = [];
+		$('#panel-form [name=requireds]:checked').each(function(){
+			$form.append('<input type="hidden" name="requireds[]" value="'+$(this).val()+'">');
+		});
+
+		$scope.form.pks = [];
+		$('#panel-form [name=pks]:checked').each(function(){
+			$form.append('<input type="hidden" name="pks[]" value="'+$(this).val()+'">');
+		});
+
 		$form.attr({
 			'target':target,
 			'action':PATH+"/admin/sistema/sql-to-class/execute",

@@ -1,5 +1,3 @@
-DROP procedure IF EXISTS {$sp_remove};
-
 CREATE PROCEDURE {$sp_remove}(
 p{$primarykey[0]} INT
 )

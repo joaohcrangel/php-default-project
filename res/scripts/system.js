@@ -179,52 +179,6 @@ window.System = {
 
     };
     
-    System.initTimerLogout = function(){
-        
-      $(document).on("mousemove focus click keyup", function(){
-          System.inactive = new Date().getTime();
-      });
-      
-      System.timerInactive = setInterval(function(){
-        
-        if ((new Date().getTime() - System.inactive)/1000 >= (60*20)) {
-          clearInterval(System.timerInactive);
-          System.timerInactive = undefined;
-          rest({
-            url:PATH+'/usuarios/check/log'
-          });
-        }
-        
-      }, 30*1000);
-      
-    };
-
-    System.saveLogs = function(){
-
-      if (System.ajaxExecution === true) {
-
-        console.info('Aguardando execução Ajax em andamento...');
-        setTimeout(System.saveLogs, 5000);
-        return false;
-
-      } else {
-
-        rest({
-          method:'POST',
-          beforeSend:function(){},
-          url:PATH+'/usuarios/log',
-          failure:function(r){
-
-            console.error(r);
-            setTimeout(System.saveLogs, 5000);
-
-          }
-        });
-      
-      }
-
-    };
-    
     System.showLogin = function(_options){
       
       if (!_options) _options = {};
@@ -336,7 +290,6 @@ window.System = {
 
     $(window).on('load', function(){
       System.initStores();
-      System.initTimerLogout();
     });
 
     $(document).on('page:loading', function(){

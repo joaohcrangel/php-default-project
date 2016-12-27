@@ -19,6 +19,18 @@ class Usuarios extends Collection {
 
     }
 
+    public static function listFromMenu(Menu $menu){
+
+        $usuarios = new Usuarios();
+
+        $usuarios->loadFRomQuery("CALL sp_usuariosfrommenus_list(?)", array(
+            $menu->getidmenu()
+        ));
+
+        return $usuarios;
+
+    }
+
 }
 
 ?>

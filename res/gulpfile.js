@@ -24,7 +24,7 @@ gulp.task('styles', function() {
         './css/theme.css', './css/styles.css'
     ])
     .pipe(concat('all.css'))
-    .pipe(gulp.dest('./css/'));
+    .pipe(gulp.dest('css'));
 });
 
 gulp.task('cssmin', function() {
@@ -52,6 +52,7 @@ gulp.task('cssmin', function() {
         './theme/material/global/fonts/material-design/material-design.min.css',
         './theme/material/global/fonts/brand-icons/brand-icons.min.css',
         './theme/material/global/fonts/Roboto/Roboto.min.css',
+        './theme/material/global/fonts/font-awesome/font-awesome.min.css',
         './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.css',
         './theme/material/global/vendor/toastr/toastr.css',
         './theme/material/global/vendor/alertify/alertify.css',
@@ -59,7 +60,8 @@ gulp.task('cssmin', function() {
         './theme/assets/examples/css/advanced/alertify.css',
         './theme/material/global/vendor/nestable/nestable.css',
         './theme/material/global/vendor/html5sortable/sortable.css',
-        './theme/material/global/vendor/tasklist/tasklist.css'
+        './theme/material/global/vendor/tasklist/tasklist.css',
+        './theme/material/global/vendor/icheck/icheck.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -71,7 +73,7 @@ gulp.task('cssmin', function() {
         './css/theme.css', './css/styles.css'
     ])
     .pipe(concat('all.css'))
-    .pipe(gulp.dest('./css/'));
+    .pipe(gulp.dest('css'));
 
 });
 
@@ -134,6 +136,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/nestable.js',
         './theme/material/global/js/Plugin/tasklist.js',
         './theme/material/global/js/Plugin/panel.js',
+        './theme/material/global/js/Plugin/icheck.js',
         //Others Plugins
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',

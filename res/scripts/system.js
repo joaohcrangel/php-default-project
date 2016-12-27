@@ -10,6 +10,26 @@ window.System = {
   $(document).ready(function() {
     Site.run();
 
+    System.getApi = function(plugin, $elements, options){
+
+      var apis = [];
+      if (!options) options = {};
+      var plugin = Plugin.getPlugin(plugin);
+
+      $elements.each(function(index, element){
+        var api = new plugin($(element), options);
+        $(this).data('api', api);
+        apis.push(api);
+      });
+
+      if (apis.length === 1) {
+        return apis[0];
+      } else {
+        return apis;
+      }
+
+    };
+
     System.showError = function(r){
 
       $(document).trigger('page:ready');

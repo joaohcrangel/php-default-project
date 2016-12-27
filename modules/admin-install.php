@@ -254,6 +254,10 @@ $app->get("/install-admin/sql/usuarios/get", function(){
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
+	$name = "sp_usuariosfrommenus_list";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 
 });
@@ -345,6 +349,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		0, 
 		'Sistema'
+	));
+
+	$sql->proc("sp_menus_save", array(
+		NULL,
+		0,
+		'md-accounts', 
+		'/pessoas', 
+		0, 
+		'Pessoas'
 	));
 
 	$sql->proc("sp_menus_save", array(
@@ -886,6 +899,20 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 
 $app->get("/install-admin/sql/permissoes/get", function(){
 
+	$sql = new Sql();
+
+	$name = "sp_permissoes_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_permissoesfrommenus_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_permissoesfrommenusfaltantes_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+
 	echo success();
 
 });
@@ -898,12 +925,33 @@ $app->get("/install-admin/sql/permissoes/list", function(){
 
 $app->get("/install-admin/sql/permissoes/save", function(){
 
+	$sql = new Sql();
+
+	$name = "sp_permissoes_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_permissoesmenus_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+
 	echo success();
 
 });
 
 $app->get("/install-admin/sql/permissoes/remove", function(){
 
+	$sql = new Sql();
+
+	$name = "sp_permissoes_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_permissoesmenus_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+	
 	echo success();
 
 });

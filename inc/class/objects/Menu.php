@@ -45,6 +45,40 @@ class Menu extends Model {
         
     }
 
+    public function addPermissoes(Permissoes $permissoes){
+
+        $itens = $permissoes->getItens();
+
+        foreach ($itens as &$permissao) {
+            
+            $permissao->queryToAttr("CALL sp_permissoesmenus_save(?, ?)", array(
+                $permissao->getidpermissao(),
+                $this->getidmenu()
+            ));
+
+        }
+
+        $permissoes->setItens($itens);
+
+        return $permissoes;
+
+    }
+
+    public function removePermissoes(Permissoes $permissoes){
+
+        foreach ($permissoes->getItens() as $permissao) {
+            
+            $this->proc("sp_permissoesmenus_remove", array(
+                $permissao->getidpermissao(),
+                $this->getidmenu()
+            ));
+
+        }
+
+        return true;
+
+    }
+
     public static function getMenus(Menu $menuPai, Menus $menusTodos) {
 
         $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());

@@ -82,6 +82,16 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/pessoas", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl('/admin/pessoas');
+
+});
+
 $app->get("/".DIR_ADMIN."/perfil", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

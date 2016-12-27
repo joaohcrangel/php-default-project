@@ -33,7 +33,7 @@
  			//Set the default values, use comma to separate the settings, example:
 			var defaults = {
 				debug:false,
-				wait:'<i class="fa fa-refresh fa-spin"></i> Aguarde...'
+				wait:'<i class="icon fa fa-refresh fa-spin"></i> Aguarde...'
 			};
 
 			var o = $.extend({}, defaults, options);
@@ -49,7 +49,7 @@
     				var innerHTML = strip_tags($btn[0].innerHTML.trim());
 
     				if(innerHTML.length === 0){
-	    				o.wait = '<i class="fa fa-refresh fa-spin"></i>';
+	    				o.wait = '<i class="icon fa fa-refresh fa-spin"></i>';
 	    			}
 
     				var html = $btn.html() || $btn.val();

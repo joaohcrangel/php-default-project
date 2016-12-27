@@ -13,7 +13,8 @@
 				id:"",
 				selected: function(){},
 				data:{},
-				cache:true
+				cache:true,
+				debug:false
 			};
 
 			var obj = $.extend(defaults, data);
@@ -60,9 +61,17 @@
 
 				  	$("body").append($html);
 
+				  	$('#'+modalId).on('hidden.bs.modal', function (e) {
+					  $(this).remove();
+					});
+
 				  	var fnCarregarDados = function(cache){
 
-				  		$html.find('.panel').data('panel-api').load();
+				  		if (obj.debug === true) console.log('fnCarregarDados', obj);
+
+				  		var panel = System.getApi('panel', $html.find('.panel'));
+				  		
+				  		if (panel) panel.load();
 
 				  		System.load();
 
@@ -83,15 +92,15 @@
 					          	table.append(tr);
 					        });
 
-					        $.components.init('iCheck');
+					        //$.components.init('iCheck');
 
 					        System.done();
-					        $html.find('.panel').data('panel-api').done();
+					        if (panel) panel.done();
 
 					      },
 					      failure:function(r){
 					      	System.done();
-					        $html.find('.panel').data('panel-api').done();
+					        if (panel) panel.done();
 					        System.showError(r);
 					      }
 					    });
@@ -99,7 +108,6 @@
 					};
 
 		          	$html.modal('show');
-		          	$.components.init('panel');
 
 		          	var altura = $("body").height();
 
@@ -120,7 +128,9 @@
 
 				    var tpl = 
 				    	'<tr>'+
-				    		'<td><input type="'+input+'" data-plugin="iCheck" data-'+input+'-class="i'+input+'_flat-blue" name="dado" value="{{'+obj.fieldList+'}}"></td>'+
+				    		'<td class="w-50">'+
+				    			'<span class="'+input+'-custom '+input+'-primary"><input type="'+input+'" value="{{'+obj.fieldList+'}}" name="dado"><label></label></span>'+
+				    		'</td>'+
 					    	'<td>'+obj.tpl+'</td>'+
 					    '</tr>';
 

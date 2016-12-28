@@ -14,6 +14,27 @@ $app->get("/".DIR_ADMIN, function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/", function(){
+
+    header('Location: /'.DIR_ADMIN);
+    exit;
+
+});
+
+$app->get("/".DIR_ADMIN."/index", function(){
+
+    header('Location: /'.DIR_ADMIN);
+    exit;
+
+});
+
+$app->get("/".DIR_ADMIN."/home", function(){
+
+    header('Location: /'.DIR_ADMIN);
+    exit;
+
+});
+
 $app->get("/".DIR_ADMIN."/login", function(){
 
     $page = new AdminPage(array(

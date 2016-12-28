@@ -17,7 +17,7 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = true;
+	private $utf8 = false;
 	private $sessionLog = true;
 
 	/*********************************************************************************************************/
@@ -388,9 +388,11 @@ class Sql {
 
 		foreach ($params as $value) {
 
-			switch(gettype($value)){
+			switch(strtolower(gettype($value))){
 				case 'string':
+			
 				$value = ($this->utf8 === true)?utf8_decode($value):$value;
+				
 				array_push($params_new, "'".$value."'");
 				break;
 				case 'integer':

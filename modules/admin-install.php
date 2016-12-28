@@ -1,6 +1,5 @@
 <?php
 
-header('Content-Type: text/html; charset=utf-8');
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 

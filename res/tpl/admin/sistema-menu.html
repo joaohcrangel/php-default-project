@@ -105,17 +105,23 @@
 </div></script><script>var menus_prepare = [];
 init.push(function(){
 
+    function resetMenu(callback){
+
+        rest({
+            url:PATH+"/usuarios/menus/reset",
+            success:function(){
+
+                if (typeof callback === 'function') callback();
+
+            }
+        });
+
+    }
+
     function saveMenu(index, menus, callback) {
 
         if (index >= menus.length) {
-            rest({
-                url:PATH+"/usuarios/menus/reset",
-                success:function(){
-
-                    callback();
-
-                }
-            });
+            resetMenu(callback);
         } else {
 
             var menu = menus[index];
@@ -207,23 +213,27 @@ init.push(function(){
 				},
 				success:function(r){
 
-					var $liNew = $(
-						'<li data-idmenu="'+r.data.idmenu+'" data-desmenu="'+r.data.desmenu+'" class="dd-item dd-item-alt">'+
-							'<div class="dd-handle"></div>'+
-			                '<div class="dd-content"><span>'+r.data.desmenu+'</span>'+
-			                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>'+
-			                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>'+
-			                '</div>'+
-						'</li>'
-					);
+                    resetMenu(function(){
 
-					$ol.append($liNew);
+                        var $liNew = $(
+                            '<li data-idmenu="'+r.data.idmenu+'" data-desmenu="'+r.data.desmenu+'" class="dd-item dd-item-alt">'+
+                                '<div class="dd-handle"></div>'+
+                                '<div class="dd-content"><span>'+r.data.desmenu+'</span>'+
+                                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>'+
+                                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>'+
+                                '</div>'+
+                            '</li>'
+                        );
 
-					addEvents($liNew);
+                        $ol.append($liNew);
 
-					$('#manager-menu').trigger('change');
+                        addEvents($liNew);
 
-					$liNew.find('.btn-edit').trigger('click');
+                        $('#manager-menu').trigger('change');
+
+                        $liNew.find('.btn-edit').trigger('click');
+
+                    });
 
 				}
 			});
@@ -257,10 +267,14 @@ init.push(function(){
 						resetForm:false,
 						success:function(r){
 
-							$('#manager-menu li[data-idmenu="'+r.data.idmenu+'"]').data({
-								idmenu:r.data.idmenu,
-								desmenu:r.data.desmenu
-							}).find('span').html(r.data.desmenu);
+                            resetMenu(function(){
+
+                                $('#manager-menu li[data-idmenu="'+r.data.idmenu+'"]').data({
+                                    idmenu:r.data.idmenu,
+                                    desmenu:r.data.desmenu
+                                }).find('span').html(r.data.desmenu);
+
+                            });							
 
 						}
 					});
@@ -329,11 +343,15 @@ init.push(function(){
                                         },
                                         success:function(r){
 
-                                            var $ul = $html.find('#tabMenuPermissoes').find('ul');
+                                            resetMenu(function(){
 
-                                            $.each(r.data, function(index, permissao){
-                                                $ul.append($(tplUl.tplPermissoesLi(permissao)));
-                                            });                                            
+                                                var $ul = $html.find('#tabMenuPermissoes').find('ul');
+
+                                                $.each(r.data, function(index, permissao){
+                                                    $ul.append($(tplUl.tplPermissoesLi(permissao)));
+                                                });  
+
+                                            });                                                                                      
 
                                         }
                                     });
@@ -368,11 +386,15 @@ init.push(function(){
                                 },
                                 success:function(r){
 
-                                    $btn.closest('.panel').find('input:checked').each(function(){
-                                        $(this).closest('li').remove();
-                                    });
+                                    resetMenu(function(){
 
-                                    $btn.btnload('unload');
+                                        $btn.closest('.panel').find('input:checked').each(function(){
+                                            $(this).closest('li').remove();
+                                        });
+
+                                        $btn.btnload('unload');
+
+                                    });                                    
 
                                 },
                                 failure:function(e){

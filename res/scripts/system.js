@@ -325,6 +325,8 @@ window.System = {
 
     System.initAutoHeight = function(){
 
+      console.log("initAutoHeight");
+
       $('[data-auto-height]').each(function(){
 
         var $el = $(this);
@@ -335,7 +337,7 @@ window.System = {
 
           var $container = $('<div data-role="container"></div>');
           
-          $el.warp($container);
+          $el.wrap($container);
 
           var $wrap = $('<div data-plugin="scrollable"></div>');
           $wrap.height($('body').height()+parseInt($el.data('auto-height')));

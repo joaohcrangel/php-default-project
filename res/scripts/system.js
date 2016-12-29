@@ -329,20 +329,18 @@ window.System = {
 
         var $el = $(this);
 
-        if ($el.data('data-role') != 'content') {
+        if ($el.data('role') != 'content') {
 
           $el.attr('data-role', 'content');
+          $el.removeClass('overflow-auto');
 
-          var $container = $('<div data-role="container"></div>');
+          var $container = $('<div data-plugin="scrollable" class="overflow-auto"><div data-role="container"></div></div>');     
           
-          $el.warp($container);
+          $container.height($('body').height()+parseInt($el.data('auto-height')));
 
-          var $wrap = $('<div data-plugin="scrollable"></div>');
-          $wrap.height($('body').height()+parseInt($el.data('auto-height')));
+          $el.wrap($container);
 
-          $container.wrap($wrap);
-
-          $wrap.asScrollable(PluginAsscrollable.default.getDefaults());
+          $el.closest('[data-plugin="scrollable"]').asScrollable(PluginAsscrollable.default.getDefaults());
 
         } else {
 

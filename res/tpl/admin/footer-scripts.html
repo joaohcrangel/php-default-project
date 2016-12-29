@@ -1,6 +1,11 @@
 <script src="{$path}/res/js/all.js"></script><script>Config.set('assets', '{$path}/res/theme/assets/');</script><script>app.controller('footer', function($scope, $http){
+	{if="isLogged()"}
 	$scope.Usuario = JSON.parse('{function="Session::getUsuario()->toJSON()"}');
 	$scope.Pessoa = JSON.parse('{function="Session::getPessoa()->toJSON()"}');
+	{else}
+	$scope.Usuario = {};
+	$scope.Pessoa = {};
+	{/if}
 });
 /*try{
   window.debugSQL = {if="isset($session.querys)"}{function="json_encode($session.querys)"}{else}[]{/if};

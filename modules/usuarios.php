@@ -66,6 +66,8 @@ $app->post("/usuarios/:idusuario/senha", function($idusuario){
 
 	$usuario->save();
 
+	$usuario->getPessoa();
+
 	Session::setUsuario($usuario);
 
 	echo success(array(
@@ -93,7 +95,6 @@ $app->post("/usuarios/:idusuario", function($idusuario){
 	if ($usuario->getidusuario() === Session::getUsuario()->getidusuario()) {
 
 		$usuario->getPessoa();
-
 		Session::setUsuario($usuario);
 
 	}

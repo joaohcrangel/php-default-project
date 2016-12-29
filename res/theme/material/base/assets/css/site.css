@@ -884,8 +884,8 @@ body.site-gridmenu-active {
 
 @media (max-width: 991px) {
   .page {
-    min-height: -webkit-calc(100% - 66px);
-    min-height:         calc(100% - 66px);
+    min-height: -webkit-calc(100% - 44px);
+    min-height:         calc(100% - 44px);
   }
 }
 

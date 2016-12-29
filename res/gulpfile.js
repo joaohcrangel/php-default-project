@@ -37,7 +37,7 @@ gulp.task('cssmin', function() {
         './theme/material/global/css/bootstrap.min.css',
         './theme/material/global/css/bootstrap-extend.min.css',
         './vendors/owl-carousel/owl.carousel.css',
-        './theme/material/base/assets/css/site.min.css',
+        './theme/material/base/assets/css/site.css',
         './theme/material/global/vendor/animsition/animsition.css',
         './theme/material/global/vendor/asscrollable/asScrollable.css',
         './theme/material/global/vendor/switchery/switchery.css',

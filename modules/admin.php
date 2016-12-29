@@ -77,7 +77,16 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Menu::resetMenuSession();
 
-    header('Location: '.SITE_PATH.'/admin');
+    $nextUrl = $_SERVER['HTTP_REFERER'];
+    $nextUrlParse = parse_url($nextUrl);
+
+    $location = SITE_PATH.'/admin';
+
+    if ($nextUrlParse['host'] === $_SERVER['HTTP_HOST']) {
+        $location = $nextUrl;
+    }
+
+    header('Location: '.$location);
     exit;
 
 });

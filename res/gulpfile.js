@@ -96,6 +96,8 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/intro-js/intro.js',
         './theme/material/global/vendor/screenfull/screenfull.js',
         './theme/material/global/vendor/slidepanel/jquery-slidePanel.js',
+        './theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js',
+        './theme/material/global/vendor/jquery-placeholder/jquery.placeholder.js',
         './theme/material/global/vendor/chartist/chartist.min.js',
         './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
         './theme/material/global/vendor/jvectormap/jquery-jvectormap.min.js',
@@ -125,11 +127,19 @@ gulp.task('scripts-admin', function() {
         //Page
         './theme/material/base/assets/js/Site.js',
         './theme/material/global/js/Plugin/asscrollable.js',
+        './theme/material/global/js/Plugin/asselectable.js',
+        './theme/material/global/js/Plugin/editlist.js',
+        './theme/material/global/js/Plugin/animate-list.js',
+        './theme/material/global/js/Plugin/aspaginator.js',
+        './theme/material/global/js/Plugin/sticky-header.js',
+        './theme/material/global/js/Plugin/action-btn.js',
         './theme/material/global/js/Plugin/slidepanel.js',
         './theme/material/global/js/Plugin/switchery.js',
         './theme/material/global/js/Plugin/jquery-placeholder.js',
         './theme/material/global/js/Plugin/matchheight.js',
         './theme/material/global/js/Plugin/jvectormap.js',
+        './theme/material/global/js/Plugin/selectable.js',
+        './theme/material/global/js/Plugin/bootbox.js',
         './theme/material/global/js/Plugin/peity.js',
         './theme/material/global/js/Plugin/material.js',
         './theme/material/global/js/Plugin/html5sortable.js',
@@ -148,7 +158,9 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.table.js',
         './js/jrangel/jquery.arquivos.js',
         './js/jrangel/jquery.panel.js',
-        './js/aribeiro/selecionar.js'
+        './js/aribeiro/selecionar.js',
+
+        './theme/material/base/assets/js/BaseApp.js'
     ])
         .pipe(jshint())
         .pipe(uglify())

@@ -272,6 +272,21 @@ window.System = {
 
     };
 
+    System.setUsuario = function(Usuario){
+
+      var appElement = document.querySelector('[ng-app=app]');
+      var appScope = angular.element(appElement).scope();
+      var controllerScope = appScope.$$childHead;
+      
+      controllerScope.$apply(function() {
+
+        controllerScope.Usuario = Usuario;
+        controllerScope.Pessoa = Usuario.Pessoa;
+
+      });
+
+    };
+
     System.initAjaxEvents = function(){
 
       $(document).ajaxStart(function() {

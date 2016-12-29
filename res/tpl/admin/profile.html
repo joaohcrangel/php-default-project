@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title">MEUS DADOS</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0"><div class="card card-inverse m-b-0"><div class="card-block p-30"><a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)"><img src="{$path}/res/theme/material/global/portraits/11.jpg" alt=""></a><div class="vertical-align h-100 text-truncate"><div class="vertical-align-middle"><div class="font-size-20 m-b-5 text-truncate">Gwendolyn Wheeler</div><div class="font-size-14 text-truncate">Adminnistrator</div></div></div></div></div><div class="panel"><div class="panel-body p-t-0"><form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="Digite o seu nome"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desusuario">Usuário</label><input type="text" class="form-control" id="desusuario" name="desusuario" placeholder="Digite o seu usuário"></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div></div></section></div><script>(function(){
+
+  var usuario = JSON.parse('{function="Session::getUsuario()->toJSON()"}');
+
+  for (var attr in usuario.Pessoa) {
+    usuario[attr] = usuario.Pessoa[attr];
+  }
+
+  $('#profile-form').formLoad(usuario);
+
+  $('#profile-form').form({
+    url:PATH+"/usuarios/"+usuario.idusuario,
+    resetForm:false,
+    success:function(r){
+
+      System.setUsuario(r.data);
+      System.success("Seus dados foram salvos!");
+      $.slidePanel.hide();
+
+    }
+  });
+
+})();</script>

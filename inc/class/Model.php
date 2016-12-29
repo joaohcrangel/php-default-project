@@ -197,6 +197,12 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 	}
 
+	public function toJSON(){
+
+		return json_encode($this->getFields());
+
+	}
+
 	public function getFields(){
 
 		$fields = (array)$this->fields;

@@ -46,6 +46,34 @@ $app->get("/usuarios", function(){
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/:idusuario", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario((int)$idusuario);
+
+	$pessoa = $usuario->getPessoa();
+
+	$pessoa->set($_POST);
+
+	$pessoa->save();
+
+	$usuario->set($_POST);
+
+	$usuario->save();
+
+	if ($usuario->getidusuario() === Session::getUsuario()->getidusuario()) {
+
+		$usuario->getPessoa();
+
+		Session::setUsuario($usuario);
+
+	}
+
+	echo success(array('data'=>$usuario->getFields()));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/usuarios", function(){
 
 	Permissao::checkSession(Permissao::ADMIN);

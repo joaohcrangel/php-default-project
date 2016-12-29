@@ -68,6 +68,7 @@
 						$btn.removeAttr("disabled").val($btn.data("html"));
 					}else{
 						$btn.removeAttr("disabled").html($btn.data("html"));
+						$btn.find('.waves-ripple').remove();
 					}
     				break;
 

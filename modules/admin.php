@@ -93,6 +93,20 @@ $app->get("/".DIR_ADMIN."/lock", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/profile", function(){
+
+    $page = new AdminPage(array(
+        'header'=>false,
+        'footer'=>false,
+        'data'=>array(
+            'head_title'=>'Perfil'
+        )
+    ));
+
+    $page->setTpl('profile');
+
+});
+
 $app->get("/".DIR_ADMIN."/settings", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

@@ -1,3 +1,6 @@
-<script src="{$path}/res/js/all.js"></script><script>Config.set('assets', '{$path}/res/theme/assets/');</script><script>/*try{
+<script src="{$path}/res/js/all.js"></script><script>Config.set('assets', '{$path}/res/theme/assets/');</script><script>app.controller('footer', function($scope, $http){
+	$scope.Pessoa = JSON.parse('{function="Session::getPessoa()->toJSON()"}');
+});
+/*try{
   window.debugSQL = {if="isset($session.querys)"}{function="json_encode($session.querys)"}{else}[]{/if};
 }catch(e){}*/</script>

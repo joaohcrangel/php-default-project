@@ -323,10 +323,29 @@ window.System = {
 
     };
 
+    System.initAutoHeight = function(){
+
+      $('[data-auto-height]').each(function(){
+
+        var $el = $(this);
+        console.log();
+        $el.height($('body').height()+parseInt($el.data('auto-height')));
+
+        if ($el.data('plugin') === 'scrollable') {
+          $el.asScrollable("update");
+        }
+
+      });
+
+    };
+
     System.initAjaxEvents();
 
     $(window).on('load', function(){
       System.initStores();
+      System.initAutoHeight();
+    }).on('resize', function(){
+      System.initAutoHeight();
     });
 
     $(document).on('page:loading', function(){

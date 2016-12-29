@@ -373,6 +373,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		2,
 		0,
 		'', 
+		'/sistema/usuarios', 
+		0, 
+		'Usuários'
+	));
+
+	$sql->proc("sp_menus_save", array(
+		2,
+		0,
+		'', 
 		'/sistema/sql-to-class', 
 		1, 
 		'SQL to CLASS'

@@ -272,6 +272,43 @@ window.System = {
 
     };
 
+    System.getControllerScope = function(){
+
+      var appElement = document.querySelector('[ng-app=app]');
+      var appScope = angular.element(appElement).scope();
+      return appScope.$$childHead;
+
+    };
+
+    System.getUsuario = function(){
+
+      var controllerScope = System.getControllerScope();
+
+      return controllerScope.Usuario;
+
+    };
+
+    System.getPessoa = function(){
+
+      var controllerScope = System.getControllerScope();
+
+      return controllerScope.Usuario.Pessoa;
+
+    };
+
+    System.setUsuario = function(Usuario){
+
+      var controllerScope = System.getControllerScope();
+      
+      controllerScope.$apply(function() {
+
+        controllerScope.Usuario = Usuario;
+        controllerScope.Pessoa = Usuario.Pessoa;
+
+      });
+
+    };
+
     System.initAjaxEvents = function(){
 
       $(document).ajaxStart(function() {
@@ -286,10 +323,44 @@ window.System = {
 
     };
 
+    System.initAutoHeight = function(){
+
+      $('[data-auto-height]').each(function(){
+
+        var $el = $(this);
+
+        if ($el.data('data-role') != 'content') {
+
+          $el.attr('data-role', 'content');
+
+          var $container = $('<div data-role="container"></div>');
+          
+          $el.warp($container);
+
+          var $wrap = $('<div data-plugin="scrollable"></div>');
+          $wrap.height($('body').height()+parseInt($el.data('auto-height')));
+
+          $container.wrap($wrap);
+
+          $wrap.asScrollable(PluginAsscrollable.default.getDefaults());
+
+        } else {
+
+          $el.closest('[data-plugin="scrollable"]').asScrollable("update");
+
+        }
+
+      });
+
+    };
+
     System.initAjaxEvents();
 
     $(window).on('load', function(){
       System.initStores();
+      System.initAutoHeight();
+    }).on('resize', function(){
+      System.initAutoHeight();
     });
 
     $(document).on('page:loading', function(){

@@ -102,7 +102,7 @@
 
 			//Set the default values, use comma to separate the settings, example:
 			var defaults = {
-				debug:true,
+				debug:false,
 				params:{},
 				url:"",
 				method:"POST",

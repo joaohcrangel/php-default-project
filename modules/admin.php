@@ -77,7 +77,16 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Menu::resetMenuSession();
 
-    header('Location: '.SITE_PATH.'/admin');
+    $nextUrl = $_SERVER['HTTP_REFERER'];
+    $nextUrlParse = parse_url($nextUrl);
+
+    $location = SITE_PATH.'/admin';
+
+    if ($nextUrlParse['host'] === $_SERVER['HTTP_HOST']) {
+        $location = $nextUrl;
+    }
+
+    header('Location: '.$location);
     exit;
 
 });
@@ -90,6 +99,34 @@ $app->get("/".DIR_ADMIN."/lock", function(){
     ));
 
     $page->setTpl('/admin/lock');
+
+});
+
+$app->get("/".DIR_ADMIN."/profile/change-password", function(){
+
+    $page = new AdminPage(array(
+        'header'=>false,
+        'footer'=>false,
+        'data'=>array(
+            'head_title'=>'Perfil - Alterar Senha'
+        )
+    ));
+
+    $page->setTpl('profile-change-password');
+
+});
+
+$app->get("/".DIR_ADMIN."/profile", function(){
+
+    $page = new AdminPage(array(
+        'header'=>false,
+        'footer'=>false,
+        'data'=>array(
+            'head_title'=>'Perfil'
+        )
+    ));
+
+    $page->setTpl('profile');
 
 });
 
@@ -206,6 +243,19 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
         'q'=>urldecode(get('q')),
         'total'=>0
     ));
+
+});
+
+$app->get("/".DIR_ADMIN."/sistema/usuarios", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        "header"=>true,
+        "footer"=>true
+    ));
+
+    $page->setTpl("/admin/sistema-usuarios");
 
 });
 

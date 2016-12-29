@@ -328,11 +328,26 @@ window.System = {
       $('[data-auto-height]').each(function(){
 
         var $el = $(this);
-        console.log();
-        $el.height($('body').height()+parseInt($el.data('auto-height')));
 
-        if ($el.data('plugin') === 'scrollable') {
-          $el.asScrollable("update");
+        if ($el.data('data-role') != 'content') {
+
+          $el.attr('data-role', 'content');
+
+          var $container = $('<div data-role="container"></div>');
+          
+          $el.warp($container);
+
+          var $wrap = $('<div data-plugin="scrollable"></div>');
+          $wrap.height($('body').height()+parseInt($el.data('auto-height')));
+
+          $container.wrap($wrap);
+
+          $wrap.asScrollable(PluginAsscrollable.default.getDefaults());
+
+        } else {
+
+          $el.closest('[data-plugin="scrollable"]').asScrollable("update");
+
         }
 
       });

@@ -4,6 +4,7 @@ Config.set('assets', '{$path}/res/theme/assets/');
 </script>
 <script>
 app.controller('footer', function($scope, $http){
+	$scope.Usuario = JSON.parse('{function="Session::getUsuario()->toJSON()"}');
 	$scope.Pessoa = JSON.parse('{function="Session::getPessoa()->toJSON()"}');
 });
 /*try{

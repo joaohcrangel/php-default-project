@@ -93,6 +93,20 @@ $app->get("/".DIR_ADMIN."/lock", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/profile/change-password", function(){
+
+    $page = new AdminPage(array(
+        'header'=>false,
+        'footer'=>false,
+        'data'=>array(
+            'head_title'=>'Perfil - Alterar Senha'
+        )
+    ));
+
+    $page->setTpl('profile-change-password');
+
+});
+
 $app->get("/".DIR_ADMIN."/profile", function(){
 
     $page = new AdminPage(array(

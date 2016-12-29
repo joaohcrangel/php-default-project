@@ -272,11 +272,33 @@ window.System = {
 
     };
 
-    System.setUsuario = function(Usuario){
+    System.getControllerScope = function(){
 
       var appElement = document.querySelector('[ng-app=app]');
       var appScope = angular.element(appElement).scope();
-      var controllerScope = appScope.$$childHead;
+      return appScope.$$childHead;
+
+    };
+
+    System.getUsuario = function(){
+
+      var controllerScope = System.getControllerScope();
+
+      return controllerScope.Usuario;
+
+    };
+
+    System.getPessoa = function(){
+
+      var controllerScope = System.getControllerScope();
+
+      return controllerScope.Usuario.Pessoa;
+
+    };
+
+    System.setUsuario = function(Usuario){
+
+      var controllerScope = System.getControllerScope();
       
       controllerScope.$apply(function() {
 

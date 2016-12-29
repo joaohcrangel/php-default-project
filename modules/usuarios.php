@@ -46,6 +46,34 @@ $app->get("/usuarios", function(){
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/:idusuario/senha", function($idusuario){
+
+	if (!post('dessenhanova')) {
+		throw new Exception("Informe a senha.", 400);
+	}
+
+	if (post('dessenhanova')!==post('dessenhaconfirme')) {
+		throw new Exception("Confirme a senha corretamente.", 400);
+	}
+
+	$usuario = new Usuario((int)$idusuario);
+
+	if (!$usuario->checkPassword(post('dessenhaatual'))) {
+		throw new Exception("A senha atual não é válida.", 400);
+	}
+
+	$usuario->setdessenha(Usuario::getPasswordHash(post('dessenhanova')));
+
+	$usuario->save();
+
+	Session::setUsuario($usuario);
+
+	echo success(array(
+		'data'=>$usuario->getFields()
+	));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/usuarios/:idusuario", function($idusuario){
 
 	Permissao::checkSession(Permissao::ADMIN);

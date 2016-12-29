@@ -246,6 +246,19 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/sistema/usuarios", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        "header"=>true,
+        "footer"=>true
+    ));
+
+    $page->setTpl("/admin/sistema-usuarios");
+
+});
+
 $app->get("/".DIR_ADMIN."/sistema/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

@@ -61,7 +61,9 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/nestable/nestable.css',
         './theme/material/global/vendor/html5sortable/sortable.css',
         './theme/material/global/vendor/tasklist/tasklist.css',
-        './theme/material/global/vendor/icheck/icheck.css'
+        './theme/material/global/vendor/icheck/icheck.css',
+        './theme/material/global/vendor/bootstrap-treeview/bootstrap-treeview.css',
+        './theme/material/global/vendor/jstree/jstree.min.css',
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -111,6 +113,8 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/notie/notie.js',
         './theme/material/global/vendor/html5sortable/html.sortable.js',
         './theme/material/global/vendor/nestable/jquery.nestable.js',
+        './theme/material/global/vendor/bootstrap-treeview/bootstrap-treeview.min.js',
+        './theme/material/global/vendor/jstree/jstree.min.js',
         //Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',
@@ -147,6 +151,8 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/tasklist.js',
         './theme/material/global/js/Plugin/panel.js',
         './theme/material/global/js/Plugin/icheck.js',
+        './theme/material/global/js/Plugin/bootstrap-treeview.js',
+        './theme/material/global/js/Plugin/jstree.js',
         //Others Plugins
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',

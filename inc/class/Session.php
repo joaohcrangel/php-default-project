@@ -48,7 +48,7 @@ class Session extends DefaultObject {
 
 		if ($usuario !== NULL && !$usuario->getidusuario() > 0) {
 
-			$cookie = getLocalCookie(Usuario::SESSION_NAME_REMEMBER);
+			$cookie = getLocalCookie(COOKIE_KEY);
 
 			if ((int)$cookie['idusuario'] > 0) {
 
@@ -66,7 +66,13 @@ class Session extends DefaultObject {
 
 	}
 	
-	public static function setUsuario(\Usuario $usuario){
+	public static function setUsuario(\Usuario $usuario, $inCookie = false){
+
+		if ($inCookie === true) {
+
+			setLocalCookie(COOKIE_KEY, sessionid(), time()+(60*60*24*5));
+
+		}
 
 		return Session::setObjectInSession($usuario);
 		

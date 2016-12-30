@@ -6,7 +6,7 @@ $app->post("/usuarios/login", function(){
 
 	$usuario->getPessoa();
 
-	Session::setUsuario($usuario);
+	Session::setUsuario($usuario, (isset($_POST['remember'])));
 
 	Menu::resetMenuSession();
 
@@ -131,7 +131,7 @@ $app->post("/usuarios", function(){
  */
 $app->get('/usuarios/logout', function () {
 
-	unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
+	unsetLocalCookie(COOKIE_KEY);
 
 	if (isset($_SESSION)) unset($_SESSION);
 

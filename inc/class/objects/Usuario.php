@@ -6,7 +6,6 @@ class Usuario extends Model {
     protected $pk = "idusuario";
 
     const SESSION_NAME_LOCK = "USER.LOCK";
-    const SESSION_NAME_REMEMBER = "LOGIN_REMEMBER";
     const SESSION_INVALID_NAME = "Usuario-Login-Invalid";
     const LOGIN_INVALID_MAX = 3;
     const PASSWORD_HASH_COST = 12;

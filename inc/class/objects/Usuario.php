@@ -35,12 +35,13 @@ class Usuario extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_usuarios_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_usuarios_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidusuario(),
                 $this->getidpessoa(),
                 $this->getdesusuario(),
                 $this->getdessenha(),
-                $this->getinbloqueado()
+                $this->getinbloqueado(),
+                $this->getidusuariotipo()
             ));
 
             return $this->getidusuario();

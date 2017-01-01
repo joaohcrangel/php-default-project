@@ -43,7 +43,7 @@
 
  				var $element = $form.find('[name="'+item+'"]'),
  					element = $element[0];
-
+ 					
  				if ($element.length === 1) {
 
 	 				switch (element.tagName.toLowerCase()) {
@@ -64,10 +64,10 @@
 	 					case 'select':
 	 					$element.find(':selected').removeAttr('selected').prop('selected', false);
 	 					if (data[item]) {
-                $element.find('[value='+data[item]+']').attr('selected', 'selected').prop('selected', true);
-            } else {
-              $element.find(':disabled').removeAttr('disabled').prop('selected', true).prop('disabled', true);
-            }
+			                $element.find('[value='+data[item]+']').attr('selected', 'selected').prop('selected', true);
+			            } else {
+			              $element.find(':disabled').removeAttr('disabled').prop('selected', true).prop('disabled', true);
+			            }
 	 					break;
 
 	 					case 'textarea':
@@ -80,10 +80,10 @@
 
 	 				$element.removeAttr('checked').prop('checked', false);
 	 				if (data[item]) {
-            $element.filter('[value='+data[item]+']').attr('checked', 'checked').prop('checked', true);
-          } else {
-            $element.find(':disabled').removeAttr('disabled').prop('selected', true).prop('disabled', true);
-          }
+			            $element.filter('[value='+data[item]+']').attr('checked', 'checked').prop('checked', true);
+			        } else {
+			            $element.find(':disabled').removeAttr('disabled').prop('selected', true).prop('disabled', true);
+			        }
 
 	 			}
 

@@ -1,8 +1,12 @@
 init.push(function(){
 
-  window.initSlidePanel = function($elements){
+  window.initSlidePanel = function($elementsParents){
 
-    if (!$elements) $elements = $('[data-toggle="slidePanel"]');
+    if (!$elementsParents) {
+      $elementsParents = $('[data-toggle="slidePanel"]');
+    } else {
+      $elementsParents = $elementsParents.find('[data-toggle="slidePanel"]');
+    }
 
     var options = $.extend({}, {
       settings: {
@@ -18,7 +22,7 @@ init.push(function(){
 
     $.slidePanel.setDefaults(options);
 
-    $elements.on('click', function(){
+    $elementsParents.on('click', function(){
 
       $.slidePanel.show({
         url:$(this).data('url')

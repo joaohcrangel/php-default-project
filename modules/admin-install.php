@@ -190,10 +190,22 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  desusuario varchar(128) NOT NULL,
 		  dessenha varchar(256) NOT NULL,
 		  inbloqueado bit(1) NOT NULL DEFAULT b'0',
+		  idusuariotipo int(11) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idusuario),
 		  KEY FK_usuarios_pessoas_idx (idpessoa),
-		  CONSTRAINT FK_usuarios_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  KEY FK_usuarios_usuariostipos_idx (idusuariotipo),
+		  CONSTRAINT FK_usuarios_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_usuarios_usuariostipos FOREIGN KEY (idusuariotipo) REFERENCES tb_usuariostipos (idusuariotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_usuariostipos (
+		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
+		  desusuariotipo varchar(32) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -234,6 +246,16 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		1, 'root', $hash
 	));
 
+	$sql->proc("sp_usuariostipos_save", array(
+		0,
+		'Administrativo'
+	));
+
+	$sql->proc("sp_usuariostipos_save", array(
+		0,
+		'Cliente'
+	));
+
 	echo success();
 
 });
@@ -258,6 +280,10 @@ $app->get("/install-admin/sql/usuarios/get", function(){
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
+	$name = "sp_usuariostipos_get";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 
 });
@@ -267,6 +293,10 @@ $app->get("/install-admin/sql/usuarios/remove", function(){
 	$sql = new Sql();
 
 	$name = "sp_usuarios_remove";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_usuariostipos_remove";	
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
@@ -282,6 +312,10 @@ $app->get("/install-admin/sql/usuarios/save", function(){
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
+	$name = "sp_usuariostipos_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 
 });
@@ -290,7 +324,9 @@ $app->get("/install-admin/sql/usuarios/list", function(){
 
 	$sql = new Sql();
 
-	
+	$name = "sp_usuariostipos_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
 	echo success();
 

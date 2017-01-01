@@ -173,65 +173,6 @@ $app->get("/".DIR_ADMIN."/session", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/usuarios", function(){
-
-	Permissao::checkSession(Permissao::ADMIN, true);
-
-	$page = new AdminPage(array(
-        "header"=>true,
-        "footer"=>true
-    ));
-
-	$page->setTpl("/admin/usuarios");
-
-});
-
-$app->get("/".DIR_ADMIN."/usuarios/all", function(){
-
-    Permissao::checkSession(Permissao::ADMIN, true);
-
-	$usuarios = Usuarios::listAll();
-
-	echo success(array("data"=>$usuarios->getFields()));
-
-});
-
-$app->post("/".DIR_ADMIN."/usuarios", function(){
-
-    Permissao::checkSession(Permissao::ADMIN, true);
-
-    $usuario = new Usuario($_POST);
-    $usuario->save();
-
-    echo success(array("data"=>$usuario->getFields()));
-
-});
-
-$app->delete("/".DIR_ADMIN."/usuarios", function(){
-
-    Permissao::checkSession(Permissao::ADMIN, true);
-
-    $ids = explode(",", post("ids"));
-
-    foreach($ids as $idusuario){
-        
-        if(!(int)$idusuario > 0){
-            throw new Exception("ID de usuário não informado.", 400);
-        }
-
-        $usuario = new Usuario((int)$idusuario);
-
-        if(!(int)$usuario->getidusuario() > 0){
-            throw new Exception("Usuário não encontrado.", 404);            
-        }
-
-        // $usuario->remove();
-    }
-
-    echo success();
-
-});
-
 $app->get("/".DIR_ADMIN."/search-panel", function(){
 
     $page = new AdminPage(array(

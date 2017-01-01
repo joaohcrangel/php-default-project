@@ -8,6 +8,12 @@
  *
  */
 
+//Nome da Chave do Cookie
+define('COOKIE_KEY', 'COOKIE_KEY');
+
+//chave de criptografia
+define('KEY_ENCRYPT', pack('a16', 'PHP-DEF-PROJECT'));
+
 // ** Configurações de Banco de Dados ** //
 /** The name of the database for WordPress */
 define('DB_TYPE', (int)'1');
@@ -19,7 +25,7 @@ define('DB_NAME', 'database_name');
 define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'root');
+define('DB_PASSWORD', '');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');

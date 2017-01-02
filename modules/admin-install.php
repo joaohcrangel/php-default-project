@@ -241,10 +241,10 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 	$hash = Usuario::getPasswordHash("root");
 
 	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha) VALUES
-		(?, ?, ?);
+		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
+		(?, ?, ?, ?);
 	", array(
-		1, 'root', $hash
+		1, 'root', $hash, 1
 	));
 
 	$sql->proc("sp_usuariostipos_save", array(

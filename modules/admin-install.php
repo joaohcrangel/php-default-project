@@ -5,7 +5,7 @@ define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 
 $app->get("/install", function(){
 
-	unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
+	unsetLocalCookie(COOKIE_KEY);
 
 	if (isset($_SESSION)) unset($_SESSION);
 

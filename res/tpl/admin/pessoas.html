@@ -13,6 +13,11 @@ position: absolute;
 select.form-control-label {
   border: none;
 }
+.list-group-item:hover {
+      color: #757575;
+    background-color: #eee;
+    cursor: pointer;
+}
 </style>
 <div class="page">
   <div class="page-content p-0">
@@ -22,212 +27,21 @@ select.form-control-label {
           <div class="panel-heading">
             <h3 class="panel-title">Pessoas</h3>
             <div class="p-x-25">
-              <div class="input-group">
+              <div class="input-group" id="pesquisar-div">
                 <input type="text" class="form-control" name="" placeholder="Pesquisar...">
                 <span class="input-group-btn">
-                  <button type="submit" class="btn btn-primary waves-effect waves- effect">
+                  <button type="button" class="btn btn-primary waves-effect waves- effect">
                     <i class="icon md-search" aria-hidden="true"></i>
                   </button>
                 </span>
               </div>
             </div>
           </div>
-          <div class="panel-body p-b-0">
-            <ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-142"> 
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-online" href="javascript:void(0)">
-                    <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Herman Beck</h4>
-                    <small>CEO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item ">
-                <div class="media">
-                  <div class="media-left">
-                  <a class="avatar avatar-away" href="javascript:void(0)">
-                  <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/6.jpg" alt="..."></a>
-                </div>
-                <div class="media-body">
-                  <h4 class="media-heading">Mary Adams</h4>
-                  <small>CIO</small>
-                </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                  </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-busy" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/7.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Nathan Watts</h4>
-                    <small>CTO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-off" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/8.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Heather Harper</h4>
-                    <small>CTO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                  </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-online" href="javascript:void(0)">
-                    <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Caleb Richards</h4>
-                    <small>CTO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-away" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/6.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">June Lane</h4>
-                    <small>CVO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-busy" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/7.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Nathan Watts</h4>
-                    <small>CVO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-off" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/8.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Heather Harper</h4>
-                    <small>CVO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-online" href="javascript:void(0)">
-                    <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Herman Beck</h4>
-                    <small>CTI</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-away" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/6.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Mary Adams</h4>
-                    <small>CTI</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-busy" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/7.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Nathan Watts</h4>
-                    <small>CTO</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                 </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media">
-                  <div class="media-left">
-                    <a class="avatar avatar-off" href="javascript:void(0)">
-                    <img class="img-fluid" src="/{$path}res/theme/material/global/portraits/8.jpg" alt="..."></a>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">Mary Adams</h4>
-                    <small>CTI</small>
-                  </div>
-                  <div class="media-right">
-                    <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-                    </button>
-                  </div>
-                </div>
-              </li>
+         
+            <ul id="pessoas-ul" class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-142"> 
+              
             </ul>
-          </div>
+          
         </div>
       </div>
     <div class="col-sm-8 p-0">
@@ -470,3 +284,74 @@ select.form-control-label {
     </div>
   </div>
 </div>
+<script id="tpl-pessoa-li" type="text/x-handlebars-template">
+  <li class="list-group-item p-x-25">
+    <div class="media">
+      <div class="media-left">
+        <a class="avatar avatar-online" href="javascript:void(0)">
+        <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="..."></a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{despessoa}}</h4>
+        <small>{{despessoatipo}}</small>
+      </div>
+      <div class="media-right">
+        <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
+        </button>
+     </div>
+    </div>
+  </li>
+</script>
+<script>
+  
+init.push(function(){
+
+  var tplPessoaLi = Handlebars.compile($("#tpl-pessoa-li").html());
+
+  function carregarLista(pesquisa){
+
+    if (!pesquisa) pesquisa = '';
+
+    rest({
+      url:PATH+"/pessoas",
+      data:{
+        q:pesquisa
+      },
+      success:function(r){
+
+        $("#pessoas-ul").html('');
+
+        $.each(r.data, function(index, objeto){
+
+          $("#pessoas-ul").append(tplPessoaLi(objeto));
+
+        });
+
+      }
+    });
+
+  }
+
+  carregarLista();
+  ///////////////////////////////////////////////////////////
+  var $input = $("#pesquisar-div input");
+  var $button = $("#pesquisar-div button");
+
+  $button.on("click", function(){
+
+    carregarLista($input.val());
+
+  });
+
+  $input.on("keyup", function(e){
+
+    if (e.keyCode === 13) {
+      $button.trigger("click");
+    }
+
+  });
+
+
+});
+
+</script>

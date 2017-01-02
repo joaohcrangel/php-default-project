@@ -18,14 +18,27 @@ select.form-control-label {
     background-color: #eee;
     cursor: pointer;
 }
+#panel-pessoas .panel-heading {
+  position: relative;
+}
+#panel-pessoas .panel-actions {
+  position: absolute;
+  top: 30px;
+  right: 25px;
+}
 </style>
 <div class="page">
   <div class="page-content p-0">
     <div class="row-fluid">
       <div class="col-sm-4 p-0">
-        <div class="panel m-b-0">
+        <div class="panel m-b-0" id="panel-pessoas">
           <div class="panel-heading">
             <h3 class="panel-title">Pessoas</h3>
+            <div class="panel-actions">
+              <button class="btn btn-success btn-sm waves-effect" id="exampleButtonRandom" type="button">
+                <i class="icon md-plus"></i>
+              </button>
+            </div>
             <div class="p-x-25">
               <div class="input-group" id="pesquisar-div">
                 <input type="text" class="form-control" name="" placeholder="Pesquisar...">
@@ -302,8 +315,11 @@ select.form-control-label {
     </div>
   </li>
 </script>
+<script id="tpl-telefone" type="text/x-handlebars-template">
+
+</script>
 <script>
-  
+
 init.push(function(){
 
   var tplPessoaLi = Handlebars.compile($("#tpl-pessoa-li").html());
@@ -351,6 +367,7 @@ init.push(function(){
     }
 
   });
+  //////////////////////////////////////////////////////
 
 
 });

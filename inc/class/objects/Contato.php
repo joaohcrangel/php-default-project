@@ -2,7 +2,7 @@
 
 class Contato extends Model {
 
-    public $required = array('idcontatotipo', 'idpessoa', 'descontato', 'inprincipal');
+    public $required = array('idcontatotipo', 'idpessoa', 'descontato', 'inprincipal', 'idcontatosubtipo');
     protected $pk = "idcontato";
 
     public function get(){
@@ -18,12 +18,14 @@ class Contato extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_contatos_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_contatos_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidcontato(),
                 $this->getidcontatotipo(),
+                $this->getidcontatosubtipo(),
                 $this->getidpessoa(),
                 $this->getdescontato(),
                 $this->getinprincipal()
+                
             ));
 
             return $this->getidcontato();
@@ -38,7 +40,9 @@ class Contato extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_contatos_remove(".$this->getidcontato().")");
+        $this->proc("sp_contatos_remove", array(
+            $this->getidcontato()
+        ));
 
         return true;
         

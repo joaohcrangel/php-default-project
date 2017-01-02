@@ -32,6 +32,7 @@ $app->get("/install-admin/sql/clear", function(){
 
 	$sql->query("DROP TABLE IF EXISTS tb_contatos;");
 	$sql->query("DROP TABLE IF EXISTS tb_contatostipos;");
+	$sql->query("DROP TABLE IF EXISTS tb_contatossubtipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_documentos;");
 	$sql->query("DROP TABLE IF EXISTS tb_documentostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_enderecos;");
@@ -499,6 +500,17 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 	$sql = new Sql();
 
 	$sql->query("
+		CREATE TABLE tb_contatossubtipos (
+		  idcontatosubtipo int(11) NOT NULL AUTO_INCREMENT,
+		  descontatosubtipo varchar(32) NOT NULL,
+		  descontatotipo varchar(32) NOT NULL,
+		  idusuario int(11) DEFAULT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcontatosubtipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
 		CREATE TABLE tb_contatostipos (
 		  idcontatotipo int(11) NOT NULL AUTO_INCREMENT,
 		  descontatotipo varchar(64) NOT NULL,
@@ -511,12 +523,14 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		CREATE TABLE tb_contatos (
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
 		  idcontatotipo int(11) NOT NULL,
+		  idcontatosubtipo int(11) NOT NULL,
 		  idpessoa int(11) NOT NULL,
 		  descontato varchar(128) NOT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcontato),
 		  KEY FK_contatostipos (idcontatotipo),
+		  KEY FK_contatossubtipos (idcontatosubtipo),
 		  KEY FK_pessoascontatos (idpessoa)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -556,8 +570,28 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 		(?);
 	", array(
 		'E-mail',
-		'Celular',
 		'Telefone'
+	));
+
+	$sql->query("
+		INSERT INTO tb_contatossubtipos (idcontatotipo, descontatosubtipo) VALUES
+		(?, ?),
+		(?, ?),
+		(?, ?),
+		(?, ?),
+		(?, ?),
+		(?, ?),
+		(?, ?),
+		(?, ?);
+	", array(
+		2, 'Casa',		
+		2, 'Trabalho',		
+		2, 'Celular',		
+		2, 'Fax',		
+		2, 'Outro',		
+		1, 'Pessoal',		
+		1, 'Trabalho',		
+		1, 'Outro'		
 	));
 
 	echo success();
@@ -568,9 +602,17 @@ $app->get("/install-admin/sql/contatos/get", function(){
 
 	$sql = new Sql();
 
-	$name = "sp_contatos_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_contatos_get",
+		"sp_contatossubtipos_get"
+	);
+
+	foreach ($procs as $name) {
+
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	}
 
 	echo success();
 
@@ -600,6 +642,11 @@ $app->get("/install-admin/sql/contatos/save", function(){
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
+	$name = "sp_contatossubtipos_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+
 	echo success();
 
 });
@@ -611,6 +658,10 @@ $app->get("/install-admin/sql/contatos/remove", function(){
 	$name = "sp_contatos_remove";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_contatossubtipos_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
 
 	echo success();
 

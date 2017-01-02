@@ -1,22 +1,24 @@
 <style>
 #btn {
-position: absolute;
+  position: absolute;
   top:16px;
   margin-left: 630px;
 }
-
-#botao {
-position: absolute;
-      top: 0;
-    right: 0;
+.form-group-relative {
+  position: relative;
+}
+.form-group-relative button.md-close {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 select.form-control-label {
   border: none;
 }
 .list-group-item:hover {
-      color: #757575;
-    background-color: #eee;
-    cursor: pointer;
+  color: #757575;
+  background-color: #eee;
+  cursor: pointer;
 }
 #panel-pessoas .panel-heading {
   position: relative;
@@ -82,7 +84,7 @@ select.form-control-label {
             </div>
           </div>
         
-          <div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235">
+          <div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235" id="form-editar">
             <div class="panel">
               <div class="panel-body container-fluid">
                 <form autocomplete="off">
@@ -93,94 +95,19 @@ select.form-control-label {
                   </div>
 
                   <div class="lista-telefones">
-                    <div class="form-group form-material" data-plugin="formMaterial">
-                      
-                      <select class="form-control-label">
-                        <option>Celular</option>
-                        <option>Casa</option>
-                        <option>Trabalho</option>
-                        <option>Empresa</option>
-                        <option>Pager</option>
-                        <option>Fax de casa</option>
-                        <option>fax do trabalho</option>
-                        <option>Outro</option>
-                        <option>Personalizado</option>
-                      </select>
-
-                      <input type="text" class="form-control" id="descelular" name="descelular" placeholder="">
-
-                      <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close" id="botao"></button>
-                    </div>
+                    
                   </div>
-                  <button type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Telefone</button>
+                  <button id="botao-add-telefone"type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Telefone</button>
 
                   <div class="lista-emails m-t-20">
-                    <div class="form-group form-material" data-plugin="formMaterial">
-                      
-                      <select class="form-control-label">
-                        <option>E-mail</option>
-                        <option>Casa</option>
-                        <option>Trabalho</option>
-                        <option>Empresa</option>
-                        <option>Pager</option>
-                        <option>Fax de casa</option>
-                        <option>fax do trabalho</option>
-                        <option>Outro</option>
-                        <option>Personalizado</option>
-                      </select>
-
-                      <input type="text" class="form-control" id="desemail" name="desemail" placeholder="">
-
-                      <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close" id="botao"></button>
-                    </div>
+                    
                   </div>
-                  <button type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> E-mail</button>
+                  <button id="botao-add-email"type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> E-mail</button>
 
                   <div class="lista-enderecos m-t-20">
-                    <div class="form-group form-material" data-plugin="formMaterial">
-                      
-                      <select class="form-control-label">
-                        <option>Endereço</option>
-                        <option>Casa</option>
-                        <option>Trabalho</option>
-                        <option>Empresa</option>
-                        <option>Pager</option>
-                        <option>Fax de casa</option>
-                        <option>fax do trabalho</option>
-                        <option>Outro</option>
-                        <option>Personalizado</option>
-                      </select>
-                      
-                      <input type="text" class="form-control" id="descep" name="descep" placeholder="Cep">
-
-                      <input type="text" class="form-control" id="desendereco" name="desendereco" placeholder="Rua">
-
-                      <div class="row">
-                        <div class="col-sm-6"> <input type="text" class="form-control" id="desnumero" name="desnumero" placeholder="Número"></div>
-                        <div class="col-sm-6"> <input type="text" class="form-control" id="descomplemento" name="descomplemento" placeholder="Complemento"></div>
-
-                      </div>
-
-                      
-
-                      
-
-                      <input type="text" class="form-control" id="desbairro" name="desbairro" placeholder="Bairro">
-
-                      <input type="text" class="form-control" id="descidade" name="descidade" placeholder="Cidade">
-                      
-                      <div class="row">
-                        <div class="col-sm-6"><input type="text" class="form-control" id="desestado" name="desestado" placeholder="Estado"></div>
-                        <div class="col-sm-6"><input type="text" class="form-control" id="despais" name="despais" placeholder="País"></div>
-                      </div>
-                      
-
-                      
-
-                      <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close" id="botao"></button>
-                    </div>
+                   
                   </div>
-                  <button type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Endereço</button>
+                  <button id="botao-add-endereco" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Endereço</button>
                
 
                   
@@ -316,7 +243,36 @@ select.form-control-label {
   </li>
 </script>
 <script id="tpl-telefone" type="text/x-handlebars-template">
-
+  <div class="form-group form-material form-group-relative" data-plugin="formMaterial">                      
+    <select class="form-control-label" data-idcontatosubtipo="{{idcontatosubtipo}}"></select>
+    <input type="text" class="form-control" id="destelefone-{{idcontato}}" name="destelefone" placeholder="" value="{{descontato}}">
+    <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
+  </div>
+</script>
+<script id="tpl-email" type="text/x-handlebars-template">
+  <div class="form-group form-material form-group-relative" data-plugin="formMaterial">
+    <select class="form-control-label combo-emails" data-idcontatosubtipo="{{idcontatosubtipo}}"></select>
+    <input type="text" class="form-control" id="desemail-{{idcontato}}" name="desemail" placeholder="" value="{{descontato}}">
+    <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
+  </div>
+</script>
+<script id="tpl-endereco" type="text/x-handlebars-template"> 
+   <div class="form-group form-material form-group-relative" data-plugin="formMaterial">
+      <select class="form-control-label" data-idenderecotipo="{{idenderecotipo}}"></select>
+      <input type="text" class="form-control" name="descep" placeholder="Cep" value="{{descep}}">
+      <input type="text" class="form-control" name="desendereco" placeholder="Rua" value="{{desendereco}}">
+      <div class="row">
+        <div class="col-sm-6"> <input type="text" class="form-control" name="desnumero" placeholder="Número" value="{{desnumero}}"></div>
+        <div class="col-sm-6"> <input type="text" class="form-control" name="descomplemento" placeholder="Complemento" value="{{descomplemento}}"></div>
+      </div>
+      <input type="text" class="form-control" name="desbairro" placeholder="Bairro" value="{{desbairro}}">
+      <input type="text" class="form-control" name="descidade" placeholder="Cidade" value="{{descidade}}"> 
+      <div class="row">
+        <div class="col-sm-6"><input type="text" class="form-control" name="desestado" placeholder="Estado" value="{{desestado}}"></div>
+        <div class="col-sm-6"><input type="text" class="form-control"  name="despais" placeholder="País" value="{{despais}}"></div>
+      </div>
+      <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
+    </div>
 </script>
 <script>
 
@@ -367,9 +323,70 @@ init.push(function(){
     }
 
   });
-  //////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
+  $("#botao-add-telefone").on("click",function(){
+    
+    var $formControl = $(tplTelefone({}));
 
+    $(".lista-telefones").append($formControl);
 
+    $formControl.find("select").combobox({
+      url:PATH+"/contatossubtipos?idcontatotipo=2",
+      valueField:"idcontatosubtipo",
+      displayField:"descontatosubtipo"
+    });
+
+    $formControl.find("button.md-close").on("click", function(){
+      $(this).closest(".form-group").remove();
+    });
+
+    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+
+  });
+  //////////////////////////////////////////////////////////////
+  var tplEmail = Handlebars.compile($("#tpl-email").html());
+   $("#botao-add-email").on("click",function(){
+
+    var $formControl =$(tplEmail({}));
+
+    $(".lista-emails").append($formControl);
+
+    $formControl.find("select").combobox({
+      url:PATH+"/contatossubtipos?idcontatotipo=1",
+      valueField:"idcontatosubtipo",
+      displayField:"descontatosubtipo"
+    });
+
+    $formControl.find("button.md-close").on("click", function(){
+      $(this).closest(".form-group").remove();
+    });
+
+    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+
+  });
+   /////////////////////////////////////////////////////////////
+  var tplEndereco = Handlebars.compile($("#tpl-endereco").html());
+  $("#botao-add-endereco").on("click",function(){
+    
+    var $formControl =$(tplEndereco({}));
+
+    $(".lista-enderecos").append($formControl);
+
+    $formControl.find("select").combobox({
+      url:PATH+"/enderecostipos",
+      valueField:"idenderecotipo",
+      displayField:"desenderecotipo"
+    });
+
+    $formControl.find("button.md-close").on("click", function(){
+      $(this).closest(".form-group").remove();
+    });
+
+    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+
+  });
+    ///////////////////////////////////////////////////////////////////
 });
 
 </script>

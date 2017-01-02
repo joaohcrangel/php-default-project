@@ -9,6 +9,14 @@ class EnderecosTipos extends Collection {
 
     public function get(){}
 
+    public static function listAll(){
+      $col = new  EnderecosTipos();
+      $col->loadFromQuery("call sp_enderecotipo_list()");
+      return $col;
+
+    }
 }
+
+
 
 ?>

@@ -9,6 +9,12 @@ class ContatosSubtipos extends Collection {
 
     public function get(){}
 
+    public static function listAll(){
+      $col = new  ContatosSubtipos();
+      $col->loadFromQuery("call sp_contatossubtipos_list()");
+      return $col;
+
+    }
 }
 
 ?>

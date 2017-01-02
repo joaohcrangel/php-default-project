@@ -30,6 +30,12 @@ window.System = {
 
     };
 
+    System.getPanelApi = function($element){
+
+      return System.getApi('panel', $element);
+
+    };
+
     System.showError = function(r){
 
       $(document).trigger('page:ready');
@@ -324,8 +330,6 @@ window.System = {
     };
 
     System.initAutoHeight = function(){
-
-      console.log("initAutoHeight");
 
       $('[data-auto-height]').each(function(){
 

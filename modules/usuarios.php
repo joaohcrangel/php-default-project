@@ -6,7 +6,7 @@ $app->post("/usuarios/login", function(){
 
 	$usuario->getPessoa();
 
-	Session::setUsuario($usuario);
+	Session::setUsuario($usuario, (isset($_POST['remember'])));
 
 	Menu::resetMenuSession();
 
@@ -15,6 +15,8 @@ $app->post("/usuarios/login", function(){
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/usuarios/menus/reset", function(){
+
+	Permissao::checkSession(Permissao::ADMIN);
 
 	Menu::resetMenuSession();
 
@@ -40,13 +42,27 @@ $app->post("/usuarios/forget", function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/usuarios", function(){
 
-    $page = new Page();
+	Permissao::checkSession(Permissao::ADMIN);
 
-    $page->setTpl('index');
+    echo success(array(
+    	'data'=>Usuarios::listAll($_GET)->getFields()
+    ));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuariostipos", function(){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+    echo success(array(
+    	'data'=>UsuariosTipos::listAll()->getFields()
+    ));
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/usuarios/:idusuario/senha", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
 
 	if (!post('dessenhanova')) {
 		throw new Exception("Informe a senha.", 400);
@@ -131,7 +147,9 @@ $app->post("/usuarios", function(){
  */
 $app->get('/usuarios/logout', function () {
 
-	unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
+	Permissao::checkSession(Permissao::ADMIN);
+
+	unsetLocalCookie(COOKIE_KEY);
 
 	if (isset($_SESSION)) unset($_SESSION);
 
@@ -151,7 +169,7 @@ $app->get('/usuarios/logout', function () {
  */
 $app->get('/usuarios/lock', function () {
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(Permissao::ADMIN);
 
 	$usuario = Session::getUsuario();
 
@@ -219,7 +237,7 @@ $app->post('/usuarios/unlock', function () {
  */
 $app->get('/usuarios/me', function () {
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(Permissao::ADMIN);
 
 	$usuario = Session::getUsuario();
 
@@ -236,7 +254,7 @@ $app->get('/usuarios/me', function () {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/usuarios/:idusuario", function($idusuario){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(Permissao::ADMIN);
 
 	if (!(int)$idusuario > 0) {
 		throw new Exception("ID de usuário não informado.", 400);
@@ -254,7 +272,7 @@ $app->get("/usuarios/:idusuario", function($idusuario){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->delete("/usuarios/:idusuario", function($idusuario){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(Permissao::ADMIN);
 
 	if (!(int)$idusuario > 0) {
 		throw new Exception("ID de usuário não informado.", 400);

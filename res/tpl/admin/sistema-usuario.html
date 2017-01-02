@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4></div></header><div class="slidePanel-inner p-0" ng-controller="profile"><section class="slidePanel-inner-section p-0"><div class="card card-inverse m-b-0" id="profile-header"></div><div class="panel"><div class="panel-body p-t-0"><form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="Digite o seu nome"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desusuario">Usuário</label><input type="text" class="form-control" id="desusuario" name="desusuario" placeholder="Digite o seu usuário"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idusuariotipo">Tipo</label><select class="form-control" id="idusuariotipo" name="idusuariotipo"></select></div><div class="form-group form-material" data-plugin="formMaterial"><input type="checkbox" class="icheckbox-primary" id="inbloqueado" name="inbloqueado" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue"><label for="inbloqueado">Bloqueado</label></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div></div></section></div><script id="tpl-profile-header" type="text/x-handlebars-template"><div class="card-block p-30">
+  <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
+    <img src="{$path}/res/theme/material/global/portraits/11.jpg" alt="">
+  </a>
+  <div class="vertical-align h-100 text-truncate">
+    <div class="vertical-align-middle">
+      <div class="font-size-20 m-b-5 text-truncate">{{despessoa}}</div>
+      <div class="font-size-14 text-truncate">@{{desusuario}}</div>
+    </div>
+  </div>
+</div></script><script>(function(){
+
+  var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
+  var usuario = JSON.parse('{function="json_encode($usuario)"}');
+
+  usuario.despessoa = usuario.Pessoa.despessoa;
+
+  $('#profile-header').html(tplHeader(usuario));
+
+  $('#profile-form').formLoad(usuario);
+
+  $('#profile-form').form({
+    url:PATH+"/usuarios/"+usuario.idusuario,
+    resetForm:false,
+    success:function(r){
+
+      usuario = r.data;
+      $('#profile-form').formLoad(usuario);
+      $('#profile-header').html(tplHeader(usuario));
+      System.setUsuario(r.data);
+      System.success("Seus dados foram salvos!");
+
+    }
+  });
+
+  $('#idusuariotipo').combobox({
+    url:PATH+"/usuariostipos",
+    displayField:'desusuariotipo',
+    valueField:'idusuariotipo',
+    value:usuario.idusuariotipo
+  });
+
+})();</script>

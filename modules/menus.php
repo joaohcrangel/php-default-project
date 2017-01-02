@@ -2,7 +2,7 @@
 
 $app->get("/menus/:idmenu/usuarios", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
@@ -14,7 +14,7 @@ $app->get("/menus/:idmenu/usuarios", function($idmenu){
 
 $app->get("/menus/:idmenu/permissoes/faltantes", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
@@ -28,7 +28,7 @@ $app->get("/menus/:idmenu/permissoes/faltantes", function($idmenu){
 
 $app->get("/menus/:idmenu/permissoes", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
@@ -40,7 +40,7 @@ $app->get("/menus/:idmenu/permissoes", function($idmenu){
 
 $app->post("/menus/:idmenu/permissoes", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
@@ -65,7 +65,7 @@ $app->post("/menus/:idmenu/permissoes", function($idmenu){
 
 $app->delete("/menus/:idmenu/permissoes", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
@@ -87,7 +87,7 @@ $app->delete("/menus/:idmenu/permissoes", function($idmenu){
 
 $app->get("/menus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu((int)$idmenu);
 
@@ -97,7 +97,7 @@ $app->get("/menus/:idmenu", function($idmenu){
 
 $app->delete("/menus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu((int)$idmenu);
 
@@ -109,7 +109,7 @@ $app->delete("/menus/:idmenu", function($idmenu){
 
 $app->post("/menus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu((int)$idmenu);
 
@@ -123,7 +123,7 @@ $app->post("/menus/:idmenu", function($idmenu){
 
 $app->post("/menus", function(){
 
-	Permissao::checkSession(Permissao::CLIENT);
+	Permissao::checkSession(UsuarioTipo::CLIENTE);
 
 	$menu = new Menu($_POST);
 

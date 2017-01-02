@@ -57,7 +57,7 @@ class Permissao extends Model {
                 $url = SITE_PATH."/admin/login";
                 break;
 
-                case Permissao::CLIENT:
+                case UsuarioTipo::CLIENTE:
                 $url = SITE_PATH."/login";
                 break;
             }

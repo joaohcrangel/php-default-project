@@ -40,7 +40,6 @@ $app->get("/install-admin/sql/clear", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_permissoesmenus;");
 	$sql->query("DROP TABLE IF EXISTS tb_permissoesusuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_permissoes;");
-	$sql->query("DROP TABLE IF EXISTS tb_menususuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_menus;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
 	$sql->query("DROP TABLE IF EXISTS tb_usuarios;");
@@ -258,13 +257,6 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		1, 'root', $hash, 1
 	));
 
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, 'root', $hash, 1
-	));
-
 	echo success();
 
 });
@@ -358,15 +350,6 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  PRIMARY KEY (idmenu),
 		  KEY FK_menus_menus (idmenupai),
 		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenupai) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->query("
-		CREATE TABLE tb_menususuarios (
-		  idmenu int(11) NOT NULL,
-		  idusuario int(11) NOT NULL,
-		  KEY FK_usuariosmenuspessoas (idusuario),
-		  KEY FK_usuariosmenusmenus (idmenu)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 

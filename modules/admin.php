@@ -142,7 +142,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -406,6 +406,14 @@ $app->delete("/".DIR_ADMIN."/produtos-tipos/:idprodutotipo", function($idproduto
     $produtotipo->remove();
 
     echo success();
+
+});
+
+$app->get("/adicionar", function(){
+
+    $sql = new Sql();
+
+    // $sql->query("INSERT INTO tb_usuarios")
 
 });
 

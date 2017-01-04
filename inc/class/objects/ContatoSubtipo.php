@@ -26,25 +26,17 @@ class ContatoSubtipo extends Model {
             ));
 
             return $this->getidcontatosubtipo();
-
         }else{
-
             return false;
-
         }
         
     }
-
     public function remove(){
-
         $this->proc("sp_contatossubtipos_remove", array(
             $this->getidcontatosubtipo()
         ));
-
         return true;
         
     }
-
 }
-
 ?>

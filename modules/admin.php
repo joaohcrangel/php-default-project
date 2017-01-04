@@ -142,7 +142,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -298,6 +298,122 @@ $app->get("/".DIR_ADMIN."/sistema/sql-to-class", function(){
     ));
 
     $page->setTpl("/admin/sistema-sql-to-class");
+
+});
+
+$app->get("/".DIR_ADMIN."/produtos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/produtos");
+
+});
+
+$app->get("/".DIR_ADMIN."/produtos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Produtos::listAll()->getFields()));
+
+});
+
+$app->post('/'.DIR_ADMIN.'/produtos', function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idproduto') > 0){
+        $produto = new Produto((int)post('idproduto'));
+    }else{
+        $produto = new Produto();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $produto->{'set'.$key}($value);
+    }
+
+    $produto->save();
+
+    echo success(array("data"=>$produto->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/produtos/:idproduto", function($idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $produto = new Produto((int)$idproduto);
+
+    if(!(int)$produto->getidproduto() > 0){
+        throw new Exception("Produto não encontrado", 404);        
+    }
+
+    $produto->remove();
+
+    echo success();
+
+});
+/////////////////////////////////////////////////////////
+
+// produtos tipos
+$app->get("/".DIR_ADMIN."/produtos/tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>ProdutosTipos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/produtos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idprodutotipo') > 0){
+        $produtotipo = new ProdutoTipo((int)post('idprodutotipo'));
+    }else{
+        $produtotipo = new ProdutoTipo();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $produtotipo->{'set'.$key}($value);
+    }
+
+    $produtotipo->save();
+
+    echo success(array("data"=>$produtotipo->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/produtos-tipos/:idprodutotipo", function($idprodutotipo){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idprodutotipo){
+        throw new Exception("Tipo de produto não informado", 400);        
+    }
+
+    $produtotipo = new ProdutoTipo((int)$idprodutotipo);
+
+    if(!(int)$produtotipo->getidprodutotipo() > 0){
+        throw new Exception("Tipo de produto não encontrado", 404);        
+    }
+
+    $produtotipo->remove();
+
+    echo success();
+
+});
+
+$app->get("/adicionar", function(){
+
+    $sql = new Sql();
+
+    // $sql->query("INSERT INTO tb_usuarios")
 
 });
 

@@ -42,7 +42,7 @@ $app->post("/usuarios/forget", function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/usuarios", function(){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	// Permissao::checkSession(Permissao::ADMIN);
 
 	$usuarios = Usuarios::listAll($_GET);
 

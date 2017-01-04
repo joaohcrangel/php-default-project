@@ -31,7 +31,6 @@ $app->get("/install-admin/sql/clear", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_permissoesmenus;");
 	$sql->query("DROP TABLE IF EXISTS tb_permissoesusuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_permissoes;");
-	$sql->query("DROP TABLE IF EXISTS tb_menususuarios;");
 	$sql->query("DROP TABLE IF EXISTS tb_menus;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
 	$sql->query("DROP TABLE IF EXISTS tb_usuarios;");
@@ -201,7 +200,7 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		0,
 		'Cliente'
 	));
-
+	
 	$sql->query("
 		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
 		(?, ?, ?, ?);
@@ -282,6 +281,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  KEY FK_usuariosmenusmenus (idmenu)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
 	echo success();
 });
 $app->get("/install-admin/sql/menus/inserts", function(){

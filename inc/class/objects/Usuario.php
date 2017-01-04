@@ -10,7 +10,8 @@ class Usuario extends Model {
     const LOGIN_INVALID_MAX = 3;
     const PASSWORD_HASH_COST = 12;
 
-    public function get(){
+    public function get()
+    {
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
@@ -19,7 +20,8 @@ class Usuario extends Model {
 
     }
 
-    public static function getByEmail($desemail){
+    public static function getByEmail($desemail):Usuario
+    {
         
         $usuario = new Usuario();
 
@@ -31,7 +33,8 @@ class Usuario extends Model {
 
     }
 
-    public function save(){
+    public function save()
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -54,7 +57,8 @@ class Usuario extends Model {
 
     }
 
-    public function remove(){
+    public function remove():boolean
+    {
 
         $this->execute("CALL sp_usuarios_remove(".$this->getidusuario().")");
 
@@ -80,7 +84,8 @@ class Usuario extends Model {
 
     }
 
-    public static function login($desusuario, $dessenha){
+    public static function login($desusuario, $dessenha):Usuario
+    {
 
       if (!$desusuario) {
         throw new Exception("Preencha o campo de login.", 400);
@@ -110,19 +115,22 @@ class Usuario extends Model {
 
     }
 
-    public function getPessoa(){
+    public function getPessoa():Pessoa
+    {
 
         return $this->getObjectOrCreate('Pessoa', $this->getidpessoa());
     }
 
-    public static function isLogged(){
+    public static function isLogged():bool
+    {
 
         $usuario = Session::getUsuario();
         return ($usuario->getidusuario() > 0)?true:false;
 
     }
 
-    public function hasPermissao(Permissao $permissao){
+    public function hasPermissao(Permissao $permissao):bool
+    {
 
         $permissoes = $this->getPermissoes();
 
@@ -153,6 +161,45 @@ class Usuario extends Model {
                 throw new Exception("Não foi possível verificar a permissão do usuário.", 400);                
             break;
         }
+
+    }
+
+    public function getPermissoes():Permissoes 
+    {
+
+        $permissoes = new Permissoes();
+
+        $permissoes->loadFromQuery("
+            SELECT * 
+            FROM tb_permissoes a
+            INNER JOIN tb_permissoesusuarios b ON a.idpermissao = b.idpermissao
+            WHERE b.idusuario = ?
+            ORDER BY a.despermissao;
+        ", array(
+            $this->getidusuario()
+        ));
+
+        return $permissoes;
+
+    }
+
+    public function getMenus():Menus 
+    {
+
+        $menus = new Menus();
+
+        $menus->loadFromQuery("
+            SELECT * 
+            FROM tb_menus a
+            INNER JOIN tb_permissoesmenus b ON a.idmenu = b.idmenu
+            INNER JOIN tb_permissoesusuarios c ON b.idpermissao = c.idpermissao
+            WHERE c.idusuario = ?
+            ORDER BY a.nrordem;
+        ", array(
+            $this->getidusuario()
+        ));
+
+        return $menus;
 
     }
 

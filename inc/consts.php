@@ -19,16 +19,16 @@ define('KEY_ENCRYPT', pack('a16', 'PHP-DEF-PROJECT'));
 define('DB_TYPE', (int)'1');
 
 /** The name of the database for WordPress */
-define('DB_NAME', 'database_name');
+define('DB_NAME', 'hcode');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', 'hcode');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'zaq1xsw2cde3');
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', '192.241.163.163');
 
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', 'utf8');

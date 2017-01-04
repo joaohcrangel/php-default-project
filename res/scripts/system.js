@@ -329,9 +329,11 @@ window.System = {
 
     };
 
-    System.initAutoHeight = function(){
+    System.initAutoHeight = function($elementParent){
 
-      $('[data-auto-height]').each(function(){
+      if (!$elementParent) $elementParent = $('html');
+
+      $elementParent.find('[data-auto-height]').each(function(){
 
         var $el = $(this);
 

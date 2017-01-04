@@ -67,7 +67,7 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">Permissões</h3>
 		<div class="panel-actions panel-actions-keep">
-            <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a>
+            <button type="button" class="panel-action icon md-refresh-alt btn btn-pure btn-refresh"></button>
         </div>
     </div>
 	<ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-121"></ul>
@@ -78,7 +78,7 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">Menu Final</h3>
 		<div class="panel-actions panel-actions-keep">
-            <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a>
+            <button type="button" class="panel-action icon md-refresh-alt btn btn-pure btn-refresh"></button>
         </div>
     </div>
 	<div class="panel-body overflow-auto" data-auto-height="-121">
@@ -115,6 +115,10 @@ init.push(function(){
 
 		var panel = System.getPanelApi($panelPermissoes);
 
+		$panelPermissoes.find('.btn-refresh').on('click', function(){
+			loadPermissoes(idusuario);
+		});
+
 		panel.load();
 
 		rest({
@@ -140,7 +144,16 @@ init.push(function(){
 
 							$permissaoRow.find('input').on('change', function(){
 
-								//console.log(this.checked);
+								rest({
+									url:PATH+"/usuarios/"+idusuario+"/permissoes",
+									method:'POST',
+									success:function(rSetPermissao){
+										
+									},
+									failure:function(e){
+										System.showError(e);
+									}
+								});
 
 							});
 

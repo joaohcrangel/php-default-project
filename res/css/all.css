@@ -2,5 +2,8 @@
 .overflow-auto {
   overflow: auto; }
 
+.curso-pointer {
+  cursor: pointer; }
+
 .list-group .list-group-item:hover {
   background-color: #eee; }

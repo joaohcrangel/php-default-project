@@ -258,6 +258,13 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		1, 'root', $hash, 1
 	));
 
+	$sql->query("
+		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
+		(?, ?, ?, ?);
+	", array(
+		1, 'root', $hash, 1
+	));
+
 	echo success();
 
 });
@@ -969,25 +976,21 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 	", array(
 		'Super Usuário',
 		'Acesso Administrativo',
-		'Acesso Área Restrita'
+		'Acesso Autenticado de Cliente'
 	));
 
 	$sql->query("
-		INSERT INTO tb_permissoesmenus (idpermissao, idmenu) VALUES
-		(?, ?);
-	", array(
-		1, 1		
-	));
+		INSERT INTO tb_permissoesmenus (idmenu, idpermissao)
+		SELECT idmenu, 1 FROM tb_menus;
+	", array());
 
 	$sql->query("
-		INSERT INTO tb_permissoesusuarios (idpermissao, idusuario) VALUES
-		(?, ?),
+		INSERT INTO tb_permissoesusuarios (idusuario, idpermissao) VALUES
 		(?, ?),
 		(?, ?);
 	", array(
 		1, 1,
-		2, 1,
-		3, 1
+		1, 2
 	));
 
 	echo success();
@@ -998,17 +1001,17 @@ $app->get("/install-admin/sql/permissoes/get", function(){
 
 	$sql = new Sql();
 
-	$name = "sp_permissoes_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		'sp_permissoes_get',
+		'sp_permissoesfrommenus_list',
+		'sp_permissoesfrommenusfaltantes_list',
+		'sp_permissoes_list'
+	);
 
-	$name = "sp_permissoesfrommenus_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-
-	$name = "sp_permissoesfrommenusfaltantes_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
 
 	echo success();
 

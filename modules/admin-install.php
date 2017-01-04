@@ -44,6 +44,7 @@ $app->get("/install-admin/sql/clear", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_menus;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
 	$sql->query("DROP TABLE IF EXISTS tb_usuarios;");
+	$sql->query("DROP TABLE IF EXISTS tb_usuariostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoas;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
 
@@ -185,6 +186,15 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 	$sql = new Sql();
 
 	$sql->query("
+		CREATE TABLE tb_usuariostipos (
+		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
+		  desusuariotipo varchar(32) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idusuariotipo)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
 		CREATE TABLE tb_usuarios (
 		  idusuario int(11) NOT NULL AUTO_INCREMENT,
 		  idpessoa int(11) NOT NULL,
@@ -198,15 +208,6 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  KEY FK_usuarios_usuariostipos_idx (idusuariotipo),
 		  CONSTRAINT FK_usuarios_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_usuarios_usuariostipos FOREIGN KEY (idusuariotipo) REFERENCES tb_usuariostipos (idusuariotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->query("
-		CREATE TABLE tb_usuariostipos (
-		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desusuariotipo varchar(32) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -240,13 +241,6 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 
 	$hash = Usuario::getPasswordHash("root");
 
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, 'root', $hash, 1
-	));
-
 	$sql->proc("sp_usuariostipos_save", array(
 		0,
 		'Administrativo'
@@ -255,6 +249,13 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 	$sql->proc("sp_usuariostipos_save", array(
 		0,
 		'Cliente'
+	));
+
+	$sql->query("
+		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
+		(?, ?, ?, ?);
+	", array(
+		1, 'root', $hash, 1
 	));
 
 	echo success();

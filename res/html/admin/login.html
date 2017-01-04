@@ -41,18 +41,14 @@
   <script>
     $(function(){
 
-      $(function(){
+      $("#form-login").form({
+        url:PATH+"/usuarios/login",
+        success:function(){
 
-        $("#form-login").form({
-          url:PATH+"/usuarios/login",
-          success:function(){
+          $("#form-login").fadeOut();
+          window.location.href = PATH_ADMIN;
 
-            $("#form-login").fadeOut();
-            window.location.href = PATH_ADMIN;
-
-          }
-        });
-
+        }
       });
 
     });

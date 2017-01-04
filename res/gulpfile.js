@@ -164,9 +164,7 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.table.js',
         './js/jrangel/jquery.arquivos.js',
         './js/jrangel/jquery.panel.js',
-        './js/aribeiro/selecionar.js',
-
-        './theme/material/base/assets/js/BaseApp.js'
+        './js/aribeiro/selecionar.js'
     ])
         .pipe(jshint())
         .pipe(uglify())

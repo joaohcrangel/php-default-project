@@ -7,7 +7,10 @@ window.System = {
 (function(document, window, $) {
   'use strict';
   var Site = window.Site;
-  $(document).ready(function() {
+
+  $(document).ready(function($) {
+    
+    console.warn('Site Run');
     Site.run();
 
     System.getApi = function(plugin, $elements, options){

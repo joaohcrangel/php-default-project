@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(

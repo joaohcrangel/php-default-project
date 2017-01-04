@@ -994,17 +994,17 @@ $app->get("/install-admin/sql/permissoes/get", function(){
 
 	$sql = new Sql();
 
-	$name = "sp_permissoes_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		'sp_permissoes_get',
+		'sp_permissoesfrommenus_list',
+		'sp_permissoesfrommenusfaltantes_list',
+		'sp_permissoes_list'
+	);
 
-	$name = "sp_permissoesfrommenus_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-
-	$name = "sp_permissoesfrommenusfaltantes_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
 
 	echo success();
 

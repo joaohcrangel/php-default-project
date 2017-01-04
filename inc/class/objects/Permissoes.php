@@ -23,6 +23,16 @@ class Permissoes extends Collection {
 
     }
 
+    public static function listAll(){
+
+        $permissoes = new Permissoes();
+
+        $permissoes->loadFromQuery("CALL sp_permissoes_list()");
+
+        return $permissoes;
+
+    }
+
 }
 
 ?>

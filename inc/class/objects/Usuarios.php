@@ -13,15 +13,15 @@ class Usuarios extends Collection {
 
         $where = array();
  
-        if (isset($filters['despessoa'])) {
-            array_push($where, "LIKE b.despessoa '%".$filters['despessoa']."%'");
+        if (isset($filters['despessoa']) && $filters['despessoa']) {
+            array_push($where, "b.despessoa LIKE '%".$filters['despessoa']."%'");
         }
 
-        if (isset($filters['desusuario'])) {
+        if (isset($filters['desusuario']) && $filters['desusuario']) {
             array_push($where, "a.desusuario = '".$filters['desusuario']."'");
         }
 
-        if (isset($filters['a.idusuariotipo'])) {
+        if (isset($filters['a.idusuariotipo']) && (int)$filters['idusuariotipo'] > 0) {
             array_push($where, "a.idusuariotipo = '".$filters['idusuariotipo']."'");
         }
 

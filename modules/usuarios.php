@@ -44,8 +44,10 @@ $app->get("/usuarios", function(){
 
 	Permissao::checkSession(Permissao::ADMIN);
 
+	$usuarios = Usuarios::listAll($_GET);
+
     echo success(array(
-    	'data'=>Usuarios::listAll($_GET)->getFields()
+    	'data'=>$usuarios->getFields()
     ));
 
 });
@@ -56,6 +58,34 @@ $app->get("/usuariostipos", function(){
 
     echo success(array(
     	'data'=>UsuariosTipos::listAll()->getFields()
+    ));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/:idusuario/permissoes", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	echo success(array(
+    	'data'=>$usuario->getPermissoes()->getFields()
+    ));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/:idusuario/menus", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	echo success(array(
+    	'data'=>$usuario->getMenus()->getFields()
     ));
 
 });

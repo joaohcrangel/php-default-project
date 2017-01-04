@@ -1,9 +1,9 @@
-<div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-usuarios"><div class="panel-heading"><h3 class="panel-title">Usuários</h3><div class="form-group p-x-25"><div class="input-group"><input type="text" class="form-control" name="" placeholder="Filtrar..."> <span class="input-group-btn"><button type="submit" class="btn btn-primary waves-effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-162"></ul></div></div><div class="col-sm-8"><div class="p-y-15"><div class="row-fluid"><div class="col-sm-6 p-0"><div class="panel m-b-0" id="panel-permissao"><div class="panel-heading"><h3 class="panel-title">Permissões</h3><div class="panel-actions panel-actions-keep"><a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a></div></div><div class="panel-body p-b-0"><ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-121"></ul></div></div></div><div class="col-sm-6 p-0"><div class="panel m-b-0" id="panel-menu"><div class="panel-heading"><h3 class="panel-title">Menu Final</h3><div class="panel-actions panel-actions-keep"><a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a></div></div><div class="panel-body overflow-auto" data-auto-height="-121"><div id="jstreeExample_4"></div></div></div></div></div></div></div></div></div></div><script id="tpl-usuario-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
+<div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-usuarios"><div class="panel-heading"><h3 class="panel-title">Usuários</h3><div class="form-group p-x-25"><div class="input-group" id="pesquisar"><input type="text" class="form-control" name="" placeholder="Filtrar..."> <span class="input-group-btn"><button type="button" class="btn btn-primary waves-effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-162"></ul></div></div><div class="col-sm-8"><div class="p-y-15"><div class="row-fluid"><div class="col-sm-6 p-0" id="panel-permissao-container"></div><div class="col-sm-6 p-0" id="panel-menu-container"></div></div></div></div></div></div></div><script id="tpl-usuario-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25 curso-pointer" data-idusuario="{{idusuario}}">
 	<div class="media">
 	  <div class="media-left">
-	    <a class="avatar" href="javascript:void(0)">
+	    <div class="avatar">
 	      <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/1.jpg" alt="...">
-	    </a>
+	    </div>
 	  </div>
 	  <div class="media-body">
 	    <h4 class="media-heading">{{despessoa}}</h4>
@@ -13,32 +13,145 @@
 	    <button type="button" class="btn btn-pure btn-dark icon md-edit waves-effect" data-toggle="slidePanel" data-url="{$pathAdmin}/usuarios/{{idusuario}}"></button>
 	  </div>
 	</div>
-</li></script><script id="tpl-permissao-row" type="text/x-handlebars-template"><li class="list-group-item">
+</li></script><script id="tpl-permissao-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
     <div class="checkbox-custom checkbox-primary">
-        <input type="checkbox" id="inputSchedule-1" value="1" name="inputCheckboxesSchedule">
+        <input type="checkbox" id="inputSchedule-1" {{checked}} value="1" name="inputCheckboxesSchedule">
         <label for="inputSchedule-1">
             <span>{{despermissao}}</span>
         </label>
     </div>
-</li></script><script>init.push(function(){
+</li></script><script id="tpl-panel-permissao" type="text/x-handlebars-template"><div class="panel m-b-0" id="panel-permissao">
+	<div class="panel-heading">
+		<h3 class="panel-title">Permissões</h3>
+		<div class="panel-actions panel-actions-keep">
+            <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a>
+        </div>
+    </div>
+	<ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-121"></ul>
+</div></script><script id="tpl-panel-menu" type="text/x-handlebars-template"><div class="panel m-b-0" id="panel-menu">
+	<div class="panel-heading">
+		<h3 class="panel-title">Menu Final</h3>
+		<div class="panel-actions panel-actions-keep">
+            <a class="panel-action icon md-refresh-alt" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a>
+        </div>
+    </div>
+	<div class="panel-body overflow-auto" data-auto-height="-121">
+		<div id="jstreeExample_4"></div>
+	</div>
+</div></script><script>init.push(function(){
 
 	var tpl = {
 		usuarioRow:Handlebars.compile($('#tpl-usuario-row').html()),
-		permissaoRow:Handlebars.compile($('#tpl-permissao-row').html())
+		permissaoRow:Handlebars.compile($('#tpl-permissao-row').html()),
+		panelMenu:Handlebars.compile($('#tpl-panel-menu').html()),
+		panelPermissao:Handlebars.compile($('#tpl-panel-permissao').html())
 	};
 
 	var panelUsuarios = System.getPanelApi($('#panel-usuarios'));
 	var panelPermissoes = System.getPanelApi($('#panel-permissao'));
 	var panelMenus = System.getPanelApi($('#panel-menu'));
 
+	var $pesquisarInput = $("#pesquisar input");
+    var $pesquisarButton = $("#pesquisar button");
+
 	var $ulUsuarios = $('#panel-usuarios ul');
 
-	function loadUsuarios(){
+	function loadPermissoes(idusuario){
+
+		var $panelPermissoes = $(tpl.panelPermissao({}));
+
+		$('#panel-permissao-container').html($panelPermissoes);
+
+		System.initAutoHeight($('#panel-permissao-container'));
+
+		var panel = System.getPanelApi($panelPermissoes);
+
+		panel.load();
+
+		rest({
+			url:PATH+"/permissoes",
+			success:function(rPermissoes){
+
+				rest({
+					url:PATH+"/usuarios/"+idusuario+"/permissoes",
+					success:function(rPermissoesUsuario){
+
+						$panelPermissoes.find('ul').html('');
+
+						$.each(rPermissoes.data, function(index1, row1){
+
+							row1.checked = '';
+							$.each(rPermissoesUsuario.data, function(index2, row2){
+								if (row1.idpermissao === row2.idpermissao) row1.checked = 'checked';
+							});
+
+							var $permissaoRow = $(tpl.permissaoRow(row1));
+
+							$panelPermissoes.find('ul').append($permissaoRow);
+
+							$permissaoRow.find('input').on('change', function(){
+
+								//console.log(this.checked);
+
+							});
+
+							$permissaoRow.on('click', function(e){
+								if (e.target.tagName !== 'INPUT') {
+									$(this).find('input').prop('checked', !$(this).find('input').prop('checked'));
+									e.stopPropagation();
+									e.preventDefault();
+									return false;
+								}								
+							});
+
+						});
+
+						panel.done();
+						loadPermissoesMenu(idusuario);
+
+					}
+				});
+
+			}
+		});		
+
+	}
+
+	function loadPermissoesMenu(idusuario){
+
+		var $panelMenu = $(tpl.panelMenu({}));
+
+		$('#panel-menu-container').html($panelMenu);
+
+		var panel = System.getPanelApi($panelMenu);
+
+		panel.load();
+
+		rest({
+			url:PATH+"/usuarios/"+idusuario+"/menus",
+			success:function(r){
+
+				panel.done();
+
+			}
+		});
+
+		System.initAutoHeight($('#panel-menu-container'));
+
+	}
+
+	function loadUsuarios(q){
+
+		if (!q) q = '';
 
 		panelUsuarios.load();
+		$pesquisarButton.btnload('load');
 
 		rest({
 			url:PATH+"/usuarios",
+			data:{
+				despessoa:q
+			},
 			success:function(r){
 
 				$ulUsuarios.html('');
@@ -49,9 +162,24 @@
 				});
 
 				panelUsuarios.done();
+				$pesquisarButton.btnload('unload');
 
 				initSlidePanel($ulUsuarios);
 
+				$ulUsuarios.find('li').on('click', function(e){
+
+					if (e.target.tagName !== 'BUTTON') {
+						loadPermissoes($(this).data('idusuario'));
+
+					}
+
+				});
+
+			},
+			failure:function(e){
+				panelUsuarios.done();
+				$pesquisarButton.btnload('unload');
+				System.showError(e);
 			}
 		});
 
@@ -66,6 +194,16 @@
           "dataType": "json"
         }
       }
+    });
+
+    $pesquisarInput.on('keyup', function(e){
+    	if (e.keyCode === 13) {
+    		$pesquisarButton.trigger('click');	
+    	}
+    });
+
+    $pesquisarButton.on('click', function(){
+    	loadUsuarios($pesquisarInput.val());
     });
 
 });</script>

@@ -37,6 +37,8 @@ $app->get("/install-admin/sql/clear", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_usuariostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoas;");
 	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
+	$sql->query("DROP TABLE IF EXISTS tb_produtos;");
+	$sql->query("DROP TABLE IF EXISTS tb_produtostipos;");
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/tables", function(){
@@ -129,6 +131,114 @@ $app->get("/install-admin/sql/pessoas/remove", function(){
 	
 	echo success();
 });
+
+$app->get("/install-admin/sql/produtos/tables", function(){
+	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE tb_produtostipos(
+			idprodutotipo INT NOT NULL AUTO_INCREMENT,
+			desprodutotipo VARCHAR(64) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idprodutotipo)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_produtos(
+			idproduto INT NOT NULL AUTO_INCREMENT,
+			idprodutotipo INT NOT NULL,
+			desproduto VARCHAR(64) NOT NULL,
+			vlpreco DECIMAL(10,2) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY(idproduto),
+			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	echo success();
+});
+$app->get("/install-admin/sql/produtos/triggers", function(){
+	$sql = new Sql();
+	$name = "tg_produtos_AFTER_INSERT";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	$name = "tg_produtos_AFTER_UPDATE";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	$name = "tg_produtos_BEFORE_DELETE";
+	$sql->query("DROP TRIGGER IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	echo success();
+});
+$app->get("/install-admin/sql/produtos/inserts", function(){
+	$sql = new Sql();
+	$sql->query("
+		INSERT INTO tb_produtostipos (desprodutotipo) VALUES
+		(?),
+		(?);
+	", array(
+		'Eletrônicos',
+		'Informática'
+	));
+	$sql->query("
+		INSERT INTO tb_produtos (desproduto, idprodutotipo, vlpreco) VALUES
+		(?, ?, ?);
+	", array(
+		'Computador', 2, 10
+	));
+	echo success();
+});
+$app->get("/install-admin/sql/produtos/get", function(){
+	$sql = new Sql();
+	$name = "sp_produto_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$name = "sp_produtotipo_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$name = "sp_produtosdados_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$name = "sp_produtosdados_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+	echo success();
+});
+$app->get("/install-admin/sql/produtos/list", function(){
+	$sql = new Sql();
+	$name = "sp_produtos_list";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_produtostipos_list";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+});
+$app->get("/install-admin/sql/produtos/save", function(){
+	$sql = new Sql();
+	$name = "sp_produto_save";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_produtotipo_save";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+});
+$app->get("/install-admin/sql/produtos/remove", function(){
+	$sql = new Sql();
+	$name = "sp_produto_remove";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_produtotipo_remove";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+});
+
 $app->get("/install-admin/sql/usuarios/tables", function(){
 	$sql = new Sql();
 	$sql->query("
@@ -154,15 +264,6 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  KEY FK_usuarios_usuariostipos_idx (idusuariotipo),
 		  CONSTRAINT FK_usuarios_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_usuarios_usuariostipos FOREIGN KEY (idusuariotipo) REFERENCES tb_usuariostipos (idusuariotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->query("
-		CREATE TABLE tb_usuariostipos (
-		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desusuariotipo varchar(32) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -848,6 +949,22 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  CONSTRAINT FK_pessoasdados_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_pessoasdados_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_pessoasdados_usuarios FOREIGN KEY (idusuario) REFERENCES tb_usuarios (idusuario) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	echo success();
+});
+
+$app->get("/install-admin/sql/produtosdados/tables", function(){
+	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE tb_produtosdados(
+			idproduto INT NOT NULL,
+			idprodutotipo INT NOT NULL,
+			desproduto VARCHAR(64) NOT NULL,
+			vlpreco DEC(10,2),
+			desprodutotipo VARCHAR(64) NOT NULL,
+			dtinicio DATE,
+			dttermino DATE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();

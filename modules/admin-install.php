@@ -2,7 +2,7 @@
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 $app->get("/install", function(){
-	unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
+	// unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
 
 
 	unsetLocalCookie(COOKIE_KEY);

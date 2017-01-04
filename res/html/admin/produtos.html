@@ -1,0 +1,44 @@
+<div class="page">
+	<div class="page-content">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<div class="panel" id="panel-produtos">
+					<div class="panel-heading">
+						<h3 class="panel-title">Produtos</h3>
+						<div class="form-group p-x-25">
+		                  <div class="input-group" id="pesquisar">
+		                    <input type="text" class="form-control" name="" placeholder="Filtrar...">
+		                    <span class="input-group-btn">
+		                      <button type="button" class="btn btn-primary waves-effect"><i class="icon md-search" aria-hidden="true"></i></button>
+		                    </span>
+		                  </div>
+		                </div>
+					</div>
+
+					<ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-162"></ul>
+			           
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id="tpl-produto-row" type="text/x-handlebars-template">
+<li class="list-group-item p-x-25 curso-pointer" data-idproduto="{{idproduto}}">
+	<div class="media">
+	  <div class="media-left">
+	    <div class="avatar">
+	      <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/1.jpg" alt="...">
+	    </div>
+	  </div>
+	  <div class="media-body">
+	    <h4 class="media-heading">{{despessoa}}</h4>
+	    <small>@{{desproduto}}</small>
+	  </div>
+	  <div class="media-right">
+	    <button type="button" class="btn btn-pure btn-dark icon md-edit waves-effect" data-toggle="slidePanel" data-url="{$pathAdmin}/produtos/{{idproduto}}"></button>
+	  </div>
+	</div>
+</li>
+</script>
+<script>
+</script>

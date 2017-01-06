@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -189,7 +189,7 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 $app->get("/".DIR_ADMIN."/sistema/usuarios", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,

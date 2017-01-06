@@ -41,4 +41,45 @@
 </li>
 </script>
 <script>
+
+init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-produtos"));
+
+	var $ul = $("#panel-produtos ul");
+
+	var $tpl = Handlebars.compile($("#tpl-produto-row").html());
+
+	function loadProdutos(){
+
+		$(".refresh").on("click", function(){
+			loadProdutos();
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/produtos/all",
+			success:function(r){
+
+				$ul.html('');
+
+				$.each(r.data, function(index, row){
+
+					$ul.append($tpl(row));
+
+				});
+
+			},
+			failure:function(r){
+				System.showError(r);
+			}
+		});
+
+	};
+
+	loadProdutos();
+
+});
+
 </script>

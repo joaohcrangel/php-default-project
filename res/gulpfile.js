@@ -210,6 +210,14 @@ gulp.task('html', function() {
         removeOptionalTags: true
     }))
     .pipe(gulp.dest('tpl/admin'));
+
+    gulp.src('html/install/*.html')
+    .pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true,
+        removeOptionalTags: true
+    }))
+    .pipe(gulp.dest('tpl/install'));
 });
  
 gulp.task('images', function(cb) {

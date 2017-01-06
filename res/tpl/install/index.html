@@ -1,93 +1,8 @@
-<html ng-app="install">
-<head>
-	<meta charset="utf-8">
-	<title>Instalação</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<link rel="stylesheet" href="{$path}/res/theme/material/global/vendor/alertify/alertify.min.css">
-	<script>
-    window.PATH = '{$path}';
-	</script>
-</head>
-<body>
-	<div class="container" ng-controller="sql">
-		<h1>Instalação</h1>
-		<hr>
-		<h2>Banco de Dados<div class="btn-group pull-right">
-			<button class="btn dropdown-toggle" data-toggle="dropdown">Opções <span class="caret"></span></button>
-			<ul class="dropdown-menu">
-			  <li><a href="javascript:void(0)" id="btn-clearDB" ng-click="clearDataBase()">Limpar Banco Existente</a></li>
-			</ul>
-		</div></h2>
-		<p>O servidor, usuário e senha devem ser definidos no arquivo <code>inc/consts.php</code></p>
-		<button id="btn-installDB" ng-click="installDataBase(0, objects)" class="btn btn-success btn-block">Instalar Banco de Dados</button>
-		<table class="table table-striped table-condensed">
-			<thead>
-				<tr>
-					<th>Objetos</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="object in objects" ng-class="{success:object.success, warning:object.warning, danger:object.danger}">
-					<td>{{object.name}}</td>
-					<td>{{object.status}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</body>
-<script src="{$path}/res/theme/material/global/vendor/jquery/jquery.min.js"></script>
-<script src="{$path}/res/theme/assets/vendor/bootstrap/bootstrap.min.js"></script>
-<script src="{$path}/res/theme/material/global/vendor/alertify/alertify.js"></script>
-
-<script src="{$path}/res/js/jrangel/jquery.core.js"></script>
-<script src="{$path}/res/js/jrangel/jquery.btnload.js"></script>
-<script src="{$path}/res/js/jrangel/jquery.btnrest.js"></script>
-<script src="{$path}/res/js/jrangel/jquery.store.js"></script>
-<script src="{$path}/res/js/jrangel/jquery.form.js"></script>
-<script>
-angular.module("install", []).controller("sql", function($scope, $http){
-
-	$scope.clearDataBase = function(){
-
-		console.info('clearDataBase');
-
-		alertify.confirm("Deseja realmente apagar todo o banco de dados atual?", function(b){
-
-			if (b) {
-
-				$('#btn-clearDB').btnload('load');
-
-				rest({
-					$http:$http,
-					url:PATH+"/install-admin/sql/clear",
-					success:function(r){
-
-						alertify.alert("Banco de Dados limpo!");
-						$('#btn-clearDB').btnload('unload');
-
-						$.each($scope.objects, function(index){
-
-							$scope.objects[index].danger = false;
-							$scope.objects[index].success = false;
-							$scope.objects[index].warning = false;
-							$scope.objects[index].status = "";
-
-						});
-
-					}
-				});
-
-			}			
-
-		});
-
-	};
+<html ng-app="install"><meta charset="utf-8"><title>Instalação</title><script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"><link rel="stylesheet" href="{$path}/res/theme/material/global/vendor/alertify/alertify.min.css"><script>window.PATH = '{$path}';</script><div class="container" ng-controller="sql"><h1>Instalação</h1><hr><h2>Banco de Dados</h2><p>O servidor, usuário e senha devem ser definidos no arquivo <code>inc/consts.php</code></p><button id="btn-installDB" ng-click="installDataBase(0, objects)" class="btn btn-success btn-block">Instalar Banco de Dados</button><table class="table table-striped table-condensed"><thead><tr><th>Objetos<th>Status<tbody><tr ng-repeat="object in objects" ng-class="{success:object.success, warning:object.warning, danger:object.danger}"><td>{{object.name}}<td>{{object.status}}</table></div><script src="{$path}/res/theme/material/global/vendor/jquery/jquery.min.js"></script><script src="{$path}/res/theme/material/global/vendor/alertify/alertify.js"></script><script src="{$path}/res/js/jrangel/jquery.core.js"></script><script src="{$path}/res/js/jrangel/jquery.btnload.js"></script><script src="{$path}/res/js/jrangel/jquery.btnrest.js"></script><script src="{$path}/res/js/jrangel/jquery.store.js"></script><script src="{$path}/res/js/jrangel/jquery.form.js"></script><script>angular.module("install", []).controller("sql", function($scope, $http){
 
 	$scope.installDataBase = function(_index, _objects){
 
-		console.info('installDataBase');
+		console.log('installDataBase');
 
 		$('#btn-installDB').btnload('load');
 
@@ -102,8 +17,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			if (_objects[_index].enabled === true) {
 
 				_objects[_index].status = "processing";
-				_objects[_index].danger = false;
-				_objects[_index].success = false;
 				_objects[_index].warning = true;
 
 				rest({
@@ -146,8 +59,13 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/pessoas/triggers",
-			name:"Pessoas - Triggers",
+			url:"/sql/pessoasdados/tables",
+			name:"Pessoas Dados - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pessoas/inserts",
+			name:"Pessoas - Inserts",
 			status:"",
 			enabled:true
 		},{
@@ -178,8 +96,8 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/usuarios/triggers",
-			name:"Usuários - Triggers",
+			url:"/sql/usuarios/inserts",
+			name:"Usuários - Inserts",
 			status:"",
 			enabled:true
 		},{
@@ -207,6 +125,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		{
 			url:"/sql/menus/tables",
 			name:"Menus - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/menus/inserts",
+			name:"Menus - Inserts",
 			status:"",
 			enabled:true
 		},{
@@ -242,6 +165,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+			url:"/sql/contatos/inserts",
+			name:"Contatos - Inserts",
+			status:"",
+			enabled:true
+		},{
 			url:"/sql/contatos/get",
 			name:"Contatos - Procedure GET",
 			status:"",
@@ -274,6 +202,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+			url:"/sql/documentos/inserts",
+			name:"Documentos - Inserts",
+			status:"",
+			enabled:true
+		},{
 			url:"/sql/documentos/get",
 			name:"Documentos - Procedure GET",
 			status:"",
@@ -301,8 +234,8 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/enderecos/triggers",
-			name:"Endereços - Triggers",
+			url:"/sql/enderecos/inserts",
+			name:"Endereços - Inserts",
 			status:"",
 			enabled:true
 		},{
@@ -333,6 +266,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+			url:"/sql/permissoes/inserts",
+			name:"Permissões - Inserts",
+			status:"",
+			enabled:true
+		},{
 			url:"/sql/permissoes/get",
 			name:"Permissões - Procedure GET",
 			status:"",
@@ -352,52 +290,49 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Permissões - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},{
-			url:"/sql/pessoasdados/tables",
-			name:"PessoasDados - Tabelas",
-			status:"",
-			enabled:true
 		},
 
 		{
-			url:"/sql/pessoas/inserts",
-			name:"Pessoas - Inserts",
+			url:"/sql/produtos/tables",
+			name:"Produtos - Tabelas",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/usuarios/inserts",
-			name:"Usuários - Inserts",
+			url:"/sql/produtosdados/tables",
+			name:"Produtos Dados - Tabelas",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/menus/inserts",
-			name:"Menus - Inserts",
+			url:"/sql/produtos/triggers",
+			name:"Produtos - Triggers",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/contatos/inserts",
-			name:"Contatos - Inserts",
+			url:"/sql/produtos/inserts",
+			name:"Produtos - Inserts",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/documentos/inserts",
-			name:"Documentos - Inserts",
+			url:"/sql/produtos/get",
+			name:"Produtos - Procedure GET",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/enderecos/inserts",
-			name:"Endereços - Inserts",
+			url:"/sql/produtos/list",
+			name:"Produtos - Procedure LIST",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/permissoes/inserts",
-			name:"Permissões - Inserts",
+			url:"/sql/produtos/save",
+			name:"Produtos - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/produtos/remove",
+			name:"Produtos - Procedure REMOVE",
 			status:"",
 			enabled:true
 		}
-
 	];
 
-});
-</script>
-</html>
+});</script>

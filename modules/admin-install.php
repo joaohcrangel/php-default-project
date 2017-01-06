@@ -1,9 +1,23 @@
 <?php
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
+$app->get("/teste-usuario", function(){
+
+	$sql = new Sql();
+
+	$hash = Usuario::getPasswordHash("root");
+	$sql->query("
+		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
+		(?, ?, ?, ?);
+	", array(
+		1, 'root', $hash, 1
+	));
+
+	echo success();
+
+});
 $app->get("/install", function(){
 	// unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
-
 
 	unsetLocalCookie(COOKIE_KEY);
 
@@ -285,13 +299,6 @@ $app->get("/install-admin/sql/usuarios/triggers", function(){
 $app->get("/install-admin/sql/usuarios/inserts", function(){
 	$sql = new Sql();
 	$hash = Usuario::getPasswordHash("root");
-
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha) VALUES
-		(?, ?, ?);
-	", array(
-		1, 'root', $hash
-	));
 
 	$sql->proc("sp_usuariostipos_save", array(
 		0,

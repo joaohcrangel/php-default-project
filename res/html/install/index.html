@@ -102,6 +102,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+			url:"/sql/pessoasdados/tables",
+			name:"Pessoas Dados - Tabelas",
+			status:"",
+			enabled:true
+		},{
 			url:"/sql/pessoas/inserts",
 			name:"Pessoas - Inserts",
 			status:"",
@@ -333,6 +338,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		{
 			url:"/sql/produtos/tables",
 			name:"Produtos - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/produtosdados/tables",
+			name:"Produtos Dados - Tabelas",
 			status:"",
 			enabled:true
 		},{

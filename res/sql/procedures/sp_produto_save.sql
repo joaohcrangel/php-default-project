@@ -1,15 +1,14 @@
 CREATE PROCEDURE sp_produto_save(
 pidproduto INT,
 pidprodutotipo INT,
-pdesproduto VARCHAR(64),
-pvlpreco DECIMAL(10,2)
+pdesproduto VARCHAR(64)
 )
 BEGIN
 
 	IF pidproduto = 0 THEN
     
-		INSERT INTO tb_produtos(idprodutotipo, desproduto, vlpreco)
-        VALUES(pidprodutotipo, pdesproduto, pvlpreco);
+		INSERT INTO tb_produtos(idprodutotipo, desproduto)
+        VALUES(pidprodutotipo, pdesproduto);
         
 		SET pidproduto = LAST_INSERT_ID();
         
@@ -17,8 +16,7 @@ BEGIN
     
 		UPDATE tb_produtos SET
 			idprodutotipo = pidprodutotipo,
-			desproduto = pdesproduto,
-            vlpreco = pvlpreco
+			desproduto = pdesproduto
 		WHERE idproduto = pidproduto;
         
 	END IF;

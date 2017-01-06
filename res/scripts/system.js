@@ -10,7 +10,7 @@ window.System = {
 
   $(document).ready(function($) {
     
-    console.warn('Site Run');
+    //console.warn('Site Run');
     Site.run();
 
     System.getApi = function(plugin, $elements, options){

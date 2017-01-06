@@ -53,6 +53,7 @@ $app->get("/install-admin/sql/clear", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_produtos;");
 	$sql->query("DROP TABLE IF EXISTS tb_produtostipos;");
+	$sql->query("DROP TABLE IF EXISTS tb_produtosprecos;");
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/tables", function(){
@@ -161,10 +162,21 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 			idproduto INT NOT NULL AUTO_INCREMENT,
 			idprodutotipo INT NOT NULL,
 			desproduto VARCHAR(64) NOT NULL,
-			vlpreco DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			CONSTRAINT PRIMARY KEY(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_produtosprecos(
+			idpreco INT NOT NULL AUTO_INCREMENT,
+			idproduto INT NOT NULL,
+			dtinicio DATETIME NOT NULL,
+			dttermino DATETIME NOT NULL,
+			vlpreco DECIMAL(10,2) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idpreco),
+			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -213,6 +225,9 @@ $app->get("/install-admin/sql/produtos/get", function(){
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	$name = "sp_produtosdados_remove";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$name = "sp_produtosprecos_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
 	echo success();
 });
@@ -223,6 +238,10 @@ $app->get("/install-admin/sql/produtos/list", function(){
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
 	$name = "sp_produtostipos_list";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_produtosprecos_list";	
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	
@@ -237,6 +256,10 @@ $app->get("/install-admin/sql/produtos/save", function(){
 	$name = "sp_produtotipo_save";	
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_produtosprecos_save";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	
 	echo success();
 });
@@ -247,6 +270,10 @@ $app->get("/install-admin/sql/produtos/remove", function(){
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
 	$name = "sp_produtotipo_remove";	
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_produtosprecos_remove";	
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	

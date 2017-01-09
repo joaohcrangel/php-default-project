@@ -1,23 +1,7 @@
 <?php
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
-$app->get("/teste-usuario", function(){
-
-	$sql = new Sql();
-
-	$hash = Usuario::getPasswordHash("root");
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, 'root', $hash, 1
-	));
-
-	echo success();
-
-});
 $app->get("/install", function(){
-	// unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
 
 	unsetLocalCookie(COOKIE_KEY);
 
@@ -54,6 +38,17 @@ $app->get("/install-admin/sql/clear", function(){
 	$sql->query("DROP TABLE IF EXISTS tb_produtos;");
 	$sql->query("DROP TABLE IF EXISTS tb_produtostipos;");
 	$sql->query("DROP TABLE IF EXISTS tb_produtosprecos;");
+	$sql->query("DROP TABLE IF EXISTS tb_carrinhos;");
+	$sql->query("DROP TABLE IF EXISTS tb_carrinhosprodutos;");
+	$sql->query("DROP TABLE IF EXISTS tb_cartoesdecreditos;");
+	$sql->query("DROP TABLE IF EXISTS tb_gateways;");
+	$sql->query("DROP TABLE IF EXISTS tb_formaspagamentos;");
+	$sql->query("DROP TABLE IF EXISTS tb_pagamentosstatus;");
+	$sql->query("DROP TABLE IF EXISTS tb_pagamentos;");
+	$sql->query("DROP TABLE IF EXISTS tb_pagamentosprodutos;");
+	$sql->query("DROP TABLE IF EXISTS tb_pagamentosrecibos;");
+	$sql->query("DROP TABLE IF EXISTS tb_sitecontatos;");
+
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/tables", function(){
@@ -618,16 +613,9 @@ $app->get("/install-admin/sql/contatos/get", function(){
 		"sp_contatossubtipos_get"
 	);
 
-	foreach ($procs as $name) {
+	foreach ($procs as $name){
 		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 		$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	}
-
-	foreach ($procs as $name) {
-
-		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-		$sql->queryFromFile(PATH_PROC."{$name}.sql");
-
 	}
 
 	echo success();
@@ -901,16 +889,6 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 $app->get("/install-admin/sql/permissoes/get", function(){
 	$sql = new Sql();
 
-	$name = "sp_permissoes_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_permissoesfrommenus_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_permissoesfrommenusfaltantes_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
-
 	$procs = array(
 		'sp_permissoes_get',
 		'sp_permissoesfrommenus_list',
@@ -1003,4 +981,511 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 	");
 	echo success();
 });
+
+$app->get("/install-admin/sql/carrinhos/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_carrinhos(
+			idcarrinho INT NOT NULL AUTO_INCREMENT,
+			idpessoa INT NOT NULL,
+			dessession VARCHAR(128) NOT NULL,
+			infechado BIT(1),
+			nrprodutos INT NOT NULL,
+			vltotal DECIMAL(10,2) NOT NULL,
+			vltotalbruto DECIMAL(10,2),
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcarrinho),
+			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_carrinhosprodutos(
+			idcarrinho INT NOT NULL,
+			idproduto INT NOT NULL,
+			inremovido BIT(1) NOT NULL,
+			dtremovido DATETIME NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
+			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/carrinhos/list", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_carrinhos_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_carrinhosprodutos_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/carrinhos/get", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_carrinhos_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_carrinhosprodutos_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/carrinhos/save", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_carrinhos_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_carrinhosprodutos_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/carrinhos/remove", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_carrinhos_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$name = "sp_carrinhosprodutos_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_cartoesdecreditos(
+			idcartao INT NOT NULL AUTO_INCREMENT,
+			idpessoa INT NOT NULL,
+			desnome VARCHAR(64) NOT NULL,
+			dtvalidade DATE NOT NULL,
+			nrcds VARCHAR(8) NOT NULL,
+			desnumero CHAR(16) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcartao),
+			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/cartoesdecreditos/list", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_cartoesdecreditos_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/cartoesdecreditos/get", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_cartoesdecreditos_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/cartoesdecreditos/save", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_cartoesdecreditos_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_cartoesdecreditos_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/gateways/tables", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_gateways(
+			idgateway INT NOT NULL AUTO_INCREMENT,
+			desgateway VARCHAR(128) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY(idgateway)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/gateways/inserts", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		INSERT INTO tb_gateways(desgateway) VALUES(?);
+	", array(
+		'PagSeguro'
+	));
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/gateways/list", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_gateways_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/gateways/get", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_gateways_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/gateways/save", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_gateways_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/gateways/remove", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_gateways_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pagamentos/tables", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_formaspagamentos(
+			idformapagamento INT NOT NULL AUTO_INCREMENT,
+			idgateway INT NOT NULL,
+			desformapagamento VARCHAR(128) NOT NULL,
+			nrparcelasmax INT NOT NULL,
+			instatus BIT(1),
+			CONSTRAINT PRIMARY KEY(idformapagamento),
+			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_pagamentosstatus(
+			idstatus INT NOT NULL AUTO_INCREMENT,
+			desstatus VARCHAR(128) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idstatus)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_pagamentos(
+			idpagamento INT NOT NULL AUTO_INCREMENT,
+			idpessoa INT NOT NULL,
+			idformapagamento INT NOT NULL,
+			idstatus INT NOT NULL,
+			dessession VARCHAR(128) NOT NULL,
+			vltotal DECIMAL(10,2) NOT NULL,
+			nrparcelas INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idpagamento),
+			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
+			CONSTRAINT FOREIGN KEY(idformapagamento) REFERENCES tb_formaspagamentos(idformapagamento),
+			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pagamentosstatus(idstatus)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_pagamentosprodutos(
+			idpagamento INT NOT NULL,
+			idproduto INT NOT NULL,
+			nrqtd INT NOT NULL,
+			vlpreco DECIMAL(10,2) NOT NULL,
+			vltotal DECIMAL(10,2) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento),
+			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_pagamentosrecibos(
+			idpagamento INT NOT NULL,
+			desautenticacao VARCHAR(256) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pagamentos/inserts", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		INSERT INTO tb_formaspagamentos(idgateway, desformapagamento, nrparcelasmax, instatus) VALUES
+			(1, 'Visa', 12, 1),
+			(1, 'MasterCard', 12, 1),
+			(1, 'Diners Club', 12, 1),
+			(1, 'Amex', 12, 1),
+			(1, 'HiperCard', 12, 1),
+			(1, 'Aura', 12, 1),
+			(1, 'Elo', 12, 1),
+			(1, 'Boleto', 1, 1),
+			(1, 'Débito Online Itaú', 1, 1),
+			(1, 'Débito Online Banco do Brasil', 1, 1),
+			(1, 'Débito Online Banrisul', 1, 1),
+			(1, 'Débito Online Bradesco', 1, 1),
+			(1, 'Débito Online HSBC', 1, 1),
+			(1, 'PlenoCard', 3, 1),
+			(1, 'PersonalCard', 3, 1),
+			(1, 'JCB', 1, 1),
+			(1, 'Discover', 1, 1),
+			(1, 'BrasilCard', 12, 1),
+			(1, 'FortBrasil', 12, 1),
+			(1, 'CardBan', 12, 1),
+			(1, 'ValeCard', 3, 1),
+			(1, 'Cabal', 12, 1),
+			(1, 'Mais', 10, 1),
+			(1, 'Avista', 6, 1),
+			(1, 'GRANDCARD', 12, 1),
+			(1, 'Sorocred', 12, 1)
+	");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pagamentos/list", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_formaspagamentos_list',
+		'sp_pagamentos_list',
+		'sp_pagamentosprodutos_list',
+		'sp_pagamentosrecibos_list',
+		'sp_pagamentosstatus_list'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pagamentos/get", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_formaspagamentos_get',
+		'sp_pagamentos_get',
+		'sp_pagamentosprodutos_get',
+		'sp_pagamentosrecibos_get',
+		'sp_pagamentosstatus_get'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pagamentos/save", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_formaspagamentos_save',
+		'sp_pagamentos_save',
+		'sp_pagamentosprodutos_save',
+		'sp_pagamentosrecibos_save',
+		'sp_pagamentosstatus_save'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pagamentos/remove", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_formaspagamentos_remove',
+		'sp_pagamentos_remove',
+		'sp_pagamentosprodutos_remove',
+		'sp_pagamentosrecibos_remove',
+		'sp_pagamentosstatus_remove'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/sitecontatos/tables", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_sitecontatos(
+			idsitecontato INT NOT NULL AUTO_INCREMENT,
+			idpessoa INT NOT NULL,
+			desmensagem VARCHAR(2048) NOT NULL,
+			inlido BIT(1) NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idsitecontato),
+			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/sitecontatos/list", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_sitecontatos_list";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/sitecontatos/get", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_sitecontatos_get";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/sitecontatos/save", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_sitecontatos_save";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/sitecontatos/remove", function(){
+	
+	$sql = new Sql();
+
+	$name = "sp_sitecontatos_remove";
+	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
 ?>

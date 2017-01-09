@@ -1241,6 +1241,7 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			desformapagamento VARCHAR(128) NOT NULL,
 			nrparcelasmax INT NOT NULL,
 			instatus BIT(1),
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idformapagamento),
 			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";

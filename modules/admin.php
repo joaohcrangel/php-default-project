@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $app->get("/".DIR_ADMIN, function(){
 

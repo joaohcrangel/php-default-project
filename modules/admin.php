@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -1044,6 +1044,106 @@ $app->delete("/".DIR_ADMIN."/site-contatos/:idsitecontato", function($idsitecont
     }
 
     $site->remove();
+
+    echo success();
+
+});
+///////////////////////////////////////////////////////////
+
+// contatos
+$app->get("/".DIR_ADMIN."/contatos/tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>ContatosTipos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/contatos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idcontato') > 0){
+        $contato = new Contato((int)post('idcontato'));
+    }else{
+        $contato = new Contato();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $contato->{'set'.$key}($value);
+    }
+
+    $contato->save();
+
+    echo success(array("data"=>$contato->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/contatos/:idcontato", function($idcontato){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idcontato){
+        throw new Exception("Contato não informado", 400);        
+    }
+
+    $contato = new Contato((int)$idcontato);
+
+    if(!(int)$contato->getidcontato() > 0){
+        throw new Exception("Contato não encontrado", 404);        
+    }
+
+    $contato->remove();
+
+    echo success();
+
+});
+////////////////////////////////////////////////////
+
+// documentos
+$app->get("/".DIR_ADMIN."/documentos/tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Documentos::listTipos()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/documentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('iddocumento') > 0){
+        $documento = new Documento((int)post('iddocumento'));
+    }else{
+        $documento = new Documento();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $documento->{'set'.$key}($value);
+    }
+
+    $documento->save();
+
+    echo success(array("data"=>$documento->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/documentos/:iddocumento", function($iddocumento){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$iddocumento){
+        throw new Exception("Documento não informado", 400);        
+    }
+
+    $documento = new Documento((int)$iddocumento);
+
+    if(!(int)$documento->getiddocumento() > 0){
+        throw new Exception("Documento não encontrado", 404);        
+    }
+
+    $documento->remove();
 
     echo success();
 

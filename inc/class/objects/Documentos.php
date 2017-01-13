@@ -9,6 +9,28 @@ class Documentos extends Collection {
 
     public function get(){}
 
+    public static function listTipos(){
+
+    	$tipos = new Documentos();
+
+    	$tipos->loadFromQuery("CALL sp_documentostipos_list();");
+
+    	return $tipos;
+
+    }
+
+    public static function listFromPessoa($idpessoa){
+
+    	$documentos = new Documentos();
+
+    	$documentos->loadFromQuery("CALL sp_documentosfrompessoa_list(?)", array(
+    		(int)$idpessoa
+    	));
+
+    	return $documentos;
+
+    }
+
 }
 
 ?>

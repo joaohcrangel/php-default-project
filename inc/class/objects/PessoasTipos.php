@@ -7,8 +7,6 @@ class PessoasTipos extends Collection {
     protected $saveArgs = array("idpessoatipo", "despessoatipo");
     protected $pk = "idpessoatipo";
 
-    public function get(){}
-
 }
 
 ?>

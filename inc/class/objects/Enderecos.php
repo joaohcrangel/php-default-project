@@ -9,6 +9,18 @@ class Enderecos extends Collection {
 
     public function get(){}
 
+    public static function listFromPessoa($idpessoa){
+
+    	$enderecos = new Enderecos();
+
+    	$enderecos->loadFromQuery("CALL sp_enderecosfrompessoa_list(?);", array(
+    		(int)$idpessoa
+    	));
+
+    	return $enderecos;
+
+    }
+
 }
 
 ?>

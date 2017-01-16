@@ -95,11 +95,15 @@
 
 							$permissaoRow.find('input').on('change', function(){
 
+								var $input = $(this);
+								var value = $input.val();
+								var method = ($input.prop('checked'))?'POST':'DELETE';
+
 								rest({
 									url:PATH+"/usuarios/"+idusuario+"/permissoes",
 									method:'POST',
 									success:function(rSetPermissao){
-										
+
 									},
 									failure:function(e){
 										System.showError(e);

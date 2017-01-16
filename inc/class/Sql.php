@@ -245,6 +245,8 @@ class Sql {
 
 		$this->conecta();
 
+		$resource = null;
+
 		if(count($params)){
 
 			$query = str_replace('?','{?}', $query);

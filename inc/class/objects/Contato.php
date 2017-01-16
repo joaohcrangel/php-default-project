@@ -48,6 +48,7 @@ class Contato extends Model {
         
     }
 
+
 }
 
 ?>

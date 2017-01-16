@@ -41,6 +41,12 @@ class Pessoa extends Model {
         return true;
         
     }
+    public function getContatos(){
+
+        return new Contatos($this);
+    }
+
+    
 
 }
 

@@ -15,6 +15,8 @@ class ContatosSubtipos extends Collection {
       return $col;
 
     }
+
+    
 }
 
 ?>

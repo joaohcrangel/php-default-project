@@ -17,7 +17,6 @@ $app->get("/teste-usuario", function(){
 
 });
 $app->get("/install", function(){
-	// unsetLocalCookie(Usuario::SESSION_NAME_REMEMBER);
 
 	unsetLocalCookie(COOKIE_KEY);
 
@@ -37,8 +36,6 @@ $app->get("/install-admin/sql/clear", function(){
 	foreach ($procs as $row) {
 		$sql->query("DROP PROCEDURE IF EXISTS ".$row['Name'].";");
 	}
-
-	exit('OK');
 
 	$funcs = $sql->arrays("SHOW FUNCTION STATUS WHERE Db = '".DB_NAME."';");
 	foreach ($funcs as $row) {
@@ -63,28 +60,6 @@ $app->get("/install-admin/sql/clear", function(){
 	foreach ($tables as $row) {
 		$sql->query("DROP TABLE IF EXISTS ".$row['Tables_in_'.DB_NAME].";");
 	}
-
-	/*
-	$sql->query("DROP TABLE IF EXISTS tb_contatos;");
-	$sql->query("DROP TABLE IF EXISTS tb_contatostipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_contatossubtipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_documentos;");
-	$sql->query("DROP TABLE IF EXISTS tb_documentostipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_enderecos;");
-	$sql->query("DROP TABLE IF EXISTS tb_enderecostipos;");	
-	$sql->query("DROP TABLE IF EXISTS tb_permissoesmenus;");
-	$sql->query("DROP TABLE IF EXISTS tb_permissoesusuarios;");
-	$sql->query("DROP TABLE IF EXISTS tb_permissoes;");
-	$sql->query("DROP TABLE IF EXISTS tb_menus;");
-	$sql->query("DROP TABLE IF EXISTS tb_pessoasdados;");
-	$sql->query("DROP TABLE IF EXISTS tb_usuarios;");
-	$sql->query("DROP TABLE IF EXISTS tb_usuariostipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_pessoas;");
-	$sql->query("DROP TABLE IF EXISTS tb_pessoastipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_produtos;");
-	$sql->query("DROP TABLE IF EXISTS tb_produtostipos;");
-	$sql->query("DROP TABLE IF EXISTS tb_produtosprecos;");
-	*/
 	
 	echo success();
 });
@@ -235,12 +210,6 @@ $app->get("/install-admin/sql/produtos/inserts", function(){
 	", array(
 		'Eletrônicos',
 		'Informática'
-	));
-	$sql->query("
-		INSERT INTO tb_produtos (desproduto, idprodutotipo, vlpreco) VALUES
-		(?, ?, ?);
-	", array(
-		'Computador', 2, 10
 	));
 	echo success();
 });
@@ -440,14 +409,6 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenupai) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
-		CREATE TABLE tb_menususuarios (
-		  idmenu int(11) NOT NULL,
-		  idusuario int(11) NOT NULL,
-		  KEY FK_usuariosmenuspessoas (idusuario),
-		  KEY FK_usuariosmenusmenus (idmenu)
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
 
 	echo success();
 });
@@ -548,26 +509,6 @@ $app->get("/install-admin/sql/menus/save", function(){
 });
 $app->get("/install-admin/sql/contatos/tables", function(){
 	$sql = new Sql();
-	$sql->query("
-		CREATE TABLE tb_contatossubtipos (
-		  idcontatosubtipo int(11) NOT NULL AUTO_INCREMENT,
-		  descontatosubtipo varchar(32) NOT NULL,
-		  descontatotipo varchar(32) NOT NULL,
-		  idusuario int(11) DEFAULT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcontatosubtipo)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
-	$sql->query("
-		CREATE TABLE tb_contatossubtipos (
-		  idcontatosubtipo int(11) NOT NULL AUTO_INCREMENT,
-		  descontatosubtipo varchar(32) NOT NULL,
-		  descontatotipo varchar(32) NOT NULL,
-		  idusuario int(11) DEFAULT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcontatosubtipo)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
 
 	$sql->query("
 		CREATE TABLE tb_contatostipos (
@@ -577,6 +518,19 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  PRIMARY KEY (idcontatotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	$sql->query("
+		CREATE TABLE tb_contatossubtipos (
+		  idcontatosubtipo int(11) NOT NULL AUTO_INCREMENT,
+		  descontatosubtipo varchar(32) NOT NULL,
+		  idcontatotipo int(11) DEFAULT NOT NULL,
+		  idusuario int(11) DEFAULT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcontatosubtipo),
+		  KEY FK_contatostipos (idcontatotipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
 	$sql->query("
 		CREATE TABLE tb_contatos (
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
@@ -611,7 +565,6 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 	$sql = new Sql();
 	$sql->query("
 		INSERT INTO tb_contatostipos (descontatotipo) VALUES
-		(?),
 		(?),
 		(?);
 	", array(

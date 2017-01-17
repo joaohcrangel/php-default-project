@@ -12,10 +12,11 @@ BEGIN
     )
     SELECT 
     a.idproduto, a.idprodutotipo,
-    a.desproduto, a.vlpreco, b.desprodutotipo,
-    a.dtinicio, a.dttermino
+    a.desproduto, c.vlpreco, b.desprodutotipo,
+    c.dtinicio, c.dttermino
     FROM tb_produtos a
     INNER JOIN tb_produtostipos b ON a.idprodutotipo = b.idprodutotipo
+    INNER JOIN tb_produtosprecos c ON a.idproduto = c.idproduto
     WHERE a.idproduto = pidproduto
     LIMIT 1;
 

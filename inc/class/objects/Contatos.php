@@ -5,5 +5,18 @@ class Contatos extends Collection {
     protected $saveArgs = array("idcontato", "idcontatotipo", "idcontatosubtipo", "idpessoa", "descontato", "inprincipal");
     protected $pk = "idcontato";
     public function get(){}
+
+    public static function listFromPessoa($idpessoa){
+
+    	$contatos = new Contatos();
+
+    	$contatos->loadFromQuery("CALL sp_contatosfrompessoa_list(?)", array(
+    		(int)$idpessoa
+    	));
+
+    	return $contatos;
+
+    }
+
 }
 ?>

@@ -4,8 +4,8 @@ pidpessoa INT,
 pdessession VARCHAR(128),
 pinfechado BIT,
 pnrprodutos INT,
-vltotal DEC(10,2),
-vltotalbruto DEC(10,2)
+pvltotal DEC(10,2),
+pvltotalbruto DEC(10,2)
 )
 BEGIN
 	

@@ -9,5 +9,15 @@ class Pessoas extends Collection {
 
     public function get(){}
 
+    public static function listAll(){
+
+    	$pessoas = new Pessoas();
+
+    	$pessoas->loadFromQuery("CALL sp_pessoas_list();");
+
+    	return $pessoas;
+
+    }
+
 }
 ?>

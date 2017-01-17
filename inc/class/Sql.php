@@ -57,7 +57,6 @@ class Sql {
 
 		} catch (Exception $e) {
 
-			var_dump('B');
 			var_dump($e->getMessage(), $e);
 
 			// header("location: ".SITE_PATH."/modules/install");
@@ -299,7 +298,6 @@ class Sql {
 				case Sql::PDO:
 
 				if ($multi === false) {
-					var_dump($query);
 					$resource = $this->conn->exec($query);
 				} else {
 					$query = str_replace(';;', ';', $query);

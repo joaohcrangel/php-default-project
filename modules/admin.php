@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 $app->get("/".DIR_ADMIN, function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -142,7 +142,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -189,7 +189,7 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 $app->get("/".DIR_ADMIN."/sistema/usuarios", function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,
@@ -409,14 +409,6 @@ $app->delete("/".DIR_ADMIN."/produtos-tipos/:idprodutotipo", function($idproduto
 
 });
 
-$app->get("/adicionar", function(){
-
-    $sql = new Sql();
-
-    // $sql->query("INSERT INTO tb_usuarios")
-
-});
-
 $app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -600,6 +592,560 @@ $app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
         header("Content-Transfer-Encoding: binary ");
 
     }
+
+});
+////////////////////////////////////////////////
+
+// carrinhos
+$app->get("/".DIR_ADMIN."/carrinhos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Carrinhos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/carrinhos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idcarrinho') > 0){
+        $carrinho = new Carrinho((int)post('idcarrinho'));
+    }else{
+        $carrinho = new Carrinho();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $carrinho->{'set'.$key}($value);
+    }
+
+    $carrinho->save();
+
+    echo success(array("data"=>$carrinho->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/carrinhos/:idcarrinho", function($idcarrinho){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idcarrinho){
+        throw new Exception("Carrinho não informado", 400);        
+    }
+
+    $carrinho = new Carrinho((int)$idcarrinho);
+
+    if(!(int)$carrinho->getidcarrinho() > 0){
+        throw new Exception("Carrinho não encontrado", 404);        
+    }
+
+    $carrinho->remove();
+
+    echo success();
+
+});
+///////////////////////////////////////////////////////
+
+// cartoes de credito
+$app->get("/".DIR_ADMIN."/cartoes/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>CartoesCreditos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/cartoes", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idcartao') > 0){
+        $cartao = new CartaoCredito((int)post('idcartao'));
+    }else{
+        $cartao = new CartaoCredito();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $cartao->{'set'.$key}($value);
+    }
+
+    $cartao->save();
+
+    echo success(array("data"=>$cartao->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/cartoes/:idcartao", function($idcartao){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idcartao){
+        throw new Exception("Cartão não informado", 400);        
+    }
+
+    $cartao = new CartaoCredito((int)$idcartao);
+
+    if(!(int)$cartao->getidcartao() > 0){
+        throw new Exception("Cartão não encontrado", 404);        
+    }
+
+    $cartao->remove();
+
+    echo success();
+
+});
+/////////////////////////////////////////////////////////////////////
+
+// gateways
+$app->get("/".DIR_ADMIN."/gateways/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Gateways::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/gateways", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idgateway') > 0){
+        $gateway = new Gateway((int)post('idgateway'));
+    }else{
+        $gateway = new Gateway();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $gateway->{'set'.$key}($value);
+    }
+
+    $gateway->save();
+
+    echo success(array("data"=>$gateway->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/gateways/:idgateway", function($idgateway){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idgateway){
+        throw new Exception("Gateway não informado", 400);        
+    }
+
+    $gateway = new Gateway((int)$idgateway);
+
+    if(!(int)$gateway->getidgateway() > 0){
+        throw new Exception("Gateway não encontrado", 404);        
+    }
+
+    $gateway->remove();
+
+    echo success();
+
+});
+///////////////////////////////////////////////////////
+
+// formas pagamentos
+$app->get("/".DIR_ADMIN."/formas-pagamentos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>FormasPagamentos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/formas-pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idformapagamento') > 0){
+        $pagamento = new FormaPagamento((int)post('idformapagamento'));
+    }else{
+        $pagamento = new FormaPagamento();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $pagamento->{'set'.$key}($value);
+    }
+
+    $pagamento->save();
+
+    echo success(array("data"=>$pagamento->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/formas-pagamentos/:idformapagamento", function($idformapagamento){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idformapagamento){
+        throw new Exception("Forma de Pagamento não informado", 400);        
+    }
+
+    $pagamento = new FormaPagamento((int)$idformapagamento);
+
+    if(!(int)$pagamento->getidformapagamento() > 0){
+        throw new Exception("Forma de Pagamento não encontrado", 404);        
+    }
+
+    $pagameto->remove();
+
+    echo success();
+
+});
+////////////////////////////////////////////////////////
+
+// pagamentos status
+$app->get("/".DIR_ADMIN."/pagamentos-status/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>PagamentosStatus::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/pagamentos-status", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idstatus') > 0){
+        $status = new PagamentoStatus((int)post('idstatus'));
+    }else{
+        $status = new PagamentoStatus();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $status->{'set'.$key}($value);
+    }
+
+    $status->save();
+
+    echo success(array("data"=>$status->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/pagamentos-status/:idstatus", function($idstatus){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idstatus){
+        throw new Exception("Status não informado", 400);        
+    }
+
+    $status = new PagamentoStatus((int)$idstatus);
+
+    if(!(int)$status->getidstatus() > 0){
+        throw new Exception("Status não encontrado", 404);        
+    }
+
+    $status->remove();
+
+    echo success();
+
+});
+///////////////////////////////////////////////////
+
+// pagamentos
+$app->get("/".DIR_ADMIN."/pagamentos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Pagamentos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idpagamento') > 0){
+        $pagamento = new Pagamento((int)post('idpagamento'));
+    }else{
+        $pagamento = new Pagamento();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $pagamento->{'set'.$key}($value);
+    }
+
+    $pagamento->save();
+
+    echo success(array("data"=>$pagamento->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/pagamentos/:idpagamento", function($idpagamento){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idpagamento){
+        throw new Exception("Pagamento não informado", 400);
+    }
+
+    $pagamento = new Pagamento((int)$idpagamento);
+
+    if(!(int)$pagamento->getidpagamento() > 0){
+        throw new Exception("Pagamento não encontrado", 404);        
+    }
+
+    $pagamento->remove();
+
+    echo success();
+
+});
+/////////////////////////////////////////////////////////////
+
+// pagamentos produtos
+$app->get("/".DIR_ADMIN."/pagamentos-produtos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>PagamentosProdutos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/pagamentos-produtos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idpagamento') > 0 && post('idproduto') > 0){
+        $pagamento = new PagamentoProduto((int)post('idpagamento'), (int)post('idproduto'));
+    }else{
+        $pagamento = new PagamentoProduto();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $pagamento->{'set'.$key}($value);
+    }
+
+    $pagamento->save();
+
+    echo success(array("data"=>$pagamento->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/pagamentos/:idpagamento/produtos/:idproduto", function($idpagamento, $idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idpagamento){
+        throw new Exception("Pagamento não informado", 400);        
+    }
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $pagamento = new PagamentoProduto((int)$idpagamento, (int)$idproduto);
+
+    if(!(int)$pagamento->getidpagamento() > 0 && !(int)$pagamento->getidproduto() > 0){
+        throw new Exception("Recurso não encontrado", 404);        
+    }
+
+    $pagamento->remove();
+
+    echo success();
+
+});
+//////////////////////////////////////////////////////////////////////
+
+// pagamentos recibos
+$app->get("/".DIR_ADMIN."/pagamentos-recibos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>PagamentosRecibos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/pagamentos-recibos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idpagamento') > 0){
+        $recibo = new PagamentoRecibo((int)post('idpagamento'));
+    }else{
+        $recibo = new PagamentoRecibo();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $recibo->{'set'.$key}($value);
+    }
+
+    $recibo->save();
+
+    echo success(array("data"=>$recibo->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/pagamentos-recibos/:idpagamento", function($idpagamento){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idpagamento){
+        throw new Exception("Pagamento não informado", 400);        
+    }
+
+    $recibo = new PagamentoRecibo((int)$idpagamento);
+
+    if(!(int)$recibo->getidpagamento() > 0){
+        throw new Exception("Pagamento não encontrado", 404);        
+    }
+
+    $recibo->remove();
+
+    echo success();
+
+});
+//////////////////////////////////////////////////////////////////
+
+// site contatos
+$app->get("/".DIR_ADMIN."/site-contatos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>SiteContatos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/site-contatos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idsitecontato') > 0){
+        $site = new SiteContato((int)post('idsitecontato'));
+    }else{
+        $site = new SiteContato();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $site->{'set'.$key}($value);
+    }
+
+    $site->save();
+
+    echo success(array("data"=>$site->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/site-contatos/:idsitecontato", function($idsitecontato){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idsitecontato){
+        throw new Exception("Contato não informado", 400);        
+    }
+
+    $site = new SiteContato((int)$idsitecontato);
+
+    if(!(int)$site->getidsitecontato() > 0){
+        throw new Exception("Contato não encontrado", 404);        
+    }
+
+    $site->remove();
+
+    echo success();
+
+});
+///////////////////////////////////////////////////////////
+
+// contatos
+$app->get("/".DIR_ADMIN."/contatos/tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>ContatosTipos::listAll()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/contatos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idcontato') > 0){
+        $contato = new Contato((int)post('idcontato'));
+    }else{
+        $contato = new Contato();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $contato->{'set'.$key}($value);
+    }
+
+    $contato->save();
+
+    echo success(array("data"=>$contato->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/contatos/:idcontato", function($idcontato){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idcontato){
+        throw new Exception("Contato não informado", 400);        
+    }
+
+    $contato = new Contato((int)$idcontato);
+
+    if(!(int)$contato->getidcontato() > 0){
+        throw new Exception("Contato não encontrado", 404);        
+    }
+
+    $contato->remove();
+
+    echo success();
+
+});
+////////////////////////////////////////////////////
+
+// documentos
+$app->get("/".DIR_ADMIN."/documentos/tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Documentos::listTipos()->getFields()));
+
+});
+
+$app->post("/".DIR_ADMIN."/documentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('iddocumento') > 0){
+        $documento = new Documento((int)post('iddocumento'));
+    }else{
+        $documento = new Documento();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $documento->{'set'.$key}($value);
+    }
+
+    $documento->save();
+
+    echo success(array("data"=>$documento->getFields()));
+
+});
+
+$app->delete("/".DIR_ADMIN."/documentos/:iddocumento", function($iddocumento){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$iddocumento){
+        throw new Exception("Documento não informado", 400);        
+    }
+
+    $documento = new Documento((int)$iddocumento);
+
+    if(!(int)$documento->getiddocumento() > 0){
+        throw new Exception("Documento não encontrado", 404);        
+    }
+
+    $documento->remove();
+
+    echo success();
 
 });
 

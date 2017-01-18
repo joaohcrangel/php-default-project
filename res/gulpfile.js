@@ -170,7 +170,7 @@ gulp.task('scripts-admin', function() {
         .pipe(jshint())
         .pipe(uglify())
         .pipe(jsmin())
-        .pipe(concat('./../js/libs.js', {newLine: ';'}))
+        .pipe(concat('./../js/libs.js'))
         .pipe(gulp.dest('js'));
 
 });
@@ -184,7 +184,7 @@ gulp.task('scripts', function() {
 		.pipe(uglify())
 		.pipe(jsmin())
 		.pipe(rename({suffix: '.min'}))
-        .pipe(concat('./../js/scripts.js', {newLine: ';'}))
+        .pipe(concat('./../js/scripts.js'))
 		.pipe(gulp.dest('js'));
 
     gulp.src([

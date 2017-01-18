@@ -9,6 +9,7 @@ class Sql {
 
 	const MYSQL = 1;
 	const SQLSERVER = 2;
+	const PDO = 3;
 
 	private $type = DB_TYPE;
 
@@ -46,6 +47,10 @@ class Sql {
 
 				case Sql::SQLSERVER:
 				return $this->conectaSQLServer();
+				break;
+
+				case Sql::PDO:
+				return $this->conectaPDO();
 				break;
 
 			}
@@ -98,6 +103,15 @@ class Sql {
 				return array();
 				break;
 		}
+
+	}
+
+	private function conectaPDO(){
+
+		$this->conn = new PDO('mysql:host='.$this->server.';dbname='.$this->database, $this->username, $this->password);
+    	$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		return $this->conn;
 
 	}
 
@@ -170,6 +184,10 @@ class Sql {
 			return sqlsrv_close($this->conn);
 			break;
 
+			case Sql::PDO:
+			return true;
+			break;
+
 		}
 
 	}
@@ -216,6 +234,12 @@ class Sql {
 		    case Sql::SQLSERVER:
 
 		    throw new Exception("Pendente");
+
+		    break;
+
+		    case Sql::PDO:
+
+		    
 
 		    break;
 
@@ -267,13 +291,24 @@ class Sql {
 				));
 			}
 
+			$resource = null;
+
 			switch($this->type){
 
+				case Sql::PDO:
+
+				if ($multi === false) {
+					$resource = $this->conn->exec($query);
+				} else {
+					$query = str_replace(';;', ';', $query);
+					$resource = $this->conn->exec($query);
+				}
+				break;
+
 				case Sql::MYSQL:
+
 				if($multi === false){
-
 					$resource = mysqli_query($this->conn, $query);
-
 				}else{
 					$query = str_replace(';;', ';', $query);
 					$resource = mysqli_multi_query($this->conn, $query);
@@ -282,6 +317,7 @@ class Sql {
 				break;
 
 				case Sql::SQLSERVER:
+
 				if($multi === false){
 					$resource = sqlsrv_query($this->conn, $query);
 				}else{
@@ -619,7 +655,23 @@ class Sql {
 	*/
 	public function arrays($query, $array = false, $params = array()){
 
-		$data = $this->getArrayRows($this->query($query, $params));
+		switch ($this->type) {
+
+			case Sql::PDO:
+
+				$sth = $this->conn->prepare($query);
+				$sth->execute($params);
+				$data = $sth->fetchAll();
+
+			break;
+
+			default:
+
+				$data = $this->getArrayRows($this->query($query, $params));
+
+			break;
+
+		}
 
 		if(!$array){
 			return $data;
@@ -665,6 +717,14 @@ class Sql {
 				array_push($i, "?");
 			}
 			$query = "EXEC ".$name." ".implode(", ", $i);
+			break;
+
+			case Sql::PDO:
+			$i = array();
+			foreach ($params as $p) {
+				array_push($i, "?");
+			}
+			$query = "CALL ".$name."(".implode(", ", $i).");";
 			break;
 
 		}

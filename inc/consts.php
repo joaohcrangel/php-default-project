@@ -16,7 +16,7 @@ define('KEY_ENCRYPT', pack('a16', 'PHP-DEF-PROJECT'));
 
 // ** Configurações de Banco de Dados ** //
 /** The name of the database for WordPress */
-define('DB_TYPE', (int)'1');
+define('DB_TYPE', (int)'3');
 
 /** The name of the database for WordPress */
 define('DB_NAME', 'database_name');

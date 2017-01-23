@@ -9,7 +9,7 @@ $app->post("/usuarios/login", function(){
 	Session::setUsuario($usuario, (isset($_POST['remember'])));
 
 	Menu::resetMenuSession();
-	
+
 	echo success(array(
 		'token'=>session_id(), 
 		'data'=>$usuario->getFields()
@@ -79,6 +79,42 @@ $app->get("/usuariostipos", function(){
     echo success(array(
     	'data'=>UsuariosTipos::listAll()->getFields()
     ));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/:idusuario/permissoes", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	$permissao = new Permissao(array(
+		'idpermissao'=>(int)post('idpermissao')
+	));
+
+	$usuario->addPermissao($permissao);
+
+	echo success();
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->delete("/usuarios/:idusuario/permissoes", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	$permissao = new Permissao(array(
+		'idpermissao'=>(int)post('idpermissao')
+	));
+
+	$usuario->removePermissao($permissao);
+
+	echo success();
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1596,9 +1596,15 @@ $app->get("/install-admin/sql/sitecontatos/get", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_sitecontatos_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		'sp_sitecontatosbypessoa_get',
+		'sp_sitecontatos_get'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
 	
 	echo success();
 	
@@ -1623,6 +1629,134 @@ $app->get("/install-admin/sql/sitecontatos/remove", function(){
 	$name = "sp_sitecontatos_remove";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	
+	echo success();
+	
+});
+
+// lugares
+$app->get("/install-admin/sql/lugares/tables", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_lugarestipos(
+			idlugartipo INT NOT NULL AUTO_INCREMENT,
+			deslugartipo VARCHAR(128) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY(idlugartipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_lugares(
+			idlugar INT NOT NULL AUTO_INCREMENT,
+			idlugarpai INT NULL,
+			deslugar VARCHAR(128) NOT NULL,
+			idendereco INT NOT NULL,
+			idlugartipo INT NOT NULL,
+			desconteudo TEXT,
+			nrviews INT NULL,
+			vlreview DECIMAL(10,2) NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idlugar),
+			CONSTRAINT FOREIGN KEY(idlugarpai) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco),
+			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/lugares/list", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		"sp_lugares_list",
+		"sp_lugarestipos_list"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/lugares/get", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_lugarestipos_get',
+		'sp_lugares_get'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/lugares/save", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_lugarestipos_save',
+		'sp_lugares_save'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/lugares/remove", function(){
+	
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_lugarestipos_remove',
+		'sp_lugares_remove'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/lugares/inserts", function(){
+	
+	$sql = new Sql();
+
+	$sql->query("
+		INSERT INTO tb_lugarestipos(deslugartipo)
+		VALUES(?), (?), (?), (?), (?), (?);
+	", array(
+		'Banco',
+		'Posto de Gasolina',
+		'Cinema',
+		'Cidade',
+		'Estado',
+		'País'
+	));
 	
 	echo success();
 	

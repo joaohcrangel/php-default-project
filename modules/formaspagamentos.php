@@ -33,13 +33,13 @@ $app->delete("/formas-pagamentos/:idformapagamento", function($idformapagamento)
     Permissao::checkSession(Permissao::ADMIN, true);
 
     if(!(int)$idformapagamento){
-        throw new Exception("Forma de Pagamento não informado", 400);        
+        throw new Exception("Forma de Pagamento não informado", 400);
     }
 
     $pagamento = new FormaPagamento((int)$idformapagamento);
 
     if(!(int)$pagamento->getidformapagamento() > 0){
-        throw new Exception("Forma de Pagamento não encontrado", 404);        
+        throw new Exception("Forma de Pagamento não encontrado", 404); 
     }
 
     $pagameto->remove();

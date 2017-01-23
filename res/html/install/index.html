@@ -538,7 +538,36 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pessoas Dados - Tabelas",
 			status:"",
 			enabled:true
+		},
+
+		{
+			url:"/sql/lugares/tables",
+			name:"Lugares - Tabelas",
+			status:"",
+			enabled:true
 		},{
+			url:"/sql/lugares/list",
+			name:"Lugares - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/lugares/get",
+			name:"Lugares - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/lugares/save",
+			name:"Lugares - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/lugares/remove",
+			name:"Lugares - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
 			url:"/sql/pessoas/inserts",
 			name:"Pessoas - Inserts",
 			status:"",
@@ -571,6 +600,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/permissoes/inserts",
 			name:"Permissões - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/lugares/inserts",
+			name:"Lugares - Inserts",
 			status:"",
 			enabled:true
 		}

@@ -510,6 +510,17 @@ class Sql {
 			}
 			break;
 
+			case SQL::PDO:
+			for ($i=0; $i < $resource->columnCount(); $i++) {
+				$metadata = $resource->getColumnMeta($i);
+				array_push($fields, array(
+					"field"=>$metadata['name'],
+					"type"=>strtoupper($metadata['native_type']),
+					"max_length"=>$metadata['len']
+				));
+			}
+			break;
+
 		}
 
 		return $fields;
@@ -523,6 +534,47 @@ class Sql {
 		$data = array();
 
 		switch($this->type){
+
+			case SQL::PDO:
+			$data = $resource->fetchAll();
+
+			foreach ($data as &$row) {
+				
+				foreach ($row as $key => $value) {
+					if (is_numeric($key)) unset($row[$key]);
+				}
+
+				foreach ($fields as $f) {
+					
+					switch ($f['type']) {
+
+						case 'LONG':
+						case 'INTEGER':
+						$row[$f['field']] = (int)$row[$f['field']];
+						break;
+
+						case 'BIT':
+						$row[$f['field']] = (bool)$row[$f['field']];
+						break;
+
+						case 'TIMESTAMP':
+						$row[$f['field']] = $row[$f['field']];
+						$row['des'.$f['field']] = date("d/m/Y", strtotime($row[$f['field']]));
+						$row['ts'.$f['field']] = strtotime($row[$f['field']]);
+						break;
+
+						case 'VAR_STRING':
+						case 'STRING':
+						$row[$f['field']] = ($this->utf8 === true)?trim(utf8_encode(trim($row[$f['field']]))):trim($row[$f['field']]);
+						break;
+
+					}
+
+				}
+
+			}
+
+			break;
 
 			case SQL::SQLSERVER:
 
@@ -661,7 +713,7 @@ class Sql {
 
 				$sth = $this->conn->prepare($query);
 				$sth->execute($params);
-				$data = $sth->fetchAll();
+				$data = $this->getArrayRows($sth);
 
 			break;
 

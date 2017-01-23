@@ -390,6 +390,8 @@ if(!function_exists('unsetLocalCookie')){
 if(!function_exists('success')){
 	function success($data = array()){
 
+
+
 		$json = json_encode(array_merge(array(
 			'success'=>true,
 			'delay'=>microtime(true)-START_EXECUTION

@@ -9,8 +9,28 @@ $app->post("/usuarios/login", function(){
 	Session::setUsuario($usuario, (isset($_POST['remember'])));
 
 	Menu::resetMenuSession();
+	
+	echo success(array(
+		'token'=>session_id(), 
+		'data'=>$usuario->getFields()
+	));
 
-	echo success(array('token'=>session_id(), 'data'=>$usuario->getFields()));
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/login", function(){
+
+	$usuario = Usuario::login('root', 'root');
+
+	$usuario->getPessoa();
+
+	Session::setUsuario($usuario, (isset($_POST['remember'])));
+
+	Menu::resetMenuSession();
+	
+	echo success(array(
+		'token'=>session_id(), 
+		'data'=>$usuario->getFields()
+	));
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////

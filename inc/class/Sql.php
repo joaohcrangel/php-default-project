@@ -712,7 +712,7 @@ class Sql {
 			case Sql::PDO:
 
 				$sth = $this->conn->prepare($query);
-				$sth->execute($params);
+				$sth->execute(str_replace("'", "", $this->trataParams($params)));
 				$data = $this->getArrayRows($sth);
 
 			break;

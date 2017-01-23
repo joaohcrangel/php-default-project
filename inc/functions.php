@@ -367,7 +367,7 @@ if(!function_exists('setObjectInSession')){
 }
 if(!function_exists('setLocalCookie')){
 	function setLocalCookie($name, $data, $time){
-		setcookie($name, encrypt($data), time()+$time, "/", $_SERVER['SERVER_NAME'], 1);
+		setcookie($name, encrypt($data), (int)(time()+$time), "/", $_SERVER['SERVER_NAME'], 1);
 	}
 }
 if(!function_exists('getLocalCookie')){
@@ -389,6 +389,8 @@ if(!function_exists('unsetLocalCookie')){
 }
 if(!function_exists('success')){
 	function success($data = array()){
+
+
 
 		$json = json_encode(array_merge(array(
 			'success'=>true,

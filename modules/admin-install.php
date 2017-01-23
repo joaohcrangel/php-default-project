@@ -57,7 +57,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  idpessoatipo int(11) NOT NULL AUTO_INCREMENT,
 		  despessoatipo varchar(64) NOT NULL,
 		  dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idpessoatipo)
+		  CONSTRAINT PRIMARY KEY (idpessoatipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
@@ -66,7 +66,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  idpessoatipo int(1) NOT NULL,
 		  despessoa varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idpessoa),
+		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoastipos (idpessoatipo),
 		  CONSTRAINT FK_pessoas_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
@@ -313,7 +313,7 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desusuariotipo varchar(32) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idusuariotipo)
+		  CONSTRAINT PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -326,7 +326,7 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  inbloqueado bit(1) NOT NULL DEFAULT b'0',
 		  idusuariotipo int(11) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idusuario),
+		  CONSTRAINT PRIMARY KEY (idusuario),
 		  CONSTRAINT FK_usuarios_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_usuarios_usuariostipos FOREIGN KEY (idusuariotipo) REFERENCES tb_usuariostipos (idusuariotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
@@ -441,7 +441,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  nrordem int(11) NOT NULL,
 		  nrsubmenus int(11) DEFAULT '0' NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idmenu),
+		  CONSTRAINT PRIMARY KEY (idmenu),
 		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenupai) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -569,7 +569,7 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  idcontatotipo int(11) NOT NULL AUTO_INCREMENT,
 		  descontatotipo varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcontatotipo)
+		  CONSTRAINT PRIMARY KEY (idcontatotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -580,7 +580,7 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  idcontatotipo int NOT NULL,
 		  idusuario int NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcontatosubtipo),
+		  CONSTRAINT PRIMARY KEY (idcontatosubtipo),
 		  KEY FK_contatostipos (idcontatotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -594,7 +594,7 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  descontato varchar(128) NOT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcontato),
+		  CONSTRAINT PRIMARY KEY (idcontato),
 		  CONSTRAINT FOREIGN KEY FK_contatostipos (idcontatotipo) REFERENCES tb_contatostipos(idcontatotipo),
 		  CONSTRAINT FOREIGN KEY FK_contatossubtipos (idcontatosubtipo) REFERENCES tb_contatossubtipos(idcontatosubtipo),
 		  CONSTRAINT FOREIGN KEY FK_pessoascontatos (idpessoa) REFERENCES tb_pessoas(idpessoa)
@@ -719,7 +719,7 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 		  iddocumentotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desdocumentotipo varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (iddocumentotipo)
+		  CONSTRAINT PRIMARY KEY (iddocumentotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
@@ -729,7 +729,7 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 		  idpessoa int(11) NOT NULL,
 		  desdocumento varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (iddocumento),
+		  CONSTRAINT PRIMARY KEY (iddocumento),
 		  CONSTRAINT FK_pessoasdocumentos FOREIGN KEY (idpessoa) REFERENCES tb_pessoas(idpessoa),
 		  CONSTRAINT FK_documentos FOREIGN KEY (iddocumentotipo) REFERENCES tb_documentostipos(iddocumentotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
@@ -815,7 +815,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  idenderecotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desenderecotipo varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idenderecotipo)
+		  CONSTRAINT PRIMARY KEY (idenderecotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
@@ -832,8 +832,8 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  descep char(8) NOT NULL,
 		  descomplemento varchar(32) DEFAULT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idendereco),
-		   CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo),
+		  CONSTRAINT PRIMARY KEY (idendereco),
+		  CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo),
 		  CONSTRAINT FK_pessoasenderecos FOREIGN KEY (idpessoa) REFERENCES tb_pessoas(idpessoa)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -914,7 +914,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		  idpermissao int(11) NOT NULL AUTO_INCREMENT,
 		  despermissao varchar(64) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idpermissao)
+		  CONSTRAINT PRIMARY KEY (idpermissao)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
@@ -922,6 +922,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		  idpermissao int(11) NOT NULL,
 		  idmenu int(11) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idpermissao, idmenu),
 		  CONSTRAINT FK_menuspermissoes FOREIGN KEY (idmenu) REFERENCES tb_menus (idmenu),
 		  CONSTRAINT FK_permissoesmenus FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
@@ -931,10 +932,12 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		  idpermissao int(11) NOT NULL,
 		  idusuario int(11) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idpermissao, idusuario),
 		  CONSTRAINT FK_permissoesusuarios FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao),
 		  CONSTRAINT FK_usuariospermissoes FOREIGN KEY (idusuario) REFERENCES tb_usuarios (idusuario)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/inserts", function(){
@@ -1041,7 +1044,7 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  idrg int(11) DEFAULT NULL,
 		  dtatualizacao datetime NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idpessoa),
+		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoasdados_pessoastipos_idx (idpessoatipo),
 		  KEY FK_pessoasdados_usuarios_idx (idusuario),
 		  CONSTRAINT FK_pessoasdados_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1063,6 +1066,7 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 			desprodutotipo VARCHAR(64) NOT NULL,
 			dtinicio DATE,
 			dttermino DATE,
+			CONSTRAINT PRIMARY KEY (idproduto),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -1096,6 +1100,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			inremovido BIT(1) NOT NULL,
 			dtremovido DATETIME NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY (idcarrinho, idproduto),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -1384,6 +1389,7 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			vlpreco DECIMAL(10,2) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY (idpagamento, idproduto),
 			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -1394,6 +1400,7 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			idpagamento INT NOT NULL,
 			desautenticacao VARCHAR(256) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY (idpagamento),
 			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");

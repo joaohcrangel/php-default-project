@@ -15,7 +15,7 @@
 	</div>
 </li></script><script id="tpl-permissao-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
     <div class="checkbox-custom checkbox-primary">
-        <input type="checkbox" id="inputSchedule-1" {{checked}} value="1" name="inputCheckboxesSchedule">
+        <input type="checkbox" id="inputSchedule-1" {{checked}} value="{{idpermissao}}" name="inputCheckboxesSchedule">
         <label for="inputSchedule-1">
             <span>{{despermissao}}</span>
         </label>
@@ -101,7 +101,10 @@
 
 								rest({
 									url:PATH+"/usuarios/"+idusuario+"/permissoes",
-									method:'POST',
+									method:method,
+									data:{
+										idpermissao:value
+									},
 									success:function(rSetPermissao){
 
 									},

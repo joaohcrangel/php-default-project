@@ -183,6 +183,30 @@ class Usuario extends Model {
 
     }
 
+    public function addPermissao(Permissao $permissao):bool
+    {
+        
+        $this->execute("INSERT INTO tb_permissoesusuarios (idpermissao, idusuario) VALUES(?, ?);", array(
+            $permissao->getidpermissao(),
+            $this->getidusuario()
+        ));
+
+        return true;
+
+    }
+
+    public function removePermissao(Permissao $permissao):bool
+    {
+        
+        $this->execute("DELETE FROM tb_permissoesusuarios WHERE idpermissao = ? AND idusuario = ?;", array(
+            $permissao->getidpermissao(),
+            $this->getidusuario()
+        ));
+
+        return true;
+
+    }
+
     public function getMenus():Menus 
     {
 

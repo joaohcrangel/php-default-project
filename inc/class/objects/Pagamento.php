@@ -46,6 +46,18 @@ class Pagamento extends Model {
         
     }
 
+    public function getRecibos(){
+
+        $recibos = new Pagamentos();
+
+        $recibos->loadFromQuery("CALL sp_recibosfrompagamento_list(?);", array(
+            $this->getidpagamento()
+        ));
+
+        return $recibos;
+
+    }
+
 }
 
 ?>

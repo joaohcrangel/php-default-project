@@ -56,6 +56,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		CREATE TABLE tb_pessoastipos (
 		  idpessoatipo int(11) NOT NULL AUTO_INCREMENT,
 		  despessoatipo varchar(64) NOT NULL,
+		  dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idpessoatipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -74,15 +75,18 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 });
 $app->get("/install-admin/sql/pessoas/triggers", function(){
 	$sql = new Sql();
-	$name = "tg_pessoas_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_pessoas_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_pessoas_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$triggers = array(
+		"tg_pessoas_AFTER_INSERT",
+		"tg_pessoas_AFTER_UPDATE",
+		"tg_pessoas_BEFORE_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
@@ -105,27 +109,38 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 });
 $app->get("/install-admin/sql/pessoas/get", function(){
 	$sql = new Sql();
-	$name = "sp_pessoas_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_pessoasdados_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_pessoasdados_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+
+	$procs = array(
+		"sp_pessoas_get",
+		"sp_pessoasdados_save",
+		"sp_pessoasdados_remove"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/list", function(){
 	$sql = new Sql();
-	$name = "sp_pessoas_list";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	
+
+	$procs = array(
+		"sp_pessoas_list",
+		"sp_pessoastipos_list"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/save", function(){
 	$sql = new Sql();
+
 	$name = "sp_pessoas_save";	
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
@@ -134,6 +149,7 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 });
 $app->get("/install-admin/sql/pessoas/remove", function(){
 	$sql = new Sql();
+
 	$name = "sp_pessoas_remove";	
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
@@ -177,25 +193,21 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 });
 $app->get("/install-admin/sql/produtos/triggers", function(){
 	$sql = new Sql();
-	$name = "tg_produtos_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_produtos_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_produtos_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
 
-	$name = "tg_produtosprecos_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_produtosprecos_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_produtosprecos_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	$triggers = array(
+		"tg_produtos_AFTER_INSERT",
+		"tg_produtos_AFTER_UPDATE",
+		"tg_produtos_BEFORE_DELETE",
+		"tg_produtosprecos_AFTER_INSERT",
+		"tg_produtosprecos_AFTER_UPDATE",
+		"tg_produtosprecos_BEFORE_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/inserts", function(){
@@ -226,69 +238,71 @@ $app->get("/install-admin/sql/produtos/inserts", function(){
 });
 $app->get("/install-admin/sql/produtos/get", function(){
 	$sql = new Sql();
-	$name = "sp_produto_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_produtotipo_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_produtosdados_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_produtosdados_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_produtosprecos_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+
+	$procs = array(
+		"sp_produto_get",
+		"sp_produtotipo_get",
+		"sp_produtosdados_save",
+		"sp_produtosdados_remove",
+		"sp_produtosprecos_get"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/list", function(){
 	$sql = new Sql();
-	$name = "sp_produtos_list";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
-	$name = "sp_produtostipos_list";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_produtos_list",
+		"sp_produtostipos_list",
+		"sp_produtosprecos_list",
+		"sp_carrinhosfromproduto_list",
+		"sp_pagamentosfromproduto_list",
+		"sp_precosfromproduto_list"
+	);
 
-	$name = "sp_produtosprecos_list";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
 	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/save", function(){
 	$sql = new Sql();
-	$name = "sp_produto_save";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
-	$name = "sp_produtotipo_save";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_produto_save",
+		"sp_produtotipo_save",
+		"sp_produtosprecos_save"
+	);
 
-	$name = "sp_produtosprecos_save";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/remove", function(){
 	$sql = new Sql();
-	$name = "sp_produto_remove";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
-	$name = "sp_produtotipo_remove";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_produto_remove",
+		"sp_produtotipo_remove",
+		"sp_produtosprecos_remove"
+	);
 
-	$name = "sp_produtosprecos_remove";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 
@@ -322,15 +336,18 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 });
 $app->get("/install-admin/sql/usuarios/triggers", function(){
 	$sql = new Sql();
-	$name = "tg_usuarios_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_usuarios_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_usuarios_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$triggers = array(
+		"tg_usuarios_AFTER_INSERT",
+		"tg_usuarios_AFTER_UPDATE",
+		"tg_usuarios_BEFORE_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/inserts", function(){
@@ -357,48 +374,59 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 });
 $app->get("/install-admin/sql/usuarios/get", function(){
 	$sql = new Sql();
-	$name = "sp_usuarios_get";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_usuarioslogin_get";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_usuariosfromemail_get";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_usuariosfrommenus_list";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_usuariostipos_get";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$procs = array(
+		"sp_usuarios_get",
+		"sp_usuarioslogin_get",
+		"sp_usuariosfromemail_get",
+		"sp_usuariosfrommenus_list",
+		"sp_usuariostipos_get"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/remove", function(){
 	$sql = new Sql();
-	$name = "sp_usuarios_remove";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_usuariostipos_remove";	
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$procs = array(
+		"sp_usuarios_remove",
+		"sp_usuariostipos_remove"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+	
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/save", function(){
 	$sql = new Sql();
-	$name = "sp_usuarios_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_usuariostipos_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$procs = array(
+		"sp_usuarios_save",
+		"sp_usuariostipos_save"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/list", function(){
 	$sql = new Sql();
+
 	$name = "sp_usuariostipos_list";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/menus/tables", function(){
@@ -492,36 +520,45 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 });
 $app->get("/install-admin/sql/menus/get", function(){
 	$sql = new Sql();
+
 	$name = "sp_menus_get";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
 	$sql = new Sql();
+
 	$name = "sp_menus_list";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
 	$sql = new Sql();
+
 	$name = "sp_menus_remove";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/menus/save", function(){
 	$sql = new Sql();
-	$name = "sp_menusfromusuario_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_menustrigger_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_menus_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$procs = array(
+		"sp_menusfromusuario_list",
+		"sp_menustrigger_save",
+		"sp_menus_save"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/tables", function(){
@@ -567,15 +604,18 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 });
 $app->get("/install-admin/sql/contatos/triggers", function(){
 	$sql = new Sql();
-	$name = "tg_contatos_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_contatos_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_contatos_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$triggers = array(
+		"tg_contatos_AFTER_INSERT",
+		"tg_contatos_AFTER_UPDATE",
+		"tg_contatos_BEFORE_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/inserts", function(){
@@ -629,35 +669,46 @@ $app->get("/install-admin/sql/contatos/get", function(){
 });
 $app->get("/install-admin/sql/contatos/list", function(){
 	$sql = new Sql();
-	$name = "sp_contatosfrompessoa_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_contatostipos_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$procs = array(
+		"sp_contatosfrompessoa_list",
+		"sp_contatostipos_list"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/save", function(){
 	$sql = new Sql();
-	$name = "sp_contatos_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
-	$name = "sp_contatossubtipos_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_contatos_save",
+		"sp_contatossubtipos_save"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/remove", function(){
 	$sql = new Sql();
-	$name = "sp_contatos_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
 
-	$name = "sp_contatossubtipos_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+	$procs = array(
+		"sp_contatos_remove",
+		"sp_contatossubtipos_remove"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 
 	echo success();
 });
@@ -687,15 +738,18 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 });
 $app->get("/install-admin/sql/documentos/triggers", function(){
 	$sql = new Sql();
-	$name = "tg_documentos_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_documentos_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_documentos_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$triggers = array(
+		"tg_documentos_AFTER_INSERT",
+		"tg_documentos_AFTER_UPDATE",
+		"tg_documentos_BEFORE_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/inserts", function(){
@@ -714,33 +768,44 @@ $app->get("/install-admin/sql/documentos/inserts", function(){
 });
 $app->get("/install-admin/sql/documentos/get", function(){
 	$sql = new Sql();
+
 	$name = "sp_documentos_get";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/list", function(){
 	$sql = new Sql();
-	$name = "sp_documentosfrompessoa_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_documentostipos_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
+	$procs = array(
+		"sp_documentosfrompessoa_list",
+		"sp_documentostipos_list"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/save", function(){
 	$sql = new Sql();
+
 	$name = "sp_documentos_save";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/remove", function(){
 	$sql = new Sql();
+
 	$name = "sp_documentos_remove";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/tables", function(){
@@ -776,15 +841,18 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 });
 $app->get("/install-admin/sql/enderecos/triggers", function(){
 	$sql = new Sql();
-	$name = "tg_enderecos_AFTER_INSERT";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_enderecos_AFTER_UPDATE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
-	$name = "tg_enderecos_BEFORE_DELETE";
-	$sql->query("DROP TRIGGER IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+
+	$triggers = array(
+		"tg_enderecos_AFTER_INSERT",
+		"tg_enderecos_AFTER_UPDATE",
+		"tg_enderecos_BEFORE_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/inserts", function(){
@@ -805,30 +873,38 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 });
 $app->get("/install-admin/sql/enderecos/get", function(){
 	$sql = new Sql();
+
 	$name = "sp_enderecos_get";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/list", function(){
 	$sql = new Sql();
+
 	$name = "sp_enderecosfrompessoa_list";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/save", function(){
 	$sql = new Sql();
+
 	$name = "sp_enderecos_save";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/remove", function(){
 	$sql = new Sql();
+
 	$name = "sp_enderecos_remove";
 	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/tables", function(){
@@ -910,23 +986,31 @@ $app->get("/install-admin/sql/permissoes/list", function(){
 });
 $app->get("/install-admin/sql/permissoes/save", function(){
 	$sql = new Sql();
-	$name = "sp_permissoes_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_permissoesmenus_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	
+
+	$procs = array(
+		"sp_permissoes_save",
+		"sp_permissoesmenus_save"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/remove", function(){
 	$sql = new Sql();
-	$name = "sp_permissoes_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	$name = "sp_permissoesmenus_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");	
+
+	$procs = array(
+		"sp_permissoes_remove",
+		"sp_permissoesmenus_remove"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}	
 	
 	echo success();
 });
@@ -1025,14 +1109,17 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_carrinhos_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_carrinhos_list",
+		"sp_carrinhosprodutos_list",
+		"sp_carrinhosfrompessoa_list"
+	);
 
-	$name = "sp_carrinhosprodutos_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
-	
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
 	echo success();
 	
 });
@@ -1041,13 +1128,15 @@ $app->get("/install-admin/sql/carrinhos/get", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_carrinhos_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_carrinhos_get",
+		"sp_carrinhosprodutos_get"
+	);
 
-	$name = "sp_carrinhosprodutos_get";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 	
 	echo success();
 
@@ -1057,13 +1146,15 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_carrinhos_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_carrinhos_save",
+		"sp_carrinhosprodutos_save"
+	);
 
-	$name = "sp_carrinhosprodutos_save";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 	
 	echo success();
 	
@@ -1073,13 +1164,15 @@ $app->get("/install-admin/sql/carrinhos/remove", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_carrinhos_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_carrinhos_remove",
+		"sp_carrinhosprodutos_remove"
+	);
 
-	$name = "sp_carrinhosprodutos_remove";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 	
 	echo success();
 	
@@ -1111,9 +1204,15 @@ $app->get("/install-admin/sql/cartoesdecreditos/list", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_cartoesdecreditos_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_cartoesdecreditos_list",
+		"sp_cartoesfrompessoa_list"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 	
 	echo success();
 	
@@ -1378,7 +1477,9 @@ $app->get("/install-admin/sql/pagamentos/list", function(){
 		'sp_pagamentos_list',
 		'sp_pagamentosprodutos_list',
 		'sp_pagamentosrecibos_list',
-		'sp_pagamentosstatus_list'
+		'sp_pagamentosstatus_list',
+		'sp_pagamentosfrompessoa_list',
+		'sp_recibosfrompagamento_list'
 	);
 
 	foreach ($procs as $name) {
@@ -1477,9 +1578,15 @@ $app->get("/install-admin/sql/sitecontatos/list", function(){
 	
 	$sql = new Sql();
 
-	$name = "sp_sitecontatos_list";
-	$sql->query("DROP PROCEDURE IF EXISTS {$name};");
-	$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	$procs = array(
+		"sp_sitecontatos_list",
+		"sp_sitecontatosfrompessoa_list"
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
 	
 	echo success();
 	

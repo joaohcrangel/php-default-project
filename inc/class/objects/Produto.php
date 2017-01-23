@@ -43,6 +43,42 @@ class Produto extends Model {
         
     }
 
+    public function getCarrinhos(){
+
+        $carrinhos = new Produtos();
+
+        $carrinhos->loadFromQuery("CALL sp_carrinhosfromproduto_list(?);", array(
+            $this->getidproduto()
+        ));
+
+        return $carrinhos;
+
+    }
+
+    public function getPagamentos(){
+
+        $pagamentos = new Produtos();
+
+        $pagamentos->loadFromQuery("CALL sp_pagamentosfromproduto_list(?);", array(
+            $this->getidproduto()
+        ));
+
+        return $pagamentos;
+
+    }
+
+    public function getPrecos(){
+
+        $precos = new Produtos();
+
+        $precos->loadFromQuery("CALL sp_precosfromproduto_list(?);", array(
+            $this->getidproduto()
+        ));
+
+        return $precos;
+
+    }
+
 }
 
 ?>

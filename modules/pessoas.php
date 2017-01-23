@@ -73,4 +73,81 @@ $app->delete("/pessoas/:idpessoa", function($idpessoa){
 
 });
 
+// documentos
+$app->get("/pessoas/:idpessoa/documentos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getDocumentos()->getFields()));
+
+});
+
+// contatos
+$app->get("/pessoas/:idpessoa/contatos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getContatos()->getFields()));
+
+});
+
+// site contatos
+$app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getSiteContatos()->getFields()));
+
+});
+
+// pagamentos
+$app->get("/pessoas/:idpessoa/pagamentos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getPagamentos()->getFields()));
+
+});
+
+// cartoes de credito
+$app->get("/pessoas/:idpessoa/cartoes", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getCartoes()->getFields()));
+
+});
+
+// carrinhos
+$app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getCarrinhos()->getFields()));
+
+});
+
+// enderecos
+$app->get("/pessoas/:idpessoa/enderecos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getEnderecos()->getFields()));
+
+});
+
  ?>

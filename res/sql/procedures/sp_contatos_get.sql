@@ -3,11 +3,8 @@ pidcontato INT
 )
 BEGIN
 
-    SELECT
-    idcontato, idcontatotipo, idpessoa, descontato, dtcadastro
-    
+    SELECT *    
     FROM tb_contatos
-
     WHERE idcontato = pidcontato;
 
 END

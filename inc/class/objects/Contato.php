@@ -1,7 +1,7 @@
 <?php
 class Contato extends Model {
 
-    public $required = array('idcontatotipo', 'idpessoa', 'descontato', 'inprincipal', 'idcontatosubtipo');
+    public $required = array('idpessoa', 'descontato', 'inprincipal', 'idcontatosubtipo');
     protected $pk = "idcontato";
     public function get(){
         $args = func_get_args();
@@ -12,9 +12,8 @@ class Contato extends Model {
     public function save(){
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_contatos_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_contatos_save(?, ?, ?, ?, ?);", array(
                 $this->getidcontato(),
-                $this->getidcontatotipo(),
                 $this->getidcontatosubtipo(),
                 $this->getidpessoa(),
                 $this->getdescontato(),

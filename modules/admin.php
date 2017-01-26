@@ -14,6 +14,12 @@ $app->get("/".DIR_ADMIN, function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/sessionid", function(){
+    
+    echo session_id();
+
+});
+
 $app->get("/".DIR_ADMIN."/", function(){
 
     header('Location: /'.DIR_ADMIN);
@@ -77,12 +83,12 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Menu::resetMenuSession();
 
-    $nextUrl = $_SERVER['HTTP_REFERER'];
+    $nextUrl = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST']."/admin";
     $nextUrlParse = parse_url($nextUrl);
 
     $location = SITE_PATH.'/admin';
 
-    if ($nextUrlParse['host'] === $_SERVER['HTTP_HOST']) {
+    if (isset($nextUrlParse['host']) && $nextUrlParse['host'] === $_SERVER['HTTP_HOST']) {
         $location = $nextUrl;
     }
 

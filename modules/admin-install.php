@@ -588,14 +588,12 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 	$sql->query("
 		CREATE TABLE tb_contatos (
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
-		  idcontatotipo int(11) NOT NULL,
 		  idcontatosubtipo int(11) NOT NULL,
 		  idpessoa int(11) NOT NULL,
 		  descontato varchar(128) NOT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idcontato),
-		  CONSTRAINT FOREIGN KEY FK_contatostipos (idcontatotipo) REFERENCES tb_contatostipos(idcontatotipo),
 		  CONSTRAINT FOREIGN KEY FK_contatossubtipos (idcontatosubtipo) REFERENCES tb_contatossubtipos(idcontatosubtipo),
 		  CONSTRAINT FOREIGN KEY FK_pessoascontatos (idpessoa) REFERENCES tb_pessoas(idpessoa)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";

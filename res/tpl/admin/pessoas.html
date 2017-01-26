@@ -28,6 +28,9 @@ select.form-control-label {
   top: 30px;
   right: 25px;
 }
+#btn-botao{
+  top:-105px;
+}
 </style>
 <div class="page">
   <div class="page-content p-0">
@@ -122,7 +125,7 @@ select.form-control-label {
     </div>
 </script>
 <script id="tpl-pessoasform" type="text/x-handlebars-template">
-<div class="col-sm-12 p-0 ">
+<div class="col-sm-12 p-0 " id="pessoa-form">
   <div class="panel m-b-0 ">
     <div class="panel-heading">
       <div class="card card-inverse card-shadow m-0">
@@ -148,7 +151,7 @@ select.form-control-label {
     <div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235" id="form-editar">
       <div class="panel">
         <div class="panel-body container-fluid">
-          <form autocomplete="off">
+          <form autocomplete="off" id="form-pessoa-editar">
             <div class="form-group form-material" data-plugin="formMaterial">
               <label class="form-control-label " for="despessoa">Nome</label>
               <input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="" value="{{despessoa}}">
@@ -182,11 +185,11 @@ select.form-control-label {
             </a>
             <div class="vertical-align h-100 text-truncate">
               <div class="vertical-align-middle">
-                <div class="font-size-20 m-b-5 text-truncate">{{despessoa}}</div>
+                <div class="font-size-20 p-t-50 text-truncate">{{despessoa}}</div>
                 <div class="font-size-14 text-truncate">{{desusuario}}</div>
               </div>
             </div>
-            <div class="btn-group pull-xs-right" aria-label="Basic example" role="group">
+            <div id="btn-botao"class="btn-group pull-xs-right" aria-label="Basic example" role="group">
                <button id="btn-edit" type="button" class="btn btn-icon btn-primary waves-effect">
                <i class="icon md-edit" aria-hidden="true">
                </i>
@@ -222,37 +225,22 @@ select.form-control-label {
         <h3 class="panel-title"> Linha do Tempo </h3>
         <hr>
       </div>
-      <div class="panel-body overflow-auto" data-auto-height="-135">
-        <div class="list-group  bg-indigo-500 white ">
-          <a class="list-group-item  bg-white" href="javascript:void(0)">
-            <h4 class="list-group-item-heading bg-indigo">No início da semana passada</h4>
-            <i class="icon md-email" aria-hidden="true"></i>
-          </a>
-          <a class="list-group-item  bg-white" href="javascript:void(0)">
-            <h4 class="list-group-item-heading bg-indigo">Mês passado</h4>
-            <i class="icon md-email" aria-hidden="true"></i>
-          </a>
-          <a class="list-group-item  bg-white" href="javascript:void(0)">
-            <h4 class="list-group-item-heading bg-indigo">Mais antigo</h4>
-            <i class="icon md-email" aria-hidden="true"></i>
-          </a>
-          <a class="list-group-item  bg-white" href="javascript:void(0)">
-            <h4 class="list-group-item-heading bg-indigo">No início da semana passada</h4>
-            <i class="icon md-email" aria-hidden="true"></i>
-          </a>
-          <a class="list-group-item  bg-white" href="javascript:void(0)">
-            <h4 class="list-group-item-heading bg-indigo">Mês passado</h4>
-            <i class="icon md-email" aria-hidden="true"></i>
-          </a>
-          <a class="list-group-item  bg-white" href="javascript:void(0)">
-            <h4 class="list-group-item-heading bg-indigo">Mês passado</h4>
-            <i class="icon md-email" aria-hidden="true"></i>
-          </a>
-         
+      <div id="lista-pessoa-linhadotempo"class="panel-body overflow-auto" data-auto-height="-135">
+        <div  class="list-group  bg-indigo-500 white ">
+          
         </div>
       </div>
     </div>
   </div>
+</script>
+  
+<script id="tpl-linhadotempo" type="text/x-handlebars-template">
+  <a class="list-group-item  bg-white" href="javascript:void(0)">
+    <h4 class="list-group-item-heading bg-indigo">{{deshistoricotipo}}</h4>
+    <i class="icon md-email" aria-hidden="true"></i>
+    <p>{{deshistorico}}</p>
+  </a>
+
 </script>
 
 <script>
@@ -264,6 +252,10 @@ init.push(function(){
   var tplListas = Handlebars.compile($("#tpl-listas").html()); 
   var tplListaspessoas = Handlebars.compile($("#tpl-listaspessoas").html());
   var tplContatospessoas = Handlebars.compile($("#tpl-contatospessoas").html());
+  var tplLinhadotempo = Handlebars.compile($("#tpl-linhadotempo").html());
+  var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
+  var tplEmail = Handlebars.compile($("#tpl-email").html());
+  var tplEndereco = Handlebars.compile($("#tpl-endereco").html());
 
   function carregarLista(pesquisa){
 
@@ -305,17 +297,33 @@ init.push(function(){
                   $("#lista-pessoa-contatos").append($contato);  
 
                 });
+
+                rest({
+                  url:PATH+"/pessoas/"+objeto.idpessoa+"/historicos",
+                  success:function(resposta2){
+
+                    $("#lista-pessoa-linhadotempo").html('');
+
+                    $.each(resposta2.data, function(index, linhadotempo){
+
+                      var $linhadotempo = $(tplLinhadotempo(linhadotempo));
+
+                      $("#lista-pessoa-linhadotempo").append($linhadotempo);  
+
+                    });
+                  }
+                });
+
               }
             });
 
             
+
+
+            
             $('#panel-right #btn-edit').on("click", function(){
                
-              var $pessoaForm = $(tplPessoasform(objeto));
-
-              $('#panel-right').html($pessoaForm);
-           
-              initButtonsEvents();
+              abrirPainelEditar(objeto);
 
             });
 
@@ -323,16 +331,70 @@ init.push(function(){
 
           $li.find("button").on('click', function(e){
 
-            var $pessoaForm = $(tplPessoasform(objeto));
+            abrirPainelEditar(objeto);
 
-            $('#panel-right').html($pessoaForm);
-
-            initButtonsEvents();
             e.stopPropagation();
+            
           });
         });
       }
     });
+  }
+
+  function abrirPainelEditar(objeto){
+
+    var $pessoaForm = $(tplPessoasform(objeto));
+
+    $pessoaForm.data("pessoa", objeto);
+
+    $('#panel-right').html($pessoaForm);
+
+    rest({
+      url:PATH+"/pessoas/"+objeto.idpessoa+"/contatos",
+
+      success: function(r){
+
+        var $formControl = '';
+
+        $.each(r.data, function(index,contato){
+
+          switch(contato.idcontatotipo) {
+            case 1://E-mail
+            $formControl = $(tplEmail(contato));
+            $("#form-pessoa-editar .lista-emails").append($formControl);
+            
+            break;
+            case 2://Telefone
+            $formControl = $(tplTelefone(contato));
+            $("#form-pessoa-editar .lista-telefones").append($formControl);
+            break;
+          }
+
+          $formControl.find("select").combobox({
+            url:PATH+"/contatossubtipos?idcontatotipo="+contato.idcontatotipo,
+            valueField:"idcontatosubtipo",
+            displayField:"descontatosubtipo",
+            value:contato.idcontatosubtipo
+          });
+
+          $formControl.find("button.md-close").on("click", function(){
+            var _this = this;
+            rest({
+              url:PATH+"/contatos/"+contato.idcontato,
+                method:"delete",
+                success:function(){
+                $(_this).closest(".form-group").remove();
+              }
+            }); 
+          });
+
+        });
+
+        $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+      }
+    });
+
+    initButtonsEvents();  
   }
 
   carregarLista();
@@ -367,6 +429,8 @@ init.push(function(){
   ////////////////////////////////////////////////////
   function initButtonsEvents(){
 
+      var objeto = $("#pessoa-form").data("pessoa");
+
       $('#btn-remove-form').on("click", function(){
 
         $('#panel-right').html('');
@@ -374,31 +438,54 @@ init.push(function(){
       });
 
       $('#btn-save-form').on("click", function(){
-          console.log("ok");
+        
+        
       });
 
-      var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
+      
       $("#botao-add-telefone").on("click",function(){
+
+        var $btn = $(this);
+
+        $btn.btnload("load");
+
+        rest({
+          url:PATH+"/contatos",
+          data:{
+            idpessoa:objeto.idpessoa,
+            idcontatotipo:2,
+            descontato:"123",
+
+          },
+          method:"POST",
+          success:function(r){
+          
+            var $formControl = $(tplTelefone(r.data));
+
+            $(".lista-telefones").append($formControl);
+
+            $formControl.find("select").combobox({
+              url:PATH+"/contatossubtipos?idcontatotipo=2",
+              valueField:"idcontatosubtipo",
+              displayField:"descontatosubtipo"
+            });
+
+            $formControl.find("button.md-close").on("click", function(){
+              $(this).closest(".form-group").remove();
+            });
+
+            $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+
+            $btn.btnload("unload");
+
+          }
+        });
         
-        var $formControl = $(tplTelefone({}));
-
-        $(".lista-telefones").append($formControl);
-
-        $formControl.find("select").combobox({
-          url:PATH+"/contatossubtipos?idcontatotipo=2",
-          valueField:"idcontatosubtipo",
-          displayField:"descontatosubtipo"
-        });
-
-        $formControl.find("button.md-close").on("click", function(){
-          $(this).closest(".form-group").remove();
-        });
-
-        $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+        
 
       });
       //////////////////////////////////////////////////////////////
-      var tplEmail = Handlebars.compile($("#tpl-email").html());
+      
        $("#botao-add-email").on("click",function(){
 
         var $formControl =$(tplEmail({}));
@@ -419,7 +506,7 @@ init.push(function(){
 
       });
        /////////////////////////////////////////////////////////////
-      var tplEndereco = Handlebars.compile($("#tpl-endereco").html());
+      
       $("#botao-add-endereco").on("click",function(){
         
         var $formControl =$(tplEndereco({}));

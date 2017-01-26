@@ -9,6 +9,18 @@ class PessoasTipos extends Collection {
 
     public function get(){}
 
+     
+    public static function listAll(){
+
+		$pessoatipo = new PessoasTipos();
+
+		$pessoatipo->loadFromQuery("select * from tb_pessoastipos");
+
+    	return $pessoatipo;
+
+    }
+
+
 }
 
 ?>

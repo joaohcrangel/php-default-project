@@ -45,6 +45,10 @@ class Pessoa extends Model {
 
         return new Contatos($this);
     }
+    public function getHistoricos(){
+
+        return new PessoasHistoricos($this);
+    }
 
     
 

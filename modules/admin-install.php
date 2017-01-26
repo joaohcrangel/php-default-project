@@ -78,7 +78,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 	$sql->query("
 		CREATE TABLE tb_historicostipos (
 			idhistoricotipo int(11) NOT NULL AUTO_INCREMENT,
-			deshistorico varchar(32) NOT NULL,
+			deshistoricotipo varchar(32) NOT NULL,
 			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY (idhistoricotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";

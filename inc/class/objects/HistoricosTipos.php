@@ -9,6 +9,8 @@ class HistoricosTipos extends Collection {
 
     public function get(){}
 
+     
+
 }
 
 ?>

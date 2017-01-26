@@ -2,7 +2,7 @@
 
 class HistoricoTipo extends Model {
 
-    public $required = array('deshistorico');
+    public $required = array('deshistoricotipo');
     protected $pk = "idhistoricotipo";
 
     public function get(){
@@ -20,7 +20,7 @@ class HistoricoTipo extends Model {
 
             $this->queryToAttr("CALL sp_historicostipos_save(?, ?);", array(
                 $this->getidhistoricotipo(),
-                $this->getdeshistorico()
+                $this->getdeshistoricotipo()
             ));
 
             return $this->getidhistoricotipo();

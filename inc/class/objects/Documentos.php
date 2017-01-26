@@ -31,6 +31,19 @@ class Documentos extends Collection {
 
     }
 
+    public function getByPessoa(Pessoa $pessoa):Documentos
+    
+    {
+    
+         $this->loadFromQuery("CALL sp_documentosfrompessoa_list(?)",array(
+               $pessoa->getidpessoa()
+               
+        ));
+
+         return $this;
+
+    }
+
 }
 
 ?>

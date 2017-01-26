@@ -5,7 +5,8 @@ class Pessoa extends Model {
     public $required = array('despessoa', 'idpessoatipo');
     protected $pk = "idpessoa";
 
-    public function get(){
+    public function get()
+    {
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
@@ -14,7 +15,8 @@ class Pessoa extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -28,101 +30,71 @@ class Pessoa extends Model {
 
         }else{
 
-            return false;
+            return null;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->execute("CALL sp_pessoas_remove(".$this->getidpessoa().")");
 
         return true;
         
     }
+    public function getContatos():Contatos
+    {
 
-    public function getDocumentos(){
-
-        $documentos = new Pessoas();
-
-        $documentos->loadFromQuery("CALL sp_documentosfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
-
-        return $documentos;
+        return new Contatos($this);
 
     }
 
-    public function getContatos(){
+    public function getHistoricos():PessoasHistoricos
+    {
 
-        $contatos = new Pessoas();
-
-        $contatos->loadFromQuery("CALL sp_contatosfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
-
-        return $contatos;
+        return new PessoasHistoricos($this);
 
     }
 
-    public function getSiteContatos(){
+    public function getDocumentos():Documentos
+    {
 
-        $col = new Pessoas();
-
-        $col->loadFromQuery("CALL sp_sitecontatosfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
-
-        return $col;
+        return new Documentos($this);
 
     }
 
-    public function getPagamentos(){
+    public function getSiteContatos():SiteContatos
+    {
 
-        $pagamentos = new Pessoas();
-
-        $pagamentos->loadFromQuery("CALL sp_pagamentosfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
-
-        return $pagamentos;
+        return new SiteContatos($this);
 
     }
 
-    public function getCartoes(){
+    public function getPagamentos():Pagamentos
+    {
+        return new Pagamentos($this);
+   
 
-        $cartoes = new Pessoas();
+    public function getCartoesCreditos():CartoesCreditos
+    {
 
-        $cartoes->loadFromQuery("CALL sp_cartoesfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
-
-        return $cartoes;
-
-    }
-
-    public function getCarrinhos(){
-
-        $carrinhos = new Pessoas();
-
-        $carrinhos->loadFromQuery("CALL sp_carrinhosfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
-
-        return $carrinhos;
+        return new CartoesCreditos($this);   
 
     }
 
-    public function getEnderecos(){
+    public function getCarrinhos():Carrinhos
+    {
 
-        $enderecos = new Pessoas();
+        return new Carrinhos($this);    
 
-        $enderecos->loadFromQuery("CALL sp_enderecosfrompessoa_list(?);", array(
-            $this->getidpessoa()
-        ));
+    }
 
-        return $enderecos;
+    public function getEnderecos():Enderecos
+    {
+
+        return new Enderecos($this);  
 
     }
 

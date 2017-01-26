@@ -1,0 +1,70 @@
+<div class="page">
+	<div class="page-content">
+		<button id="verde" type="botton" class="btn btn-success">ok</button>
+		
+		<div id="titulo">
+			
+		</div>
+	</div>
+
+</div>
+
+<script id="tpl-titulo" type="text/x-handlebars-template">
+	<h1 style="color:red">{{desnome}}</h1>
+	
+</script>
+
+<script>
+init.push(function(){
+
+	function mostraPessoas(r){
+
+		console.log("mostraPessoas");
+
+		if (r && r.data) {
+			$.each(r.data, function(x, pessoa){
+
+				var html = tplTitulo(pessoa);
+				//console.log(resposta.data[x].desnome);
+				$("#titulo").append(html);
+
+			});
+		}
+
+	}
+
+	function mostraErro(a){
+		console.log("mostraErro");
+		console.log(a.error);
+	}
+
+	var tplTitulo = Handlebars.compile($("#tpl-titulo").html());
+
+	$("#verde").on("click", function(){
+
+		console.log("inicio da função de clique");
+
+		var botao = $(this);
+
+		botao.btnload('load');
+
+		
+		rest({
+			url:PATH+"/pessoas",
+			method:"GET",
+			success:mostraPessoas,
+			failure:mostraErro,
+			complete:function(){
+				botao.btnload('unload');
+			}
+		});
+
+		console.log("final da função de clique");
+
+	});
+
+
+	console.log("1");
+
+});	
+</script>

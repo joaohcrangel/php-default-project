@@ -18,6 +18,19 @@ class Carrinhos extends Collection {
 
     }
 
+    public function getByPessoa(Pessoa $pessoa):Carrinhos
+    
+    {
+    
+         $this->loadFromQuery("CALL sp_carrinhosfrompessoa_list(?)",array(
+               $pessoa->getidpessoa()
+               
+        ));
+
+         return $this;
+
+    }
+
 }
 
 ?>

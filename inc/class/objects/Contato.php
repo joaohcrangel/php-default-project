@@ -3,13 +3,16 @@ class Contato extends Model {
 
     public $required = array('idpessoa', 'descontato', 'inprincipal', 'idcontatosubtipo');
     protected $pk = "idcontato";
+
     public function get(){
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
         $this->queryToAttr("CALL sp_contatos_get(".$args[0].");");
                 
     }
-    public function save(){
+
+    public function save():int
+    {
         if($this->getChanged() && $this->isValid()){
 
             $this->queryToAttr("CALL sp_contatos_save(?, ?, ?, ?, ?);", array(
@@ -22,11 +25,13 @@ class Contato extends Model {
             ));
             return $this->getidcontato();
         }else{
-            return false;
+            return null;
         }
         
     }
-    public function remove(){
+
+    public function remove():bool
+    {
 
         $this->proc("sp_contatos_remove", array(
             $this->getidcontato()
@@ -35,5 +40,6 @@ class Contato extends Model {
         return true;
         
     }
+
 }
 ?>

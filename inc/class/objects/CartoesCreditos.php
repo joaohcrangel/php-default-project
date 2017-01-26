@@ -18,6 +18,19 @@ class CartoesCreditos extends Collection {
 
     }
 
+    public function getByPessoa(Pessoa $pessoa):CartoesCreditos
+    
+    {
+    
+         $this->loadFromQuery("CALL sp_cartoesfrompessoa_list(?)",array(
+               $pessoa->getidpessoa()
+               
+        ));
+
+         return $this;
+
+    }
+
 }
 
 ?>

@@ -18,6 +18,20 @@ class SiteContatos extends Collection {
 
     }
 
+      public function getByPessoa(Pessoa $pessoa):SiteContatos
+      
+    {
+    
+         $this->loadFromQuery("CALL sp_sitecontatosfrompessoa_list(?)",array(
+               $pessoa->getidpessoa()
+               
+        ));
+
+         return $this;
+
+    }
+
+
 }
 
 ?>

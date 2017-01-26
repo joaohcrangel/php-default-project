@@ -18,7 +18,7 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = true;
+	private $utf8 = false;
 	private $sessionLog = true;
 
 	/*********************************************************************************************************/
@@ -269,6 +269,8 @@ class Sql {
 
 		$this->conecta();
 
+		$resource = null;
+
 		if(count($params)){
 
 			$query = str_replace('?','{?}', $query);
@@ -441,7 +443,11 @@ class Sql {
 				array_push($params_new, (($value)?1:0));
 				break;
 				case 'null':
-				array_push($params_new, 'NULL');
+				if ($this->type === Sql::PDO) {
+					array_push($params_new, PDO::PARAM_NULL);
+				} else {
+					array_push($params_new, 'NULL');
+				}
 				break;
 				default:
 				array_push($params_new, "''");

@@ -137,8 +137,8 @@ $app->get("/install-admin/sql/pessoas/get", function(){
 
 	$procs = array(
 		"sp_pessoas_get",
-		"sp_pessoasdados_save",
-		"sp_pessoasdados_remove"
+		"sp_historicostipos_get",
+		"sp_pessoashistoricos_get"
 	);
 
 	foreach ($procs as $name) {
@@ -168,11 +168,23 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-		"sp_pessoas_get",
-		"sp_pessoasdados_save",
+		"sp_pessoasdados_save"
+	);
+
+	foreach ($names as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/pessoas/remove", function(){
+	$sql = new Sql();
+
+	$names = array(
 		"sp_pessoasdados_remove",
-		"sp_historicostipos_get",
-		"sp_pessoashistoricos_get"
+		"sp_pessoas_remove"
 	);
 
 	foreach ($names as $name) {
@@ -238,27 +250,6 @@ $app->get("/install-admin/sql/produtos/triggers", function(){
 });
 $app->get("/install-admin/sql/produtos/inserts", function(){
 	$sql = new Sql();
-	$sql->query("
-		INSERT INTO tb_produtostipos (desprodutotipo) VALUES
-		(?),
-		(?);
-	", array(
-		'Eletrônicos',
-		'Informática'
-	));
-
-	$sql->query("
-		INSERT INTO tb_produtos (desproduto, idprodutotipo) VALUES
-		(?, ?);
-	", array(
-		'Computador', 2
-	));
-	$sql->query("
-		INSERT INTO tb_produtosprecos(idproduto, dtinicio, dttermino, vlpreco) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, '2016-12-12', '2018-12-12', 50
-	));
 
 	echo success();
 });
@@ -340,15 +331,6 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  desusuariotipo varchar(32) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idusuariotipo)
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->query("
-		CREATE TABLE tb_usuariostipos (
-		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desusuariotipo varchar(32) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -1550,11 +1532,11 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'Aura', 12, 1,
 		1, 'Elo', 12, 1,
 		1, 'Boleto', 1, 1,
-		1, 'Débito Online Itaú', 1, 1,
-		1, 'Débito Online Banco do Brasil', 1, 1,
-		1, 'Débito Online Banrisul', 1, 1,
-		1, 'Débito Online Bradesco', 1, 1,
-		1, 'Débito Online HSBC', 1, 1,
+		1, 'Debito Online Itaú', 1, 1,
+		1, 'Debito Online Banco do Brasil', 1, 1,
+		1, 'Debito Online Banrisul', 1, 1,
+		1, 'Debito Online Bradesco', 1, 1,
+		1, 'Debito Online HSBC', 1, 1,
 		1, 'PlenoCard', 3, 1,
 		1, 'PersonalCard', 3, 1,
 		1, 'JCB', 1, 1,

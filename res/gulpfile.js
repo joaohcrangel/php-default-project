@@ -51,6 +51,7 @@ gulp.task('cssmin', function() {
         './theme/material/base/assets/examples/css/dashboard/v1.css',
         './theme/material/global/fonts/material-design/material-design.min.css',
         './theme/material/global/fonts/brand-icons/brand-icons.min.css',
+        './theme/material/global/fonts/web-icons/web-icons.min.css',
         './theme/material/global/fonts/Roboto/Roboto.min.css',
         './theme/material/global/fonts/font-awesome/font-awesome.min.css',
         './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.css',
@@ -219,6 +220,14 @@ gulp.task('html', function() {
         removeOptionalTags: true
     }))
     .pipe(gulp.dest('tpl/install'));
+
+    gulp.src('html/panel/*.html')
+    .pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true,
+        removeOptionalTags: true
+    }))
+    .pipe(gulp.dest('tpl/panel'));
 });
  
 gulp.task('images', function(cb) {

@@ -28,6 +28,63 @@ $app->post("/site-contatos", function(){
 
 });
 
+$app->post("/site-contatos/pessoa", function(){
+
+    $sql = new Sql();
+
+    $data = $sql->proc("sp_sitecontatosbypessoa_get", array(
+        post('desemail')
+    ));
+
+    if(isset($data[0])){
+
+        $site = new SiteContato(array(            
+            'idsitecontato'=>0,
+            'idpessoa'=>$data[0]['idpessoa'],
+            'desmensagem'=>post('desmensagem')
+        ));
+
+        $site->save();
+
+        $pessoa = new Pessoa((int)$data[0]['idpessoa']);
+
+    }else{
+
+        $pessoa = new Pessoa($_POST);
+
+        $pessoa->save();
+
+        $saveArgs = array(
+            array(
+                "idcontatotipo"=>1,
+                "idcontatosubtipo"=>post("idcontatosubtipo1"),
+                "idpessoa"=>$pessoa->getidpessoa(),
+                "descontato"=>post("desemail"),
+                "inprincipal"=>post("inprincipal")
+            ),
+            array(
+                "idcontatotipo"=>2,
+                "idcontatosubtipo"=>post("idcontatosubtipo2"),
+                "idpessoa"=>$pessoa->getidpessoa(),
+                "descontato"=>post("destelefone"),
+                "inprincipal"=>post("inprincipal")
+            )
+        );
+
+        foreach ($saveArgs as $value) {
+            
+            $contato = new Contato($value);
+
+            $contato->save();
+
+        }
+
+    }
+
+    echo success(array("data"=>$pessoa->getFields()));
+
+});
+
 $app->delete("/site-contatos/:idsitecontato", function($idsitecontato){
 
     Permissao::checkSession(Permissao::ADMIN, true);

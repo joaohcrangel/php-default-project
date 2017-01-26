@@ -317,6 +317,36 @@ $app->get("/".DIR_ADMIN."/produtos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/formas-pagamento", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/formas-pagamento");
+
+});
+
+$app->get("/".DIR_ADMIN."/pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/pagamentos");
+
+});
+
+$app->get("/".DIR_ADMIN."/fale-conosco", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/site-contatos");
+
+});
+
 $app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

@@ -1,0 +1,29 @@
+{include="panel-header"}<div id="produto-{$produto.idproduto}"><header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Produto {$produto.desproduto}</h1></header><div class="slidePanel-inner"><form asutocomplete="off" id="form-produto" class="slidePanel-form"><div class="form-group form-material"><input type="hidden" name="idproduto" value="{$produto.idproduto}"><label class="control-label" for="desproduto">Produto</label><input type="text" class="form-control" name="desproduto" value="{$produto.desproduto}"></div><div class="form-group form-material"><label class="control-label" for="idprodutotipo">Tipo do Produto</label><select name="idprodutotipo" class="form-control" id="idprodutotipo" value="{$produto.idprodutotipo}"></select></div><button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button></form></div></div><script>var produto = JSON.parse('{function="json_encode($produto)"}');
+
+$("[name=idprodutotipo]").combobox({
+	url:PATH+"/produtos/tipos",
+	displayField:"desprodutotipo",
+	valueField:"idprodutotipo",
+	value:produto.idprodutotipo
+});
+  
+var form = $("#form-produto");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/produtos",
+  success:function(){
+
+    form.find("button#btn-produto-salvar").btnload("unload");
+    System.success("Produto salvo com sucesso");
+    $("button.slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-produto-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});</script>

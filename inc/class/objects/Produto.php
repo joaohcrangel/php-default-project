@@ -2,7 +2,7 @@
 
 class Produto extends Model {
 
-    public $required = array('desproduto', 'idprodutotipo', 'vlpreco');
+    public $required = array('idproduto', 'desproduto', 'idprodutotipo');
     protected $pk = "idproduto";
 
     public function get(){
@@ -18,11 +18,10 @@ class Produto extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_produto_save(?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_produto_save(?, ?, ?);", array(
                 $this->getidproduto(),
                 $this->getidprodutotipo(),
-                $this->getdesproduto(),
-                $this->getvlpreco()
+                $this->getdesproduto()
             ));
 
             return $this->getidproduto();

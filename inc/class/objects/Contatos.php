@@ -1,5 +1,4 @@
 <?php
-
 class Contatos extends Collection {
 
     protected $class = "Contato";
@@ -9,27 +8,42 @@ class Contatos extends Collection {
 
     public function get(){}
 
-     public static function listAll(){
+     public static function listAll():Pessoas
+     {
 
      	$pessoas = new Pessoas();
 
-    	$pessoass->loadFromQuery("call sp_contatos_list()");
+    	$pessoas->loadFromQuery("call sp_contatos_list()");
 
-    	return $Pessoas;
+    	return $pessoas;
 
     }
     
-    public function getByPessoa(Pessoa $pessoa){
+    public function getByPessoa(Pessoa $pessoa):Contatos
+    {
     
          $this->loadFromQuery("CALL sp_contatosfrompessoa_list(?)",array(
                $pessoa->getidpessoa()
                
-            ));
+        ));
 
          return $this;
 
-     }
+    }
+
+    public static function listFromPessoa(Pessoa $pessoa):Contatos
+    
+    {
+
+    	$contatos = new Contatos();
+
+    	$contatos->loadFromQuery("CALL sp_contatosfrompessoa_list(?)", array(
+    		$pessoa->getidpessoa()
+    	));
+
+    	return $contatos;
+
+    }
 
 }
-
 ?>

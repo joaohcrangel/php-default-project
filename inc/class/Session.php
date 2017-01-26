@@ -70,7 +70,7 @@ class Session extends DefaultObject {
 
 		if ($inCookie === true) {
 
-			setLocalCookie(COOKIE_KEY, sessionid(), time()+(60*60*24*5));
+			setLocalCookie(COOKIE_KEY, session_id(), time()+(60*60*24*5));
 
 		}
 

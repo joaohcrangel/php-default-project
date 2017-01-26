@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $app->get("/".DIR_ADMIN, function(){
 
@@ -298,6 +298,46 @@ $app->get("/".DIR_ADMIN."/sistema/sql-to-class", function(){
     ));
 
     $page->setTpl("/admin/sistema-sql-to-class");
+
+});
+
+$app->get("/".DIR_ADMIN."/produtos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/produtos");
+
+});
+
+$app->get("/".DIR_ADMIN."/formas-pagamento", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/formas-pagamento");
+
+});
+
+$app->get("/".DIR_ADMIN."/pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/pagamentos");
+
+});
+
+$app->get("/".DIR_ADMIN."/fale-conosco", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/site-contatos");
 
 });
 

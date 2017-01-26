@@ -1,0 +1,128 @@
+<div class="page">
+	<div class="page-content">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<div class="panel" id="panel-produtos">
+					<div class="panel-heading">
+						<h3 class="panel-title">Produtos</h3>
+						<div class="panel-actions">
+			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
+			            </div>
+					</div>
+
+					<table class="table table-hover table-striped">
+		              	<thead>
+			                <tr>
+			                  <th>Produto</th>
+			                  <th>&nbsp;</th>
+			                </tr>
+		              	</thead>
+		              	<tbody>
+
+			                
+
+		              	</tbody>
+		            </table>
+			           
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="site-action animation-duration-300">
+      <button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel">
+        <i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
+        <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
+      </button>
+    </div>
+
+</div>
+<script id="tpl-produto-row" type="text/x-handlebars-template">
+<tr data-idproduto="{{idproduto}}">
+	<td>{{desproduto}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
+      	</button>
+	</td>
+</tr>
+</script>
+<script>
+
+init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-produtos"));
+
+	var $tbody = $("#panel-produtos tbody");
+
+	var $tpl = Handlebars.compile($("#tpl-produto-row").html());
+
+	function loadProdutos(){
+
+		$(".refresh").on("click", function(){
+			loadProdutos();
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/produtos/all",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tpl(row));
+
+				});
+
+				panel.done();
+
+				$(".btn-excluir-produto").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idproduto = $btn.closest("tr").data("idproduto");
+
+					System.confirm('Deseja remover o produto?', function(b){
+				      	if (b) {
+
+					        System.load();
+
+					        rest({
+					          url: PATH+"/produtos/"+idproduto,
+					          method:'DELETE',
+					          success: function(r){
+
+					            System.done();
+					            loadProdutos();
+					            System.success("Produto excluído com sucesso");
+
+					          },
+					          failure: function(e){
+					            System.done();
+					            System.showError(e);
+					          }
+					        });
+
+				      	}
+				    });
+
+				});
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+
+	};
+
+	loadProdutos();
+
+});
+
+</script>

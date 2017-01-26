@@ -9,7 +9,6 @@ class PessoasTipos extends Collection {
 
     public function get(){}
 
-     
     public static function listAll(){
 
 		$pessoatipo = new PessoasTipos();
@@ -19,7 +18,6 @@ class PessoasTipos extends Collection {
     	return $pessoatipo;
 
     }
-
 
 }
 

@@ -7,7 +7,10 @@ window.System = {
 (function(document, window, $) {
   'use strict';
   var Site = window.Site;
-  $(document).ready(function() {
+
+  $(document).ready(function($) {
+    
+    //console.warn('Site Run');
     Site.run();
 
     System.getApi = function(plugin, $elements, options){
@@ -329,9 +332,11 @@ window.System = {
 
     };
 
-    System.initAutoHeight = function(){
+    System.initAutoHeight = function($elementParent){
 
-      $('[data-auto-height]').each(function(){
+      if (!$elementParent) $elementParent = $('html');
+
+      $elementParent.find('[data-auto-height]').each(function(){
 
         var $el = $(this);
 

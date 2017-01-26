@@ -9,7 +9,6 @@ class Enderecos extends Collection {
 
     public function get(){}
 
-
      public static function listAll(){
 
      	$enderecos = new Enderecos();
@@ -20,6 +19,18 @@ class Enderecos extends Collection {
 
      }
 
+    public static function listFromPessoa(Pessoa $idpessoa):Enderecos
+    {
+
+    	$enderecos = new Enderecos();
+
+    	$enderecos->loadFromQuery("CALL sp_enderecosfrompessoa_list(?);", array(
+    		(int)$idpessoa
+    	));
+
+    	return $enderecos;
+
+    }
 
 }
 

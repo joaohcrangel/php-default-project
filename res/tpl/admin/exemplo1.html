@@ -1,6 +1,6 @@
 <div class="page">
 	<div class="page-content">
-		<button type="button" class="btn btn-success">ok</button>
+		<button id="verde" type="button" class="btn btn-success">ok</button>
 		<button id="azul" type="button" class="btn btn-primary">Cadastrar</button>
 
         <div id="titulo">
@@ -85,8 +85,11 @@ init.push(function(){
 		       });
 
 			 	$("#titulo .btn-editar").on("click", function(){
-	        		console.log(this);
-	           		console.log("editar");
+	        		rest({
+	        			url:PATH+"/pessoas",
+	        			method:"post",
+	        			success:function
+	        		});
 		    	});
 
 		    	$("#titulo .btn-excluir").on("click", function(){

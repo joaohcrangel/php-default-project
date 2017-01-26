@@ -5,7 +5,8 @@ class Pessoa extends Model {
     public $required = array('despessoa', 'idpessoatipo');
     protected $pk = "idpessoa";
 
-    public function get(){
+    public function get()
+    {
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
@@ -14,7 +15,8 @@ class Pessoa extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -28,29 +30,73 @@ class Pessoa extends Model {
 
         }else{
 
-            return false;
+            return null;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->execute("CALL sp_pessoas_remove(".$this->getidpessoa().")");
 
         return true;
         
     }
-    public function getContatos(){
+    public function getContatos():Contatos
+    {
 
         return new Contatos($this);
+
     }
-    public function getHistoricos(){
+
+    public function getHistoricos():PessoasHistoricos
+    {
 
         return new PessoasHistoricos($this);
+
     }
 
-    
+    public function getDocumentos():Documentos
+    {
+
+        return new Documentos($this);
+
+    }
+
+    public function getSiteContatos():SiteContatos
+    {
+
+        return new SiteContatos($this);
+
+    }
+
+    public function getPagamentos():Pagamentos
+    {
+        return new Pagamentos($this);
+   
+
+    public function getCartoesCreditos():CartoesCreditos
+    {
+
+        return new CartoesCreditos($this);   
+
+    }
+
+    public function getCarrinhos():Carrinhos
+    {
+
+        return new Carrinhos($this);    
+
+    }
+
+    public function getEnderecos():Enderecos
+    {
+
+        return new Enderecos($this);  
+
+    }
 
 }
 

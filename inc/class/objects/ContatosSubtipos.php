@@ -7,6 +7,7 @@ class ContatosSubtipos extends Collection {
     protected $saveArgs = array("idcontatosubtipo", "idcontatotipo", "descontatosubtipo", "idusuario");
     protected $pk = "idcontatosubtipo";
 
+
     public function get(){}
 
     public static function listAll(){

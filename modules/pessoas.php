@@ -1,7 +1,5 @@
 <?php
 
-
-
 $app->get('/pessoas/:idpessoa',function($idpessoa){
    
 	$pessoa = new Pessoa((int)$idpessoa);
@@ -76,7 +74,17 @@ $app->get("/pessoas",function(){
 	));
 });
 
+$app->get("/pessoas/all", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	echo success(array("data"=>Pessoas::listAll()->getFields()));
+
+});
+
 $app->post("/pessoas", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idpessoa') > 0){
 		$pessoa = new Pessoa((int)post('idpessoa'));
@@ -89,6 +97,103 @@ $app->post("/pessoas", function(){
 	$pessoa->save();
 
 	echo success(array("data"=>$pessoa->getFields()));
+
+});
+
+$app->delete("/pessoas/:idpessoa", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	if(!(int)$idpessoa){
+		throw new Exception("Pessoa não informada", 400);		
+	}
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	if(!(int)$pessoa->getidpessoa() > 0){
+		throw new Exception("Pessoa não encontrada", 404);		
+	}
+
+	$pessoa->remove();
+
+	echo success();
+
+});
+
+// documentos
+$app->get("/pessoas/:idpessoa/documentos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getDocumentos()->getFields()));
+
+});
+
+// contatos
+$app->get("/pessoas/:idpessoa/contatos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getContatos()->getFields()));
+
+});
+
+// site contatos
+$app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getSiteContatos()->getFields()));
+
+});
+
+// pagamentos
+$app->get("/pessoas/:idpessoa/pagamentos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getPagamentos()->getFields()));
+
+});
+
+// cartoes de credito
+$app->get("/pessoas/:idpessoa/cartoes", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getCartoes()->getFields()));
+
+});
+
+// carrinhos
+$app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getCarrinhos()->getFields()));
+
+});
+
+// enderecos
+$app->get("/pessoas/:idpessoa/enderecos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getEnderecos()->getFields()));
 
 });
 

@@ -1,46 +1,51 @@
 <?php
-/*
-$app->get('/admin/contatos',function(){
 
-    $contato = Contatos::listAll();
+$app->get("/contatos/tipos", function(){
 
-    echo success(array(
-         'data'=>$contato->getFields()
-        ));
+    Permissao::checkSession(Permissao::ADMIN, true);
 
-});
-*/
-
-
-$app->delete('/contatos/:idcontato', function($idcontato){
-
-	//$contato = new Contato((int)$idcontato);
-
-	$contato = new Contato(array(
-		"idcontato"=>(int)$idcontato
-	));
-
-	$contato->remove();
-
-	echo success();
+    echo success(array("data"=>ContatosTipos::listAll()->getFields()));
 
 });
 
+$app->post("/contatos", function(){
 
-$app->post('/contatos',function(){
+    Permissao::checkSession(Permissao::ADMIN, true);
 
-	$contato = new Contato();
+    if(post('idcontato') > 0){
+        $contato = new Contato((int)post('idcontato'));
+    }else{
+        $contato = new Contato();
+    }
 
-	$contato->setdescontato(post("descontato"));
-    $contato->setidcontatotipo(post("idcontatotipo"));
-	$contato->setidpessoa(post("idpessoa"));
-	$contato->setinprincipal(post("inprincipal"));
+    foreach ($_POST as $key => $value) {
+        $contato->{'set'.$key}($value);
+    }
 
-	$contato->save();
+    $contato->save();
 
-	echo success(array(
-		'data'=>$contato->getFields()
-	));
+    echo success(array("data"=>$contato->getFields()));
 
 });
+
+$app->delete("/contatos/:idcontato", function($idcontato){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idcontato){
+        throw new Exception("Contato não informado", 400);        
+    }
+
+    $contato = new Contato((int)$idcontato);
+
+    if(!(int)$contato->getidcontato() > 0){
+        throw new Exception("Contato não encontrado", 404);        
+    }
+
+    $contato->remove();
+
+    echo success();
+
+});
+
 ?>

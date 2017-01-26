@@ -36,8 +36,8 @@ gulp.task('cssmin', function() {
     gulp.src([
         './theme/material/global/css/bootstrap.min.css',
         './theme/material/global/css/bootstrap-extend.min.css',
-        './vendors/owl-carousel/owl.carousel.css',
         './theme/material/base/assets/css/site.css',
+        './vendors/owl-carousel/owl.carousel.css',
         './theme/material/global/vendor/animsition/animsition.css',
         './theme/material/global/vendor/asscrollable/asScrollable.css',
         './theme/material/global/vendor/switchery/switchery.css',
@@ -51,6 +51,7 @@ gulp.task('cssmin', function() {
         './theme/material/base/assets/examples/css/dashboard/v1.css',
         './theme/material/global/fonts/material-design/material-design.min.css',
         './theme/material/global/fonts/brand-icons/brand-icons.min.css',
+        './theme/material/global/fonts/web-icons/web-icons.min.css',
         './theme/material/global/fonts/Roboto/Roboto.min.css',
         './theme/material/global/fonts/font-awesome/font-awesome.min.css',
         './theme/material/global/vendor/bootstrap-sweetalert/sweetalert.css',
@@ -85,8 +86,7 @@ gulp.task('scripts-admin', function() {
         //Plugins
         './theme/material/global/vendor/babel-external-helpers/babel-external-helpers.js',
         './theme/material/global/vendor/jquery/jquery.js',
-        './theme/assets/vendor/handlebars/handlebars-v4.0.5.js',
-        './theme/material/global/vendor/tether/tether.js',
+        './theme/material/global/vendor/tether/tether.js',                
         './theme/material/global/vendor/bootstrap/bootstrap.js',
         './theme/material/global/vendor/animsition/animsition.js',
         './theme/material/global/vendor/mousewheel/jquery.mousewheel.js',
@@ -97,9 +97,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/switchery/switchery.min.js',
         './theme/material/global/vendor/intro-js/intro.js',
         './theme/material/global/vendor/screenfull/screenfull.js',
-        './theme/material/global/vendor/slidepanel/jquery-slidePanel.js',
-        './theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js',
-        './theme/material/global/vendor/jquery-placeholder/jquery.placeholder.js',
+        './theme/material/global/vendor/slidepanel/jquery-slidePanel.js',        
         './theme/material/global/vendor/chartist/chartist.min.js',
         './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
         './theme/material/global/vendor/jvectormap/jquery-jvectormap.min.js',
@@ -115,7 +113,10 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/nestable/jquery.nestable.js',
         './theme/material/global/vendor/bootstrap-treeview/bootstrap-treeview.min.js',
         './theme/material/global/vendor/jstree/jstree.min.js',
-        //Scripts
+        './theme/assets/vendor/handlebars/handlebars-v4.0.5.js',
+        './theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js',
+        './theme/material/global/vendor/jquery-placeholder/jquery.placeholder.js',
+        // Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',
         './theme/material/global/js/Plugin.js',
@@ -128,23 +129,24 @@ gulp.task('scripts-admin', function() {
         './theme/material/base/assets/js/Plugin/menu.js',
         './theme/material/global/js/config/colors.js',
         './theme/material/base/assets/js/config/tour.js',
-        //Page
+        // Page
         './theme/material/base/assets/js/Site.js',
         './theme/material/global/js/Plugin/asscrollable.js',
+        './theme/material/global/js/Plugin/slidepanel.js',
+        './theme/material/global/js/Plugin/switchery.js',
+        './theme/material/global/js/Plugin/matchheight.js',
+        './theme/material/global/js/Plugin/jvectormap.js',
+        './theme/material/global/js/Plugin/peity.js',
+        '.theme/material/base/assets/examples/js/dashboard/v1.js',
         './theme/material/global/js/Plugin/asselectable.js',
         './theme/material/global/js/Plugin/editlist.js',
         './theme/material/global/js/Plugin/animate-list.js',
         './theme/material/global/js/Plugin/aspaginator.js',
         './theme/material/global/js/Plugin/sticky-header.js',
-        './theme/material/global/js/Plugin/action-btn.js',
-        './theme/material/global/js/Plugin/slidepanel.js',
-        './theme/material/global/js/Plugin/switchery.js',
-        './theme/material/global/js/Plugin/jquery-placeholder.js',
-        './theme/material/global/js/Plugin/matchheight.js',
-        './theme/material/global/js/Plugin/jvectormap.js',
+        './theme/material/global/js/Plugin/action-btn.js',        
+        './theme/material/global/js/Plugin/jquery-placeholder.js',        
         './theme/material/global/js/Plugin/selectable.js',
-        './theme/material/global/js/Plugin/bootbox.js',
-        './theme/material/global/js/Plugin/peity.js',
+        './theme/material/global/js/Plugin/bootbox.js',        
         './theme/material/global/js/Plugin/material.js',
         './theme/material/global/js/Plugin/html5sortable.js',
         './theme/material/global/js/Plugin/nestable.js',
@@ -164,14 +166,12 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.table.js',
         './js/jrangel/jquery.arquivos.js',
         './js/jrangel/jquery.panel.js',
-        './js/aribeiro/selecionar.js',
-
-        './theme/material/base/assets/js/BaseApp.js'
+        './js/aribeiro/selecionar.js'
     ])
         .pipe(jshint())
         .pipe(uglify())
         .pipe(jsmin())
-        .pipe(concat('./../js/libs.js', {newLine: ';'}))
+        .pipe(concat('./../js/libs.js'))
         .pipe(gulp.dest('js'));
 
 });
@@ -185,7 +185,7 @@ gulp.task('scripts', function() {
 		.pipe(uglify())
 		.pipe(jsmin())
 		.pipe(rename({suffix: '.min'}))
-        .pipe(concat('./../js/scripts.js', {newLine: ';'}))
+        .pipe(concat('./../js/scripts.js'))
 		.pipe(gulp.dest('js'));
 
     gulp.src([
@@ -212,6 +212,22 @@ gulp.task('html', function() {
         removeOptionalTags: true
     }))
     .pipe(gulp.dest('tpl/admin'));
+
+    gulp.src('html/install/*.html')
+    .pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true,
+        removeOptionalTags: true
+    }))
+    .pipe(gulp.dest('tpl/install'));
+
+    gulp.src('html/panel/*.html')
+    .pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true,
+        removeOptionalTags: true
+    }))
+    .pipe(gulp.dest('tpl/panel'));
 });
  
 gulp.task('images', function(cb) {

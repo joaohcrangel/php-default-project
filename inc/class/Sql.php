@@ -9,6 +9,7 @@ class Sql {
 
 	const MYSQL = 1;
 	const SQLSERVER = 2;
+	const PDO = 3;
 
 	private $type = DB_TYPE;
 
@@ -17,7 +18,7 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = false;
+	private $utf8 = true;
 	private $sessionLog = true;
 
 	/*********************************************************************************************************/
@@ -46,6 +47,10 @@ class Sql {
 
 				case Sql::SQLSERVER:
 				return $this->conectaSQLServer();
+				break;
+
+				case Sql::PDO:
+				return $this->conectaPDO();
 				break;
 
 			}
@@ -98,6 +103,15 @@ class Sql {
 				return array();
 				break;
 		}
+
+	}
+
+	private function conectaPDO(){
+
+		$this->conn = new PDO('mysql:host='.$this->server.';dbname='.$this->database, $this->username, $this->password);
+    	$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		return $this->conn;
 
 	}
 
@@ -170,6 +184,10 @@ class Sql {
 			return sqlsrv_close($this->conn);
 			break;
 
+			case Sql::PDO:
+			return true;
+			break;
+
 		}
 
 	}
@@ -216,6 +234,12 @@ class Sql {
 		    case Sql::SQLSERVER:
 
 		    throw new Exception("Pendente");
+
+		    break;
+
+		    case Sql::PDO:
+
+		    
 
 		    break;
 
@@ -269,13 +293,24 @@ class Sql {
 				));
 			}
 
+			$resource = null;
+
 			switch($this->type){
 
+				case Sql::PDO:
+
+				if ($multi === false) {
+					$resource = $this->conn->exec($query);
+				} else {
+					$query = str_replace(';;', ';', $query);
+					$resource = $this->conn->exec($query);
+				}
+				break;
+
 				case Sql::MYSQL:
+
 				if($multi === false){
-
 					$resource = mysqli_query($this->conn, $query);
-
 				}else{
 					$query = str_replace(';;', ';', $query);
 					$resource = mysqli_multi_query($this->conn, $query);
@@ -284,6 +319,7 @@ class Sql {
 				break;
 
 				case Sql::SQLSERVER:
+
 				if($multi === false){
 					$resource = sqlsrv_query($this->conn, $query);
 				}else{
@@ -476,6 +512,17 @@ class Sql {
 			}
 			break;
 
+			case SQL::PDO:
+			for ($i=0; $i < $resource->columnCount(); $i++) {
+				$metadata = $resource->getColumnMeta($i);
+				array_push($fields, array(
+					"field"=>$metadata['name'],
+					"type"=>strtoupper($metadata['native_type']),
+					"max_length"=>$metadata['len']
+				));
+			}
+			break;
+
 		}
 
 		return $fields;
@@ -489,6 +536,47 @@ class Sql {
 		$data = array();
 
 		switch($this->type){
+
+			case SQL::PDO:
+			$data = $resource->fetchAll();
+
+			foreach ($data as &$row) {
+				
+				foreach ($row as $key => $value) {
+					if (is_numeric($key)) unset($row[$key]);
+				}
+
+				foreach ($fields as $f) {
+					
+					switch ($f['type']) {
+
+						case 'LONG':
+						case 'INTEGER':
+						$row[$f['field']] = (int)$row[$f['field']];
+						break;
+
+						case 'BIT':
+						$row[$f['field']] = (bool)$row[$f['field']];
+						break;
+
+						case 'TIMESTAMP':
+						$row[$f['field']] = $row[$f['field']];
+						$row['des'.$f['field']] = date("d/m/Y", strtotime($row[$f['field']]));
+						$row['ts'.$f['field']] = strtotime($row[$f['field']]);
+						break;
+
+						case 'VAR_STRING':
+						case 'STRING':
+						$row[$f['field']] = ($this->utf8 === true)?trim(utf8_encode(trim($row[$f['field']]))):trim($row[$f['field']]);
+						break;
+
+					}
+
+				}
+
+			}
+
+			break;
 
 			case SQL::SQLSERVER:
 
@@ -621,7 +709,23 @@ class Sql {
 	*/
 	public function arrays($query, $array = false, $params = array()){
 
-		$data = $this->getArrayRows($this->query($query, $params));
+		switch ($this->type) {
+
+			case Sql::PDO:
+
+				$sth = $this->conn->prepare($query);
+				$sth->execute(str_replace("'", "", $this->trataParams($params)));
+				$data = $this->getArrayRows($sth);
+
+			break;
+
+			default:
+
+				$data = $this->getArrayRows($this->query($query, $params));
+
+			break;
+
+		}
 
 		if(!$array){
 			return $data;
@@ -667,6 +771,14 @@ class Sql {
 				array_push($i, "?");
 			}
 			$query = "EXEC ".$name." ".implode(", ", $i);
+			break;
+
+			case Sql::PDO:
+			$i = array();
+			foreach ($params as $p) {
+				array_push($i, "?");
+			}
+			$query = "CALL ".$name."(".implode(", ", $i).");";
 			break;
 
 		}

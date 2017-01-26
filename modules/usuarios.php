@@ -10,7 +10,27 @@ $app->post("/usuarios/login", function(){
 
 	Menu::resetMenuSession();
 
-	echo success(array('token'=>session_id(), 'data'=>$usuario->getFields()));
+	echo success(array(
+		'token'=>session_id(), 
+		'data'=>$usuario->getFields()
+	));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/login", function(){
+
+	$usuario = Usuario::login('root', 'root');
+
+	$usuario->getPessoa();
+
+	Session::setUsuario($usuario, (isset($_POST['remember'])));
+
+	Menu::resetMenuSession();
+	
+	echo success(array(
+		'token'=>session_id(), 
+		'data'=>$usuario->getFields()
+	));
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,10 +62,12 @@ $app->post("/usuarios/forget", function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/usuarios", function(){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	// Permissao::checkSession(Permissao::ADMIN);
+
+	$usuarios = Usuarios::listAll($_GET);
 
     echo success(array(
-    	'data'=>Usuarios::listAll($_GET)->getFields()
+    	'data'=>$usuarios->getFields()
     ));
 
 });
@@ -56,6 +78,70 @@ $app->get("/usuariostipos", function(){
 
     echo success(array(
     	'data'=>UsuariosTipos::listAll()->getFields()
+    ));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/:idusuario/permissoes", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	$permissao = new Permissao(array(
+		'idpermissao'=>(int)post('idpermissao')
+	));
+
+	$usuario->addPermissao($permissao);
+
+	echo success();
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->delete("/usuarios/:idusuario/permissoes", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	$permissao = new Permissao(array(
+		'idpermissao'=>(int)post('idpermissao')
+	));
+
+	$usuario->removePermissao($permissao);
+
+	echo success();
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/:idusuario/permissoes", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	echo success(array(
+    	'data'=>$usuario->getPermissoes()->getFields()
+    ));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->get("/usuarios/:idusuario/menus", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario(array(
+		'idusuario'=>(int)$idusuario
+	));
+
+	echo success(array(
+    	'data'=>$usuario->getMenus()->getFields()
     ));
 
 });

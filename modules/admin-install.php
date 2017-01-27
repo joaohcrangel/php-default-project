@@ -1074,6 +1074,129 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 	echo success();
 });
 
+$app->get("/install-admin/sql/cupons/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_cuponstipos(
+			idcupomtipo INT NOT NULL AUTO_INCREMENT,
+			descupomtipo VARCHAR(128) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcupomtipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_cupons(
+			idcupom INT NOT NULL AUTO_INCREMENT,
+			idcupomtipo INT NOT NULL,
+			descupom VARCHAR(128) NOT NULL,
+			descodigo VARCHAR(128) NOT NULL,
+			nrqtd INT NOT NULL DEFAULT 1,
+			nrqtdusado INT NOT NULL DEFAULT 0,
+			dtinicio DATETIME NULL,
+			dttermino DATETIME NULL,
+			inremovido BIT(1) NULL,
+			nrdesconto DECIMAL(10,2) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcupom),
+			CONSTRAINT FOREIGN KEY(idcupomtipo) REFERENCES tb_cuponstipos(idcupomtipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/cupons/list", function(){
+
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_cupons_list',
+		'sp_cuponstipos_list'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/cupons/save", function(){
+
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_cupons_save',
+		'sp_cuponstipos_save'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/cupons/get", function(){
+
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_cupons_get',
+		'sp_cuponstipos_get'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/cupons/remove", function(){
+
+	$sql = new Sql();
+
+	$procs = array(
+		'sp_cupons_remove',
+		'sp_cuponstipos_remove'
+	);
+
+	foreach ($procs as $name) {
+		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+	}
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/cupons/inserts", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		INSERT INTO tb_cuponstipos(descupomtipo)
+		VALUES(?), (?);
+	", array(
+		'Valor Fixo',
+		'Porcentagem'
+	));
+
+	echo success();
+
+});
+
 $app->get("/install-admin/sql/carrinhos/tables", function(){
 
 	$sql = new Sql();
@@ -1084,8 +1207,8 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			idpessoa INT NOT NULL,
 			dessession VARCHAR(128) NOT NULL,
 			infechado BIT(1),
-			nrprodutos INT NOT NULL,
-			vltotal DECIMAL(10,2) NOT NULL,
+			nrprodutos INT NULL,
+			vltotal DECIMAL(10,2) NULL,
 			vltotalbruto DECIMAL(10,2),
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idcarrinho),
@@ -1095,14 +1218,34 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 
 	$sql->query("
 		CREATE TABLE tb_carrinhosprodutos(
+			idcarrinhoproduto INT NOT NULL AUTO_INCREMENT,
 			idcarrinho INT NOT NULL,
 			idproduto INT NOT NULL,
-			inremovido BIT(1) NOT NULL,
 			dtremovido DATETIME NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idcarrinho, idproduto),
+			CONSTRAINT PRIMARY KEY (idcarrinhoproduto),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_carrinhosfretes(
+			idcarrinho INT NOT NULL,
+			descep CHAR(8) NOT NULL,
+			vlfrete INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_carrinhoscupons(
+			idcarrinho INT NOT NULL,
+			idcupom INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
+			CONSTRAINT FOREIGN KEY(idcupom) REFERENCES tb_cupons(idcupom)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -1117,7 +1260,9 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 	$procs = array(
 		"sp_carrinhos_list",
 		"sp_carrinhosprodutos_list",
-		"sp_carrinhosfrompessoa_list"
+		"sp_carrinhosfrompessoa_list",
+		'sp_carrinhoscupons_list',
+		'sp_carrinhosfretes_list'
 	);
 
 	foreach ($procs as $name) {
@@ -1135,7 +1280,9 @@ $app->get("/install-admin/sql/carrinhos/get", function(){
 
 	$procs = array(
 		"sp_carrinhos_get",
-		"sp_carrinhosprodutos_get"
+		"sp_carrinhosprodutos_get",
+		'sp_carrinhoscupons_get',
+		'sp_carrinhosfretes_get'
 	);
 
 	foreach ($procs as $name) {
@@ -1153,7 +1300,9 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 
 	$procs = array(
 		"sp_carrinhos_save",
-		"sp_carrinhosprodutos_save"
+		"sp_carrinhosprodutos_save",
+		'sp_carrinhoscupons_save',
+		'sp_carrinhosfretes_save'
 	);
 
 	foreach ($procs as $name) {
@@ -1171,7 +1320,9 @@ $app->get("/install-admin/sql/carrinhos/remove", function(){
 
 	$procs = array(
 		"sp_carrinhos_remove",
-		"sp_carrinhosprodutos_remove"
+		"sp_carrinhosprodutos_remove",
+		'sp_carrinhoscupons_remove',
+		'sp_carrinhosfretes_remove'
 	);
 
 	foreach ($procs as $name) {
@@ -1404,6 +1555,18 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	$sql->query("
+		CREATE TABLE tb_pagamentoshistoricos(
+			idhistorico INT NOT NULL AUTO_INCREMENT,
+			idpagamento INT NOT NULL,
+			idusuario INT NOT NULL,
+			dtcadastro TIMESTAMP NULL,			
+			CONSTRAINT PRIMARY KEY(idhistorico),
+			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento),
+			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	
 	echo success();
 	
@@ -1470,6 +1633,19 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'GRANDCARD', 12, 1,
 		1, 'Sorocred', 12, 1
 	));
+
+	$sql->query("
+		INSERT INTO tb_pagamentosstatus(desstatus)
+		VALUES(?), (?), (?), (?), (?), (?), (?);
+	", array(
+		'Aguardando Pagamento',
+		'Em análise',
+		'Pago',
+		'Disponível',
+		'Em disputa',
+		'Devolvido',
+		'Cancelado'
+	));
 	
 	echo success();
 	
@@ -1486,7 +1662,8 @@ $app->get("/install-admin/sql/pagamentos/list", function(){
 		'sp_pagamentosrecibos_list',
 		'sp_pagamentosstatus_list',
 		'sp_pagamentosfrompessoa_list',
-		'sp_recibosfrompagamento_list'
+		'sp_recibosfrompagamento_list',
+		'sp_pagamentoshistoricos_list'
 	);
 
 	foreach ($procs as $name) {
@@ -1507,7 +1684,8 @@ $app->get("/install-admin/sql/pagamentos/get", function(){
 		'sp_pagamentos_get',
 		'sp_pagamentosprodutos_get',
 		'sp_pagamentosrecibos_get',
-		'sp_pagamentosstatus_get'
+		'sp_pagamentosstatus_get',
+		'sp_pagamentoshistoricos_get'
 	);
 
 	foreach ($procs as $name) {
@@ -1528,7 +1706,8 @@ $app->get("/install-admin/sql/pagamentos/save", function(){
 		'sp_pagamentos_save',
 		'sp_pagamentosprodutos_save',
 		'sp_pagamentosrecibos_save',
-		'sp_pagamentosstatus_save'
+		'sp_pagamentosstatus_save',
+		'sp_pagamentoshistoricos_save'
 	);
 
 	foreach ($procs as $name) {
@@ -1549,7 +1728,8 @@ $app->get("/install-admin/sql/pagamentos/remove", function(){
 		'sp_pagamentos_remove',
 		'sp_pagamentosprodutos_remove',
 		'sp_pagamentosrecibos_remove',
-		'sp_pagamentosstatus_remove'
+		'sp_pagamentosstatus_remove',
+		'sp_pagamentoshistoricos_remove'
 	);
 
 	foreach ($procs as $name) {

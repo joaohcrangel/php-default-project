@@ -372,6 +372,33 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},
 
 		{
+			url:"/sql/cupons/tables",
+			name:"Cupons - Tabelas",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/cupons/get",
+			name:"Cupons - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/cupons/list",
+			name:"Cupons - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/cupons/save",
+			name:"Cupons - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/cupons/remove",
+			name:"Cupons - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},
+
+		{
 			url:"/sql/carrinhos/tables",
 			name:"Carrinhos - Tabelas",
 			status:"",
@@ -588,6 +615,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/lugares/inserts",
 			name:"Lugares - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/cupons/inserts",
+			name:"Cupons - Inserts",
 			status:"",
 			enabled:true
 		}

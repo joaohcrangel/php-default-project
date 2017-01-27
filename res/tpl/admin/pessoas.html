@@ -26,7 +26,52 @@ select.form-control-label {
   position: absolute;
   top: 30px;
   right: 25px;
-}</style><div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-pessoas"><div class="panel-heading"><h3 class="panel-title">Pessoas</h3><div class="panel-actions"><button class="btn btn-success btn-sm waves-effect" id="exampleButtonRandom" type="button"><i class="icon md-plus"></i></button></div><div class="p-x-25"><div class="input-group" id="pesquisar-div"><input type="text" class="form-control" name="" placeholder="Pesquisar..."> <span class="input-group-btn"><button type="button" class="btn btn-primary waves-effect waves- effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul id="pessoas-ul" class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-142"></ul></div></div><div class="col-sm-8 p-0"><div class="row-fluid"><div class="col-sm-12 p-0"><div class="panel m-b-0"><div class="panel-heading"><div class="card card-inverse card-shadow m-0"><div class="card-block p-30"><a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)"><img src="{$path}/res/theme/material/global/portraits/11.jpg" alt=""></a><div class="btn-group pull-xs-right" aria-label="Basic example" role="group"><button type="button" class="btn btn-icon btn-default waves-effect"><i class="icon md-check" aria-hidden="true"></i></button> <button type="button" class="btn btn-icon btn-default waves-effect"><i class="icon md-close" aria-hidden="true"></i></button></div></div></div></div><div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235" id="form-editar"><div class="panel"><div class="panel-body container-fluid"><form autocomplete="off"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" placeholder=""></div><div class="lista-telefones"></div><button id="botao-add-telefone" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Telefone</button><div class="lista-emails m-t-20"></div><button id="botao-add-email" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> E-mail</button><div class="lista-enderecos m-t-20"></div><button id="botao-add-endereco" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Endereço</button></form></div></div></div></div></div></div></div></div></div></div><script id="tpl-pessoa-li" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
+}
+#btn-botao{
+  top:-105px;
+}
+</style>
+<div class="page">
+  <div class="page-content p-0">
+    <div class="row-fluid">
+      <div class="col-sm-4 p-0">
+        <div class="panel m-b-0" id="panel-pessoas">
+          <div class="panel-heading">
+            <h3 class="panel-title">Pessoas</h3>
+            <div class="panel-actions">
+              <button class="btn btn-success btn-sm waves-effect" id="cadastrarpessoas" type="button">
+                <i class="icon md-plus"></i>
+              </button>
+            </div>
+            <div class="p-x-25">
+              <div class="input-group" id="pesquisar-div">
+                <input type="text" class="form-control" name="" placeholder="Pesquisar...">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-primary waves-effect waves- effect">
+                    <i class="icon md-search" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+         
+            <ul id="pessoas-ul" class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-142"> 
+              
+            </ul>
+          
+        </div>
+      </div>
+    <div class="col-sm-8 p-0">
+    <div class="row-fluid" id="panel-right">
+      
+    </div>  
+  </div>
+</div>
+</div>
+</div>
+
+<script id="tpl-pessoa-li" type="text/x-handlebars-template">
+  <li class="list-group-item p-x-25">
     <div class="media">
       <div class="media-left">
         <a class="avatar avatar-online" href="javascript:void(0)">
@@ -41,15 +86,27 @@ select.form-control-label {
         </button>
      </div>
     </div>
-  </li></script><script id="tpl-telefone" type="text/x-handlebars-template"><div class="form-group form-material form-group-relative" data-plugin="formMaterial">                      
+  </li>
+</script>
+
+<script id="tpl-telefone" type="text/x-handlebars-template">
+  <div class="form-group form-material form-group-relative" data-plugin="formMaterial">                      
     <select class="form-control-label" data-idcontatosubtipo="{{idcontatosubtipo}}"></select>
     <input type="text" class="form-control" id="destelefone-{{idcontato}}" name="destelefone" placeholder="" value="{{descontato}}">
     <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
-  </div></script><script id="tpl-email" type="text/x-handlebars-template"><div class="form-group form-material form-group-relative" data-plugin="formMaterial">
+  </div>
+</script>
+
+<script id="tpl-email" type="text/x-handlebars-template">
+  <div class="form-group form-material form-group-relative" data-plugin="formMaterial">
     <select class="form-control-label combo-emails" data-idcontatosubtipo="{{idcontatosubtipo}}"></select>
     <input type="text" class="form-control" id="desemail-{{idcontato}}" name="desemail" placeholder="" value="{{descontato}}">
     <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
-  </div></script><script id="tpl-endereco" type="text/x-handlebars-template"><div class="form-group form-material form-group-relative" data-plugin="formMaterial">
+  </div>
+</script>
+
+<script id="tpl-endereco" type="text/x-handlebars-template"> 
+   <div class="form-group form-material form-group-relative" data-plugin="formMaterial">
       <select class="form-control-label" data-idenderecotipo="{{idenderecotipo}}"></select>
       <input type="text" class="form-control" name="descep" placeholder="Cep" value="{{descep}}">
       <input type="text" class="form-control" name="desendereco" placeholder="Rua" value="{{desendereco}}">
@@ -64,9 +121,140 @@ select.form-control-label {
         <div class="col-sm-6"><input type="text" class="form-control"  name="despais" placeholder="País" value="{{despais}}"></div>
       </div>
       <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
-    </div></script><script>init.push(function(){
+    </div>
+</script>
+<script id="tpl-pessoasform" type="text/x-handlebars-template">
+<div class="col-sm-12 p-0 " id="pessoa-form">
+  <div class="panel m-b-0 ">
+    <div class="panel-heading">
+      <div class="card card-inverse card-shadow m-0">
+        <div class="card-block p-30">
+          <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20"
+            href="javascript:void(0)">
+            <img src="{$path}/res/theme/material/global/portraits/11.jpg" alt="">
+          </a>
+          
+          <div class="btn-group pull-xs-right" aria-label="Basic example" role="group">
+            <button type="button" id="btn-save-form" class="btn btn-icon btn-default waves-effect">
+              <i class="icon md-check" aria-hidden="true">
+              </i>
+            </button>
+            <button type="button" id="btn-remove-form" class="btn btn-icon btn-default waves-effect">
+              <i class="icon md-close" aria-hidden="true">
+              </i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235" id="form-editar">
+      <div class="panel">
+        <div class="panel-body container-fluid">
+          <form autocomplete="off" id="form-pessoa-editar">
+            <div class="form-group form-material" data-plugin="formMaterial">
+              <label class="form-control-label " for="despessoa">Nome</label>
+              <input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="" value="{{despessoa}}">
+            </div>
+            <div class="lista-telefones">
+            </div>
+            <button id="botao-add-telefone"type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Telefone</button>
+            <div class="lista-emails m-t-20">
+            </div>
+            <button id="botao-add-email"type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> E-mail</button>
+            <div class="lista-enderecos m-t-20">
+            </div>
+            <button id="botao-add-endereco" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Endereço</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+
+<script id="tpl-listas" type="text/x-handlebars-template">
+  <div class="col-sm-6 p-0 bg-indigo-500 white">
+    <div class="panel m-b-0 bg-indigo-500 white">
+      <div class="panel-heading">
+        <div class="card card-inverse card-shadow   bg-indigo-500 white">
+          <div class="card-block p-30">
+            <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20"
+              href="javascript:void(0)">
+              <img src="{$path}/res/theme/material/global/portraits/11.jpg" alt="">
+            </a>
+            <div class="vertical-align h-100 text-truncate">
+              <div class="vertical-align-middle">
+                <div class="font-size-20 p-t-50 text-truncate">{{despessoa}}</div>
+                <div class="font-size-14 text-truncate">{{desusuario}}</div>
+              </div>
+            </div>
+            <div id="btn-botao"class="btn-group pull-xs-right" aria-label="Basic example" role="group">
+               <button id="btn-edit" type="button" class="btn btn-icon btn-primary waves-effect">
+               <i class="icon md-edit" aria-hidden="true">
+               </i>
+              </button>
+              <button type="button" class="btn btn-icon btn-primary waves-effect">
+                <i class="icon md-delete" aria-hidden="true">
+                </i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="lista-pessoa-contatos" class="list-group m-b-0 bg-indigo-500 white overflow-auto" data-auto-height="-235">
+
+      </div>
+     </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl-contatospessoas" type="text/x-handlebars-template">
+  <a class="list-group-item  bg-indigo-500 white" href="javascript:void(0)">
+    <h4 class="list-group-item-heading white">{{descontatotipo}} {{descontatosubtipo}}</h4>
+
+    <p class="list-group-item-text">{{descontato}}</p>
+  </a>
+</script>
+
+<script id="tpl-listaspessoas" type="text/x-handlebars-template">
+  <div class="col-sm-6 p-0">
+    <div class="panel m-b-0">
+      <div class="panel-heading">
+        <h3 class="panel-title"> Linha do Tempo </h3>
+        <hr>
+      </div>
+      <div id="lista-pessoa-linhadotempo"class="panel-body overflow-auto" data-auto-height="-135">
+        <div  class="list-group  bg-indigo-500 white ">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+  
+<script id="tpl-linhadotempo" type="text/x-handlebars-template">
+  <a class="list-group-item  bg-white" href="javascript:void(0)">
+    <h4 class="list-group-item-heading bg-indigo">{{deshistoricotipo}}</h4>
+    <i class="icon md-email" aria-hidden="true"></i>
+    <p>{{deshistorico}}</p>
+  </a>
+
+</script>
+
+<script>
+
+init.push(function(){
 
   var tplPessoaLi = Handlebars.compile($("#tpl-pessoa-li").html());
+  var tplPessoasform = Handlebars.compile($("#tpl-pessoasform").html());
+  var tplListas = Handlebars.compile($("#tpl-listas").html()); 
+  var tplListaspessoas = Handlebars.compile($("#tpl-listaspessoas").html());
+  var tplContatospessoas = Handlebars.compile($("#tpl-contatospessoas").html());
+  var tplLinhadotempo = Handlebars.compile($("#tpl-linhadotempo").html());
+  var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
+  var tplEmail = Handlebars.compile($("#tpl-email").html());
+  var tplEndereco = Handlebars.compile($("#tpl-endereco").html());
 
   function carregarLista(pesquisa){
 
@@ -83,14 +271,129 @@ select.form-control-label {
 
         $.each(r.data, function(index, objeto){
 
-          $("#pessoas-ul").append(tplPessoaLi(objeto));
+          var $li = $(tplPessoaLi(objeto));
+
+          $("#pessoas-ul").append($li);
+
+          $li.on("click", function(){
+
+            $('#panel-right').html('');
+
+            $('#panel-right').append(tplListas(objeto));
+            $('#panel-right').append(tplListaspessoas(objeto));
+            
+
+            rest({
+              url:PATH+"/pessoas/"+objeto.idpessoa+"/contatos",
+              success:function(resposta){
+
+                $("#lista-pessoa-contatos").html('');
+
+                $.each(resposta.data, function(index, contato){
+
+                  var $contato = $(tplContatospessoas(contato));
+
+                  $("#lista-pessoa-contatos").append($contato);  
+
+                });
+
+                rest({
+                  url:PATH+"/pessoas/"+objeto.idpessoa+"/historicos",
+                  success:function(resposta2){
+
+                    $("#lista-pessoa-linhadotempo").html('');
+
+                    $.each(resposta2.data, function(index, linhadotempo){
+
+                      var $linhadotempo = $(tplLinhadotempo(linhadotempo));
+
+                      $("#lista-pessoa-linhadotempo").append($linhadotempo);  
+
+                    });
+                  }
+                });
+
+              }
+            });
+
+            
+
+
+            
+            $('#panel-right #btn-edit').on("click", function(){
+               
+              abrirPainelEditar(objeto);
+
+            });
+
+          });
+
+          $li.find("button").on('click', function(e){
+
+            abrirPainelEditar(objeto);
+
+            e.stopPropagation();
+            
+          });
+        });
+      }
+    });
+  }
+
+  function abrirPainelEditar(objeto){
+
+    var $pessoaForm = $(tplPessoasform(objeto));
+
+    $pessoaForm.data("pessoa", objeto);
+
+    $('#panel-right').html($pessoaForm);
+
+    rest({
+      url:PATH+"/pessoas/"+objeto.idpessoa+"/contatos",
+
+      success: function(r){
+
+        var $formControl = '';
+
+        $.each(r.data, function(index,contato){
+
+          switch(contato.idcontatotipo) {
+            case 1://E-mail
+            $formControl = $(tplEmail(contato));
+            $("#form-pessoa-editar .lista-emails").append($formControl);
+            
+            break;
+            case 2://Telefone
+            $formControl = $(tplTelefone(contato));
+            $("#form-pessoa-editar .lista-telefones").append($formControl);
+            break;
+          }
+
+          $formControl.find("select").combobox({
+            url:PATH+"/contatossubtipos?idcontatotipo="+contato.idcontatotipo,
+            valueField:"idcontatosubtipo",
+            displayField:"descontatosubtipo",
+            value:contato.idcontatosubtipo
+          });
+
+          $formControl.find("button.md-close").on("click", function(){
+            var _this = this;
+            rest({
+              url:PATH+"/contatos/"+contato.idcontato,
+                method:"delete",
+                success:function(){
+                $(_this).closest(".form-group").remove();
+              }
+            }); 
+          });
 
         });
 
-
+        $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
       }
     });
 
+    initButtonsEvents();  
   }
 
   carregarLista();
@@ -111,68 +414,119 @@ select.form-control-label {
     }
 
   });
+
+  $("#cadastrarpessoas").on("click",function(){
+
+    var $pessoaForm = $(tplPessoasform({}));
+
+    $('#panel-right').html($pessoaForm);
+
+    initButtonsEvents();
+
+  });
+
   ////////////////////////////////////////////////////
-  var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
-  $("#botao-add-telefone").on("click",function(){
-    
-    var $formControl = $(tplTelefone({}));
+  function initButtonsEvents(){
 
-    $(".lista-telefones").append($formControl);
+      var objeto = $("#pessoa-form").data("pessoa");
 
-    $formControl.find("select").combobox({
-      url:PATH+"/contatossubtipos?idcontatotipo=2",
-      valueField:"idcontatosubtipo",
-      displayField:"descontatosubtipo"
-    });
+      $('#btn-remove-form').on("click", function(){
 
-    $formControl.find("button.md-close").on("click", function(){
-      $(this).closest(".form-group").remove();
-    });
+        $('#panel-right').html('');
 
-    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+      });
 
-  });
-  //////////////////////////////////////////////////////////////
-  var tplEmail = Handlebars.compile($("#tpl-email").html());
-   $("#botao-add-email").on("click",function(){
+      $('#btn-save-form').on("click", function(){
+        
+        
+      });
 
-    var $formControl =$(tplEmail({}));
+      
+      $("#botao-add-telefone").on("click",function(){
 
-    $(".lista-emails").append($formControl);
+        var $btn = $(this);
 
-    $formControl.find("select").combobox({
-      url:PATH+"/contatossubtipos?idcontatotipo=1",
-      valueField:"idcontatosubtipo",
-      displayField:"descontatosubtipo"
-    });
+        $btn.btnload("load");
 
-    $formControl.find("button.md-close").on("click", function(){
-      $(this).closest(".form-group").remove();
-    });
+        rest({
+          url:PATH+"/contatos",
+          data:{
+            idpessoa:objeto.idpessoa,
+            idcontatotipo:2,
+            descontato:"123",
 
-    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+          },
+          method:"POST",
+          success:function(r){
+          
+            var $formControl = $(tplTelefone(r.data));
 
-  });
-   /////////////////////////////////////////////////////////////
-  var tplEndereco = Handlebars.compile($("#tpl-endereco").html());
-  $("#botao-add-endereco").on("click",function(){
-    
-    var $formControl =$(tplEndereco({}));
+            $(".lista-telefones").append($formControl);
 
-    $(".lista-enderecos").append($formControl);
+            $formControl.find("select").combobox({
+              url:PATH+"/contatossubtipos?idcontatotipo=2",
+              valueField:"idcontatosubtipo",
+              displayField:"descontatosubtipo"
+            });
 
-    $formControl.find("select").combobox({
-      url:PATH+"/enderecostipos",
-      valueField:"idenderecotipo",
-      displayField:"desenderecotipo"
-    });
+            $formControl.find("button.md-close").on("click", function(){
+              $(this).closest(".form-group").remove();
+            });
 
-    $formControl.find("button.md-close").on("click", function(){
-      $(this).closest(".form-group").remove();
-    });
+            $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
 
-    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+            $btn.btnload("unload");
 
-  });
+          }
+        });
+        
+        
+
+      });
+      //////////////////////////////////////////////////////////////
+      
+       $("#botao-add-email").on("click",function(){
+
+        var $formControl =$(tplEmail({}));
+
+        $(".lista-emails").append($formControl);
+
+        $formControl.find("select").combobox({
+          url:PATH+"/contatossubtipos?idcontatotipo=1",
+          valueField:"idcontatosubtipo",
+          displayField:"descontatosubtipo"
+        });
+
+        $formControl.find("button.md-close").on("click", function(){
+          $(this).closest(".form-group").remove();
+        });
+
+        $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+
+      });
+       /////////////////////////////////////////////////////////////
+      
+      $("#botao-add-endereco").on("click",function(){
+        
+        var $formControl =$(tplEndereco({}));
+
+        $(".lista-enderecos").append($formControl);
+
+        $formControl.find("select").combobox({
+          url:PATH+"/enderecostipos",
+          valueField:"idenderecotipo",
+          displayField:"desenderecotipo"
+        });
+
+        $formControl.find("button.md-close").on("click", function(){
+          $(this).closest(".form-group").remove();
+        });
+
+        $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
+
+      });
+
+    }
     ///////////////////////////////////////////////////////////////////
-});</script>
+});
+</script>

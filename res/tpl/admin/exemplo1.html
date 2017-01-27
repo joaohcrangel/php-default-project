@@ -1,0 +1,177 @@
+<div class="page">
+	<div class="page-content">
+		<button id="verde" type="button" class="btn btn-success">ok</button>
+		<button id="azul" type="button" class="btn btn-primary">Cadastrar</button>
+
+        <div id="titulo">
+
+	    </div>
+
+	</div>
+    
+</div>
+
+<div class="modal" id="modal-cadastrar">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        <span aria-hidden="true">×</span>
+	      </button>
+	      <h4 class="modal-title">Nova Pessoa</h4>
+	    </div>
+		<form>
+		    <div class="modal-body">
+
+		    	<input type="hidden" name="idpessoa" id="idpessoa">
+
+		    	<div class="form-group form-material" data-plugin="formMaterial">
+		          <label class="form-control-label" for="idpessoatipo">Tipo</label>
+		          <select name="idpessoatipo" id="idpessoatipo" class="form-control"></select>
+		       </div>
+		    	
+		      <div class="form-group form-material" data-plugin="formMaterial">
+		          <label class="form-control-label" for="despessoa">Nome</label>
+		          <input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="Digite o nome">
+		       </div>
+
+		    </div>
+
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Fechar</button>
+		      <button type="submit" id="submeter" class="btn btn-primary">Salvar</button>
+		    </div>
+		</form>
+	  </div>
+	</div>
+</div>
+	
+<script id="tpl-titulo" type="text/x-handlebars-template">
+<div>
+	<h1 style="color:red">{{desnome}}</h1>
+    <p>{{despessoatipo}}</P>
+    <button type="button" class="btn btn-success btn-editar">Editar</button>
+    <button type="button" class="btn btn-danger btn-excluir">Excluir</button>	
+    <button type="button" class="btn btn-primary btn-visualizar">visualizar</button>	
+</div>
+</script>
+
+
+<script>
+init.push(function(){
+
+	// segundo passo
+    var tplTitulo = Handlebars.compile($("#tpl-titulo").html());
+
+    //quarto passo
+    function mostraPessoas(){
+
+    	console.log("mostraPessoas");
+       	
+    	$("#titulo").html(''); // aqui limpa a sugeira da pagina
+
+    	rest({
+    		method:'GET',
+    		url:PATH+"/pessoas",
+    		success:function(r){
+
+			 	$.each(r.data, function(x, pessoa){  // aqui pega todas pessoas q tem no html
+
+		        	var div = $(tplTitulo(pessoa));
+		        	div.data('dados', pessoa);
+		        	$("#titulo").append(div);
+
+		       });
+
+			 	$("#titulo .btn-editar").on("click", function(){
+	        		rest({
+	        			url:PATH+"/pessoas",
+	        			method:"post",
+	        			success:function
+	        		});
+		    	});
+
+		    	$("#titulo .btn-excluir").on("click", function(){
+		    		var botao = $(this);
+		    		var pessoa = $(botao).closest('div').data('dados');
+
+
+		    		rest({
+		                url:PATH+"/pessoas/"+pessoa.idpessoa,
+		                method:"delete",
+		                success:function(){
+		                	$(botao).closest('div').remove();
+		                 },
+		                failure:mostraErro
+
+		    		});
+
+		    	});    	
+
+		    	$("#titulo .btn-visualizar").on("click", function(){
+		    		var pessoa = $(this).closest('div').data('dados');
+		           console.log(pessoa.despessoa);
+		    	});
+
+    		},
+    		failure:function(r){
+    			mostraErro(r);
+    		}
+    	});
+
+    }       
+
+    function mostraErro(a){     // aqui mostra menssagem de erro
+    	System.showError(a);
+    }
+
+
+    $("#submeter").on("click", function(){
+
+    	console.log("inicio da função de clique");
+
+    	var botao = $(this);
+
+    	botao.btnload('load'); // aqui carrega o botão
+
+       // salvar no banco
+    	rest({
+            url:PATH+"/pessoas",
+            method:"POST",
+            data:{
+            	idpessoa:$("#idpessoa").val(),
+            	idpessoatipo:$("select#idpessoatipo").val(),
+            	despessoa:$("#despessoa").val()
+            },
+            success:function(){
+            	mostraPessoas();
+            }, // aqui traz as pessoas q tem no banco
+
+            failure:function(erro){
+            	mostraErro(erro);
+            },  //aqui mostra o erro
+
+            complete:function(){
+            	botao.btnload('unload');  //aqui destrava o botão..
+            }
+    	});
+ 
+   });
+
+    $("#azul").on("click", function(){
+    	
+    	$("#modal-cadastrar").modal("show");
+    	//$("#modal-cadastrar").modal("hide");
+
+    });
+
+     $("select#idpessoatipo").combobox({
+		url:PATH+"/admin/pessoastipos",
+		valueField:"idpessoatipo",
+		displayField:"despessoatipo"
+	});
+
+});	
+
+</script>

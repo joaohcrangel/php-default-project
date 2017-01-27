@@ -7,6 +7,18 @@ class PessoasTipos extends Collection {
     protected $saveArgs = array("idpessoatipo", "despessoatipo");
     protected $pk = "idpessoatipo";
 
+    public function get(){}
+
+    public static function listAll(){
+
+		$pessoatipo = new PessoasTipos();
+
+		$pessoatipo->loadFromQuery("select * from tb_pessoastipos");
+
+    	return $pessoatipo;
+
+    }
+
 }
 
 ?>

@@ -18,6 +18,19 @@ class Pagamentos extends Collection {
 
     }
 
+      public function getByPessoa(Pessoa $pessoa):Pagamentos
+      
+    {
+    
+         $this->loadFromQuery("CALL sp_pagamentosfrompessoa_list(?)",array(
+               $pessoa->getidpessoa()
+               
+        ));
+
+         return $this;
+
+    }
+
 }
 
 ?>

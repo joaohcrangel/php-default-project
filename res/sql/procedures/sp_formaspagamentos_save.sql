@@ -16,7 +16,7 @@ BEGIN
         
 	ELSE
     
-		UPDATE tb_formaspagamento SET
+		UPDATE tb_formaspagamentos SET
 			idgateway = pidgateway,
             desformapagamento = pdesformapagamento,
             nrparcelasmax = pnrparcelasmax,

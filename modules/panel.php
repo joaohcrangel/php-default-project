@@ -55,7 +55,7 @@ $app->get("/panel/pagamento-criar", function(){
 });
 
 // site contatos
-$app->get("/panel/site-contato/:idsitecontato", function($idsitecontato){
+$app->get("/panel/sites-contatos/:idsitecontato", function($idsitecontato){
 
 	$site = new SiteContato((int)$idsitecontato);
 
@@ -67,6 +67,34 @@ $app->get("/panel/site-contato/:idsitecontato", function($idsitecontato){
 	$page->setTpl("panel/site-contato", array(
 		"sitecontato"=>$site->getFields()
 	));
+
+});
+///////////////////////////////////////////////////////////////
+
+// formas de pagamento
+$app->get("/panel/formas-pagamentos/:idformapagamento", function($idformapagamento){
+
+	$forma = new FormaPagamento((int)$idformapagamento);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/forma-pagamento", array(
+		"formapagamento"=>$forma->getFields()
+	));
+
+});
+
+$app->get("/panel/forma-pagamento-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/forma-pagamento-criar");
 
 });
 

@@ -10,7 +10,12 @@
 					<table class="table table-hover table-striped">
 		              	<thead>
 			                <tr>
-			                  <th>Pagamento</th>
+			                  <th>Pessoa</th>
+			                  <th>Forma de Pagamento</th>
+			                  <th>Status</th>
+			                  <th>Session</th>
+			                  <th>Valor</th>
+			                  <th>Número de Parcelas</th>
 			                  <th>&nbsp;</th>
 			                </tr>
 		              	</thead>
@@ -36,7 +41,12 @@
 </div>
 <script id="tpl-pagamento-row" type="text/x-handlebars-template">
 <tr data-idpagamento="{{idpagamento}}">
-	<td>{{despagamento}}</td>
+	<td>{{despessoa}}</td>
+	<td>{{desformapagamento}}</td>
+	<td>{{desstatus}}</td>
+	<td>{{dessession}}</td>
+	<td>{{vltotal}}</td>
+	<td>{{nrparcelas}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pagamentos/{{idpagamento}}" data-toggle="slidePanel">
       	</button>
@@ -74,6 +84,8 @@ init.push(function(){
 					$tbody.append($tpl(row));
 
 				});
+
+				initSlidePanel($tbody);
 
 				panel.done();
 

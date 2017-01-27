@@ -311,6 +311,16 @@ $app->get("/".DIR_ADMIN."/produtos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/produtos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/produtos-tipos");
+
+});
+
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -333,7 +343,7 @@ $app->get("/".DIR_ADMIN."/pagamentos", function(){
 
 $app->get("/".DIR_ADMIN."/fale-conosco", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 

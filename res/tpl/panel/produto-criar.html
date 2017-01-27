@@ -1,7 +1,8 @@
 {include="panel-header"}<header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Criar novo produto</h1></header><div class="slidePanel-inner"><form id="form-produto-save" class="slidePanel-form"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idproduto"><label>Produto</label><input type="text" class="form-control" name="desproduto"></div><div class="form-group form-material"><label>Tipo de Produto</label><select name="idprodutotipo" class="form-control"></select></div><button class="btn btn-block btn-primary" id="btnProdutoSave" type="submit">Salvar Novo Produto</button></div></form></div><script>$("[name=idprodutotipo]").combobox({
 		url:PATH+"/produtos/tipos",
 		displayField:"desprodutotipo",
-		valueField:"idprodutotipo"
+		valueField:"idprodutotipo",
+		cache:false
 	});
 
 	var form = $("#form-produto-save");

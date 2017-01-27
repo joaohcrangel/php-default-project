@@ -9,7 +9,8 @@ class Pessoas extends Collection {
 
     public function get(){}
 
-    public static function listAll(){
+    public static function listAll():Pessoas
+    {
 
     	$pessoas = new Pessoas();
 

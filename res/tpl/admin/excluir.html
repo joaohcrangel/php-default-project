@@ -1,0 +1,76 @@
+<div class="page">
+	<table class="table col-md-3">
+		<thead>
+			<tr>
+				<th>Pessoa</th>
+				<th></th>
+	  
+        	</tr>
+		</thead>
+
+		<tbody id="listar">
+
+			
+
+		</tbody>
+		
+	</table>
+
+</div>
+
+<script id="tpl-listar" type="text/x-handlebars-template">
+	<tr data-idpessoa="{{idpessoa}}">
+		<td>{{despessoa}}</td>
+		<td><button type="button" class="btn btn-danger btn-excluir">Excluir</button></td>
+	</tr>
+
+</script>
+
+
+<script>
+
+	init.push(function(){
+
+		var tplListar = Handlebars.compile($("#tpl-listar").html());
+
+		rest({
+			url:PATH+"/pessoas",
+			method:"GET",
+			success:function(r){
+
+				$("tbody").html('');
+
+				$.each(r.data, function(index, objeto){
+					var tr = $(tplListar(objeto));
+					tr.find("td").data("pessoa", objeto);
+					$("tbody").append(tr);					
+				});
+
+				$("button").on("click", function(){
+					var btn = $(this);
+
+					var idpessoa = btn.closest("tr").data("idpessoa"); 
+
+					rest({
+						url:PATH+"/pessoas/"+idpessoa,
+						method:"DELETE",
+						success:function(){
+
+							console.log("ok");
+						},
+
+						failure:function(r){
+							console.log(r);
+							console.log("erro");
+						}
+
+					});
+				});
+			}
+
+		});
+
+	});
+
+
+</script>

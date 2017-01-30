@@ -428,8 +428,6 @@ init.push(function(){
   ////////////////////////////////////////////////////
   function initButtonsEvents(){
 
-      var objeto = $("#pessoa-form").data("pessoa");
-
       $('#btn-remove-form').on("click", function(){
 
         $('#panel-right').html('');
@@ -444,6 +442,8 @@ init.push(function(){
       
       $("#botao-add-telefone").on("click",function(){
 
+        var objeto = $("#pessoa-form").data("pessoa");
+
         var $btn = $(this);
 
         $btn.btnload("load");
@@ -453,8 +453,9 @@ init.push(function(){
           data:{
             idpessoa:objeto.idpessoa,
             idcontatotipo:2,
-            descontato:"123",
-
+            descontato:123,
+            inprincipal:1,
+            idcontatosubtipo:3
           },
           method:"POST",
           success:function(r){

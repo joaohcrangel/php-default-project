@@ -10,15 +10,15 @@ $app->get('/pessoas/:idpessoa',function($idpessoa){
 
 });
 
-$app->delete('/pessoas/:idpessoa',function($idpessoa){
+// $app->delete('/pessoas/:idpessoa',function($idpessoa){
    
-	$pessoa = new Pessoa((int)$idpessoa);
+// 	$pessoa = new Pessoa((int)$idpessoa);
 
-	$pessoa->remove();
+// 	$pessoa->remove();
 
-	echo success();
+// 	echo success();
 
-});
+// });
 
 $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
      
@@ -48,8 +48,7 @@ $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 
 });
 
-$app->get("/pessoas",function(){
-	
+$app->get("/pessoas",function(){	
 
 	$q = get("q");
 
@@ -66,8 +65,11 @@ $app->get("/pessoas",function(){
 	}
 
 	$pessoas = new Pessoas();
+	// $pessoas->loadFromQuery("
+	// 	select * from tb_pessoasdados ".$where." order by despessoa
+	// ");
 	$pessoas->loadFromQuery("
-		select * from tb_pessoasdados ".$where." order by despessoa
+		select * from tb_pessoas ".$where." order by despessoa
 	");
 	echo success(array(
    		"data"=>$pessoas->getFields()
@@ -84,7 +86,7 @@ $app->get("/pessoas/all", function(){
 
 $app->post("/pessoas", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	//Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idpessoa') > 0){
 		$pessoa = new Pessoa((int)post('idpessoa'));
@@ -102,7 +104,7 @@ $app->post("/pessoas", function(){
 
 $app->delete("/pessoas/:idpessoa", function($idpessoa){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	// Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(!(int)$idpessoa){
 		throw new Exception("Pessoa não informada", 400);		

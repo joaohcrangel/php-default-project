@@ -317,6 +317,16 @@ $app->get("/".DIR_ADMIN."/produtos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/produtos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/produtos-tipos");
+
+});
+
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -344,6 +354,44 @@ $app->get("/".DIR_ADMIN."/fale-conosco", function(){
     $page = new AdminPage();
 
     $page->setTpl("/admin/site-contatos");
+
+});
+
+$app->get("/".DIR_ADMIN."/carrinhos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/carrinhos");
+
+});
+
+$app->get("/".DIR_ADMIN."/cartoes-credito", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/cartoes-credito");
+
+});
+
+$app->get("/".DIR_ADMIN."/cupons", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/cupons");
+
+});
+
+$app->get("/".DIR_ADMIN."/pessoas/teste", function(){
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/pessoas-teste");
 
 });
 

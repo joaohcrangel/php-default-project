@@ -66,7 +66,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 				if(!isset($this->fields->{$field}) || $this->fields->{$field}===NULL){
 
-					if(!$silient) throw new Exception("O campo ".$field." é obrigatório para savar o objeto ".get_class($this).".", 1);
+					if(!$silient) throw new Exception("O campo ".$field." é obrigatório para salvar o objeto ".get_class($this).".", 1);
 
 					$valid = false;
 

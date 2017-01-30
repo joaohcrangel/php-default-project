@@ -1,0 +1,29 @@
+{include="panel-header"}<div id="formapagamento-{$formapagamento.idformapagamento}"><header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Forma de Pagamento {$formapagamento.desformapagamento}</h1></header><div class="slidePanel-inner"><form asutocomplete="off" id="form-forma-pagamento" class="slidePanel-form"><div class="form-group form-material"><input type="hidden" name="idformapagamento" value="{$formapagamento.idformapagamento}"><label class="control-label" for="desformapagamento">Forma de Pagamento</label><input type="text" class="form-control" name="desformapagamento" value="{$formapagamento.desformapagamento}"></div><div class="form-group form-material"><label class="control-label" for="idgateway">Gateway de Pagamento</label><select name="idgateway" class="form-control" id="idgateway" value="{$formapagamento.idgateway}"></select></div><div class="form-group form-material"><label class="control-label" for="nrparcelasmax">Número máximo de parcelas</label><input type="number" class="form-control" name="nrparcelasmax" id="nrparcelasmax" value="{$formapagamento.nrparcelasmax}"></div><button type="submit" class="btn btn-block btn-primary" id="btn-forma-pagamento-salvar">Salvar</button></form></div></div><script>var formapagamento = JSON.parse('{function="json_encode($formapagamento)"}');
+
+$("[name=idgateway]").combobox({
+	url:PATH+"/gateways/all",
+	displayField:"desgateway",
+	valueField:"idgateway",
+	value:formapagamento.idgateway
+});
+  
+var form = $("#form-forma-pagamento");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/formas-pagamentos",
+  success:function(){
+
+    form.find("button#btn-forma-pagamento-salvar").btnload("unload");
+    System.success("Forma de Pagamento salva com sucesso");
+    $("button.slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-forma-pagamento-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});</script>

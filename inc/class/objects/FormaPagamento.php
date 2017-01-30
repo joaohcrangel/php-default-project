@@ -2,7 +2,7 @@
 
 class FormaPagamento extends Model {
 
-    public $required = array('idformapagamento', 'idgateway', 'desformapagamento', 'nrparcelasmax', 'instatus');
+    public $required = array('idformapagamento', 'idgateway', 'desformapagamento', 'nrparcelasmax');
     protected $pk = "idformapagamento";
 
     public function get(){

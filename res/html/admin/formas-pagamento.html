@@ -3,8 +3,12 @@
 		<div class="row-fluid">
 			<div class="col-sm-12">
 				<div class="panel" id="panel-formas">
+					<a class="hidden refresh"></a>
 					<div class="panel-heading">
 						<h3 class="panel-title">Formas de Pagamento</h3>
+						<div class="panel-actions">
+			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
+			            </div>
 					</div>
 
 					<table class="table table-hover table-striped">
@@ -38,7 +42,7 @@
 <tr data-idformapagamento="{{idformapagamento}}">
 	<td>{{desformapagamento}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/formasdepagamento/{{idformapagamento}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/formas-pagamentos/{{idformapagamento}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-forma-pagamento icon wb-trash">
       	</button>
@@ -74,6 +78,8 @@ init.push(function(){
 					$tbody.append($tpl(row));
 
 				});
+
+				initSlidePanel($tbody);
 
 				panel.done();
 

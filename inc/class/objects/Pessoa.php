@@ -75,6 +75,7 @@ class Pessoa extends Model {
     public function getPagamentos():Pagamentos
     {
         return new Pagamentos($this);
+    }
    
 
     public function getCartoesCreditos():CartoesCreditos

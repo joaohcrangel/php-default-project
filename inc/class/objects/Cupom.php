@@ -2,7 +2,7 @@
 
 class Cupom extends Model {
 
-    public $required = array('idcupom', 'idcupomtipo', 'descupom', 'descodigo', 'nrqtd', 'nrqtdusado', 'nrdesconto');
+    public $required = array('idcupom', 'idcupomtipo', 'descupom', 'descodigo', 'nrqtd', 'nrdesconto');
     protected $pk = "idcupom";
 
     public function get(){

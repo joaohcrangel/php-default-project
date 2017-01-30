@@ -2,9 +2,9 @@
 	<div class="page-content">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-produtos">
+				<div class="panel" id="panel-carrinhos">
 					<div class="panel-heading">
-						<h3 class="panel-title">Produtos</h3>
+						<h3 class="panel-title">Carrinhos</h3>
 						<div class="panel-actions">
 			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
 			            </div>
@@ -13,8 +13,10 @@
 					<table class="table table-hover table-striped">
 		              	<thead>
 			                <tr>
-			                  <th>Produto</th>
-			                  <th>Tipo do Produto</th>
+			                  <th>Pessoa</th>
+			                  <th>Sessão</th>
+			                  <th>Número de Produtos</th>
+			                  <th>Valor total</th>
 			                  <th>&nbsp;</th>
 			                </tr>
 		              	</thead>
@@ -38,14 +40,16 @@
     </div>
 
 </div>
-<script id="tpl-produto-row" type="text/x-handlebars-template">
-<tr data-idproduto="{{idproduto}}">
-	<td>{{desproduto}}</td>
-	<td>{{desprodutotipo}}</td>
+<script id="tpl-carrinho-row" type="text/x-handlebars-template">
+<tr data-idcarrinho="{{idcarrinho}}">
+	<td>{{despessoa}}</td>
+	<td>{{dessession}}</td>
+	<td>{{nrprodutos}}</td>
+	<td>{{vltotal}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/carrinhos/{{idcarrinho}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-carrinho icon wb-trash">
       	</button>
 	</td>
 </tr>
@@ -54,22 +58,22 @@
 
 init.push(function(){
 
-	var panel = System.getPanelApi($("#panel-produtos"));
+	var panel = System.getPanelApi($("#panel-carrinhos"));
 
-	var $tbody = $("#panel-produtos tbody");
+	var $tbody = $("#panel-carrinhos tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-produto-row").html());
+	var $tpl = Handlebars.compile($("#tpl-carrinho-row").html());
 
-	function loadProdutos(){
+	function loadCarrinhos(){
 
 		$(".refresh").on("click", function(){
-			loadProdutos();
+			loadCarrinhos();
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/produtos/all",
+			url:PATH+"/carrinhos/all",
 			success:function(r){
 
 				$tbody.html('');
@@ -84,25 +88,25 @@ init.push(function(){
 
 				panel.done();
 
-				$(".btn-excluir-produto").on("click", function(e){
+				$(".btn-excluir-carrinho").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idproduto = $btn.closest("tr").data("idproduto");
+					var idcarrinho = $btn.closest("tr").data("idcarrinho");
 
-					System.confirm('Deseja remover o produto?', function(b){
+					System.confirm('Deseja remover o carrinho?', function(b){
 				      	if (b) {
 
 					        System.load();
 
 					        rest({
-					          url: PATH+"/produtos/"+idproduto,
+					          url: PATH+"/carrinhos/"+idcarrinho,
 					          method:'DELETE',
 					          success: function(r){
 
 					            System.done();
-					            loadProdutos();
-					            System.success("Produto excluído com sucesso");
+					            loadCarrinhos();
+					            System.success("Carrinho excluído com sucesso");
 
 					          },
 					          failure: function(e){
@@ -125,7 +129,7 @@ init.push(function(){
 
 	};
 
-	loadProdutos();
+	loadCarrinhos();
 
 });
 

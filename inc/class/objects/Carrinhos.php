@@ -8,7 +8,8 @@ class Carrinhos extends Collection {
     protected $pk = "idcarrinho";
     public function get(){}
 
-    public static function listAll(){
+    public static function listAll():Carrinhos
+    {
 
     	$carrinhos = new Carrinhos();
 

@@ -17,6 +17,7 @@ init.push(function(){
         sp.$panel.find('.slidePanel-close').on('click', function(){
           sp.hide();
         });
+
       }
     }, PluginSlidepanel.default.getDefaults());
 

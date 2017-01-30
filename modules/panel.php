@@ -97,5 +97,83 @@ $app->get("/panel/forma-pagamento-criar", function(){
 	$page->setTpl("panel/forma-pagamento-criar");
 
 });
+///////////////////////////////////////////////////////////
+
+// cartoes de credito
+$app->get("/panel/cartoes/:idcartao", function($idcartao){
+
+	$cartao = new CartaoCredito((int)$idcartao);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cartao", array(
+		"cartao"=>$cartao->getFields()
+	));
+
+});
+
+$app->get("/panel/cartao-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cartao-criar");
+
+});
+///////////////////////////////////////////////////////////
+
+// cupons
+$app->get("/panel/cupons/:idcupom", function($idcupom){
+
+	$cupom = new Cupom((int)$idcupom);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupom", array(
+		"cupom"=>$cupom->getFields()
+	));
+
+});
+
+$app->get("/panel/cupom-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupom-criar");
+
+});
+////////////////////////////////////////////////////////////////
+
+// pessoas
+$app->get("/panel/pessoas/:idpessoa", function($idpessoa){
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa", array(
+		"pessoa"=>$pessoa->getFields(),
+		"documentos"=>$pessoa->getDocumentos()->getFields(),
+		"contatos"=>$pessoa->getContatos()->getFields(),
+		"sitecontatos"=>$pessoa->getSiteContatos()->getFields(),
+		"cartoes"=>$pessoa->getCartoesCreditos()->getFields(),
+		"carrinhos"=>$pessoa->getCarrinhos()->getFields()
+	));
+
+});
 
 ?>

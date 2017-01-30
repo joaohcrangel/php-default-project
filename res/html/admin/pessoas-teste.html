@@ -1,0 +1,98 @@
+<div class="page">
+	<div class="page-content">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<div class="panel" id="panel-pessoas">
+					<div class="panel-heading">
+						<h3 class="panel-title">pessoas</h3>
+						<div class="panel-actions">
+			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
+			            </div>
+					</div>
+					<div>
+						<table class="table table-hover table-striped">
+			              	<thead>
+				                <tr>
+				                  <th>Pessoa</th>				                  
+				                  <th>&nbsp;</th>
+				                </tr>
+			              	</thead>
+			              	<tbody>
+
+				                
+
+			              	</tbody>
+			            </table>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="site-action">
+		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/pessoa-criar" data-toggle="slidePanel">
+		  <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
+		  <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
+		</button>
+	</div>
+
+</div>
+<script id="tpl-pessoa-row" type="text/x-handlebars-template">
+<tr data-idpessoa="{{idpessoa}}">
+	<td>{{despessoa}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pessoas/{{idpessoa}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pessoa icon wb-trash">
+      	</button>
+	</td>
+</tr>
+</script>
+<script>
+
+init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-pessoas"));
+
+	var $tbody = $("#panel-pessoas tbody");
+
+	var $tpl = Handlebars.compile($("#tpl-pessoa-row").html());
+
+	function loadpessoas(){
+
+		$(".refresh").on("click", function(){
+			loadpessoas();
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/pessoas",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tpl(row));
+
+				});
+
+				initSlidePanel($tbody);
+
+				panel.done();
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+
+	};
+
+	loadpessoas();
+
+});
+
+</script>

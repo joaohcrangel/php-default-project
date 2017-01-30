@@ -4,37 +4,294 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$pessoa.despessoa}</h5></h4>
   </div>  
 </header>
-<div class="slidePanel-inner p-0" ng-controller="profile">
-  <section class="slidePanel-inner-section p-0">
-    <div class="card card-inverse m-b-0" id="profile-header">
+<div class="slidePanel-inner p-0">
+  <section class="slidePanel-inner-section p-0 m-t-40">
+    <div class="card card-inverse m-b-0">
       
     </div>
-    <div class="panel">
-      <div class="panel-body p-t-0">
-        <form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="despessoa">Nome</label>
-            <input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="Digite o seu nome">
+    <div class="panel nav-tabs-horizontal" data-plugin="tabs">
+      <div class="panel-heading p-30 p-b-0 p-t-10">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#pessoaTab" aria-controls="pessoaTab" role="tab" aria-expanded="true">Pessoa</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#siteContatosTab" aria-controls="siteContatosTab" role="tab" aria-expanded="false">Fale conosco</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#cartoesTab" aria-controls="cartoesTab" role="tab" aria-expanded="false">Cartões de Crédito</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#carrinhosTab" aria-controls="carrinhosTab" role="tab" aria-expanded="false">Carrinhos</a></li>
+          <!-- <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#contatosTab" aria-controls="contatosTab" role="tab" aria-expanded="true">Contatos</a></li> -->
+        </ul>
+      </div>
+      <div class="panel-body p-t-20">
+        <div class="tab-content">
+          <div class="tab-pane active" id="pessoaTab" role="tabpanel" aria-expanded="true">
+            <form id="pessoa-form"><div class="form-group form-material" data-plugin="formMaterial">
+                <label class="form-control-label" for="despessoa">Nome</label>
+                <input type="text" class="form-control" id="despessoa" name="despessoa" value="{$pessoa.despessoa}">
+              </div>
+              <div class="form-group form-material" data-plugin="formMaterial">
+                <label class="form-control-label" for="desusuario">Usuário</label>
+                <input type="text" class="form-control" id="desusuario" name="desusuario" value="{$pessoa.desusuario}">
+              </div>
+              <div class="form-group form-material" data-plugin="formMaterial">
+                <label class="form-control-label"><h4>Contatos</h4></label>
+                <select class="form-control" name="idcontatotipo"></select>
+                <select class="form-control" name="idcontatosubtipo"></select>
+                <input type="text" class="form-control" id="descontato" name="descontato">
+              </div>
+              <div class="form-group form-material" data-plugin="formMaterial">
+                <label class="form-control-label"><h4>Documentos</h4></label>
+                <select class="form-control" name="iddocumentotipo"></select>
+                <input type="text" class="form-control" id="desdocumento" name="desdocumento">
+              </div>
+              <div class="form-group form-material">
+                <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+              </div>
+            </form>
+          </div>          
+          <div class="tab-pane panel panel-site-contatos" id="siteContatosTab" role="tabpanel" aria-expanded="false">
+            <div class="panel-actions">
+              <a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a>
+            </div>
+            <table class="table-site-contatos table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Mensagem</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
           </div>
-          <div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="desusuario">Usuário</label>
-            <input type="text" class="form-control" id="desusuario" name="desusuario" placeholder="Digite o seu usuário">
+          <div class="tab-pane panel panel-cartoes" id="cartoesTab" role="tabpanel" aria-expanded="false">
+            <div class="panel-actions">
+              <a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a>
+            </div>
+            <table class="table-contatos table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Nome do titular</th>
+                  <th>Data de Validade</th>
+                  <th>Número</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
           </div>
-          <div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="idusuariotipo">Tipo</label>
-            <select class="form-control" id="idusuariotipo" name="idusuariotipo"></select>
+          <div class="tab-pane panel panel-carrinhos" id="carrinhosTab" role="tabpanel" aria-expanded="false">
+            <div class="panel-actions">
+              <a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a>
+            </div>
+            <table class="table-contatos table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Número de Produtos</th>
+                  <th>Valor Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
           </div>
-          <div class="form-group form-material" data-plugin="formMaterial">
-            <input type="checkbox" class="icheckbox-primary" id="inbloqueado" name="inbloqueado" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" />
-            <label for="inbloqueado">Bloqueado</label>
+          <!-- <div class="tab-pane active" id="contatosTab" role="tabpanel" aria-expanded="true">
+            <h4>Incurrunt latinam</h4>
+            Incurrunt latinam, faciendi dedecora evertitur delicatissimi, afficit noctesque
+            detracta illustriora epicurum contenta rogatiuncula dolores perspecta
+            indocti, eveniunt confirmatur tractat consuevit durissimis iuvaret
+            coercendi familiarem. Dolere prima fortunae intellegamus vix
+            porro huic errorem molestum, graecos deinde effugiendorum aliter
+            appetendum afferrent eosdem.
           </div>
-          <div class="form-group form-material">
-            <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
-          </div>
-        </form>
+          <div class="tab-pane active" id="contatosTab" role="tabpanel" aria-expanded="true">
+            <h4>Incurrunt latinam</h4>
+            Incurrunt latinam, faciendi dedecora evertitur delicatissimi, afficit noctesque
+            detracta illustriora epicurum contenta rogatiuncula dolores perspecta
+            indocti, eveniunt confirmatur tractat consuevit durissimis iuvaret
+            coercendi familiarem. Dolere prima fortunae intellegamus vix
+            porro huic errorem molestum, graecos deinde effugiendorum aliter
+            appetendum afferrent eosdem.
+          </div> -->
+        </div>
       </div>
     </div>
   </section>
 </div>
+
+<script id="tpl-cartao-pessoa" type="text/x-handlebars-template">
+  
+  <tr data-idcartao="{{idcartao}}">
+    <td>{{desnome}}</td>
+    <td>{{dtvalidade}}</td>
+    <td>{{desnumero}}</td>
+  </tr>
+
+</script>
+
+<script id="tpl-site-contato-pessoa" type="text/x-handlebars-template">
+  
+  <tr data-idsitecontato="{{idsitecontato}}">
+    <td>{{desmensagem}}</td>
+    <td>{{desdtcadastro}}</td>
+  </tr>
+
+</script>
+
+<script id="tpl-carrinho-pessoa" type="text/x-handlebars-template">
+  
+  <tr data-idcarrinho="{{idcarrinho}}">
+    <td>{{nrprodutos}}</td>
+    <td>{{vltotal}}</td>
+  </tr>
+
+</script>
+
+<script>
+  
+(function(){
+
+    var pessoa = JSON.parse('{function="json_encode($pessoa)"}');
+
+    console.log(pessoa);
+
+    var isSiteLogged = false;
+    var isCartaoLogged = false;
+    var isCarrinhoLogged = false;
+
+    $(".tab-pane .refresh").css({
+      "position":"initial",
+      "float":"right"
+    });
+
+    $("a.nav-link[href='#cartoesTab']").on("shown.bs.tab", function(){
+      loadCartoes();
+    });
+
+    $("a.nav-link[href='#siteContatosTab']").on("shown.bs.tab", function(){
+      loadSites();
+    });
+
+    $("a.nav-link[href='#carrinhosTab']").on("shown.bs.tab", function(){
+      loadCarrinhos();
+    });
+
+    function loadCartoes(json){
+
+      if(isCartaoLogged === false){
+
+        $("#cartoesTab .refresh").on("click", function(){
+
+          isCartaoLogged = false;
+
+          rest({
+            url:PATH+"/pessoas/"+pessoa.idpessoa+"/cartoes",
+            success:function(r){
+              loadCartoes(r);
+            },
+            failure:function(r){
+              console.error(r);
+            }
+          });
+
+        });
+
+        var $panelCartoes = System.getPanelApi($(".panel-cartoes"));
+
+        var $tbody = $("#cartoesTab tbody")
+
+        $tbody.html('');
+
+        var $tplCartoes = Handlebars.compile($("#tpl-cartao-pessoa").html());    
+
+        $panelCartoes.load();
+
+        if(!json){
+          var r = pessoa.Cartoes;
+        }else{
+          var r = json.data;
+        }
+
+        $.each(r, function(index, row){
+          $tbody.append($tplCartoes(row));
+        });        
+
+        $panelCartoes.load();
+        $panelCartoes.done();
+
+        isCartaoLogged = true;
+
+      }
+
+    }
+
+    function loadSites(json){
+
+      if(isSiteLogged === false){
+
+        var $tbody = $("#siteContatosTab tbody")
+
+        $tbody.html('');
+
+        $tplSites = Handlebars.compile($("#tpl-site-contato-pessoa").html());
+
+        $panelSite = System.getPanelApi($(".panel-site-contatos"));
+
+        $panelSite.load();
+
+        if(!json){
+          var r = pessoa.SiteContatos;
+        }else{
+          var r = json.data;
+        }
+
+        $.each(r, function(index, row){
+          $tbody.append($tplSites(row));
+        });
+
+        $panelSite.done();
+
+        isSiteLogged = true;
+
+      }
+
+    }
+
+    function loadCarrinhos(json){
+
+      if(isCarrinhoLogged === false){
+
+        var $tbody = $("#carrinhosTab tbody");
+
+        $tbody.html('');
+
+        var $tplCarrinhos = Handlebars.compile($("#tpl-carrinho-pessoa").html());
+
+        $panelCarrinhos = System.getPanelApi($(".panel-carrinhos"));
+
+        $panelCarrinhos.load();
+
+        if(!json){
+          var r = pessoa.Carrinhos;
+        }else{
+          var r = json.data;
+        }
+
+        $.each(r, function(index, row){
+          $tbody.append($tplCarrinhos(row));
+        });
+
+        $panelCarrinhos.done();
+
+        isCarrinhoLogged = true;
+
+      }
+
+    }
+
+})();
+
+</script>

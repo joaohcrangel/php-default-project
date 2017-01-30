@@ -165,13 +165,20 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 		"footer"=>false
 	));
 
+	$documentos = $pessoa->getDocumentos()->getFields();
+	$contatos = $pessoa->getContatos()->getFields();
+	$sitecontatos = $pessoa->getSiteContatos()->getFields();
+	$cartoes = $pessoa->getCartoesCreditos()->getFields();
+	$carrinhos = $pessoa->getCarrinhos()->getFields();
+
+	$pessoa->setDocumentos($documentos);
+	$pessoa->setContatos($contatos);
+	$pessoa->setSiteContatos($sitecontatos);
+	$pessoa->setCartoes($cartoes);
+	$pessoa->setCarrinhos($carrinhos);
+
 	$page->setTpl("panel/pessoa", array(
-		"pessoa"=>$pessoa->getFields(),
-		"documentos"=>$pessoa->getDocumentos()->getFields(),
-		"contatos"=>$pessoa->getContatos()->getFields(),
-		"sitecontatos"=>$pessoa->getSiteContatos()->getFields(),
-		"cartoes"=>$pessoa->getCartoesCreditos()->getFields(),
-		"carrinhos"=>$pessoa->getCarrinhos()->getFields()
+		"pessoa"=>$pessoa->getFields()
 	));
 
 });

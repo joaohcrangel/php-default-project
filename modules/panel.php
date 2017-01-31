@@ -165,17 +165,21 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 		"footer"=>false
 	));
 
-	$documentos = $pessoa->getDocumentos()->getFields();
-	$contatos = $pessoa->getContatos()->getFields();
-	$sitecontatos = $pessoa->getSiteContatos()->getFields();
-	$cartoes = $pessoa->getCartoesCreditos()->getFields();
-	$carrinhos = $pessoa->getCarrinhos()->getFields();
+	$contatos = $pessoa->getContatos();
+
+	$telefones = $contatos->filterBy(array(
+		"idcontatotipo"=>Contato::TELEFONE
+	), true); // filtrando os contatos que são telefones
+
+	$emails = $contatos->filterBy(array(
+		"idcontatotipo"=>Contato::EMAIL
+	), true); // filtrando os contatos que são emails
+
+	$documentos = $pessoa->getDocumentos();
 
 	$pessoa->setDocumentos($documentos);
-	$pessoa->setContatos($contatos);
-	$pessoa->setSiteContatos($sitecontatos);
-	$pessoa->setCartoes($cartoes);
-	$pessoa->setCarrinhos($carrinhos);
+	$pessoa->setTelefones($telefones);
+	$pessoa->setEmails($emails);
 
 	$page->setTpl("panel/pessoa", array(
 		"pessoa"=>$pessoa->getFields()

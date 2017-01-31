@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$pessoa.despessoa}</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0 m-t-40"><div class="card card-inverse m-b-0"></div><div class="panel nav-tabs-horizontal" data-plugin="tabs"><div class="panel-heading p-30 p-b-0 p-t-10"><ul class="nav nav-pills" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#pessoaTab" aria-controls="pessoaTab" role="tab" aria-expanded="true">Pessoa</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#siteContatosTab" aria-controls="siteContatosTab" role="tab" aria-expanded="false">Fale conosco</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#cartoesTab" aria-controls="cartoesTab" role="tab" aria-expanded="false">Cartões de Crédito</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#carrinhosTab" aria-controls="carrinhosTab" role="tab" aria-expanded="false">Carrinhos</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="pessoaTab" role="tabpanel" aria-expanded="true"><form id="pessoa-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" value="{$pessoa.despessoa}"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idpessoatipo">Tipo da Pessoa</label><select class="form-control" name="idpessoatipo" id="idpessoatipo" value="{$pessoa.idpessoatipo}"></select></div><label class="form-control-label"><h4>Telefones</h4></label><div id="panel-telefones"></div><label class="form-control-label"><h5>Adicionar novo telefone</h5></label><div class="row telefone-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><select name="idcontatosubtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6"><div class="input-group p-b-20"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Telefone"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><label class="form-control-label"><h4>Emails</h4></label><div class="panel" id="panel-emails"></div><label class="form-control-label"><h5>Adicionar novo email</h5></label><div class="row email-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><select name="idcontatosubtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6"><div class="input-group p-b-20"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Email"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><label class="form-control-label"><h4>Documentos</h4></label><div class="panel" id="panel-documentos"></div><label class="form-control-label"><h5>Adicionar novo documento</h5></label><div class="row documento-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><select name="iddocumentotipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6"><div class="input-group p-b-20"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Documento"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect btn-salvar-pessoa">Salvar</button></div></form></div><div class="tab-pane panel panel-site-contatos" id="siteContatosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a></div><table class="table-site-contatos table table-hover table-striped"><thead><tr><th>Mensagem<th>Data<tbody></table></div><div class="tab-pane panel panel-cartoes" id="cartoesTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a></div><table class="table-contatos table table-hover table-striped"><thead><tr><th>Nome do titular<th>Data de Validade<th>Número<tbody></table></div><div class="tab-pane panel panel-carrinhos" id="carrinhosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a></div><table class="table-contatos table table-hover table-striped"><thead><tr><th>Número de Produtos<th>Valor Total<tbody></table></div></div></div></div></section></div><script id="tpl-telefone-pessoa" type="text/x-handlebars-template"><div class="row">    
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$pessoa.despessoa}</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0 m-t-40"><div class="card card-inverse m-b-0"></div><div class="panel nav-tabs-horizontal" data-plugin="tabs"><div class="panel-heading p-30 p-b-0 p-t-10"><ul class="nav nav-pills" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#pessoaTab" aria-controls="pessoaTab" role="tab" aria-expanded="true">Pessoa</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#siteContatosTab" aria-controls="siteContatosTab" role="tab" aria-expanded="false">Fale conosco</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#cartoesTab" aria-controls="cartoesTab" role="tab" aria-expanded="false">Cartões de Crédito</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#carrinhosTab" aria-controls="carrinhosTab" role="tab" aria-expanded="false">Carrinhos</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="pessoaTab" role="tabpanel" aria-expanded="true"><form id="pessoa-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" value="{$pessoa.despessoa}"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idpessoatipo">Tipo da Pessoa</label><select class="form-control" name="idpessoatipo" id="idpessoatipo" value="{$pessoa.idpessoatipo}"></select></div><label class="form-control-label"><h4>Telefones</h4></label><div id="panel-telefones"></div><label class="form-control-label"><h5>Adicionar novo telefone</h5></label><div class="row telefone-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><select name="idcontatosubtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6"><div class="input-group p-b-20"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Telefone"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><label class="form-control-label"><h4>Emails</h4></label><div class="panel" id="panel-emails"></div><label class="form-control-label"><h5>Adicionar novo email</h5></label><div class="row email-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><select name="idcontatosubtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6"><div class="input-group p-b-20"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Email"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><label class="form-control-label"><h4>Documentos</h4></label><div class="panel" id="panel-documentos"></div><label class="form-control-label"><h5>Adicionar novo documento</h5></label><div class="row documento-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><select name="iddocumentotipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6"><div class="input-group p-b-20"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Documento"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect btn-salvar-pessoa">Salvar</button></div></form></div><div class="tab-pane panel panel-site-contatos" id="siteContatosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a></div><table class="table-site-contatos table table-hover table-striped"><thead><tr><th>Mensagem<th>Data<tbody></table></div><div class="tab-pane panel panel-cartoes" id="cartoesTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a> <a class="panel-action icon md-plus cartao-add btn btn-pure btn-success" title="Adicionar novo cartão" aria-hidden="true"></a></div><table class="table-contatos table table-hover table-striped"><thead><tr><th>Nome do titular<th>Data de Validade<th>Número<th>&nbsp;<tbody></table></div><div class="tab-pane panel panel-carrinhos" id="carrinhosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"></a></div><table class="table-contatos table table-hover table-striped"><thead><tr><th>Número de Produtos<th>Valor Total<tbody></table></div></div></div></div></section></div><div class="modal fade" id="modalCartao" tabindex="-1" role="dialog" aria-labelledby="modalCartaoLabel" data-backdrop="false"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Modal title</h4></div><div class="modal-body">...</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save changes</button></div></div></div></div><script id="tpl-telefone-pessoa" type="text/x-handlebars-template"><div class="row">    
     <div class="form-group form-material col-md-5" data-plugin="formMaterial">
       <select class="form-control" name="idcontatosubtipo" value="{{idcontatosubtipo}}"></select>
     </div>
@@ -41,6 +41,7 @@
     <td>{{desnome}}</td>
     <td>{{dtvalidade}}</td>
     <td>{{desnumero}}</td>
+    <td><button class="btn btn-pure btn-danger icon md-delete"></button></td>
   </tr></script><script id="tpl-site-contato-pessoa" type="text/x-handlebars-template"><tr data-idsitecontato="{{idsitecontato}}">
     <td>{{desmensagem}}</td>
     <td>{{desdtcadastro}}</td>
@@ -555,6 +556,7 @@
       }
     });
 
+    // functions do painel
     var isSiteLogged = false;
     var isCartaoLogged = false;
     var isCarrinhoLogged = false;
@@ -566,14 +568,22 @@
       value:pessoa.idpessoatipo
     });
 
-    $(".tab-pane .refresh").css({
+    $(".tab-pane panel-actions").css("position", "relative!important");
+
+    $(".tab-pane .panel-actions .icon").css({
       "position":"initial",
       "float":"right"
+    });    
+
+    $("a.nav-link[href='#cartoesTab']").on("shown.bs.tab", function(){
+      loadCartoes();
     });
 
-    // $("a.nav-link[href='#cartoesTab']").on("shown.bs.tab", function(){
-    //   loadCartoes();
-    // });
+    $(".cartao-add").on("click", function(){
+
+      $("#modalCartao").modal("show");
+
+    });
 
     // $("a.nav-link[href='#siteContatosTab']").on("shown.bs.tab", function(){
     //   loadSites();
@@ -583,54 +593,83 @@
     //   loadCarrinhos();
     // });
 
-    // function loadCartoes(json){
+    function loadCartoes(){
 
-    //   if(isCartaoLogged === false){
+      if(isCartaoLogged === false){
 
-    //     $("#cartoesTab .refresh").on("click", function(){
+        $("#cartoesTab .refresh").on("click", function(){
 
-    //       isCartaoLogged = false;
+          isCartaoLogged = false;
 
-    //       rest({
-    //         url:PATH+"/pessoas/"+pessoa.idpessoa+"/cartoes",
-    //         success:function(r){
-    //           loadCartoes(r);
-    //         },
-    //         failure:function(r){
-    //           console.error(r);
-    //         }
-    //       });
+          loadCartoes();
+         
+        });
 
-    //     });
+        var $panelCartoes = System.getPanelApi($(".panel-cartoes"));
 
-    //     var $panelCartoes = System.getPanelApi($(".panel-cartoes"));
+        $panelCartoes.load();
 
-    //     var $tbody = $("#cartoesTab tbody")
+        var $tbody = $("#cartoesTab tbody")
 
-    //     $tbody.html('');
+        $tbody.html('');
 
-    //     var $tplCartoes = Handlebars.compile($("#tpl-cartao-pessoa").html());    
+        var tplCartoes = Handlebars.compile($("#tpl-cartao-pessoa").html());
 
-    //     $panelCartoes.load();
+        rest({
+          url:PATH+"/pessoas/"+pessoa.idpessoa+"/cartoes",
+          success:function(r){
 
-    //     if(!json){
-    //       var r = pessoa.Cartoes;
-    //     }else{
-    //       var r = json.data;
-    //     }
+            $.each(r.data, function(index, row){
 
-    //     $.each(r, function(index, row){
-    //       $tbody.append($tplCartoes(row));
-    //     });        
+              var $tr = $(tplCartoes(row));
 
-    //     $panelCartoes.load();
-    //     $panelCartoes.done();
+              $tbody.append($tr);
 
-    //     isCartaoLogged = true;
+              $tr.find(".btn-danger").on("click", function(){
 
-    //   }
+                System.confirm("Deseja realmente remover este cartão?", function(b, s, f){
 
-    // }
+                  if(b){
+
+                    rest({
+                      url:PATH+"/cartoes/"+row.idcartao,
+                      method:"DELETE",
+                      success:function(){
+                        System.done();
+                        $(".panel-cartoes .refresh").trigger("click");
+                        s();                        
+                      },
+                      failure:function(r){
+                        System.done();
+                        System.showError(r);
+                      }
+                    });
+
+                  }else{
+                    f();
+                  }
+
+                });
+
+              });
+
+            });
+
+            $panelCartoes.load();
+            $panelCartoes.done();
+
+            isCartaoLogged = true;
+
+          },
+          failure:function(r){
+            $panelCartoes.done();
+            System.showError(r);
+          }
+        });        
+
+      }
+
+    }
 
     // function loadSites(json){
 

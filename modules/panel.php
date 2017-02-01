@@ -125,6 +125,19 @@ $app->get("/panel/cartao-criar", function(){
 	$page->setTpl("panel/cartao-criar");
 
 });
+
+// permissoes
+$app->get("/panel/permissao-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/permissao-criar");
+
+});
+
 ///////////////////////////////////////////////////////////
 
 // cupons
@@ -139,6 +152,22 @@ $app->get("/panel/cupons/:idcupom", function($idcupom){
 
 	$page->setTpl("panel/cupom", array(
 		"cupom"=>$cupom->getFields()
+	));
+
+});
+
+// Permisao Salvar
+$app->get("/panel/permissoes/:idpermissao", function($idpermissao){
+
+	$permissao = new Permissao((int)$idpermissao);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/permissao-salvar", array(
+		"permissao"=>$permissao->getFields()
 	));
 
 });

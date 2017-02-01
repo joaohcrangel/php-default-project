@@ -142,7 +142,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -363,7 +363,7 @@ $app->get("/".DIR_ADMIN."/carrinhos", function(){
 
 $app->get("/".DIR_ADMIN."/cartoes-credito", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -373,13 +373,14 @@ $app->get("/".DIR_ADMIN."/cartoes-credito", function(){
 
 $app->get("/".DIR_ADMIN."/cupons", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
     $page->setTpl("/admin/cupons");
 
 });
+
 
 $app->get("/".DIR_ADMIN."/pessoas/teste", function(){
 

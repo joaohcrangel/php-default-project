@@ -26,7 +26,107 @@ select.form-control-label {
   position: absolute;
   top: 30px;
   right: 25px;
-}</style><div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-pessoas"><div class="panel-heading"><h3 class="panel-title">Pessoas</h3><div class="panel-actions"><button class="btn btn-success btn-sm waves-effect" id="exampleButtonRandom" type="button"><i class="icon md-plus"></i></button></div><div class="p-x-25"><div class="input-group" id="pesquisar-div"><input type="text" class="form-control" name="" placeholder="Pesquisar..."> <span class="input-group-btn"><button type="button" class="btn btn-primary waves-effect waves- effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul id="pessoas-ul" class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-142"></ul></div></div><div class="col-sm-8 p-0"><div class="row-fluid"><div class="col-sm-12 p-0"><div class="panel m-b-0"><div class="panel-heading"><div class="card card-inverse card-shadow m-0"><div class="card-block p-30"><a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)"><img src="{$path}/res/theme/material/global/portraits/11.jpg" alt=""></a><div class="btn-group pull-xs-right" aria-label="Basic example" role="group"><button type="button" class="btn btn-icon btn-default waves-effect"><i class="icon md-check" aria-hidden="true"></i></button> <button type="button" class="btn btn-icon btn-default waves-effect"><i class="icon md-close" aria-hidden="true"></i></button></div></div></div></div><div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235" id="form-editar"><div class="panel"><div class="panel-body container-fluid"><form autocomplete="off"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" placeholder=""></div><div class="lista-telefones"></div><button id="botao-add-telefone" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Telefone</button><div class="lista-emails m-t-20"></div><button id="botao-add-email" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> E-mail</button><div class="lista-enderecos m-t-20"></div><button id="botao-add-endereco" type="button" class="btn btn-default waves-effect"><i class="icon md-plus" aria-hidden="true"></i> Endereço</button></form></div></div></div></div></div></div></div></div></div></div><script id="tpl-pessoa-li" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
+}</style>
+<div class="page">
+    <div class="page-content p-0">
+        <div class="row-fluid">
+            <div class="col-sm-4 p-0">
+                <div class="panel m-b-0" id="panel-pessoas">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Pessoas
+                        </h3>
+                        <div class="panel-actions">
+                            <button class="btn btn-success btn-sm waves-effect" id="exampleButtonRandom"
+                            type="button">
+                                <i class="icon md-plus">
+                                </i>
+                            </button>
+                        </div>
+                        <div class="p-x-25">
+                            <div class="input-group" id="pesquisar-div">
+                                <input type="text" class="form-control" name="" placeholder="Pesquisar...">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary waves-effect waves- effect">
+                                        <i class="icon md-search" aria-hidden="true">
+                                        </i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul id="pessoas-ul" class="list-group list-group-full list-group-dividered overflow-auto"
+                    data-auto-height="-142">
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-8 p-0">
+                <div class="row-fluid">
+                    <div class="col-sm-12 p-0">
+                        <div class="panel m-b-0">
+                            <div class="panel-heading">
+                                <div class="card card-inverse card-shadow m-0">
+                                    <div class="card-block p-30">
+                                        <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20"
+                                        href="javascript:void(0)"><img src="{$path}/res/theme/material/global/portraits/11.jpg" alt=""></a>
+                                        <div class="btn-group pull-xs-right" aria-label="Basic example" role="group">
+                                            <button type="button" class="btn btn-icon btn-default waves-effect">
+                                                <i class="icon md-check" aria-hidden="true">
+                                                </i>
+                                            </button>
+                                            <button type="button" class="btn btn-icon btn-default waves-effect">
+                                                <i class="icon md-close" aria-hidden="true">
+                                                </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235"
+                            id="form-editar">
+                                <div class="panel">
+                                    <div class="panel-body container-fluid">
+                                        <form autocomplete="off">
+                                            <div class="form-group form-material" data-plugin="formMaterial">
+                                                <label class="form-control-label" for="despessoa">
+                                                    Nome
+                                                </label>
+                                                <input type="text" class="form-control" id="despessoa" name="despessoa"
+                                                placeholder="">
+                                            </div>
+                                            <div class="lista-telefones">
+                                            </div>
+                                            <button id="botao-add-telefone" type="button" class="btn btn-default waves-effect">
+                                                <i class="icon md-plus" aria-hidden="true">
+                                                </i>
+                                                Telefone
+                                            </button>
+                                            <div class="lista-emails m-t-20">
+                                            </div>
+                                            <button id="botao-add-email" type="button" class="btn btn-default waves-effect">
+                                                <i class="icon md-plus" aria-hidden="true">
+                                                </i>
+                                                E-mail
+                                            </button>
+                                            <div class="lista-enderecos m-t-20">
+                                            </div>
+                                            <button id="botao-add-endereco" type="button" class="btn btn-default waves-effect">
+                                                <i class="icon md-plus" aria-hidden="true">
+                                                </i>
+                                                Endereço
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="tpl-pessoa-li" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
     <div class="media">
       <div class="media-left">
         <a class="avatar avatar-online" href="javascript:void(0)">
@@ -112,6 +212,7 @@ select.form-control-label {
 
   });
   ////////////////////////////////////////////////////
+
   var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
   $("#botao-add-telefone").on("click",function(){
     

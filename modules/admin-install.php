@@ -388,13 +388,6 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		1, 'root', $hash, 1
 	));
 
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, 'root', $hash, 1
-	));
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/get", function(){
@@ -547,6 +540,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'/../res/theme/material/base/html/index.html', 
 		2, 
 		'Template'
+	));
+	$sql->proc("sp_menus_save", array(
+		2,
+		0,
+		'', 
+		'/permissoes', 
+		3, 
+		'Permissões'
 	));
 	
 	echo success();

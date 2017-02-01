@@ -10,7 +10,7 @@ $app->get("/contatos/tipos", function(){
 
 $app->post("/contatos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     if(post('idcontato') > 0){
         $contato = new Contato((int)post('idcontato'));

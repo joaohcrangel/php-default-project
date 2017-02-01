@@ -1,4 +1,55 @@
-<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-cartoes"><div class="panel-heading"><h3 class="panel-title">Cartões de Crédito</h3><div class="panel-actions"><a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Pessoa<th>Data de Validade<th>Número<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action animation-duration-300"><button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/cartao-criar" data-toggle="slidePanel"><i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-cartao-row" type="text/x-handlebars-template"><tr data-idcartao="{{idcartao}}">
+<div class="page">
+    <div class="page-content">
+        <div class="row-fluid">
+            <div class="col-sm-12">
+                <div class="panel" id="panel-cartoes">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Cartões de Crédito
+                        </h3>
+                        <div class="panel-actions">
+                            <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle"
+                            aria-hidden="true"><i class="icon wb-refresh"></i></a>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Pessoa
+                                </th>
+                                <th>
+                                    Data de Validade
+                                </th>
+                                <th>
+                                	Número
+                            	</th>
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site-action animation-duration-300">
+        <button type="button" class="btn-raised btn btn-success btn-floating"
+        data-url="{$path}/panel/cartao-criar" data-toggle="slidePanel">
+            <i class="front-icon wb-plus animation-scale-up" aria-hidden="true">
+            </i>
+            <i class="back-icon wb-close animation-scale-up" aria-hidden="true">
+            </i>
+        </button>
+    </div>
+</div>
+
+<script id="tpl-cartao-row" type="text/x-handlebars-template">
+<tr data-idcartao="{{idcartao}}">
 	<td>{{desnome}}</td>
 	<td>{{desdtvalidade}}</td>
 	<td>{{desnumero}}</td>
@@ -8,7 +59,10 @@
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-cartao icon wb-trash">
       	</button>
 	</td>
-</tr></script><script>init.push(function(){
+</tr>
+</script>
+<script>
+init.push(function(){
 
 	var panel = System.getPanelApi($("#panel-cartoes"));
 
@@ -83,4 +137,5 @@
 
 	loadCartoes();
 
-});</script>
+});
+</script>

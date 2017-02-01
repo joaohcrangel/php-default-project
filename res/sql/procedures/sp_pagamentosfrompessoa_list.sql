@@ -3,8 +3,10 @@ pidpessoa INT
 )
 BEGIN
 
-	SELECT * FROM tb_pagamentos a
-		INNER JOIN tb_pessoas USING(idpessoa)
+	SELECT a.*, b.*, c.desformapagamento, d.* FROM tb_pagamentos a
+		INNER JOIN tb_pessoas b USING(idpessoa)
+        INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
+        INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
 	WHERE a.idpessoa = pidpessoa;
 
 END

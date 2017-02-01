@@ -449,7 +449,9 @@ $app->get("/install-admin/sql/usuarios/list", function(){
 	$sql = new Sql();
 
 	$names = array(
-        "sp_usuariostipos_list"
+        "sp_usuariostipos_list",
+        "sp_usuariosfrompessoa_list",
+        "sp_usuarios_list"
 	);
 
 	foreach ($names as $name) {

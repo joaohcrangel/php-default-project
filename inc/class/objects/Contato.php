@@ -2,6 +2,10 @@
 class Contato extends Model {
 
     public $required = array('idpessoa', 'descontato', 'inprincipal', 'idcontatosubtipo');
+
+    const EMAIL = 1;
+    const TELEFONE = 2;
+
     protected $pk = "idcontato";
 
     public function get(){

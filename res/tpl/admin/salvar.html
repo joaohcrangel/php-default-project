@@ -1,0 +1,125 @@
+<div class="page">
+
+	<table class="table col-md-3">
+		<thead>
+			<tr>
+				<th>Pessoa</th>
+	  
+        	</tr>
+		</thead>
+
+		<tbody id="idade">
+
+			
+
+		</tbody>
+		
+	</table>
+
+	<form>
+	    <div class="modal-body">
+
+	    	<input type="hidden" name="idpessoa" id="pessoaid">
+
+	    	<div class="form-group form-material" data-plugin="formMaterial">
+	          <label class="form-control-label" for="">Tipo</label>
+	          <select name="idpessoatipo" id="pessoatipo" class="form-control"></select>
+	        </div>
+	    	
+	        <div class="form-group form-material" data-plugin="formMaterial">
+	          <label class="form-control-label" for="">Nome</label>
+	          <input type="text" class="form-control" id="idpessoanome" name="despessoa" placeholder="Digite o nome">
+	        </div>
+
+   	    </div>
+ 
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Fechar</button>
+	      <button id="submeter" type="submit" class="btn btn-primary">Salvar</button>
+	    </div>
+	</form>
+
+		
+</div>
+
+<script id="tpl-idade" type="text/x-handlebars-template">
+	<tr>
+		<td>{{despessoa}}</td>
+	</tr>
+
+</script>
+
+
+
+<script>
+
+init.push(function(){
+
+	function chamar(){
+   		
+
+	   var tplIdade = Handlebars.compile($("#tpl-idade").html());
+
+	   rest({
+	   	url:PATH+"/pessoas",
+	   	method:"GET",
+	   	success:function(r){
+
+	   		$("tbody").html('');
+
+	   		$.each(r.data, function(index, objeto){
+	   			$("tbody").append(tplIdade(objeto));
+	   		});
+
+	   		$("select").combobox({
+
+	   			url:PATH+"/admin/pessoastipos",
+	   			valueField:"idpessoatipo",
+				displayField:"despessoatipo"
+	   		});
+
+	   		$("#submeter").on("click", function(){
+
+	   			var formulario = $("form");
+	   			
+	   			var campo1 = formulario.find("#pessoaid").val();
+	   			var campo2 = formulario.find("#pessoatipo").val();
+	   			var campo3 = formulario.find("#idpessoanome").val();
+
+	   			rest({
+
+	   				url:PATH+"/pessoas",
+	   				method:"POST",
+	   				data:{
+
+	   					idpessoa:campo1,
+	   					despessoa:campo3,
+	   					idpessoatipo:campo2	
+	   				},
+
+	   				success:function(r){
+	   					console.log("ok");
+	   					chamar();
+	   				},
+
+	   				failure:function(){
+	   					console.log("erro")
+
+	   				}	
+
+	   			});
+
+	   		});
+
+	   	}
+
+	   });
+
+
+	}
+
+	chamar();
+
+});
+
+</script>

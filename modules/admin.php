@@ -150,7 +150,13 @@ $app->get("/".DIR_ADMIN."/pessoas", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl('/admin/pessoas');
 
@@ -327,6 +333,27 @@ $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/documentos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/documentos-tipos");
+
+});
+
+$app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/enderecos-tipos");
+
+});
+
+
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -369,7 +396,7 @@ $app->get("/".DIR_ADMIN."/carrinhos", function(){
 
 $app->get("/".DIR_ADMIN."/cartoes-credito", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -379,13 +406,14 @@ $app->get("/".DIR_ADMIN."/cartoes-credito", function(){
 
 $app->get("/".DIR_ADMIN."/cupons", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
     $page->setTpl("/admin/cupons");
 
 });
+
 
 $app->get("/".DIR_ADMIN."/pessoas/teste", function(){
 

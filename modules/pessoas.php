@@ -10,15 +10,15 @@ $app->get('/pessoas/:idpessoa',function($idpessoa){
 
 });
 
-$app->delete('/pessoas/:idpessoa',function($idpessoa){
+// $app->delete('/pessoas/:idpessoa',function($idpessoa){
    
-	$pessoa = new Pessoa((int)$idpessoa);
+// 	$pessoa = new Pessoa((int)$idpessoa);
 
-	$pessoa->remove();
+// 	$pessoa->remove();
 
-	echo success();
+// 	echo success();
 
-});
+// });
 
 $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
      
@@ -48,15 +48,29 @@ $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 
 });
 
-$app->get("/pessoas",function(){
-	
+$app->get("/pessoas",function(){	
 
 	$q = get("q");
 
 	$where = array();
 
 	if ($q) {
-		array_push($where, "despessoa LIKE '%".$q."%'");
+
+		$whereOr = array();
+
+		array_push($whereOr, "despessoa LIKE '%".utf8_decode($q)."%'");
+		array_push($whereOr, "desusuario = '".utf8_decode($q)."'");
+		array_push($whereOr, "desemail = '".utf8_decode($q)."'");
+		array_push($whereOr, "destelefone = '".utf8_decode($q)."'");
+		array_push($whereOr, "descpf = '".utf8_decode($q)."'");
+		array_push($whereOr, "descnpj = '".utf8_decode($q)."'");
+		array_push($whereOr, "desrg = '".utf8_decode($q)."'");
+
+		array_push($where, "(".implode(" OR ", $whereOr).")");
+	}
+
+	if (isset($_GET['idpessoatipo'])) {
+		array_push($where, "idpessoatipo = ".((int)get('idpessoatipo')));
 	}
 
 	if (count($where) > 0) {
@@ -66,9 +80,13 @@ $app->get("/pessoas",function(){
 	}
 
 	$pessoas = new Pessoas();
-	$pessoas->loadFromQuery("
+	
+	$query = "
 		select * from tb_pessoasdados ".$where." order by despessoa
-	");
+	";
+
+	$pessoas->loadFromQuery($query);
+
 	echo success(array(
    		"data"=>$pessoas->getFields()
 	));
@@ -84,7 +102,7 @@ $app->get("/pessoas/all", function(){
 
 $app->post("/pessoas", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	//Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idpessoa') > 0){
 		$pessoa = new Pessoa((int)post('idpessoa'));
@@ -102,7 +120,7 @@ $app->post("/pessoas", function(){
 
 $app->delete("/pessoas/:idpessoa", function($idpessoa){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	// Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(!(int)$idpessoa){
 		throw new Exception("Pessoa não informada", 400);		
@@ -194,6 +212,17 @@ $app->get("/pessoas/:idpessoa/enderecos", function($idpessoa){
 	$pessoa = new Pessoa((int)$idpessoa);
 
 	echo success(array("data"=>$pessoa->getEnderecos()->getFields()));
+
+});
+
+// usuarios
+$app->get("/pessoas/:idpessoa/usuarios", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getUsuarios()->getFields()));
 
 });
 

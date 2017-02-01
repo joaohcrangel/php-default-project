@@ -1,5 +1,14 @@
 <?php
 
+$app->get("/admin/permissoes", function(){
+
+	$permisao = new AdminPage();
+
+	$permisao->setTpl("/admin/permissoes");
+
+});
+
+
 $app->get('/permissoes', function () {
 
 	Permissao::checkSession(Permissao::ADMIN);

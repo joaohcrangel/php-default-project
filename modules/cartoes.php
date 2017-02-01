@@ -2,7 +2,7 @@
 
 $app->get("/cartoes/all", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+     Permissao::checkSession(Permissao::ADMIN, true);
 
     echo success(array("data"=>CartoesCreditos::listAll()->getFields()));
 

@@ -168,7 +168,8 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-		"sp_pessoasdados_save"
+		"sp_pessoasdados_save",
+		"sp_pessoas_save"
 	);
 
 	foreach ($names as $name) {
@@ -441,7 +442,9 @@ $app->get("/install-admin/sql/usuarios/list", function(){
 	$sql = new Sql();
 
 	$names = array(
-        "sp_usuariostipos_list"
+        "sp_usuariostipos_list",
+        "sp_usuariosfrompessoa_list",
+        "sp_usuarios_list"
 	);
 
 	foreach ($names as $name) {
@@ -537,6 +540,22 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'/../res/theme/material/base/html/index.html', 
 		2, 
 		'Template'
+	));
+	$sql->proc("sp_menus_save", array(
+		2,
+		0,
+		'', 
+		'/permissoes', 
+		3, 
+		'Permissões'
+	))
+	;$sql->proc("sp_menus_save", array(
+		2,
+		0,
+		'', 
+		'/produtos', 
+		4, 
+		'produtos'
 	));
 	
 	echo success();
@@ -709,7 +728,8 @@ $app->get("/install-admin/sql/contatos/list", function(){
 
 	$procs = array(
 		"sp_contatosfrompessoa_list",
-		"sp_contatostipos_list"
+		"sp_contatostipos_list",
+		"sp_contatossubtipos_list"
 	);
 
 	foreach ($procs as $name) {
@@ -836,7 +856,8 @@ $app->get("/install-admin/sql/documentos/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-       "sp_documentos_save"
+       "sp_documentos_save",
+       "sp_documentostipos_save"
 	);
 
 	foreach ($names as $name) {
@@ -927,7 +948,8 @@ $app->get("/install-admin/sql/enderecos/get", function(){
 	$sql = new Sql();
 
 	$names = array(
-        "sp_enderecos_get"
+        "sp_enderecos_get",
+        "sp_enderecostipos_get"
 	);
 
 	foreach ($names as $name) {
@@ -941,7 +963,8 @@ $app->get("/install-admin/sql/enderecos/list", function(){
 	$sql = new Sql();
 
 	$names = array(
-        "sp_enderecosfrompessoa_list"
+        "sp_enderecosfrompessoa_list",
+        "sp_enderecostipos_list"
     );
 
     foreach ($names as $name) {
@@ -955,7 +978,8 @@ $app->get("/install-admin/sql/enderecos/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-       "sp_enderecos_save"
+       "sp_enderecos_save",
+       "sp_enderecostipos_save"
 	);
 
 	foreach ($names as $name) {
@@ -969,7 +993,8 @@ $app->get("/install-admin/sql/enderecos/remove", function(){
 	$sql = new Sql();
 
 	$names = array(
-       "sp_enderecos_remove"
+       "sp_enderecos_remove",
+       "sp_enderecostipos_remove"
 	);
 
 	foreach ($names as $name) {
@@ -1305,7 +1330,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 		CREATE TABLE tb_carrinhosfretes(
 			idcarrinho INT NOT NULL,
 			descep CHAR(8) NOT NULL,
-			vlfrete INT NOT NULL,
+			vlfrete DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -1323,6 +1348,31 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 
 	echo success();
 
+});
+
+$app->get("/install-admin/sql/carrinhos/triggers", function(){
+	$sql = new Sql();
+
+	$triggers = array(
+		"tg_carrinhoscupons_AFTER_INSERT",
+		"tg_carrinhoscupons_AFTER_UPDATE",
+		"tg_carrinhoscupons_AFTER_DELETE",
+
+		"tg_carrinhosfretes_AFTER_INSERT",
+		"tg_carrinhosfretes_AFTER_UPDATE",
+		"tg_carrinhosfretes_AFTER_DELETE",
+
+		"tg_carrinhosprodutos_AFTER_INSERT",
+		"tg_carrinhosprodutos_AFTER_UPDATE",
+		"tg_carrinhosprodutos_AFTER_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
+	echo success();
 });
 
 $app->get("/install-admin/sql/carrinhos/list", function(){
@@ -1374,7 +1424,8 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 		"sp_carrinhos_save",
 		"sp_carrinhosprodutos_save",
 		'sp_carrinhoscupons_save',
-		'sp_carrinhosfretes_save'
+		'sp_carrinhosfretes_save',
+		'sp_carrinhosdados_save'
 	);
 
 	foreach ($procs as $name) {

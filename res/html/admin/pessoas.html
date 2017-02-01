@@ -1,279 +1,191 @@
-<style>#btn {
-  position: absolute;
-  top:16px;
-  margin-left: 630px;
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
+<style>
+#actions-buttons button .icon {
+  font-size: 32px;
 }
-.form-group-relative {
-  position: relative;
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-.form-group-relative button.md-close {
-  position: absolute;
-  top: 0;
-  right: 0;
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+    margin-left: 310px;
 }
-select.form-control-label {
-  border: none;
+#pessoa-footer {
+  height: 58px;
 }
-.list-group-item:hover {
-  color: #757575;
-  background-color: #eee;
-  cursor: pointer;
+.page {
+  min-height: calc(100% - 102px);
 }
-#panel-pessoas .panel-heading {
-  position: relative;
-}
-#panel-pessoas .panel-actions {
-  position: absolute;
-  top: 30px;
-  right: 25px;
-}</style>
-<div class="page">
-    <div class="page-content p-0">
-        <div class="row-fluid">
-            <div class="col-sm-4 p-0">
-                <div class="panel m-b-0" id="panel-pessoas">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Pessoas
-                        </h3>
-                        <div class="panel-actions">
-                            <button class="btn btn-success btn-sm waves-effect" id="exampleButtonRandom"
-                            type="button">
-                                <i class="icon md-plus">
-                                </i>
-                            </button>
-                        </div>
-                        <div class="p-x-25">
-                            <div class="input-group" id="pesquisar-div">
-                                <input type="text" class="form-control" name="" placeholder="Pesquisar...">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary waves-effect waves- effect">
-                                        <i class="icon md-search" aria-hidden="true">
-                                        </i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <ul id="pessoas-ul" class="list-group list-group-full list-group-dividered overflow-auto"
-                    data-auto-height="-142">
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-8 p-0">
-                <div class="row-fluid">
-                    <div class="col-sm-12 p-0">
-                        <div class="panel m-b-0">
-                            <div class="panel-heading">
-                                <div class="card card-inverse card-shadow m-0">
-                                    <div class="card-block p-30">
-                                        <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20"
-                                        href="javascript:void(0)"><img src="{$path}/res/theme/material/global/portraits/11.jpg" alt=""></a>
-                                        <div class="btn-group pull-xs-right" aria-label="Basic example" role="group">
-                                            <button type="button" class="btn btn-icon btn-default waves-effect">
-                                                <i class="icon md-check" aria-hidden="true">
-                                                </i>
-                                            </button>
-                                            <button type="button" class="btn btn-icon btn-default waves-effect">
-                                                <i class="icon md-close" aria-hidden="true">
-                                                </i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-material m-b-0 overflow-auto" data-auto-height="-235"
-                            id="form-editar">
-                                <div class="panel">
-                                    <div class="panel-body container-fluid">
-                                        <form autocomplete="off">
-                                            <div class="form-group form-material" data-plugin="formMaterial">
-                                                <label class="form-control-label" for="despessoa">
-                                                    Nome
-                                                </label>
-                                                <input type="text" class="form-control" id="despessoa" name="despessoa"
-                                                placeholder="">
-                                            </div>
-                                            <div class="lista-telefones">
-                                            </div>
-                                            <button id="botao-add-telefone" type="button" class="btn btn-default waves-effect">
-                                                <i class="icon md-plus" aria-hidden="true">
-                                                </i>
-                                                Telefone
-                                            </button>
-                                            <div class="lista-emails m-t-20">
-                                            </div>
-                                            <button id="botao-add-email" type="button" class="btn btn-default waves-effect">
-                                                <i class="icon md-plus" aria-hidden="true">
-                                                </i>
-                                                E-mail
-                                            </button>
-                                            <div class="lista-enderecos m-t-20">
-                                            </div>
-                                            <button id="botao-add-endereco" type="button" class="btn btn-default waves-effect">
-                                                <i class="icon md-plus" aria-hidden="true">
-                                                </i>
-                                                Endereço
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+</style>
+<div class="page bg-white">
+  <!-- Mailbox Sidebar -->
+  <div class="page-aside">
+    <div class="page-aside-switch">
+      <i class="icon md-chevron-left" aria-hidden="true"></i>
+      <i class="icon md-chevron-right" aria-hidden="true"></i>
+    </div>
+    <div class="page-aside-inner page-aside-scroll">
+      <div data-role="container">
+        <div data-role="content">
+          <section class="page-aside-section">
+            <h5 class="page-aside-title">Filtros</h5>
+            <form id="form-filtros" class="p-x-25">
+              <div class="form-group form-material" data-plugin="formMaterial">
+                <input type="text" class="form-control" name="q" placeholder="Buscar por Nome, E-mail, CPF...">
+              </div>
+              <div class="form-group form-material" data-plugin="formMaterial">
+                <select name="idpessoatipo" class="form-control"></select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+            </form>
+          </section>
         </div>
+      </div>
     </div>
+    <!---page-aside-inner-->
+  </div>
+  <!-- Mailbox Content -->
+  <div class="page-main">
+    <!-- Mailbox Header -->
+    <div class="page-header p-0">
+      <div class="btn-group" id="actions-buttons">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0">
+            <i class="icon md-plus " aria-hidden="true"></i>
+            <br>
+            <span class="text-uppercase hidden-sm-down">cadastrar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mailbox Content -->
+    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+      <!-- Mailbox -->
+      <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
+      data-child="tr">
+        <tbody>
+                    
+        </tbody>
+      </table>
+      <!-- pagination -->
+      <ul data-plugin="paginator" data-total="50" data-skin="pagination-gap"></ul>
+    </div>
+  </div>
 </div>
-<script id="tpl-pessoa-li" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
-    <div class="media">
-      <div class="media-left">
-        <a class="avatar avatar-online" href="javascript:void(0)">
-        <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="..."></a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">{{despessoa}}</h4>
-        <small>{{despessoatipo}}</small>
-      </div>
-      <div class="media-right">
-        <button type="button" class="btn btn-pure btn-dark  icon md-edit waves-effect waves-effect">
-        </button>
-     </div>
+<footer id="pessoa-footer" class="site-footer p-0"></footer>
+<script id="tpl-footer" type="text/x-handlebars-template">
+  <div style="padding: 10px 30px; height: 58px; line-height: 39px;">
+    <div class="pull-left">
+      <div>{{total}} Resultado(s)</div>
     </div>
-  </li></script><script id="tpl-telefone" type="text/x-handlebars-template"><div class="form-group form-material form-group-relative" data-plugin="formMaterial">                      
-    <select class="form-control-label" data-idcontatosubtipo="{{idcontatosubtipo}}"></select>
-    <input type="text" class="form-control" id="destelefone-{{idcontato}}" name="destelefone" placeholder="" value="{{descontato}}">
-    <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
-  </div></script><script id="tpl-email" type="text/x-handlebars-template"><div class="form-group form-material form-group-relative" data-plugin="formMaterial">
-    <select class="form-control-label combo-emails" data-idcontatosubtipo="{{idcontatosubtipo}}"></select>
-    <input type="text" class="form-control" id="desemail-{{idcontato}}" name="desemail" placeholder="" value="{{descontato}}">
-    <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
-  </div></script><script id="tpl-endereco" type="text/x-handlebars-template"><div class="form-group form-material form-group-relative" data-plugin="formMaterial">
-      <select class="form-control-label" data-idenderecotipo="{{idenderecotipo}}"></select>
-      <input type="text" class="form-control" name="descep" placeholder="Cep" value="{{descep}}">
-      <input type="text" class="form-control" name="desendereco" placeholder="Rua" value="{{desendereco}}">
-      <div class="row">
-        <div class="col-sm-6"> <input type="text" class="form-control" name="desnumero" placeholder="Número" value="{{desnumero}}"></div>
-        <div class="col-sm-6"> <input type="text" class="form-control" name="descomplemento" placeholder="Complemento" value="{{descomplemento}}"></div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div>
+</script>
+<script id="tpl-row" type="text/x-handlebars-template">
+  <tr data-url="panel.tpl" data-toggle="slidePanel">
+    <td class="cell-60">
+      <span class="checkbox-custom checkbox-primary checkbox-lg">
+        <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
+        />
+        <label for="mail_mid_1"></label>
+      </span>
+    </td>
+    <!--
+    <td class="cell-60 responsive-hide">
+      <a class="avatar" href="javascript:void(0)">
+        <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="...">
+      </a>
+    </td>
+    -->
+    <td>
+      <div class="content">
+        <div class="title">{{despessoa}}</div>
+        <div class="abstract">{{desemail}}</div>
       </div>
-      <input type="text" class="form-control" name="desbairro" placeholder="Bairro" value="{{desbairro}}">
-      <input type="text" class="form-control" name="descidade" placeholder="Cidade" value="{{descidade}}"> 
-      <div class="row">
-        <div class="col-sm-6"><input type="text" class="form-control" name="desestado" placeholder="Estado" value="{{desestado}}"></div>
-        <div class="col-sm-6"><input type="text" class="form-control"  name="despais" placeholder="País" value="{{despais}}"></div>
-      </div>
-      <button type="button" class="btn btn-pure btn-pure btn-dark icon md-close"></button>
-    </div></script><script>init.push(function(){
+    </td>
+    <td class="cell-30 responsive-hide">
+    </td>
+    <td class="cell-130">
+      <div class="time">{{despessoatipo}}</div>
+    </td>
+  </tr>
+</script>
+<script>
+init.push(function(){
 
-  var tplPessoaLi = Handlebars.compile($("#tpl-pessoa-li").html());
+  var tpl = {
+    row:Handlebars.compile($("#tpl-row").html()),
+    footer:Handlebars.compile($("#tpl-footer").html())
+  };
 
-  function carregarLista(pesquisa){
+  $("[name=idpessoatipo]").combobox({
+    url:PATH+"/pessoastipos",
+    displayField:"despessoatipo",
+    valueField:"idpessoatipo"
+  });
 
-    if (!pesquisa) pesquisa = '';
+  $("#pessoa-footer").html(tpl.footer({
+    total:0
+  }));
+
+  $("#form-filtros [type=submit]").on("click", function(e){
+
+    e.preventDefault();
+
+    consultar();
+
+  });
+
+  $("#form-filtros input").on("keyup", function(e){
+
+    if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+
+  });
+
+  function consultar() {
+
+    var data = $("#form-filtros").formValues();
 
     rest({
       url:PATH+"/pessoas",
-      data:{
-        q:pesquisa
-      },
+      data:data,
       success:function(r){
 
-        $("#pessoas-ul").html('');
+        renderPessoas(r.data);
 
-        $.each(r.data, function(index, objeto){
-
-          $("#pessoas-ul").append(tplPessoaLi(objeto));
-
-        });
-
-
+      },
+      failure:function(e){
+        System.showError(e);
       }
     });
 
   }
 
-  carregarLista();
-  ///////////////////////////////////////////////////////////
-  var $input = $("#pesquisar-div input");
-  var $button = $("#pesquisar-div button");
+  function renderPessoas(lista) {
 
-  $button.on("click", function(){
+    var $footer = $("#pessoa-footer");
+    var $lista = $("#lista");
+    var $tbody = $lista.find("tbody");
 
-    carregarLista($input.val());
+    $tbody.html("");
 
-  });
+    if (lista instanceof Array && lista.length) {
 
-  $input.on("keyup", function(e){
+      $.each(lista, function(index, pessoa){
 
-    if (e.keyCode === 13) {
-      $button.trigger("click");
+        $tbody.append(tpl.row(pessoa));
+
+      });
+
+      $footer.html(tpl.footer({
+        total:lista.length
+      }));
+
     }
 
-  });
-  ////////////////////////////////////////////////////
+  }
 
-  var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
-  $("#botao-add-telefone").on("click",function(){
-    
-    var $formControl = $(tplTelefone({}));
-
-    $(".lista-telefones").append($formControl);
-
-    $formControl.find("select").combobox({
-      url:PATH+"/contatossubtipos?idcontatotipo=2",
-      valueField:"idcontatosubtipo",
-      displayField:"descontatosubtipo"
-    });
-
-    $formControl.find("button.md-close").on("click", function(){
-      $(this).closest(".form-group").remove();
-    });
-
-    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
-
-  });
-  //////////////////////////////////////////////////////////////
-  var tplEmail = Handlebars.compile($("#tpl-email").html());
-   $("#botao-add-email").on("click",function(){
-
-    var $formControl =$(tplEmail({}));
-
-    $(".lista-emails").append($formControl);
-
-    $formControl.find("select").combobox({
-      url:PATH+"/contatossubtipos?idcontatotipo=1",
-      valueField:"idcontatosubtipo",
-      displayField:"descontatosubtipo"
-    });
-
-    $formControl.find("button.md-close").on("click", function(){
-      $(this).closest(".form-group").remove();
-    });
-
-    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
-
-  });
-   /////////////////////////////////////////////////////////////
-  var tplEndereco = Handlebars.compile($("#tpl-endereco").html());
-  $("#botao-add-endereco").on("click",function(){
-    
-    var $formControl =$(tplEndereco({}));
-
-    $(".lista-enderecos").append($formControl);
-
-    $formControl.find("select").combobox({
-      url:PATH+"/enderecostipos",
-      valueField:"idenderecotipo",
-      displayField:"desenderecotipo"
-    });
-
-    $formControl.find("button.md-close").on("click", function(){
-      $(this).closest(".form-group").remove();
-    });
-
-    $('#form-editar').closest('[data-plugin="scrollable"]').asScrollable("update");
-
-  });
-    ///////////////////////////////////////////////////////////////////
-});</script>
+});
+</script>

@@ -142,9 +142,15 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl('/admin/pessoas');
 

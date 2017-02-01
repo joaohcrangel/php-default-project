@@ -213,5 +213,53 @@ $app->get("/pagamentos/:idpagamento/recibos", function($idpagamento){
     echo success(array("data"=>$pagamento->getRecibos()->getFields()));
 
 });
+//////////////////////////////////////////////////////////////
+
+// pagamentos historicos
+$app->get("/pagamentos/historicos/all", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>PagamentosHistoricos::listAll()->getFields()));
+
+});
+
+$app->post("/pagamentos-historicos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if((int)post('idhistorico') > 0){
+        $historico = new PagamentoHistorico((int)post('idhistorico'));
+    }else{
+        $historico = new PagamentoHistorico();
+    }
+
+    $historico->set();
+
+    $historico->save();
+
+    echo success(array("data"=>$historico->getFields()));
+
+});
+
+$app->delete("/pagamentos-historicos/:idhistorico", function($idhistorico){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idhistorico){
+        throw new Exception("Histórico não informado", 400);        
+    }
+
+    $historico = new PagamentoHistorico((int)$idhistorico);
+
+    if(!(int)$historico->getidhistorico() > 0){
+        throw new Exception("Histórico não encontrado", 404);        
+    }
+
+    $historico->remove();
+
+    echo success();
+
+});
 
 ?>

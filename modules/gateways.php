@@ -3,8 +3,6 @@
 $app->get("/gateways/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
-    
-    pre(Gateways::listAll()->getFields());
 
     echo success(array("data"=>Gateways::listAll()->getFields()));
 

@@ -1,7 +1,8 @@
-<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-site-contatos"><div class="panel-heading"><h3 class="panel-title">Fale conosco</h3></div><table class="table table-hover table-striped"><thead><tr><th><th>&nbsp;<tbody></table></div></div></div></div></div><script id="tpl-site-contato-row" type="text/x-handlebars-template"><tr data-idsitecontato="{{idsitecontato}}">
-	<td>{{dessitecontato}}</td>
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-site-contatos"><div class="panel-heading"><h3 class="panel-title">Fale conosco</h3><div class="panel-actions"><a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th><th>&nbsp;<tbody></table></div></div></div></div></div><script id="tpl-site-contato-row" type="text/x-handlebars-template"><tr data-idsitecontato="{{idsitecontato}}">
+	<td>{{despessoa}}</td>
+	<td>{{desmensagemabreviada}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/sitecontatos/{{idsitecontato}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/sites-contatos/{{idsitecontato}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-site-contato icon wb-trash">
       	</button>
@@ -12,7 +13,7 @@
 
 	var $tbody = $("#panel-site-contatos tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-sitecontato-row").html());
+	var $tpl = Handlebars.compile($("#tpl-site-contato-row").html());
 
 	function loadSiteContatos(){
 
@@ -33,6 +34,8 @@
 					$tbody.append($tpl(row));
 
 				});
+
+				initSlidePanel($tbody);
 
 				panel.done();
 

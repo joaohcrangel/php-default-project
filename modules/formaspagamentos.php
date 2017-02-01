@@ -22,6 +22,8 @@ $app->post("/formas-pagamentos", function(){
         $pagamento->{'set'.$key}($value);
     }
 
+    $pagamento->setinstatus((int)1);
+
     $pagamento->save();
 
     echo success(array("data"=>$pagamento->getFields()));
@@ -42,7 +44,7 @@ $app->delete("/formas-pagamentos/:idformapagamento", function($idformapagamento)
         throw new Exception("Forma de Pagamento não encontrado", 404); 
     }
 
-    $pagameto->remove();
+    $pagamento->remove();
 
     echo success();
 

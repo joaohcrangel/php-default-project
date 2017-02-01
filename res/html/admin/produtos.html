@@ -14,6 +14,7 @@
 		              	<thead>
 			                <tr>
 			                  <th>Produto</th>
+			                  <th>Tipo do Produto</th>
 			                  <th>&nbsp;</th>
 			                </tr>
 		              	</thead>
@@ -40,6 +41,7 @@
 <script id="tpl-produto-row" type="text/x-handlebars-template">
 <tr data-idproduto="{{idproduto}}">
 	<td>{{desproduto}}</td>
+	<td>{{desprodutotipo}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
       	</button>
@@ -77,6 +79,8 @@ init.push(function(){
 					$tbody.append($tpl(row));
 
 				});
+
+				initSlidePanel($tbody);
 
 				panel.done();
 

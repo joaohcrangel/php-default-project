@@ -1,0 +1,56 @@
+{include="panel-header"}<header class="slidePanel-header">
+    <div class="slidePanel-actions" aria-label="actions" role="group">
+        <button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close"
+        aria-hidden="true">
+        </button>
+    </div>
+    <h1>
+        Criar novo cartão
+    </h1>
+</header>
+<div class="slidePanel-inner">
+    <form id="form-cartao-save" class="slidePanel-form">
+        <div class="form-group">
+            <div class="form-group form-material">
+                <input type="hidden" name="idcartao">
+                <label>
+                    Nome
+                </label>
+                <input type="text" class="form-control" name="desnome">
+            </div>
+            <div class="form-group form-material">
+                <label>
+                    Data de Validade
+                </label>
+                <input type="date" class="form-control" name="dtvalidade">
+            </div>
+            <div class="form-group form-material">
+                <label>
+                    Número do cartão
+                </label>
+                <select name="idcartaotipo" class="form-control">
+                </select>
+            </div>
+            <button class="btn btn-block btn-primary" id="btnCartaoSave" type="submit">
+                Salvar Novo Cartão
+            </button>
+        </div>
+    </form>
+</div>
+<script>var form = $("#form-cartao-save");
+
+  	form.form({
+  		url:PATH+"/cartoes",
+  		success:function(){
+
+  			form.find("button#btnCartaoSave").btnload("unload");
+  			System.success("Cartão criado com sucesso");
+  			$(".slidePanel-close").trigger("click");
+  			$(".refresh").trigger("click");
+
+  		},
+  		failure:function(r){
+  			form.find("button#btnCartaoSave").btnload("unload");
+  			System.showError(r);
+  		}
+  	});</script>

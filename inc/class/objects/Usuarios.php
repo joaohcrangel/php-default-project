@@ -49,11 +49,22 @@ class Usuarios extends Collection {
 
         $usuarios = new Usuarios();
 
-        $usuarios->loadFRomQuery("CALL sp_usuariosfrommenus_list(?)", array(
+        $usuarios->loadFromQuery("CALL sp_usuariosfrommenus_list(?)", array(
             $menu->getidmenu()
         ));
 
         return $usuarios;
+
+    }
+
+    public function getByPessoa(Pessoa $pessoa):Usuarios
+    {
+
+        $this->loadFromQuery("CALL sp_usuariosfrompessoa_list(?);", array(
+            $pessoa->getidpessoa()
+        ));
+
+        return $this;
 
     }
 

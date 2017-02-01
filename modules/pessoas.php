@@ -215,4 +215,15 @@ $app->get("/pessoas/:idpessoa/enderecos", function($idpessoa){
 
 });
 
+// usuarios
+$app->get("/pessoas/:idpessoa/usuarios", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+
+	echo success(array("data"=>$pessoa->getUsuarios()->getFields()));
+
+});
+
 ?>

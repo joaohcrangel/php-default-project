@@ -156,7 +156,7 @@ $app->get("/panel/cupons/:idcupom", function($idcupom){
 
 });
 
-// Permisao Salvar
+// Permissao Salvar
 $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
 
 	$permissao = new Permissao((int)$idpermissao);
@@ -180,6 +180,64 @@ $app->get("/panel/cupom-criar", function(){
 	));
 
 	$page->setTpl("panel/cupom-criar");
+
+});
+
+/////////////////////////////////////////
+// produto-tipo salvar
+
+$app->get("/panel/produtos/tipos/:idprodutotipo", function($idprodutotipo){
+
+	$produto = new ProdutoTipo((int)$idprodutotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/produto-tipo-salvar", array(
+		"produto"=>$produto->getFields()
+	));
+
+});
+
+$app->get("/panel/produtos-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/produto-tipo-criar");
+
+});
+
+////////////////////////////////////////////////////
+// Documentos-tipos
+
+$app->get("/panel/documentos/tipos/:iddocumentotipo", function($iddocumentotipo){
+
+	$documento = new DocumentoTipo((int)$iddocumentotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/documento-tipo-salvar", array(
+		"documento"=>$documento->getFields()
+	));
+
+});
+
+$app->get("/panel/documento-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/documento-tipo-criar");
 
 });
 ////////////////////////////////////////////////////////////////
@@ -215,5 +273,4 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 	));
 
 });
-
 ?>

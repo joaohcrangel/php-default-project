@@ -327,6 +327,27 @@ $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/documentos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/documentos-tipos");
+
+});
+
+$app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/enderecos-tipos");
+
+});
+
+
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

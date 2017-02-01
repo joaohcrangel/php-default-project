@@ -99,6 +99,11 @@ class Pessoa extends Model {
 
     }
 
+    public function getUsuarios():Usuarios
+    {
+        return new Usuarios($this);
+    }
+
 }
 
 ?>

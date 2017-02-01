@@ -173,7 +173,7 @@ $app->get("/pessoas/:idpessoa/cartoes", function($idpessoa){
 
 	$pessoa = new Pessoa((int)$idpessoa);
 
-	echo success(array("data"=>$pessoa->getCartoes()->getFields()));
+	echo success(array("data"=>$pessoa->getCartoesCreditos()->getFields()));
 
 });
 

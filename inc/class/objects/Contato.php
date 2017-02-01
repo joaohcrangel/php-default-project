@@ -1,6 +1,9 @@
 <?php
 class Contato extends Model {
 
+    const EMAIL = 1;
+    const TELEFONE = 2;
+
     public $required = array('idcontatotipo', 'idpessoa', 'descontato', 'inprincipal', 'idcontatosubtipo');
     protected $pk = "idcontato";
 

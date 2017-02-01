@@ -3,6 +3,8 @@ pidpessoa INT
 )
 BEGIN
 	
-	SELECT * FROM tb_documentos WHERE idpessoa = pidpessoa ORDER BY desdocumento;
+	SELECT * FROM tb_documentos a
+    INNER JOIN tb_documentostipos b USING(iddocumentotipo)
+    WHERE a.idpessoa = pidpessoa ORDER BY desdocumento;
     
 END

@@ -1,12 +1,12 @@
 <?php
 
-	$app->get('/admin/pessoastipos',function(){
+$app->get('/pessoastipos',function(){
 
- $pessoatipo = PessoasTipos::listAll();
+ 	$pessoatipo = PessoasTipos::listAll();
 
     echo success(array(
          'data'=>$pessoatipo->getFields()
-        ));
+    ));
 });
 
  ?>

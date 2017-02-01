@@ -168,7 +168,8 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-		"sp_pessoasdados_save"
+		"sp_pessoasdados_save",
+		"sp_pessoas_save"
 	);
 
 	foreach ($names as $name) {
@@ -726,7 +727,8 @@ $app->get("/install-admin/sql/contatos/list", function(){
 
 	$procs = array(
 		"sp_contatosfrompessoa_list",
-		"sp_contatostipos_list"
+		"sp_contatostipos_list",
+		"sp_contatossubtipos_list"
 	);
 
 	foreach ($procs as $name) {

@@ -194,13 +194,24 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 		"footer"=>false
 	));
 
+	$contatos = $pessoa->getContatos();
+
+	$telefones = $contatos->filterBy(array(
+		"idcontatotipo"=>Contato::TELEFONE
+	), true); // filtrando os contatos que são telefones
+
+	$emails = $contatos->filterBy(array(
+		"idcontatotipo"=>Contato::EMAIL
+	), true); // filtrando os contatos que são emails
+
+	$documentos = $pessoa->getDocumentos();
+
+	$pessoa->setDocumentos($documentos);
+	$pessoa->setTelefones($telefones);
+	$pessoa->setEmails($emails);
+
 	$page->setTpl("panel/pessoa", array(
-		"pessoa"=>$pessoa->getFields(),
-		"documentos"=>$pessoa->getDocumentos()->getFields(),
-		"contatos"=>$pessoa->getContatos()->getFields(),
-		"sitecontatos"=>$pessoa->getSiteContatos()->getFields(),
-		"cartoes"=>$pessoa->getCartoesCreditos()->getFields(),
-		"carrinhos"=>$pessoa->getCarrinhos()->getFields()
+		"pessoa"=>$pessoa->getFields()
 	));
 
 });

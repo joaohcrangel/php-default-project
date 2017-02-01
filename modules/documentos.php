@@ -28,6 +28,34 @@ $app->post("/documentos", function(){
 
 });
 
+$app->post('/documentos-tipos', function () {
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $documentotipo = new DocumentoTipo($_POST);
+
+    $documentotipo->save();
+
+    echo success(array(
+        'data'=>$documentotipo->getFields()
+    ));
+
+});
+
+$app->delete('/documentos-tipos/:iddocumentotipo', function ($iddocumentotipo) {
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $documentotipo = new DocumentoTipo((int)$iddocumentotipo);
+
+    $documentotipo->remove();
+
+    echo success();
+
+});
+
+
+
 $app->delete("/documentos/:iddocumento", function($iddocumento){
 
     Permissao::checkSession(Permissao::ADMIN, true);

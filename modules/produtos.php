@@ -50,6 +50,7 @@ $app->delete("/produtos/:idproduto", function($idproduto){
 /////////////////////////////////////////////////////////
 
 // produtos tipos
+
 $app->get("/produtos/tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

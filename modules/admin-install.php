@@ -388,13 +388,6 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		1, 'root', $hash, 1
 	));
 
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, 'root', $hash, 1
-	));
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/get", function(){
@@ -553,6 +546,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'/permissoes', 
 		3, 
 		'Permissões'
+	))
+	;$sql->proc("sp_menus_save", array(
+		2,
+		0,
+		'', 
+		'/produtos', 
+		4, 
+		'produtos'
 	));
 	
 	echo success();
@@ -855,7 +856,8 @@ $app->get("/install-admin/sql/documentos/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-       "sp_documentos_save"
+       "sp_documentos_save",
+       "sp_documentostipos_save"
 	);
 
 	foreach ($names as $name) {
@@ -946,7 +948,8 @@ $app->get("/install-admin/sql/enderecos/get", function(){
 	$sql = new Sql();
 
 	$names = array(
-        "sp_enderecos_get"
+        "sp_enderecos_get",
+        "sp_enderecostipos_get"
 	);
 
 	foreach ($names as $name) {
@@ -960,7 +963,8 @@ $app->get("/install-admin/sql/enderecos/list", function(){
 	$sql = new Sql();
 
 	$names = array(
-        "sp_enderecosfrompessoa_list"
+        "sp_enderecosfrompessoa_list",
+        "sp_enderecostipos_list"
     );
 
     foreach ($names as $name) {
@@ -974,7 +978,8 @@ $app->get("/install-admin/sql/enderecos/save", function(){
 	$sql = new Sql();
 
 	$names = array(
-       "sp_enderecos_save"
+       "sp_enderecos_save",
+       "sp_enderecostipos_save"
 	);
 
 	foreach ($names as $name) {
@@ -988,7 +993,8 @@ $app->get("/install-admin/sql/enderecos/remove", function(){
 	$sql = new Sql();
 
 	$names = array(
-       "sp_enderecos_remove"
+       "sp_enderecos_remove",
+       "sp_enderecostipos_remove"
 	);
 
 	foreach ($names as $name) {

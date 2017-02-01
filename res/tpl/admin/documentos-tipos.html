@@ -2,10 +2,10 @@
 	<div class="page-content">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-produtos-tipos">
+				<div class="panel" id="panel-documento-tipo">
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							Produtos
+							Documentos
 						</h3>
 						<div class="panel-actions">
 							<a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
@@ -18,7 +18,7 @@
 							<tr>
 								
 								<th>
-									Produtos
+									Documentos
 								</th>
 								
 								<th>
@@ -36,20 +36,20 @@
 		</div>
 	</div>
     <div class="site-action">
-		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produtos-tipos-criar"  data-toggle="slidePanel">
+		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/documento-tipo-criar"  data-toggle="slidePanel">
 		  <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
 		  <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
 		</button>
 	</div>
 </div>
 
-<script id="tpl-produtos-tipos" type="/x-handlebars-temprate">
-	<tr data-idprodutotipo="{{idprodutotipo}}">
-	<td>{{desprodutotipo}}</td>
+<script id="tpl-documento-tipo" type="/x-handlebars-temprate">
+	<tr data-iddocumentotipo="{{iddocumentotipo}}">
+	<td>{{desdocumentotipo}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/tipos/{{idprodutotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/documentos/tipos/{{iddocumentotipo}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-documento icon wb-trash">
       	</button>
 	</td>
 	</tr>
@@ -57,30 +57,30 @@
 
 <script>
 init.push(function(){
-	var panel = System.getPanelApi($("#panel-produtos-tipos"));
+	var panel = System.getPanelApi($("#panel-documento-tipo"));
 
-	var $tbody = $("#panel-produtos-tipos tbody");
+	var $tbody = $("#panel-documento-tipo tbody");
 
-	var $tplProdutosTipos = Handlebars.compile($("#tpl-produtos-tipos").html());
+	var $tplDocumentoTipo = Handlebars.compile($("#tpl-documento-tipo").html());
 
-	function loadProdutosTipos(){
+	function loadDocumentoTipo(){
 
 		$(".refresh").on("click", function(){
-			loadProdutosTipos();
+			loadDocumentoTipo();
 
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/produtos/tipos",
+			url:PATH+"/documentos/tipos",
 			success:function(r){
 
 				$tbody.html('');
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplProdutosTipos(row));
+					$tbody.append($tplDocumentoTipo(row));
 
 				});
 
@@ -88,23 +88,23 @@ init.push(function(){
 
 				panel.done();
 
-				$(".btn-excluir-produto").on("click", function(e){
+				$(".btn-excluir-documento").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idprodutotipo = $btn.closest("tr").data("idprodutotipo");
-					System.confirm('Deseja remover esse produto?', function(b, s, f){
+					var iddocumentotipo = $btn.closest("tr").data("iddocumentotipo");
+					System.confirm('Deseja remover esse documento?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/produtos-tipos/"+idprodutotipo,
+				          		url: PATH+"/documentos-tipos/"+iddocumentotipo,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadProdutosTipos();
+				           		 	loadDocumentoTipo();
 				            		s();
 
 				          		},
@@ -131,6 +131,6 @@ init.push(function(){
 		});
 	};
 
-    loadProdutosTipos();
+    loadDocumentoTipo();
 });
 </script>

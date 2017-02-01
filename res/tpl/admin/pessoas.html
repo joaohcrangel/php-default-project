@@ -212,60 +212,11 @@ select.form-control-label {
 
   });
   ////////////////////////////////////////////////////
-<<<<<<< HEAD
-  function initButtonsEvents(){
 
-      $('#btn-remove-form').on("click", function(){
-
-        $('#panel-right').html('');
-
-      });
-
-      $('#btn-save-form').on("click", function(){
-        
-        
-      });
-
-      
-      $("#botao-add-telefone").on("click",function(){
-
-        var objeto = $("#pessoa-form").data("pessoa");
-
-        var $btn = $(this);
-
-        $btn.btnload("load");
-
-        rest({
-          url:PATH+"/contatos",
-          data:{
-            idpessoa:objeto.idpessoa,
-            idcontatotipo:2,
-            descontato:123,
-            inprincipal:1,
-            idcontatosubtipo:3
-          },
-          method:"POST",
-          success:function(r){
-          
-            var $formControl = $(tplTelefone(r.data));
-
-            $(".lista-telefones").append($formControl);
-
-            $formControl.find("select").combobox({
-              url:PATH+"/contatossubtipos?idcontatotipo=2",
-              valueField:"idcontatosubtipo",
-              displayField:"descontatosubtipo"
-            });
-
-            $formControl.find("button.md-close").on("click", function(){
-              $(this).closest(".form-group").remove();
-            });
-=======
   var tplTelefone = Handlebars.compile($("#tpl-telefone").html());
   $("#botao-add-telefone").on("click",function(){
     
     var $formControl = $(tplTelefone({}));
->>>>>>> 45fe92565923edad68b3fb28d5c8840065d82325
 
     $(".lista-telefones").append($formControl);
 

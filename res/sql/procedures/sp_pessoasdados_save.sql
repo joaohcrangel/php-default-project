@@ -37,7 +37,7 @@ BEGIN
     NOW()
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
-    INNER JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
+    LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
     LEFT JOIN tb_contatos d ON d.idcontato = (SELECT d1.idcontato FROM tb_contatos d1 WHERE d1.idpessoa = a.idpessoa AND d1.idcontatotipo = 1 ORDER BY d1.inprincipal DESC LIMIT 1) -- E-MAIL
     LEFT JOIN tb_contatos e ON e.idcontato = (SELECT e1.idcontato FROM tb_contatos e1 WHERE e1.idpessoa = a.idpessoa AND e1.idcontatotipo IN(2,3) ORDER BY e1.inprincipal DESC LIMIT 1) -- TELEFONE
     LEFT JOIN tb_documentos f ON f.iddocumento = (SELECT f1.iddocumento FROM tb_documentos f1 WHERE f1.idpessoa = a.idpessoa AND f1.iddocumentotipo = 1 LIMIT 1) -- CPF

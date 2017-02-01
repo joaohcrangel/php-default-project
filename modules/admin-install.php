@@ -1319,7 +1319,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 		CREATE TABLE tb_carrinhosfretes(
 			idcarrinho INT NOT NULL,
 			descep CHAR(8) NOT NULL,
-			vlfrete INT NOT NULL,
+			vlfrete DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -1337,6 +1337,31 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 
 	echo success();
 
+});
+
+$app->get("/install-admin/sql/carrinhos/triggers", function(){
+	$sql = new Sql();
+
+	$triggers = array(
+		"tg_carrinhoscupons_AFTER_INSERT",
+		"tg_carrinhoscupons_AFTER_UPDATE",
+		"tg_carrinhoscupons_AFTER_DELETE",
+
+		"tg_carrinhosfretes_AFTER_INSERT",
+		"tg_carrinhosfretes_AFTER_UPDATE",
+		"tg_carrinhosfretes_AFTER_DELETE",
+
+		"tg_carrinhosprodutos_AFTER_INSERT",
+		"tg_carrinhosprodutos_AFTER_UPDATE",
+		"tg_carrinhosprodutos_AFTER_DELETE"
+	);
+
+	foreach ($triggers as $name) {
+		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+	}
+
+	echo success();
 });
 
 $app->get("/install-admin/sql/carrinhos/list", function(){
@@ -1388,7 +1413,8 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 		"sp_carrinhos_save",
 		"sp_carrinhosprodutos_save",
 		'sp_carrinhoscupons_save',
-		'sp_carrinhosfretes_save'
+		'sp_carrinhosfretes_save',
+		'sp_carrinhosdados_save'
 	);
 
 	foreach ($procs as $name) {

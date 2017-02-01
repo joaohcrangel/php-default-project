@@ -387,13 +387,6 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		1, 'root', $hash, 1
 	));
 
-	$sql->query("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
-		(?, ?, ?, ?);
-	", array(
-		1, 'root', $hash, 1
-	));
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/get", function(){

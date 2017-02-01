@@ -37,9 +37,9 @@ BEGIN
     NOW()
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
-    INNER JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
-    LEFT JOIN tb_contatos d ON d.idcontato = (SELECT d1.idcontato FROM tb_contatos d1 WHERE d1.idpessoa = a.idpessoa AND d1.idcontatotipo = 1 ORDER BY d1.inprincipal DESC LIMIT 1) -- E-MAIL
-    LEFT JOIN tb_contatos e ON e.idcontato = (SELECT e1.idcontato FROM tb_contatos e1 WHERE e1.idpessoa = a.idpessoa AND e1.idcontatotipo IN(2,3) ORDER BY e1.inprincipal DESC LIMIT 1) -- TELEFONE
+    LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
+    LEFT JOIN tb_contatos d ON d.idcontato = (SELECT d1.idcontato FROM tb_contatos d1 INNER JOIN tb_contatossubtipos d2 ON d1.idcontatosubtipo = d2.idcontatosubtipo WHERE d1.idpessoa = a.idpessoa AND d2.idcontatotipo = 1 ORDER BY d1.inprincipal DESC LIMIT 1) -- E-MAIL
+    LEFT JOIN tb_contatos e ON e.idcontato = (SELECT e1.idcontato FROM tb_contatos e1 INNER JOIN tb_contatossubtipos e2 ON e1.idcontatosubtipo = e2.idcontatosubtipo WHERE e1.idpessoa = a.idpessoa AND e2.idcontatotipo IN(2,3) ORDER BY e1.inprincipal DESC LIMIT 1) -- TELEFONE
     LEFT JOIN tb_documentos f ON f.iddocumento = (SELECT f1.iddocumento FROM tb_documentos f1 WHERE f1.idpessoa = a.idpessoa AND f1.iddocumentotipo = 1 LIMIT 1) -- CPF
     LEFT JOIN tb_documentos g ON g.iddocumento = (SELECT g1.iddocumento FROM tb_documentos g1 WHERE g1.idpessoa = a.idpessoa AND g1.iddocumentotipo = 2 LIMIT 1) -- CNPJ
     LEFT JOIN tb_documentos h ON h.iddocumento = (SELECT h1.iddocumento FROM tb_documentos h1 WHERE h1.idpessoa = a.idpessoa AND h1.iddocumentotipo = 3 LIMIT 1) -- RG

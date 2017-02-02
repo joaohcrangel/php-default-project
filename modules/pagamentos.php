@@ -9,6 +9,34 @@ $app->get("/pagamentos/all", function(){
 
 });
 
+$app->get("/pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $where = array();
+
+    if(isset($_GET['despessoa'])){
+        array_push($where, "b.despessoa LIKE %".get('despessoa')."%");
+    }
+
+    if(isset($_GET['idformapagamento'])){
+        array_push($where, "c.idformapagamento = ".((int)get('idformapagamento')));
+    }
+
+    if(isset($_GET['idstatus'])){
+        array_push($where, "d.idstatus = ".((int)get('idstatus')));
+    }
+
+    if(count($where) > 0){
+        $where = "WHERE ".implode(" AND ", $where);
+    }else{
+        $where = "";
+    }
+
+    
+
+});
+
 $app->post("/pagamentos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

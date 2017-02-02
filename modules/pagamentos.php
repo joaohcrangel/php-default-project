@@ -16,7 +16,7 @@ $app->get("/pagamentos", function(){
     $where = array();
 
     if(isset($_GET['despessoa'])){
-        array_push($where, "b.despessoa LIKE %".get('despessoa')."%");
+        array_push($where, "b.despessoa LIKE '%".get('despessoa')."%'");
     }
 
     if(isset($_GET['idformapagamento'])){
@@ -33,7 +33,31 @@ $app->get("/pagamentos", function(){
         $where = "";
     }
 
-    
+    $query = "
+    SELECT SQL_CALC_FOUND_ROWS * FROM tb_pagamentos a
+        INNER JOIN tb_pessoas b ON a.idpessoa = b.idpessoa
+        INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
+        INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
+    ".$where." ORDER BY b.despessoa LIMIT ?, ?;";
+
+    $pagina = (int)get('pagina');
+    $itemsPerPage = (int)get('limite');
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        'Pagamentos',
+        $itemsPerPage
+    );
+
+    $pagamentos = $paginacao->getPage($pagina);
+
+    echo success(array(
+        "data"=>$pagamentos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "currentPage"=>$pagina,
+        "itemsPerPage"=>$itemsPerPage
+    ));
 
 });
 

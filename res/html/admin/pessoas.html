@@ -60,15 +60,17 @@
     </div>
     <!-- Mailbox Content -->
     <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
-      <!-- Mailbox -->
-      <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
-      data-child="tr">
-        <tbody>
-                    
-        </tbody>
-      </table>
-      <!-- pagination -->
-      <ul data-plugin="paginator" data-total="50" data-skin="pagination-gap"></ul>
+      <div class="panel">
+        <!-- Mailbox -->
+        <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
+        data-child="tr">
+          <tbody>
+                      
+          </tbody>
+        </table>
+        <!-- pagination -->
+        <div id="paginacao"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -144,9 +146,16 @@ init.push(function(){
 
   });
 
-  function consultar() {
+  function consultar(pagina) {
 
+    var panel = System.getPanelApi($('#mailContent .panel'));
+
+    panel.load();
+
+    if (!pagina) pagina = 1;
     var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
 
     rest({
       url:PATH+"/pessoas",
@@ -154,6 +163,21 @@ init.push(function(){
       success:function(r){
 
         renderPessoas(r.data);
+
+        panel.done();
+
+        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          skin:'pagination-gap',
+          currentPage: r.currentPage,
+          itemsPerPage: r.itensPerPage,
+          onChange: function(a){
+            
+            consultar(a);
+
+          }
+        });
+
+        $("#paginacao").asPaginator(r.total, config);
 
       },
       failure:function(e){

@@ -50,6 +50,8 @@ $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 
 $app->get("/pessoas",function(){	
 
+	sleep(3);
+
 	$q = get("q");
 
 	$where = array();
@@ -79,17 +81,27 @@ $app->get("/pessoas",function(){
 		$where = "";
 	}
 
-	$pessoas = new Pessoas();
-	
-	$query = "
-		select * from tb_pessoasdados ".$where." order by despessoa
-	";
+	/***********************************************************************************************/
+	$pagina = (int)get('pagina');//Página atual
+	$itensPorPagina = 5;//Itens por página
 
-	$pessoas->loadFromQuery($query);
+	$paginacao = new Pagination(
+		"SELECT SQL_CALC_FOUND_ROWS * FROM tb_pessoasdados ".$where." ORDER BY despessoa LIMIT ?, ?",//Query com as duas interrogações no LIMIT
+	    array(),//Outros parâmetros
+	    'Pessoas',//Coleção que será retornada
+	    $itensPorPagina//Informo os itens por página
+	);
+
+	$pessoas = $paginacao->getPage($pagina);//Neste momento vai no banco e solicita os itens da página específica
 
 	echo success(array(
-   		"data"=>$pessoas->getFields()
+   		"data"=>$pessoas->getFields(),//Devolvo os dados
+   		"total"=>$paginacao->getTotal(),//Mostro o total
+   		"currentPage"=>$pagina,//Mostro a página atual
+   		"itensPerPage"=>$itensPorPagina//Mostro a quantidade de itens por página
 	));
+	/***********************************************************************************************/
+
 });
 
 $app->get("/pessoas/all", function(){

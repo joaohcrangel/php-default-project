@@ -240,6 +240,34 @@ $app->get("/panel/documento-tipo-criar", function(){
 	$page->setTpl("panel/documento-tipo-criar");
 
 });
+
+// Enderecos-tipos
+
+$app->get("/panel/enderecos/tipos/:idenderecotipo", function($idenderecotipo){
+
+	$endereco = new EnderecoTipo((int)$idenderecotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/endereco-tipo-salvar", array(
+		"endereco"=>$endereco->getFields()
+	));
+
+});
+
+$app->get("/panel/endereco-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/endereco-tipo-criar");
+
+});
 ////////////////////////////////////////////////////////////////
 
 // pessoas

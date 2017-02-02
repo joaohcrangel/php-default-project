@@ -8,6 +8,43 @@
 
  });
 
+ $app->get('/enderecos/tipos', function () {
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	echo success(array(
+		'data'=>EnderecosTipos::listAll()->getFields()
+	));
+
+});
+
+ $app->post('/enderecos-tipos', function () {
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $enderecotipo = new EnderecoTipo($_POST);
+
+    $enderecotipo->save();
+
+    echo success(array(
+        'data'=>$enderecotipo->getFields()
+    ));
+
+});
+
+$app->delete('/enderecos-tipos/:idenderecotipo', function ($idenderecotipo) {
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$enderecotipo = new EnderecoTipo((int)$idenderecotipo);
+
+	$enderecotipo->remove();
+
+	echo success();
+
+});
+ 
+
  $app->post("/".DIR_ADMIN."/enderecos", function(){
 
  	Permissao::checkSession(Permissao::ADMIN, true);

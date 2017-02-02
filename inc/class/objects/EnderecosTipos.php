@@ -11,7 +11,7 @@ class EnderecosTipos extends Collection {
 
     public static function listAll(){
       $col = new  EnderecosTipos();
-      $col->loadFromQuery("call sp_enderecotipo_list()");
+      $col->loadFromQuery("call sp_enderecostipos_list()");
       return $col;
 
     }

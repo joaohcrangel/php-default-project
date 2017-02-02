@@ -1,5 +1,9 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
 <style>
+#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
 #actions-buttons button .icon {
   font-size: 32px;
 }
@@ -76,7 +80,7 @@
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
-      <div>{{total}} Resultado(s)</div>
+      <div>{{data.length}} de {{total}} resultado(s)</div>
     </div>
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
@@ -163,6 +167,10 @@ init.push(function(){
 
         renderPessoas(r.data);
 
+        var $footer = $("#pessoa-footer");
+
+        $footer.html(tpl.footer(r));
+
         panel.done();
 
         var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
@@ -188,7 +196,6 @@ init.push(function(){
 
   function renderPessoas(lista) {
 
-    var $footer = $("#pessoa-footer");
     var $lista = $("#lista");
     var $tbody = $lista.find("tbody");
 
@@ -201,10 +208,6 @@ init.push(function(){
         $tbody.append(tpl.row(pessoa));
 
       });
-
-      $footer.html(tpl.footer({
-        total:lista.length
-      }));
 
     }
 

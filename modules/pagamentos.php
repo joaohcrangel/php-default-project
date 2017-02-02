@@ -34,7 +34,7 @@ $app->get("/pagamentos", function(){
     }
 
     $query = "
-    SELECT SQL_CALC_FOUND_ROWS * FROM tb_pagamentos a
+    SELECT SQL_CALC_FOUND_ROWS a.*, b.despessoa, c.desformapagamento, d.desstatus FROM tb_pagamentos a
         INNER JOIN tb_pessoas b ON a.idpessoa = b.idpessoa
         INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
         INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus

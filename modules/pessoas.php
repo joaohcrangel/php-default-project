@@ -48,9 +48,7 @@ $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 
 });
 
-$app->get("/pessoas",function(){	
-
-	sleep(3);
+$app->get("/pessoas",function(){
 
 	$q = get("q");
 
@@ -83,7 +81,7 @@ $app->get("/pessoas",function(){
 
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
-	$itensPorPagina = 5;//Itens por página
+	$itensPorPagina = (int)get('limite');//Itens por página
 
 	$paginacao = new Pagination(
 		"SELECT SQL_CALC_FOUND_ROWS * FROM tb_pessoasdados ".$where." ORDER BY despessoa LIMIT ?, ?",//Query com as duas interrogações no LIMIT

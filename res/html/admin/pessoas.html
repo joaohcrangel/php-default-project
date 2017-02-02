@@ -58,19 +58,17 @@
         </div>
       </div>
     </div>
-    <!-- Mailbox Content -->
     <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
-      <div class="panel">
-        <!-- Mailbox -->
-        <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
-        data-child="tr">
-          <tbody>
-                      
-          </tbody>
-        </table>
-        <!-- pagination -->
-        <div id="paginacao"></div>
+      <div style="border-bottom: #e0e0e0 1px solid;">
+        <div class="panel panel-bordered overflow-auto" data-auto-height="-245">
+          <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
+          data-child="tr">
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
+      <!-- pagination -->
+      <div id="paginacao"></div>
     </div>
   </div>
 </div>
@@ -156,6 +154,7 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
+    data.limite = 10;
 
     rest({
       url:PATH+"/pessoas",

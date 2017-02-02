@@ -55,7 +55,22 @@ $app->get("/pessoas",function(){
 	$where = array();
 
 	if ($q) {
-		array_push($where, "despessoa LIKE '%".$q."%'");
+
+		$whereOr = array();
+
+		array_push($whereOr, "despessoa LIKE '%".utf8_decode($q)."%'");
+		array_push($whereOr, "desusuario = '".utf8_decode($q)."'");
+		array_push($whereOr, "desemail = '".utf8_decode($q)."'");
+		array_push($whereOr, "destelefone = '".utf8_decode($q)."'");
+		array_push($whereOr, "descpf = '".utf8_decode($q)."'");
+		array_push($whereOr, "descnpj = '".utf8_decode($q)."'");
+		array_push($whereOr, "desrg = '".utf8_decode($q)."'");
+
+		array_push($where, "(".implode(" OR ", $whereOr).")");
+	}
+
+	if (isset($_GET['idpessoatipo'])) {
+		array_push($where, "idpessoatipo = ".((int)get('idpessoatipo')));
 	}
 
 	if (count($where) > 0) {
@@ -65,12 +80,13 @@ $app->get("/pessoas",function(){
 	}
 
 	$pessoas = new Pessoas();
-	// $pessoas->loadFromQuery("
-	// 	select * from tb_pessoasdados ".$where." order by despessoa
-	// ");
-	$pessoas->loadFromQuery("
-		select * from tb_pessoas ".$where." order by despessoa
-	");
+	
+	$query = "
+		select * from tb_pessoasdados ".$where." order by despessoa
+	";
+
+	$pessoas->loadFromQuery($query);
+
 	echo success(array(
    		"data"=>$pessoas->getFields()
 	));

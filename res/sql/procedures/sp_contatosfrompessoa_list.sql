@@ -5,7 +5,8 @@ BEGIN
 
 	SELECT * 
 	FROM tb_contatos a
-	INNER JOIN tb_contatostipos b ON a.idcontatotipo = b.idcontatotipo 
+	INNER JOIN tb_contatossubtipos b ON a.idcontatosubtipo = b.idcontatosubtipo 
+	INNER JOIN tb_contatostipos c ON c.idcontatotipo = b.idcontatotipo 
 	WHERE idpessoa = pidpessoa 
 	ORDER BY descontato;
 

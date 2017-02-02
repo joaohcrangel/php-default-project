@@ -1,4 +1,4 @@
-<div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-usuarios"><div class="panel-heading"><h3 class="panel-title">Usuários</h3><div class="form-group p-x-25"><div class="input-group" id="pesquisar"><input type="text" class="form-control" name="" placeholder="Filtrar..."> <span class="input-group-btn"><button type="button" class="btn btn-primary waves-effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-162"></ul></div></div><div class="col-sm-8"><div class="p-y-15"><div class="row-fluid"><div class="col-sm-6 p-0" id="panel-permissao-container"></div><div class="col-sm-6 p-0" id="panel-menu-container"></div></div></div></div></div></div></div><script id="tpl-usuario-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25 curso-pointer" data-idusuario="{{idusuario}}">
+<div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-usuarios"><div class="panel-heading"><h3 class="panel-title">Usuários</h3><div class="form-group p-x-25"><div class="input-group" id="pesquisar"><input type="text" class="form-control" name="" placeholder="Filtrar..."> <span class="input-group-btn"><button type="button" class="btn btn-primary waves-effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-162"></ul></div></div><div class="col-sm-8"><div class="p-y-15"><div class="row-fluid"><div class="col-sm-6 p-0" id="panel-permissao-container"></div><div class="col-sm-6 p-0" id="panel-menu-container"></div></div></div></div></div></div></div><div class="modal fade modal-success" id="modal-permissoes-add" aria-labelledby="exampleModalSuccess" aria-hidden="true" role="dialog" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">Nova Permissão</h4></div><form><div class="modal-body"><div class="form-group form-material" data-plugin="formMaterial"><input type="text" class="form-control" name="despermissao" placeholder="Nome da Permissão"></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-success">Salvar</button></div></form></div></div></div><script id="tpl-usuario-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25 curso-pointer" data-idusuario="{{idusuario}}">
 	<div class="media">
 	  <div class="media-left">
 	    <div class="avatar">
@@ -25,6 +25,7 @@
 		<h3 class="panel-title">Permissões</h3>
 		<div class="panel-actions panel-actions-keep">
             <button type="button" class="panel-action icon md-refresh-alt btn btn-pure btn-refresh"></button>
+            <button type="button" id="btn-modal-add" class="panel-action icon md-plus btn btn-pure btn-plus"></button>
         </div>
     </div>
 	<ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-121"></ul>
@@ -70,6 +71,12 @@
 			loadPermissoes(idusuario);
 		});
 
+		$panelPermissoes.find("#btn-modal-add").on("click", function(){
+
+	    	$("#modal-permissoes-add").modal("show");
+
+	    });
+
 		panel.load();
 
 		rest({
@@ -106,7 +113,7 @@
 										idpermissao:value
 									},
 									success:function(rSetPermissao){
-
+										loadPermissoesMenu(idusuario);
 									},
 									failure:function(e){
 										System.showError(e);
@@ -137,6 +144,32 @@
 
 	}
 
+	function setTreeMenu(menus, parent){
+
+		var newMenus = [];
+
+		$.each(menus, function(index, m){
+
+			if (m.idmenupai === parent) {
+
+				m.text = m.desmenu;
+				m.state = {
+					opened: true
+				};
+
+				var childrens = setTreeMenu(menus, m.idmenu);
+
+				if (childrens.length) m.children = childrens;
+
+				newMenus.push(m);
+			}
+
+		});
+
+		return newMenus;
+
+	}
+
 	function loadPermissoesMenu(idusuario){
 
 		var $panelMenu = $(tpl.panelMenu({}));
@@ -150,6 +183,14 @@
 		rest({
 			url:PATH+"/usuarios/"+idusuario+"/menus",
 			success:function(r){
+
+				var menus = setTreeMenu(r.data, 0);
+
+				$('#jstreeExample_4').jstree({
+			      'core': {
+			        'data': menus
+			      }
+			    });
 
 				panel.done();
 
@@ -207,15 +248,6 @@
 
 	loadUsuarios();
 
-	$('#jstreeExample_4').jstree({
-      'core': {
-        'data': {
-          "url": PATH+"/res/theme/material/base/assets/data/treeview_jstree.json",
-          "dataType": "json"
-        }
-      }
-    });
-
     $pesquisarInput.on('keyup', function(e){
     	if (e.keyCode === 13) {
     		$pesquisarButton.trigger('click');	
@@ -224,6 +256,17 @@
 
     $pesquisarButton.on('click', function(){
     	loadUsuarios($pesquisarInput.val());
+    });
+
+    $("#modal-permissoes-add form").form({
+    	url:PATH+"/permissoes",
+    	success:function(r){
+    		$("#modal-permissoes-add").modal("hide");
+    		$("#panel-permissao .btn-refresh").trigger("click");
+    	},
+    	failure:function(e){
+    		System.showError(e);
+    	}
     });
 
 });</script>

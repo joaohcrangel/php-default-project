@@ -646,14 +646,12 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 	$sql->query("
 		CREATE TABLE tb_contatos (
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
-		  idcontatotipo int(11) NOT NULL,
 		  idcontatosubtipo int(11) NOT NULL,
 		  idpessoa int(11) NOT NULL,
 		  descontato varchar(128) NOT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idcontato),
-		  CONSTRAINT FOREIGN KEY FK_contatostipos (idcontatotipo) REFERENCES tb_contatostipos(idcontatotipo),
 		  CONSTRAINT FOREIGN KEY FK_contatossubtipos (idcontatosubtipo) REFERENCES tb_contatossubtipos(idcontatosubtipo),
 		  CONSTRAINT FOREIGN KEY FK_pessoascontatos (idpessoa) REFERENCES tb_pessoas(idpessoa)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
@@ -1739,11 +1737,11 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'Aura', 12, 1,
 		1, 'Elo', 12, 1,
 		1, 'Boleto', 1, 1,
-		1, 'Debito Online Itaú', 1, 1,
-		1, 'Debito Online Banco do Brasil', 1, 1,
-		1, 'Debito Online Banrisul', 1, 1,
-		1, 'Debito Online Bradesco', 1, 1,
-		1, 'Debito Online HSBC', 1, 1,
+		1, 'Débito Online Itaú', 1, 1,
+		1, 'Débito Online Banco do Brasil', 1, 1,
+		1, 'Débito Online Banrisul', 1, 1,
+		1, 'Débito Online Bradesco', 1, 1,
+		1, 'Débito Online HSBC', 1, 1,
 		1, 'PlenoCard', 3, 1,
 		1, 'PersonalCard', 3, 1,
 		1, 'JCB', 1, 1,

@@ -542,6 +542,7 @@ class Sql {
 		switch($this->type){
 
 			case SQL::PDO:
+
 			$data = $resource->fetchAll();
 
 			foreach ($data as &$row) {
@@ -718,7 +719,8 @@ class Sql {
 			case Sql::PDO:
 
 				$sth = $this->conn->prepare($query);
-				$sth->execute(str_replace("'", "", $this->trataParams($params)));
+				$sth->execute($params);
+
 				$data = $this->getArrayRows($sth);
 
 			break;
@@ -759,30 +761,20 @@ class Sql {
 
 	public function proc($name, $params = array(), $returnQuery = false){
 
+		$i = array();
+		foreach ($params as $p) {
+			array_push($i, "?");
+		}
+
 		switch($this->getType()){
 
 			case Sql::MYSQL:
-			$i = array();
-			foreach ($params as $p) {
-				array_push($i, "?");
-			}
+			case Sql::PDO:
 			$query = "CALL ".$name."(".implode(", ", $i).");";
 			break;
 
 			case Sql::SQLSERVER:
-			$i = array();
-			foreach ($params as $p) {
-				array_push($i, "?");
-			}
 			$query = "EXEC ".$name." ".implode(", ", $i);
-			break;
-
-			case Sql::PDO:
-			$i = array();
-			foreach ($params as $p) {
-				array_push($i, "?");
-			}
-			$query = "CALL ".$name."(".implode(", ", $i).");";
 			break;
 
 		}

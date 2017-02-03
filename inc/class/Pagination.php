@@ -63,17 +63,12 @@ class Pagination {
 
 		$sql = new Sql();
 
-		$results = $sql->querys(array(
-			$this->query,
-			'SELECT FOUND_ROWS() AS '.Pagination::COLUMN_TOTAL_NAME.';'
-		), array(
-			$this->params,
-			array()
-		));
+		$result1 = $sql->arrays($this->query, false, $this->params);
+		$result2 = $sql->select('SELECT FOUND_ROWS() AS '.Pagination::COLUMN_TOTAL_NAME.';');
 
-		$collection->load($results[0]);
+		$collection->load($result1);
 
-		$this->totalItems = $results[1][0][Pagination::COLUMN_TOTAL_NAME];
+		$this->totalItems = $result2[Pagination::COLUMN_TOTAL_NAME];
 		$this->totalPages = ($this->totalItems / $this->itemsPerPage);
 
 		return $collection;

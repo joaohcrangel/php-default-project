@@ -353,6 +353,16 @@ $app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/usuarios-tipos");
+
+});
+
 
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 

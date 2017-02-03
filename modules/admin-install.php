@@ -510,6 +510,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'Pessoas'
 	));
 	$sql->proc("sp_menus_save", array(
+		NULL,
+		0,
+		'md-accounts', 
+		'', 
+		0, 
+		'Tipos'
+	));
+	$sql->proc("sp_menus_save", array(
 		2,
 		0,
 		'', 
@@ -548,14 +556,38 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'/permissoes', 
 		3, 
 		'Permissões'
-	))
-	;$sql->proc("sp_menus_save", array(
-		2,
+	));
+	$sql->proc("sp_menus_save", array(
+		0,
 		0,
 		'', 
 		'/produtos', 
-		4, 
-		'produtos'
+		3, 
+		'Produtos'
+	));
+	$sql->proc("sp_menus_save", array(
+		4,
+		0,
+		'', 
+		'/enderecos-tipos', 
+		3, 
+		'Endereços'
+	));
+	$sql->proc("sp_menus_save", array(
+		4,
+		0,
+		'', 
+		'/usuarios-tipos', 
+		3, 
+		'Usuários'
+	));
+	$sql->proc("sp_menus_save", array(
+		4,
+		0,
+		'', 
+		'/documentos-tipos', 
+		3, 
+		'Documentos'
 	));
 	
 	echo success();

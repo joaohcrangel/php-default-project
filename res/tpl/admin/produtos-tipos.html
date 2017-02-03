@@ -1,84 +1,136 @@
-<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-produtos"><div class="panel-heading"><h3 class="panel-title">Produtos</h3><div class="panel-actions"><a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Produto<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action animation-duration-300"><button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel"><i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-produto-row" type="text/x-handlebars-template"><tr data-idproduto="{{idproduto}}">
-	<td>{{desproduto}}</td>
-	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
-      	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
-      	</button>
-	</td>
-</tr></script><script>init.push(function(){
+<div class="page">
+    <div class="page-content">
+        <div class="row-fluid">
+            <div class="col-sm-12">
+                <div class="panel" id="panel-produtos-tipos">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Produtos
+                        </h3>
+                        <div class="panel-actions">
+                            <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
+                            aria-hidden="true"><i class="icon wb-refresh"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                
+                                <th>
+                                    Produtos
+                                </th>
+                                
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site-action">
+        <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produtos-tipos-criar"  data-toggle="slidePanel">
+          <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
+          <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>
 
-	var panel = System.getPanelApi($("#panel-produtos"));
+<script id="tpl-produtos-tipos" type="/x-handlebars-temprate">
+    <tr data-idprodutotipo="{{idprodutotipo}}">
+    <td>{{desprodutotipo}}</td>
+    <td>
+        <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos-tipos/{{idprodutotipo}}" data-toggle="slidePanel">
+        </button>
+        <button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
+        </button>
+    </td>
+    </tr>
+</script>
 
-	var $tbody = $("#panel-produtos tbody");
+<script>
+init.push(function(){
+    var panel = System.getPanelApi($("#panel-produtos-tipos"));
 
-	var $tpl = Handlebars.compile($("#tpl-produto-row").html());
+    var $tbody = $("#panel-produtos-tipos tbody");
 
-	function loadProdutos(){
+    var $tplProdutosTipos = Handlebars.compile($("#tpl-produtos-tipos").html());
 
-		$(".refresh").on("click", function(){
-			loadProdutos();
-		});
+    function loadProdutosTipos(){
 
-		panel.load();
+        $(".refresh").on("click", function(){
+            loadProdutosTipos();
 
-		rest({
-			url:PATH+"/produtos/all",
-			success:function(r){
+        });
 
-				$tbody.html('');
+        panel.load();
 
-				$.each(r.data, function(index, row){
+        rest({
+            url:PATH+"/produtos/tipos",
+            success:function(r){
 
-					$tbody.append($tpl(row));
+                $tbody.html('');
 
-				});
+                $.each(r.data, function(index, row){
 
-				initSlidePanel($tbody);
+                    $tbody.append($tplProdutosTipos(row));
 
-				panel.done();
+                });
 
-				$(".btn-excluir-produto").on("click", function(e){
+                initSlidePanel($tbody);
 
-					var $btn = $(this);
+                panel.done();
 
-					var idproduto = $btn.closest("tr").data("idproduto");
+                $(".btn-excluir-produto").on("click", function(e){
 
-					System.confirm('Deseja remover o produto?', function(b){
-				      	if (b) {
+                    var $btn = $(this);
 
-					        System.load();
+                    var idprodutotipo = $btn.closest("tr").data("idprodutotipo");
+                    System.confirm('Deseja remover esse produto?', function(b, s, f){
+                        if (b) {
 
-					        rest({
-					          url: PATH+"/produtos/"+idproduto,
-					          method:'DELETE',
-					          success: function(r){
+                            System.load();
 
-					            System.done();
-					            loadProdutos();
-					            System.success("Produto excluído com sucesso");
+                            rest({
+                                url: PATH+"/produtos-tipos/"+idprodutotipo,
+                                 method:'DELETE',
+                                success: function(r){
 
-					          },
-					          failure: function(e){
-					            System.done();
-					            System.showError(e);
-					          }
-					        });
+                                    System.done();
+                                    loadProdutosTipos();
+                                    s();
 
-				      	}
-				    });
+                                },
+                                failure: function(e){
+                                    System.done();
+                                    System.showError(e);
+                                    f();
+                                } 
+                            });
 
-				});
+                        } else {
+                            f();
+                        }
 
-			},
-			failure:function(r){
-				System.showError(r);
-				panel.done();
-			}
-		});
+                    });             
 
-	};
+                });    
 
-	loadProdutos();
+            },
+            failure:function(r){
+                System.showError(r);
+                panel.done();
+            }
+        });
+    };
 
-});</script>
+    loadProdutosTipos();
+});
+</script>

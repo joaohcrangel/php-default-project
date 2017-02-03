@@ -718,6 +718,7 @@ class Sql {
 
 			case Sql::PDO:
 
+				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 				$sth = $this->conn->prepare($query);
 				$sth->execute($params);
 

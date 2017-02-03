@@ -2,10 +2,10 @@
     <div class="page-content">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-permissoes">
+                <div class="panel" id="panel-usuario-tipo">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            Permissões
+                            Usuarios
                         </h3>
                         <div class="panel-actions">
                             <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
@@ -16,7 +16,7 @@
                         <thead>
                              <tr>
                                 <th>
-                                    Permissão
+                                    Usuario
                                 </th>
                                 <th>
                                     &nbsp;
@@ -33,46 +33,50 @@
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/permissao-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/usuario-tipo-criar" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
             </i>
         </button>
     </div>
-</div><script id="tpl-permissao" type="/x-handlebars-temprate"><tr data-idpermissao="{{idpermissao}}">
-	<td>{{despermissao}}</td>
+</div><script id="tpl-usuario-tipo" type="/x-handlebars-temprate"><tr data-idusuariotipo="{{idusuariotipo}}">
+	<td>{{desusuariotipo}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/permissoes/{{idpermissao}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/usuario-tipo/{{idusuariotipo}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-permissao icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-usuario icon wb-trash">
       	</button>
 	</td>
-	</tr></script><script>init.push(function(){
-	var panel = System.getPanelApi($("#panel-permissoes"));
+	</tr>
 
-	var $tbody = $("#panel-permissoes tbody");
+	</script>
 
-	var $tplPermissao = Handlebars.compile($("#tpl-permissao").html());
+	<script>init.push(function(){
+	var panel = System.getPanelApi($("#panel-usuario-tipo"));
 
-	function loadPermissoes(){
+	var $tbody = $("#panel-usuario-tipo tbody");
+
+	var $tplUsuarioTipo = Handlebars.compile($("#tpl-usuario-tipo").html());
+
+	function loadUsuarioTipo(){
 
 		$(".refresh").on("click", function(){
-			loadPermissoes();
+			loadUsuarioTipo();
 
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/permissoes",
+			url:PATH+"/usuarios/tipos",
 			success:function(r){
 
 				$tbody.html('');
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplPermissao(row));
+					$tbody.append($tplUsuarioTipo(row));
 
 				});
 
@@ -80,23 +84,23 @@
 
 				panel.done();
 
-				$(".btn-excluir-permissao").on("click", function(e){
+				$(".btn-excluir-usuario").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idpermissao = $btn.closest("tr").data("idpermissao");
-					System.confirm('Deseja remover essa permissao?', function(b, s, f){
+					var idusuariotipo = $btn.closest("tr").data("idusuariotipo");
+					System.confirm('Deseja remover esse usuario?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/permissoes/"+idpermissao,
+				          		url: PATH+"/usuarios-tipos/"+idusuariotipo,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadPermissoes();
+				           		 	loadUsuarioTipo();
 				            		s();
 
 				          		},
@@ -123,5 +127,5 @@
 		});
 	};
 
-    loadPermissoes();
+    loadUsuarioTipo();
 });</script>

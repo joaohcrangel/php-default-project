@@ -81,6 +81,56 @@ $app->get("/usuariostipos", function(){
     ));
 
 });
+/////////////////////////////////////////////////////////////////
+$app->get("/usuarios/tipos", function(){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+    echo success(array(
+    	'data'=>UsuariosTipos::listAll()->getFields()
+    ));
+
+});
+
+$app->post("/usuarios-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(post('idusuariotipo') > 0){
+        $usuariotipo = new UsuarioTipo((int)post('idusuariotipo'));
+    }else{
+        $usuariotipo = new UsuarioTipo();
+    }
+
+    foreach ($_POST as $key => $value) {
+        $usuariotipo->{'set'.$key}($value);
+    }
+
+    $usuariotipo->save();
+
+    echo success(array("data"=>$usuariotipo->getFields()));
+
+});
+
+$app->delete("/usuarios-tipos/:idusuariotipo", function($idusuariotipo){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idusuariotipo){
+        throw new Exception("Tipo de usuario não informado", 400);        
+    }
+
+    $usuariotipo = new UsuarioTipo((int)$idusuariotipo);
+
+    if(!(int)$usuariotipo->getidusuariotipo() > 0){
+        throw new Exception("Tipo de usuario não encontrado", 404);        
+    }
+
+    $usuariotipo->remove();
+
+    echo success();
+
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/usuarios/:idusuario/permissoes", function($idusuario){
 

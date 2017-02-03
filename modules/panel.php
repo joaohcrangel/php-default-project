@@ -186,7 +186,7 @@ $app->get("/panel/cupom-criar", function(){
 /////////////////////////////////////////
 // produto-tipo salvar
 
-$app->get("/panel/produtos/tipos/:idprodutotipo", function($idprodutotipo){
+$app->get("/panel/produtos-tipos/:idprodutotipo", function($idprodutotipo){
 
 	$produto = new ProdutoTipo((int)$idprodutotipo);
 
@@ -209,6 +209,34 @@ $app->get("/panel/produtos-tipos-criar", function(){
 	));
 
 	$page->setTpl("panel/produto-tipo-criar");
+
+});
+/////////////////////////////////////////
+// Usuario-tipo salvar
+
+$app->get("/panel/usuario-tipo/:idusuariotipo", function($idusuariotipo){
+
+	$usuario = new UsuarioTipo((int)$idusuariotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/usuario-tipo-salvar", array(
+		"usuariotipo"=>$usuario->getFields()
+	));
+
+});
+
+$app->get("/panel/usuario-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/usuario-tipo-criar");
 
 });
 

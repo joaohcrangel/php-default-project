@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Editar Produto
+                Editar Usuário
             </h5>
         </h4>
     </div>
@@ -17,32 +17,36 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-produto-tipo-save">
+            <form id="form-usuario-tipo-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idprodutotipo">
+                        <input type="hidden" name="idusuariotipo">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desprodutotipo">
+                        <input type="text" class="form-control" name="desusuariotipo">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnProduto-tipo-Save" type="submit">
-                        Salvar Novo Produto
+                    <button class="btn btn-block btn-primary" id="btnUsuario-tipo-Save" type="submit">
+                        Salvar Novo Usuário
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script>var produtoTipo = JSON.parse('{function="json_encode($produto)"}');
+<script>
+var usuarioTipo = JSON.parse('{function="json_encode($usuariotipo)"}');
+console.log(usuarioTipo);
 
-$("#form-produto-tipo-save").form({
-  url:PATH+"/produtos-tipos",
+$("#form-usuario-tipo-save").formLoad(usuarioTipo);
+
+$("#form-usuario-tipo-save").form({
+  url:PATH+"/usuario-tipo",
   params:{
-    idprodutotipo:produtoTipo.idprodutotipo
+    idusuariotipo:usuarioTipo.idusuariotipo
   },
   success:function(){
-    System.success("Produto criado com sucesso");
+    System.success("Usuario criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
 
@@ -52,8 +56,5 @@ $("#form-produto-tipo-save").form({
   }
 });
 
-$("#form-produto-tipo-save").formLoad(produtoTipo);
 
 </script>
-
-

@@ -4,11 +4,34 @@ $app->get("/produtos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>Produtos::listAll()->getFields()));
+    $quary = "
+        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtos
+        INNER JOIN tb_produtostipos USING(idprodutotipo) LIMIT ?, ?
+    ;";
+
+    $pagina = (int)get('pagina');    
+
+    $itemsPorPagina = (int)get('limit');
+
+    $paginacao = new Pagination(
+        $quary,
+        array(),
+        "Produtos",
+        $itemsPorPagina
+    );
+
+    $produtos = $paginacao->getPage($pagina); 
+
+    echo success(array(
+        "data"=>$produtos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "paginaAtual"=>$pagina,
+        "itemsPorPagina"=>$itemsPorPagina
+    ));
 
 });
 
-$app->post('/produtos', function(){
+$app->post('/produtos', function(){ 
 
     Permissao::checkSession(Permissao::ADMIN, true);
 

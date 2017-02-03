@@ -131,7 +131,7 @@
               idcontatotipo:row.idcontatotipo,
               idcontatosubtipo:$input.find("[name=idcontatosubtipo]").val(),
               idpessoa:pessoa.idpessoa,
-              inprincipal:Number(row.inprincipal),
+              inprincipal:row.inprincipal,
               descontato:$input.find("input").val()
             },
             success:function(r){

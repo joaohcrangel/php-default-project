@@ -34,6 +34,23 @@ $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
 
 });
 
+$app->get("/usuarios/teste", function(){
+
+	$usuario = new Usuario(array(
+		"idusuario"=>0,
+		"idpessoa"=>1,
+		"desusuario"=>"TestandoBit",
+		"dessenha"=>"14789632",
+		"inbloqueado"=>1,
+		"idusuariotipo"=>1
+	));
+
+	$usuario->save();
+
+	echo success();
+
+});
+
 $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
      
      $pessoa = new Pessoa(array(

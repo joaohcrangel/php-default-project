@@ -9,6 +9,58 @@ $app->get("/pagamentos/all", function(){
 
 });
 
+$app->get("/pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $where = array();
+
+    if(isset($_GET['despessoa'])){
+        array_push($where, "b.despessoa LIKE '%".get('despessoa')."%'");
+    }
+
+    if(isset($_GET['idformapagamento'])){
+        array_push($where, "c.idformapagamento = ".((int)get('idformapagamento')));
+    }
+
+    if(isset($_GET['idstatus'])){
+        array_push($where, "d.idstatus = ".((int)get('idstatus')));
+    }
+
+    if(count($where) > 0){
+        $where = "WHERE ".implode(" AND ", $where);
+    }else{
+        $where = "";
+    }
+
+    $query = "
+    SELECT SQL_CALC_FOUND_ROWS a.*, b.despessoa, c.desformapagamento, d.desstatus FROM tb_pagamentos a
+        INNER JOIN tb_pessoas b ON a.idpessoa = b.idpessoa
+        INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
+        INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
+    ".$where." ORDER BY b.despessoa LIMIT ?, ?;";
+
+    $pagina = (int)get('pagina');
+    $itemsPerPage = (int)get('limite');
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        'Pagamentos',
+        $itemsPerPage
+    );
+
+    $pagamentos = $paginacao->getPage($pagina);
+
+    echo success(array(
+        "data"=>$pagamentos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "currentPage"=>$pagina,
+        "itemsPerPage"=>$itemsPerPage
+    ));
+
+});
+
 $app->post("/pagamentos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

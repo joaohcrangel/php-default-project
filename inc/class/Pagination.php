@@ -77,7 +77,7 @@ class Pagination {
 
 	public function getTotalPages(){
 
-		return (int)floor($this->totalPages);
+		return (int)ceil($this->totalPages);
 
 	}
 

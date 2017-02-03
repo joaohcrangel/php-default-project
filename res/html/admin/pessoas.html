@@ -1,5 +1,9 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
 <style>
+#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
 #actions-buttons button .icon {
   font-size: 32px;
 }
@@ -58,17 +62,17 @@
         </div>
       </div>
     </div>
-    <!-- Mailbox Content -->
     <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
-      <!-- Mailbox -->
-      <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
-      data-child="tr">
-        <tbody>
-                    
-        </tbody>
-      </table>
+      <div style="border-bottom: #e0e0e0 1px solid;">
+        <div class="panel panel-bordered overflow-auto" data-auto-height="-245">
+          <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
+          data-child="tr">
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
       <!-- pagination -->
-      <ul data-plugin="paginator" data-total="50" data-skin="pagination-gap"></ul>
+      <div id="paginacao"></div>
     </div>
   </div>
 </div>
@@ -76,7 +80,7 @@
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
-      <div>{{total}} Resultado(s)</div>
+      <div>{{data.length}} de {{total}} resultado(s)</div>
     </div>
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
@@ -144,9 +148,17 @@ init.push(function(){
 
   });
 
-  function consultar() {
+  function consultar(pagina) {
 
+    var panel = System.getPanelApi($('#mailContent .panel'));
+
+    panel.load();
+
+    if (!pagina) pagina = 1;
     var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
+    data.limite = 10;
 
     rest({
       url:PATH+"/pessoas",
@@ -154,6 +166,25 @@ init.push(function(){
       success:function(r){
 
         renderPessoas(r.data);
+
+        var $footer = $("#pessoa-footer");
+
+        $footer.html(tpl.footer(r));
+
+        panel.done();
+
+        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          skin:'pagination-gap',
+          currentPage: r.currentPage,
+          itemsPerPage: r.itensPerPage,
+          onChange: function(a){
+            
+            consultar(a);
+
+          }
+        });
+
+        $("#paginacao").asPaginator(r.total, config);
 
       },
       failure:function(e){
@@ -165,7 +196,6 @@ init.push(function(){
 
   function renderPessoas(lista) {
 
-    var $footer = $("#pessoa-footer");
     var $lista = $("#lista");
     var $tbody = $lista.find("tbody");
 
@@ -178,10 +208,6 @@ init.push(function(){
         $tbody.append(tpl.row(pessoa));
 
       });
-
-      $footer.html(tpl.footer({
-        total:lista.length
-      }));
 
     }
 

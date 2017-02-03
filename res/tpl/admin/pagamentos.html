@@ -1,89 +1,117 @@
-<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-pagamentos"><div class="panel-heading"><h3 class="panel-title">Pagamentos</h3></div><table class="table table-hover table-striped"><thead><tr><th>Pessoa<th>Forma de Pagamento<th>Status<th>Session<th>Valor<th>Número de Parcelas<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action animation-duration-300"><button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/pagamento-criar" data-toggle="slidePanel"><i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-pagamento-row" type="text/x-handlebars-template"><tr data-idpagamento="{{idpagamento}}">
-	<td>{{despessoa}}</td>
-	<td>{{desformapagamento}}</td>
-	<td>{{desstatus}}</td>
-	<td>{{dessession}}</td>
-	<td>{{vltotal}}</td>
-	<td>{{nrparcelas}}</td>
-	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pagamentos/{{idpagamento}}" data-toggle="slidePanel">
-      	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pagamento icon wb-trash">
-      	</button>
-	</td>
-</tr></script><script>init.push(function(){
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+    margin-left: 310px;
+}
+.page {
+  min-height: calc(100% - 83px);
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filtros</h5><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><input type="text" class="form-control" name="despessoa" placeholder="Buscar por Pessoa"></div><div class="form-group form-material" data-plugin="formMaterial"><select name="idformapagamento" class="form-control"></select></div><div class="form-group form-material" data-plugin="formMaterial"><select name="idstatus" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"><div class="btn-group" role="group"><button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0"><i class="icon md-plus" aria-hidden="true"></i><br><span class="text-uppercase hidden-sm-down">cadastrar</span></button></div></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-245"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><th>Pessoa<th>Valor<th>Número de Parcelas<th>Data do Pagamento</th><tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="pagamento-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{total}} Resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div></script><script id="tpl-pagamento-row" type="text/x-handlebars-template"><tr>
+		<td>{{despessoa}}</td>
+		<td>{{vltotal}}</td>
+		<td>{{nrparcelas}}</td>
+		<td>{{desdtcadastro}}</td>
+	</tr></script><script>init.push(function(){
 
-	var panel = System.getPanelApi($("#panel-pagamentos"));
+	var $tplPagamentos = Handlebars.compile($("#tpl-pagamento-row").html());
+	var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
-	var $tbody = $("#panel-pagamentos tbody");
+	$("[name=idformapagamento]").combobox({
+		url:PATH+"/formas-pagamentos/all",
+		displayField:"desformapagamento",
+		valueField:"idformapagamento"
+	});
 
-	var $tpl = Handlebars.compile($("#tpl-pagamento-row").html());
+	$("[name=idstatus]").combobox({
+		url:PATH+"/pagamentos-status/all",
+		displayField:"desstatus",
+		valueField:"idstatus"
+	});
 
-	function loadPagamentos(){
+	$("#pessoa-footer").html(tplFooter({
+	    total:0
+  	}));
 
-		$(".refresh").on("click", function(){
-			loadPagamentos();
-		});
+  	$("#form-filtros [type=submit]").on("click", function(e){
 
-		panel.load();
+    	e.preventDefault();
+
+    	loadPagamentos();
+
+  	});
+
+  	$("#form-filtros input").on("keyup", function(e){
+
+    	if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+
+  	});	
+
+	function loadPagamentos(pagina){		
+
+		var $panelPagamentos = System.getPanelApi($("#mailContent .panel"));		
+
+		$panelPagamentos.load();
+
+		var data = $("#form-filtros").formValues();
+
+		data.pagina = pagina;
+		data.limite = 10;
 
 		rest({
-			url:PATH+"/pagamentos/all",
+			url:PATH+"/pagamentos",
+			data:data,
 			success:function(r){
 
-				$tbody.html('');
+				renderPagamentos(r.data);
 
-				$.each(r.data, function(index, row){
+				$panelPagamentos.done();
 
-					$tbody.append($tpl(row));
-
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+					skin:"pagination-gap",
+					currentPage:r.currentPage,
+					itemsPerPage:r.itemsPerPage,
+					onchange:function(page){
+						loadPagamentos(page);
+					}
 				});
 
-				initSlidePanel($tbody);
-
-				panel.done();
-
-				$(".btn-excluir-pagamento").on("click", function(e){
-
-					var $btn = $(this);
-
-					var idpagamento = $btn.closest("tr").data("idpagamento");
-
-					System.confirm('Deseja remover o pagamento?', function(b){
-				      	if (b) {
-
-					        System.load();
-
-					        rest({
-					          url: PATH+"/pagamentos/"+idpagamento,
-					          method:'DELETE',
-					          success: function(r){
-
-					            System.done();
-					            loadPagamentos();
-					            System.success("Pagamento excluído com sucesso");
-
-					          },
-					          failure: function(e){
-					            System.done();
-					            System.showError(e);
-					          }
-					        });
-
-				      	}
-				    });
-
-				});
+				$("#paginacao").asPaginator(r.data, config);
 
 			},
 			failure:function(r){
+				$panelPagamentos.done();
 				System.showError(r);
-				panel.done();
 			}
 		});
 
-	};
+	}
 
-	loadPagamentos();
+	function renderPagamentos(pagamentos){
+
+		var $tbody = $("#lista tbody");
+		var $footer = $("#pagamento-footer");
+
+		$tbody.html('');
+
+		$.each(pagamentos, function(index, row){
+			$tbody.append($tplPagamentos(row));
+		});
+
+		$footer.html(tplFooter({
+			total:pagamentos.length
+		}));
+
+	}
 
 });</script>

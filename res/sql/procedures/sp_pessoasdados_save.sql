@@ -34,7 +34,9 @@ BEGIN
     g.desdocumento AS descnpj,
     h.iddocumento AS idrg,
     h.desdocumento AS desrg,
-    NOW()
+    NOW(),
+    j.desvalor AS dessexo,
+    k.desvalor AS dtnascimento   
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
     LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
@@ -43,6 +45,8 @@ BEGIN
     LEFT JOIN tb_documentos f ON f.iddocumento = (SELECT f1.iddocumento FROM tb_documentos f1 WHERE f1.idpessoa = a.idpessoa AND f1.iddocumentotipo = 1 LIMIT 1) -- CPF
     LEFT JOIN tb_documentos g ON g.iddocumento = (SELECT g1.iddocumento FROM tb_documentos g1 WHERE g1.idpessoa = a.idpessoa AND g1.iddocumentotipo = 2 LIMIT 1) -- CNPJ
     LEFT JOIN tb_documentos h ON h.iddocumento = (SELECT h1.iddocumento FROM tb_documentos h1 WHERE h1.idpessoa = a.idpessoa AND h1.iddocumentotipo = 3 LIMIT 1) -- RG
+    LEFT JOIN tb_pessoasvalores j ON j.idcampo = (SELECT j1.idcampo FROM tb_pessoasvalores j1 WHERE j1.idpessoa = a.idpessoa AND j1.idcampo = 1 LIMIT 1) -- SEXO
+    LEFT JOIN tb_pessoasvalores k ON k.idcampo = (SELECT k1.idcampo FROM tb_pessoasvalores k1 WHERE k1.idpessoa = a.idpessoa AND k1.idcampo = 2 LIMIT 1) -- DATA DE NASCIMENTO
     WHERE a.idpessoa = pidpessoa
     LIMIT 1;
 

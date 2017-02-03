@@ -11,7 +11,7 @@ $app->get("/pagamentos/all", function(){
 
 $app->get("/pagamentos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    // Permissao::checkSession(Permissao::ADMIN, true);
 
     $where = array();
 
@@ -25,6 +25,10 @@ $app->get("/pagamentos", function(){
 
     if(isset($_GET['idstatus'])){
         array_push($where, "d.idstatus = ".((int)get('idstatus')));
+    }
+
+    if(isset($_GET['dtinicio']) && isset($_GET['dttermino'])){
+        array_push($where, "a.dtcadastro BETWEEN '".get('dtinicio')."' AND '".get('dttermino')."'");
     }
 
     if(count($where) > 0){

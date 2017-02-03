@@ -146,6 +146,7 @@
                   
                 </tbody>
               </table>
+              <div id="paginacao-site-contatos"></div>
             </div>
             <div class="tab-pane panel panel-cartoes" id="cartoesTab" role="tabpanel" aria-expanded="false">
               <div class="panel-actions">
@@ -181,6 +182,7 @@
                   
                 </tbody>
               </table>
+              <div id="paginacao-carrinhos"></div>
             </div>
             <div class="tab-pane panel panel-usuarios" id="usuariosTab" role="tabpanel" aria-expanded="false">
 
@@ -226,6 +228,7 @@
                 </tbody>
 
               </table>
+              <div id="paginacao-pagamentos"></div>
 
             </div>
           </div>
@@ -421,7 +424,6 @@
     </div>
   </div>
 </script>
-
 
 <script id="tpl-cartao-pessoa" type="text/x-handlebars-template">  
   <tr data-idcartao="{{idcartao}}">
@@ -1103,7 +1105,9 @@
       loadSites();
     });   
 
-    function loadSites(){
+    function loadSites(pagina){
+
+      if(!pagina) pagina = 1;
 
       if(isSiteLogged === false){
 
@@ -1125,6 +1129,10 @@
 
         rest({
           url:PATH+"/pessoas/"+pessoa.idpessoa+"/fale-conosco",
+          data:{
+            pagina:pagina,
+            limite:5
+          },
           success:function(r){
 
             $tbody.html('');
@@ -1134,6 +1142,17 @@
             });
 
             $panelSite.done();
+
+            var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+              skin:'pagination-gap',
+              currentPage:r.currentPage,
+              itemsPerPage:r.itemsPerPage,
+              onChange:function(page){
+                loadSites(page);
+              }
+            });
+
+            $("#paginacao-site-contatos").asPaginator(r.total, config);
 
           },
           failure:function(r){
@@ -1153,7 +1172,9 @@
       loadCarrinhos();
     });
 
-    function loadCarrinhos(){
+    function loadCarrinhos(pagina){
+
+      if(!pagina) pagina = 1;
 
       if(isCarrinhoLogged === false){
 
@@ -1175,6 +1196,10 @@
 
         rest({
           url:PATH+"/pessoas/"+pessoa.idpessoa+"/carrinhos",
+          data:{
+            pagina:pagina,
+            limite:5
+          },
           success:function(r){
 
             $tbody.html('');
@@ -1184,6 +1209,17 @@
             });
 
             $panelCarrinhos.done();
+
+            var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+              skin:'pagination-gap',
+              currentPage:r.currentPage,
+              itemsPerPage:r.itemsPerPage,
+              onChange:function(page){
+                loadCarrinhos(page);
+              }
+            });
+
+            $("#paginacao-carrinhos").asPaginator(r.total, config);
 
           },
           failure:function(r){
@@ -1362,7 +1398,9 @@
       loadPagamentos();
     });
 
-    function loadPagamentos(){
+    function loadPagamentos(pagina){
+
+      if(!pagina) pagina = 1;
 
       if(isPagamentoLogged == false){
 
@@ -1384,6 +1422,10 @@
 
         rest({
           url:PATH+"/pessoas/"+pessoa.idpessoa+"/pagamentos",
+          data:{
+            pagina:pagina,
+            limite:5
+          },
           success:function(r){
 
             $tbody.html('');
@@ -1397,6 +1439,17 @@
             });
 
             $panelPagamentos.done();
+
+            var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+              skin:'pagination-gap',
+              currentPage:r.currentPage,
+              itemsPerPage:r.itemsPerPage,
+              onChange:function(page){
+                loadPagamentos(page);
+              }
+            });
+
+            $("#paginacao-pagamentos").asPaginator(r.total, config);
 
           },
           failure:function(r){

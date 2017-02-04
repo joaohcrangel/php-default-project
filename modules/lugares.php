@@ -58,27 +58,27 @@ $app->get("/lugares/tipos", function(){
 
 });
 
-$app->post("/lugarestipos", function(){
+$app->post("/lugares-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idlugartipo') > 0){
-		$tipo = new LugarTipo((int)post('idlugartipo'));
+		$lugartipo = new LugarTipo((int)post('idlugartipo'));
 	}else{
-		$tipo = new LugarTipo();
+		$lugartipo = new LugarTipo();
 	}
 
 	foreach ($_POST as $key => $value) {
-		$tipo->{'set'.$key}($value);
+		$lugartipo->{'set'.$key}($value);
 	}
 
-	$tipo->save();
+	$lugartipo->save();
 
-	echo success(array("data"=>$tipo->getFields()));
+	echo success(array("data"=>$lugartipo->getFields()));
 
 });
 
-$app->delete("/lugarestipos/:idlugartipo", function($idlugartipo){
+$app->delete("/lugares-tipos/:idlugartipo", function($idlugartipo){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -86,13 +86,13 @@ $app->delete("/lugarestipos/:idlugartipo", function($idlugartipo){
 		throw new Exception("Tipo de lugar não informado", 400);	
 	}
 
-	$tipo = new LugarTipo((int)$idlugartipo);
+	$lugartipo = new LugarTipo((int)$idlugartipo);
 
-	if(!(int)$tipo->getidlugartipo() > 0){
-		throw new Exception("Tipo não encontrado", 404);		
+	if(!(int)$lugartipo->getidlugartipo() > 0){
+		throw new Exception("Tipo de lugur não encontrado", 404);		
 	}
 
-	$tipo->remove();
+	$lugartipo->remove();
 	
 	echo success();
 

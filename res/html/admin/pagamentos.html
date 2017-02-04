@@ -62,10 +62,12 @@
       <div style="border-bottom: #e0e0e0 1px solid;">
         <div class="panel panel-bordered overflow-auto" data-auto-height="-245">
     		<table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
-          		<th>Pessoa</th>
-          		<th>Valor</th>
-          		<th>Número de Parcelas</th>
-          		<th>Data do Pagamento</th>
+    			<thead>
+	          		<th>Pessoa</th>
+	          		<th>Valor</th>
+	          		<th>Número de Parcelas</th>
+	          		<th>Data do Pagamento</th>
+	          	</thead>
             	<tbody>
             	
             	</tbody>
@@ -94,7 +96,7 @@
 <script id="tpl-pagamento-row" type="text/x-handlebars-template">
 	<tr>
 		<td>{{despessoa}}</td>
-		<td>{{vltotal}}</td>
+		<td>R$ {{vltotal}}</td>
 		<td>{{nrparcelas}}</td>
 		<td>{{desdtcadastro}}</td>
 	</tr>	
@@ -137,7 +139,9 @@ init.push(function(){
 
   	});	
 
-	function loadPagamentos(pagina){		
+	function loadPagamentos(pagina){
+
+		if(!pagina)	pagina = 1;
 
 		var $panelPagamentos = System.getPanelApi($("#mailContent .panel"));		
 
@@ -161,12 +165,12 @@ init.push(function(){
 					skin:"pagination-gap",
 					currentPage:r.currentPage,
 					itemsPerPage:r.itemsPerPage,
-					onchange:function(page){
+					onChange:function(page){						
 						loadPagamentos(page);
 					}
 				});
 
-				$("#paginacao").asPaginator(r.data, config);
+				$("#paginacao").asPaginator(r.total, config);
 
 			},
 			failure:function(r){

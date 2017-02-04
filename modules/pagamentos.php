@@ -27,6 +27,10 @@ $app->get("/pagamentos", function(){
         array_push($where, "d.idstatus = ".((int)get('idstatus')));
     }
 
+    if(isset($_GET['dtinicio']) && isset($_GET['dttermino'])){
+        array_push($where, "a.dtcadastro BETWEEN '".get('dtinicio')."' AND '".get('dttermino')."'");
+    }
+
     if(count($where) > 0){
         $where = "WHERE ".implode(" AND ", $where);
     }else{
@@ -35,9 +39,9 @@ $app->get("/pagamentos", function(){
 
     $query = "
     SELECT SQL_CALC_FOUND_ROWS a.*, b.despessoa, c.desformapagamento, d.desstatus FROM tb_pagamentos a
-        INNER JOIN tb_pessoas b ON a.idpessoa = b.idpessoa
-        INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
-        INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
+        LEFT JOIN tb_pessoas b ON a.idpessoa = b.idpessoa
+        LEFT JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
+        LEFT JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
     ".$where." ORDER BY b.despessoa LIMIT ?, ?;";
 
     $pagina = (int)get('pagina');

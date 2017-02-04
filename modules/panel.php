@@ -183,6 +183,17 @@ $app->get("/panel/cupons/:idcupom", function($idcupom){
 
 });
 
+$app->get("/panel/cupom-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupom-criar");
+
+});
+
 // Permissao Salvar
 $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
 
@@ -196,17 +207,6 @@ $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
 	$page->setTpl("panel/permissao-salvar", array(
 		"permissao"=>$permissao->getFields()
 	));
-
-});
-
-$app->get("/panel/cupom-criar", function(){
-
-	$page = new Page(array(
-		"header"=>false,
-		"footer"=>false
-	));
-
-	$page->setTpl("panel/cupom-criar");
 
 });
 
@@ -385,4 +385,22 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 	));
 
 });
+
+///////////////////////////////////////////////////////////
+// carrinhos
+$app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
+
+	$carrinho = new Carrinho((int)$idcarrinho);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/carrinho", array(
+		"carrinho"=>$carrinho->getFields()
+	));
+
+});
+
 ?>

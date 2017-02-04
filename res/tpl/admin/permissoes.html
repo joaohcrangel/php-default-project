@@ -1,46 +1,4 @@
-<div class="page">
-    <div class="page-content">
-        <div class="row-fluid">
-            <div class="col-sm-12">
-                <div class="panel" id="panel-permissoes">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Permissões
-                        </h3>
-                        <div class="panel-actions">
-                            <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
-                            aria-hidden="true"><i class="icon wb-refresh"></i></a>
-                        </div>
-                    </div>
-                    <table class="table table-hover table-striped">
-                        <thead>
-                             <tr>
-                                <th>
-                                    Permissão
-                                </th>
-                                <th>
-                                    &nbsp;
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody> 
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="site-action">
-        <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/permissao-criar" data-toggle="slidePanel">
-            <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
-            </i>
-            <i class="back-icon md-close animation-scale-up" aria-hidden="true">
-            </i>
-        </button>
-    </div>
-</div><script id="tpl-permissao" type="/x-handlebars-temprate"><tr data-idpermissao="{{idpermissao}}">
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-permissoes"><div class="panel-heading"><h3 class="panel-title">Permissões</h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Permissão<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/permissao-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-permissao" type="/x-handlebars-temprate"><tr data-idpermissao="{{idpermissao}}">
 	<td>{{despermissao}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/permissoes/{{idpermissao}}" data-toggle="slidePanel">

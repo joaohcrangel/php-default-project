@@ -25,7 +25,9 @@
                 displayField:'',
                 url:'',
                 value:undefined,
-                emptyText:'-- selecione --'
+                emptyText:'-- selecione --',
+                multiple:false,
+                select2:false
             };
 
             var o =  $.extend(defaults, options);
@@ -65,11 +67,27 @@
 
                     if (o.value !== undefined) {
 
-                        $el.find("[value="+o.value+"]").attr('selected', 'selected').trigger("change");
+                        if (o.value instanceof Array) {
+
+                            $.each(o.value, function(i1, v1){
+                                if (v1) $el.find("[value="+v1+"]").attr('selected', 'selected').trigger("change");
+                            });
+
+                        } else {
+                            $el.find("[value="+o.value+"]").attr('selected', 'selected').trigger("change");
+                        }
 
                     } else if ($el.data('value') !== undefined) {
 
-                        $el.find("[value="+$el.data('value')+"]").attr('selected', 'selected').trigger("change");
+                        if (o.value instanceof Array) {
+
+                            $.each($el.data('value'), function(i1, v1){
+                                if (v1) $el.find("[value="+v1+"]").attr('selected', 'selected').trigger("change");
+                            });
+
+                        } else {
+                            $el.find("[value="+$el.data('value')+"]").attr('selected', 'selected').trigger("change");
+                        }
 
                     } else {
 
@@ -81,6 +99,35 @@
 
                     if (typeof o.success === 'function') {
                         o.success($el, data);
+                    }
+
+                    if ($el.attr("multiple") === 'multiple') {
+
+                        if (o.debug === true) console.log('multiple', 'multiple');
+                        o.multiple = true;
+
+                    }
+
+                    if (o.multiple === true) {
+
+                        $el.attr({
+                            "multiple":"multiple",
+                            "data-plugin":"select2",
+                            "data-placeholder": o.emptyText
+                        });
+                        o.select2 = true;
+                        if (o.debug === true) console.log('multiple', true);
+
+                    }
+
+                    if (o.select2 === true) {
+
+                        if (o.debug === true) console.log('select2', true);
+                        $el.find("option[value='']").remove();
+
+                        $.components.init("select2");
+                        if (o.debug === true) console.log('select2', 'init');
+
                     }
 
                 };

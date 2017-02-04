@@ -173,22 +173,65 @@ $app->get("/pessoas/:idpessoa/contatos", function($idpessoa){
 // site contatos
 $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	// Permissao::checkSession(Permissao::ADMIN, true);
 
-	$pessoa = new Pessoa((int)$idpessoa);
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS * FROM tb_sitecontatos
+		WHERE idpessoa = ".$idpessoa." ORDER BY desmensagem LIMIT ?, ?;
+	";
 
-	echo success(array("data"=>$pessoa->getSiteContatos()->getFields()));
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"SiteContatos",
+		$itemsPerPage
+	);
+
+	$pessoa = $paginacao->getPage($pagina);	
+
+	echo success(array(
+		"data"=>$pessoa->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 
 // pagamentos
 $app->get("/pessoas/:idpessoa/pagamentos", function($idpessoa){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	// Permissao::checkSession(Permissao::ADMIN, true);
 
-	$pessoa = new Pessoa((int)$idpessoa);
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.*, c.desformapagamento, d.* FROM tb_pagamentos a
+			INNER JOIN tb_pessoas b USING(idpessoa)
+	        INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
+	        INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
+		WHERE a.idpessoa = ".$idpessoa." LIMIT ?, ?;
+	";
 
-	echo success(array("data"=>$pessoa->getPagamentos()->getFields()));
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Pagamentos",
+		$itemsPerPage
+	);
+
+	$pessoa = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$pessoa->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 
@@ -206,11 +249,31 @@ $app->get("/pessoas/:idpessoa/cartoes", function($idpessoa){
 // carrinhos
 $app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	// Permissao::checkSession(Permissao::ADMIN, true);
 
-	$pessoa = new Pessoa((int)$idpessoa);
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS * FROM tb_carrinhos
+		WHERE idpessoa = ".$idpessoa." LIMIT ?, ?;
+	";
 
-	echo success(array("data"=>$pessoa->getCarrinhos()->getFields()));
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Carrinhos",
+		$itemsPerPage
+	);
+
+	$pessoa = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$pessoa->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 

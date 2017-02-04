@@ -63,7 +63,7 @@ class Pagination {
 
 		$sql = new Sql();
 
-		$result1 = $sql->arrays($this->query, false, $this->params);
+		$result1 = $sql->arrays($this->query, false, $this->params);		
 		$result2 = $sql->select('SELECT FOUND_ROWS() AS '.Pagination::COLUMN_TOTAL_NAME.';');
 
 		$collection->load($result1);

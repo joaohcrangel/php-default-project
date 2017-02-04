@@ -581,6 +581,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		3, 
 		'Documentos'
 	));
+	$sql->proc("sp_menus_save", array(
+		4,
+		0,
+		'', 
+		'/lugares-tipos', 
+		3, 
+		'Lugares'
+	));
 	
 	echo success();
 });

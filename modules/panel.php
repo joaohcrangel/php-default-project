@@ -54,6 +54,33 @@ $app->get("/panel/pagamento-criar", function(){
 
 });
 
+// pagamentos-status
+$app->get("/panel/pagamentos-status/:idstatus", function($idstatus){
+
+	$status = new PagamentoStatus((int)$idstatus);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pagamentos-status-salvar", array(
+		"status"=>$status->getFields()
+	));
+
+});
+
+$app->get("/panel/pagamentos-status-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pagamentos-status-criar");
+
+});
+
 // site contatos
 $app->get("/panel/sites-contatos/:idsitecontato", function($idsitecontato){
 
@@ -237,6 +264,35 @@ $app->get("/panel/usuario-tipo-criar", function(){
 	));
 
 	$page->setTpl("panel/usuario-tipo-criar");
+
+});
+
+/////////////////////////////////////////
+// Lugares-tipos salvar
+
+$app->get("/panel/lugares-tipos/:idlugartipo", function($idlugartipo){
+
+	$lugartipo = new LugarTipo((int)$idlugartipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugares-tipos-salvar", array(
+		"lugartipo"=>$lugartipo->getFields()
+	));
+
+});
+
+$app->get("/panel/lugares-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugares-tipos-criar");
 
 });
 

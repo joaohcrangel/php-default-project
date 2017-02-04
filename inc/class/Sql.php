@@ -18,7 +18,7 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = true;
+	private $utf8 = false;
 	private $sessionLog = true;
 
 	/*********************************************************************************************************/

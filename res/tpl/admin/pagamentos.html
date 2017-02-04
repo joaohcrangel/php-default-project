@@ -81,12 +81,12 @@
 					skin:"pagination-gap",
 					currentPage:r.currentPage,
 					itemsPerPage:r.itemsPerPage,
-					onchange:function(page){
+					onChange:function(page){
 						loadPagamentos(page);
 					}
 				});
 
-				$("#paginacao").asPaginator(r.data, config);
+				$("#paginacao").asPaginator(r.total, config);
 
 			},
 			failure:function(r){

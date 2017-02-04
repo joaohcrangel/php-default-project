@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Criar novo Produto
+                Editar Cupom
             </h5>
         </h4>
     </div>
@@ -17,33 +17,42 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-produto-tipo-save">
+            <form id="form-cupons-tipos">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idprodutotipo">
+                        <input type="hidden" name="idcupomtipo">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desprodutotipo">
+                        <input type="text" class="form-control" name="descupomtipo">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn Produto-Tipo-Save" type="submit">
-                        Salvar Novo Produto
+                    <button class="btn btn-block btn-primary" id="btncupons-tipos" type="submit">
+                        Salvar Novo Cupom
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script>$("#form-produto-tipo-save").form({
-    url: PATH + "/produtos-tipos",
-    success: function() {
-        System.success("Produtos criado com sucesso");
-        $(".slidePanel-close").trigger("click");
-        $(".refresh").trigger("click");
+<script> 
+var cupomTipo = JSON.parse('{function="json_encode($cupom)"}');
 
-    },
-    failure: function(r) {
-        System.showError(r);
-    }
+$("#form-cupons-tipos").form({
+  url:PATH+"/cupons-tipos",
+  params:{
+    idcupomtipo:cupomTipo.idcupomtipo
+  },
+  success:function(){
+    System.success("Cupom criado com sucesso");
+    $(".slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+    System.showError(r);
+  }
 });
+
+$("#form-cupons-tipos").formLoad(cupomTipo);
+
 </script>

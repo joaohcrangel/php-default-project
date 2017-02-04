@@ -379,6 +379,16 @@ $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/cupons-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/cupons-tipos");
+
+});
+
 $app->get("/".DIR_ADMIN."/pagamentos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

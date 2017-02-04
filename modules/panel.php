@@ -193,6 +193,34 @@ $app->get("/panel/cupom-criar", function(){
 	$page->setTpl("panel/cupom-criar");
 
 });
+////////////////////////////////
+//cupons-tipos
+
+$app->get("/panel/cupons-tipos/:idcupomtipo", function($idcupomtipo){
+
+	$cupom = new CupomTipo((int)$idcupomtipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupons-tipos-salvar", array(
+		"cupom"=>$cupom->getFields()
+	));
+
+});
+
+$app->get("/panel/cupons-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupons-tipos-criar");
+
+});
 
 // Permissao Salvar
 $app->get("/panel/permissoes/:idpermissao", function($idpermissao){

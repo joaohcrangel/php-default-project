@@ -10,7 +10,7 @@
 }
 .page {
   min-height: calc(100% - 83px);
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filtros</h5><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><input type="text" class="form-control" name="despessoa" placeholder="Buscar por Pessoa"></div><div class="form-group form-material" data-plugin="formMaterial"><select name="idformapagamento" class="form-control"></select></div><div class="form-group form-material" data-plugin="formMaterial"><select name="idstatus" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"><div class="btn-group" role="group"><button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0"><i class="icon md-plus" aria-hidden="true"></i><br><span class="text-uppercase hidden-sm-down">cadastrar</span></button></div></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-245"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><th>Pessoa<th>Valor<th>Número de Parcelas<th>Data do Pagamento</th><tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="pagamento-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filtros</h5><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><input type="text" class="form-control" name="despessoa" placeholder="Buscar por Pessoa"></div><div class="form-group form-material" data-plugin="formMaterial"><select name="idformapagamento" class="form-control"></select></div><div class="form-group form-material" data-plugin="formMaterial"><select name="idstatus" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"><div class="btn-group" role="group"><button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0"><i class="icon md-plus" aria-hidden="true"></i><br><span class="text-uppercase hidden-sm-down">cadastrar</span></button></div></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-245"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><th>Pessoa<th>Valor<th>Número de Parcelas<th>Data do Pagamento<tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="pagamento-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
       <div>{{total}} Resultado(s)</div>
     </div>
@@ -19,7 +19,7 @@
     </div>
   </div></script><script id="tpl-pagamento-row" type="text/x-handlebars-template"><tr>
 		<td>{{despessoa}}</td>
-		<td>{{vltotal}}</td>
+		<td>R$ {{vltotal}}</td>
 		<td>{{nrparcelas}}</td>
 		<td>{{desdtcadastro}}</td>
 	</tr></script><script>init.push(function(){
@@ -57,7 +57,9 @@
 
   	});	
 
-	function loadPagamentos(pagina){		
+	function loadPagamentos(pagina){
+
+		if(!pagina)	pagina = 1;
 
 		var $panelPagamentos = System.getPanelApi($("#mailContent .panel"));		
 
@@ -81,12 +83,12 @@
 					skin:"pagination-gap",
 					currentPage:r.currentPage,
 					itemsPerPage:r.itemsPerPage,
-					onchange:function(page){
+					onChange:function(page){
 						loadPagamentos(page);
 					}
 				});
 
-				$("#paginacao").asPaginator(r.data, config);
+				$("#paginacao").asPaginator(r.total, config);
 
 			},
 			failure:function(r){

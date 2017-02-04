@@ -1,4 +1,4 @@
-<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-usuario-tipo"><div class="panel-heading"><h3 class="panel-title">Usuarios</h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Usuario<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/usuario-tipo-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-usuario-tipo" type="/x-handlebars-temprate"><tr data-idusuariotipo="{{idusuariotipo}}">
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-usuario-tipo"><div class="panel-heading"><h3 class="panel-title">Usuarios</h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Usuario<th>&nbsp;<tbody></thead></table></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/usuario-tipo-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-usuario-tipo" type="/x-handlebars-temprate"><tr data-idusuariotipo="{{idusuariotipo}}">
 	<td>{{desusuariotipo}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/usuario-tipo/{{idusuariotipo}}" data-toggle="slidePanel">
@@ -34,7 +34,7 @@
 
 				});
 
-				initSlidePanel($tbody);
+				System.initSlidePanel($tbody);
 
 				panel.done();
 

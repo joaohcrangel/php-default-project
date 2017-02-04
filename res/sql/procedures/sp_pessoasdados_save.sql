@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_pessoasdados_save (
+CREATE PROCEDURE sp_pessoasdados_save(
 pidpessoa INT
 )
 BEGIN
@@ -15,7 +15,9 @@ BEGIN
         idcpf, descpf,
         idcnpj, descnpj,
         idrg, desrg,
-        dtatualizacao
+        dtatualizacao,
+        dessexo,
+        dtnascimento
     )
     SELECT 
     a.idpessoa, a.despessoa,
@@ -24,19 +26,14 @@ BEGIN
     RIGHT(a.despessoa, LOCATE(' ', REVERSE(a.despessoa)) - 1) AS desultimonome,
     a.idpessoatipo, b.despessoatipo,
     c.idusuario, c.desusuario, c.dessenha, c.inbloqueado,
-    d.idcontato AS idemail,
-    d.descontato AS desemail,
-    e.idcontato AS idtelefone,
-    e.descontato AS destelefone,
-    f.iddocumento AS idcpf,
-    f.desdocumento AS descpf,
-    g.iddocumento AS idcnpj,
-    g.desdocumento AS descnpj,
-    h.iddocumento AS idrg,
-    h.desdocumento AS desrg,
+    d.idcontato AS idemail, d.descontato AS desemail,
+    e.idcontato AS idtelefone, e.descontato AS destelefone,
+    f.iddocumento AS idcpf, f.desdocumento AS descpf,
+    g.iddocumento AS idcnpj, g.desdocumento AS descnpj,
+    h.iddocumento AS idrg, h.desdocumento AS desrg,
     NOW(),
-    j.desvalor AS dessexo,
-    k.desvalor AS dtnascimento   
+    CAST(j.desvalor AS CHAR(1)) AS dessexo,
+    CAST(k.desvalor AS DATE) AS dtnascimento   
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
     LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa

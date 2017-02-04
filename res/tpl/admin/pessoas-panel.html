@@ -1068,6 +1068,44 @@
 
     }
 
+    function loadContatos(callback){
+
+      rest({
+        url:PATH+"/pessoas/"+pessoa.idpessoa+"/contatos",
+        success:function(r){
+
+          var telefones = [];
+          var emails = [];
+
+          $.each(r.data, function(index, contato){
+
+            switch (contato.idcontatotipo) {
+              case 1:
+              emails.push(contato);
+              break;
+              case 2:
+              telefones.push(contato);
+              break; 
+            }
+
+          });
+
+          renderEmails(emails);
+          renderTelefones(telefones);
+
+          if (typeof callback === 'function') callback(r);
+
+        },
+        failure:function(e){
+          System.showError(e);
+          if (typeof callback === 'function') callback(e);
+        }
+      });
+
+    }
+
+    loadContatos();
+
     $("#btn-delete-pessoa").on("click", function(){
 
       System.confirm("Deseja realmente excluir o cadastro de "+pessoa.despessoa+" definitivamente? Todos os dados associados serão excluídos.", function(r, s, f){

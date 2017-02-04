@@ -30,7 +30,7 @@ class Pessoa extends Model {
 
         }else{
 
-            return null;
+            return 0;
 
         }
         

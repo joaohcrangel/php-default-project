@@ -35,7 +35,14 @@
 	            <h5 class="page-aside-title">Filtros</h5>
 	            <form id="form-filtros" class="p-x-25">	              
 	              <div class="form-group form-material" data-plugin="formMaterial">
-	                <select name="idprodutotipo" class="form-control" multiple="multiple"></select>
+	                <!-- <select name="idprodutotipo" class="form-control" multiple="multiple"></select> -->
+	                <select name="idprodutotipo" class="form-control" multiple="multiple">
+	                	<option value="1">Teste</option>
+	                	<option value="1">Rafael</option>
+	                	<option value="1">João</option>
+	                	<option value="1">Ronaldo</option>
+	                	<option value="1">Diva</option>
+	                </select>
 	              </div>
 	              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	            </form>
@@ -80,10 +87,10 @@
 	      	<!-- pagination -->
 	      	<div id="paginacao"></div>
 	    </div>
-	  	<div class="site-action animation-duration-300">
-			<button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel">
-				<i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
-				<i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
+	  	<div class="site-action">
+			<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel">
+				<i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
+				<i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
 			</button>
 		</div>
 	</div>
@@ -102,13 +109,16 @@
 	</td>
 </tr>
 </script>
-<script>init.push(function(){
+<script>
+init.push(function(){
 
-	$("[name=idprodutotipo]").combobox({
-		url:PATH+"/produtos/tipos",
-		displayField:"desprodutotipo",
-		valueField:"idprodutotipo"
-	});
+	// $("[name=idprodutotipo]").combobox({
+	// 	url:PATH+"/produtos/tipos",
+	// 	displayField:"desprodutotipo",
+	// 	valueField:"idprodutotipo"
+	// });
+
+	$("[name=idprodutotipo]").select2();
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
@@ -132,9 +142,7 @@
 
 	function loadProdutos(pagina){
 
-		if(!pagina){
-			pagina = 1;
-		}
+		if(!pagina)	pagina = 1;
 
 		$(".refresh").on("click", function(){
 			loadProdutos();
@@ -146,7 +154,7 @@
 			url:PATH+"/produtos/all",
 			data:{
 				pagina:pagina,
-				limit:3
+				limit:10
 			},
 			success:function(r){
 
@@ -212,6 +220,7 @@
 			}
 		});
 
-	};
+	}
 
-});</script>
+});
+</script>

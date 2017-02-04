@@ -2,6 +2,8 @@
 
 $app->get('/pessoas/:idpessoa',function($idpessoa){
    
+	Permissao::checkSession(Permissao::ADMIN, true);
+
 	$pessoa = new Pessoa((int)$idpessoa);
 
 	echo success(array(
@@ -10,19 +12,11 @@ $app->get('/pessoas/:idpessoa',function($idpessoa){
 
 });
 
-// $app->delete('/pessoas/:idpessoa',function($idpessoa){
-   
-// 	$pessoa = new Pessoa((int)$idpessoa);
-
-// 	$pessoa->remove();
-
-// 	echo success();
-
-// });
-
 $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
      
-     $pessoa = new Pessoa(array(
+    $pessoa = new Pessoa(array(
 		'idpessoa'=>(int)$idpessoa
 	));
 
@@ -35,8 +29,10 @@ $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
 });
 
 $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
      
-     $pessoa = new Pessoa(array(
+    $pessoa = new Pessoa(array(
 		'idpessoa'=>(int)$idpessoa
 	));
 
@@ -50,27 +46,22 @@ $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 
 $app->get("/pessoas",function(){
 
+	Permissao::checkSession(Permissao::ADMIN, true);
+
 	$q = get("q");
 
 	$where = array();
+	$params = array();
 
-	if ($q) {
+	foreach ($_GET as $key => $value) {
+		
+		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
 
-		$whereOr = array();
+			array_push($where, $key." = ?");
+			array_push($params, get($key));
 
-		array_push($whereOr, "despessoa LIKE '%".utf8_decode($q)."%'");
-		array_push($whereOr, "desusuario = '".utf8_decode($q)."'");
-		array_push($whereOr, "desemail = '".utf8_decode($q)."'");
-		array_push($whereOr, "destelefone = '".utf8_decode($q)."'");
-		array_push($whereOr, "descpf = '".utf8_decode($q)."'");
-		array_push($whereOr, "descnpj = '".utf8_decode($q)."'");
-		array_push($whereOr, "desrg = '".utf8_decode($q)."'");
+		}
 
-		array_push($where, "(".implode(" OR ", $whereOr).")");
-	}
-
-	if (isset($_GET['idpessoatipo'])) {
-		array_push($where, "idpessoatipo = ".((int)get('idpessoatipo')));
 	}
 
 	if (count($where) > 0) {
@@ -85,7 +76,7 @@ $app->get("/pessoas",function(){
 
 	$paginacao = new Pagination(
 		"SELECT SQL_CALC_FOUND_ROWS * FROM tb_pessoasdados ".$where." ORDER BY despessoa LIMIT ?, ?",//Query com as duas interrogações no LIMIT
-	    array(),//Outros parâmetros
+	    $params,//Outros parâmetros
 	    'Pessoas',//Coleção que será retornada
 	    $itensPorPagina//Informo os itens por página
 	);
@@ -112,8 +103,6 @@ $app->get("/pessoas/all", function(){
 
 $app->post("/pessoas", function(){
 
-	//Permissao::checkSession(Permissao::ADMIN, true);
-
 	if(post('idpessoa') > 0){
 		$pessoa = new Pessoa((int)post('idpessoa'));
 	}else{
@@ -130,10 +119,14 @@ $app->post("/pessoas", function(){
 
 $app->delete("/pessoas/:idpessoa", function($idpessoa){
 
-	// Permissao::checkSession(Permissao::ADMIN, true);
+	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(!(int)$idpessoa){
 		throw new Exception("Pessoa não informada", 400);		
+	}
+
+	if ((int)$idpessoa === 1) {
+		throw new Exception("Não é possível excluir o cadastro root.", 400);
 	}
 
 	$pessoa = new Pessoa((int)$idpessoa);
@@ -173,7 +166,7 @@ $app->get("/pessoas/:idpessoa/contatos", function($idpessoa){
 // site contatos
 $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 
-	// Permissao::checkSession(Permissao::ADMIN, true);
+	Permissao::checkSession(Permissao::ADMIN, true);
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS * FROM tb_sitecontatos
@@ -204,7 +197,7 @@ $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 // pagamentos
 $app->get("/pessoas/:idpessoa/pagamentos", function($idpessoa){
 
-	// Permissao::checkSession(Permissao::ADMIN, true);
+	Permissao::checkSession(Permissao::ADMIN, true);
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS a.*, b.*, c.desformapagamento, d.* FROM tb_pagamentos a
@@ -249,7 +242,7 @@ $app->get("/pessoas/:idpessoa/cartoes", function($idpessoa){
 // carrinhos
 $app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
 
-	// Permissao::checkSession(Permissao::ADMIN, true);
+	Permissao::checkSession(Permissao::ADMIN, true);
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS * FROM tb_carrinhos

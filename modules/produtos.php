@@ -4,9 +4,23 @@ $app->get("/produtos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $quary = "
-        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtos
-        INNER JOIN tb_produtostipos USING(idprodutotipo) LIMIT ?, ?
+    $where = array();
+
+    if((int)get('idprodutotipo')){
+        array_push($where, "a.idproduto = ".(int)get('idprodutotipo'));
+    }
+
+    if(count($where) > 0){
+        $where = "WHERE ".implode(" AND ", $where)."";
+    }else{
+        $where = "";
+    }
+
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtos a
+        INNER JOIN tb_produtostipos b USING(idprodutotipo)
+        LEFT JOIN tb_produtosprecos c ON a.idproduto = c.idproduto
+        ".$where." LIMIT ?, ?
     ;";
 
     $pagina = (int)get('pagina');    
@@ -14,7 +28,7 @@ $app->get("/produtos/all", function(){
     $itemsPorPagina = (int)get('limit');
 
     $paginacao = new Pagination(
-        $quary,
+        $query,
         array(),
         "Produtos",
         $itemsPorPagina

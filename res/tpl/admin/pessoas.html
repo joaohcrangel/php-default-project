@@ -24,7 +24,7 @@
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-url="panel.tpl" data-toggle="slidePanel">
+  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-url="{$path}/admin/pessoas/{{idpessoa}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -70,6 +70,8 @@
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
+
+    $('.page-aside-switch:visible').trigger('click');
 
     consultar();
 
@@ -119,6 +121,8 @@
 
         $("#paginacao").asPaginator(r.total, config);
 
+
+
       },
       failure:function(e){
         System.showError(e);
@@ -141,6 +145,8 @@
         $tbody.append(tpl.row(pessoa));
 
       });
+
+      System.initSlidePanel($tbody);
 
     }
 

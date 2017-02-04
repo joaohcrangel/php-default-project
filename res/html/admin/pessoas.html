@@ -101,7 +101,7 @@
   </div>
 </script>
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-url="panel.tpl" data-toggle="slidePanel">
+  <tr data-url="{$path}/admin/pessoas/{{idpessoa}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -151,6 +151,8 @@ init.push(function(){
 
     e.preventDefault();
 
+    $('.page-aside-switch:visible').trigger('click');
+
     consultar();
 
   });
@@ -199,6 +201,8 @@ init.push(function(){
 
         $("#paginacao").asPaginator(r.total, config);
 
+
+
       },
       failure:function(e){
         System.showError(e);
@@ -221,6 +225,8 @@ init.push(function(){
         $tbody.append(tpl.row(pessoa));
 
       });
+
+      System.initSlidePanel($tbody);
 
     }
 

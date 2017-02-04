@@ -56,6 +56,22 @@ $app->post("/lugares", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
+	if(isset($_POST['idendereco'])){
+
+		$endereco = new Endereco((int)post('idendereco'));
+
+		$endereco->set($_POST);
+
+		if(!post('idpessoa')){
+			$endereco->setidpessoa(Session::getPessoa()->getidpessoa());
+		}
+
+		$endereco->save();
+
+		$_POST['idendereco'] = $endereco->getidendereco();
+
+	}
+
 	if(post('idlugar') > 0){
 		$lugar = new Lugar((int)post('idlugar'));
 	}else{
@@ -65,6 +81,8 @@ $app->post("/lugares", function(){
 	foreach ($_POST as $key => $value) {
 		$lugar->{'set'.$key}($value);
 	}
+
+	$lugar->setidlugarpai(NULL);
 
 	$lugar->save();
 

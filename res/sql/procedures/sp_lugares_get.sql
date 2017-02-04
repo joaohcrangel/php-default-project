@@ -3,6 +3,11 @@ pidlugar INT
 )
 BEGIN
 
-	SELECT * FROM tb_lugares WHERE idlugar = pidlugar;
+	SELECT a.*, b.idenderecotipo, b.idpessoa, b.desendereco, b.desnumero, b.desbairro, b.descidade, b.desestado, b.despais, b.descep, b.descomplemento,
+			c.deslugartipo
+	FROM tb_lugares a
+		INNER JOIN tb_enderecos b ON a.idendereco = b.idendereco
+        INNER JOIN tb_lugarestipos c ON a.idlugartipo = c.idlugartipo    
+    WHERE a.idlugar = pidlugar;
 
 END

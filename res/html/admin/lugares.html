@@ -80,6 +80,7 @@
                 <th>Endereco</th>
                 <th>Tipo do Lugar</th>
                 <th>Descrição</th>
+                <th>&nbsp;</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -88,6 +89,12 @@
           <div id="paginacao"></div>
         </div>
       </div>      
+    </div>
+    <div class="site-action">
+      <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/lugar-criar" data-toggle="slidePanel">
+        <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
+        <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
+      </button>
     </div>
   </div>
 </div>
@@ -110,6 +117,10 @@
     <td>{{desendereco}}</td>
     <td>{{deslugartipo}}</td>
     <td>{{desconteudo}}</td>
+    <td>
+      <button class="btn btn-pure btn-default icon md-edit" title="Editar Lugar" data-url="{$path}/panel/lugares/{{idlugar}}" data-toggle="slidePanel"></button>
+      <button class="btn btn-pure btn-danger icon md-delete" title="Excluir Lugar"></button>
+    </td>
   </tr>
 </script>
 
@@ -163,8 +174,42 @@ init.push(function(){
         $tbody.html('');
 
         $.each(r.data, function(index, row){
-          $tbody.append($(tplLugar(row)));
+
+          var $tr = $(tplLugar(row));
+
+          $tbody.append($tr);
+
+          $tr.find(".btn-danger").on("click", function(){
+
+            System.confirm("Deseja remover o "+row.deslugartipo+" "+row.deslugar+"?", function(b, s, f){
+
+              if(b){
+
+                rest({
+                  url:PATH+"/lugares/"+row.idlugar,
+                  method:"DELETE",
+                  success:function(){
+                    System.done();
+                    System.success("Lugar excluído com sucesso");
+                    $tr.remove();
+                  },
+                  failure:function(r){
+                    System.done();
+                    System.showError(r);
+                  }
+                });
+
+              }else{
+                f();
+              }
+
+            });
+
+          });
+
         });
+
+        initSlidePanel($tbody);
 
         $footer.html(tplFooter(r));
 
@@ -179,9 +224,7 @@ init.push(function(){
 
         $("#paginacao").asPaginator(r.total, config);
 
-        $panel.done();
-
-        initSlidePanel($tbody);
+        $panel.done();        
 
       },
       failure:function(r){

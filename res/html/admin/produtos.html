@@ -36,13 +36,7 @@
 	            <form id="form-filtros" class="p-x-25">	              
 	              <div class="form-group form-material" data-plugin="formMaterial">
 	                <!-- <select name="idprodutotipo" class="form-control" multiple="multiple"></select> -->
-	                <select name="idprodutotipo" class="form-control" multiple="multiple">
-	                	<option value="1">Teste</option>
-	                	<option value="1">Rafael</option>
-	                	<option value="1">João</option>
-	                	<option value="1">Ronaldo</option>
-	                	<option value="1">Diva</option>
-	                </select>
+	                <select name="idprodutotipo" class="form-control" multiple="multiple"></select>
 	              </div>
 	              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	            </form>
@@ -69,23 +63,24 @@
 	    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
 	      	<div style="border-bottom: #e0e0e0 1px solid;">
 		        <div class="panel panel-bordered overflow-auto" data-auto-height="-245">
-		          <table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
-		          	<thead>
-		          		<tr>
-		          			<th>Produto</th>
-		          			<th>Tipo do Produto</th>
-		          			<th>Valor</th>
-		          			<th>&nbsp;</th>
-		          		</tr>
-		          	</thead>
-		            <tbody>
+		          	<table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
+		          		<thead>
+			          		<tr>
+			          			<th>Produto</th>
+			          			<th>Tipo do Produto</th>
+			          			<th>Valor</th>
+			          			<th>&nbsp;</th>
+			          		</tr>
+		          		</thead>
+		            	<tbody>
 		            	
-		            </tbody>
-		          </table>
+		            	</tbody>
+		          	</table>
+		          	<!-- pagination -->
+	      			<div id="paginacao"></div>
 		        </div>
 	      	</div>
-	      	<!-- pagination -->
-	      	<div id="paginacao"></div>
+	      	
 	    </div>
 	  	<div class="site-action">
 			<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel">
@@ -95,6 +90,18 @@
 		</div>
 	</div>
 </div>
+<footer id="produto-footer" class="site-footer p-0"></footer>
+
+<script id="tpl-footer" type="text/x-handlebars-template">
+  <div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} Resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div>
+</script>
 	
 <script id="tpl-produto-row" type="text/x-handlebars-template">
 <tr data-idproduto="{{idproduto}}">
@@ -112,19 +119,25 @@
 <script>
 init.push(function(){
 
-	// $("[name=idprodutotipo]").combobox({
-	// 	url:PATH+"/produtos/tipos",
-	// 	displayField:"desprodutotipo",
-	// 	valueField:"idprodutotipo"
-	// });
-
-	$("[name=idprodutotipo]").select2();
+	$("[name=idprodutotipo]").combobox({
+		url:PATH+"/produtos/tipos",
+		displayField:"desprodutotipo",
+		valueField:"idprodutotipo"
+	});
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
 	var $tbody = $("#mailContent .panel tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-produto-row").html());
+	var tpl = Handlebars.compile($("#tpl-produto-row").html());
+
+	var tplFooter = Handlebars.compile($("#tpl-footer").html());
+
+	var $footer = $("#produto-footer");
+
+	$footer.html(tplFooter({
+		total:0
+	}));
 
 	$("#form-filtros [type=submit]").on("click", function(e){
 
@@ -132,13 +145,13 @@ init.push(function(){
 
 	    loadProdutos();
 
-	  });
+  	});
 
-	  $("#form-filtros input").on("keyup", function(e){
+  	$("#form-filtros input").on("keyup", function(e){
 
-	    if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+    	if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
 
-	  });
+  	});
 
 	function loadProdutos(pagina){
 
@@ -160,9 +173,42 @@ init.push(function(){
 
 				$tbody.html('');
 
+				$footer.html(tplFooter(r));
+
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tpl(row));
+					console.log(row);
+
+					var $tr = $(tpl(row));
+
+					$tbody.append($tr);
+
+					$tr.find(".btn-excluir-produto").on("click", function(){
+
+						System.confirm("Deseja realmente excluir o "+row.desprodutotipo+" "+row.desproduto+"?", function(b, s, f){
+
+							if(b){
+
+								rest({
+									url:PATH+"/produtos/"+row.idproduto,
+									method:"DELETE",
+									success:function(){
+										System.done();
+										s("Produto excluído com sucesso");
+									},
+									failure:function(r){
+										System.done();
+										f(r)
+									}
+								});
+
+							}else{
+								f();
+							}
+
+						});
+
+					});
 
 				});
 
@@ -180,38 +226,6 @@ init.push(function(){
 				});
 
 				$("#paginacao").asPaginator(r.total, config);
-
-				$(".btn-excluir-produto").on("click", function(e){
-
-					var $btn = $(this);
-
-					var idproduto = $btn.closest("tr").data("idproduto");
-
-					System.confirm('Deseja remover o produto?', function(b){
-				      	if (b) {
-
-					        System.load();
-
-					        rest({
-					          url: PATH+"/produtos/"+idproduto,
-					          method:'DELETE',
-					          success: function(r){
-
-					            System.done();
-					            loadProdutos();
-					            System.success("Produto excluído com sucesso");
-
-					          },
-					          failure: function(e){
-					            System.done();
-					            System.showError(e);
-					          }
-					        });
-
-				      	}
-				    });
-
-				});
 
 			},
 			failure:function(r){

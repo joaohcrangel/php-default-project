@@ -3,6 +3,8 @@ pidcarrinho INT
 )
 BEGIN
 	
-	SELECT * FROM tb_carrinhos WHERE idcarrinho = pidcarrinho;
+	SELECT a.*, b.despessoa FROM tb_carrinhos a
+		INNER JOIN tb_pessoas b USING(idpessoa)
+    WHERE idcarrinho = pidcarrinho;
 
 END

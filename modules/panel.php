@@ -431,4 +431,32 @@ $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 
 });
 
+////////////////////////////////////////////////////////////
+// lugares
+$app->get("/panel/lugares/:idlugar", function($idlugar){
+
+	$lugar = new Lugar((int)$idlugar);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugar", array(
+		"lugar"=>$lugar->getFields()
+	));
+
+});
+
+$app->get("/panel/lugar-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugar-criar");
+
+});
+
 ?>

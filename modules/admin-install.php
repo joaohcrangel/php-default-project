@@ -262,8 +262,8 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 		CREATE TABLE tb_produtosprecos(
 			idpreco INT NOT NULL AUTO_INCREMENT,
 			idproduto INT NOT NULL,
-			dtinicio DATETIME NOT NULL,
-			dttermino DATETIME NOT NULL,
+			dtinicio DATETIME DEFAULT NULL,
+			dttermino DATETIME DEFAULT NULL,
 			vlpreco DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idpreco),
@@ -589,6 +589,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'/documentos-tipos', 
 		3, 
 		'Documentos'
+	));
+	$sql->proc("sp_menus_save", array(
+		4,
+		0,
+		'', 
+		'/lugares-tipos', 
+		3, 
+		'Lugares'
 	));
 	
 	echo success();
@@ -1304,7 +1312,8 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 		"sp_carrinhosprodutos_list",
 		"sp_carrinhosfrompessoa_list",
 		'sp_carrinhoscupons_list',
-		'sp_carrinhosfretes_list'
+		'sp_carrinhosfretes_list',
+		'sp_produtosfromcarrinho_list'
 	);
 
 	saveProcedures($procs);

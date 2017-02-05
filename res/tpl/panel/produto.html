@@ -1,4 +1,6 @@
-{include="panel-header"}<div id="produto-{$produto.idproduto}"><header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Produto {$produto.desproduto}</h1></header><div class="slidePanel-inner"><form asutocomplete="off" id="form-produto" class="slidePanel-form"><div class="form-group form-material"><input type="hidden" name="idproduto" value="{$produto.idproduto}"><label class="control-label" for="desproduto">Produto</label><input type="text" class="form-control" name="desproduto" value="{$produto.desproduto}"></div><div class="form-group form-material"><label class="control-label" for="idprodutotipo">Tipo do Produto</label><select name="idprodutotipo" class="form-control" id="idprodutotipo" value="{$produto.idprodutotipo}"></select></div><button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button></form></div></div><script>var produto = JSON.parse('{function="json_encode($produto)"}');
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$produto.desproduto}</h5></h4></div></header><div class="slidePanel-inner m-t-40"><form asutocomplete="off" id="form-produto" class="slidePanel-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="control-label" for="desproduto">Produto</label><input type="text" class="form-control" name="desproduto"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="control-label" for="idprodutotipo">Tipo do Produto</label><select name="idprodutotipo" class="form-control" id="idprodutotipo"></select></div><div class="form-group form-material" data-plugin="formMaterial"><label class="control-label" for="idprodutotipo">Valor</label><input type="text" name="vlpreco" class="form-control"></div><button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button></form></div><script>var produto = JSON.parse('{function="json_encode($produto)"}');
+
+$("#form-produto").formLoad(produto);
 
 $("[name=idprodutotipo]").combobox({
 	url:PATH+"/produtos/tipos",
@@ -12,12 +14,16 @@ var form = $("#form-produto");
 form.form({
   resetForm:false,
   url:PATH+"/produtos",
+  params:{
+    idproduto:produto.idproduto,
+    idpreco:produto.idpreco
+  },
   success:function(){
 
     form.find("button#btn-produto-salvar").btnload("unload");
     System.success("Produto salvo com sucesso");
     $("button.slidePanel-close").trigger("click");
-    $(".refresh").trigger("click");
+    $("#form-filtros [type=submit]").trigger("click");
 
   },
   failure:function(r){

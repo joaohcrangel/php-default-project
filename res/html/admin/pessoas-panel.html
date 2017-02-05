@@ -21,7 +21,7 @@
       
     </div>
     <div class="row">
-      <div class="panel p-0 m-0">
+      <div class="p-0 m-0">
         <div class="nav-tabs-vertical col-md-4 p-r-0" data-plugin="tabs">
           <ul class="nav nav-tabs p-0 m-0" style="width: 100%" role="tablist">
             <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#pessoaTab" aria-controls="pessoaTab" role="tab" aria-expanded="true">Cadastro</a></li>
@@ -32,7 +32,7 @@
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#pagamentosTab" aria-controls="pagamentosTab" role="tab" aria-expanded="false">Pagamentos</a></li>
           </ul>
         </div>
-        <div class="panel-body m-0 m-t-10 col-md-8 p-0">
+        <div class="m-0 m-t-10 col-md-8 p-0">
           <div class="tab-content">
             <div class="tab-pane active" id="pessoaTab" role="tabpanel" aria-expanded="true">
               <form id="pessoa-form" class="p-15">
@@ -46,9 +46,7 @@
                 </div>
 
                 <label class="form-control-label"><h4>Telefones</h4></label>
-                <div id="panel-telefones">
-                  
-                </div>
+                <div id="panel-telefones" class="panel m-0 p-0"></div>
                 
                 <!-- adicionando novo telefone -->
                 <label class="form-control-label"><h5>Adicionar novo telefone</h5></label>
@@ -75,7 +73,7 @@
                 </div>
 
                 <label class="form-control-label"><h4>Emails</h4></label>
-                <div class="panel" id="panel-emails">
+                <div class="panel m-0 p-0" id="panel-emails">
                   
                 </div>
                 <!-- adicionando novo email -->
@@ -104,7 +102,7 @@
     
                 <!-- começando documentos -->
                 <label class="form-control-label"><h4>Documentos</h4></label>
-                <div class="panel" id="panel-documentos">                
+                <div class="panel m-0 p-0" id="panel-documentos">                
                   
                 </div>
 
@@ -560,7 +558,8 @@
               descontato:$input.find("input").val()
             },
             success:function(r){
-              $btn.btnload("unload");              
+              $btn.btnload("unload");
+              loadContatos();           
             },
             failure:function(r){
               $btn.btnload("unload");
@@ -650,6 +649,7 @@
             },
             success:function(){
               $select.prop("disabled", false);
+              loadContatos();
             },
             failure:function(r){
               $select.prop("disabled", false);
@@ -678,6 +678,7 @@
             },
             success:function(){
               $btn.btnload("unload");
+              loadContatos();
             },
             failure:function(r){
               $btn.btnload("unload");
@@ -878,8 +879,7 @@
         success:function(r){
           $form.find("input, select").val('');
           $btn.btnload("unload");
-          pessoa.Telefones.push(r.data);
-          renderTelefones(pessoa.Telefones);
+          loadContatos();
         },
         failure:function(r){
           $btn.btnload("unload");
@@ -923,8 +923,7 @@
         success:function(r){
           $form.find("select, input").val('');
           $btn.btnload("unload");
-          pessoa.Emails.push(r.data);
-          renderEmails(pessoa.Emails);          
+          loadContatos();
         },
         failure:function(r){
           $btn.btnload("unload");
@@ -966,8 +965,7 @@
         success:function(r){
           $form.find("select, input").val('');
           $btn.btnload("unload");
-          pessoa.Documentos.push(r.data);
-          renderDocumentos(pessoa.Documentos);
+          
         },
         failure:function(r){
           $btn.btnload("unload");
@@ -1487,6 +1485,10 @@
 
     function loadContatos(callback){
 
+      var panel = System.getPanelApi($panelTelefones);
+      
+      panel.load();
+
       rest({
         url:PATH+"/pessoas/"+pessoa.idpessoa+"/contatos",
         success:function(r){
@@ -1512,10 +1514,13 @@
 
           if (typeof callback === 'function') callback(r);
 
+          panel.done();
+
         },
         failure:function(e){
           System.showError(e);
           if (typeof callback === 'function') callback(e);
+          panel.done();
         }
       });
 

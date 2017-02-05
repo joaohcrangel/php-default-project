@@ -4,7 +4,52 @@ $app->get("/carrinhos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>Carrinhos::listAll()->getFields()));
+    $where = array();
+
+    if(isset($_GET['despessoa']) && $_GET['despessoa'] != ""){
+        array_push($where, "b.despessoa LIKE '%".utf8_decode(get('despessoa'))."%'");
+    }
+
+    if(count($where) > 0){
+        $where = "WHERE ".implode(" AND ", $where);
+    }else{
+        $where = "";
+    }
+
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS a.*, b.despessoa FROM tb_carrinhos a
+            INNER JOIN tb_pessoas b USING(idpessoa) ".$where."
+        ORDER BY b.despessoa LIMIT ?, ?;
+    ";
+
+    $pagina = (int)get('pagina');
+    $itemsPerPage = (int)get('limite');
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "Carrinhos",
+        $itemsPerPage
+    );
+
+    $carrinhos = $paginacao->getPage($pagina);
+
+    echo success(array(
+        "data"=>$carrinhos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "currentPage"=>$pagina,
+        "itemsPerPage"=>$itemsPerPage
+    ));
+
+});
+
+$app->get("/carrinhos/:idcarrinho/produtos", function($idcarrinho){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $carrinho = new Carrinho((int)$idcarrinho);
+
+    echo success(array("data"=>$carrinho->getProdutos()->getFields()));
 
 });
 

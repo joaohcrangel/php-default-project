@@ -10,7 +10,7 @@ BEGIN
 	IF pidpreco = 0 THEN
     
 		INSERT INTO tb_produtosprecos(idproduto, dtinicio, dttermino, vlpreco)
-        VALUES(pidproduto, pdtinicio, pdttermino, pdtvlpreco);
+        VALUES(pidproduto, pdtinicio, pdttermino, pvlpreco);
         
         SET pidpreco = LAST_INSERT_ID();
         

@@ -1,16 +1,76 @@
 <?php
 
-$app->get("/lugares/all", function(){
+$app->get("/lugares", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>Lugares::listAll()->getFields()));
+	$where = array();
+
+	if(isset($_GET['deslugar']) && $_GET['deslugar'] != ""){
+		array_push($where, "a.deslugar LIKE '%".utf8_decode(get('deslugar'))."%'");
+	}
+
+	if(isset($_GET['desendereco']) && $_GET['desendereco'] != ""){
+		array_push($where, "b.desendereco LIKE '%".utf8_decode(get('desendereco'))."%'");
+	}
+
+	if(isset($_GET['idlugartipo'])){
+		array_push($where, "c.idlugartipo = ".(int)get('idlugartipo'));
+	}
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where);
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desendereco, c.deslugartipo FROM tb_lugares a
+			INNER JOIN tb_enderecos b ON a.idendereco = b.idendereco
+		    INNER JOIN tb_lugarestipos c ON a.idlugartipo = c.idlugartipo
+		".$where." ORDER BY a.deslugar LIMIT ?, ?;
+	";
+
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Lugares",
+		$itemsPerPage
+	);
+
+	$lugares = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$lugares->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 
 $app->post("/lugares", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
+
+	if(isset($_POST['idendereco'])){
+
+		$endereco = new Endereco((int)post('idendereco'));
+
+		$endereco->set($_POST);
+
+		if(!post('idpessoa')){
+			$endereco->setidpessoa(Session::getPessoa()->getidpessoa());
+		}
+
+		$endereco->save();
+
+		$_POST['idendereco'] = $endereco->getidendereco();
+
+	}
 
 	if(post('idlugar') > 0){
 		$lugar = new Lugar((int)post('idlugar'));
@@ -21,6 +81,8 @@ $app->post("/lugares", function(){
 	foreach ($_POST as $key => $value) {
 		$lugar->{'set'.$key}($value);
 	}
+
+	$lugar->setidlugarpai(NULL);
 
 	$lugar->save();
 
@@ -58,27 +120,27 @@ $app->get("/lugares/tipos", function(){
 
 });
 
-$app->post("/lugarestipos", function(){
+$app->post("/lugares-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idlugartipo') > 0){
-		$tipo = new LugarTipo((int)post('idlugartipo'));
+		$lugartipo = new LugarTipo((int)post('idlugartipo'));
 	}else{
-		$tipo = new LugarTipo();
+		$lugartipo = new LugarTipo();
 	}
 
 	foreach ($_POST as $key => $value) {
-		$tipo->{'set'.$key}($value);
+		$lugartipo->{'set'.$key}($value);
 	}
 
-	$tipo->save();
+	$lugartipo->save();
 
-	echo success(array("data"=>$tipo->getFields()));
+	echo success(array("data"=>$lugartipo->getFields()));
 
 });
 
-$app->delete("/lugarestipos/:idlugartipo", function($idlugartipo){
+$app->delete("/lugares-tipos/:idlugartipo", function($idlugartipo){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -86,13 +148,13 @@ $app->delete("/lugarestipos/:idlugartipo", function($idlugartipo){
 		throw new Exception("Tipo de lugar não informado", 400);	
 	}
 
-	$tipo = new LugarTipo((int)$idlugartipo);
+	$lugartipo = new LugarTipo((int)$idlugartipo);
 
-	if(!(int)$tipo->getidlugartipo() > 0){
-		throw new Exception("Tipo não encontrado", 404);		
+	if(!(int)$lugartipo->getidlugartipo() > 0){
+		throw new Exception("Tipo de lugur não encontrado", 404);		
 	}
 
-	$tipo->remove();
+	$lugartipo->remove();
 	
 	echo success();
 

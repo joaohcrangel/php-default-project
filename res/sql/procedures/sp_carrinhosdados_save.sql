@@ -15,6 +15,7 @@ BEGIN
     
     UPDATE tb_carrinhos SET
 		vltotal = pvlpreco,
+		vltotalbruto = pvlpreco,
         nrprodutos = pnrprodutos
 	WHERE idcarrinho = pidcarrinho;
     

@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Carrinho</h5></h4></div></header><div class="slidePanel-inner m-t-40"><div class="row"><div class="col-sm-4"><h4>Pessoa</h4><p>{$carrinho.despessoa}</div><div class="col-sm-4"><h4>Valor total(líquido)</h4><p>{$carrinho.vltotal}</div><div class="col-sm-4"><h4>Valor total(bruto)</h4><p>{$carrinho.vltotalbruto}</div></div><label class="form-control-label"><h4>Produtos</h4></label><div class="panel panel-produtos"><table class="table table-striped table-hover"><thead><tr><th>Produto<th>Tipo do Produto<th>Valor do Produto<th>Data de remoção<tbody></table></div></div><script id="tpl-row" type="text/x-handlebars-compile"><tr>
+		<td>{{desproduto}}</td>
+		<td>{{desprodutotipo}}</td>
+		<td>R$ {{vlpreco}}</td>
+		<td>{{dtremovido}}</td>
+	</tr></script><script>(function(){
+	
+	var carrinho = JSON.parse('{function="json_encode($carrinho)"}');
+
+	var $panel = System.getPanelApi($(".panel-produtos"));
+
+	var $tbody = $(".panel-produtos tbody");
+
+	var tpl = Handlebars.compile($("#tpl-row").html());
+
+	function loadProdutos(){
+
+		$panel.load();
+
+		rest({
+			url:PATH+"/carrinhos/"+carrinho.idcarrinho+"/produtos",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					var $tr = $(tpl(row));
+
+					$tbody.append($tr);
+
+					if(row.dtremovido != null){
+						$tr.css("color", "#f44336");
+					}
+
+				});
+
+				$panel.done();
+
+			},
+			failure:function(r){
+				$panel.done();
+				System.showError(r);
+			}
+		});
+
+	}
+
+	loadProdutos();
+
+})();</script>

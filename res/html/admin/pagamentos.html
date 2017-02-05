@@ -121,7 +121,7 @@ init.push(function(){
 		valueField:"idstatus"
 	});
 
-	$("#pessoa-footer").html(tplFooter({
+	$("#pagamento-footer").html(tplFooter({
 	    total:0
   	}));
 
@@ -165,7 +165,7 @@ init.push(function(){
 					skin:"pagination-gap",
 					currentPage:r.currentPage,
 					itemsPerPage:r.itemsPerPage,
-					onChange:function(page){
+					onChange:function(page){						
 						loadPagamentos(page);
 					}
 				});

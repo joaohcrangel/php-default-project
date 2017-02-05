@@ -428,9 +428,7 @@ class Sql {
 
 			switch(strtolower(gettype($value))){
 				case 'string':
-			
 				$value = ($this->utf8 === true)?utf8_decode($value):$value;
-				
 				array_push($params_new, "'".$value."'");
 				break;
 				case 'integer':

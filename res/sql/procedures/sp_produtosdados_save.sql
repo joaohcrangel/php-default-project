@@ -16,7 +16,7 @@ BEGIN
     c.dtinicio, c.dttermino
     FROM tb_produtos a
     INNER JOIN tb_produtostipos b ON a.idprodutotipo = b.idprodutotipo
-    INNER JOIN tb_produtosprecos c ON a.idproduto = c.idproduto
+    LEFT JOIN tb_produtosprecos c ON a.idproduto = c.idproduto
     WHERE a.idproduto = pidproduto
     LIMIT 1;
 

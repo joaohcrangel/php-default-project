@@ -54,6 +54,33 @@ $app->get("/panel/pagamento-criar", function(){
 
 });
 
+// pagamentos-status
+$app->get("/panel/pagamentos-status/:idstatus", function($idstatus){
+
+	$status = new PagamentoStatus((int)$idstatus);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pagamentos-status-salvar", array(
+		"status"=>$status->getFields()
+	));
+
+});
+
+$app->get("/panel/pagamentos-status-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pagamentos-status-criar");
+
+});
+
 // site contatos
 $app->get("/panel/sites-contatos/:idsitecontato", function($idsitecontato){
 
@@ -156,6 +183,17 @@ $app->get("/panel/cupons/:idcupom", function($idcupom){
 
 });
 
+$app->get("/panel/cupom-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupom-criar");
+
+});
+
 // Permissao Salvar
 $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
 
@@ -169,17 +207,6 @@ $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
 	$page->setTpl("panel/permissao-salvar", array(
 		"permissao"=>$permissao->getFields()
 	));
-
-});
-
-$app->get("/panel/cupom-criar", function(){
-
-	$page = new Page(array(
-		"header"=>false,
-		"footer"=>false
-	));
-
-	$page->setTpl("panel/cupom-criar");
 
 });
 
@@ -237,6 +264,35 @@ $app->get("/panel/usuario-tipo-criar", function(){
 	));
 
 	$page->setTpl("panel/usuario-tipo-criar");
+
+});
+
+/////////////////////////////////////////
+// Lugares-tipos salvar
+
+$app->get("/panel/lugares-tipos/:idlugartipo", function($idlugartipo){
+
+	$lugartipo = new LugarTipo((int)$idlugartipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugares-tipos-salvar", array(
+		"lugartipo"=>$lugartipo->getFields()
+	));
+
+});
+
+$app->get("/panel/lugares-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugares-tipos-criar");
 
 });
 
@@ -329,4 +385,50 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 	));
 
 });
+
+///////////////////////////////////////////////////////////
+// carrinhos
+$app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
+
+	$carrinho = new Carrinho((int)$idcarrinho);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/carrinho", array(
+		"carrinho"=>$carrinho->getFields()
+	));
+
+});
+
+////////////////////////////////////////////////////////////
+// lugares
+$app->get("/panel/lugares/:idlugar", function($idlugar){
+
+	$lugar = new Lugar((int)$idlugar);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugar", array(
+		"lugar"=>$lugar->getFields()
+	));
+
+});
+
+$app->get("/panel/lugar-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugar-criar");
+
+});
+
 ?>

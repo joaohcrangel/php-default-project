@@ -148,7 +148,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-   //Permissao::checkSession(Permissao::ADMIN, true);
+   Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(

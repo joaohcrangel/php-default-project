@@ -589,6 +589,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		3, 
 		'Lugares'
 	));
+	$sql->proc("sp_menus_save", array(
+		4,
+		0,
+		'', 
+		'/cupons-tipos', 
+		3, 
+		'Cupom'
+	));
 	
 	echo success();
 });

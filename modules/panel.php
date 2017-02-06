@@ -16,7 +16,7 @@ $app->get("/panel/produtos/:idproduto", function($idproduto){
 
 });
 
-$app->get("/panel/produto-criar", function(){
+$app->get("/panel/produtos-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,

@@ -1,33 +1,22 @@
 <?php
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
-
 function saveProcedures($procs = array()){
-
 	$sql = new Sql();
-
 	foreach ($procs as $name) {
 		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
 		$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	}
-
 }
-
 function saveTriggers($triggers = array()){
-
 	$sql = new Sql();
-
 	foreach ($triggers as $name) {
 		$sql->query("DROP TRIGGER IF EXISTS {$name};");
 		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
 	}
-
 }
-
 $app->get("/install", function(){
-
 	unsetLocalCookie(COOKIE_KEY);
-
 	if (isset($_SESSION)) unset($_SESSION);
 	session_destroy();
 	$page = new Page(array(
@@ -36,21 +25,17 @@ $app->get("/install", function(){
 	));
 	$page->setTpl("install/index");
 });
-
 $app->get("/install-admin/sql/clear", function(){
-
 	$sql = new Sql();
 	
 	$procs = $sql->arrays("SHOW PROCEDURE STATUS WHERE Db = '".DB_NAME."';");
 	foreach ($procs as $row) {
 		$sql->query("DROP PROCEDURE IF EXISTS ".$row['Name'].";");
 	}
-
 	$funcs = $sql->arrays("SHOW FUNCTION STATUS WHERE Db = '".DB_NAME."';");
 	foreach ($funcs as $row) {
 		$sql->query("DROP FUNCTION IF EXISTS ".$row['Name'].";");
 	}
-
 	$const = $sql->arrays("
 		SELECT 
 		  TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME, REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME
@@ -62,7 +47,6 @@ $app->get("/install-admin/sql/clear", function(){
 	foreach ($const as $row) {
 		$sql->query("alter table ".$row['TABLE_NAME']." drop foreign key ".$row['CONSTRAINT_NAME'].";");
 	}
-
 	$tables = $sql->arrays("
 		SHOW TABLES;
 	");
@@ -72,7 +56,6 @@ $app->get("/install-admin/sql/clear", function(){
 	
 	echo success();
 });
-
 $app->get("/install-admin/sql/pessoas/tables", function(){
 	$sql = new Sql();
 	$sql->query("
@@ -94,7 +77,6 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  CONSTRAINT FK_pessoas_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_historicostipos (
 			idhistoricotipo int(11) NOT NULL AUTO_INCREMENT,
@@ -103,7 +85,6 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			PRIMARY KEY (idhistoricotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
         CREATE TABLE tb_pessoashistoricos (
 			idpessoahistorico int(11) NOT NULL AUTO_INCREMENT,
@@ -118,7 +99,6 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT fk_pessoashistoricos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pessoasvalorescampos(
 			idcampo INT NOT NULL AUTO_INCREMENT,
@@ -127,7 +107,6 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT PRIMARY KEY(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pessoasvalores(
 			idpessoavalor INT NOT NULL AUTO_INCREMENT,
@@ -140,47 +119,35 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_pessoasvalorescampos(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/triggers", function(){
-
 	$triggers = array(
 		"tg_pessoas_AFTER_INSERT",
 		"tg_pessoas_AFTER_UPDATE",
 		"tg_pessoas_BEFORE_DELETE"
 	);
-
 	saveTriggers($triggers);
-
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
-
 	$pessoaTipoF = new PessoaTipo(array(
-		'despessoatipo'=>'Física'
+		'despessoatipo'=>'FÃ­sica'
 	));
-
 	$pessoaTipoF->save();
-
 	$pessoaTipoJ = new PessoaTipo(array(
-		'despessoatipo'=>'Jurídica'
+		'despessoatipo'=>'JurÃ­dica'
 	));
-
 	$pessoaTipoJ->save();
-
 	$pessoa = new Pessoa(array(
-		'despessoa'=>'Super Usuário (root)',
+		'despessoa'=>'Super UsuÃ¡rio (root)',
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
-
 	$pessoa->save();
-
 	echo success();
 	
 });
 $app->get("/install-admin/sql/pessoas/get", function(){
-
 	$procs = array(
 		"sp_pessoas_get",
 		"sp_historicostipos_get",
@@ -189,13 +156,10 @@ $app->get("/install-admin/sql/pessoas/get", function(){
 		"sp_pessoasvalorescampos_get",
 		"sp_pessoastipos_get"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/list", function(){
-
 	$procs = array(
 		"sp_pessoas_list",
 		"sp_pessoastipos_list",
@@ -203,13 +167,10 @@ $app->get("/install-admin/sql/pessoas/list", function(){
         "sp_pessoasvalores_list",
         "sp_pessoasvalorescampos_list"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/save", function(){
-
 	$names = array(
 		"sp_pessoasdados_save",
 		"sp_pessoas_save",
@@ -217,14 +178,10 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 		"sp_pessoasvalorescampos_save",
 		"sp_pessoastipos_save"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
-
 $app->get("/install-admin/sql/pessoas/remove", function(){
-
 	$names = array(
 		"sp_pessoasdados_remove",
 		"sp_pessoas_remove",
@@ -232,12 +189,9 @@ $app->get("/install-admin/sql/pessoas/remove", function(){
 		"sp_pessoasvalorescampos_remove",
 		"sp_pessoastipos_remove"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
-
 $app->get("/install-admin/sql/produtos/tables", function(){
 	$sql = new Sql();
 	$sql->query("
@@ -273,7 +227,6 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/triggers", function(){
-
 	$triggers = array(
 		"tg_produtos_AFTER_INSERT",
 		"tg_produtos_AFTER_UPDATE",
@@ -282,30 +235,25 @@ $app->get("/install-admin/sql/produtos/triggers", function(){
 		"tg_produtosprecos_AFTER_UPDATE",
 		"tg_produtosprecos_BEFORE_DELETE"
 	);
-
 	saveTriggers($triggers);
 	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/inserts", function(){
 	$sql = new Sql();
-
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/get", function(){
-
 	$procs = array(
 		"sp_produto_get",
 		"sp_produtotipo_get",
 		"sp_produtosprecos_get"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/list", function(){
-
 	$procs = array(
 		"sp_produtos_list",
 		"sp_produtostipos_list",
@@ -314,38 +262,31 @@ $app->get("/install-admin/sql/produtos/list", function(){
 		"sp_pagamentosfromproduto_list",
 		"sp_precosfromproduto_list"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/save", function(){
-
 	$procs = array(
 		"sp_produto_save",
 		"sp_produtotipo_save",
 		"sp_produtosprecos_save",
 		"sp_produtosdados_save"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/remove", function(){
-
 	$procs = array(
 		"sp_produto_remove",
 		"sp_produtotipo_remove",
 		"sp_produtosprecos_remove",
 		"sp_produtosdados_remove"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
-
 $app->get("/install-admin/sql/usuarios/tables", function(){
 	$sql = new Sql();
 	$sql->query("
@@ -356,7 +297,6 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_usuarios (
 		  idusuario int(11) NOT NULL AUTO_INCREMENT,
@@ -371,25 +311,20 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  CONSTRAINT FK_usuarios_usuariostipos FOREIGN KEY (idusuariotipo) REFERENCES tb_usuariostipos (idusuariotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/triggers", function(){
-
 	$triggers = array(
 		"tg_usuarios_AFTER_INSERT",
 		"tg_usuarios_AFTER_UPDATE",
 		"tg_usuarios_BEFORE_DELETE"
 	);
-
 	saveTriggers($triggers);
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/inserts", function(){
 	$sql = new Sql();
 	$hash = Usuario::getPasswordHash("root");
-
 	$sql->proc("sp_usuariostipos_save", array(
 		0,
 		'Administrativo'
@@ -405,11 +340,9 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 	", array(
 		1, 'root', $hash, 1
 	));
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/get", function(){
-
 	$procs = array(
 		"sp_usuarios_get",
 		"sp_usuarioslogin_get",
@@ -417,43 +350,33 @@ $app->get("/install-admin/sql/usuarios/get", function(){
 		"sp_usuariosfrommenus_list",
 		"sp_usuariostipos_get"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/remove", function(){
-
 	$procs = array(
 		"sp_usuarios_remove",
 		"sp_usuariostipos_remove"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/save", function(){
-
 	$procs = array(
 		"sp_usuarios_save",
 		"sp_usuariostipos_save"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/list", function(){
-
 	$names = array(
         "sp_usuariostipos_list",
         "sp_usuariosfrompessoa_list",
         "sp_usuarios_list"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/menus/tables", function(){
@@ -472,7 +395,6 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenupai) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_menususuarios (
 		  idmenu int(11) NOT NULL,
@@ -481,7 +403,6 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  CONSTRAINT FOREIGN KEY FK_usuariosmenusmenus (idmenu) REFERENCES tb_menus(idmenu)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	echo success();
 });
 $app->get("/install-admin/sql/menus/inserts", function(){
@@ -532,7 +453,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/sistema/usuarios', 
 		0, 
-		'Usuários'
+		'UsuÃ¡rios'
 	));
 	$sql->proc("sp_menus_save", array(
 		2,
@@ -556,7 +477,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/permissoes', 
 		3, 
-		'Permissões'
+		'PermissÃµes'
 	));
 	$sql->proc("sp_menus_save", array(
 		0,
@@ -572,7 +493,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/enderecos-tipos', 
 		3, 
-		'Endereços'
+		'EndereÃ§os'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
@@ -580,7 +501,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/usuarios-tipos', 
 		3, 
-		'Usuários'
+		'UsuÃ¡rios'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
@@ -598,62 +519,41 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		3, 
 		'Lugares'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/cupons-tipos', 
-		3, 
-		'Cupom'
-	));
 	
 	echo success();
 });
 $app->get("/install-admin/sql/menus/get", function(){
-
 	$names = array(
        "sp_menus_get"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
-
 	$names = array(
         "sp_menus_list"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
-
 	$names = array(
        "sp_menus_remove"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/menus/save", function(){
-
 	$procs = array(
 		"sp_menusfromusuario_list",
 		"sp_menustrigger_save",
 		"sp_menus_save"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/tables", function(){
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_contatostipos (
 		  idcontatotipo int(11) NOT NULL AUTO_INCREMENT,
@@ -662,7 +562,6 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idcontatotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_contatossubtipos (
 		  idcontatosubtipo int NOT NULL AUTO_INCREMENT,
@@ -674,7 +573,6 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  KEY FK_contatostipos (idcontatotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_contatos (
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
@@ -691,13 +589,11 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/triggers", function(){
-
 	$triggers = array(
 		"tg_contatos_AFTER_INSERT",
 		"tg_contatos_AFTER_UPDATE",
 		"tg_contatos_BEFORE_DELETE"
 	);
-
 	saveTriggers($triggers);
     
 	echo success();
@@ -712,7 +608,6 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 		'E-mail',
 		'Telefone'
 	));
-
 	$sql->query("
 		INSERT INTO tb_contatossubtipos (idcontatotipo, descontatosubtipo) VALUES
 		(?, ?),
@@ -733,52 +628,39 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 		1, 'Trabalho',		
 		1, 'Outro'		
 	));
-
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/get", function(){
-
 	$procs = array(
 		"sp_contatos_get",
 		"sp_contatossubtipos_get"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/list", function(){
-
 	$procs = array(
 		"sp_contatosfrompessoa_list",
 		"sp_contatostipos_list",
 		"sp_contatossubtipos_list"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/save", function(){
-
 	$procs = array(
 		"sp_contatos_save",
 		"sp_contatossubtipos_save"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/remove", function(){
-
 	$procs = array(
 		"sp_contatos_remove",
 		"sp_contatossubtipos_remove"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/tables", function(){
@@ -806,15 +688,12 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/triggers", function(){
-
 	$triggers = array(
 		"tg_documentos_AFTER_INSERT",
 		"tg_documentos_AFTER_UPDATE",
 		"tg_documentos_BEFORE_DELETE"
 	);
-
 	saveTriggers($triggers);
-
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/inserts", function(){
@@ -832,45 +711,35 @@ $app->get("/install-admin/sql/documentos/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/get", function(){
-
 	$names = array(
-        "sp_documentos_get"
+        "sp_documentos_get",
+        "sp_documentostipos_get"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/list", function(){
-
 	$procs = array(
 		"sp_documentosfrompessoa_list",
 		"sp_documentostipos_list"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/save", function(){
-
 	$names = array(
        "sp_documentos_save",
        "sp_documentostipos_save"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/remove", function(){
-
 	$names = array(
-        "sp_documentos_remove"
+        "sp_documentos_remove",
+        "sp_documentostipos_remove"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/tables", function(){
@@ -905,15 +774,12 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/triggers", function(){
-
 	$triggers = array(
 		"tg_enderecos_AFTER_INSERT",
 		"tg_enderecos_AFTER_UPDATE",
 		"tg_enderecos_BEFORE_DELETE"
 	);
-
 	saveTriggers($triggers);
-
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/inserts", function(){
@@ -927,53 +793,41 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 	", array(
 		'Residencial',
 		'Comercial',
-		'Cobrança',
+		'CobranÃ§a',
 		'Entrega'
 	));
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/get", function(){
-
 	$names = array(
         "sp_enderecos_get",
         "sp_enderecostipos_get"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/list", function(){
-
 	$names = array(
         "sp_enderecosfrompessoa_list",
         "sp_enderecostipos_list"
     );
-
     saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/save", function(){
-
 	$names = array(
        "sp_enderecos_save",
        "sp_enderecostipos_save"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/remove", function(){
-
 	$names = array(
        "sp_enderecos_remove",
        "sp_enderecostipos_remove"
 	);
-
 	saveProcedures($names);
-
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/tables", function(){
@@ -1006,7 +860,6 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		  CONSTRAINT FK_usuariospermissoes FOREIGN KEY (idusuario) REFERENCES tb_usuarios (idusuario)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/inserts", function(){
@@ -1017,7 +870,7 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 		(?),
 		(?);
 	", array(
-		'Super Usuário',
+		'Super UsuÃ¡rio',
 		'Acesso Administrativo',
 		'Acesso Autenticado de Cliente'
 	));
@@ -1025,7 +878,6 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 		INSERT INTO tb_permissoesmenus (idmenu, idpermissao)
 		SELECT idmenu, 1 FROM tb_menus;
 	", array());
-
 	$sql->query("
 		INSERT INTO tb_permissoesusuarios (idusuario, idpermissao) VALUES
 		(?, ?),
@@ -1037,39 +889,31 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/get", function(){
-
 	$procs = array(
 		'sp_permissoes_get',
 		'sp_permissoesfrommenus_list',
 		'sp_permissoesfrommenusfaltantes_list',
 		'sp_permissoes_list'
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/save", function(){
-
 	$procs = array(
 		"sp_permissoes_save",
 		"sp_permissoesmenus_save"
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/remove", function(){
-
 	$procs = array(
 		"sp_permissoes_remove",
 		"sp_permissoesmenus_remove"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
@@ -1113,7 +957,6 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 	");
 	echo success();
 });
-
 $app->get("/install-admin/sql/produtosdados/tables", function(){
 	$sql = new Sql();
 	$sql->query("
@@ -1132,11 +975,8 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 	");
 	echo success();
 });
-
 $app->get("/install-admin/sql/cupons/tables", function(){
-
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_cuponstipos(
 			idcupomtipo INT NOT NULL AUTO_INCREMENT,
@@ -1145,7 +985,6 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 			CONSTRAINT PRIMARY KEY(idcupomtipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_cupons(
 			idcupom INT NOT NULL AUTO_INCREMENT,
@@ -1163,67 +1002,42 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcupomtipo) REFERENCES tb_cuponstipos(idcupomtipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/cupons/list", function(){
-
 	$procs = array(
 		'sp_cupons_list',
 		'sp_cuponstipos_list'
 	);
-
 	saveProcedures($procs);
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/cupons/save", function(){
-
 	$procs = array(
 		'sp_cupons_save',
 		'sp_cuponstipos_save'
 	);
-
 	saveProcedures($procs);
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/cupons/get", function(){
-
 	$procs = array(
 		'sp_cupons_get',
 		'sp_cuponstipos_get'
 	);
-
 	saveProcedures($procs);
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/cupons/remove", function(){
-
 	$procs = array(
 		'sp_cupons_remove',
 		'sp_cuponstipos_remove'
 	);
-
 	saveProcedures($procs);
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/cupons/inserts", function(){
-
 	$sql = new Sql();
-
 	$sql->query("
 		INSERT INTO tb_cuponstipos(descupomtipo)
 		VALUES(?), (?);
@@ -1231,15 +1045,10 @@ $app->get("/install-admin/sql/cupons/inserts", function(){
 		'Valor Fixo',
 		'Porcentagem'
 	));
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/carrinhos/tables", function(){
-
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_carrinhos(
 			idcarrinho INT NOT NULL AUTO_INCREMENT,
@@ -1254,7 +1063,6 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_carrinhosprodutos(
 			idcarrinhoproduto INT NOT NULL AUTO_INCREMENT,
@@ -1267,7 +1075,6 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_carrinhosfretes(
 			idcarrinho INT NOT NULL,
@@ -1277,7 +1084,6 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_carrinhoscupons(
 			idcarrinho INT NOT NULL,
@@ -1287,34 +1093,24 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcupom) REFERENCES tb_cupons(idcupom)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/carrinhos/triggers", function(){
-
 	$triggers = array(
 		"tg_carrinhoscupons_AFTER_INSERT",
 		"tg_carrinhoscupons_AFTER_UPDATE",
 		"tg_carrinhoscupons_AFTER_DELETE",
-
 		"tg_carrinhosfretes_AFTER_INSERT",
 		"tg_carrinhosfretes_AFTER_UPDATE",
 		"tg_carrinhosfretes_AFTER_DELETE",
-
 		"tg_carrinhosprodutos_AFTER_INSERT",
 		"tg_carrinhosprodutos_AFTER_UPDATE",
 		"tg_carrinhosprodutos_AFTER_DELETE"
 	);
-
 	saveTriggers($triggers);
-
 	echo success();
 });
-
 $app->get("/install-admin/sql/carrinhos/list", function(){
-
 	$procs = array(
 		"sp_carrinhos_list",
 		"sp_carrinhosprodutos_list",
@@ -1323,30 +1119,22 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 		'sp_carrinhosfretes_list',
 		'sp_produtosfromcarrinho_list'
 	);
-
 	saveProcedures($procs);
-
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/carrinhos/get", function(){
-
 	$procs = array(
 		"sp_carrinhos_get",
 		"sp_carrinhosprodutos_get",
 		'sp_carrinhoscupons_get',
 		'sp_carrinhosfretes_get'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/carrinhos/save", function(){
-
 	$procs = array(
 		"sp_carrinhos_save",
 		"sp_carrinhosprodutos_save",
@@ -1354,32 +1142,26 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 		'sp_carrinhosfretes_save',
 		'sp_carrinhosdados_save'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/carrinhos/remove", function(){
-
 	$procs = array(
 		"sp_carrinhos_remove",
 		"sp_carrinhosprodutos_remove",
 		'sp_carrinhoscupons_remove',
 		'sp_carrinhosfretes_remove'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_cartoesdecreditos(
 			idcartao INT NOT NULL AUTO_INCREMENT,
@@ -1397,22 +1179,17 @@ $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/cartoesdecreditos/list", function(){
-
 	$procs = array(
 		"sp_cartoesdecreditos_list",
 		"sp_cartoesfrompessoa_list"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/cartoesdecreditos/get", function(){
-
 	$name = array(
 		"sp_cartoesdecreditos_get"
 	);
@@ -1422,35 +1199,27 @@ $app->get("/install-admin/sql/cartoesdecreditos/get", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/cartoesdecreditos/save", function(){
-
 	$name = array(
 		"sp_cartoesdecreditos_save"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
-
 	$name = array(
 		"sp_cartoesdecreditos_remove"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/gateways/tables", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_gateways(
 			idgateway INT NOT NULL AUTO_INCREMENT,
@@ -1463,11 +1232,9 @@ $app->get("/install-admin/sql/gateways/tables", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/gateways/inserts", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		INSERT INTO tb_gateways(desgateway) VALUES(?);
 	", array(
@@ -1477,9 +1244,7 @@ $app->get("/install-admin/sql/gateways/inserts", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/gateways/list", function(){
-
 	$name = array(
 		"sp_gateways_list"
 	);
@@ -1489,47 +1254,36 @@ $app->get("/install-admin/sql/gateways/list", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/gateways/get", function(){
-
 	$name = array(
 		"sp_gateways_get"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/gateways/save", function(){
-
 	$name = array(
 		"sp_gateways_save"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/gateways/remove", function(){
-
 	$name = array(
 		"sp_gateways_remove"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/pagamentos/tables", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_formaspagamentos(
 			idformapagamento INT NOT NULL AUTO_INCREMENT,
@@ -1542,7 +1296,6 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pagamentosstatus(
 			idstatus INT NOT NULL AUTO_INCREMENT,
@@ -1551,7 +1304,6 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			CONSTRAINT PRIMARY KEY(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pagamentos(
 			idpagamento INT NOT NULL AUTO_INCREMENT,
@@ -1568,7 +1320,6 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pagamentosstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pagamentosprodutos(
 			idpagamento INT NOT NULL,
@@ -1582,7 +1333,6 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pagamentosrecibos(
 			idpagamento INT NOT NULL,
@@ -1592,7 +1342,6 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_pagamentoshistoricos(
 			idhistorico INT NOT NULL AUTO_INCREMENT,
@@ -1608,11 +1357,9 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/pagamentos/inserts", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		INSERT INTO tb_formaspagamentos (idgateway, desformapagamento, nrparcelasmax, instatus) VALUES
 		(?, ?, ?, ?),
@@ -1651,11 +1398,11 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'Aura', 12, 1,
 		1, 'Elo', 12, 1,
 		1, 'Boleto', 1, 1,
-		1, 'Débito Online Itaú', 1, 1,
-		1, 'Débito Online Banco do Brasil', 1, 1,
-		1, 'Débito Online Banrisul', 1, 1,
-		1, 'Débito Online Bradesco', 1, 1,
-		1, 'Débito Online HSBC', 1, 1,
+		1, 'DÃ©bito Online ItaÃº', 1, 1,
+		1, 'DÃ©bito Online Banco do Brasil', 1, 1,
+		1, 'DÃ©bito Online Banrisul', 1, 1,
+		1, 'DÃ©bito Online Bradesco', 1, 1,
+		1, 'DÃ©bito Online HSBC', 1, 1,
 		1, 'PlenoCard', 3, 1,
 		1, 'PersonalCard', 3, 1,
 		1, 'JCB', 1, 1,
@@ -1670,15 +1417,14 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'GRANDCARD', 12, 1,
 		1, 'Sorocred', 12, 1
 	));
-
 	$sql->query("
 		INSERT INTO tb_pagamentosstatus(desstatus)
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
 		'Aguardando Pagamento',
-		'Em análise',
+		'Em an?lise',
 		'Pago',
-		'Disponível',
+		'DisponÃ¡vel',
 		'Em disputa',
 		'Devolvido',
 		'Cancelado'
@@ -1687,9 +1433,7 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/pagamentos/list", function(){
-
 	$procs = array(
 		'sp_formaspagamentos_list',
 		'sp_pagamentos_list',
@@ -1700,15 +1444,12 @@ $app->get("/install-admin/sql/pagamentos/list", function(){
 		'sp_recibosfrompagamento_list',
 		'sp_pagamentoshistoricos_list'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/pagamentos/get", function(){
-
 	$procs = array(
 		'sp_formaspagamentos_get',
 		'sp_pagamentos_get',
@@ -1717,15 +1458,12 @@ $app->get("/install-admin/sql/pagamentos/get", function(){
 		'sp_pagamentosstatus_get',
 		'sp_pagamentoshistoricos_get'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/pagamentos/save", function(){
-
 	$procs = array(
 		'sp_formaspagamentos_save',
 		'sp_pagamentos_save',
@@ -1734,15 +1472,12 @@ $app->get("/install-admin/sql/pagamentos/save", function(){
 		'sp_pagamentosstatus_save',
 		'sp_pagamentoshistoricos_save'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/pagamentos/remove", function(){
-
 	$procs = array(
 		'sp_formaspagamentos_remove',
 		'sp_pagamentos_remove',
@@ -1751,17 +1486,14 @@ $app->get("/install-admin/sql/pagamentos/remove", function(){
 		'sp_pagamentosstatus_remove',
 		'sp_pagamentoshistoricos_remove'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/sitecontatos/tables", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_sitecontatos(
 			idsitecontato INT NOT NULL AUTO_INCREMENT,
@@ -1777,62 +1509,48 @@ $app->get("/install-admin/sql/sitecontatos/tables", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/sitecontatos/list", function(){
-
 	$procs = array(
 		"sp_sitecontatos_list",
 		"sp_sitecontatosfrompessoa_list"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/sitecontatos/get", function(){
-
 	$procs = array(
 		'sp_sitecontatosbypessoa_get',
 		'sp_sitecontatos_get'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/sitecontatos/save", function(){
-
 	$name = array(
 		"sp_sitecontatos_save"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/sitecontatos/remove", function(){
-
 	$name = array(
 		"sp_sitecontatos_remove"
 	);
-
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-
 // lugares
 $app->get("/install-admin/sql/lugares/tables", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		CREATE TABLE tb_lugarestipos(
 			idlugartipo INT NOT NULL AUTO_INCREMENT,
@@ -1841,7 +1559,6 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			CONSTRAINT PRIMARY KEY(idlugartipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
 	$sql->query("
 		CREATE TABLE tb_lugares(
 			idlugar INT NOT NULL AUTO_INCREMENT,
@@ -1863,63 +1580,49 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/lugares/list", function(){
-
 	$procs = array(
 		"sp_lugares_list",
 		"sp_lugarestipos_list"
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/lugares/get", function(){
-
 	$procs = array(
 		'sp_lugarestipos_get',
 		'sp_lugares_get'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/lugares/save", function(){
-
 	$procs = array(
 		'sp_lugarestipos_save',
 		'sp_lugares_save'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/lugares/remove", function(){
-
 	$procs = array(
 		'sp_lugarestipos_remove',
 		'sp_lugares_remove'
 	);
-
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-
 $app->get("/install-admin/sql/lugares/inserts", function(){
 	
 	$sql = new Sql();
-
 	$sql->query("
 		INSERT INTO tb_lugarestipos(deslugartipo)
 		VALUES(?), (?), (?), (?), (?), (?);
@@ -1929,11 +1632,10 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 		'Cinema',
 		'Cidade',
 		'Estado',
-		'País'
+		'PaÃ­s'
 	));
 	
 	echo success();
 	
 });
-
 ?>

@@ -18,7 +18,7 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = true;
+	private $utf8 = false;
 	private $sessionLog = true;
 
 	/*********************************************************************************************************/
@@ -718,11 +718,11 @@ class Sql {
 
 				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 				$sth = $this->conn->prepare($query);
-				$sth->execute($params);
+		        $sth->execute($params);
 
 				$data = $this->getArrayRows($sth);
 
-			break;
+	        break;
 
 			default:
 

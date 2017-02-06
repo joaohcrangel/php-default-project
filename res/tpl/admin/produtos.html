@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button {
   padding: 2px 5px;
   font-size: 11px;
@@ -28,15 +27,15 @@
   </div></script><script id="tpl-produto-row" type="text/x-handlebars-template"><tr data-idproduto="{{idproduto}}">
 	<td>{{desproduto}}</td>
 	<td>{{desprodutotipo}}</td>
+	<td>{{vlpreco}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produto/{{idproduto}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
       	</button>
 	</td>
-</tr>
-</script>
-<script>init.push(function(){
+</tr></script><script>init.push(function(){
+
 	$("[name=idprodutotipo]").combobox({
 		url:PATH+"/produtos/tipos",
 		displayField:"desprodutotipo",
@@ -73,9 +72,7 @@
 
 	function loadProdutos(pagina){
 
-		if(!pagina){
-			pagina = 1;
-		}
+		if(!pagina)	pagina = 1;
 
 		$(".refresh").on("click", function(){
 			loadProdutos();
@@ -87,7 +84,7 @@
 			url:PATH+"/produtos/all",
 			data:{
 				pagina:pagina,
-				limit:3
+				limit:10
 			},
 			success:function(r){
 
@@ -154,8 +151,6 @@
 			}
 		});
 
-	};
-
-	loadProdutos();
+	}
 
 });</script>

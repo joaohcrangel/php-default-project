@@ -32,8 +32,7 @@ class DefaultObject {
 
 					if (
 						$this->pk === $namefield &&
-						isset($this->fields->{$namefield}) &&
-						!(int)$this->fields->{$namefield} > 0
+						!isset($this->fields->{$namefield})
 					) {
 						return $this->fields->{$namefield} = 0;
 					}

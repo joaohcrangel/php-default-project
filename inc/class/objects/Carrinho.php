@@ -46,6 +46,11 @@ class Carrinho extends Model {
         
     }
 
+    public function getProdutos():Produtos
+    {
+        return new Produtos($this);
+    }
+
 }
 
 ?>

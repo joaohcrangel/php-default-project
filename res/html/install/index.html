@@ -48,11 +48,16 @@ angular.module("install", []).controller("sql", function($scope, $http){
 
 		console.warn("Apagando o banco de dados atual...");
 
+		$('#btn-installDB').btnload('load');
+
 		rest({
 			$http:$http,
 			url:PATH+"/install-admin/sql/clear",
 			success:function(){
 				console.info("Iniciando instalação...");
+
+				$('#btn-installDB').btnload('unload');
+				
 				$scope.installDataBase(0, $scope.objects);
 			},
 			failure:function(e){
@@ -421,6 +426,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/carrinhos/remove",
 			name:"Carrinhos - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/carrinhos/triggers",
+			name:"Carrinhos - Triggers",
 			status:"",
 			enabled:true
 		},

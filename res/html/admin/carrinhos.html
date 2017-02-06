@@ -58,7 +58,6 @@
 		    		<table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
 		    			<thead>
 			          		<th>Pessoa</th>
-			          		<th>Sessão</th>
 			          		<th>Número de Produtos</th>
 			          		<th>Valor Total</th>
 			          		<th>&nbsp;</th>
@@ -81,13 +80,23 @@
       	</button>
     </div>
 </div>
+<footer id="carrinho-footer" class="site-footer p-0"></footer>
+<script id="tpl-footer" type="text/x-handlebars-template">
+  <div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div>
+</script>
 
 <script id="tpl-carrinho-row" type="text/x-handlebars-template">
 <tr data-idcarrinho="{{idcarrinho}}">
 	<td>{{despessoa}}</td>
-	<td>{{dessession}}</td>
 	<td>{{nrprodutos}}</td>
-	<td>{{vltotal}}</td>
+	<td>R$ {{vltotal}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/carrinhos/{{idcarrinho}}" data-toggle="slidePanel">
       	</button>
@@ -105,6 +114,10 @@ init.push(function(){
 
 	var $tpl = Handlebars.compile($("#tpl-carrinho-row").html());
 
+	var tplFooter = Handlebars.compile($("#tpl-footer").html());
+
+	var $footer = $("#carrinho-footer");
+
 	$("#form-filtros [type=submit]").on("click", function(e){
 
 		e.preventDefault();
@@ -118,6 +131,10 @@ init.push(function(){
 		if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
 
 	});
+
+	$footer.html(tplFooter({
+		total:0
+	}));
 
 	function loadCarrinhos(pagina){
 
@@ -136,6 +153,8 @@ init.push(function(){
 			success:function(r){
 
 				$tbody.html('');
+
+				$footer.html(tplFooter(r));
 
 				$.each(r.data, function(index, row){
 

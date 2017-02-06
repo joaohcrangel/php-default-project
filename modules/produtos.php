@@ -17,7 +17,7 @@ $app->get("/produtos/all", function(){
     }
 
     $query = "
-        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtos a
+        SELECT SQL_CALC_FOUND_ROWS a.*, b.desprodutotipo, c.vlpreco FROM tb_produtos a
         INNER JOIN tb_produtostipos b USING(idprodutotipo)
         LEFT JOIN tb_produtosprecos c ON a.idproduto = c.idproduto
         ".$where." LIMIT ?, ?
@@ -60,6 +60,22 @@ $app->post('/produtos', function(){
     }
 
     $produto->save();
+
+    if(isset($_POST['vlpreco'])){
+
+        $_POST['idproduto'] = $produto->getidproduto();
+
+        if(post('idpreco') > 0){
+            $preco = new ProdutoPreco((int)post('idpreco'));
+        }else{
+            $preco = new ProdutoPreco();
+        }
+
+        $preco->set($_POST);
+
+        $preco->save();
+
+    }
 
     echo success(array("data"=>$produto->getFields()));
 

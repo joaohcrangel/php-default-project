@@ -14,6 +14,7 @@ class Columns extends \Collection {
 		switch(DB_TYPE){
 
 			case 1:
+			case 3:
 			return "p";
 			break;
 			case 2:

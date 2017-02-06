@@ -9,7 +9,7 @@ require_once("inc/class/vendor/Slim/Slim.php");
 
 $app = new \Slim\Slim();
 
-$app->config('debug', true);
+$app->config('debug', false);
 
 $app->error(function (\Exception $e) use ($app) {
 

@@ -2,6 +2,9 @@
 
 class PessoaTipo extends Model {
 
+    const FISICA = 1;
+    const JURIDICA = 2;
+
     public $required = array('despessoatipo');
     protected $pk = "idpessoatipo";
 

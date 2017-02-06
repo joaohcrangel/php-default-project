@@ -19,5 +19,16 @@ class Produtos extends Collection {
 
     }
 
+    public function getByCarrinho(Carrinho $carrinho):Produtos
+    {
+
+        $this->loadFromQuery("CALL sp_produtosfromcarrinho_list(?);", array(
+            $carrinho->getidcarrinho()
+        ));
+
+        return $this;
+
+    }
+
 }
 ?>

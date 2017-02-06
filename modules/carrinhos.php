@@ -43,6 +43,16 @@ $app->get("/carrinhos/all", function(){
 
 });
 
+$app->get("/carrinhos/:idcarrinho/produtos", function($idcarrinho){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $carrinho = new Carrinho((int)$idcarrinho);
+
+    echo success(array("data"=>$carrinho->getProdutos()->getFields()));
+
+});
+
 $app->post("/carrinhos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

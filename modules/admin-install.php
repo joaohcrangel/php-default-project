@@ -450,7 +450,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrordem'=>3,
 		'idmenupai'=>NULL,
 		'desicone'=>'md-accounts',
-		'deshref'=>'',
+		'deshref'=>'/pessoas',
 		'desmenu'=>'Pessoas'
 	));
 	$menuPessoas->save();

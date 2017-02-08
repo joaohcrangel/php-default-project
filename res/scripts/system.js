@@ -66,6 +66,28 @@ window.System = {
 
     };
 
+    System.openSlidePanel = function(_options){
+
+      var options = $.extend({}, {
+        settings: {
+          method: 'GET'
+        },
+        afterShow:function(){
+          var sp = this;
+          sp.$panel.find('.slidePanel-close').on('click', function(){
+            sp.hide();
+          });          
+        }
+      }, PluginSlidepanel.default.getDefaults());
+
+      $.slidePanel.setDefaults(options);
+
+      $.slidePanel.show(_options);
+      
+      $('.dropdown.open').removeClass('open');
+
+    };
+
     System.getPanelApi = function($element){
 
       return System.getApi('panel', $element);

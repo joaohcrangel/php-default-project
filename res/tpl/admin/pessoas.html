@@ -58,7 +58,7 @@
   };
 
   $("[name=idpessoatipo]").combobox({
-    url:PATH+"/pessoastipos",
+    url:PATH+"/pessoas-tipos",
     displayField:"despessoatipo",
     valueField:"idpessoatipo"
   });
@@ -152,7 +152,7 @@
 
   }
 
-  new ActionButton({
+  new ToolBar({
     id:"actions-buttons",
     buttons:[{
       text:"Cadastrar",
@@ -160,8 +160,11 @@
       cls:"btn-success",
       listeners:{
         click:function(btn, e){
-          System.alert("Oi");
-          btn.setLoad(true);
+          
+          System.openSlidePanel({
+            url:PATH+"/admin/pessoas-criar"
+          });
+
         }
       }
     }]

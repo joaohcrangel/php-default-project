@@ -158,8 +158,11 @@
       text:"Cadastrar",
       icon:"md-plus",
       cls:"btn-success",
-      onclick:function(e){
-        
+      listeners:{
+        click:function(btn, e){
+          System.alert("Oi");
+          btn.setLoad(true);
+        }
       }
     }]
   });

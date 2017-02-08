@@ -196,8 +196,6 @@
 
     }
 
-    renderTelefones(pessoa.Telefones);
-
     function renderEmails(emails){
 
       $panelEmails.html('');
@@ -315,8 +313,6 @@
 
     }
 
-    renderEmails(pessoa.Emails);
-
     function renderDocumentos(documentos){
 
       $panelDocumentos.html('');
@@ -429,8 +425,6 @@
       });
 
     }
-
-    renderDocumentos(pessoa.Documentos);
 
     // adicionar telefone
     $(".telefone-add [name=idcontatosubtipo]").combobox({
@@ -1069,9 +1063,8 @@
 
     function loadContatos(callback){
 
-      var panel = System.getPanelApi($panelTelefones);
-      
-      panel.load();
+      $panelTelefones.html('<i class="icon fa fa-refresh fa-spin"></i> Carregando Telefones...');
+      $panelEmails.html('<i class="icon fa fa-refresh fa-spin"></i> Carregando E-mails...');
 
       rest({
         url:PATH+"/pessoas/"+pessoa.idpessoa+"/contatos",
@@ -1098,13 +1091,12 @@
 
           if (typeof callback === 'function') callback(r);
 
-          panel.done();
-
         },
         failure:function(e){
+          $panelTelefones.html('');
+          $panelEmails.html('');
           System.showError(e);
           if (typeof callback === 'function') callback(e);
-          panel.done();
         }
       });
 

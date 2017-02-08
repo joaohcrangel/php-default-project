@@ -10,6 +10,16 @@ $app->get("/carrinhos/all", function(){
         array_push($where, "b.despessoa LIKE '%".utf8_decode(get('despessoa'))."%'");
     }
 
+    if(isset($_GET['dtinicio']) && isset($_GET['dttermino'])){
+        if($_GET['dtinicio'] != '' && $_GET['dttermino'] != ''){
+            array_push($where, "a.dtcadastro BETWEEN '".get('dtinicio')."' AND '".get('dttermino')."'");
+        }
+    }
+
+    if(isset($_GET['idcarrinho'])){
+        if($_GET['idcarrinho'] != '') array_push($where, "a.idcarrinho = ".(int)get('idcarrinho'));
+    }
+
     if(count($where) > 0){
         $where = "WHERE ".implode(" AND ", $where);
     }else{

@@ -411,6 +411,16 @@ $app->get("/".DIR_ADMIN."/cupons-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/gateways", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/gateways");
+
+});
+
 $app->get("/".DIR_ADMIN."/pagamentos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

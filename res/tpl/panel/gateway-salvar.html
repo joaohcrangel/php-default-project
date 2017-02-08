@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Editar Gateway</h5></h4></div></header><div class="slidePanel-inner"><div class="panel"><div class="panel-body p-x-0"><form id="form-gateway"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idgateway"><label>Nome</label><input type="text" class="form-control" name="desgateway"></div><button class="btn btn-block btn-primary" id="btngateway" type="submit">Salvar Novo Gateway</button></div></form></div></div></div><script>var Gateway = JSON.parse('{function="json_encode($gateway)"}');
+
+$("#form-gateway").form({
+  url:PATH+"/gateways",
+  params:{
+    idgateway:Gateway.idgateway
+  },
+  success:function(){
+    System.success("Gateway criado com sucesso");
+    $(".slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+    System.showError(r);
+  }
+});
+
+$("#form-gateway").formLoad(Gateway);</script>

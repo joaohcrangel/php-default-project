@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600">
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions"
     role="group">
         <button type="button" class="btn btn-pure slidePanel-close icon md-close"
@@ -31,9 +32,8 @@
             </form>
         </div>
     </div>
-</div>
-<script>
-var pessoaTipo = JSON.parse('{function="json_encode($pessoa)"}');
+    </div>
+    <script>var pessoaTipo = JSON.parse('{function="json_encode($pessoa)"}');
 
 $("#form-pessoa-tipo").form({
   url:PATH+"/pessoas-tipos",

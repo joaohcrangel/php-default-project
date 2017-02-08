@@ -108,6 +108,34 @@ $app->get("/panel/pessoas-tipos-criar", function(){
 
 });
 
+// gateways
+
+$app->get("/panel/gateways-salvar/:idgateway", function($idgateway){
+
+	$gateway = new Gateway((int)$idgateway);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/gateway-salvar", array( 
+		"gateway"=>$gateway->getFields()
+	));
+
+});
+
+$app->get("/panel/gateways-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/gateways-criar");
+
+});
+
 // pagamentos-status
 $app->get("/panel/pagamentos-status/:idstatus", function($idstatus){
 

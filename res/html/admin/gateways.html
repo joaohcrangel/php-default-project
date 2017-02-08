@@ -2,10 +2,10 @@
     <div class="page-content">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-pessoa-tipo">
+                <div class="panel" id="panel-gateways">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            Pessoas
+                            Gateways
                         </h3>
                         <div class="panel-actions">
                             <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
@@ -16,7 +16,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Pessoa
+                                    Gateways
                                 </th>
                                  <th>&nbsp;</th>
                             </tr>
@@ -32,46 +32,50 @@
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/pessoas-tipos-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/gateways-criar" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
             </i>
         </button>
     </div>
-</div><script id="tpl-pessoa-tipo" type="/x-handlebars-temprate"><tr data-idpessoatipo="{{idpessoatipo}}">
-	<td>{{despessoatipo}}</td> 
+</div>
+<script id="tpl-gateways" type="/x-handlebars-temprate">
+<tr data-idgateway="{{idgateway}}">
+	<td>{{desgateway}}</td> 
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pessoas-tipos/{{idpessoatipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/gateways-salvar/{{idgateway}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pessoa icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-gateway icon wb-trash">
       	</button>
 	</td>
-</tr></script><script>init.push(function(){
-	var panel = System.getPanelApi($("#panel-pessoa-tipo"));
+</tr>
+</script>
+<script>init.push(function(){
+	var panel = System.getPanelApi($("#panel-gateways"));
 
-	var $tbody = $("#panel-pessoa-tipo tbody");
+	var $tbody = $("#panel-gateways tbody");
 
-	var $tplPessoaTipo = Handlebars.compile($("#tpl-pessoa-tipo").html());
+	var $tplGateways = Handlebars.compile($("#tpl-gateways").html());
 
-	function loadPessoaTipo(){
+	function loadGateway(){
 
 		$(".refresh").on("click", function(){
-			loadPessoaTipo();
+			loadGateway();
 
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/pessoas-tipos",
+			url:PATH+"/gateways/all",
 			success:function(r){
 
 				$tbody.html('');
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplPessoaTipo(row));
+					$tbody.append($tplGateways(row));
 
 				});
 
@@ -79,23 +83,23 @@
 
 				panel.done();
 
-				$(".btn-excluir-pessoa").on("click", function(e){
+				$(".btn-excluir-gateway").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idpessoatipo = $btn.closest("tr").data("idpessoatipo");
-					System.confirm('Deseja remover esse pessoa?', function(b, s, f){
+					var idgateway = $btn.closest("tr").data("idgateway");
+					System.confirm('Deseja remover esse gateway?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/pessoas-tipos/"+idpessoatipo,
+				          		url: PATH+"/gateways/"+idgateway,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadPessoaTipo();
+				           		 	loadGateway();
 				            		s();
 
 				          		},
@@ -122,5 +126,6 @@
 		});
 	};
 
-    loadPessoaTipo();
-});</script>
+    loadGateway();
+});
+</script>

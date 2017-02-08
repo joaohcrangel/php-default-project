@@ -8,7 +8,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Criar novo Endereco
+                Criar novo Gateway
             </h5>
         </h4>
     </div>
@@ -16,28 +16,29 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-endereco-tipo-save">
+            <form id="form-gateway">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idenderecotipo">
+                        <input type="hidden" name="idgateway">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desenderecotipo">
+                        <input type="text" class="form-control" name="desgateway">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn endereco-Tipo-Save"
+                    <button class="btn btn-block btn-primary" id="btn gateway"
                     type="submit">
-                        Salvar Novo endereco
+                        Salvar Novo Gateway
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script>$("#form-endereco-tipo-save").form({
-  url:PATH+"/enderecos-tipos",
+<script>
+$("#form-gateway").form({
+  url:PATH+"/gateways",
   success:function(){
-    System.success("Endereco criado com sucesso");
+    System.success("Gateway criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
 

@@ -572,6 +572,42 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTiposProdutos->save();
 	//////////////////////////////////////
+	$menuPagamentosStatus = new Menu(array(
+		'nrordem'=>6,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/pagamentos-status',
+		'desmenu'=>'Pagamentos Status'
+	));
+	$menuPagamentosStatus->save();
+	//////////////////////////////////////
+	$menuPessoasTipos = new Menu(array(
+		'nrordem'=>7,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/pessoas-tipos',
+		'desmenu'=>'Pessoas Tipos'
+	));
+	$menuPessoasTipos->save();
+	//////////////////////////////////////
+	$menuContatosTipos = new Menu(array(
+		'nrordem'=>8,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/contatos-tipos',
+		'desmenu'=>'Contatos Tipos'
+	));
+	$menuContatoTipos->save();
+	//////////////////////////////////////
+	$menuGateways = new Menu(array(
+		'nrordem'=>9,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/gateways',
+		'desmenu'=>'Gateways'
+	));
+	$menuContatoTipos->save();
+	//////////////////////////////////////
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,

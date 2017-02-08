@@ -99,7 +99,6 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/intro-js/intro.js',
         './theme/material/global/vendor/screenfull/screenfull.js',
         './theme/material/global/vendor/slidepanel/jquery-slidePanel.js',
-        './theme/material/global/vendor/select2/select2.full.min.js',
         './theme/material/global/vendor/chartist/chartist.min.js',
         './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
         './theme/material/global/vendor/jvectormap/jquery-jvectormap.min.js',

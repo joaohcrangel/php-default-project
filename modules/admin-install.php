@@ -132,15 +132,15 @@ $app->get("/install-admin/sql/pessoas/triggers", function(){
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
 	$pessoaTipoF = new PessoaTipo(array(
-		'despessoatipo'=>'FÃ­sica'
+		'despessoatipo'=>'Física'
 	));
 	$pessoaTipoF->save();
 	$pessoaTipoJ = new PessoaTipo(array(
-		'despessoatipo'=>'JurÃ­dica'
+		'despessoatipo'=>'Jurídica'
 	));
 	$pessoaTipoJ->save();
 	$pessoa = new Pessoa(array(
-		'despessoa'=>'Super UsuÃ¡rio (root)',
+		'despessoa'=>'Super Usuário (root)',
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
@@ -454,7 +454,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/sistema/usuarios', 
 		0, 
-		'UsuÃ¡rios'
+		'Usuários'
 	));
 	$sql->proc("sp_menus_save", array(
 		2,
@@ -478,7 +478,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/permissoes', 
 		3, 
-		'PermissÃµes'
+		'Permissões'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
@@ -486,7 +486,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/enderecos-tipos', 
 		3, 
-		'EndereÃ§os'
+		'Endereços'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
@@ -494,7 +494,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/usuarios-tipos', 
 		3, 
-		'UsuÃ¡rios'
+		'Usuários'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
@@ -518,7 +518,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'', 
 		'/cupons-tipos', 
 		3, 
-		'Cupom'
+		'Cupons'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
@@ -841,7 +841,7 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 	", array(
 		'Residencial',
 		'Comercial',
-		'CobranÃ§a',
+		'Cobrança',
 		'Entrega'
 	));
 	echo success();
@@ -918,7 +918,7 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 		(?),
 		(?);
 	", array(
-		'Super UsuÃ¡rio',
+		'Super Usuário',
 		'Acesso Administrativo',
 		'Acesso Autenticado de Cliente'
 	));
@@ -1445,11 +1445,11 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'Aura', 12, 1,
 		1, 'Elo', 12, 1,
 		1, 'Boleto', 1, 1,
-		1, 'DÃ©bito Online ItaÃº', 1, 1,
-		1, 'DÃ©bito Online Banco do Brasil', 1, 1,
-		1, 'DÃ©bito Online Banrisul', 1, 1,
-		1, 'DÃ©bito Online Bradesco', 1, 1,
-		1, 'DÃ©bito Online HSBC', 1, 1,
+		1, 'Débito Online Itaú', 1, 1,
+		1, 'Débito Online Banco do Brasil', 1, 1,
+		1, 'Débito Online Banrisul', 1, 1,
+		1, 'Débito Online Bradesco', 1, 1,
+		1, 'Débito Online HSBC', 1, 1,
 		1, 'PlenoCard', 3, 1,
 		1, 'PersonalCard', 3, 1,
 		1, 'JCB', 1, 1,
@@ -1469,9 +1469,9 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
 		'Aguardando Pagamento',
-		'Em an?lise',
+		'Em análise',
 		'Pago',
-		'DisponÃ¡vel',
+		'Disponível',
 		'Em disputa',
 		'Devolvido',
 		'Cancelado'
@@ -1679,7 +1679,7 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 		'Cinema',
 		'Cidade',
 		'Estado',
-		'PaÃ­s'
+		'País'
 	));
 	
 	echo success();

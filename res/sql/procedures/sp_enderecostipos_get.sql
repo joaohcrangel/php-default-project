@@ -3,9 +3,8 @@ pidenderecotipo INT
 )
 BEGIN
 
-      SELECT *    
+    SELECT *    
     FROM tb_enderecostipos    
-    WHERE idenderecostipos = pidenderecostipo;
-
+    WHERE idenderecotipo = pidenderecotipo;
 
 END

@@ -1,7 +1,7 @@
 <?php
 
 // produtos
-$app->get("/panel/produto/:idproduto", function($idproduto){
+$app->get("/panel/produtos/:idproduto", function($idproduto){
 
 	$produto = new Produto((int)$idproduto);
 

@@ -71,6 +71,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  idpessoa int(11) NOT NULL AUTO_INCREMENT,
 		  idpessoatipo int(1) NOT NULL,
 		  despessoa varchar(64) NOT NULL,
+		  inremovido bit NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoastipos (idpessoatipo),

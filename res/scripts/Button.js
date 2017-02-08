@@ -5,7 +5,7 @@ var Button = (function(opts){
 	var defaults = {
 		debug:true,
 		tpl:
-			'<button type="button" class="btn btn-md {{cls}} waves-effect" style="border-radius: 0">'+
+			'<button type="button" class="btn btn-md {{cls}} waves-effect" style="border-radius: 0; min-width:75px;" id="{{id}}">'+
 	            '<i class="icon {{icon}}" aria-hidden="true"></i>'+
 	            '<br>'+
 	            '<span class="text-uppercase hidden-sm-down">{{text}}</span>'+
@@ -15,6 +15,7 @@ var Button = (function(opts){
 	var o = $.extend({}, defaults, opts);
 
 	t.$el = "";
+	t.id = 0;
 
 	t.debug = function(){
 
@@ -55,7 +56,10 @@ var Button = (function(opts){
 
 	t.init = function(){
 
+		if (!o.id) o.id = "button-"+new Date().getTime()+'-'+(++t.id);
+
 		t.$el = $((t.getTpl(o.tpl))(o));
+		t.$el.data('api', t);
 
 		if (typeof o.handler === 'function') {
 			if (typeof o.listeners !== 'object') {

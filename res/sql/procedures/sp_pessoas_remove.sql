@@ -3,6 +3,8 @@ pidpessoa INT
 )
 BEGIN
 	
-    DELETE FROM tb_pessoas WHERE idpessoa = pidpessoa;
+	UPDATE tb_pessoas
+	SET inremovido = 1
+	WHERE idpessoa = pidpessoa;
 
 END

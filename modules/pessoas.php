@@ -175,7 +175,7 @@ $app->delete("/pessoas/:idpessoa", function($idpessoa){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	if(!(int)$idpessoa){
+	if(!(int)$idpessoa > 0){
 		throw new Exception("Pessoa não informada", 400);		
 	}
 
@@ -184,10 +184,6 @@ $app->delete("/pessoas/:idpessoa", function($idpessoa){
 	}
 
 	$pessoa = new Pessoa((int)$idpessoa);
-
-	if(!(int)$pessoa->getidpessoa() > 0){
-		throw new Exception("Pessoa não encontrada", 404);		
-	}
 
 	$pessoa->remove();
 

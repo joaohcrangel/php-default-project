@@ -64,6 +64,8 @@ var ToolBar = (function(opts){
 
 		t.addButtons(o.buttons);
 
+		t.$el.data('api', t);
+
 	};
 
 	t.init();

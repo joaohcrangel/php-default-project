@@ -54,6 +54,17 @@
 
   window.pagina = 1;
 
+  var table = new Table({
+    id:'lista',
+    listeners:{
+      selectionchange:function(checked, input, tr, event){
+
+          $('#btn-pessoa-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
+
+      }
+    }
+  });
+
   var tpl = {
     row:Handlebars.compile($("#tpl-row").html()),
     footer:Handlebars.compile($("#tpl-footer").html())
@@ -84,22 +95,6 @@
     if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
 
   });
-
-  function cancelInitSlidePanel(){
-
-    $('.no-slide-panel').on('click', function(e){
-
-      console.log('no-slide-panel', e);
-
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-
-    });
-
-  }
-
-  cancelInitSlidePanel();
 
   function atualizarPagina() {
     consultar(window.pagina);
@@ -153,9 +148,6 @@
 
   }
 
-  window.atualizarPagina = atualizarPagina;
-  window.consultar = consultar;
-
   function renderPessoas(lista) {
 
     var $lista = $("#lista");
@@ -184,11 +176,13 @@
 
       });
 
+      table.init();
+
     }
 
   }
 
-  function deletePessoa(index, ids, callback){
+  function deletePessoa(index, ids, callback, f){
 
       if (index >= ids.length) {
         if (typeof callback === 'function') callback();
@@ -203,7 +197,7 @@
 
               },
               failure:function(e){
-                System.showError(e);
+                f(e);
               }
           });
 
@@ -228,12 +222,14 @@
       }
     },{
       text:"Excluir",
+      id:"btn-pessoa-delete",
       icon:"md-delete",
+      disabled:true,
       handler:function(btn, e){
 
         var selecteds = [];
-        $('#lista tr :checked').each(function(){
-          selecteds.push($(this).closest('tr').data('pessoa'));
+        $.each(table.getRowsSelecteds(), function(){
+          selecteds.push($(this).data('pessoa'));
         });
 
         if (selecteds.length) {
@@ -250,9 +246,10 @@
 
               deletePessoa(0, ids, function(){
 
-                  s();
+                atualizarPagina();
+                s();
 
-              });       
+              }, f);       
 
             } else {
 
@@ -267,5 +264,8 @@
       }
     }]
   });
+
+  window.atualizarPagina = atualizarPagina;
+  window.consultar = consultar;
 
 });</script>

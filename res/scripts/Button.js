@@ -3,7 +3,7 @@ var Button = (function(opts){
 	var t = this;
 
 	var defaults = {
-		debug:true,
+		debug:false,
 		tpl:
 			'<button type="button" class="btn btn-md {{cls}} waves-effect" style="border-radius: 0; min-width:75px;" id="{{id}}">'+
 	            '<i class="icon {{icon}}" aria-hidden="true"></i>'+
@@ -60,6 +60,8 @@ var Button = (function(opts){
 
 		t.$el = $((t.getTpl(o.tpl))(o));
 		t.$el.data('api', t);
+
+		if (o.disabled) t.setDisabled(o.disabled);
 
 		if (typeof o.handler === 'function') {
 			if (typeof o.listeners !== 'object') {

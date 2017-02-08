@@ -3,13 +3,13 @@ var ToolBar = (function(opts){
 	var t = this;
 
 	var defaults = {
-		debug:true,
+		debug:false,
 		buttons:[]
 	};
 
 	var o = $.extend({}, defaults, opts);
 
-	var $el = $("#"+o.id);
+	t.$el = $("#"+o.id);
 
 	t.debug = function(){
 
@@ -43,7 +43,7 @@ var ToolBar = (function(opts){
 
 		t.debug(buttonOptions, $btn);
 
-		$el.append($btn);
+		t.$el.append($btn);
 
 	};
 
@@ -60,11 +60,17 @@ var ToolBar = (function(opts){
 
 	t.init = function(){
 
-		$el.html('');
+		if (t.$el.length === 0) {
+			console.error('Não foi possível encontrar a tabela com o ID #'+o.id);
+		} else {
 
-		t.addButtons(o.buttons);
+			t.$el.html('');
 
-		t.$el.data('api', t);
+			t.addButtons(o.buttons);
+
+			t.$el.data('api', t);
+
+		}
 
 	};
 

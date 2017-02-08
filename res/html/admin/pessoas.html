@@ -134,6 +134,17 @@ init.push(function(){
 
   window.pagina = 1;
 
+  var table = new Table({
+    id:'lista',
+    listeners:{
+      selectionchange:function(checked, input, tr, event){
+
+          $('#btn-pessoa-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
+
+      }
+    }
+  });
+
   var tpl = {
     row:Handlebars.compile($("#tpl-row").html()),
     footer:Handlebars.compile($("#tpl-footer").html())
@@ -164,22 +175,6 @@ init.push(function(){
     if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
 
   });
-
-  function cancelInitSlidePanel(){
-
-    $('.no-slide-panel').on('click', function(e){
-
-      console.log('no-slide-panel', e);
-
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-
-    });
-
-  }
-
-  cancelInitSlidePanel();
 
   function atualizarPagina() {
     consultar(window.pagina);
@@ -233,9 +228,6 @@ init.push(function(){
 
   }
 
-  window.atualizarPagina = atualizarPagina;
-  window.consultar = consultar;
-
   function renderPessoas(lista) {
 
     var $lista = $("#lista");
@@ -263,6 +255,8 @@ init.push(function(){
         return true;
 
       });
+
+      table.init();
 
     }
 
@@ -308,12 +302,14 @@ init.push(function(){
       }
     },{
       text:"Excluir",
+      id:"btn-pessoa-delete",
       icon:"md-delete",
+      disabled:true,
       handler:function(btn, e){
 
         var selecteds = [];
-        $('#lista tr :checked').each(function(){
-          selecteds.push($(this).closest('tr').data('pessoa'));
+        $.each(table.getRowsSelecteds(), function(){
+          selecteds.push($(this).data('pessoa'));
         });
 
         if (selecteds.length) {
@@ -330,8 +326,8 @@ init.push(function(){
 
               deletePessoa(0, ids, function(){
 
-                  s();
-                  atualizarPagina();
+                atualizarPagina();
+                s();
 
               }, f);       
 
@@ -348,6 +344,9 @@ init.push(function(){
       }
     }]
   });
+
+  window.atualizarPagina = atualizarPagina;
+  window.consultar = consultar;
 
 });
 </script>

@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
-<style>
-#actions-buttons button .icon {
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button .icon {
   font-size: 32px;
 }
 .page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
@@ -72,11 +70,7 @@
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div>
-</script>
-
-<script id="tpl-carrinho-row" type="text/x-handlebars-template">
-<tr data-idcarrinho="{{idcarrinho}}">
+  </div></script><script id="tpl-carrinho-row" type="text/x-handlebars-template"><tr data-idcarrinho="{{idcarrinho}}">
 	<td>{{despessoa}}</td>
 	<td>{{nrprodutos}}</td>
 	<td>R$ {{vltotal}}</td>
@@ -85,11 +79,7 @@
       	</button>
       	</button>
 	</td>
-</tr>
-</script>
-<script>
-
-init.push(function(){
+</tr></script><script>init.push(function(){
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
@@ -177,6 +167,4 @@ init.push(function(){
 
 	}
 
-});
-
-</script>
+});</script>

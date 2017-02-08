@@ -132,15 +132,15 @@ $app->get("/install-admin/sql/pessoas/triggers", function(){
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
 	$pessoaTipoF = new PessoaTipo(array(
-		'despessoatipo'=>'FÃ­sica'
+		'despessoatipo'=>'Física'
 	));
 	$pessoaTipoF->save();
 	$pessoaTipoJ = new PessoaTipo(array(
-		'despessoatipo'=>'JurÃ­dica'
+		'despessoatipo'=>'Jurídica'
 	));
 	$pessoaTipoJ->save();
 	$pessoa = new Pessoa(array(
-		'despessoa'=>'Super UsuÃ¡rio (root)',
+		'despessoa'=>'Super Usuário (root)',
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
@@ -407,159 +407,160 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/inserts", function(){
-	$sql = new Sql();
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'md-view-dashboard', 
-		'/', 
-		0, 
-		'Dashboard'
+	//////////////////////////////////////
+	$menuDashboard = new Menu(array(
+		'nrordem'=>0,
+		'idmenupai'=>NULL,
+		'desicone'=>'md-view-dashboard',
+		'deshref'=>'/',
+		'desmenu'=>'Dashboard'
 	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'md-settings', 
-		'', 
-		1, 
-		'Sistema'
+	$menuDashboard->save();
+	//////////////////////////////////////
+	$menuSistema = new Menu(array(
+		'nrordem'=>1,
+		'idmenupai'=>NULL,
+		'desicone'=>'md-code-setting',
+		'deshref'=>'',
+		'desmenu'=>'Sistema'
 	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'md-accounts', 
-		'/pessoas', 
-		2, 
-		'Pessoas'
+	$menuSistema->save();
+	//////////////////////////////////////
+	$menuPessoas = new Menu(array(
+		'nrordem'=>2,
+		'idmenupai'=>NULL,
+		'desicone'=>'md-accounts',
+		'deshref'=>'',
+		'desmenu'=>'Pessoas'
 	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'md-accounts', 
-		'', 
-		0, 
-		'Tipos'
+	$menuPessoas->save();
+	//////////////////////////////////////
+	$menuAdmin = new Menu(array(
+		'nrordem'=>3,
+		'idmenupai'=>NULL,
+		'desicone'=>'md-settings',
+		'deshref'=>'',
+		'desmenu'=>'Administração'
 	));
-	$sql->proc("sp_menus_save", array(
-		2,
-		0,
-		'', 
-		'/sistema/menu', 
-		0, 
-		'Menu'
+	$menuAdmin->save();
+	//////////////////////////////////////
+	$menuTipos = new Menu(array(
+		'nrordem'=>0,
+		'idmenupai'=>$menuAdmin->getidmenu(),
+		'desicone'=>'md-collection-item',
+		'deshref'=>'',
+		'desmenu'=>'Tipos'
 	));
-	$sql->proc("sp_menus_save", array(
-		2,
-		0,
-		'', 
-		'/sistema/usuarios', 
-		0, 
-		'UsuÃ¡rios'
+	$menuTipos->save();
+	//////////////////////////////////////
+	$menuMenu = new Menu(array(
+		'nrordem'=>1,
+		'idmenupai'=>$menuAdmin->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/sistema/menu',
+		'desmenu'=>'Menu'
 	));
-	$sql->proc("sp_menus_save", array(
-		2,
-		0,
-		'', 
-		'/sistema/sql-to-class', 
-		1, 
-		'SQL to CLASS'
+	$menuMenu->save();
+	//////////////////////////////////////
+	$menuUsuarios = new Menu(array(
+		'nrordem'=>2,
+		'idmenupai'=>$menuAdmin->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/sistema/usuarios',
+		'desmenu'=>'Usuários'
 	));
-	$sql->proc("sp_menus_save", array(
-		2,
-		0,
-		'', 
-		'/../res/theme/material/base/html/index.html', 
-		2, 
-		'Template'
+	$menuUsuarios->save();
+	//////////////////////////////////////
+	$menuSqlToClass = new Menu(array(
+		'nrordem'=>0,
+		'idmenupai'=>$menuSistema->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/sistema/sql-to-class',
+		'desmenu'=>'SQL to CLASS'
 	));
-	$sql->proc("sp_menus_save", array(
-		2,
-		0,
-		'', 
-		'/permissoes', 
-		3, 
-		'PermissÃµes'
+	$menuSqlToClass->save();
+	//////////////////////////////////////
+	$menuTemplate = new Menu(array(
+		'nrordem'=>1,
+		'idmenupai'=>$menuSistema->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/../res/theme/material/base/html/index.html',
+		'desmenu'=>'Template'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/enderecos-tipos', 
-		3, 
-		'EndereÃ§os'
+	$menuTemplate->save();
+	//////////////////////////////////////
+	$menuTemplate = new Menu(array(
+		'nrordem'=>3,
+		'idmenupai'=>$menuAdmin->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/permissoes',
+		'desmenu'=>'Permissões'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/usuarios-tipos', 
-		3, 
-		'UsuÃ¡rios'
+	$menuTemplate->save();
+	//////////////////////////////////////
+	$menuProdutos = new Menu(array(
+		'nrordem'=>4,
+		'idmenupai'=>NULL,
+		'desicone'=>'',
+		'deshref'=>'/produtos',
+		'desmenu'=>'Produtos'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/documentos-tipos', 
-		3, 
-		'Documentos'
+	$menuProdutos->save();
+	//////////////////////////////////////
+	$menuTiposEnderecos = new Menu(array(
+		'nrordem'=>0,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/enderecos-tipos',
+		'desmenu'=>'Endereços'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/lugares-tipos', 
-		3, 
-		'Lugares'
+	$menuTiposEnderecos->save();
+	//////////////////////////////////////
+	$menuTiposUsuarios = new Menu(array(
+		'nrordem'=>1,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/usuarios-tipos',
+		'desmenu'=>'Usuários'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/cupons-tipos', 
-		3, 
-		'Cupom'
+	$menuTiposUsuarios->save();
+	//////////////////////////////////////
+	$menuTiposDocumentos = new Menu(array(
+		'nrordem'=>2,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/documentos-tipos',
+		'desmenu'=>'Documentos'
 	));
-	$sql->proc("sp_menus_save", array(
-		4,
-		0,
-		'', 
-		'/produtos-tipos', 
-		3, 
-		'produto'
+	$menuTiposDocumentos->save();
+	//////////////////////////////////////
+	$menuTiposLugares = new Menu(array(
+		'nrordem'=>3,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/lugares-tipos',
+		'desmenu'=>'Lugares'
 	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'', 
-		'/pagamentos', 
-		3, 
-		'Pagamentos'
+	$menuTiposLugares->save();
+	//////////////////////////////////////
+	$menuTiposCupons = new Menu(array(
+		'nrordem'=>4,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/cupons-tipos',
+		'desmenu'=>'Cupons'
 	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'md-shopping-cart', 
-		'/carrinhos', 
-		4, 
-		'Carrinhos'
+	$menuTiposCupons->save();
+	//////////////////////////////////////
+	$menuTiposProdutos = new Menu(array(
+		'nrordem'=>5,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/produtos-tipos',
+		'desmenu'=>'Produtos'
 	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'', 
-		'/produtos', 
-		5, 
-		'Produtos'
-	));
-	$sql->proc("sp_menus_save", array(
-		NULL,
-		0,
-		'', 
-		'/lugares', 
-		6, 
-		'Lugares'
-	));
+	$menuTiposProdutos->save();
+	//////////////////////////////////////
 	
 	echo success();
 });
@@ -640,41 +641,73 @@ $app->get("/install-admin/sql/contatos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/inserts", function(){
-	$sql = new Sql();
-	$sql->query("
-		INSERT INTO tb_contatostipos (descontatotipo) VALUES
-		(?),
-		(?);
-	", array(
-		'E-mail',
-		'Telefone'
+	
+	$email = new ContatoTipo(array(
+		'descontatotipo'=>'E-mail'
 	));
-	$sql->query("
-		INSERT INTO tb_contatossubtipos (idcontatotipo, descontatosubtipo) VALUES
-		(?, ?),
-		(?, ?),
-		(?, ?),
-		(?, ?),
-		(?, ?),
-		(?, ?),
-		(?, ?),
-		(?, ?);
-	", array(
-		2, 'Casa',		
-		2, 'Trabalho',		
-		2, 'Celular',		
-		2, 'Fax',		
-		2, 'Outro',		
-		1, 'Pessoal',		
-		1, 'Trabalho',		
-		1, 'Outro'		
+	$email->save();
+
+	$telefone = new ContatoTipo(array(
+		'descontatotipo'=>'Telefone'
 	));
+	$telefone->save();
+
+	$telefoneCasa = new ContatoSubtipo(array(
+		'idcontatotipo'=>$telefone->getidcontatotipo(),
+		'descontatosubtipo'=>'Casa'
+	));
+	$telefoneCasa->save();
+
+	$telefoneTrabalho = new ContatoSubtipo(array(
+		'idcontatotipo'=>$telefone->getidcontatotipo(),
+		'descontatosubtipo'=>'Trabalho'
+	));
+	$telefoneTrabalho->save();
+
+	$telefoneCelular = new ContatoSubtipo(array(
+		'idcontatotipo'=>$telefone->getidcontatotipo(),
+		'descontatosubtipo'=>'Celular'
+	));
+	$telefoneCelular->save();
+
+	$telefoneFax = new ContatoSubtipo(array(
+		'idcontatotipo'=>$telefone->getidcontatotipo(),
+		'descontatosubtipo'=>'Fax'
+	));
+	$telefoneFax->save();
+
+	$telefoneOutro = new ContatoSubtipo(array(
+		'idcontatotipo'=>$telefone->getidcontatotipo(),
+		'descontatosubtipo'=>'Outro'
+	));
+	$telefoneOutro->save();
+
+	$emailPessoal = new ContatoSubtipo(array(
+		'idcontatotipo'=>$email->getidcontatotipo(),
+		'descontatosubtipo'=>'Pessoal'
+	));
+	$emailPessoal->save();
+
+	$emailTrabalho = new ContatoSubtipo(array(
+		'idcontatotipo'=>$email->getidcontatotipo(),
+		'descontatosubtipo'=>'Trabalho'
+	));
+	$emailTrabalho->save();
+
+	$emailOutro = new ContatoSubtipo(array(
+		'idcontatotipo'=>$email->getidcontatotipo(),
+		'descontatosubtipo'=>'Outro'
+	));
+	$emailOutro->save();
+
 	echo success();
+	
 });
 $app->get("/install-admin/sql/contatos/get", function(){
 	$procs = array(
 		"sp_contatos_get",
-		"sp_contatossubtipos_get"
+		"sp_contatossubtipos_get",
+		"sp_contatostipos_get"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -691,7 +724,8 @@ $app->get("/install-admin/sql/contatos/list", function(){
 $app->get("/install-admin/sql/contatos/save", function(){
 	$procs = array(
 		"sp_contatos_save",
-		"sp_contatossubtipos_save"
+		"sp_contatossubtipos_save",
+		"sp_contatostipos_save"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -699,7 +733,8 @@ $app->get("/install-admin/sql/contatos/save", function(){
 $app->get("/install-admin/sql/contatos/remove", function(){
 	$procs = array(
 		"sp_contatos_remove",
-		"sp_contatossubtipos_remove"
+		"sp_contatossubtipos_remove",
+		"sp_contatostipos_remove"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -841,7 +876,7 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 	", array(
 		'Residencial',
 		'Comercial',
-		'CobranÃ§a',
+		'Cobrança',
 		'Entrega'
 	));
 	echo success();
@@ -918,7 +953,7 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 		(?),
 		(?);
 	", array(
-		'Super UsuÃ¡rio',
+		'Super Usuário',
 		'Acesso Administrativo',
 		'Acesso Autenticado de Cliente'
 	));
@@ -1445,11 +1480,11 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'Aura', 12, 1,
 		1, 'Elo', 12, 1,
 		1, 'Boleto', 1, 1,
-		1, 'DÃ©bito Online ItaÃº', 1, 1,
-		1, 'DÃ©bito Online Banco do Brasil', 1, 1,
-		1, 'DÃ©bito Online Banrisul', 1, 1,
-		1, 'DÃ©bito Online Bradesco', 1, 1,
-		1, 'DÃ©bito Online HSBC', 1, 1,
+		1, 'Débito Online Itaú', 1, 1,
+		1, 'Débito Online Banco do Brasil', 1, 1,
+		1, 'Débito Online Banrisul', 1, 1,
+		1, 'Débito Online Bradesco', 1, 1,
+		1, 'Débito Online HSBC', 1, 1,
 		1, 'PlenoCard', 3, 1,
 		1, 'PersonalCard', 3, 1,
 		1, 'JCB', 1, 1,
@@ -1469,9 +1504,9 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
 		'Aguardando Pagamento',
-		'Em an?lise',
+		'Em análise',
 		'Pago',
-		'DisponÃ¡vel',
+		'Disponível',
 		'Em disputa',
 		'Devolvido',
 		'Cancelado'
@@ -1679,7 +1714,7 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 		'Cinema',
 		'Cidade',
 		'Estado',
-		'PaÃ­s'
+		'País'
 	));
 	
 	echo success();

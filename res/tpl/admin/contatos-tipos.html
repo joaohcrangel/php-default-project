@@ -1,0 +1,85 @@
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-contato-tipo"><div class="panel-heading"><h3 class="panel-title">Contato</h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Contatos<th>&nbsp;</thead><thead><tbody></thead></table></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/contatos-tipos-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-contato-tipo" type="/x-handlebars-temprate"><tr data-idcontatotipo="{{idcontatotipo}}">
+	<td>{{descontatotipo}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/contatos-tipos-salvar/{{idcontatotipo}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-contato icon wb-trash">
+      	</button>
+	</td>
+</tr></script><script>init.push(function(){
+	var panel = System.getPanelApi($("#panel-contato-tipo"));
+
+	var $tbody = $("#panel-contato-tipo tbody");
+
+	var $tplContatoTipo = Handlebars.compile($("#tpl-contato-tipo").html());
+
+	function loadContatoTipo(){
+
+		$(".refresh").on("click", function(){
+			loadContatoTipo();
+
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/contatos/tipos",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplContatoTipo(row));
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-contato").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idcontatotipo = $btn.closest("tr").data("idcontatotipo");
+					System.confirm('Deseja remover esse contato?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/contatos-tipos/"+idcontatotipo,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadContatoTipo();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+
+    loadContatoTipo();
+});</script>

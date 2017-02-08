@@ -37,10 +37,8 @@
         <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
       </button>
     </div>
-
 </div>
-<script id="tpl-cartao-row" type="text/x-handlebars-template">
-<tr data-idcartao="{{idcartao}}">
+<script id="tpl-cartao-row" type="text/x-handlebars-template"><tr data-idcartao="{{idcartao}}">
 	<td>{{desnome}}</td>
 	<td>{{desdtvalidade}}</td>
 	<td>{{desnumero}}</td>
@@ -52,9 +50,7 @@
 	</td>
 </tr>
 </script>
-<script>
-
-init.push(function(){
+<script>init.push(function(){
 
 	var panel = System.getPanelApi($("#panel-cartoes"));
 
@@ -130,5 +126,4 @@ init.push(function(){
 	loadCartoes();
 
 });
-
 </script>

@@ -2,10 +2,10 @@
     <div class="page-content">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-endereco-tipo">
+                <div class="panel" id="panel-pessoa-tipo">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            Endereco
+                            Pessoas
                         </h3>
                         <div class="panel-actions">
                             <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
@@ -16,14 +16,14 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Endereco
+                                    Pessoa
                                 </th>
                                     <th> &nbsp;</th>
                             </tr>           
                         <thead>
-                            <tbody>
+                        <tbody>
 
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -31,48 +31,48 @@
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/endereco-tipo-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/pessoas-tipos-criar" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
             </i>
         </button>
     </div>
-</div><script id="tpl-endereco-tipo" type="/x-handlebars-temprate"><tr data-idenderecotipo="{{idenderecotipo}}">
-	<td>{{desenderecotipo}}</td>
+</div><script id="tpl-pessoa-tipo" type="/x-handlebars-temprate"><tr data-idpessoatipo="{{idpessoatipo}}">
+	<td>{{despessoatipo}}</td> 
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/enderecos/tipos/{{idenderecotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pessoas-tipos-salvar/{{idpessoatipo}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-endereco icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pessoa icon wb-trash">
       	</button>
 	</td>
 </tr>
 </script>
 <script>init.push(function(){
-	var panel = System.getPanelApi($("#panel-endereco-tipo"));
+	var panel = System.getPanelApi($("#panel-pessoa-tipo"));
 
-	var $tbody = $("#panel-endereco-tipo tbody");
+	var $tbody = $("#panel-pessoa-tipo tbody");
 
-	var $tplEnderecoTipo = Handlebars.compile($("#tpl-endereco-tipo").html());
+	var $tplPessoaTipo = Handlebars.compile($("#tpl-pessoa-tipo").html());
 
-	function loadEnderecoTipo(){
+	function loadPessoaTipo(){
 
 		$(".refresh").on("click", function(){
-			loadEnderecoTipo();
+			loadPessoaTipo();
 
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/enderecos/tipos",
+			url:PATH+"/pessoas-tipos",
 			success:function(r){
 
 				$tbody.html('');
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplEnderecoTipo(row));
+					$tbody.append($tplPessoaTipo(row));
 
 				});
 
@@ -80,23 +80,23 @@
 
 				panel.done();
 
-				$(".btn-excluir-endereco").on("click", function(e){
+				$(".btn-excluir-pessoa").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idenderecotipo = $btn.closest("tr").data("idenderecotipo");
-					System.confirm('Deseja remover esse endereco?', function(b, s, f){
+					var idpessoatipo = $btn.closest("tr").data("idpessoatipo");
+					System.confirm('Deseja remover esse pessoa?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/enderecos-tipos/"+idenderecotipo,
+				          		url: PATH+"/pessoas-tipos/"+idpessoatipo,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadEnderecoTipo();
+				           		 	loadPessoaTipo();
 				            		s();
 
 				          		},
@@ -123,6 +123,6 @@
 		});
 	};
 
-    loadEnderecoTipo();
+    loadPessoaTipo();
 });
 </script>

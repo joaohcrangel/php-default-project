@@ -4,7 +4,7 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo cartão</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Novo Cartão de Crédito</h5></h4>
   </div>  
 </header>
 
@@ -12,7 +12,12 @@
 	
 	<form id="form-cartao-save" class="slidePanel-form">	
 		<div class="form-group">
-		  	<div class="form-group form-material" data-plugin="formMaterial">
+
+			<div class="form-group form-material">
+			    <label>Número do cartão</label>
+			    <input type="text" class="form-control" name="desnumero">
+		  	</div>		
+		  	<div class="form-group form-material">
 		  		<input type="hidden" name="idcartao">
 			    <label>Nome</label>
 			    <input type="text" class="form-control" name="desnome">
@@ -20,11 +25,7 @@
 			<div class="form-group form-material" data-plugin="formMaterial">
 			    <label>Data de Validade</label>
 			    <input type="date" class="form-control" name="dtvalidade">
-		  	</div>
-		  	<div class="form-group form-material" data-plugin="formMaterial">
-			    <label>Número do cartão</label>
-			    <input type="text" class="form-control" name="desnumero">
-		  	</div>
+		  	</div>	
 		  	<div class="form-group form-material" data-plugin="formMaterial">
 		  		<button class="btn btn-block btn-primary" id="btnCartaoSave" type="submit">Salvar Novo Cartão</button>
 		  	</div>

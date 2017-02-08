@@ -492,7 +492,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		0,
 		'', 
 		'/enderecos-tipos', 
-		3, 
+		0, 
 		'Endereços'
 	));
 	$sql->proc("sp_menus_save", array(
@@ -500,7 +500,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		0,
 		'', 
 		'/usuarios-tipos', 
-		3, 
+		1, 
 		'Usuários'
 	));
 	$sql->proc("sp_menus_save", array(
@@ -508,7 +508,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		0,
 		'', 
 		'/documentos-tipos', 
-		3, 
+		2, 
 		'Documentos'
 	));
 	$sql->proc("sp_menus_save", array(
@@ -524,16 +524,16 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		0,
 		'', 
 		'/cupons-tipos', 
-		3, 
-		'Cupom'
+		4, 
+		'Cupons'
 	));
 	$sql->proc("sp_menus_save", array(
 		4,
 		0,
 		'', 
 		'/produtos-tipos', 
-		3, 
-		'produto'
+		5, 
+		'Produtos'
 	));
 	
 	echo success();
@@ -649,7 +649,8 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 $app->get("/install-admin/sql/contatos/get", function(){
 	$procs = array(
 		"sp_contatos_get",
-		"sp_contatossubtipos_get"
+		"sp_contatossubtipos_get",
+		"sp_contatostipos_get"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -666,7 +667,8 @@ $app->get("/install-admin/sql/contatos/list", function(){
 $app->get("/install-admin/sql/contatos/save", function(){
 	$procs = array(
 		"sp_contatos_save",
-		"sp_contatossubtipos_save"
+		"sp_contatossubtipos_save",
+		"sp_contatostipos_save"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -674,7 +676,8 @@ $app->get("/install-admin/sql/contatos/save", function(){
 $app->get("/install-admin/sql/contatos/remove", function(){
 	$procs = array(
 		"sp_contatos_remove",
-		"sp_contatossubtipos_remove"
+		"sp_contatossubtipos_remove",
+		"sp_contatostipos_remove"
 	);
 	saveProcedures($procs);
 	echo success();

@@ -421,6 +421,26 @@ $app->get("/".DIR_ADMIN."/pagamentos-status", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/contatos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/contatos-tipos");
+
+});
+
+$app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/pessoas-tipos");
+
+});
+
 
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 

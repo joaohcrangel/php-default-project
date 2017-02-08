@@ -54,6 +54,60 @@ $app->get("/panel/pagamento-criar", function(){
 
 });
 
+// Contatos-tipos
+$app->get("/panel/contatos-tipos-salvar/:idcontatotipo", function($idcontatotipo){
+
+	$contato = new ContatoTipo((int)$idcontatotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/contato-tipo-salvar", array(
+		"contato"=>$contato->getFields()
+	));
+
+});
+
+$app->get("/panel/contatos-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/contato-tipo-criar");
+
+});
+
+// pessoas-tipos
+$app->get("/panel/pessoas-tipos-salvar/:idpessoatipo", function($idpessoatipo){
+
+	$pessoa = new PessoaTipo((int)$idpessoatipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-tipo-salvar", array(
+		"pessoa"=>$pessoa->getFields()
+	));
+
+});
+
+$app->get("/panel/pessoas-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-tipo-criar");
+
+});
+
 // pagamentos-status
 $app->get("/panel/pagamentos-status/:idstatus", function($idstatus){
 

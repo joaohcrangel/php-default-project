@@ -1,46 +1,52 @@
 <div class="page">
-	<div class="page-content">
-		<div class="row-fluid">
-			<div class="col-sm-12">
-				<div class="panel" id="panel-cartoes">
-					<div class="panel-heading">
-						<h3 class="panel-title">Cartões de Crédito</h3>
-						<div class="panel-actions">
-			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
-			            </div>
-					</div>
+    <div class="page-content">
+        <div class="row-fluid">
+            <div class="col-sm-12">
+                <div class="panel" id="panel-cartoes">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Cartões de Crédito
+                        </h3>
+                        <div class="panel-actions">
+                            <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle"
+                            aria-hidden="true"><i class="icon wb-refresh"></i></a>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Pessoa
+                                </th>
+                                 <th>
+                                     Data de Validade
+                                 </th>
+                                 <th>
+                                      Número
+                                 </th>
+                                 <th>&nbsp;</th>
+                            </tr>
+                        <thead>
+                        <tbody> 
 
-					<table class="table table-hover table-striped">
-		              	<thead>
-			                <tr>
-			                  <th>Pessoa</th>
-			                  <th>Data de Validade</th>
-			                  <th>Número</th>
-			                  <th>&nbsp;</th>
-			                </tr>
-		              	</thead>
-		              	<tbody>
+                        </tbody>                 
+                    </table>
 
-			                
-
-		              	</tbody>
-		            </table>
-			           
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="site-action animation-duration-300">
-      <button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/cartao-criar" data-toggle="slidePanel">
-        <i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
-        <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
-      </button>
+                </div>
+            </div>
+        </div>
     </div>
-
+    <div class="site-action animation-duration-300">
+        <button type="button" class="btn-raised btn btn-success btn-floating"
+        data-url="{$path}/panel/cartao-criar" data-toggle="slidePanel">
+            <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
+            </i>
+            <i class="back-icon md-close animation-scale-up" aria-hidden="true">
+            </i>
+        </button>
+    </div>
 </div>
-<script id="tpl-cartao-row" type="text/x-handlebars-template">
-<tr data-idcartao="{{idcartao}}">
+<script id="tpl-cartao-row" type="text/x-handlebars-template"><tr data-idcartao="{{idcartao}}">
 	<td>{{desnome}}</td>
 	<td>{{desdtvalidade}}</td>
 	<td>{{desnumero}}</td>
@@ -52,9 +58,7 @@
 	</td>
 </tr>
 </script>
-<script>
-
-init.push(function(){
+<script>init.push(function(){
 
 	var panel = System.getPanelApi($("#panel-cartoes"));
 
@@ -82,7 +86,7 @@ init.push(function(){
 
 				});
 
-				initSlidePanel($tbody);
+				System.initSlidePanel($tbody);
 
 				panel.done();
 
@@ -130,5 +134,4 @@ init.push(function(){
 	loadCartoes();
 
 });
-
 </script>

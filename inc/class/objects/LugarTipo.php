@@ -2,7 +2,7 @@
 
 class LugarTipo extends Model {
 
-    public $required = array('idlugartipo', 'deslugartipo');
+    public $required = array('deslugartipo');
     protected $pk = "idlugartipo";
 
     public function get(){

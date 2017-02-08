@@ -241,8 +241,19 @@ $app->get("/install-admin/sql/produtos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/inserts", function(){
-	$sql = new Sql();
+	
+	$cursoUdemy = new ProdutoTipo(array(
+		'desprodutotipo'=>'Curso Udemy'
+	));
+	$cursoUdemy->save();
+
+	$camiseta = new ProdutoTipo(array(
+		'desprodutotipo'=>'Camiseta'
+	));
+	$camiseta->save();
+
 	echo success();
+
 });
 $app->get("/install-admin/sql/produtos/get", function(){
 	$procs = array(
@@ -426,23 +437,23 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSistema->save();
 	//////////////////////////////////////
-	$menuPessoas = new Menu(array(
-		'nrordem'=>2,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-accounts',
-		'deshref'=>'',
-		'desmenu'=>'Pessoas'
-	));
-	$menuPessoas->save();
-	//////////////////////////////////////
 	$menuAdmin = new Menu(array(
-		'nrordem'=>3,
+		'nrordem'=>2,
 		'idmenupai'=>NULL,
 		'desicone'=>'md-settings',
 		'deshref'=>'',
 		'desmenu'=>'Administração'
 	));
 	$menuAdmin->save();
+	//////////////////////////////////////
+	$menuPessoas = new Menu(array(
+		'nrordem'=>3,
+		'idmenupai'=>NULL,
+		'desicone'=>'md-accounts',
+		'deshref'=>'',
+		'desmenu'=>'Pessoas'
+	));
+	$menuPessoas->save();
 	//////////////////////////////////////
 	$menuTipos = new Menu(array(
 		'nrordem'=>0,
@@ -501,7 +512,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuProdutos = new Menu(array(
 		'nrordem'=>4,
 		'idmenupai'=>NULL,
-		'desicone'=>'',
+		'desicone'=>'md-devices',
 		'deshref'=>'/produtos',
 		'desmenu'=>'Produtos'
 	));
@@ -866,20 +877,29 @@ $app->get("/install-admin/sql/enderecos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/inserts", function(){
-	$sql = new Sql();
-	$sql->query("
-		INSERT INTO tb_enderecostipos (desenderecotipo) VALUES
-		(?),
-		(?),
-		(?),
-		(?);
-	", array(
-		'Residencial',
-		'Comercial',
-		'Cobrança',
-		'Entrega'
+
+	$residencial = new EnderecoTipo(array(
+		'desenderecotipo'=>'Residencial'
 	));
+	$residencial->save();
+
+	$comercial = new EnderecoTipo(array(
+		'desenderecotipo'=>'Comercial'
+	));
+	$comercial->save();
+
+	$cobranca = new EnderecoTipo(array(
+		'desenderecotipo'=>'Cobrança'
+	));
+	$cobranca->save();
+
+	$entrega = new EnderecoTipo(array(
+		'desenderecotipo'=>'Entrega'
+	));
+	$entrega->save();
+
 	echo success();
+
 });
 $app->get("/install-admin/sql/enderecos/get", function(){
 	$names = array(
@@ -946,21 +966,29 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/inserts", function(){
-	$sql = new Sql();
-	$sql->query("
-		INSERT INTO tb_permissoes (despermissao) VALUES
-		(?),
-		(?),
-		(?);
-	", array(
-		'Super Usuário',
-		'Acesso Administrativo',
-		'Acesso Autenticado de Cliente'
+	
+	$superUsuario = new Permissao(array(
+		'despermissao'=>'Super Usuário'
 	));
+	$superUsuario->save();
+
+	$acessoAdmin = new Permissao(array(
+		'despermissao'=>'Acesso Administrativo'
+	));
+	$acessoAdmin->save();
+
+	$acessoClient = new Permissao(array(
+		'despermissao'=>'Acesso Autenticado de Cliente'
+	));
+	$acessoClient->save();
+
+	$sql = new Sql();
+
 	$sql->query("
 		INSERT INTO tb_permissoesmenus (idmenu, idpermissao)
 		SELECT idmenu, 1 FROM tb_menus;
 	", array());
+
 	$sql->query("
 		INSERT INTO tb_permissoesusuarios (idusuario, idpermissao) VALUES
 		(?, ?),
@@ -1704,18 +1732,25 @@ $app->get("/install-admin/sql/lugares/remove", function(){
 });
 $app->get("/install-admin/sql/lugares/inserts", function(){
 	
-	$sql = new Sql();
-	$sql->query("
-		INSERT INTO tb_lugarestipos(deslugartipo)
-		VALUES(?), (?), (?), (?), (?), (?);
-	", array(
-		'Banco',
-		'Posto de Gasolina',
-		'Cinema',
-		'Cidade',
-		'Estado',
-		'País'
+	$bairro = new LugarTipo(array(
+		'deslugartipo'=>'Bairro'
 	));
+	$bairro->save();
+
+	$cidade = new LugarTipo(array(
+		'deslugartipo'=>'Cidade'
+	));
+	$cidade->save();
+
+	$estado = new LugarTipo(array(
+		'deslugartipo'=>'Estado'
+	));
+	$estado->save();
+
+	$pais = new LugarTipo(array(
+		'deslugartipo'=>'País'
+	));
+	$pais->save();
 	
 	echo success();
 	

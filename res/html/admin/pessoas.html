@@ -268,7 +268,7 @@ init.push(function(){
 
   }
 
-  function deletePessoa(index, ids, callback){
+  function deletePessoa(index, ids, callback, f){
 
       if (index >= ids.length) {
         if (typeof callback === 'function') callback();
@@ -283,7 +283,7 @@ init.push(function(){
 
               },
               failure:function(e){
-                System.showError(e);
+                f(e);
               }
           });
 
@@ -331,8 +331,9 @@ init.push(function(){
               deletePessoa(0, ids, function(){
 
                   s();
+                  atualizarPagina();
 
-              });       
+              }, f);       
 
             } else {
 

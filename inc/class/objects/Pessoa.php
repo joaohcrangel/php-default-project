@@ -104,6 +104,65 @@ class Pessoa extends Model {
         return new Usuarios($this);
     }
 
+    public function addContato($descontato, $idcontatosubtipo):Contato
+    {
+
+        $contato = new Contato(array(
+            'idcontatosubtipo'=>(int)$idcontatosubtipo,
+            'idpessoa'=>$this->getidpessoa(),
+            'descontato'=>$descontato,
+            'inprincipal'=>true
+        ));
+
+        $contato->save();
+
+        return $contato;
+
+    }
+
+    public function addEmail($desemail):Contato
+    {
+
+        return $this->addContato($desemail, ContatoSubtipo::EMAIL_OUTRO);
+
+    }
+
+    public function addTelefone($destelefone):Contato
+    {
+
+        return $this->addContato($destelefone, ContatoSubtipo::TELEFONE_OUTRO);
+
+    }
+
+    public function addDocumento($desdocumento, $iddocumentotipo):Documento
+    {
+
+        $documento = new Documento(array(
+            'idpessoa'=>$this->getidpessoa(),
+            'iddocumentotipo'=>(int)$iddocumentotipo,
+            'desdocumento'=>$desdocumento
+        ));
+
+        $documento->save();
+
+        return $documento;
+
+    }
+
+    public function addCPF($descpf):Documento
+    {
+
+        return $this->addDocumento($descpf, DocumentoTipo::CPF);
+
+    }
+
+    public function addCNPJ($descnpj):Documento
+    {
+
+        return $this->addDocumento($descnpj, DocumentoTipo::CNPJ);
+
+    }
+
 }
 
 ?>

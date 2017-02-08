@@ -4,6 +4,10 @@
 
 class DocumentoTipo extends Model {
 
+    const CPF = 1;
+    const CNPJ = 2;
+    const RG = 3;
+
     public $required = array('iddocumentotipo', 'desdocumentotipo');
     protected $pk = "iddocumentotipo";
 

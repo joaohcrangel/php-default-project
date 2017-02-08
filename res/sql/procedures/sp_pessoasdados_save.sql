@@ -44,7 +44,10 @@ BEGIN
     LEFT JOIN tb_documentos h ON h.iddocumento = (SELECT h1.iddocumento FROM tb_documentos h1 WHERE h1.idpessoa = a.idpessoa AND h1.iddocumentotipo = 3 LIMIT 1) -- RG
     LEFT JOIN tb_pessoasvalores j ON j.idcampo = (SELECT j1.idcampo FROM tb_pessoasvalores j1 WHERE j1.idpessoa = a.idpessoa AND j1.idcampo = 1 LIMIT 1) -- SEXO
     LEFT JOIN tb_pessoasvalores k ON k.idcampo = (SELECT k1.idcampo FROM tb_pessoasvalores k1 WHERE k1.idpessoa = a.idpessoa AND k1.idcampo = 2 LIMIT 1) -- DATA DE NASCIMENTO
-    WHERE a.idpessoa = pidpessoa
+    WHERE 
+            a.idpessoa = pidpessoa 
+            AND 
+            a.inremovido = 0
     LIMIT 1;
 
 END

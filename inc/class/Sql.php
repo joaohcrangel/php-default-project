@@ -420,7 +420,7 @@ class Sql {
 
 	}
 
-	public function trataParams($params = array()){
+	public function trataParams($params = array(), $addQuotation = true){
 
 		$params_new = array();
 
@@ -429,7 +429,11 @@ class Sql {
 			switch(strtolower(gettype($value))){
 				case 'string':
 				$value = ($this->utf8 === true)?utf8_decode($value):$value;
-				array_push($params_new, "'".$value."'");
+				if ($addQuotation === true) {
+					array_push($params_new, "'".$value."'");
+				} else {
+					array_push($params_new, $value);
+				}
 				break;
 				case 'integer':
 				case 'float':
@@ -448,7 +452,11 @@ class Sql {
 				}
 				break;
 				default:
-				array_push($params_new, "''");
+				if ($addQuotation === true) {
+					array_push($params_new, "''");
+				} else {
+					array_push($params_new, "");
+				}
 				break;
 			}
 
@@ -718,6 +726,9 @@ class Sql {
 
 				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 				$sth = $this->conn->prepare($query);
+
+				$params = $this->trataParams($params, false);
+
 		        $sth->execute($params);
 
 				$data = $this->getArrayRows($sth);

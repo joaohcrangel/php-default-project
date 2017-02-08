@@ -16,7 +16,7 @@ $app->get("/pagamentos", function(){
     $where = array();
 
     if(isset($_GET['despessoa'])){
-        array_push($where, "b.despessoa LIKE '%".get('despessoa')."%'");
+        if($_GET['despessoa'] != '') array_push($where, "b.despessoa LIKE '%".utf8_decode(get('despessoa'))."%'");        
     }
 
     if(isset($_GET['idformapagamento'])){
@@ -28,7 +28,13 @@ $app->get("/pagamentos", function(){
     }
 
     if(isset($_GET['dtinicio']) && isset($_GET['dttermino'])){
-        array_push($where, "a.dtcadastro BETWEEN '".get('dtinicio')."' AND '".get('dttermino')."'");
+        if($_GET['dtinicio'] != '' && $_GET['dttermino'] != ''){
+            array_push($where, "a.dtcadastro BETWEEN '".get('dtinicio')."' AND '".get('dttermino')."'");
+        }
+    }
+
+    if(isset($_GET['idpagamento'])){
+        if($_GET['idpagamento'] != '') array_push($where, "a.idpagamento = ".(int)get('idpagamento'));
     }
 
     if(count($where) > 0){

@@ -985,6 +985,7 @@
         idpessoa:pessoa.idpessoa
       },
       success:function(r){
+        atualizarPagina();
         System.success("Pessoa salva com sucesso");
       }
     });
@@ -997,7 +998,7 @@
     var isPagamentoLogged = false;
 
     $("[name=idpessoatipo]").combobox({
-      url:PATH+"/pessoastipos",
+      url:PATH+"/pessoas-tipos",
       displayField:"despessoatipo",
       valueField:"idpessoatipo",
       value:pessoa.idpessoatipo

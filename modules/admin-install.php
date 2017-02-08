@@ -572,6 +572,33 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTiposProdutos->save();
 	//////////////////////////////////////
+	$menuPagamentos = new Menu(array(
+		"nrordem"=>5,
+		"idmenupai"=>NULL,
+		"desicone"=>'',
+		"deshref"=>'/pagamentos',
+		"desmenu"=>'Pagamentos'
+	));
+	$menuPagamentos->save();
+	//////////////////////////////////////
+	$menuCarrinhos = new Menu(array(
+		"nrordem"=>6,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/carrinhos",
+		"desmenu"=>"Carrinhos"
+	));
+	$menuCarrinhos->save();
+	//////////////////////////////////////
+	$menuLugares = new Menu(array(
+		"nrordem"=>7,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/lugares",
+		"desmenu"=>"Lugares"
+	));
+	$menuLugares->save();
+	//////////////////////////////////////
 	
 	echo success();
 });

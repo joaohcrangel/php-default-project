@@ -55,15 +55,7 @@
   	<div class="page-main">
 	    <!-- Mailbox Header -->
 	    <div class="page-header p-0">
-	      	<div class="btn-group" id="actions-buttons">
-		        <div class="btn-group" role="group">
-		          <button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel">
-		            <i class="icon md-plus " aria-hidden="true"></i>
-		            <br>
-		            <span class="text-uppercase hidden-sm-down">cadastrar</span>
-		          </button>
-		        </div>
-	      	</div>
+	      	<div class="btn-group" id="actions-buttons"></div>
 	    </div>
 	    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
 	      	<div style="border-bottom: #e0e0e0 1px solid;">
@@ -249,6 +241,24 @@ init.push(function(){
 		});
 
 	}
+
+	new ToolBar({
+	    id:"actions-buttons",
+	    buttons:[{
+	      text:"Cadastrar",
+	      icon:"md-plus",
+	      cls:"btn-success",
+	      listeners:{
+	        click:function(btn, e){
+	          
+	          System.openSlidePanel({
+	            url:PATH+"/panel/produto-criar"
+	          });
+
+	        }
+	      }
+	    }]
+	});
 
 });
 

@@ -4,7 +4,7 @@ pidendereco INT
 BEGIN
 
     SELECT
-    idendereco, idenderecotipo, idpessoa, desendereco, dtcadastro
+    idendereco, idenderecotipo, desendereco, dtcadastro
     
     FROM tb_enderecos
 

@@ -16,7 +16,8 @@ form.form({
   url:PATH+"/produtos",
   params:{
     idproduto:produto.idproduto,
-    idpreco:produto.idpreco
+    idpreco:produto.idpreco,
+    inremovido:Number(produto.inremovido)
   },
   success:function(){
 

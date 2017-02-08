@@ -232,5 +232,20 @@ init.push(function(){
 
   }
 
+  new ActionButton({
+    id:"actions-buttons",
+    buttons:[{
+      text:"Cadastrar",
+      icon:"md-plus",
+      cls:"btn-success",
+      listeners:{
+        click:function(btn, e){
+          System.alert("Oi");
+          btn.setLoad(true);
+        }
+      }
+    }]
+  });
+
 });
 </script>

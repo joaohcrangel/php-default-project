@@ -11,11 +11,11 @@ BEGIN
     SELECT SUM(c.vlpreco) AS vltotal, COUNT(c.idproduto) AS nrprodutos INTO pvlpreco, pnrprodutos FROM tb_carrinhos a
 		INNER JOIN tb_carrinhosprodutos b ON a.idcarrinho = b.idcarrinho
 		INNER JOIN tb_produtosprecos c ON b.idproduto = c.idproduto
-	WHERE a.idcarrinho = pidcarrinho;
+	WHERE a.idcarrinho = pidcarrinho AND b.dtremovido IS NULL;
     
     UPDATE tb_carrinhos SET
 		vltotal = pvlpreco,
-		vltotalbruto = pvlpreco,
+        vltotalbruto = pvlpreco,
         nrprodutos = pnrprodutos
 	WHERE idcarrinho = pidcarrinho;
     
@@ -23,7 +23,8 @@ BEGIN
     /* Atualizando o valor do carrinho com o frete */
     IF EXISTS(SELECT * FROM tb_carrinhosfretes WHERE idcarrinho = pidcarrinho) THEN
 		UPDATE tb_carrinhos SET
-			vltotal = vltotal + (SELECT vlfrete FROM tb_carrinhosfretes WHERE idcarrinho = pidcarrinho)
+			vltotal = vltotal + (SELECT vlfrete FROM tb_carrinhosfretes WHERE idcarrinho = pidcarrinho),
+            vltotalbruto = vltotalbruto + (SELECT vlfrete FROM tb_carrinhosfretes WHERE idcarrinho = pidcarrinho)
 		WHERE idcarrinho = pidcarrinho;
 	END IF;
     

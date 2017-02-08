@@ -46,21 +46,9 @@
   </div>
   <!-- Mailbox Content -->
   <div class="page-main">
-    <!-- Mailbox Header -->
-    <div class="page-header p-0">
-      <div class="btn-group" id="actions-buttons">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0">
-            <i class="icon md-plus " aria-hidden="true"></i>
-            <br>
-            <span class="text-uppercase hidden-sm-down">cadastrar</span>
-          </button>
-        </div>
-      </div>
-    </div>
     <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
       <div style="border-bottom: #e0e0e0 1px solid;">
-        <div class="panel panel-bordered overflow-auto" data-auto-height="-245">
+        <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
     		<table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
     			<thead>
 	          		<th>Pessoa</th>
@@ -112,13 +100,15 @@ init.push(function(){
 	$("[name=idformapagamento]").combobox({
 		url:PATH+"/formas-pagamentos/all",
 		displayField:"desformapagamento",
-		valueField:"idformapagamento"
+		valueField:"idformapagamento",
+		emptyText:"Forma de Pagamento"
 	});
 
 	$("[name=idstatus]").combobox({
 		url:PATH+"/pagamentos-status/all",
 		displayField:"desstatus",
-		valueField:"idstatus"
+		valueField:"idstatus",
+		emptyText:"Status do Pagamento"
 	});
 
 	$("#pagamento-footer").html(tplFooter({

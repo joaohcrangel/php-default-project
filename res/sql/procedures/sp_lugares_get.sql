@@ -3,7 +3,7 @@ pidlugar INT
 )
 BEGIN
 
-	SELECT a.*, b.idenderecotipo, b.idpessoa, b.desendereco, b.desnumero, b.desbairro, b.descidade, b.desestado, b.despais, b.descep, b.descomplemento,
+	SELECT a.*, b.idenderecotipo, b.desendereco, b.desnumero, b.desbairro, b.descidade, b.desestado, b.despais, b.descep, b.descomplemento,
 			c.deslugartipo
 	FROM tb_lugares a
 		INNER JOIN tb_enderecos b ON a.idendereco = b.idendereco

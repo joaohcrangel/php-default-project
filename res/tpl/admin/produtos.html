@@ -17,7 +17,7 @@
 }
 .page {
   min-height: calc(100% - 83px);
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filtros</h5><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do produto</label><select name="idprodutotipo" class="form-control"><option value="1">Rafael<option value="2">João<option value="3">Marcus</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"><div class="btn-group" role="group"><button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel"><i class="icon md-plus" aria-hidden="true"></i><br><span class="text-uppercase hidden-sm-down">cadastrar</span></button></div></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>Produto<th>Tipo do Produto<th>Valor<th>&nbsp;<tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="produto-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filtros</h5><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do produto</label><select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2"><option selected="selected">--selecione--</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"><div class="btn-group" role="group"><button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel"><i class="icon md-plus" aria-hidden="true"></i><br><span class="text-uppercase hidden-sm-down">cadastrar</span></button></div></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>Produto<th>Tipo do Produto<th>Valor<th>&nbsp;<tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="produto-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
       <div>{{data.length}} de {{total}} Resultado(s)</div>
     </div>
@@ -34,25 +34,17 @@
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
       	</button>
 	</td>
-</tr></script><script>init.push(function(){
-
-	// $("[name=idprodutotipo]").combobox({
-	// 	url:PATH+"/produtos/tipos",
-	// 	displayField:"desprodutotipo",
-	// 	valueField:"idprodutotipo"
-	// });
-
-	$("select").select2();
+</tr></script><script id="tpl-select-row" type="text/x-handlebars-template"><option value="{{idprodutotipo}}">{{desprodutotipo}}</option></script><script>init.push(function(){
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
 	var $tbody = $("#mailContent .panel tbody");
+	var $select = $("[name=idprodutotipo]");
+	var $footer = $("#produto-footer");
 
 	var tpl = Handlebars.compile($("#tpl-produto-row").html());
-
-	var tplFooter = Handlebars.compile($("#tpl-footer").html());
-
-	var $footer = $("#produto-footer");
+	var tplSelect = Handlebars.compile($("#tpl-select-row").html());
+	var tplFooter = Handlebars.compile($("#tpl-footer").html());	
 
 	$footer.html(tplFooter({
 		total:0
@@ -72,6 +64,33 @@
 
   	});
 
+  	function renderSelect(){
+
+  		$select.prop("disabled", true);
+
+		rest({
+			url:PATH+"/produtos/tipos",
+			success:function(r){
+
+				$select.html('');
+
+				$.each(r.data, function(index, row){
+					$select.append($(tplSelect(row)));
+				});
+
+				$select.prop("disabled", false);
+
+			},
+			failure:function(r){
+				$select.prop("disabled", false);
+				System.showError(r);
+			}
+		});
+
+	}
+
+	renderSelect();
+
 	function loadProdutos(pagina){
 
 		if(!pagina)	pagina = 1;
@@ -80,13 +99,20 @@
 			loadProdutos();
 		});
 
+		var ids = [];
+
+		$("[name=idprodutotipo] option:selected").each(function(){
+			ids.push($(this).val());
+		});
+
 		panel.load();
 
 		rest({
 			url:PATH+"/produtos/all",
 			data:{
 				pagina:pagina,
-				limit:10
+				limit:10,
+				ids:ids.toString()
 			},
 			success:function(r){
 

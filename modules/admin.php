@@ -162,6 +162,14 @@ $app->get("/".DIR_ADMIN."/pessoas", function(){
 
 });
 
+$app->get("/teste", function(){
+
+    $page = new Page();
+
+    $page->setTpl("admin/teste");
+
+});
+
 $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
 
     Permissao::checkSession(Permissao::ADMIN, true);

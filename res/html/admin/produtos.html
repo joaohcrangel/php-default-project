@@ -35,12 +35,9 @@
 	            <h5 class="page-aside-title">Filtros</h5>
 	            <form id="form-filtros" class="p-x-25">	              
 	              <div class="form-group form-material" data-plugin="formMaterial">
-	                <!-- <select name="idprodutotipo" class="form-control" multiple="multiple"></select> -->
 	                <label class="form-control-label">Tipo do produto</label>
-	                <select name="idprodutotipo" class="form-control">
-	                	<option value="1">Rafael</option>
-	                	<option value="2">João</option>
-	                	<option value="3">Marcus</option>
+	                <select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2">
+	                	<option selected>--selecione--</option>
 	                </select>
 	              </div>
 	              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
@@ -122,27 +119,23 @@
 </tr>
 </script>
 
+<script id="tpl-select-row" type="text/x-handlebars-template">
+	<option value="{{idprodutotipo}}">{{desprodutotipo}}</option>
+</script>
+
 <script>
 
 init.push(function(){
 
-	// $("[name=idprodutotipo]").combobox({
-	// 	url:PATH+"/produtos/tipos",
-	// 	displayField:"desprodutotipo",
-	// 	valueField:"idprodutotipo"
-	// });
-
-	$("select").select2();
-
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
 	var $tbody = $("#mailContent .panel tbody");
+	var $select = $("[name=idprodutotipo]");
+	var $footer = $("#produto-footer");
 
 	var tpl = Handlebars.compile($("#tpl-produto-row").html());
-
-	var tplFooter = Handlebars.compile($("#tpl-footer").html());
-
-	var $footer = $("#produto-footer");
+	var tplSelect = Handlebars.compile($("#tpl-select-row").html());
+	var tplFooter = Handlebars.compile($("#tpl-footer").html());	
 
 	$footer.html(tplFooter({
 		total:0
@@ -162,6 +155,33 @@ init.push(function(){
 
   	});
 
+  	function renderSelect(){
+
+  		$select.prop("disabled", true);
+
+		rest({
+			url:PATH+"/produtos/tipos",
+			success:function(r){
+
+				$select.html('');
+
+				$.each(r.data, function(index, row){
+					$select.append($(tplSelect(row)));
+				});
+
+				$select.prop("disabled", false);
+
+			},
+			failure:function(r){
+				$select.prop("disabled", false);
+				System.showError(r);
+			}
+		});
+
+	}
+
+	renderSelect();
+
 	function loadProdutos(pagina){
 
 		if(!pagina)	pagina = 1;
@@ -170,13 +190,20 @@ init.push(function(){
 			loadProdutos();
 		});
 
+		var ids = [];
+
+		$("[name=idprodutotipo] option:selected").each(function(){
+			ids.push($(this).val());
+		});
+
 		panel.load();
 
 		rest({
 			url:PATH+"/produtos/all",
 			data:{
 				pagina:pagina,
-				limit:10
+				limit:10,
+				ids:ids.toString()
 			},
 			success:function(r){
 

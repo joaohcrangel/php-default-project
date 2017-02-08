@@ -1,4 +1,6 @@
 
+var ActionButton=function(t){var n=this,i={debug:!0,buttons:[],tplBtn:'<button type="button" class="btn btn-md {{cls}} waves-effect" style="border-radius: 0"><i class="icon {{icon}}" aria-hidden="true"></i><br><span class="text-uppercase hidden-sm-down">{{text}}</span></button>'},o=$.extend({},i,t),d=$("#"+o.id);n.addButtons=function(t){$.each(t,function(t,i){n.addButton(i)})},n.addButton=function(t){},n.init=function(){d.html(""),n.addButtons(o.buttons)},n.init()};
+
 function abbrNum(e,t){t=Math.pow(10,t);for(var n=["k","m","b","t"],o=n.length-1;o>=0;o--){var i=Math.pow(10,3*(o+1));if(i<=e){e=Math.round(e*t/i)/t,1e3==e&&o<n.length-1&&(e=1,o++),e+=n[o];break}}return e}function getPageSize(){var e,t;return self.innerHeight?(e=self.innerWidth,t=self.innerHeight):document.documentElement&&document.documentElement.clientHeight?(e=document.documentElement.clientWidth,t=document.documentElement.clientHeight):document.body&&(e=document.body.clientWidth,t=document.body.clientHeight),{width:e,height:t}}function searchToObject(){var e,t,n=window.location.search.substring(1).split("&"),o={};for(t in n)""!==n[t]&&(e=n[t].split("="),o[decodeURIComponent(e[0])]=decodeURIComponent(e[1]));return o}
 
 init.push(function(){System.initSlidePanel()});

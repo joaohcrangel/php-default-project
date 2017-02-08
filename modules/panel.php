@@ -193,6 +193,34 @@ $app->get("/panel/cupom-criar", function(){
 	$page->setTpl("panel/cupom-criar");
 
 });
+////////////////////////////////
+//cupons-tipos
+
+$app->get("/panel/cupons-tipos/:idcupomtipo", function($idcupomtipo){
+
+	$cupom = new CupomTipo((int)$idcupomtipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupons-tipos-salvar", array(
+		"cupom"=>$cupom->getFields()
+	));
+
+});
+
+$app->get("/panel/cupons-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cupons-tipos-criar");
+
+});
 
 // Permissao Salvar
 $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
@@ -391,6 +419,12 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 
 	$carrinho = new Carrinho((int)$idcarrinho);
+
+	$frete = new CarrinhoFrete((int)$idcarrinho);
+
+	$carrinho->setProdutos($carrinho->getProdutos()->getFields());
+	$carrinho->setCupons($carrinho->getCupons()->getFields());
+	$carrinho->setFrete($frete->getFields());
 
 	$page = new Page(array(
 		"header"=>false,

@@ -51,6 +51,16 @@ class Carrinho extends Model {
         return new Produtos($this);
     }
 
+    public function getCupons():Cupons
+    {
+        return new Cupons($this);
+    }
+
+    public function getFretes():CarrinhosFretes
+    {
+        return new CarrinhosFretes($this);
+    }
+
 }
 
 ?>

@@ -20,6 +20,17 @@ class CarrinhosFretes extends Collection {
 
     }
 
+    public function getByCarrinho(Carrinho $carrinho):CarrinhosFretes
+    {
+
+        $this->queryToAttr("CALL sp_carrinhosfretes_get(?);", array(
+            $carrinho->getidcarrinho()
+        ));
+
+        return $this;
+
+    }
+
 }
 
 ?>

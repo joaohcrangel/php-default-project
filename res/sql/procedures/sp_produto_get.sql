@@ -3,8 +3,8 @@ pidproduto INT
 )
 BEGIN
 
-	SELECT * FROM tb_produtos
-		INNER JOIN tb_produtosprecos USING(idproduto)
+	SELECT a.*, b.idpreco, b.vlpreco FROM tb_produtos a
+		LEFT JOIN tb_produtosprecos b USING(idproduto)
     WHERE idproduto = pidproduto;
 
 END

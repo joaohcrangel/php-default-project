@@ -20,6 +20,17 @@ class Cupons extends Collection {
 
     }
 
+    public function getByCarrinho(Carrinho $carrinho):Cupons
+    {
+
+        $this->loadFromQuery("CALL sp_cuponsfromcarrinho_list(?);", array(
+            $carrinho->getidcarrinho()
+        ));
+
+        return $this;
+
+    }
+
 }
 
 ?>

@@ -148,7 +148,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/pessoas", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+   Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -398,6 +398,16 @@ $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
     $page = new AdminPage();
 
     $page->setTpl("/admin/lugares-tipos");
+
+});
+
+$app->get("/".DIR_ADMIN."/cupons-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/cupons-tipos");
 
 });
 

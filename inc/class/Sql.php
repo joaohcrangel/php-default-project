@@ -718,11 +718,11 @@ class Sql {
 
 				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 				$sth = $this->conn->prepare($query);
-				$sth->execute($params);
+		        $sth->execute($params);
 
 				$data = $this->getArrayRows($sth);
 
-			break;
+	        break;
 
 			default:
 

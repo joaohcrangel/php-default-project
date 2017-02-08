@@ -61,16 +61,16 @@ $app->post("/cupons-tipos", function(){
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if((int)post('idcupomtipo') > 0){
-		$tipo = new CupomTipo((int)post('idcupomtipo'));
+		$cupom = new CupomTipo((int)post('idcupomtipo'));
 	}else{
-		$tipo = new CupomTipo();
+		$cupom = new CupomTipo();
 	}
 
-	$tipo->set();
+	$cupom->set($_POST);
 
-	$tipo->save();
+	$cupom->save();
 
-	echo success(array("data"=>$tipo->getFields()));
+	echo success(array("data"=>$cupom->getFields()));
 
 });
 
@@ -84,7 +84,7 @@ $app->delete("/cupons-tipos/:idcupomtipo", function($idcupomtipo){
 
 	$tipo = new CupomTipo((int)$idcupomtipo);
 
-	if(!(int)$cupom->getidcupomtipo > 0){
+	if(!(int)$tipo->getidcupomtipo() > 0){
 		throw new Exception("Tipo de cupom não encontrado", 404);		
 	}
 

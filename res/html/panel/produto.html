@@ -53,6 +53,7 @@ form.form({
 
     form.find("button#btn-produto-salvar").btnload("unload");
     System.success("Produto salvo com sucesso");
+    $("#form-filtros [type=submit]").trigger("click");
 
   },
   failure:function(r){

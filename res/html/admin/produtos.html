@@ -36,6 +36,7 @@
 	            <form id="form-filtros" class="p-x-25">	              
 	              <div class="form-group form-material" data-plugin="formMaterial">
 	                <!-- <select name="idprodutotipo" class="form-control" multiple="multiple"></select> -->
+	                <label class="form-control-label">Tipo do produto</label>
 	                <select name="idprodutotipo" class="form-control">
 	                	<option value="1">Rafael</option>
 	                	<option value="2">João</option>
@@ -66,7 +67,7 @@
 	    </div>
 	    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
 	      	<div style="border-bottom: #e0e0e0 1px solid;">
-		        <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
+		        <div class="panel panel-bordered overflow-auto">
 		          	<table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
 		          		<thead>
 			          		<tr>
@@ -179,60 +180,66 @@ init.push(function(){
 			},
 			success:function(r){
 
-				$tbody.html('');
+				if(r.data.length > 0){
 
-				$footer.html(tplFooter(r));
+					$tbody.html('');
 
-				$.each(r.data, function(index, row){					
+					$footer.html(tplFooter(r));
 
-					var $tr = $(tpl(row));
+					$.each(r.data, function(index, row){					
 
-					$tbody.append($tr);
+						var $tr = $(tpl(row));
 
-					$tr.find(".btn-excluir-produto").on("click", function(){
+						$tbody.append($tr);
 
-						System.confirm("Deseja realmente excluir o "+row.desprodutotipo+" "+row.desproduto+"?", function(b, s, f){
+						$tr.find(".btn-excluir-produto").on("click", function(){
 
-							if(b){
+							System.confirm("Deseja realmente excluir o "+row.desprodutotipo+" "+row.desproduto+"?", function(b, s, f){
 
-								rest({
-									url:PATH+"/produtos/"+row.idproduto,
-									method:"DELETE",
-									success:function(){
-										System.done();
-										s("Produto excluído com sucesso");
-										$tr.remove();
-									},
-									failure:function(r){
-										System.done();
-										f(r)
-									}
-								});
+								if(b){
 
-							}else{
-								f();
-							}
+									rest({
+										url:PATH+"/produtos/"+row.idproduto,
+										method:"DELETE",
+										success:function(){
+											System.done();
+											s("Produto excluído com sucesso");
+											$tr.remove();
+										},
+										failure:function(r){
+											System.done();
+											f(r)
+										}
+									});
+
+								}else{
+									f();
+								}
+
+							});
 
 						});
 
 					});
 
-				});
+					System.initSlidePanel($tbody);
 
-				System.initSlidePanel($tbody);
+					panel.done();
 
-				panel.done();
+					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+						skin:"pagination-gap",
+						currentPage:r.paginaAtual,
+						itemsPerPage:r.itemsPorPagina,
+						onChange:function(page){
+							loadProdutos(page);
+						}
+					});
 
-				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-					skin:"pagination-gap",
-					currentPage:r.paginaAtual,
-					itemsPerPage:r.itemsPorPagina,
-					onChange:function(page){
-						loadProdutos(page);
-					}
-				});
+					$("#paginacao").asPaginator(r.total, config);
 
-				$("#paginacao").asPaginator(r.total, config);
+				}else{
+					panel.done();
+				}
 
 			},
 			failure:function(r){

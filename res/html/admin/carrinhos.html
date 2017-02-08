@@ -40,22 +40,10 @@
   	</div>
   	<!-- Mailbox Content -->
   	<div class="page-main">
-    	<!-- Mailbox Header -->
-    	<div class="page-header p-0">
-	      	<div class="btn-group" id="actions-buttons">
-		        <div class="btn-group" role="group">
-		          <button type="button" class="btn btn-md btn-success waves-effect" style="border-radius: 0">
-		            <i class="icon md-plus " aria-hidden="true"></i>
-		            <br>
-		            <span class="text-uppercase hidden-sm-down">cadastrar</span>
-		          </button>
-		        </div>
-	      	</div>
-    	</div>
 	    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
 	      	<div style="border-bottom: #e0e0e0 1px solid;">
-		        <div class="panel panel-bordered overflow-auto" data-auto-height="-245">
-		    		<table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr">
+		        <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
+		    		<table id="lista" class="table m-t-10" data-plugin="animateList" data-animate="fade" data-child="tr">
 		    			<thead>
 			          		<th>Pessoa</th>
 			          		<th>Número de Produtos</th>
@@ -73,12 +61,6 @@
 	      	</div>      
 	    </div>
   	</div>
-  	<div class="site-action animation-duration-300">
-      	<button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/produto-criar" data-toggle="slidePanel">
-	        <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
-	        <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
-      	</button>
-    </div>
 </div>
 <footer id="carrinho-footer" class="site-footer p-0"></footer>
 <script id="tpl-footer" type="text/x-handlebars-template">
@@ -173,7 +155,7 @@ init.push(function(){
 
 				$("#paginacao").asPaginator(r.total, config);
 
-				initSlidePanel($tbody);
+				System.initSlidePanel($tbody);
 
 				panel.done();
 

@@ -208,6 +208,7 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 			idprodutotipo INT NOT NULL,
 			desproduto VARCHAR(64) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			inremovido BIT(1) NOT NULL DEFAULT 0,
 			CONSTRAINT PRIMARY KEY(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -772,7 +773,6 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		CREATE TABLE tb_enderecos (
 		  idendereco int(11) NOT NULL AUTO_INCREMENT,
 		  idenderecotipo int(11) NOT NULL,
-		  idpessoa int(11) NOT NULL,
 		  desendereco varchar(64) NOT NULL,
 		  desnumero varchar(16) NOT NULL,
 		  desbairro varchar(64) NOT NULL,
@@ -783,8 +783,16 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  descomplemento varchar(32) DEFAULT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idendereco),
-		  CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo),
-		  CONSTRAINT FK_pessoasenderecos FOREIGN KEY (idpessoa) REFERENCES tb_pessoas(idpessoa)
+		  CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_pessoasenderecos(
+			idpessoa INT NOT NULL,
+			idendereco INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
+			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -984,6 +992,7 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 			desprodutotipo VARCHAR(64) NOT NULL,
 			dtinicio DATE,
 			dttermino DATE,
+			inremovido BIT(1) NOT NULL DEFAULT 0,
 			CONSTRAINT PRIMARY KEY (idproduto),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
@@ -1114,14 +1123,11 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 $app->get("/install-admin/sql/carrinhos/triggers", function(){
 	$triggers = array(
 		"tg_carrinhoscupons_AFTER_INSERT",
-		"tg_carrinhoscupons_AFTER_UPDATE",
-		"tg_carrinhoscupons_AFTER_DELETE",
+		"tg_carrinhoscupons_AFTER_UPDATE",		
 		"tg_carrinhosfretes_AFTER_INSERT",
-		"tg_carrinhosfretes_AFTER_UPDATE",
-		"tg_carrinhosfretes_AFTER_DELETE",
+		"tg_carrinhosfretes_AFTER_UPDATE",		
 		"tg_carrinhosprodutos_AFTER_INSERT",
-		"tg_carrinhosprodutos_AFTER_UPDATE",
-		"tg_carrinhosprodutos_AFTER_DELETE"
+		"tg_carrinhosprodutos_AFTER_UPDATE"		
 	);
 	saveTriggers($triggers);
 	echo success();
@@ -1133,7 +1139,8 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 		"sp_carrinhosfrompessoa_list",
 		'sp_carrinhoscupons_list',
 		'sp_carrinhosfretes_list',
-		'sp_produtosfromcarrinho_list'
+		'sp_produtosfromcarrinho_list',
+		'sp_cuponsfromcarrinho_list'
 	);
 	saveProcedures($procs);
 	echo success();

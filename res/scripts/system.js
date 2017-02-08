@@ -49,7 +49,7 @@ window.System = {
           var sp = this;
           sp.$panel.find('.slidePanel-close').on('click', function(){
             sp.hide();
-          });
+          });          
         }
       }, PluginSlidepanel.default.getDefaults());
 

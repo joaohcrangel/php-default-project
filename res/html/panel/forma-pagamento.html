@@ -1,32 +1,30 @@
-{include="panel-header"}
-<div id="formapagamento-{$formapagamento.idformapagamento}">
-
-  <header class="slidePanel-header">
-    <div class="slidePanel-actions" aria-label="actions" role="group">
-      <button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button>
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h1>Forma de Pagamento {$formapagamento.desformapagamento}</h1>
-  </header>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Forma de Pagamento {$formapagamento.desformapagamento}</h5></h4>
+  </div>  
+</header>
 
-  <div class="slidePanel-inner">
-    <form asutocomplete="off" id="form-forma-pagamento" class="slidePanel-form">
-    	<div class="form-group form-material">
-        <input type="hidden" name="idformapagamento" value="{$formapagamento.idformapagamento}">
-        <label class="control-label" for="desformapagamento">Forma de Pagamento</label>
-        <input type="text" class="form-control" name="desformapagamento" value="{$formapagamento.desformapagamento}">
-  		</div>
-		  <div class="form-group form-material">	        
-        <label class="control-label" for="idgateway">Gateway de Pagamento</label>
-        <select name="idgateway" class="form-control" id="idgateway" value="{$formapagamento.idgateway}"></select>
-      </div>
-      <div class="form-group form-material">
-        <label class="control-label" for="nrparcelasmax">Número máximo de parcelas</label>
-        <input type="number" class="form-control" name="nrparcelasmax" id="nrparcelasmax" value="{$formapagamento.nrparcelasmax}" />
-      </div>
-      <button type="submit" class="btn btn-block btn-primary" id="btn-forma-pagamento-salvar">Salvar</button>
-    </form>
-  </div>
-
+<div class="slidePanel-inner m-t-40">
+  <form asutocomplete="off" id="form-forma-pagamento" class="slidePanel-form">
+  	<div class="form-group form-material">
+      <input type="hidden" name="idformapagamento" value="{$formapagamento.idformapagamento}">
+      <label class="control-label" for="desformapagamento">Forma de Pagamento</label>
+      <input type="text" class="form-control" name="desformapagamento" value="{$formapagamento.desformapagamento}">
+		</div>
+	  <div class="form-group form-material">	        
+      <label class="control-label" for="idgateway">Gateway de Pagamento</label>
+      <select name="idgateway" class="form-control" id="idgateway" value="{$formapagamento.idgateway}"></select>
+    </div>
+    <div class="form-group form-material">
+      <label class="control-label" for="nrparcelasmax">Número máximo de parcelas</label>
+      <input type="number" class="form-control" name="nrparcelasmax" id="nrparcelasmax" value="{$formapagamento.nrparcelasmax}" />
+    </div>
+    <button type="submit" class="btn btn-block btn-primary" id="btn-forma-pagamento-salvar">Salvar</button>
+  </form>
 </div>
 
 <script>

@@ -4,7 +4,6 @@ pidproduto INT
 BEGIN
 
 	SELECT * FROM tb_produtos
-		INNER JOIN tb_produtosprecos USING(idproduto)
-    WHERE idproduto = pidproduto;
+    WHERE idproduto = pidproduto AND inremovido = 0;
 
 END

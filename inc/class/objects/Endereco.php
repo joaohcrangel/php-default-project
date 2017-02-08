@@ -2,7 +2,7 @@
 
 class Endereco extends Model {
 
-    public $required = array('idenderecotipo', 'idpessoa', 'desendereco', 'desnumero', 'desbairro', 'descidade', 'desestado', 'despais', 'descep');
+    public $required = array('idenderecotipo', 'desendereco', 'desnumero', 'desbairro', 'descidade', 'desestado', 'despais', 'descep');
     protected $pk = "idendereco";
 
     public function get(){
@@ -18,10 +18,9 @@ class Endereco extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_enderecos_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_enderecos_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidendereco(),
                 $this->getidenderecotipo(),
-                $this->getidpessoa(),
                 $this->getdesendereco(),
                 $this->getdesnumero(),
                 $this->getdesbairro(),

@@ -113,6 +113,10 @@ $app->post("/pessoas", function(){
 
 	$pessoa->save();
 
+	$contato = new Contato(array(
+		
+	));
+
 	echo success(array("data"=>$pessoa->getFields()));
 
 });

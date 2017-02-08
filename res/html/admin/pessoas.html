@@ -132,6 +132,8 @@
 <script>
 init.push(function(){
 
+  window.pagina = 1;
+
   var tpl = {
     row:Handlebars.compile($("#tpl-row").html()),
     footer:Handlebars.compile($("#tpl-footer").html())
@@ -163,7 +165,13 @@ init.push(function(){
 
   });
 
+  function atualizarPagina() {
+    consultar(window.pagina);
+  }
+
   function consultar(pagina) {
+
+    window.pagina = pagina;
 
     var panel = System.getPanelApi($('#mailContent .panel'));
 
@@ -210,6 +218,9 @@ init.push(function(){
     });
 
   }
+
+  window.atualizarPagina = atualizarPagina;
+  window.consultar = consultar;
 
   function renderPessoas(lista) {
 

@@ -52,6 +52,8 @@
     </td>
   </tr></script><script>init.push(function(){
 
+  window.pagina = 1;
+
   var tpl = {
     row:Handlebars.compile($("#tpl-row").html()),
     footer:Handlebars.compile($("#tpl-footer").html())
@@ -83,7 +85,13 @@
 
   });
 
+  function atualizarPagina() {
+    consultar(window.pagina);
+  }
+
   function consultar(pagina) {
+
+    window.pagina = pagina;
 
     var panel = System.getPanelApi($('#mailContent .panel'));
 
@@ -130,6 +138,9 @@
     });
 
   }
+
+  window.atualizarPagina = atualizarPagina;
+  window.consultar = consultar;
 
   function renderPessoas(lista) {
 

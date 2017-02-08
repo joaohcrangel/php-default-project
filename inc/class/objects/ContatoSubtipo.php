@@ -2,6 +2,9 @@
 
 class ContatoSubtipo extends Model {
 
+    const EMAIL = 1;
+    const TELEFONE = 2;
+
     public $required = array('idcontatotipo', 'descontatosubtipo');
     protected $pk = "idcontatosubtipo";
 
@@ -18,7 +21,7 @@ class ContatoSubtipo extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_contatossubtipos_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_contatossubtipos_save(?, ?, ?, ?);", array(
                 $this->getidcontatosubtipo(),
                 $this->getidcontatotipo(),
                 $this->getdescontatosubtipo(),

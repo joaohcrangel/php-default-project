@@ -34,7 +34,8 @@
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
       	</button>
 	</td>
-</tr></script><script id="tpl-select-row" type="text/x-handlebars-template"><option value="{{idprodutotipo}}">{{desprodutotipo}}</option></script><script>init.push(function(){
+</tr></script><script id="tpl-select-row" type="text/x-handlebars-template"><option value="{{idprodutotipo}}">{{desprodutotipo}}</option></script><script>window.pagina = 1;
+init.push(function(){
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
@@ -94,6 +95,8 @@
 	function loadProdutos(pagina){
 
 		if(!pagina)	pagina = 1;
+
+		window.pagina = pagina;
 
 		$(".refresh").on("click", function(){
 			loadProdutos();
@@ -168,6 +171,7 @@
 						itemsPerPage:r.itemsPorPagina,
 						onChange:function(page){
 							loadProdutos(page);
+							window.pagina = page;
 						}
 					});
 
@@ -203,5 +207,7 @@
 	      }
 	    }]
 	});
+
+	window.loadProdutos = loadProdutos;
 
 });</script>

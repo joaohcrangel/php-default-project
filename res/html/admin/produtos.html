@@ -119,7 +119,7 @@
 </script>
 
 <script>
-
+window.pagina = 1;
 init.push(function(){
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
@@ -180,6 +180,8 @@ init.push(function(){
 	function loadProdutos(pagina){
 
 		if(!pagina)	pagina = 1;
+
+		window.pagina = pagina;
 
 		$(".refresh").on("click", function(){
 			loadProdutos();
@@ -254,6 +256,7 @@ init.push(function(){
 						itemsPerPage:r.itemsPorPagina,
 						onChange:function(page){
 							loadProdutos(page);
+							window.pagina = page;
 						}
 					});
 
@@ -289,6 +292,8 @@ init.push(function(){
 	      }
 	    }]
 	});
+
+	window.loadProdutos = loadProdutos;
 
 });
 

@@ -19,6 +19,7 @@
   			System.success("Produto criado com sucesso");
   			$(".slidePanel-close").trigger("click");
   			$(".refresh").trigger("click");
+  			loadProdutos();
 
   		},
   		failure:function(r){

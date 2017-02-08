@@ -19,7 +19,18 @@ BEGIN
     FROM tb_produtos a
     INNER JOIN tb_produtostipos b ON a.idprodutotipo = b.idprodutotipo
     LEFT JOIN tb_produtosprecos c ON a.idproduto = c.idproduto
-    WHERE a.idproduto = pidproduto
+    WHERE 
+        a.idproduto = pidproduto
+        AND
+        (
+            NOW() BETWEEN c.dtinicio AND c.dttermino
+            OR
+            (
+                dtinicio <= NOW()
+                AND
+                dttermino IS NULL
+            )
+        )    
     LIMIT 1;
 
 END

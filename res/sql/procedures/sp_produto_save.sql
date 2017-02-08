@@ -2,7 +2,8 @@ CREATE PROCEDURE sp_produto_save(
 pidproduto INT,
 pidprodutotipo INT,
 pdesproduto VARCHAR(64),
-pinremovido BIT(1)
+pinremovido BIT,
+pvlpreco DECIMAL(10,2)
 )
 BEGIN
 
@@ -22,6 +23,26 @@ BEGIN
 		WHERE idproduto = pidproduto;
         
 	END IF;
+    
+    IF pvlpreco > 0 THEN
+    
+		UPDATE tb_produtosprecos
+        SET dttermino = NOW()
+        WHERE
+			idproduto = pidproduto
+            AND
+            (
+				NOW() BETWEEN dtinicio AND dttermino
+				OR
+                (
+					dtinicio <= NOW() AND dttermino IS NULL
+				)
+			);
+            
+		INSERT INTO tb_produtosprecos (idproduto, dtinicio, dttermino, vlpreco)
+        VALUES(pidproduto, NOW(), NULL, pvlpreco);
+    
+    END IF;
     
     CALL sp_produto_get(pidproduto);
 

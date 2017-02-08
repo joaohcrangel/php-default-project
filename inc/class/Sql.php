@@ -442,7 +442,11 @@ class Sql {
 				break;
 				case 'bool':
 				case 'boolean':
-				array_push($params_new, (($value)?1:0));
+				if ($this->type === Sql::PDO) {
+					array_push($params_new, $value);
+				} else {
+					array_push($params_new, (($value)?1:0));
+				}
 				break;
 				case 'null':
 				if ($this->type === Sql::PDO) {

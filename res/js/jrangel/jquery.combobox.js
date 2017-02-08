@@ -124,8 +124,7 @@
 
                         if (o.debug === true) console.log('select2', true);
                         $el.find("option[value='']").remove();
-
-                        $.components.init("select2");
+                        //$.components.init("select2");
                         if (o.debug === true) console.log('select2', 'init');
 
                     }

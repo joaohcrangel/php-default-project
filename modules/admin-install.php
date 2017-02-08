@@ -208,8 +208,8 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 			idproduto INT NOT NULL AUTO_INCREMENT,
 			idprodutotipo INT NOT NULL,
 			desproduto VARCHAR(64) NOT NULL,
+			inremovido BIT(1) NOT NULL DEFAULT b'0',
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			inremovido BIT(1) NOT NULL DEFAULT 0,
 			CONSTRAINT PRIMARY KEY(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -218,7 +218,7 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 		CREATE TABLE tb_produtosprecos(
 			idpreco INT NOT NULL AUTO_INCREMENT,
 			idproduto INT NOT NULL,
-			dtinicio DATETIME DEFAULT NULL,
+			dtinicio DATETIME NOT NULL,
 			dttermino DATETIME DEFAULT NULL,
 			vlpreco DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),

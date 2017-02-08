@@ -5,6 +5,7 @@ BEGIN
 	FROM tb_carrinhosprodutos c
         INNER JOIN tb_carrinhos a ON a.idcarrinho = c.idcarrinho
         INNER JOIN tb_produtos b ON b.idproduto = c.idproduto
-        INNER JOIN tb_pessoas d ON a.idpessoa = d.idpessoa;
+        INNER JOIN tb_pessoas d ON a.idpessoa = d.idpessoa
+    WHERE b.inremovido = 0;
 
 END

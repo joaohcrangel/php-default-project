@@ -487,8 +487,6 @@
 
     var pessoa = JSON.parse('{function="json_encode($pessoa)"}');
 
-    console.log(pessoa);
-
     var tplTelefones = Handlebars.compile($("#tpl-telefone-pessoa").html());
     var tplEmails = Handlebars.compile($("#tpl-email-pessoa").html());    
     var tplDocumentos = Handlebars.compile($("#tpl-documento-pessoa").html());

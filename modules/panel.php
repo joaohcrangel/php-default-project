@@ -1,7 +1,7 @@
 <?php
 
 // produtos
-$app->get("/panel/produtos/:idproduto", function($idproduto){
+$app->get("/panel/produto/:idproduto", function($idproduto){
 
 	$produto = new Produto((int)$idproduto);
 
@@ -16,7 +16,7 @@ $app->get("/panel/produtos/:idproduto", function($idproduto){
 
 });
 
-$app->get("/panel/produtos-criar", function(){
+$app->get("/panel/produto-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -419,6 +419,12 @@ $app->get("/panel/pessoas/:idpessoa", function($idpessoa){
 $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 
 	$carrinho = new Carrinho((int)$idcarrinho);
+
+	$frete = new CarrinhoFrete((int)$idcarrinho);
+
+	$carrinho->setProdutos($carrinho->getProdutos()->getFields());
+	$carrinho->setCupons($carrinho->getCupons()->getFields());
+	$carrinho->setFrete($frete->getFields());
 
 	$page = new Page(array(
 		"header"=>false,

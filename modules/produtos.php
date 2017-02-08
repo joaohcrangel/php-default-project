@@ -10,6 +10,8 @@ $app->get("/produtos/all", function(){
         array_push($where, "a.idproduto = ".(int)get('idprodutotipo'));
     }
 
+    array_push($where, "a.inremovido = ".(int)0);
+
     if(count($where) > 0){
         $where = "WHERE ".implode(" AND ", $where)."";
     }else{

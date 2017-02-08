@@ -62,10 +62,6 @@ $app->post("/lugares", function(){
 
 		$endereco->set($_POST);
 
-		if(!post('idpessoa')){
-			$endereco->setidpessoa(Session::getPessoa()->getidpessoa());
-		}
-
 		$endereco->save();
 
 		$_POST['idendereco'] = $endereco->getidendereco();

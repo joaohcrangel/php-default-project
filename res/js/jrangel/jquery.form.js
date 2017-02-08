@@ -146,6 +146,14 @@
 
 				if(o.debug === true) console.info("options", o);
 
+				$form.find('input').on('change', function(){
+					if ($(this).val().length) {
+						$(this).removeClass('empty');
+					} else {
+						$(this).addClass('empty');
+					}
+				});
+
 				$btn.on("click", function(e){
 
 					if(o.debug === true) console.info("click", e);
@@ -225,11 +233,11 @@
 
 						if (typeof o.beforeParams === 'function') t.data =  $.extend({}, o.beforeParams(t.data), t.data);
 
-            if(o.debug === true) console.info("data 2", t.data);
+            			if(o.debug === true) console.info("data 2", t.data);
 
 						var data = $.param(t.data);
 
-            if(o.debug === true) console.info("data 3", data);
+            			if(o.debug === true) console.info("data 3", data);
 
 						var datas = [];
 						$form.find("[name*='[]']").each(function(){
@@ -242,46 +250,46 @@
 
 						data += datas.join("&");
 
-            if(o.debug === true) console.info("data 4", data);
+            			if(o.debug === true) console.info("data 4", data);
 
-            rest({
-              $http: o.$http,
-              url: o.url,
-							method: o.method,
-							data: data,
-              success:function(r) {
+			            rest({
+			              $http: o.$http,
+			              url: o.url,
+										method: o.method,
+										data: data,
+			              success:function(r) {
 
-                $btn.btnload("unload");
-                if(typeof o.success === "function") o.success(r);
+			                $btn.btnload("unload");
+			                if(typeof o.success === "function") o.success(r);
 
-								if(o.resetForm === true){
-									$form.find('[name]:not([data-no-reset-form])').each(function(){
+											if(o.resetForm === true){
+												$form.find('[name]:not([data-no-reset-form])').each(function(){
 
-										$(this).val('');
+													$(this).val('');
 
-									});
+												});
+											}
+
+											o.alertSuccess("Formulário enviado com sucesso!");
+
+											if(o.debug === true) console.info("success", r);
+
+			              },
+			              failure:function(e) {
+
+			  							$btn.btnload("unload");
+			                if(typeof o.failure === "function") o.failure(e);
+
+			              }
+			            });
+
 								}
 
-								o.alertSuccess("Formulário enviado com sucesso!");
+								return false;
 
-								if(o.debug === true) console.info("success", r);
+							});
 
-              },
-              failure:function(e) {
-
-  							$btn.btnload("unload");
-                if(typeof o.failure === "function") o.failure(e);
-
-              }
-            });
-
-					}
-
-					return false;
-
-				});
-
-    		});
+			    		});
     	}
 	});
 

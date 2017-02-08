@@ -71,6 +71,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  idpessoa int(11) NOT NULL AUTO_INCREMENT,
 		  idpessoatipo int(1) NOT NULL,
 		  despessoa varchar(64) NOT NULL,
+		  inremovido bit NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoastipos (idpessoatipo),
@@ -132,15 +133,15 @@ $app->get("/install-admin/sql/pessoas/triggers", function(){
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
 	$pessoaTipoF = new PessoaTipo(array(
-		'despessoatipo'=>'Física'
+		'despessoatipo'=>'FÃ­sica'
 	));
 	$pessoaTipoF->save();
 	$pessoaTipoJ = new PessoaTipo(array(
-		'despessoatipo'=>'Jurídica'
+		'despessoatipo'=>'JurÃ­dica'
 	));
 	$pessoaTipoJ->save();
 	$pessoa = new Pessoa(array(
-		'despessoa'=>'Super Usuário (root)',
+		'despessoa'=>'Super UsuÃ¡rio (root)',
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
@@ -442,7 +443,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>NULL,
 		'desicone'=>'md-settings',
 		'deshref'=>'',
-		'desmenu'=>'Administração'
+		'desmenu'=>'AdministraÃ§Ã£o'
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
@@ -450,7 +451,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrordem'=>3,
 		'idmenupai'=>NULL,
 		'desicone'=>'md-accounts',
-		'deshref'=>'',
+		'deshref'=>'/pessoas',
 		'desmenu'=>'Pessoas'
 	));
 	$menuPessoas->save();
@@ -478,7 +479,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/sistema/usuarios',
-		'desmenu'=>'Usuários'
+		'desmenu'=>'UsuÃ¡rios'
 	));
 	$menuUsuarios->save();
 	//////////////////////////////////////
@@ -505,7 +506,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/permissoes',
-		'desmenu'=>'Permissões'
+		'desmenu'=>'PermissÃµes'
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
@@ -523,7 +524,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/enderecos-tipos',
-		'desmenu'=>'Endereços'
+		'desmenu'=>'EndereÃ§os'
 	));
 	$menuTiposEnderecos->save();
 	//////////////////////////////////////
@@ -532,7 +533,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/usuarios-tipos',
-		'desmenu'=>'Usuários'
+		'desmenu'=>'UsuÃ¡rios'
 	));
 	$menuTiposUsuarios->save();
 	//////////////////////////////////////
@@ -575,7 +576,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
-		"desicone"=>'md-money',
+		"desicone"=>'md-money-box',
 		"deshref"=>'/pagamentos',
 		"desmenu"=>'Pagamentos'
 	));
@@ -916,7 +917,7 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 	$comercial->save();
 
 	$cobranca = new EnderecoTipo(array(
-		'desenderecotipo'=>'Cobrança'
+		'desenderecotipo'=>'CobranÃ§a'
 	));
 	$cobranca->save();
 
@@ -995,7 +996,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 $app->get("/install-admin/sql/permissoes/inserts", function(){
 	
 	$superUsuario = new Permissao(array(
-		'despermissao'=>'Super Usuário'
+		'despermissao'=>'Super UsuÃ¡rio'
 	));
 	$superUsuario->save();
 
@@ -1535,11 +1536,11 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, 'Aura', 12, 1,
 		1, 'Elo', 12, 1,
 		1, 'Boleto', 1, 1,
-		1, 'Débito Online Itaú', 1, 1,
-		1, 'Débito Online Banco do Brasil', 1, 1,
-		1, 'Débito Online Banrisul', 1, 1,
-		1, 'Débito Online Bradesco', 1, 1,
-		1, 'Débito Online HSBC', 1, 1,
+		1, 'DÃ©bito Online ItaÃº', 1, 1,
+		1, 'DÃ©bito Online Banco do Brasil', 1, 1,
+		1, 'DÃ©bito Online Banrisul', 1, 1,
+		1, 'DÃ©bito Online Bradesco', 1, 1,
+		1, 'DÃ©bito Online HSBC', 1, 1,
 		1, 'PlenoCard', 3, 1,
 		1, 'PersonalCard', 3, 1,
 		1, 'JCB', 1, 1,
@@ -1559,9 +1560,9 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
 		'Aguardando Pagamento',
-		'Em análise',
+		'Em anÃ¡lise',
 		'Pago',
-		'Disponível',
+		'DisponÃ­vel',
 		'Em disputa',
 		'Devolvido',
 		'Cancelado'
@@ -1775,7 +1776,7 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 	$estado->save();
 
 	$pais = new LugarTipo(array(
-		'deslugartipo'=>'País'
+		'deslugartipo'=>'PaÃ­s'
 	));
 	$pais->save();
 	

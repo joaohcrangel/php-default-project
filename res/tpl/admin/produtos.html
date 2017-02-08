@@ -186,4 +186,22 @@
 
 	}
 
+	new ToolBar({
+	    id:"actions-buttons",
+	    buttons:[{
+	      text:"Cadastrar",
+	      icon:"md-plus",
+	      cls:"btn-success",
+	      listeners:{
+	        click:function(btn, e){
+	          
+	          System.openSlidePanel({
+	            url:PATH+"/panel/produto-criar"
+	          });
+
+	        }
+	      }
+	    }]
+	});
+
 });</script>

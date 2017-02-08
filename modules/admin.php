@@ -162,14 +162,6 @@ $app->get("/".DIR_ADMIN."/pessoas", function(){
 
 });
 
-$app->get("/teste", function(){
-
-    $page = new Page();
-
-    $page->setTpl("admin/teste");
-
-});
-
 $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -448,7 +440,6 @@ $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
     $page->setTpl("/admin/pessoas-tipos");
 
 });
-
 
 $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 

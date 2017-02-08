@@ -22,12 +22,20 @@ BEGIN
     WHERE 
         a.idproduto = pidproduto
         AND
+        a.inremovido = 0
+        AND
         (
             NOW() BETWEEN c.dtinicio AND c.dttermino
             OR
             (
                 dtinicio <= NOW()
                 AND
+                dttermino IS NULL
+            )
+            OR
+            (
+                dtinicio IS NULL 
+                AND 
                 dttermino IS NULL
             )
         )    

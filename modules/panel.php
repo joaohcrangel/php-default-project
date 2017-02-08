@@ -82,7 +82,7 @@ $app->get("/panel/contatos-tipos-criar", function(){
 });
 
 // pessoas-tipos
-$app->get("/panel/pessoas-tipos-salvar/:idpessoatipo", function($idpessoatipo){
+$app->get("/panel/pessoas-tipos/:idpessoatipo", function($idpessoatipo){
 
 	$pessoa = new PessoaTipo((int)$idpessoatipo);
 
@@ -91,7 +91,7 @@ $app->get("/panel/pessoas-tipos-salvar/:idpessoatipo", function($idpessoatipo){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-tipo-salvar", array(
+	$page->setTpl("panel/pessoa-tipo-salvar", array( // nome do arquivo panel, vai no html no plural
 		"pessoa"=>$pessoa->getFields()
 	));
 

@@ -28,12 +28,15 @@
 	            <h5 class="page-aside-title">Filtros</h5>
 	            <form id="form-filtros" class="p-x-25">
 	              <div class="form-group form-material" data-plugin="formMaterial">
-	                <input type="text" class="form-control" name="despessoa" placeholder="Buscar por Pessoa">
+	              	<label class="form-control-label">Nome</label>
+	                <input type="text" class="form-control" name="despessoa">
 	              </div>
 	              <div class="form-group form-material" data-plugin="formMaterial">
+	              	<label class="form-control-label">Forma de Pagamento</label>
 	                <select name="idformapagamento" class="form-control"></select>
 	              </div>
 	              <div class="form-group form-material" data-plugin="formMaterial">
+	              	<label class="form-control-label">Status do Pagamento</label>
 	                <select name="idstatus" class="form-control"></select>
 	              </div>	              
 	              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
@@ -100,15 +103,13 @@ init.push(function(){
 	$("[name=idformapagamento]").combobox({
 		url:PATH+"/formas-pagamentos/all",
 		displayField:"desformapagamento",
-		valueField:"idformapagamento",
-		emptyText:"Forma de Pagamento"
+		valueField:"idformapagamento"
 	});
 
 	$("[name=idstatus]").combobox({
 		url:PATH+"/pagamentos-status/all",
 		displayField:"desstatus",
-		valueField:"idstatus",
-		emptyText:"Status do Pagamento"
+		valueField:"idstatus"
 	});
 
 	$("#pagamento-footer").html(tplFooter({
@@ -147,20 +148,26 @@ init.push(function(){
 			data:data,
 			success:function(r){
 
-				renderPagamentos(r.data);
+				if(r.data.length > 0){
 
-				$panelPagamentos.done();
+					renderPagamentos(r.data);
 
-				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-					skin:"pagination-gap",
-					currentPage:r.currentPage,
-					itemsPerPage:r.itemsPerPage,
-					onChange:function(page){						
-						loadPagamentos(page);
-					}
-				});
+					$panelPagamentos.done();
 
-				$("#paginacao").asPaginator(r.total, config);
+					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+						skin:"pagination-gap",
+						currentPage:r.currentPage,
+						itemsPerPage:r.itemsPerPage,
+						onChange:function(page){						
+							loadPagamentos(page);
+						}
+					});
+
+					$("#paginacao").asPaginator(r.total, config);
+
+				}else{
+					$panelPagamentos.done();
+				}
 
 			},
 			failure:function(r){

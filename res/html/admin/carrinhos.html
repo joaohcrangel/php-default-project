@@ -26,7 +26,8 @@
 		            <h5 class="page-aside-title">Filtros</h5>
 		            <form id="form-filtros" class="p-x-25">
 		              <div class="form-group form-material" data-plugin="formMaterial">
-		                <input type="text" class="form-control" name="despessoa" placeholder="Buscar por Pessoa">
+		              	<label class="form-control-label">Nome</label>
+		                <input type="text" class="form-control" name="despessoa">
 		              </div>		              
 		              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 		            </form>
@@ -124,30 +125,38 @@
 			data:data,
 			success:function(r){
 
-				$tbody.html('');
+				if(r.data.length > 0){
 
-				$footer.html(tplFooter(r));
+					$tbody.html('');
 
-				$.each(r.data, function(index, row){
+					$footer.html(tplFooter(r));
 
-					$tbody.append($tpl(row));
+					$.each(r.data, function(index, row){
 
-				});
+						$tbody.append($tpl(row));
 
-				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-					skin:'pagination-gap',
-					currentPage:r.currentPage,
-					itemsPerPage:r.itemsPerPage,
-					onChange:function(page){
-						loadCarrinhos(page);
-					}
-				});
+					});
 
-				$("#paginacao").asPaginator(r.total, config);
+					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+						skin:'pagination-gap',
+						currentPage:r.currentPage,
+						itemsPerPage:r.itemsPerPage,
+						onChange:function(page){
+							loadCarrinhos(page);
+						}
+					});
 
-				System.initSlidePanel($tbody);
+					$("#paginacao").asPaginator(r.total, config);
 
-				panel.done();
+					System.initSlidePanel($tbody);
+
+					panel.done();
+
+				}else{
+
+					panel.done();
+
+				}
 
 			},
 			failure:function(r){

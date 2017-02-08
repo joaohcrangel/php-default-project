@@ -73,7 +73,9 @@ $app->post('/produtos', function(){
             $preco = new ProdutoPreco();
         }
 
-        $preco->set($_POST);
+        foreach ($_POST as $key => $value) {
+            $preco->{'set'.$key}($value);
+        }
 
         $preco->save();
 

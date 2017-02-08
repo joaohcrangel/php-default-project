@@ -38,7 +38,8 @@ BEGIN
                 AND 
                 dttermino IS NULL
             )
-        )    
+        )
+    ORDER BY c.dtcadastro DESC
     LIMIT 1;
 
 END

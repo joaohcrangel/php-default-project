@@ -28,7 +28,7 @@ BEGIN
     
     IF pvlpreco > 0 THEN
 		
-		SELECT vlpreco INTO pvlprecoatual
+		SELECT CASE WHEN vlpreco IS NULL THEN 0 ELSE vlpreco END INTO pvlprecoatual
         FROM tb_produtosdados
         WHERE idproduto = pidproduto;
         

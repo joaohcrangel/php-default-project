@@ -1141,7 +1141,7 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 			desproduto VARCHAR(64) NOT NULL,
 			vlpreco DEC(10,2) NULL,
 			desprodutotipo VARCHAR(64) NOT NULL,
-			dtinicio DATETIME NOT NULL,
+			dtinicio DATETIME NULL,
 			dttermino DATETIME NULL,
 			inremovido BIT(1) NOT NULL DEFAULT 0,
 			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

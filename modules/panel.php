@@ -351,9 +351,9 @@ $app->get("/panel/produtos-tipos-criar", function(){
 /////////////////////////////////////////
 // Usuario-tipo salvar
 
-$app->get("/panel/usuario-tipo/:idusuariotipo", function($idusuariotipo){
+$app->get("/panel/usuarios-tipo/:idusuariotipo", function($idusuariotipo){
 
-	$usuario = new UsuarioTipo((int)$idusuariotipo);
+	$usuariotipo = new UsuarioTipo((int)$idusuariotipo);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -361,7 +361,7 @@ $app->get("/panel/usuario-tipo/:idusuariotipo", function($idusuariotipo){
 	));
 
 	$page->setTpl("panel/usuario-tipo-salvar", array(
-		"usuariotipo"=>$usuario->getFields()
+		"usuariotipo"=>$usuariotipo->getFields()
 	));
 
 });

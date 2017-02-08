@@ -598,7 +598,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'deshref'=>'/contatos-tipos',
 		'desmenu'=>'Contatos Tipos'
 	));
-	$menuContatoTipos->save();
+	$menuContatosTipos->save();
 	//////////////////////////////////////
 	$menuGateways = new Menu(array(
 		'nrordem'=>9,
@@ -607,7 +607,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'deshref'=>'/gateways',
 		'desmenu'=>'Gateways'
 	));
-	$menuContatoTipos->save();
+	$menuGateways->save();
 	//////////////////////////////////////
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,

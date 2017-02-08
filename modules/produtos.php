@@ -6,8 +6,8 @@ $app->get("/produtos/all", function(){
 
     $where = array();
 
-    if((int)get('idprodutotipo')){
-        array_push($where, "a.idproduto = ".(int)get('idprodutotipo'));
+    if(isset($_GET['ids'])){
+        if($_GET['ids'] != '') array_push($where, "a.idprodutotipo IN(".get('ids').")");        
     }
 
     array_push($where, "a.inremovido = ".(int)0);

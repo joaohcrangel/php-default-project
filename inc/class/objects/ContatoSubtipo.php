@@ -2,8 +2,14 @@
 
 class ContatoSubtipo extends Model {
 
-    const EMAIL = 1;
-    const TELEFONE = 2;
+    const TELEFONE_CASA = 1;
+    const TELEFONE_TRABALHO = 2;
+    const TELEFONE_CELULAR = 3;
+    const TELEFONE_FAX = 4;
+    const TELEFONE_OUTRO = 5;
+    const EMAIL_PESSOAL = 6;
+    const EMAIL_TRABALHO = 7;
+    const EMAIL_OUTRO = 8;
 
     public $required = array('idcontatotipo', 'descontatosubtipo');
     protected $pk = "idcontatosubtipo";

@@ -575,7 +575,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
-		"desicone"=>'md-money',
+		"desicone"=>'md-money-box',
 		"deshref"=>'/pagamentos',
 		"desmenu"=>'Pagamentos'
 	));

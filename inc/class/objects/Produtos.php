@@ -4,7 +4,7 @@ class Produtos extends Collection {
 
     protected $class = "Produto";
     protected $saveQuery = "CALL sp_produto_save(?, ?, ?, ?);";
-    protected $saveArgs = array("idproduto", "idprodutotipo", "desproduto", "vlpreco");
+    protected $saveArgs = array("idproduto", "idprodutotipo", "desproduto", "vlpreco", "inremovido");
     protected $pk = "idproduto";
 
     public function get(){}

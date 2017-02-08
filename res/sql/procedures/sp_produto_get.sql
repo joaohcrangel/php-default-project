@@ -3,7 +3,8 @@ pidproduto INT
 )
 BEGIN
 
-	SELECT * FROM tb_produtos
-    WHERE idproduto = pidproduto AND inremovido = 0;
+	SELECT a.*, b.idpreco, b.vlpreco FROM tb_produtos a
+		LEFT JOIN tb_produtosprecos b USING(idproduto)
+    WHERE idproduto = pidproduto;
 
 END

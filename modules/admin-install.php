@@ -421,7 +421,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		0,
 		'md-settings', 
 		'', 
-		0, 
+		1, 
 		'Sistema'
 	));
 	$sql->proc("sp_menus_save", array(
@@ -429,7 +429,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		0,
 		'md-accounts', 
 		'/pessoas', 
-		0, 
+		2, 
 		'Pessoas'
 	));
 	$sql->proc("sp_menus_save", array(
@@ -481,14 +481,6 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'Permissões'
 	));
 	$sql->proc("sp_menus_save", array(
-		0,
-		0,
-		'', 
-		'/produtos', 
-		3, 
-		'Produtos'
-	));
-	$sql->proc("sp_menus_save", array(
 		4,
 		0,
 		'', 
@@ -535,6 +527,38 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'/produtos-tipos', 
 		3, 
 		'produto'
+	));
+	$sql->proc("sp_menus_save", array(
+		NULL,
+		0,
+		'', 
+		'/pagamentos', 
+		3, 
+		'Pagamentos'
+	));
+	$sql->proc("sp_menus_save", array(
+		NULL,
+		0,
+		'md-shopping-cart', 
+		'/carrinhos', 
+		4, 
+		'Carrinhos'
+	));
+	$sql->proc("sp_menus_save", array(
+		NULL,
+		0,
+		'', 
+		'/produtos', 
+		5, 
+		'Produtos'
+	));
+	$sql->proc("sp_menus_save", array(
+		NULL,
+		0,
+		'', 
+		'/lugares', 
+		6, 
+		'Lugares'
 	));
 	
 	echo success();
@@ -803,7 +827,7 @@ $app->get("/install-admin/sql/enderecos/triggers", function(){
 		"tg_enderecos_AFTER_UPDATE",
 		"tg_enderecos_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	// saveTriggers($triggers);
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/inserts", function(){

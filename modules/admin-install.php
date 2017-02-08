@@ -575,7 +575,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
-		"desicone"=>'',
+		"desicone"=>'md-money',
 		"deshref"=>'/pagamentos',
 		"desmenu"=>'Pagamentos'
 	));
@@ -584,7 +584,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuCarrinhos = new Menu(array(
 		"nrordem"=>6,
 		"idmenupai"=>NULL,
-		"desicone"=>"",
+		"desicone"=>"md-shopping-cart",
 		"deshref"=>"/carrinhos",
 		"desmenu"=>"Carrinhos"
 	));
@@ -593,7 +593,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuLugares = new Menu(array(
 		"nrordem"=>7,
 		"idmenupai"=>NULL,
-		"desicone"=>"",
+		"desicone"=>"md-city",
 		"deshref"=>"/lugares",
 		"desmenu"=>"Lugares"
 	));

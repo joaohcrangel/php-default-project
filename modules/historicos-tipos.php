@@ -33,7 +33,7 @@ $app->delete("/historicos-tipos/:idhistoricotipo", function($idhistoricotipo){
 		throw new Exception("Tipo de historico não informado.", 400);		
 	}
 
-	$historicotipo = new PessoaTipo((int)$idhistoricotipo);
+	$historicotipo = new HistoricoTipo((int)$idhistoricotipo);
 
 	$historicotipo->remove();
 

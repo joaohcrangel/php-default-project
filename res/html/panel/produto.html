@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+
 <header class="slidePanel-header">
   <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
@@ -7,26 +8,71 @@
     <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$produto.desproduto}</h5></h4>
   </div>  
 </header>
+<div class="slidePanel-inner m-0 p-0">
+	
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
+	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-produto" aria-controls="tab-produto" role="tab" aria-expanded="true">Produto</a></li>
+	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-preco" aria-controls="tab-produto-preco" role="tab">Histórico de Preços</a></li>
+	      </ul>
+	    </div>
+	    <div class="panel-body p-t-20">
+	      <div class="tab-content">
+	        <div class="tab-pane active" id="tab-produto" role="tabpanel">
+	          <form asutocomplete="off" id="form-produto" class="slidePanel-form">
+			  	<div class="form-group form-material" data-plugin="formMaterial">
+			      <label class="form-control-label" for="desproduto">Produto</label>
+			      <input type="text" class="form-control" name="desproduto">
+					</div>
+					<div class="form-group form-material" data-plugin="formMaterial">
+			      <label class="form-control-label" for="idprodutotipo">Tipo do Produto</label>
+			      <select name="idprodutotipo" class="form-control" id="idprodutotipo"></select>
+			    </div>
+			    <div class="form-group form-material" data-plugin="formMaterial">
+			    	<label class="form-control-label" for="idprodutotipo">Preço</label>
+			    	<div class="input-group">
+	                    <span class="input-group-addon">R$</span>
+	                    <input type="number"  name="vlpreco" class="form-control" step="0.01" min="0.01" pattern="[0-9]+([\,][0-9]+)?">
+	                </div>			      
+			    </div>
+			    <button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button>
+			  </form>
+	        </div>
+	        <div class="tab-pane" id="tab-produto-preco" role="tabpanel">
+	        	<div id="produto-preco-chart"></div>
+	          	<table class="table table-hover">
+	              <thead>
+	                <tr>
+	                  <th>De</th>
+	                  <th>Até</th>
+	                  <th>Preço</th>
+	                  <th>&nbsp;</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                
+	              </tbody>
+	            </table>
+	        </div>
+	      </div>
+	    </div>
+    </div>
 
-<div class="slidePanel-inner m-t-40">
-  <form asutocomplete="off" id="form-produto" class="slidePanel-form">
-  	<div class="form-group form-material" data-plugin="formMaterial">
-      <label class="control-label" for="desproduto">Produto</label>
-      <input type="text" class="form-control" name="desproduto">
-		</div>
-		<div class="form-group form-material" data-plugin="formMaterial">
-      <label class="control-label" for="idprodutotipo">Tipo do Produto</label>
-      <select name="idprodutotipo" class="form-control" id="idprodutotipo"></select>
-    </div>
-    <div class="form-group form-material" data-plugin="formMaterial">
-      <label class="control-label" for="idprodutotipo">Valor</label>
-      <input type="text" name="vlpreco" class="form-control">
-    </div>
-    <button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button>
-  </form>
 </div>
-
+<script id="tpl-produto-preco-row" type="text/x-handlebars-template">
+<tr>
+  <td>{{desdtinicio}}</td>
+  <td>{{desdttermino}}</td>
+  <td>{{desvlpreco}}</td>
+  <td>&nbsp;</td>
+</tr>
+</script>
 <script>
+
+var tpl = {
+	row:Handlebars.compile($('#tpl-produto-preco-row').html())
+};
 
 var produto = JSON.parse('{function="json_encode($produto)"}');
 

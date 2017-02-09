@@ -562,8 +562,13 @@ class Sql {
 				}
 
 				foreach ($fields as $f) {
-					
+				
 					switch ($f['type']) {
+
+						case 'NEWDECIMAL':
+						$row[$f['field']] = (float)$row[$f['field']];
+						$row['des'.$f['field']] = number_format((float)$row[$f['field']], 2, ',', '.');
+						break;
 
 						case 'LONG':
 						case 'INTEGER':

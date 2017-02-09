@@ -9,7 +9,15 @@ class HistoricosTipos extends Collection {
 
     public function get(){}
 
-     
+      public static function listAll(){
+
+		$historicotipo = new HistoricosTipos();
+
+		$historicotipo->loadFromQuery("select * from tb_historicostipos");
+
+    	return $historicotipo;
+
+    }
 
 }
 

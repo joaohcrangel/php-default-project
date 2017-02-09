@@ -175,6 +175,7 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 	$names = array(
 		"sp_pessoasdados_save",
 		"sp_pessoas_save",
+		"sp_historicostipos_save",
 		"sp_pessoasvalores_save",
 		"sp_pessoasvalorescampos_save",
 		"sp_pessoastipos_save"
@@ -186,6 +187,7 @@ $app->get("/install-admin/sql/pessoas/remove", function(){
 	$names = array(
 		"sp_pessoasdados_remove",
 		"sp_pessoas_remove",
+		"sp_historicostipos_remove",
 		"sp_pessoasvalores_remove",
 		"sp_pessoasvalorescampos_remove",
 		"sp_pessoastipos_remove"

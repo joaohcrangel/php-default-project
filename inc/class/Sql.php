@@ -443,7 +443,7 @@ class Sql {
 				case 'bool':
 				case 'boolean':
 				if ($this->type === Sql::PDO) {
-					array_push($params_new, $value);
+					array_push($params_new, (($value)?1:0));
 				} else {
 					array_push($params_new, (($value)?1:0));
 				}

@@ -18,11 +18,13 @@ $app->post("/formas-pagamentos", function(){
         $pagamento = new FormaPagamento();
     }
 
-    foreach ($_POST as $key => $value) {
-        $pagamento->{'set'.$key}($value);
-    }
+    $pagamento->set($_POST);
 
-    $pagamento->setinstatus((int)1);
+    if (isset($_POST['instatus'])) {
+        $pagamento->setinstatus(true);
+    } else {    
+        $pagamento->setinstatus(false);
+    }    
 
     $pagamento->save();
 

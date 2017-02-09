@@ -465,7 +465,7 @@ $app->get("/panel/endereco-tipo-criar", function(){
 
 // Historicos-tipos
 
-$app->get("/panel/historicos/tipos/:idhistoricotipo", function($idhistoricotipo){
+$app->get("/panel/historicos-tipos/:idhistoricotipo", function($idhistoricotipo){
 
 	$historicotipo = new HistoricoTipo((int)$idhistoricotipo);
 

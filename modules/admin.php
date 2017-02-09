@@ -363,6 +363,16 @@ $app->get("/".DIR_ADMIN."/historicos-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/formas-pagamentos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/formas-pagamento");
+
+});
+
 $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

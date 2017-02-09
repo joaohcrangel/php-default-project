@@ -13,15 +13,19 @@
   	<div class="form-group form-material">
       <input type="hidden" name="idformapagamento" value="{$formapagamento.idformapagamento}">
       <label class="control-label" for="desformapagamento">Forma de Pagamento</label>
-      <input type="text" class="form-control" name="desformapagamento" value="{$formapagamento.desformapagamento}">
+      <input type="text" class="form-control" name="desformapagamento">
 		</div>
 	  <div class="form-group form-material">	        
       <label class="control-label" for="idgateway">Gateway de Pagamento</label>
-      <select name="idgateway" class="form-control" id="idgateway" value="{$formapagamento.idgateway}"></select>
+      <select name="idgateway" class="form-control" id="idgateway"></select>
     </div>
     <div class="form-group form-material">
       <label class="control-label" for="nrparcelasmax">Número máximo de parcelas</label>
-      <input type="number" class="form-control" name="nrparcelasmax" id="nrparcelasmax" value="{$formapagamento.nrparcelasmax}" />
+      <input type="number" class="form-control" name="nrparcelasmax" />
+    </div>
+    <div class="form-group form-material">
+      <input type="checkbox" class="icheckbox-primary" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" name="instatus" value="1" />
+      <label class="control-label" for="instatus">Status</label>
     </div>
     <button type="submit" class="btn btn-block btn-primary" id="btn-forma-pagamento-salvar">Salvar</button>
   </form>
@@ -31,7 +35,7 @@
 
 var formapagamento = JSON.parse('{function="json_encode($formapagamento)"}');
 
-$("[name=idgateway]").combobox({
+$("#idgateway").combobox({
 	url:PATH+"/gateways/all",
 	displayField:"desgateway",
 	valueField:"idgateway",
@@ -39,6 +43,8 @@ $("[name=idgateway]").combobox({
 });
   
 var form = $("#form-forma-pagamento");
+
+form.formLoad(formapagamento);
 
 form.form({
   resetForm:false,

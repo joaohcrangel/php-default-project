@@ -34,10 +34,10 @@
 
 <script>
 
-	$("[name=idgateway]").combobox({
-		url:PATH+"/gateways/all",
-		displayField:"desgateway",
-		valueField:"idgateway"
+	$("#gateways").combobox({
+    url:PATH+"/gateways/all",
+    diplayField:"desgateway",
+    valueField:"idgateway"
 	});
 
 	var form = $("#form-forma-pagamento-save");

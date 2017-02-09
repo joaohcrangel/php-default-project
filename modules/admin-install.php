@@ -620,6 +620,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuHistoricosTipos->save();
 	//////////////////////////////////////
+	$menuFormasPagamentos = new Menu(array(
+		'nrordem'=>11,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/formas-pagamentos',
+		'desmenu'=>'Formas Pagamentos'
+	));
+	$menuFormasPagamentos->save();
+	//////////////////////////////////////
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,

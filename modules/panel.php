@@ -462,6 +462,34 @@ $app->get("/panel/endereco-tipo-criar", function(){
 	$page->setTpl("panel/endereco-tipo-criar");
 
 });
+
+// Historicos-tipos
+
+$app->get("/panel/historicos/tipos/:idhistoricotipo", function($idhistoricotipo){
+
+	$historicotipo = new HistoricoTipo((int)$idhistoricotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/historico-tipo-salvar", array(
+		"historicotipo"=>$historicotipo->getFields()
+	));
+
+});
+
+$app->get("/panel/historico-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/historico-tipo-criar");
+
+});
 ////////////////////////////////////////////////////////////////
 
 // pessoas

@@ -32,7 +32,7 @@ var produto = JSON.parse('{function="json_encode($produto)"}');
 
 $("#form-produto").formLoad(produto);
 
-$("[name=idprodutotipo]").combobox({
+$("#form-produto [name=idprodutotipo]").combobox({
 	url:PATH+"/produtos/tipos",
 	displayField:"desprodutotipo",
 	valueField:"idprodutotipo",

@@ -18,11 +18,14 @@ class Produto extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_produto_save(?, ?, ?, ?);", array(
+            if ($this->getinremovido() === NULL) $this->setinremovido(false);
+
+            $this->queryToAttr("CALL sp_produto_save(?, ?, ?, ?, ?);", array(
                 $this->getidproduto(),
                 $this->getidprodutotipo(),
                 $this->getdesproduto(),
-                $this->getinremovido()
+                $this->getinremovido(),
+                $this->getvlpreco()
             ));
 
             return $this->getidproduto();

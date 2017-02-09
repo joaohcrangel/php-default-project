@@ -31,19 +31,6 @@
 	    <div class="page-aside-inner page-aside-scroll">
 	      <div data-role="container">
 	        <div data-role="content">
-<<<<<<< HEAD
-	          <section class="page-aside-section">
-	            <h5 class="page-aside-title">Filtros</h5>
-	            <form id="form-filtros" class="p-x-25">	              
-	              <div class="form-group form-material" data-plugin="formMaterial">
-	                <label class="form-control-label">Tipo do produto</label>
-	                <select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2">
-	                	<option selected>--selecione--</option>
-	                </select>
-	              </div>
-	              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
-	            </form>
-=======
 	          <section class="page-aside-section p-t-0">
 	          	<div class="panel-primary panel-line">
 	              	<div class="panel-heading">
@@ -51,18 +38,13 @@
 	              	</div>	            
 		            <form id="form-filtros" class="p-x-25">	              
 		              <div class="form-group form-material" data-plugin="formMaterial">
-		                <!-- <select name="idprodutotipo" class="form-control" multiple="multiple"></select> -->
-		                <label class="form-control-label">Tipo do produto</label>
-		                <select name="idprodutotipo" class="form-control">
-		                	<option value="1">Rafael</option>
-		                	<option value="2">João</option>
-		                	<option value="3">Marcus</option>
+		                <select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2">
+		                	<option selected>--selecione--</option>
 		                </select>
 		              </div>
 		              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 		            </form>
 		         </div>
->>>>>>> 829352e883ed72cab2e122cc0e49c5579ad3b7c5
 	          </section>
 	        </div>
 	      </div>
@@ -137,7 +119,7 @@
 </script>
 
 <script>
-
+window.pagina = 1;
 init.push(function(){
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
@@ -198,6 +180,8 @@ init.push(function(){
 	function loadProdutos(pagina){
 
 		if(!pagina)	pagina = 1;
+
+		window.pagina = pagina;
 
 		$(".refresh").on("click", function(){
 			loadProdutos();
@@ -272,6 +256,7 @@ init.push(function(){
 						itemsPerPage:r.itemsPorPagina,
 						onChange:function(page){
 							loadProdutos(page);
+							window.pagina = page;
 						}
 					});
 
@@ -307,6 +292,8 @@ init.push(function(){
 	      }
 	    }]
 	});
+
+	window.loadProdutos = loadProdutos;
 
 });
 

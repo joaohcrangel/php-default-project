@@ -208,8 +208,8 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 			idproduto INT NOT NULL AUTO_INCREMENT,
 			idprodutotipo INT NOT NULL,
 			desproduto VARCHAR(64) NOT NULL,
+			inremovido BIT(1) NOT NULL DEFAULT b'0',
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			inremovido BIT(1) NOT NULL DEFAULT 0,
 			CONSTRAINT PRIMARY KEY(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -218,7 +218,7 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 		CREATE TABLE tb_produtosprecos(
 			idpreco INT NOT NULL AUTO_INCREMENT,
 			idproduto INT NOT NULL,
-			dtinicio DATETIME DEFAULT NULL,
+			dtinicio DATETIME NOT NULL,
 			dttermino DATETIME DEFAULT NULL,
 			vlpreco DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -1139,11 +1139,12 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 			idproduto INT NOT NULL,
 			idprodutotipo INT NOT NULL,
 			desproduto VARCHAR(64) NOT NULL,
-			vlpreco DEC(10,2),
+			vlpreco DEC(10,2) NULL,
 			desprodutotipo VARCHAR(64) NOT NULL,
-			dtinicio DATE,
-			dttermino DATE,
+			dtinicio DATETIME NULL,
+			dttermino DATETIME NULL,
 			inremovido BIT(1) NOT NULL DEFAULT 0,
+			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			CONSTRAINT PRIMARY KEY (idproduto),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto),
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)

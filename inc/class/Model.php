@@ -107,7 +107,9 @@ abstract class Model extends DefaultObject implements ModelInterface {
 					break;
 
 					case "vl":
-					if(strpos($value, ",") !== false) $value = str_replace(",", ".", str_replace(".", "", $this->fields->{$namefield}));
+					if(strpos($value, ",") !== false) {
+						$value = str_replace(",", ".", str_replace(".", "", $value));
+					}
 					$this->{"set".$key}((float)$value);
 					break;
 

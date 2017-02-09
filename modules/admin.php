@@ -353,6 +353,16 @@ $app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/historicos-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/historicos-tipos");
+
+});
+
 $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

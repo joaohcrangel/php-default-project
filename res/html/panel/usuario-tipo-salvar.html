@@ -26,7 +26,7 @@
                         </label>
                         <input type="text" class="form-control" name="desusuariotipo">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnUsuario-tipo-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnusuario-tipo-Save" type="submit">
                         Salvar Novo Usuário
                     </button>
                 </div>
@@ -36,7 +36,6 @@
 </div>
 <script>
 var usuarioTipo = JSON.parse('{function="json_encode($usuariotipo)"}');
-console.log(usuarioTipo);
 
 $("#form-usuario-tipo-save").formLoad(usuarioTipo);
 

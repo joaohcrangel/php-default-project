@@ -47,12 +47,14 @@
 <tr data-idusuariotipo="{{idusuariotipo}}">
 	<td>{{desusuariotipo}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/usuario-tipo/{{idusuariotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/usuario-tipo-/{{idusuariotipo}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-usuario icon wb-trash">
       	</button>
 	</td>
-	</tr></script><script>init.push(function(){
+	</tr>
+	</script>
+	<script>init.push(function(){
 	var panel = System.getPanelApi($("#panel-usuario-tipo"));
 
 	var $tbody = $("#panel-usuario-tipo tbody");
@@ -128,4 +130,5 @@
 	};
 
     loadUsuarioTipo();
-});</script>
+});
+</script>

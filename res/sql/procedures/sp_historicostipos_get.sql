@@ -1,10 +1,10 @@
-CREATE PROCEDURE sp_hitoricostipos_get(
+CREATE PROCEDURE sp_historicostipos_get(
 pidhistoricotipo INT
 )
 BEGIN
 
     SELECT *    
-    FROM tb_hitoricostipos    
+    FROM tb_historicostipos    
     WHERE idhistoricotipo = pidhistoricotipo;
 
 END

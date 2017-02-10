@@ -1771,7 +1771,74 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->query("
+		CREATE TABLE tb_coordenadas(
+			idcoordenada INT NOT NULL AUTO_INCREMENT,
+			vllatitude DECIMAL(20,17) NOT NULL,
+			vllongitude DECIMAL(20,17) NOT NULL,
+			nrzoom TINYINT(4) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcoordenada)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_lugarescoordenadas(
+			idlugar INT NOT NULL,
+			idcoordenada INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_lugaresdados(
+			idlugar INT NOT NULL,
+			deslugar VARCHAR(128) NOT NULL,
+			idlugarpai INT NULL,
+			deslugarpai VARCHAR(128) NULL,
+			idlugartipo INT NOT NULL,
+			deslugartipo  VARCHAR(128) NOT NULL,
+			idenderecotipo INT NOT NULL,
+			desenderecotipo VARCHAR(128) NOT NULL,
+			idendereco INT NOT NULL,
+			desendereco VARCHAR(128) NOT NULL,
+			desnumero VARCHAR(16) NOT NULL,
+			desbairro VARCHAR(64) NOT NULL,
+			descidade VARCHAR(64) NOT NULL,
+			desestado VARCHAR(32) NOT NULL,
+			despais VARCHAR(32) NOT NULL,
+			descep CHAR(8) NOT NULL,
+			descomplemento VARCHAR(32) NULL,
+			idcoordenada INT NULL,
+			vllatitude DECIMAL(20,17) NULL,
+			vllongitude DECIMAL(20,17) NULL,
+			nrzoom TINYINT(4) NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idlugar),
+			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idlugarpai) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo),
+			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco),
+			CONSTRAINT FOREIGN KEY(idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo),
+			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/lugares/triggers", function(){
+	$triggers = array(
+		'tg_lugares_AFTER_INSERT',
+		'tg_lugares_AFTER_UPDATE',
+		'tg_lugares_BEFORE_DELETE',
+
+		'tg_lugarescoordenadas_AFTER_INSERT',
+		'tg_lugarescoordenadas_AFTER_UPDATE',
+		'tg_lugarescoordenadas_BEFORE_DELETE'
+	);
+	saveTriggers($triggers);
+
 	echo success();
 	
 });
@@ -1798,7 +1865,8 @@ $app->get("/install-admin/sql/lugares/get", function(){
 $app->get("/install-admin/sql/lugares/save", function(){
 	$procs = array(
 		'sp_lugarestipos_save',
-		'sp_lugares_save'
+		'sp_lugares_save',
+		'sp_lugaresdados_save'
 	);
 	saveProcedures($procs);
 	
@@ -1808,7 +1876,8 @@ $app->get("/install-admin/sql/lugares/save", function(){
 $app->get("/install-admin/sql/lugares/remove", function(){
 	$procs = array(
 		'sp_lugarestipos_remove',
-		'sp_lugares_remove'
+		'sp_lugares_remove',
+		'sp_lugaresdados_remove'
 	);
 	saveProcedures($procs);
 	

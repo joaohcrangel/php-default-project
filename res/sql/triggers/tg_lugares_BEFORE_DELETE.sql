@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tg_lugares_BEFORE_DELETE BEFORE DELETE ON tb_lugares FOR EACH ROW
+BEGIN
+	CALL sp_lugaresdados_remove(OLD.idlugar);
+END

@@ -1802,13 +1802,15 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE tb_coordenadas(
-			idcoordenada INT NOT NULL AUTO_INCREMENT,
-			vllatitude DECIMAL(20,17) NOT NULL,
-			vllongitude DECIMAL(20,17) NOT NULL,
-			nrzoom TINYINT(4) NOT NULL,
+		CREATE TABLE tb_lugareshorarios(
+			idhorario INT NOT NULL AUTO_INCREMENT,
+			idlugar INT NOT NULL,
+			nrdia TINYINT(4) NOT NULL,
+			hrabre TIME NOT NULL,
+			hrfecha TIME NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcoordenada)
+			CONSTRAINT PRIMARY KEY(idhorario),
+			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
@@ -1870,7 +1872,7 @@ $app->get("/install-admin/sql/lugares/triggers", function(){
 	saveTriggers($triggers);
 
 	echo success();
-	
+
 });
 $app->get("/install-admin/sql/lugares/list", function(){
 	$procs = array(
@@ -1894,9 +1896,10 @@ $app->get("/install-admin/sql/lugares/get", function(){
 });
 $app->get("/install-admin/sql/lugares/save", function(){
 	$procs = array(
-		//'sp_lugarestipos_save',
-		//'sp_lugares_save',
-		//'sp_lugaresdados_save'
+		'sp_lugarestipos_save',
+		'sp_lugares_save',
+		'sp_lugaresdados_save',
+		'sp_lugarescoordenadas_add'
 	);
 	saveProcedures($procs);
 	
@@ -1905,9 +1908,9 @@ $app->get("/install-admin/sql/lugares/save", function(){
 });
 $app->get("/install-admin/sql/lugares/remove", function(){
 	$procs = array(
-		//'sp_lugarestipos_remove',
-		//'sp_lugares_remove',
-		//'sp_lugaresdados_remove'
+		'sp_lugarestipos_remove',
+		'sp_lugares_remove',
+		'sp_lugaresdados_remove'
 	);
 	saveProcedures($procs);
 	
@@ -1915,8 +1918,7 @@ $app->get("/install-admin/sql/lugares/remove", function(){
 	
 });
 $app->get("/install-admin/sql/lugares/inserts", function(){
-	echo success();
-	exit;
+	
 	$lang = new Language();
 	
 	$bairro = new LugarTipo(array(
@@ -1941,5 +1943,56 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 	
 	echo success();
 	
+});
+// coordenadas
+$app->get("/install-admin/sql/coordenadas/tables", function(){
+
+	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE tb_coordenadas(
+			idcoordenada INT NOT NULL AUTO_INCREMENT,
+			vllatitude DECIMAL(20,17) NOT NULL,
+			vllongitude DECIMAL(20,17) NOT NULL,
+			nrzoom TINYINT(4) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcoordenada)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_enderecoscoordenadas(
+			idendereco INT NOT NULL,
+			idcoordenada INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco),
+			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+$app->get("/install-admin/sql/coordenadas/get", function(){
+	$procs = array(
+		'sp_coordenadas_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/coordenadas/save", function(){
+	$procs = array(
+		'sp_coordenadas_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/coordenadas/remove", function(){
+	$procs = array(
+		'sp_coordenadas_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
 });
 ?>

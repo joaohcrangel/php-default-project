@@ -47,6 +47,20 @@ class Lugar extends Model {
         
     }
 
+    public function setCoordenada(Coordenada $c):Coordenada
+    {
+
+        $c->save();
+
+        $this->execute("CALL sp_lugarescoordenadas_add(?, ?);", array(
+            $this->getidlugar(),
+            $c->getidcoordenada()
+        ));
+
+        return $c;
+
+    }
+
 }
 
 ?>

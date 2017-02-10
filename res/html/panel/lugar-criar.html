@@ -15,6 +15,12 @@
 <div class="slidePanel-inner m-t-40">
 	
 	<form id="form-lugar">
+
+		<input type="hidden" name="vllatitude">
+		<input type="hidden" name="vllongitude">
+		<input type="hidden" name="nrzoom">
+
+		<input type="hidden" name="idlugarpai">
 	
 		<div class="form-group form-material" data-plugin="formMaterial">			
 			<label class="form-control-label">Lugar</label>
@@ -24,11 +30,6 @@
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">Tipo do Lugar</label>
 			<select name="idlugartipo" class="form-control"></select>
-		</div>
-
-		<div class="form-group form-material" data-plugin="formMaterial">
-			<label class="form-control-label">Descrição</label>
-			<textarea name="desconteudo" class="form-control" cols="30" rows="5"></textarea>
 		</div>
 
 		<label class="form-control-label"><h4>Endereço</h4></label>
@@ -73,6 +74,8 @@
 			</div>
 		</div>
 
+		<div id="mapa" style="width:100%; height:400px" class="m-b-10"></div>
+
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
 		</div>
@@ -82,6 +85,36 @@
 </div>
 
 <script>
+
+var position = {
+	lat: -8.361126490598373,
+	lng: -55.705590349999966
+};
+
+function initMap(){
+
+	var map = new google.maps.Map(document.getElementById("mapa"), {
+		center:{lat: position.lat, lng: position.lng},
+		zoom:4
+	});
+
+	var marker = new google.maps.Marker({
+		position:position,
+		map:map,
+		draggable:true
+	});
+
+	marker.setMap(map);
+
+	google.maps.event.addListener(marker, 'dragend', function(){
+
+		$("[name=vllatitude]").val(marker.getPosition().lat());
+		$("[name=vllongitude]").val(marker.getPosition().lng());
+		$("[name=nrzoom]").val(map.getZoom());
+
+	});
+
+}
 
 var form = $("#form-lugar");
 	
@@ -112,4 +145,8 @@ form.form({
 	}
 });
 
+</script>
+
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZeruuGhybNkWSI8VK7tYiynxt3epFPEg&callback=initMap">
 </script>

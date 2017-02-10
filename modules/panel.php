@@ -351,7 +351,7 @@ $app->get("/panel/produtos-tipos-criar", function(){
 /////////////////////////////////////////
 // Usuario-tipo salvar
 
-$app->get("/panel/usuario-tipo/:idusuariotipo", function($idusuariotipo){
+$app->get("/panel/usuarios-tipos/:idusuariotipo", function($idusuariotipo){
 
 	$usuariotipo = new UsuarioTipo((int)$idusuariotipo);
 

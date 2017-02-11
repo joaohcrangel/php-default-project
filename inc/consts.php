@@ -4,7 +4,7 @@
  *
  *
  * Após fazer as devidas configurações este arquivo deverá ser renomeado para
- * const.php
+ * consts.php
  *
  */
 

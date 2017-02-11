@@ -1,4 +1,5 @@
 <?php
+
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 function saveProcedures($procs = array()){
@@ -16,6 +17,7 @@ function saveTriggers($triggers = array()){
 	}
 }
 $app->get("/install", function(){
+
 	unsetLocalCookie(COOKIE_KEY);
 	if (isset($_SESSION)) unset($_SESSION);
 	session_destroy();
@@ -24,6 +26,7 @@ $app->get("/install", function(){
 		'footer'=>false
 	));
 	$page->setTpl("install/index");
+
 });
 $app->get("/install-admin/sql/clear", function(){
 	$sql = new Sql();
@@ -132,16 +135,19 @@ $app->get("/install-admin/sql/pessoas/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
+
+	$lang = new Language();
+
 	$pessoaTipoF = new PessoaTipo(array(
-		'despessoatipo'=>'Física'
+		'despessoatipo'=>$lang->getString("pessoas_fisica")
 	));
 	$pessoaTipoF->save();
 	$pessoaTipoJ = new PessoaTipo(array(
-		'despessoatipo'=>'Jurídica'
+		'despessoatipo'=>$lang->getString("pessoas_juridica")
 	));
 	$pessoaTipoJ->save();
 	$pessoa = new Pessoa(array(
-		'despessoa'=>'Super Usuário (root)',
+		'despessoa'=>$lang->getString("pessoas_nome"),
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
@@ -245,13 +251,15 @@ $app->get("/install-admin/sql/produtos/triggers", function(){
 });
 $app->get("/install-admin/sql/produtos/inserts", function(){
 	
+	$lang = new Language();
+
 	$cursoUdemy = new ProdutoTipo(array(
-		'desprodutotipo'=>'Curso Udemy'
+		'desprodutotipo'=>$lang->getString('produtos_curso')
 	));
 	$cursoUdemy->save();
 
 	$camiseta = new ProdutoTipo(array(
-		'desprodutotipo'=>'Camiseta'
+		'desprodutotipo'=>$lang->getString('produtos_camiseta')
 	));
 	$camiseta->save();
 
@@ -338,22 +346,26 @@ $app->get("/install-admin/sql/usuarios/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/inserts", function(){
+
+    $lang = new Language();
+
 	$sql = new Sql();
-	$hash = Usuario::getPasswordHash("root");
+	$hash = Usuario::getPasswordHash($lang->getString('usuarios_root'));
+
 	$sql->proc("sp_usuariostipos_save", array(
 		0,
-		'Administrativo'
+		$lang->getString('usuarios_admin')
 	));
 	$sql->proc("sp_usuariostipos_save", array(
 		0,
-		'Cliente'
+		$lang->getString('usuarios_clientes')
 	));
 	
 	$sql->query("
 		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
 		(?, ?, ?, ?);
 	", array(
-		1, 'root', $hash, 1
+		1, $lang->getString('usuarios_root'), $hash, 1
 	));
 	echo success();
 });
@@ -421,13 +433,16 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/inserts", function(){
+
+	$lang = new Language();
+
 	//////////////////////////////////////
 	$menuDashboard = new Menu(array(
 		'nrordem'=>0,
 		'idmenupai'=>NULL,
 		'desicone'=>'md-view-dashboard',
 		'deshref'=>'/',
-		'desmenu'=>'Dashboard'
+		'desmenu'=>$lang->getString('menus_dashboard')
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
@@ -436,7 +451,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>NULL,
 		'desicone'=>'md-code-setting',
 		'deshref'=>'',
-		'desmenu'=>'Sistema'
+		'desmenu'=>$lang->getString('menus_sistema')
 	));
 	$menuSistema->save();
 	//////////////////////////////////////
@@ -445,7 +460,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>NULL,
 		'desicone'=>'md-settings',
 		'deshref'=>'',
-		'desmenu'=>'Administração'
+		'desmenu'=>$lang->getString('menus_administracao')
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
@@ -454,7 +469,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>NULL,
 		'desicone'=>'md-accounts',
 		'deshref'=>'/pessoas',
-		'desmenu'=>'Pessoas'
+		'desmenu'=>$lang->getString('menus_pessoa')
 	));
 	$menuPessoas->save();
 	//////////////////////////////////////
@@ -463,7 +478,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'md-collection-item',
 		'deshref'=>'',
-		'desmenu'=>'Tipos'
+		'desmenu'=>$lang->getString('menus_tipo')
 	));
 	$menuTipos->save();
 	//////////////////////////////////////
@@ -472,7 +487,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/sistema/menu',
-		'desmenu'=>'Menu'
+		'desmenu'=>$lang->getString('menus_menu')
 	));
 	$menuMenu->save();
 	//////////////////////////////////////
@@ -481,7 +496,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/sistema/usuarios',
-		'desmenu'=>'Usuários'
+		'desmenu'=>$lang->getString('menus_usuario')
 	));
 	$menuUsuarios->save();
 	//////////////////////////////////////
@@ -490,7 +505,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuSistema->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/sistema/sql-to-class',
-		'desmenu'=>'SQL to CLASS'
+		'desmenu'=>$lang->getString('menus_sql_to_class')
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
@@ -499,7 +514,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuSistema->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/../res/theme/material/base/html/index.html',
-		'desmenu'=>'Template'
+		'desmenu'=>$lang->getString('menus_template')
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
@@ -508,7 +523,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/permissoes',
-		'desmenu'=>'Permissões'
+		'desmenu'=>$lang->getString('menus_permissoes')
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
@@ -517,7 +532,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>NULL,
 		'desicone'=>'md-devices',
 		'deshref'=>'/produtos',
-		'desmenu'=>'Produtos'
+		'desmenu'=>$lang->getString('menus_produto')
 	));
 	$menuProdutos->save();
 	//////////////////////////////////////
@@ -526,7 +541,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/enderecos-tipos',
-		'desmenu'=>'Endereços'
+		'desmenu'=>$lang->getString('menus_endereco')
 	));
 	$menuTiposEnderecos->save();
 	//////////////////////////////////////
@@ -535,7 +550,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/usuarios-tipos',
-		'desmenu'=>'Usuários'
+		'desmenu'=>$lang->getString('menus_usuario_tipo')
 	));
 	$menuTiposUsuarios->save();
 	//////////////////////////////////////
@@ -544,7 +559,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/documentos-tipos',
-		'desmenu'=>'Documentos'
+		'desmenu'=>$lang->getString('menus_documento_tipo')
 	));
 	$menuTiposDocumentos->save();
 	//////////////////////////////////////
@@ -553,7 +568,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/lugares-tipos',
-		'desmenu'=>'Lugares'
+		'desmenu'=>$lang->getString('menus_lugar_tipo')
 	));
 	$menuTiposLugares->save();
 	//////////////////////////////////////
@@ -562,7 +577,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/cupons-tipos',
-		'desmenu'=>'Cupons'
+		'desmenu'=>$lang->getString('menus_cupom_tipo')
 	));
 	$menuTiposCupons->save();
 	//////////////////////////////////////
@@ -571,7 +586,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/produtos-tipos',
-		'desmenu'=>'Produtos'
+		'desmenu'=>$lang->getString('menus_produto_tipo')
 	));
 	$menuTiposProdutos->save();
 	//////////////////////////////////////
@@ -580,7 +595,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/pagamentos-status',
-		'desmenu'=>'Pagamentos Status'
+		'desmenu'=>$lang->getString('menus_pagamento_statu')
 	));
 	$menuPagamentosStatus->save();
 	//////////////////////////////////////
@@ -589,7 +604,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/pessoas-tipos',
-		'desmenu'=>'Pessoas Tipos'
+		'desmenu'=>$lang->getString('menus_pessoa_tipo')
 	));
 	$menuPessoasTipos->save();
 	//////////////////////////////////////
@@ -598,7 +613,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/contatos-tipos',
-		'desmenu'=>'Contatos Tipos'
+		'desmenu'=>$lang->getString('menus_contato_tipo')
 	));
 	$menuContatosTipos->save();
 	//////////////////////////////////////
@@ -607,7 +622,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/gateways',
-		'desmenu'=>'Gateways'
+		'desmenu'=>$lang->getString('menus_gateway')
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
@@ -616,7 +631,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/historicos-tipos',
-		'desmenu'=>'Historicos Tipos'
+		'desmenu'=>$lang->getString('menus_contato_tipo')
 	));
 	$menuHistoricosTipos->save();
 	//////////////////////////////////////
@@ -625,7 +640,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/formas-pagamentos',
-		'desmenu'=>'Formas Pagamentos'
+		'desmenu'=>$lang->getString('menus_forma_pagamento')
 	));
 	$menuFormasPagamentos->save();
 	//////////////////////////////////////
@@ -634,7 +649,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenupai"=>NULL,
 		"desicone"=>'md-money-box',
 		"deshref"=>'/pagamentos',
-		"desmenu"=>'Pagamentos'
+		"desmenu"=>$lang->getString('menus_pagamento')
 	));
 	$menuPagamentos->save();
 	//////////////////////////////////////
@@ -643,7 +658,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenupai"=>NULL,
 		"desicone"=>"md-shopping-cart",
 		"deshref"=>"/carrinhos",
-		"desmenu"=>"Carrinhos"
+		"desmenu"=>$lang->getString('menus_carrinho')
 	));
 	$menuCarrinhos->save();
 	//////////////////////////////////////
@@ -652,7 +667,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenupai"=>NULL,
 		"desicone"=>"md-city",
 		"deshref"=>"/lugares",
-		"desmenu"=>"Lugares"
+		"desmenu"=>$lang->getString('menus_lugar')
 	));
 	$menuLugares->save();
 	//////////////////////////////////////
@@ -736,62 +751,64 @@ $app->get("/install-admin/sql/contatos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/inserts", function(){
+
+	$lang = new Language();
 	
 	$email = new ContatoTipo(array(
-		'descontatotipo'=>'E-mail'
+		'descontatotipo'=>$lang->getString('contato_tipo')
 	));
 	$email->save();
 
 	$telefone = new ContatoTipo(array(
-		'descontatotipo'=>'Telefone'
+		'descontatotipo'=>$lang->getString('telefone_tipo')
 	));
 	$telefone->save();
 
 	$telefoneCasa = new ContatoSubtipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>'Casa'
+		'descontatosubtipo'=>$lang->getString('casa_tipo')
 	));
 	$telefoneCasa->save();
 
 	$telefoneTrabalho = new ContatoSubtipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>'Trabalho'
+		'descontatosubtipo'=>$lang->getString('trabalho_tipo')
 	));
 	$telefoneTrabalho->save();
 
 	$telefoneCelular = new ContatoSubtipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>'Celular'
+		'descontatosubtipo'=>$lang->getString('celular_tipo')
 	));
 	$telefoneCelular->save();
 
 	$telefoneFax = new ContatoSubtipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>'Fax'
+		'descontatosubtipo'=>$lang->getString('fax_tipo')
 	));
 	$telefoneFax->save();
 
 	$telefoneOutro = new ContatoSubtipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>'Outro'
+		'descontatosubtipo'=>$lang->getString('outro_tipo')
 	));
 	$telefoneOutro->save();
 
 	$emailPessoal = new ContatoSubtipo(array(
 		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>'Pessoal'
+		'descontatosubtipo'=>$lang->getString('pessoal_tipo')
 	));
 	$emailPessoal->save();
 
 	$emailTrabalho = new ContatoSubtipo(array(
 		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>'Trabalho'
+		'descontatosubtipo'=>$lang->getString('trabalho_tipo')
 	));
 	$emailTrabalho->save();
 
 	$emailOutro = new ContatoSubtipo(array(
 		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>'Outro'
+		'descontatosubtipo'=>$lang->getString('outro_tipo_email')
 	));
 	$emailOutro->save();
 
@@ -962,23 +979,25 @@ $app->get("/install-admin/sql/enderecos/triggers", function(){
 });
 $app->get("/install-admin/sql/enderecos/inserts", function(){
 
+	$lang = new Language();
+
 	$residencial = new EnderecoTipo(array(
-		'desenderecotipo'=>'Residencial'
+		'desenderecotipo'=>$lang->getString('endereco_residencial')
 	));
 	$residencial->save();
 
 	$comercial = new EnderecoTipo(array(
-		'desenderecotipo'=>'Comercial'
+		'desenderecotipo'=>$lang->getString('endereco_comercial')
 	));
 	$comercial->save();
 
 	$cobranca = new EnderecoTipo(array(
-		'desenderecotipo'=>'Cobrança'
+		'desenderecotipo'=>$lang->getString('endereco_cobranca')
 	));
 	$cobranca->save();
 
 	$entrega = new EnderecoTipo(array(
-		'desenderecotipo'=>'Entrega'
+		'desenderecotipo'=>$lang->getString('endereco_entrega')
 	));
 	$entrega->save();
 
@@ -1050,19 +1069,21 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/inserts", function(){
+
+	$lang = new Language();
 	
 	$superUsuario = new Permissao(array(
-		'despermissao'=>'Super Usuário'
+		'despermissao'=>$lang->getString('permissoes_usuario')
 	));
 	$superUsuario->save();
 
 	$acessoAdmin = new Permissao(array(
-		'despermissao'=>'Acesso Administrativo'
+		'despermissao'=>$lang->getString('permissoes_administrativo')
 	));
 	$acessoAdmin->save();
 
 	$acessoClient = new Permissao(array(
-		'despermissao'=>'Acesso Autenticado de Cliente'
+		'despermissao'=>$lang->getString('permissoes_cliente')
 	));
 	$acessoClient->save();
 
@@ -1202,6 +1223,7 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/list", function(){
+	
 	$procs = array(
 		'sp_cupons_list',
 		'sp_cuponstipos_list'
@@ -1234,13 +1256,17 @@ $app->get("/install-admin/sql/cupons/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/inserts", function(){
+
+	$lang = new Language();
+	
 	$sql = new Sql();
 	$sql->query("
 		INSERT INTO tb_cuponstipos(descupomtipo)
 		VALUES(?), (?);
 	", array(
-		'Valor Fixo',
-		'Porcentagem'
+		$lang->getString('cupom_valor'),
+		$lang->getString('cupom_porcentage')
+		
 	));
 	echo success();
 });
@@ -1425,15 +1451,17 @@ $app->get("/install-admin/sql/gateways/tables", function(){
 	");
 	
 	echo success();
-	
+
 });
 $app->get("/install-admin/sql/gateways/inserts", function(){
-	
+
+	$lang = new Language();
+
 	$sql = new Sql();
 	$sql->query("
 		INSERT INTO tb_gateways(desgateway) VALUES(?);
 	", array(
-		'PagSeguro'
+		$lang->getString('gateway_pagseguro')
 	));
 	
 	echo success();
@@ -1553,6 +1581,8 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 	
 });
 $app->get("/install-admin/sql/pagamentos/inserts", function(){
+
+	$lang = new Language();
 	
 	$sql = new Sql();
 	$sql->query("
@@ -1585,44 +1615,44 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		(?, ?, ?, ?)
 		;
 	", array(
-		1, 'Visa', 12, 1,
-		1, 'MasterCard', 12, 1,
-		1, 'Diners Club', 12, 1,
-		1, 'Amex', 12, 1,
-		1, 'HiperCard', 12, 1,
-		1, 'Aura', 12, 1,
-		1, 'Elo', 12, 1,
-		1, 'Boleto', 1, 1,
-		1, 'Débito Online Itaú', 1, 1,
-		1, 'Débito Online Banco do Brasil', 1, 1,
-		1, 'Débito Online Banrisul', 1, 1,
-		1, 'Débito Online Bradesco', 1, 1,
-		1, 'Débito Online HSBC', 1, 1,
-		1, 'PlenoCard', 3, 1,
-		1, 'PersonalCard', 3, 1,
-		1, 'JCB', 1, 1,
-		1, 'Discover', 1, 1,
-		1, 'BrasilCard', 12, 1,
-		1, 'FortBrasil', 12, 1,
-		1, 'CardBan', 12, 1,
-		1, 'ValeCard', 3, 1,
-		1, 'Cabal', 12, 1,
-		1, 'Mais', 10, 1,
-		1, 'Avista', 6, 1,
-		1, 'GRANDCARD', 12, 1,
-		1, 'Sorocred', 12, 1
+		1, $lang->getString('gateway_visa'), 12, 1,
+		1, $lang->getString('gateway_mastercard'), 12, 1,
+		1, $lang->getString('gateway_dinerclub'), 12, 1,
+		1, $lang->getString('gateway_amex'), 12, 1,
+		1, $lang->getString('gateway_hipercard'), 12, 1,
+		1, $lang->getString('gateway_aura'), 12, 1,
+		1, $lang->getString('gateway_elo'), 12, 1,
+		1, $lang->getString('gateway_boleto'), 1, 1,
+		1, $lang->getString('gateway_debito_itau'), 1, 1,
+		1, $lang->getString('gateway_debito_brasil'), 1, 1,
+		1, $lang->getString('gateway_debito_banrisul'), 1, 1,
+		1, $lang->getString('gateway_debito_bradesco'), 1, 1,
+		1, $lang->getString('gateway_debito_hsbc'), 1, 1,
+		1, $lang->getString('gateway_plenocard'), 3, 1,
+		1, $lang->getString('gateway_personalcard'), 3, 1,
+		1, $lang->getString('gateway_jbc'), 1, 1,
+		1, $lang->getString('gateway_discover'), 1, 1,
+		1, $lang->getString('gateway_brasilcard'), 12, 1,
+		1, $lang->getString('gateway_fortbrasil'), 12, 1,
+		1, $lang->getString('gateway_cardban'), 12, 1,
+		1, $lang->getString('gateway_valecard'), 3, 1,
+		1, $lang->getString('gateway_cabal'), 12, 1,
+		1, $lang->getString('gateway_mais'), 10, 1,
+		1, $lang->getString('gateway_avista'), 6, 1,
+		1, $lang->getString('gateway_grandcard'), 12, 1,
+		1, $lang->getString('gateway_sorocred'), 12, 1
 	));
 	$sql->query("
 		INSERT INTO tb_pagamentosstatus(desstatus)
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
-		'Aguardando Pagamento',
-		'Em análise',
-		'Pago',
-		'Disponível',
-		'Em disputa',
-		'Devolvido',
-		'Cancelado'
+	    $lang->getString('statu_pagamento'),
+	 	$lang->getString('statu_analise'),
+	 	$lang->getString('statu_pago'),
+	 	$lang->getString('statu_disponivel'),
+		$lang->getString('statu_disputa'),
+		$lang->getString('statu_devolvido'),
+		$lang->getString('statu_cancelado')
 	));
 	
 	echo success();
@@ -1889,23 +1919,25 @@ $app->get("/install-admin/sql/lugares/remove", function(){
 });
 $app->get("/install-admin/sql/lugares/inserts", function(){
 	
+	$lang = new Language();
+	
 	$bairro = new LugarTipo(array(
-		'deslugartipo'=>'Bairro'
+		'deslugartipo'=>$lang->getString('lugartipo_bairro')
 	));
 	$bairro->save();
 
 	$cidade = new LugarTipo(array(
-		'deslugartipo'=>'Cidade'
+		'deslugartipo'=>$lang->getString('lugartipo_cidade')
 	));
 	$cidade->save();
 
 	$estado = new LugarTipo(array(
-		'deslugartipo'=>'Estado'
+		'deslugartipo'=>$lang->getString('lugartipo_estado')
 	));
 	$estado->save();
 
 	$pais = new LugarTipo(array(
-		'deslugartipo'=>'País'
+		'deslugartipo'=>$lang->getString('lugartipo_pais')
 	));
 	$pais->save();
 	

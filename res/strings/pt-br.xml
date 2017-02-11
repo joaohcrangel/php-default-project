@@ -1,7 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="hello_world">Olá Mundo</string>
-	<string name="hello_text">Esta é uma unidade herói simples, um componente simples de estilo jumbotron para chamar mais atenção para o conteúdo ou informações em destaque.</string>
+	<string name="pessoas_fisica">Física</string>
+	<string name="pessoas_juridica">Jurídico</string>
+	<string name="pessoas_nome">Super Usuário (root)</string>
+
+	<string name="produtos_curso">Curso Udemy</string>
+	<string name="produtos_camiseta">Camiseta</string>
+
+	<string name="usuarios_admin">Administrativo</string>
+	<string name="usuarios_cliente">Cliente</string>
+	<string name="usuarios_root">root</string>
+
+	<string name="menus_dashboard">Dashboard</string>
+	<string name="menus_sistema">Sistema</string>
+	<string name="menus_administracao">Administração</string>
+	<string name="menus_pessoa">Pessoa</string>
+	<string name="menus_tipo">Tipos</string>
+	<string name="menus_menu">Menu</string>
+	<string name="menus_usuario">Usuários</string>
+	<string name="menus_sql_to_class">SQL to CLASS</string>
+	<string name="menus_template">Template</string>
+	<string name="menus_permissoes">Permissões</string>
+	<string name="menus_produto">Produtos</string>
+	<string name="menus_endereco">Endereços</string>
+	<string name="menus_usuario_tipo">Usuário</string>
+	<string name="menus_documento_tipo">Documentos</string>
+	<string name="menus_lugar_tipo">Lugares</string>
+	<string name="menus_cupom_tipo">Cupons</string>
+	<string name="menus_produto_tipo">Produtos</string>
+	<string name="menus_pagamento_statu">Pagamentos Status</string>
+	<string name="menus_pessoa_tipo">Pessoas tipos</string>
+	<string name="menus_contato_tipo">Contatos tipos</string>
+	<string name="menus_gateway">Gateways</string>
+	<string name="menus_contato_tipo">Historicos tipos</string>
+	<string name="menus_forma_pagamento">Formas Pagamentos</string>
+	<string name="menus_pagamento">Pagamentos</string>
+	<string name="menus_carrinho">Carrinho</string>
+	<string name="menus_lugar">Lugares</string>
+
+	<string name="contato_tipo">E-mail</string>
+	<string name="telefone_tipo">Telefone</string>
+	<string name="casa_tipo">Casa</string>
+	<string name="trabalho_tipo">Trabanho</string>
+	<string name="celular_tipo">Celular</string>
+	<string name="tipo_tipo">Fax</string>
+	<string name="outro_tipo">Outro</string>
+	<string name="pessoal_tipo">Pessoal</string>
+	<string name="trabalho_tipo">Trabalho</string>
+	<string name="outro_tipo_email">Outro</string>
+
+	<string name="endereco_residencial">Residencial</string>
+	<string name="endereco_comercial">Comercial</string>
+	<string name="endereco_cobranca">Cobrança</string>
+	<string name="endereco_entrega">Entrega</string>
+
+	<string name="permissoes_usuario">Super Usuário</string>
+	<string name="permissoes_administrativo">Acesso Administrativo</string>
+	<string name="permissoes_cliente">Acesso Autenticado de Cliente</string>
+
+	<string name="cupom_valor">Valor Fixo</string>
+	<string name="cupom_porcentage">Porcentagem</string>
+	<string name="gateway_pagseguro">PagSegure</string>
+	<string name="gateway_visa">Visa</string>
+	<string name="gateway_mastercard">MasterCard</string>
+	<string name="gateway_dinerclub">Diners Club</string>
+	<string name="gateway_amex">Amex</string>
+	<string name="gateway_hipercard">HiperCard</string>
+	<string name="gateway_aura">Aura</string>
+	<string name="gateway_elo">Elo</string>
+	<string name="gateway_boleto">Boleto</string>
+	<string name="gateway_debito_itau">Débito Online Itaú</string>
+	<string name="gateway_debito_brasil">Débito Online Banco do Brasil</string>
+	<string name="gateway_debito_banrisul">Débito Online Banco Banrisul</string>
+	<string name="gateway_debito_bradesco">Débito Online Banco Bradesco</string>
+	<string name="gateway_debito_hsbc">Débito Online Banco HSBC</string>
+	<string name="gateway_plenocard">PlenoCard</string>
+	<string name="gateway_personalcard">PersonalCard</string>
+	<string name="gateway_jbc">JCB</string>
+	<string name="gateway_discover">Discover</string>
+	<string name="gateway_brasilcard">BrasilCard</string>
+	<string name="gateway_fortbrasil">FortBrasil</string>
+	<string name="gateway_cardban">CardBan</string>
+	<string name="gateway_valecard">ValeCard</string>
+	<string name="gateway_cabal">Cabal</string>
+	<string name="gateway_mais">Mais</string>
+	<string name="gateway_avista">Avista</string>
+	<string name="gateway_grandcard">GRANDCARD</string>
+	<string name="gateway_sorocred">Sorocred</string>
+
+	<string name="statu_pagamento">Aguardando Pagamento</string>
+	<string name="statu_analise">Em análise</string>
+	<string name="statu_pago">Pago</string>
+	<string name="statu_disponivel">Disponível</string>
+	<string name="statu_disputa">Em disputa</string>
+	<string name="statu_devolvido">Devolvido</string>
+	<string name="statu_cancelado">Cancelado</string>
+
+	<string name="lugartipo_bairro">Bairro</string>
+	<string name="lugartipo_cidade">Cidade</string>
+	<string name="lugartipo_estado">Estado</string>
+	<string name="lugartipo_pais">País</string>
+
+
+
+
 
 </resources>
+
+

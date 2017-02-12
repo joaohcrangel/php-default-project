@@ -104,6 +104,26 @@ $app->post("/lugares", function(){
 
 });
 
+$app->post("/lugares/:idlugar/coordenadas", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	if($lugar->getidcoordenada() > 0){
+		$c = new Coordenada((int)$lugar->getidcoordenada());
+	}else{
+		$c = new Coordenada();
+	}
+
+	$c->set($_POST);
+
+	$lugar->setCoordenada($c);
+
+	echo success(array("data"=>$lugar->getFields()));
+
+});
+
 $app->delete("/lugares/:idlugar", function($idlugar){
 
 	Permissao::checkSession(Permissao::ADMIN, true);

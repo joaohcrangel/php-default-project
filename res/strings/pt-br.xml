@@ -33,7 +33,7 @@
 	<string name="menus_pessoa_tipo">Pessoas tipos</string>
 	<string name="menus_contato_tipo">Contatos tipos</string>
 	<string name="menus_gateway">Gateways</string>
-	<string name="menus_contato_tipo">Historicos tipos</string>
+	<string name="menus_historico_tipo">Historicos tipos</string>
 	<string name="menus_forma_pagamento">Formas Pagamentos</string>
 	<string name="menus_pagamento">Pagamentos</string>
 	<string name="menus_carrinho">Carrinho</string>

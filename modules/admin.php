@@ -423,6 +423,16 @@ $app->get("/".DIR_ADMIN."/contatos-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/pessoas-valorescampos");
+
+});
+
 $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

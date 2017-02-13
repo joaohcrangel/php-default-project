@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<string name="weekdayname_0">Domingo</string>
+	<string name="weekdayname_1">Segunda-feira</string>
+	<string name="weekdayname_2">Terça-feira</string>
+	<string name="weekdayname_3">Quarta-feira</string>
+	<string name="weekdayname_4">Quinta-feira</string>
+	<string name="weekdayname_5">Sexta-feira</string>
+	<string name="weekdayname_6">Sábado</string>
+
+	<string name="monthname_1">Janeiro</string>
+	<string name="monthname_2">Fevereiro</string>
+	<string name="monthname_3">Março</string>
+	<string name="monthname_4">Abril</string>
+	<string name="monthname_5">Maio</string>
+	<string name="monthname_6">Junho</string>
+	<string name="monthname_7">Julho</string>
+	<string name="monthname_8">Agosto</string>
+	<string name="monthname_9">Setembro</string>
+	<string name="monthname_10">Outubro</string>
+	<string name="monthname_11">Novembro</string>
+	<string name="monthname_12">Dezembro</string>
+
 	<string name="pessoas_fisica">Física</string>
 	<string name="pessoas_juridica">Jurídico</string>
 	<string name="pessoas_nome">Super Usuário (root)</string>

@@ -205,20 +205,24 @@ abstract class Collection extends Model {
 
 		$success = true;
 
-		for ($i = 0; $i < count($itens); $i++) { 
-			
-			$item = $itens[$i];
-			$result = $results[$i][0];
+		if(DB_TYPE == Sql::MYSQL){
 
-			if(isset($result[$this->pk])){
+			for ($i = 0; $i < count($itens); $i++) { 
+				
+				$item = $itens[$i];
+				$result = $results[$i][0];
 
-				$item->{'set'.$this->pk}((int)$result[$this->pk]);
-				if(method_exists($item, "aftersave")) $item->aftersave();
-				$item->setSaved();
+				if(isset($result[$this->pk])){
 
-			}else{
+					$item->{'set'.$this->pk}((int)$result[$this->pk]);
+					if(method_exists($item, "aftersave")) $item->aftersave();
+					$item->setSaved();
 
-				$success = false;
+				}else{
+
+					$success = false;
+
+				}
 
 			}
 

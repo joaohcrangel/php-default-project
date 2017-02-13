@@ -1,8 +1,16 @@
 <style>.slidePanel{
 		overflow: overlay;
-	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-lugar" role="tabpanel"><form id="form-lugar"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" name="deslugar" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" id="lugartipoPanel" class="form-control"></select></div><label class="form-control-label"><h4>Endereço</h4></label><div class="row"><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Endereço</label><select name="idenderecotipo" class="form-control"></select></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Endereço</label><input type="text" name="desendereco" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Número</label><input type="text" name="desnumero" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Complemento</label><input type="text" name="descomplemento" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Bairro</label><input type="text" name="desbairro" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Cidade</label><input type="text" name="descidade" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Estado</label><input type="text" name="desestado" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">País</label><input type="text" name="despais" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">CEP</label><input type="text" name="descep" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane" id="tab-lugar-mapa" role="tabpanel"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div></div></div></div></div><script>var lugar = JSON.parse('{function="json_encode($lugar)"}');
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-horarios" aria-controls="tab-lugar-horarios" role="tab">Horários</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-lugar" role="tabpanel"><form id="form-lugar"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" name="deslugar" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" id="lugartipoPanel" class="form-control"></select></div><label class="form-control-label"><h4>Endereço</h4></label><div class="row"><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Endereço</label><select name="idenderecotipo" class="form-control"></select></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Endereço</label><input type="text" name="desendereco" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Número</label><input type="text" name="desnumero" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Complemento</label><input type="text" name="descomplemento" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Bairro</label><input type="text" name="desbairro" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Cidade</label><input type="text" name="descidade" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Estado</label><input type="text" name="desestado" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">País</label><input type="text" name="despais" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">CEP</label><input type="text" name="descep" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane" id="tab-lugar-mapa" role="tabpanel"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="horariosTodos"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button></div></div></div></div></div></div><script id="tpl-lugar-horario" type="text/x-handlebars-template"><tr data-nrdia="{{nrweekday}}">
+		<td><input type="checkbox"></td>
+		<td>{{desweekday}}</td>
+		<td><input type="time" name="hrabre" class="form-control" value="{{hrabre}}" disabled="disabled"></td>
+		<td><input type="time" name="hrfecha" class="form-control" value="{{hrfecha}}" disabled="disabled"></td>
+		<td><button type="button" class="btn btn-default" disabled="disabled">Padrão</button></td>
+	</tr></script><script>var lugar = JSON.parse('{function="json_encode($lugar)"}');
 
 var form = $("#form-lugar");
+
+var tplHorarios = Handlebars.compile($("#tpl-lugar-horario").html());
 
 form.formLoad(lugar);
 
@@ -84,6 +92,99 @@ $("#tab-lugar-mapa .btn-salvar").on("click", function(){
 			System.showError(r);
 		}
 	})
+
+});
+
+$("a.nav-link[href='#tab-lugar-horarios']").on("shown.bs.tab", function(){
+
+	var $panel = System.getPanelApi($("#tab-lugar-horarios"));
+
+	var $tbody = $("#tab-lugar-horarios").find("table tbody");
+
+	$panel.load();
+
+	$tbody.html('');
+
+	$.each(lugar.Horarios, function(index, row){
+
+		var $tr = $(tplHorarios(row))
+
+		$tbody.append($tr);
+
+		$tr.find("input[type=checkbox]").on("change", function(){
+
+			var disabled = !$(this).prop('checked');
+
+			$tr.find('input:not(:checkbox)').attr('disabled', disabled);
+        	$tr.find('button').attr('disabled', disabled);
+
+        	if(disabled){
+        		$tr.find("input:not(:checkbox)").val("");
+        	}
+
+		});
+
+		$tr.find(".btn-default").on("click", function(){
+
+			var hrabre = $tr.find("[name=hrabre]").val();
+			var hrfecha = $tr.find("[name=hrfecha]").val();
+
+			$("#tab-lugar-horarios tbody tr [name=hrabre]:enabled").val(hrabre);
+			$("#tab-lugar-horarios tbody tr [name=hrfecha]:enabled").val(hrfecha);
+
+		});
+
+	});
+
+	$panel.done();
+
+	$('#horariosTodos').on('change', function() {
+
+        $('#tab-lugar-horarios tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+    });
+
+	$("#tab-lugar-horarios .btn-salvar-horarios").on("click", function(){
+
+		var $btn = $(this);
+
+		$btn.btnload("load");
+
+		var nrdia = [];
+		var hrabre = [];
+		var hrfecha = [];
+
+		$("#tab-lugar-horarios tbody tr").each(function(){
+
+			if($(this).find(":checkbox").prop("checked")){
+
+				nrdia.push($(this).data("nrdia"));
+				hrabre.push($(this).find("[name=hrabre]").val());
+				hrfecha.push($(this).find("[name=hrfecha]").val());
+
+			}
+
+		});
+
+		rest({
+			url:PATH+"/lugares-horarios",
+			method:"POST",
+			data:{
+				ids:lugar.idlugar.toString(),
+				nrdia:nrdia.toString(),
+				hrabre:hrabre.toString(),
+				hrfecha:hrfecha.toString()
+			},
+			success:function(){
+				$btn.btnload("unload");
+			},
+			failure:function(r){				
+				System.showError(r);
+				$btn.btnload("unload");
+			}
+		});
+
+	});
 
 });
 

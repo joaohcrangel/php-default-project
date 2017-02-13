@@ -1806,8 +1806,8 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			idhorario INT NOT NULL AUTO_INCREMENT,
 			idlugar INT NOT NULL,
 			nrdia TINYINT(4) NOT NULL,
-			hrabre TIME NOT NULL,
-			hrfecha TIME NOT NULL,
+			hrabre TIME NULL,
+			hrfecha TIME NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idhorario),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar)
@@ -1877,7 +1877,8 @@ $app->get("/install-admin/sql/lugares/triggers", function(){
 $app->get("/install-admin/sql/lugares/list", function(){
 	$procs = array(
 		"sp_lugares_list",
-		"sp_lugarestipos_list"
+		"sp_lugarestipos_list",
+		"sp_lugareshorarios_list"
 	);
 	saveProcedures($procs);
 	
@@ -1887,7 +1888,8 @@ $app->get("/install-admin/sql/lugares/list", function(){
 $app->get("/install-admin/sql/lugares/get", function(){
 	$procs = array(
 		'sp_lugarestipos_get',
-		'sp_lugares_get'
+		'sp_lugares_get',
+		'sp_lugareshorarios_get'
 	);
 	saveProcedures($procs);
 	
@@ -1899,7 +1901,8 @@ $app->get("/install-admin/sql/lugares/save", function(){
 		'sp_lugarestipos_save',
 		'sp_lugares_save',
 		'sp_lugaresdados_save',
-		'sp_lugarescoordenadas_add'
+		'sp_lugarescoordenadas_add',
+		'sp_lugareshorarios_save'
 	);
 	saveProcedures($procs);
 	
@@ -1910,7 +1913,9 @@ $app->get("/install-admin/sql/lugares/remove", function(){
 	$procs = array(
 		'sp_lugarestipos_remove',
 		'sp_lugares_remove',
-		'sp_lugaresdados_remove'
+		'sp_lugaresdados_remove',
+		'sp_lugareshorarios_remove',
+		'sp_lugareshorariosall_remove'
 	);
 	saveProcedures($procs);
 	

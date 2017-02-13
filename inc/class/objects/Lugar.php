@@ -61,6 +61,70 @@ class Lugar extends Model {
 
     }
 
+    public function getLugaresHorarios():LugaresHorarios
+    {
+
+        return new LugaresHorarios($this);
+
+    }
+
+    public function removeHorarios()
+    {
+
+        return $this->execute("CALL sp_lugareshorariosall_remove(?)", array(
+            $this->getidlugar()
+        ));
+
+    }
+
+    public function setHorarios(LugaresHorarios $horarios):LugaresHorarios
+    {
+
+        $this->removeHorarios();
+
+        $itens = $horarios->getItens();
+
+        $horariosTodos = Language::getWeekdays();
+
+        foreach ($itens as &$item) {
+            $item->setidlugar($this->getidlugar());
+        }
+
+        $faltaDias = array();
+
+        foreach ($horariosTodos as $h) {
+
+            $has = false;
+
+            foreach ($itens as $horario) {
+
+                if ($horario->getnrdia() == $h['nrweekday']) {
+                    $has = true;
+                }
+
+            }
+
+            if (!$has) {
+                array_push($faltaDias, $h['nrweekday']);
+            }
+
+        }
+
+        $horarios->setItens($itens);
+
+        foreach ($faltaDias as $dia) {
+            $horarios->add(new LugarHorario(array(
+                'nrdia'=>$dia,
+                'idlugar'=>$this->getidlugar()
+            )));
+        }
+
+        $horarios->save();
+
+        return $this->getLugaresHorarios();
+
+    }
+
 }
 
 ?>

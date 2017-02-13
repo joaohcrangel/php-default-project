@@ -19,6 +19,7 @@
 	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
 	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a></li>
 	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a></li>
+	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-horarios" aria-controls="tab-lugar-horarios" role="tab">Horários</a></li>
 	      </ul>
 	    </div>
 
@@ -86,6 +87,7 @@
 					</form>
 	        	</div>
 	        	<!-- fim da tab de dados do lugar -->
+
 	        	<!-- inicio da tab do mapa -->
 	        	<div class="tab-pane" id="tab-lugar-mapa" role="tabpanel">
 
@@ -93,6 +95,34 @@
 
 					<div class="form-group form-material m-t-15" data-plugin="formMaterial">
 						<button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button>
+					</div>
+
+	        	</div>
+	        	<!-- fim da tab do mapa -->
+
+	        	<!-- inicio da tab de horarios -->
+	        	<div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel">
+
+					<table class="table table-stripped table-hover">
+
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="horariosTodos"></th>
+								<th>Dia</th>
+								<th>Horário de Abertura</th>
+								<th>Horário de Fechamento</th>
+								<th></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							
+						</tbody>
+
+					</table>
+
+					<div class="form-group form-material m-t-15" data-plugin="formMaterial">
+						<button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button>
 					</div>
 
 	        	</div>
@@ -104,11 +134,23 @@
 
 </div>
 
+<script id="tpl-lugar-horario" type="text/x-handlebars-template">
+	<tr data-nrdia="{{nrweekday}}">
+		<td><input type="checkbox"></td>
+		<td>{{desweekday}}</td>
+		<td><input type="time" name="hrabre" class="form-control" value="{{hrabre}}" disabled="disabled"></td>
+		<td><input type="time" name="hrfecha" class="form-control" value="{{hrfecha}}" disabled="disabled"></td>
+		<td><button type="button" class="btn btn-default" disabled="disabled">Padrão</button></td>
+	</tr>
+</script>
+
 <script>
 
 var lugar = JSON.parse('{function="json_encode($lugar)"}');
 
 var form = $("#form-lugar");
+
+var tplHorarios = Handlebars.compile($("#tpl-lugar-horario").html());
 
 form.formLoad(lugar);
 
@@ -190,6 +232,99 @@ $("#tab-lugar-mapa .btn-salvar").on("click", function(){
 			System.showError(r);
 		}
 	})
+
+});
+
+$("a.nav-link[href='#tab-lugar-horarios']").on("shown.bs.tab", function(){
+
+	var $panel = System.getPanelApi($("#tab-lugar-horarios"));
+
+	var $tbody = $("#tab-lugar-horarios").find("table tbody");
+
+	$panel.load();
+
+	$tbody.html('');
+
+	$.each(lugar.Horarios, function(index, row){
+
+		var $tr = $(tplHorarios(row))
+
+		$tbody.append($tr);
+
+		$tr.find("input[type=checkbox]").on("change", function(){
+
+			var disabled = !$(this).prop('checked');
+
+			$tr.find('input:not(:checkbox)').attr('disabled', disabled);
+        	$tr.find('button').attr('disabled', disabled);
+
+        	if(disabled){
+        		$tr.find("input:not(:checkbox)").val("");
+        	}
+
+		});
+
+		$tr.find(".btn-default").on("click", function(){
+
+			var hrabre = $tr.find("[name=hrabre]").val();
+			var hrfecha = $tr.find("[name=hrfecha]").val();
+
+			$("#tab-lugar-horarios tbody tr [name=hrabre]:enabled").val(hrabre);
+			$("#tab-lugar-horarios tbody tr [name=hrfecha]:enabled").val(hrfecha);
+
+		});
+
+	});
+
+	$panel.done();
+
+	$('#horariosTodos').on('change', function() {
+
+        $('#tab-lugar-horarios tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+    });
+
+	$("#tab-lugar-horarios .btn-salvar-horarios").on("click", function(){
+
+		var $btn = $(this);
+
+		$btn.btnload("load");
+
+		var nrdia = [];
+		var hrabre = [];
+		var hrfecha = [];
+
+		$("#tab-lugar-horarios tbody tr").each(function(){
+
+			if($(this).find(":checkbox").prop("checked")){
+
+				nrdia.push($(this).data("nrdia"));
+				hrabre.push($(this).find("[name=hrabre]").val());
+				hrfecha.push($(this).find("[name=hrfecha]").val());
+
+			}
+
+		});
+
+		rest({
+			url:PATH+"/lugares-horarios",
+			method:"POST",
+			data:{
+				ids:lugar.idlugar.toString(),
+				nrdia:nrdia.toString(),
+				hrabre:hrabre.toString(),
+				hrfecha:hrfecha.toString()
+			},
+			success:function(){
+				$btn.btnload("unload");
+			},
+			failure:function(r){				
+				System.showError(r);
+				$btn.btnload("unload");
+			}
+		});
+
+	});
 
 });
 

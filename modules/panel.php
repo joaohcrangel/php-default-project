@@ -558,8 +558,40 @@ $app->get("/panel/lugares/:idlugar", function($idlugar){
 		"footer"=>false
 	));
 
+	$data = $lugar->getFields();
+
+	// $dias = array();
+
+	// $horarios = $lugar->getLugaresHorarios()->getFields();
+
+	// $horariosDefault = Language::getWeekdays();
+
+	// foreach ($horariosDefault as $horarioDefault) {
+
+	// 	foreach($horarios as $horario){
+
+	// 		array_push($dias, $horario);
+
+	// 		if($horarioDefault['nrweekday'] != $horario['nrdia']){
+	// 			array_push($dias, $horarioDefault);
+	// 		}
+
+	// 	}
+
+	// }
+
+	// pre($dias);
+
+	// exit;
+
+	$horarios = $lugar->getLugaresHorarios()->getFields();
+
+	if(!count($horarios) > 0) $horarios = Language::getWeekdays();
+
+	$data['Horarios'] = $horarios;
+
 	$page->setTpl("panel/lugar", array(
-		"lugar"=>$lugar->getFields()
+		"lugar"=>$data
 	));
 
 });

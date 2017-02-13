@@ -78,9 +78,47 @@ $app->post("/lugares", function(){
 		$lugar->{'set'.$key}($value);
 	}
 
-	$lugar->setidlugarpai(NULL);
-
 	$lugar->save();
+
+	if(isset($_POST['vllatitude']) && isset($_POST['vllongitude'])){
+
+		if((float)$_POST['vllatitude'] != 0 && (float)$_POST['vllongitude'] != 0){
+
+			if($lugar->getidcoordenada() > 0){
+				$c = new Coordenada((int)$lugar->getidcoordenada());
+			}else{
+				$c = new Coordenada();
+			}
+
+			$c->setvllatitude((float)post('vllatitude'));
+			$c->setvllongitude((float)post('vllongitude'));
+			$c->setnrzoom((float)post('nrzoom'));
+
+			$lugar->setCoordenada($c);
+
+		}
+
+	}
+
+	echo success(array("data"=>$lugar->getFields()));
+
+});
+
+$app->post("/lugares/:idlugar/coordenadas", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	if($lugar->getidcoordenada() > 0){
+		$c = new Coordenada((int)$lugar->getidcoordenada());
+	}else{
+		$c = new Coordenada();
+	}
+
+	$c->set($_POST);
+
+	$lugar->setCoordenada($c);
 
 	echo success(array("data"=>$lugar->getFields()));
 

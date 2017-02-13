@@ -40,7 +40,7 @@ var usuarioTipo = JSON.parse('{function="json_encode($usuariotipo)"}');
 $("#form-usuario-tipo-save").formLoad(usuarioTipo);
 
 $("#form-usuario-tipo-save").form({
-  url:PATH+"/usuario-tipo",
+  url:PATH+"/usuarios-tipos",
   params:{
     idusuariotipo:usuarioTipo.idusuariotipo
   },

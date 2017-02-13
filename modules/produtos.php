@@ -10,8 +10,6 @@ $app->get("/produtos/all", function(){
         if($_GET['ids'] != '') array_push($where, "a.idprodutotipo IN(".get('ids').")");        
     }
 
-    array_push($where, "a.inremovido = ".(int)0);
-
     if(count($where) > 0){
         $where = "WHERE ".implode(" AND ", $where)."";
     }else{
@@ -45,7 +43,7 @@ $app->get("/produtos/all", function(){
 
 });
 
-$app->post('/produtos', function(){ 
+$app->post('/produtos', function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 

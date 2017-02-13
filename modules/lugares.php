@@ -78,6 +78,8 @@ $app->post("/lugares", function(){
 		$lugar->{'set'.$key}($value);
 	}
 
+	$lugar->setidlugarpai(null);
+
 	$lugar->save();
 
 	if(isset($_POST['vllatitude']) && isset($_POST['vllongitude'])){
@@ -191,6 +193,46 @@ $app->delete("/lugares-tipos/:idlugartipo", function($idlugartipo){
 	$lugartipo->remove();
 	
 	echo success();
+
+});
+////////////////////////////////////////////////////////////////
+
+// lugares horarios
+
+$app->post("/lugares-horarios", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	// pre($_POST);
+	// exit;
+
+	$ids = explode(",", post("ids"));
+
+	foreach ($ids as $idlugar) {
+		
+		$lugar = new Lugar((int)$idlugar);
+
+		$horarios = new LugaresHorarios();
+
+		$nrdia = explode(",", post('nrdia'));
+		$hrabre = explode(",", post('hrabre'));
+		$hrfecha = explode(",", post('hrfecha'));
+
+		for($i = 0; $i < count($nrdia); $i++){
+
+			$horarios->add(new LugarHorario(array(
+				'nrdia'=>$nrdia[$i],
+				'hrabre'=>$hrabre[$i],
+				'hrfecha'=>$hrfecha[$i]
+			)));
+
+		}
+
+		$horarios = $lugar->setHorarios($horarios);
+
+	}
+
+	echo success(array("data"=>$horarios->getFields()));
 
 });
 

@@ -105,9 +105,17 @@
 			'method':'POST'
 		});
 
+		$form.hide();
+
+		$("body").append($form);
+
 		$form.submit();
 
 		$btns.btnload('unload');
+
+		setTimeout(function(){
+			$form.remove();
+		}, 1000);
 
 	};
 

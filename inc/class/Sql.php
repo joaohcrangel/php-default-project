@@ -172,7 +172,7 @@ class Sql {
 	* Método destrutor que fecha a conexão previamente aberta
 	* @metodo __destruct
 	*/
-	public function __desconstruct(){
+	public function __destruct(){
 
 		switch($this->type){
 

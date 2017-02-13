@@ -18,7 +18,7 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = false;
+	private $utf8 = true;
 	private $sessionLog = true;
 
 	/*********************************************************************************************************/
@@ -172,7 +172,7 @@ class Sql {
 	* Método destrutor que fecha a conexão previamente aberta
 	* @metodo __destruct
 	*/
-	public function __desconstruct(){
+	public function __destruct(){
 
 		switch($this->type){
 

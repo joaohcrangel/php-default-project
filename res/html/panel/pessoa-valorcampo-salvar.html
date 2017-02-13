@@ -37,12 +37,12 @@
 <script>
 var pessoaValor = JSON.parse('{function="json_encode($pessoavalor)"}');
 
-$("#form-pessoa-valor").formLoad(idcampo);
+$("#form-pessoa-valor").formLoad(pessoaValor);
 
 $("#form-pessoa-valor").form({
   url:PATH+"/pessoas-valorescampos",
   params:{
-    idcampo:pessoavalor.idcampo
+    idcampo:pessoaValor.idcampo
   },
   success:function(){
     System.success("Pessoa Campo criado com sucesso");

@@ -7,7 +7,12 @@ $app->get("/produtos/all", function(){
     $where = array();
 
     if(isset($_GET['ids'])){
-        if($_GET['ids'] != '') array_push($where, "a.idprodutotipo IN(".get('ids').")");        
+        $ids = explode(',',get('ids'));
+        $newIds = array();
+        foreach ($ids as $id) {
+            if ((int)$id > 0) array_push($newIds, (int)$id);
+        }
+        if(count($newIds) > 0) array_push($where, "a.idprodutotipo IN(".implode(',', $newIds).")");        
     }
 
     if(count($where) > 0){

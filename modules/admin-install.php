@@ -631,7 +631,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/historicos-tipos',
-		'desmenu'=>$lang->getString('menus_contato_tipo')
+		'desmenu'=>$lang->getString('menus_historico_tipo')
 	));
 	$menuHistoricosTipos->save();
 	//////////////////////////////////////

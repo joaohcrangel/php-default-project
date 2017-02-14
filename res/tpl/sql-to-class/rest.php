@@ -2,7 +2,11 @@
 
 $app->post('/{$rest_name}', function () {
 
-	${$object_name} = new {$object}($_POST);
+	if((int)post('{$primarykey[0]}') > 0){
+        ${$object_name} = new {$object}((int)post('{$primarykey[0]}'));
+    }else{
+        ${$object_name} = new {$object}();
+    }
 
 	${$object_name}->save();
 

@@ -2000,4 +2000,53 @@ $app->get("/install-admin/sql/coordenadas/remove", function(){
 
 	echo success();
 });
+
+$app->get("/install-admin/sql/cursos/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_cursos (
+		  idcurso int(11) NOT NULL AUTO_INCREMENT,
+		  descurso varchar(64) NOT NULL,
+		  destittulo varchar(256) DEFAULT NULL,
+		  vlcargahoraria decimal(10,2) NOT NULL DEFAULT '0.00',
+		  nraulas int(11) NOT NULL DEFAULT '0',
+		  nrexercicios int(11) NOT NULL DEFAULT '0',
+		  desdescricao varchar(10240) DEFAULT NULL,
+		  inremovido bit(1) NOT NULL DEFAULT b'0',
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcurso)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_cursossecoes (
+		  idsecao int(11) NOT NULL AUTO_INCREMENT,
+		  dessecao varchar(128) NOT NULL,
+		  nrordem int(11) NOT NULL DEFAULT '0',
+		  idcurso int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idsecao),
+		  KEY FK_cursossecoes_cursos_idx (idcurso),
+		  CONSTRAINT FK_cursossecoes_cursos FOREIGN KEY (idcurso) REFERENCES tb_cursos (idcurso) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->query("
+		CREATE TABLE tb_cursoscurriculos (
+		  idcurriculo int(11) NOT NULL AUTO_INCREMENT,
+		  descurriculo varchar(128) NOT NULL,
+		  idsecao int(11) NOT NULL,
+		  desdescricao varchar(2048) DEFAULT NULL,
+		  nrordem varchar(45) DEFAULT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcurriculo),
+		  KEY FK_cursoscurriculos_cursossecoes_idx (idsecao),
+		  CONSTRAINT FK_cursoscurriculos_cursossecoes FOREIGN KEY (idsecao) REFERENCES tb_cursossecoes (idsecao) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
 ?>

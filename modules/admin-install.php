@@ -430,6 +430,21 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  CONSTRAINT FOREIGN KEY FK_usuariosmenusmenus (idmenu) REFERENCES tb_menus(idmenu)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	$sql->query("
+		CREATE TABLE tb_sitesmenus (
+		  idmenu int(11) NOT NULL AUTO_INCREMENT,
+		  idmenupai int(11) DEFAULT NULL,
+		  desmenu varchar(128) NOT NULL,
+		  desicone varchar(64) NOT NULL,
+		  deshref varchar(64) NOT NULL,
+		  nrordem int(11) NOT NULL,
+		  nrsubmenus int(11) DEFAULT '0' NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idmenu),
+		  CONSTRAINT FK_sitesmenus_sitesmenus FOREIGN KEY (idmenupai) REFERENCES tb_sitesmenus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/inserts", function(){
@@ -2057,5 +2072,80 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 	");
 
 	echo success();
+});
+
+$app->get("/install-admin/sql/carousels/tables", function(){
+	
+	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE tb_carousels (
+		  idcarousel int(11) NOT NULL AUTO_INCREMENT,
+		  descarousel varchar(64) NOT NULL,
+		  inloop bit(1) NOT NULL DEFAULT b'0',
+		  innav bit(1) NOT NULL DEFAULT b'0',
+		  incenter bit(1) NOT NULL DEFAULT b'0',
+		  inautowidth bit(1) NOT NULL DEFAULT b'0',
+		  invideo bit(1) NOT NULL DEFAULT b'0',
+		  inlazyload bit(1) NOT NULL DEFAULT b'0',
+		  indots bit(1) NOT NULL DEFAULT b'1',
+		  nritems int(11) NOT NULL DEFAULT '3',
+		  nrstagepadding int(11) NOT NULL DEFAULT '0',
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcarousel)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_carouselsitemstipos (
+		  idtipo int(11) NOT NULL AUTO_INCREMENT,
+		  destipo varchar(32) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idtipo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_carouselsitems (
+		  iditem int(11) NOT NULL AUTO_INCREMENT,
+		  desitem varchar(45) NOT NULL,
+		  desconteudo text,
+		  nrordem varchar(45) NOT NULL DEFAULT '0',
+		  idtipo int(11) NOT NULL,
+		  idcarousel int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (iditem),
+		  KEY FK_carouselsitems_carousels_idx (idcarousel),
+		  KEY FK_carouselsitems_carouselsitemstipos_idx (idtipo),
+		  CONSTRAINT FK_carouselsitems_carousels FOREIGN KEY (idcarousel) REFERENCES tb_carousels (idcarousel) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_carouselsitems_carouselsitemstipos FOREIGN KEY (idtipo) REFERENCES tb_carouselsitemstipos (idtipo) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/configuracoes/tables", function(){
+	
+	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE `tb_configuracoestipos` (
+		  `idconfiguracaotipo` int(11) NOT NULL AUTO_INCREMENT,
+		  `desconfiguracaotipo` varchar(32) NOT NULL,
+		  `dtcadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idconfiguracaotipo`)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE `tb_configuracoes` (
+		  `idconfiguracao` int(11) NOT NULL AUTO_INCREMENT,
+		  `desconfiguracao` varchar(64) NOT NULL,
+		  `desvalor` varchar(2048) NOT NULL,
+		  `idconfiguracaotipo` int(11) NOT NULL,
+		  `dtcadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idconfiguracao`),
+		  KEY `FK_configuracoes_configuracoestipos_idx` (`idconfiguracaotipo`),
+		  CONSTRAINT `FK_configuracoes_configuracoestipos` FOREIGN KEY (`idconfiguracaotipo`) REFERENCES `tb_configuracoestipos` (`idconfiguracaotipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	echo success();
+
 });
 ?>

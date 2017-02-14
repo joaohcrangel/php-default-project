@@ -2126,26 +2126,45 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 	
 	$sql = new Sql();
 	$sql->query("
-		CREATE TABLE `tb_configuracoestipos` (
-		  `idconfiguracaotipo` int(11) NOT NULL AUTO_INCREMENT,
-		  `desconfiguracaotipo` varchar(32) NOT NULL,
-		  `dtcadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idconfiguracaotipo`)
+		CREATE TABLE tb_configuracoestipos (
+		  idconfiguracaotipo int(11) NOT NULL AUTO_INCREMENT,
+		  desconfiguracaotipo varchar(32) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idconfiguracaotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE `tb_configuracoes` (
-		  `idconfiguracao` int(11) NOT NULL AUTO_INCREMENT,
-		  `desconfiguracao` varchar(64) NOT NULL,
-		  `desvalor` varchar(2048) NOT NULL,
-		  `idconfiguracaotipo` int(11) NOT NULL,
-		  `dtcadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idconfiguracao`),
-		  KEY `FK_configuracoes_configuracoestipos_idx` (`idconfiguracaotipo`),
-		  CONSTRAINT `FK_configuracoes_configuracoestipos` FOREIGN KEY (`idconfiguracaotipo`) REFERENCES `tb_configuracoestipos` (`idconfiguracaotipo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+		CREATE TABLE tb_configuracoes (
+		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
+		  desconfiguracao varchar(64) NOT NULL,
+		  desvalor varchar(2048) NOT NULL,
+		  idconfiguracaotipo int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idconfiguracao),
+		  KEY FK_configuracoes_configuracoestipos_idx (idconfiguracaotipo),
+		  CONSTRAINT FK_configuracoes_configuracoestipos FOREIGN KEY (idconfiguracaotipo) REFERENCES tb_configuracoestipos (idconfiguracaotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 
 });
+
+$app->get("/install-admin/sql/arquivos/tables", function(){
+	
+	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE tb_arquivos (
+		  idarquivo int(11) NOT NULL AUTO_INCREMENT,
+		  desdiretorio varchar(256) NOT NULL,
+		  desarquivo varchar(128) NOT NULL,
+		  desextensao varchar(32) NOT NULL,
+		  desnome varchar(128) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idarquivo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	echo success();
+
+});
+
 ?>

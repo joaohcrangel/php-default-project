@@ -43,26 +43,34 @@ angular.module("install", []).controller("sql", function($scope, $http){
 				_objects[_index].status = "processing";
 				_objects[_index].warning = true;
 
-				rest({
-					$http:$http,
-					url:PATH+'/install-admin'+_objects[_index].url,
-					success:function(r){
+				try{
 
-						_objects[_index].status = "success";
-						_objects[_index].warning = false;
-						_objects[_index].success = true;
-						$scope.installDataBase(++_index, _objects);
+					rest({
+						$http:$http,
+						url:PATH+'/install-admin'+_objects[_index].url,
+						success:function(r){
 
-					},
-					failure:function(r){
+							_objects[_index].status = "success";
+							_objects[_index].warning = false;
+							_objects[_index].success = true;
+							$scope.installDataBase(++_index, _objects);
 
-						_objects[_index].warning = false;
-						_objects[_index].danger = true;
-						_objects[_index].status = r.error | "failure";
-						$scope.installDataBase(++_index, _objects);
+						},
+						failure:function(r){
 
-					}
-				});
+							_objects[_index].warning = false;
+							_objects[_index].danger = true;
+							_objects[_index].status = r.error | "failure";
+							$scope.installDataBase(++_index, _objects);
+
+						}
+					});
+
+				} catch(e) {
+
+					console.warn(e);
+
+				}
 
 
 			} else {
@@ -574,6 +582,27 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		{
 			url:"/sql/cursos/tables",
 			name:"Cursos - Tabelas",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/carousels/tables",
+			name:"Carousel - Tabelas",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/configuracoes/tables",
+			name:"Configurações - Tabelas",
+			status:"",
+			enabled:true
+		},
+
+		{
+			url:"/sql/arquivos/tables",
+			name:"Arquivos - Tabelas",
 			status:"",
 			enabled:true
 		},

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	
+	<string name="login_footer">Default Admin developer by Hcode Team</string>
 
 	<string name="weekdayname_0">Domingo</string>
 	<string name="weekdayname_1">Segunda-feira</string>
@@ -61,6 +63,7 @@
 	<string name="menus_carrinho">Carrinho</string>
 	<string name="menus_lugar">Lugares</string>
 	<string name="menus_site">Site</string>
+	<string name="menus_site_menu">Menu</string>
 
 	<string name="contato_tipo">E-mail</string>
 	<string name="telefone_tipo">Telefone</string>

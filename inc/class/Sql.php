@@ -450,7 +450,8 @@ class Sql {
 				break;
 				case 'null':
 				if ($this->type === Sql::PDO) {
-					array_push($params_new, PDO::PARAM_NULL);
+					array_push($params_new, NULL);
+					//array_push($params_new, PDO::PARAM_NULL);
 				} else {
 					array_push($params_new, 'NULL');
 				}

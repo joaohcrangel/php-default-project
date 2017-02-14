@@ -2,7 +2,7 @@
 
 class Lugar extends Model {
 
-    public $required = array('idlugar', 'deslugar', 'idendereco', 'idlugartipo');
+    public $required = array('deslugar', 'idlugartipo');
     protected $pk = "idlugar";
 
     public function get(){
@@ -17,9 +17,6 @@ class Lugar extends Model {
     public function save(){
 
         if($this->getChanged() && $this->isValid()){
-
-            var_dump($this->getFields());
-            exit;
 
             $this->queryToAttr("CALL sp_lugares_save(?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidlugar(),

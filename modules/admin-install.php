@@ -1813,9 +1813,9 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			idlugar INT NOT NULL AUTO_INCREMENT,
 			idlugarpai INT NULL,
 			deslugar VARCHAR(128) NOT NULL,
-			idendereco INT NOT NULL,
+			idendereco INT NULL,
 			idlugartipo INT NOT NULL,
-			desconteudo TEXT,
+			desconteudo TEXT NULL,
 			nrviews INT NULL,
 			vlreview DECIMAL(10,2) NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -1969,6 +1969,30 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 		'deslugartipo'=>$lang->getString('lugartipo_pais')
 	));
 	$pais->save();
+
+	$empresas = new LugarTipo(array(
+		'deslugartipo'=>$lang->getString('lugartipo_empresas')
+	));
+	$empresas->save();
+	
+	$endereco = new Endereco(array(
+		'idenderecotipo'=>EnderecoTipo::COMERCIAL,
+		'desendereco'=>'Rua Ademar Saraiva Leão',
+		'desnumero'=>'234',
+		'desbairro'=>'Alvarenga',
+		'descidade'=>'São Bernardo do Campo',
+		'desestado'=>'São Paulo',
+		'despais'=>'Brasil',
+		'descep'=>'09853120'
+	));
+	$endereco->save();
+
+	$lugarHcode = new Lugar(array(
+		'deslugar'=>'Hcode',
+		'idlugartipo'=>$empresas->getidlugartipo(),
+		'idendereco'=>$endereco->getidendereco()
+	));
+	$lugarHcode->save();
 	
 	echo success();
 	

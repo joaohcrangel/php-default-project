@@ -2,6 +2,11 @@
 
 class EnderecoTipo extends Model {
 
+    const RESIDENCIAL = 1;
+    const COMERCIAL = 2;
+    const COBRANCA = 3;
+    const ENTREGA = 4;
+
     public $required = array('desenderecotipo');
     protected $pk = "idenderecotipo";
 

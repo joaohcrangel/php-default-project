@@ -377,6 +377,34 @@ $app->get("/panel/usuario-tipo-criar", function(){
 
 });
 
+// Pessoas-valores-campos
+
+$app->get("/panel/pessoas-valorescampos/:idcampo", function($idcampo){
+
+	$pessoavalor = new PessoaValorCampo((int)$idcampo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-valorcampo-salvar", array(
+		"pessoavalor"=>$pessoavalor->getFields()
+	));
+
+});
+
+$app->get("/panel/pessoas-valorescampos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-valorcampo-criar");
+
+});
+
 /////////////////////////////////////////
 // Lugares-tipos salvar
 

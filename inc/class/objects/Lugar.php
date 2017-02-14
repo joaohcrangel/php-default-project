@@ -18,6 +18,9 @@ class Lugar extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
+            var_dump($this->getFields());
+            exit;
+
             $this->queryToAttr("CALL sp_lugares_save(?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidlugar(),
                 $this->getidlugarpai(),

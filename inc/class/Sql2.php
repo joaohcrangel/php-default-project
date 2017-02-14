@@ -1,15 +1,9 @@
 <?php 
 
-class Sql {
+class Sql extends PDO {
 
 	private $conn;
-
-	private $type = DB_TYPE;
-
-	private $server = DB_HOST;
-	private $username = DB_USER;
-	private $password = DB_PASSWORD;
-	private $database = DB_NAME;
+	private $utf8 = true;
 
 	public function __construct()
 	{
@@ -117,4 +111,4 @@ class Sql {
 
 }
 
- ?>
+?>

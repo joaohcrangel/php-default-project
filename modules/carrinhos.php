@@ -67,15 +67,13 @@ $app->post("/carrinhos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    if(post('idcarrinho') > 0){
+    if((int)post('idcarrinho') > 0){
         $carrinho = new Carrinho((int)post('idcarrinho'));
     }else{
         $carrinho = new Carrinho();
     }
 
-    foreach ($_POST as $key => $value) {
-        $carrinho->{'set'.$key}($value);
-    }
+    $carrinho->set($_POST);
 
     $carrinho->save();
 

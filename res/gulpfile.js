@@ -66,8 +66,7 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/icheck/icheck.css',
         './theme/material/global/vendor/bootstrap-treeview/bootstrap-treeview.css',
         './theme/material/global/vendor/jstree/jstree.min.css',
-        './theme/material/global/vendor/chartist/chartist.css',
-        './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css',
+        './theme/material/global/vendor/chartist/chartist.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -120,8 +119,6 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js',
         './theme/material/global/vendor/jquery-placeholder/jquery.placeholder.js',
         './theme/material/global/vendor/select2/select2.min.js',
-        './theme/material/global/vendor/chartist/chartist.js',
-        './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
         // Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',

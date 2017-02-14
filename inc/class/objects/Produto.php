@@ -70,9 +70,9 @@ class Produto extends Model {
 
     }
 
-    public function getPrecos(){
+    public function getProdutosPrecos(){
 
-        $precos = new Produtos();
+        $precos = new ProdutosPrecos();
 
         $precos->loadFromQuery("CALL sp_precosfromproduto_list(?);", array(
             $this->getidproduto()

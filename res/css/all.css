@@ -29,3 +29,6 @@
 
 .card {
   border-radius: 0; }
+
+.real::before {
+  content: 'R$ '; }

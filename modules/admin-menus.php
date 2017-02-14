@@ -95,7 +95,7 @@ $app->get("/".DIR_ADMIN."/site/menu", function(){
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/site-menu", array(
+    $page->setTpl("/admin/sites-menus", array(
         'menuHTML'=>SiteMenu::getAllMenuOL()
     ));
 

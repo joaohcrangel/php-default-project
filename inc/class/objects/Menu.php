@@ -4,6 +4,7 @@ class Menu extends Model {
 
     public $required = array('nrordem', 'desmenu');
     protected $pk = "idmenu";
+    
     const SESSION_NAME = "SYSTEM_MENU";
 
     public function get(){

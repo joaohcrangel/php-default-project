@@ -81,6 +81,10 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Session::setUsuario($usuario);
 
+    $configuracoes = Configuracoes::listAll();
+
+    Session::setConfiguracoes($configuracoes);
+
     Menu::resetMenuSession();
 
     $nextUrl = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST']."/admin";

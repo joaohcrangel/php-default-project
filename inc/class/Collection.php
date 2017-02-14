@@ -362,6 +362,12 @@ abstract class Collection extends Model {
 		return implode(",", $fields);
 
 	}
+
+	public function getModelName(){
+
+		return $this->class;
+
+	}
 	
 }
 ?>

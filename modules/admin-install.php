@@ -2180,6 +2180,7 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		  PRIMARY KEY (idconfiguracaotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
 	$sql->query("
 		CREATE TABLE tb_configuracoes (
 		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
@@ -2189,9 +2190,11 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idconfiguracao),
 		  KEY FK_configuracoes_configuracoestipos_idx (idconfiguracaotipo),
+		  KEY IX_desconfiguracao (desconfiguracao),
 		  CONSTRAINT FK_configuracoes_configuracoestipos FOREIGN KEY (idconfiguracaotipo) REFERENCES tb_configuracoestipos (idconfiguracaotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	
 	echo success();
 
 });
@@ -2229,6 +2232,36 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 
 	echo success();
 
+});
+
+$app->get("/install-admin/sql/configuracoes/get", function(){
+	$procs = array(
+		'sp_configuracoestipos_get',
+		'sp_configuracoestipos_list',
+		'sp_configuracoes_get',
+		'sp_configuracoes_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/configuracoes/save", function(){
+	$procs = array(
+		'sp_configuracoestipos_save',
+		'sp_configuracoes_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/configuracoes/remove", function(){
+	$procs = array(
+		'sp_configuracoestipos_remove',
+		'sp_configuracoes_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
 });
 
 $app->get("/install-admin/sql/arquivos/tables", function(){

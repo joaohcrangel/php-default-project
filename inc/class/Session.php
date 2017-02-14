@@ -9,6 +9,8 @@ class Session extends DefaultObject {
 			$_SESSION[get_class($object)] = $object;
 		}
 
+		return $object;
+
 	}
 
 	public static function getObjectFromSession($class_name){
@@ -29,13 +31,38 @@ class Session extends DefaultObject {
 
 	}
 
-	public static function getPessoa(){
+	public static function getCollectionFromSession($class_name){
+
+		if(isset($_SESSION[$class_name])){
+			try{
+				$col = new $class_name();
+				$modelName = $col->getModelName();
+				foreach ($_SESSION[$class_name] as $data) {
+					$col->add(new $modelName($data));
+				}
+				return $col;
+			}catch(Exception $e){
+				return $_SESSION[$class_name];
+			}
+		}else{
+			try{
+				return new $class_name();
+			}catch(Exception $e){
+				return NULL;
+			}
+		}
+
+	}
+
+	public static function getPessoa():Pessoa
+	{
 
 		return Session::getUsuario()->getPessoa();
 
 	}
 
-	public static function getUsuario($lockRedirect = true){
+	public static function getUsuario($lockRedirect = true):Usuario
+	{
 
 		if(isset($_SESSION[Usuario::SESSION_NAME_LOCK])){
 			if ($lockRedirect === true) {
@@ -66,7 +93,8 @@ class Session extends DefaultObject {
 
 	}
 	
-	public static function setUsuario(\Usuario $usuario, $inCookie = false){
+	public static function setUsuario(\Usuario $usuario, $inCookie = false):Usuario
+	{
 
 		if ($inCookie === true) {
 
@@ -78,7 +106,8 @@ class Session extends DefaultObject {
 		
 	}
 
-	public static function checkLogin($redirect = false){
+	public static function checkLogin($redirect = false)
+	{
 
 		$usuario = Session::getUsuario();
 
@@ -100,7 +129,8 @@ class Session extends DefaultObject {
 
 	}
 
-	public static function getUsuariosLogs(){
+	public static function getUsuariosLogs():UsuariosLogs
+	{
 
 		if (!isset($_SESSION[UsuarioLog::SESSION])) {
 			$_SESSION[UsuarioLog::SESSION] = array();
@@ -118,13 +148,15 @@ class Session extends DefaultObject {
 
 	}
 
-	public static function clearUsuariosLogs(){
+	public static function clearUsuariosLogs()
+	{
 
 		$_SESSION[UsuarioLog::SESSION] = array();
 
 	}
 
-	public static function addUsuarioLog(){
+	public static function addUsuarioLog()
+	{
 
 		$usuario = Session::getUsuario();
 
@@ -143,6 +175,20 @@ class Session extends DefaultObject {
 			array_push($_SESSION[UsuarioLog::SESSION], $log->getFields());
 
 		}
+
+	}
+
+	public static function setConfiguracoes(Configuracoes $configs)
+	{
+
+		return Session::setObjectInSession($configs);
+
+	}
+
+	public static function getConfiguracoes():Configuracoes
+	{
+
+		return Session::getCollectionFromSession('Configuracoes');
 
 	}
 	

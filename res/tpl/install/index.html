@@ -622,6 +622,24 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},
+		{
+			url:"/sql/configuracoes/get",
+			name:"Configurações - GET",
+			status:"",
+			enabled:true
+		},
+		{
+			url:"/sql/configuracoes/save",
+			name:"Configurações - SAVE",
+			status:"",
+			enabled:true
+		},
+		{
+			url:"/sql/configuracoes/remove",
+			name:"Configurações - REMOVE",
+			status:"",
+			enabled:true
+		},
 
 		{
 			url:"/sql/arquivos/tables",
@@ -673,6 +691,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/cupons/inserts",
 			name:"Cupons - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/configuracoes/inserts",
+			name:"Configurações - Inserts",
 			status:"",
 			enabled:true
 		}

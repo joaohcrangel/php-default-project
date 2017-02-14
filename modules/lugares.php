@@ -78,8 +78,6 @@ $app->post("/lugares", function(){
 		$lugar->{'set'.$key}($value);
 	}
 
-	$lugar->setidlugarpai(null);
-
 	$lugar->save();
 
 	if(isset($_POST['vllatitude']) && isset($_POST['vllongitude'])){
@@ -202,9 +200,6 @@ $app->delete("/lugares-tipos/:idlugartipo", function($idlugartipo){
 $app->post("/lugares-horarios", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
-
-	// pre($_POST);
-	// exit;
 
 	$ids = explode(",", post("ids"));
 

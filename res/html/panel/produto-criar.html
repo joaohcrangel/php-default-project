@@ -11,8 +11,7 @@
 <div class="slidePanel-inner m-t-40">
 	<form id="form-produto-save" class="slidePanel-form">	
 		<div class="form-group">
-		  	<div class="form-group form-material">
-		  		<input type="hidden" name="idproduto" data-plugin="formMaterial">
+		  	<div class="form-group form-material" data-plugin="formMaterial">
 			    <label>Produto</label>
 			    <input type="text" class="form-control" name="desproduto">
 		  	</div>
@@ -44,8 +43,9 @@
   	form.form({
   		url:PATH+"/produtos",
   		params:{
+  			idproduto:0,
   			idpreco:0,
-  			inremovido:null
+  			inremovido:false
   		},
   		success:function(){
 

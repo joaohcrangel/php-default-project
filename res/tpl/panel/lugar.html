@@ -1,6 +1,6 @@
 <style>.slidePanel{
 		overflow: overlay;
-	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-horarios" aria-controls="tab-lugar-horarios" role="tab">Horários</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-lugar" role="tabpanel"><form id="form-lugar"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" name="deslugar" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" id="lugartipoPanel" class="form-control"></select></div><label class="form-control-label"><h4>Endereço</h4></label><div class="row"><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Endereço</label><select name="idenderecotipo" class="form-control"></select></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Endereço</label><input type="text" name="desendereco" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Número</label><input type="text" name="desnumero" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Complemento</label><input type="text" name="descomplemento" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Bairro</label><input type="text" name="desbairro" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Cidade</label><input type="text" name="descidade" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Estado</label><input type="text" name="desestado" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">País</label><input type="text" name="despais" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">CEP</label><input type="text" name="descep" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane" id="tab-lugar-mapa" role="tabpanel"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="horariosTodos"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button></div></div></div></div></div></div><script id="tpl-lugar-horario" type="text/x-handlebars-template"><tr data-nrdia="{{nrweekday}}">
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-horarios" aria-controls="tab-lugar-horarios" role="tab">Horários</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-lugar" role="tabpanel"><form id="form-lugar"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" name="deslugar" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" id="lugartipoPanel" class="form-control"></select></div><label class="form-control-label"><h4>Endereço</h4></label><div class="row"><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Endereço</label><select name="idenderecotipo" class="form-control"></select></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Endereço</label><input type="text" name="desendereco" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Número</label><input type="text" name="desnumero" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Complemento</label><input type="text" name="descomplemento" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Bairro</label><input type="text" name="desbairro" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Cidade</label><input type="text" name="descidade" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">Estado</label><input type="text" name="desestado" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">País</label><input type="text" name="despais" class="form-control"></div><div class="form-group form-material col-sm-4" data-plugin="formMaterial"><label class="form-control-label">CEP</label><input type="text" name="descep" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane" id="tab-lugar-mapa" role="tabpanel"><input type="hidden" name="vllatitude"> <input type="hidden" name="vllongitude"> <input type="hidden" name="nrzoom"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="horariosTodos"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button></div></div></div></div></div></div><script id="tpl-lugar-horario" type="text/x-handlebars-template"><tr data-nrdia="{{nrweekday}}">
 		<td><input type="checkbox"></td>
 		<td>{{desweekday}}</td>
 		<td><input type="time" name="hrabre" class="form-control" value="{{hrabre}}" disabled="disabled"></td>
@@ -29,20 +29,20 @@ $("[name=idenderecotipo]").combobox({
 });
 
 // parte do mapa
-var position = {
-	lat: -8.361126490598373,
-	lng: -55.705590349999966
-}
-
-var zoom = 3;
-
-if(parseFloat(lugar.vllatitude) != 0 && parseFloat(lugar.vllongitude) != 0){
-	position.lat = lugar.vllatitude;
-	position.lng = lugar.vllongitude;
-	zoom = lugar.nrzoom;
-}
-
 function initMap(){
+
+	var position = {
+		lat: -8.361126490598373,
+		lng: -55.705590349999966
+	}
+
+	var zoom = 3;
+
+	if(parseFloat(lugar.vllatitude) != 0 && parseFloat(lugar.vllongitude) != 0){
+		position.lat = lugar.vllatitude;
+		position.lng = lugar.vllongitude;
+		zoom = lugar.nrzoom;
+	}
 
 	var map = new google.maps.Map(document.getElementById("mapa"), {
 		center:{lat: position.lat, lng: position.lng},
@@ -59,9 +59,9 @@ function initMap(){
 
 	google.maps.event.addListener(marker, 'dragend', function(){
 
-		position.lat = marker.getPosition().lat();
-		position.lng = marker.getPosition().lng();
-		zoom = map.getZoom();
+		$("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
+		$("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
+		$("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
 
 	});
 
@@ -80,9 +80,9 @@ $("#tab-lugar-mapa .btn-salvar").on("click", function(){
 		method:"POST",
 		data:{
 			idcoordenada:lugar.idcoordenada,
-			vllatitude:position.lat,
-			vllongitude:position.lng,
-			nrzoom:zoom
+			vllatitude:$("#tab-lugar-mapa [name=vllatitude]").val(),
+			vllongitude:$("#tab-lugar-mapa [name=vllongitude]").val(),
+			nrzoom:$("#tab-lugar-mapa [name=nrzoom]").val()
 		},
 		success:function(){
 			$btn.btnload("unload");

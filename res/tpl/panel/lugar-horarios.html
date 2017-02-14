@@ -1,0 +1,84 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Definir horários para esses lugares</h5></h4></div></header><div class="slidePanel-inner"><table class="table table-stripped table-hover"><thead><tr><th><input id="horariosTodos" type="checkbox"><th>Dia<th>Hora de Abertura<th>Hora de Fechamento<th>&nbsp;<tbody>{loop="horarios"}<tr data-nrdia="{$value.nrweekday}"><td><input type="checkbox"><td>{$value.desweekday}<td><input type="time" class="form-control" name="hrabre" disabled="disabled"><td><input type="time" class="form-control" name="hrfecha" disabled="disabled"><td><button class="btn btn-default" disabled="disabled">Padrão</button></tr>{/loop}</table><div class="form-group form-material" data-plugin="formMaterial"><button type="button" class="btn btn-primary btn-horarios-salvar">Salvar</button></div></div><script>var ids = JSON.parse('{function="json_encode($ids)"}');
+
+$(".slidePanel-inner table tr").each(function(){
+
+	var $tr = $(this);
+
+	$tr.find("[type=checkbox]").on("change", function(){
+
+		var disabled = !$(this).prop("checked");
+
+		$tr.find("input:not(:checkbox)").attr("disabled", disabled);
+		$tr.find("button").attr("disabled", disabled);
+
+		if(disabled){
+    		$tr.find("input:not(:checkbox)").val("");
+    	}
+
+	});
+
+	$tr.find(".btn-default").on("click", function(){
+
+		var $tbody = $(".slidePanel-inner table tbody");
+
+		var hrabre = $tr.find("[name=hrabre]").val();
+		var hrfecha = $tr.find("[name=hrfecha]").val();
+
+		$tbody.find("tr [name=hrabre]:enabled").val(hrabre);
+		$tbody.find("tr [name=hrfecha]:enabled").val(hrfecha);
+
+	});
+
+});
+	
+$(".slidePanel-inner table #horariosTodos").on("change", function(){
+
+	$('.slidePanel-inner table tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+});
+
+$(".btn-horarios-salvar").on("click", function(){
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	var nrdia = [];
+	var hrabre = [];
+	var hrfecha = [];
+
+	$(".slidePanel-inner table tbody tr").each(function(){
+
+		if($(this).find(":checkbox").prop("checked")){
+
+			nrdia.push($(this).data("nrdia"));
+			hrabre.push($(this).find("[name=hrabre]").val());
+			hrfecha.push($(this).find("[name=hrfecha]").val());
+
+		}
+
+	});
+
+	rest({
+		url:PATH+"/lugares-horarios",
+		method:"POST",
+		data:{
+			ids:ids.toString(),
+			nrdia:nrdia.toString(),
+			hrabre:hrabre.toString(),
+			hrfecha:hrfecha.toString()
+		},
+		success:function(){
+			System.success("Horários definidos com sucesso");
+			$btn.btnload("unload");
+			$(".slidePanel-close").trigger("click");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});</script>

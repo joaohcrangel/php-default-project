@@ -443,7 +443,7 @@ class Sql {
 				case 'bool':
 				case 'boolean':
 				if ($this->type === Sql::PDO) {
-					array_push($params_new, (($value)?1:0));
+					array_push($params_new, PDO::PARAM_BOOL);
 				} else {
 					array_push($params_new, (($value)?1:0));
 				}
@@ -734,7 +734,7 @@ class Sql {
 			case Sql::PDO:
 
 				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
-				$sth = $this->conn->prepare($query);
+				$sth = $this->conn->prepare($query);				
 
 				$params = $this->trataParams($params, false);
 

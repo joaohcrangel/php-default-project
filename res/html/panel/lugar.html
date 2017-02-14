@@ -91,6 +91,10 @@
 	        	<!-- inicio da tab do mapa -->
 	        	<div class="tab-pane" id="tab-lugar-mapa" role="tabpanel">
 
+	        		<input type="hidden" name="vllatitude">
+	        		<input type="hidden" name="vllongitude">
+	        		<input type="hidden" name="nrzoom">
+
 					<div id="mapa" style="width:100%;height:400px"></div>
 
 					<div class="form-group form-material m-t-15" data-plugin="formMaterial">
@@ -169,20 +173,20 @@ $("[name=idenderecotipo]").combobox({
 });
 
 // parte do mapa
-var position = {
-	lat: -8.361126490598373,
-	lng: -55.705590349999966
-}
-
-var zoom = 3;
-
-if(parseFloat(lugar.vllatitude) != 0 && parseFloat(lugar.vllongitude) != 0){
-	position.lat = lugar.vllatitude;
-	position.lng = lugar.vllongitude;
-	zoom = lugar.nrzoom;
-}
-
 function initMap(){
+
+	var position = {
+		lat: -8.361126490598373,
+		lng: -55.705590349999966
+	}
+
+	var zoom = 3;
+
+	if(parseFloat(lugar.vllatitude) != 0 && parseFloat(lugar.vllongitude) != 0){
+		position.lat = lugar.vllatitude;
+		position.lng = lugar.vllongitude;
+		zoom = lugar.nrzoom;
+	}
 
 	var map = new google.maps.Map(document.getElementById("mapa"), {
 		center:{lat: position.lat, lng: position.lng},
@@ -199,9 +203,9 @@ function initMap(){
 
 	google.maps.event.addListener(marker, 'dragend', function(){
 
-		position.lat = marker.getPosition().lat();
-		position.lng = marker.getPosition().lng();
-		zoom = map.getZoom();
+		$("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
+		$("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
+		$("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
 
 	});
 
@@ -220,9 +224,9 @@ $("#tab-lugar-mapa .btn-salvar").on("click", function(){
 		method:"POST",
 		data:{
 			idcoordenada:lugar.idcoordenada,
-			vllatitude:position.lat,
-			vllongitude:position.lng,
-			nrzoom:zoom
+			vllatitude:$("#tab-lugar-mapa [name=vllatitude]").val(),
+			vllongitude:$("#tab-lugar-mapa [name=vllongitude]").val(),
+			nrzoom:$("#tab-lugar-mapa [name=nrzoom]").val()
 		},
 		success:function(){
 			$btn.btnload("unload");
@@ -347,6 +351,5 @@ form.form({
 
 </script>
 
-<script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZeruuGhybNkWSI8VK7tYiynxt3epFPEg&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZeruuGhybNkWSI8VK7tYiynxt3epFPEg&callback=initMap">
 </script>

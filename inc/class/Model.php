@@ -103,7 +103,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 					case "id":
 					case "nr":
-					$this->{"set".$key}((int)$value);
+					if($value != NULL) $this->{"set".$key}((int)$value);
 					break;
 
 					case "vl":
@@ -154,7 +154,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 	protected function queryToAttr($query, $params = array()){
 
 		$sql = $this->getSql();
-		$result = $sql->select($query, $params);
+		$result = $sql->select($query, $params);		
 		$this->arrayToAttr($result);
 		return $result;
 

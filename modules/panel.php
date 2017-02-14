@@ -560,30 +560,6 @@ $app->get("/panel/lugares/:idlugar", function($idlugar){
 
 	$data = $lugar->getFields();
 
-	// $dias = array();
-
-	// $horarios = $lugar->getLugaresHorarios()->getFields();
-
-	// $horariosDefault = Language::getWeekdays();
-
-	// foreach ($horariosDefault as $horarioDefault) {
-
-	// 	foreach($horarios as $horario){
-
-	// 		array_push($dias, $horario);
-
-	// 		if($horarioDefault['nrweekday'] != $horario['nrdia']){
-	// 			array_push($dias, $horarioDefault);
-	// 		}
-
-	// 	}
-
-	// }
-
-	// pre($dias);
-
-	// exit;
-
 	$horarios = $lugar->getLugaresHorarios()->getFields();
 
 	if(!count($horarios) > 0) $horarios = Language::getWeekdays();
@@ -604,6 +580,20 @@ $app->get("/panel/lugar-criar", function(){
 	));
 
 	$page->setTpl("panel/lugar-criar");
+
+});
+
+$app->get("/panel/lugar-horarios", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/lugar-horarios", array(
+		"ids"=>$_GET['ids'],
+		"horarios"=>Language::getWeekdays()
+	));
 
 });
 

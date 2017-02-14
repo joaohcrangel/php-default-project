@@ -47,13 +47,16 @@ $app->post('/produtos', function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    if(post('idproduto') > 0){
+    if((int)post('idproduto') > 0){
         $produto = new Produto((int)post('idproduto'));
     }else{
         $produto = new Produto();
     }
 
     $produto->set($_POST);
+
+    var_dump($_POST);
+    exit;
 
     $produto->save();
 

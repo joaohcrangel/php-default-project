@@ -71,6 +71,7 @@
           data-child="tr">
             <thead>
               <tr>
+                <th>&nbsp;</th>
                 <th>Lugar</th>
                 <th>Endereco</th>
                 <th>Tipo do Lugar</th>
@@ -101,7 +102,14 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr>
+  <tr data-idlugar="{{idlugar}}">
+    <td class="cell-60">
+      <span class="checkbox-custom checkbox-primary checkbox-lg">
+        <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
+        />
+        <label for="mail_mid_1"></label>
+      </span>
+    </td>
     <td>{{deslugar}}</td>
     <td>{{desendereco}}</td>
     <td>{{deslugartipo}}</td>
@@ -194,7 +202,21 @@ init.push(function(){
                   f();
                 }
 
-              });
+              });             
+
+            });
+
+            $tr.find("[type=checkbox]").on("change", function(){
+
+              alert("ok");
+
+                // var input = $("#lista tbody [type=checkbox]:checked").length;
+
+                // console.log(input);
+
+                // if(input > 0){
+                //   $("#btn-lugar-horario").prop("disabled", false);
+                // }
 
             });
 
@@ -241,6 +263,27 @@ init.push(function(){
             
             System.openSlidePanel({
               url:PATH+"/panel/lugar-criar"
+            });
+
+          }
+        }
+      },{
+        text:"Definir horário",
+        icon:"md-time",
+        id:"btn-lugar-horario",
+        cls:"btn-default",
+        disabled:true,
+        listeners:{
+          click:function(){
+
+            var ids = [];
+
+            $("#lista tr [type=checkbox]:checked").each(function(){              
+              ids.push($(this).closest("tr").data("idlugar"));
+            });
+          
+            System.openSlidePanel({
+              url:PATH+"/panel/lugar-horarios?ids="+ids.toString(),
             });
 
           }

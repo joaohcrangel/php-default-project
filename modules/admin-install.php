@@ -695,26 +695,47 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuLugares->save();
 	//////////////////////////////////////
+	$menuSite = new Menu(array(
+		"nrordem"=>8,
+		"idmenupai"=>NULL,
+		"desicone"=>"md-view-web",
+		"deshref"=>"",
+		"desmenu"=>$lang->getString('menus_site')
+	));
+	$menuSite->save();
+	//////////////////////////////////////
+	$menuSiteMenu = new Menu(array(
+		"nrordem"=>0,
+		"idmenupai"=>$menuSite->getidmenu(),
+		"desicone"=>"",
+		"deshref"=>"/site/menu",
+		"desmenu"=>$lang->getString('menus_site_menu')
+	));
+	$menuSiteMenu->save();
+	//////////////////////////////////////
 	
 	echo success();
 });
 $app->get("/install-admin/sql/menus/get", function(){
 	$names = array(
-       "sp_menus_get"
+       "sp_menus_get",
+       "sp_sitesmenus_get"
 	);
 	saveProcedures($names);
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
 	$names = array(
-        "sp_menus_list"
+        "sp_menus_list",
+        "sp_sitesmenus_list"
 	);
 	saveProcedures($names);
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
 	$names = array(
-       "sp_menus_remove"
+       "sp_menus_remove",
+       "sp_sitesmenus_remove"
 	);
 	saveProcedures($names);
 	echo success();
@@ -723,7 +744,9 @@ $app->get("/install-admin/sql/menus/save", function(){
 	$procs = array(
 		"sp_menusfromusuario_list",
 		"sp_menustrigger_save",
-		"sp_menus_save"
+		"sp_menus_save",
+		"sp_sitesmenustrigger_save",
+		"sp_sitesmenus_save"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1740,11 +1763,11 @@ $app->get("/install-admin/sql/pagamentos/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/tables", function(){
+$app->get("/install-admin/sql/sitescontatos/tables", function(){
 	
 	$sql = new Sql();
 	$sql->query("
-		CREATE TABLE tb_sitecontatos(
+		CREATE TABLE tb_sitescontatos(
 			idsitecontato INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
 			desmensagem VARCHAR(2048) NOT NULL,
@@ -1758,38 +1781,38 @@ $app->get("/install-admin/sql/sitecontatos/tables", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/list", function(){
+$app->get("/install-admin/sql/sitescontatos/list", function(){
 	$procs = array(
-		"sp_sitecontatos_list",
-		"sp_sitecontatosfrompessoa_list"
+		"sp_sitescontatos_list",
+		"sp_sitescontatosfrompessoa_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/get", function(){
+$app->get("/install-admin/sql/sitescontatos/get", function(){
 	$procs = array(
-		'sp_sitecontatosbypessoa_get',
-		'sp_sitecontatos_get'
+		'sp_sitescontatosbypessoa_get',
+		'sp_sitescontatos_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/save", function(){
+$app->get("/install-admin/sql/sitescontatos/save", function(){
 	$name = array(
-		"sp_sitecontatos_save"
+		"sp_sitescontatos_save"
 	);
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/remove", function(){
+$app->get("/install-admin/sql/sitescontatos/remove", function(){
 	$name = array(
-		"sp_sitecontatos_remove"
+		"sp_sitescontatos_remove"
 	);
 	saveProcedures($name);
 	
@@ -1977,18 +2000,18 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 	
 	$endereco = new Endereco(array(
 		'idenderecotipo'=>EnderecoTipo::COMERCIAL,
-		'desendereco'=>'Rua Ademar Saraiva Leão',
-		'desnumero'=>'234',
-		'desbairro'=>'Alvarenga',
-		'descidade'=>'São Bernardo do Campo',
-		'desestado'=>'São Paulo',
-		'despais'=>'Brasil',
-		'descep'=>'09853120'
+		'desendereco'=>$lang->getString('lugartipo_hcode_endereco'),
+		'desnumero'=>$lang->getString('lugartipo_hcode_numero'),
+		'desbairro'=>$lang->getString('lugartipo_hcode_bairro'),
+		'descidade'=>$lang->getString('lugartipo_hcode_cidade'),
+		'desestado'=>$lang->getString('lugartipo_hcode_estado'),
+		'despais'=>$lang->getString('lugartipo_hcode_pais'),
+		'descep'=>$lang->getString('lugartipo_hcode_cep')
 	));
 	$endereco->save();
 
 	$lugarHcode = new Lugar(array(
-		'deslugar'=>'Hcode',
+		'deslugar'=>$lang->getString('lugar_hcode'),
 		'idlugartipo'=>$empresas->getidlugartipo(),
 		'idendereco'=>$endereco->getidendereco()
 	));

@@ -60,6 +60,7 @@
 	<string name="menus_pagamento">Pagamentos</string>
 	<string name="menus_carrinho">Carrinho</string>
 	<string name="menus_lugar">Lugares</string>
+	<string name="menus_site">Site</string>
 
 	<string name="contato_tipo">E-mail</string>
 	<string name="telefone_tipo">Telefone</string>
@@ -125,9 +126,17 @@
 	<string name="lugartipo_pais">País</string>
 	<string name="lugartipo_empresas">Empresas</string>
 
+	<string name="lugar_hcode">Hcode</string>	
 
+	<string name="lugartipo_hcode_endereco">Rua Ademar Saraiva Leão</string>
+	<string name="lugartipo_hcode_numero">234</string>
+	<string name="lugartipo_hcode_bairro">Alvarenga</string>
+	<string name="lugartipo_hcode_cidade">São Bernardo do Campo</string>
+	<string name="lugartipo_hcode_estado">São Paulo</string>
+	<string name="lugartipo_hcode_pais">Brasil</string>
+	<string name="lugartipo_hcode_cep">09853120</string>
 
-
+	
 
 </resources>
 

@@ -63,14 +63,20 @@ function rest(opts){
               'Content-Type': 'application/x-www-form-urlencoded'
           };
           opts.data = $.param(opts.data);
-        opts.$http(opts).then(function(r){
-          if (window.setTimeoutRest[opts.url]) {
-            clearTimeout(window.setTimeoutRest[opts.url]);
-            window.setTimeoutRest[opts.url] = undefined;
-          }
-          if (typeof System === 'object') System.ajaxExecution = false;
-          if (typeof opts.success === 'function') opts.success(r.data, r);
-        }, opts.failure);
+          opts.$http(opts).then(function(r){
+            if (window.setTimeoutRest[opts.url]) {
+              clearTimeout(window.setTimeoutRest[opts.url]);
+              window.setTimeoutRest[opts.url] = undefined;
+            }
+            if (typeof System === 'object') System.ajaxExecution = false;
+            if (typeof opts.success === 'function') opts.success(r.data, r);
+          }, function(r){
+
+            if (typeof console === 'object') console.error(r);
+            if (typeof System === 'object') System.ajaxExecution = false;
+            if (typeof opts.failure === 'function') opts.failure(r.data, r);
+
+          });
       } else {
 
         if (opts.debug === true) console.log('AJAX WITH', '$.ajax');

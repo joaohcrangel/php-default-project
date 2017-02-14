@@ -1,28 +1,28 @@
 <?php
 
-class SiteContatos extends Collection {
+class sitescontatos extends Collection {
 
     protected $class = "SiteContato";
-    protected $saveQuery = "sp_sitecontatos_save";
+    protected $saveQuery = "sp_sitescontatos_save";
     protected $saveArgs = array("idsitecontato", "idpessoa", "desmensagem", "inlido");
     protected $pk = "idsitecontato";
     public function get(){}
 
     public static function listAll(){
 
-    	$contatos = new SiteContatos();
+    	$contatos = new sitescontatos();
 
-    	$contatos->loadFromQuery("CALL sp_sitecontatos_list();");
+    	$contatos->loadFromQuery("CALL sp_sitescontatos_list();");
 
     	return $contatos;
 
     }
 
-      public function getByPessoa(Pessoa $pessoa):SiteContatos
+      public function getByPessoa(Pessoa $pessoa):sitescontatos
       
     {
     
-         $this->loadFromQuery("CALL sp_sitecontatosfrompessoa_list(?)",array(
+         $this->loadFromQuery("CALL sp_sitescontatosfrompessoa_list(?)",array(
                $pessoa->getidpessoa()
                
         ));

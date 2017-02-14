@@ -139,7 +139,13 @@
 	<string name="lugartipo_hcode_pais">Brasil</string>
 	<string name="lugartipo_hcode_cep">09853120</string>
 
-	
+	<string name="configtipo_texto">Texto</string>	
+	<string name="configtipo_numero">Número</string>	
+	<string name="configtipo_boleano">Boleano</string>	
+	<string name="configtipo_data">Data</string>
+
+	<string name="config_admin_name">ADMIN_NAME</string>		
+	<string name="config_admin_name_value">Default Admin</string>		
 
 </resources>
 

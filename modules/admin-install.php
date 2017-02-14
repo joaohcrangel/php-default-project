@@ -2196,6 +2196,41 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 
 });
 
+$app->get("/install-admin/sql/configuracoes/inserts", function(){
+
+	$lang = new Language();
+
+	$texto = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_texto')
+	));
+	$texto->save();
+
+	$numero = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_numero')
+	));
+	$numero->save();
+
+	$bool = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_boleano')
+	));
+	$bool->save();
+
+	$data = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_data')
+	));
+	$data->save();
+
+	$adminName = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_admin_name'),
+		'desvalor'=>$lang->getString('config_admin_name_value'),
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
+	));
+	$adminName->save();
+
+	echo success();
+
+});
+
 $app->get("/install-admin/sql/arquivos/tables", function(){
 	
 	$sql = new Sql();

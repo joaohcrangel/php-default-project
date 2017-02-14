@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-pessoa-valor"><div class="panel-heading"><h3 class="panel-title">Pessoas Valores Campos</h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Pessoas Valores Campos<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/pessoas-valorescampos-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-pessoa-valor" type="/x-handlebars-temprate"><tr data-idcampo="{{idcampo}}">
+	<td>{{descampo}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pessoas-valorescampos/{{idcampo}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pessoavalor icon wb-trash">
+      	</button>
+	</td>
+	</tr></script><script>init.push(function(){
+	var panel = System.getPanelApi($("#panel-pessoa-valor"));
+
+	var $tbody = $("#panel-pessoa-valor tbody");
+
+	var $tplPessoaValor = Handlebars.compile($("#tpl-pessoa-valor").html());
+
+	function loadPessoaValor(){
+
+		$(".refresh").on("click", function(){
+			loadPessoaValor();
+
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/pessoas-valorescampos",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplPessoaValor(row));
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-pessoavalor").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idcampo = $btn.closest("tr").data("idcampo");
+					System.confirm('Deseja remover essa pessoavalor?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/pessoas-valorescampos/"+idcampo,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadPessoaValor();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+
+    loadPessoaValor();
+});</script>

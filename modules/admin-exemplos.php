@@ -15,7 +15,7 @@ $app->get("/".DIR_ADMIN."/exemplos/upload", function(){
 });
 
 $app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-3", function(){
-
+	
 	$file = $_FILES['desarquivo'];
 
 	$arquivo = Arquivo::upload(
@@ -26,7 +26,19 @@ $app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-3", function(){
 		$file['size']
 	);
 	
-	pre($arquivo->getFields());
+	echo success(array(
+		'data'=>$arquivo->getFields()
+	));
+
+});
+
+$app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-4", function(){
+	
+	$arquivo = Arquivo::download(post('desurl'));
+	
+	echo success(array(
+		'data'=>$arquivo->getFields()
+	));
 
 });
 

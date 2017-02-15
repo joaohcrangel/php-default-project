@@ -2320,7 +2320,6 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 		  desdiretorio varchar(256) NOT NULL,
 		  desarquivo varchar(128) NOT NULL,
 		  desextensao varchar(32) NOT NULL,
-		  desnome varchar(128) NOT NULL,
 		  desalias varchar(128) NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idarquivo)

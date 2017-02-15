@@ -49,20 +49,22 @@
 			            </div>
 					</div>	
 				</form>
-
 				
 				<div class="panel panel-primary panel-line" id="form-exemplo-3">
 					<div class="panel-heading">
 		            	<h3 class="panel-title">JRangel Upload</h3>
 		            </div>
 		            <div class="panel-body">
-		            					
-						<input type="file" name="desarquivo" class="form-control" />
-		                
+		            	<div class="row-fluid">
+		            		<div class="col-md-6">
+		            			<input type="file" name="desarquivo" class="form-control" />
+		            		</div>
+		            		<div class="col-md-6">
+		            			<div id="arquivo-3"></div>
+		            		</div>
+		            	</div>
 		            </div>
-		            <div class="panel-footer">
-		            	<button type="submit" class="btn btn-primary pul-xs-right">Enviar</button>
-		            </div>
+
 				</div>			
 
 				<form id="form-exemplo-4">
@@ -71,7 +73,12 @@
 			            	<h3 class="panel-title">Download de Link</h3>
 			            </div>
 			            <div class="panel-body">
-							<input type="url" name="desurl" class="form-control" />
+							<div class="col-md-6">
+		            			<input type="url" name="desurl" class="form-control" value="https://assetsnffrgf-a.akamaihd.net/assets/m/502017712/univ/art/502017712_univ_pnr_lg.jpg" />
+		            		</div>
+		            		<div class="col-md-6">
+		            			<div id="arquivo-4"></div>
+		            		</div>
 			            </div>
 			            <div class="panel-footer">
 			            	<button type="submit" class="btn btn-primary pul-xs-right">Enviar</button>
@@ -92,6 +99,13 @@ init.push(function(){
 		success:function(r){
 			console.info('SUCCESS Exemplo 3');
 			console.log(r);
+
+			if (['jpg', 'gif', 'png'].indexOf(r.data.desextensao) > -1) {
+
+				$('#arquivo-3').html('<img src="'+r.data.desurl+'" style="width:100%;">');
+
+			}
+
 		},
 		failure:function(e){
 			System.showError(e);
@@ -103,6 +117,13 @@ init.push(function(){
 		success:function(r){
 			console.info('SUCCESS Exemplo 4');
 			console.log(r);
+
+			if (['jpg', 'gif', 'png'].indexOf(r.data.desextensao) > -1) {
+
+				$('#arquivo-4').html('<img src="'+r.data.desurl+'" style="width:100%;">');
+
+			}
+
 		},
 		failure:function(e){
 			System.showError(e);

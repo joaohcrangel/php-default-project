@@ -2362,6 +2362,14 @@ $app->get("/install-admin/sql/arquivos/remove", function(){
 
 	echo success();
 });
+$app->get("/install-admin/sql/arquivos/list", function(){
+	$procs = array(
+		'sp_arquivos_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
 
 $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 

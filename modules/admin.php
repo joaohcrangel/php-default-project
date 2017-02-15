@@ -441,6 +441,26 @@ $app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/arquivos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $conf = Session::getConfiguracoes();
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'app-media page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/arquivos", array(
+        'diretorio'=>$conf->getByName("UPLOAD_DIR")
+    ));
+
+});
+
 
 $app->get("/".DIR_ADMIN."/pessoas/teste", function(){
 

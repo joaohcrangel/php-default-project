@@ -1,13 +1,13 @@
 <?php
 
-$app->get("/cursos/all", function(){
+$app->get("/cursos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	$where = array();
 
 	if(get('descurso') != ''){
-		array_push($where, "descurso = ".get('descurso'));
+		array_push($where, "descurso LIKE'%".get('descurso')."%'");
 	}
 
 	if(count($where) > 0){

@@ -38,8 +38,8 @@
               </div>
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label" for=""></label>
-                  <input type="text" class="form-control" name="" id="">
+                  <label class="form-control-label" for="descurso">Nome</label>
+                  <input type="text" class="form-control" name="descurso" id="descurso">
                 </div>                
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -95,15 +95,31 @@
   </tr>
 </script>
 
+<script id="tpl-footer" type="text/x-handlebars-template">
+  <div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div>
+</script>
+
 <script>
   
 init.push(function(){
 
   var tpl = Handlebars.compile($("#tpl-curso-row").html());
+  var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
   var $tbody = $("#lista tbody");
 
   var $panel = System.getPanelApi($("#mailContent .panel"));
+
+  $("#curso-footer").html(tplFooter({
+    total:0
+  }));
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
@@ -141,11 +157,28 @@ init.push(function(){
 
           var $tr = $(tpl(row));
 
-          $tbody.append($tr);
-
-          System.initSlidePanel($tbody);
+          $tbody.append($tr);         
 
         });
+
+        var $footer = $("#curso-footer");
+
+        $footer.html(tplFooter(r));
+
+        System.initSlidePanel($tbody);
+
+        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          skin:'paginator-gap',
+          currentPage:r.currentPage,
+          itemsPerPage:r.itemsPerPage,
+          onchange:function(page){
+            loadCursos(page);
+          }
+        });
+
+        $("#paginacao").asPaginator(r.total, config);
+
+        $panel.done();
 
       },
       failure:function(r){        
@@ -155,6 +188,24 @@ init.push(function(){
     });
 
   }
+
+  new ToolBar({
+    id:"actions-buttons",
+    buttons:[{
+      text:"Cadastrar",
+      icon:"md-plus",
+      cls:"btn-success",
+      listeners:{
+        click:function(){
+
+          System.openSlidePanel({
+            url:PATH+"/panel/curso-criar"
+          });
+
+        }
+      }
+    }]
+  })
 
 });
 

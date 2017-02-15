@@ -4,7 +4,42 @@ $app->get("/cursos/all", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>Cursos::listAll()->getFields()));
+	$where = array();
+
+	if(get('descurso') != ''){
+		array_push($where, "descurso = ".get('descurso'));
+	}
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where)."";
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS *
+    	FROM tb_cursos ".$where.";
+    ";
+
+    $pagina = (int)get('pagina');
+
+    $itemsPerPage = (int)get('limite');
+
+    $paginacao = new Pagination(
+    	$query,
+    	array(),
+    	"Cursos",
+    	$itemsPerPage
+    );
+
+    $cursos = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$cursos->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 

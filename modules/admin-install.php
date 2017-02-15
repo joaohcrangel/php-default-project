@@ -2213,6 +2213,7 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
 		  desconfiguracao varchar(64) NOT NULL,
 		  desvalor varchar(2048) NOT NULL,
+		  desdescricao varchar(256) NULL,
 		  idconfiguracaotipo int(11) NOT NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idconfiguracao),
@@ -2263,14 +2264,16 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 	$adminName = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_admin_name'),
 		'desvalor'=>$lang->getString('config_admin_name_value'),
-		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desdescricao'=>$lang->getString('config_admin_name_description')
 	));
 	$adminName->save();
 
 	$uploadDir = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_upload_dir'),
 		'desvalor'=>$lang->getString('config_upload_dir_value'),
-		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desdescricao'=>$lang->getString('config_upload_dir_description')
 	));
 	$uploadDir->save();
 
@@ -2282,7 +2285,8 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
             'gif' => 'image/gif',
             'pdf' => 'application/pdf'
 		)),
-		'idconfiguracaotipo'=>$array->getidconfiguracaotipo()
+		'idconfiguracaotipo'=>$array->getidconfiguracaotipo(),
+		'desdescricao'=>$lang->getString('config_upload_mimetype_description')
 	));
 	$uploadMimes->save();
 

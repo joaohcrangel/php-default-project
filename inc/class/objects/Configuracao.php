@@ -45,10 +45,11 @@ class Configuracao extends Model {
                 break;
             }
 
-            $this->queryToAttr("CALL sp_configuracoes_save(?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_configuracoes_save(?, ?, ?, ?, ?);", array(
                 $this->getidconfiguracao(),
                 $this->getdesconfiguracao(),
                 $this->getdesvalor(),
+                $this->getdesdescricao(),
                 $this->getidconfiguracaotipo()
             ));
 

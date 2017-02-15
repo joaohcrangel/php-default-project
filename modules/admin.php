@@ -319,13 +319,13 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/pagamentos-status", function(){
+$app->get("/".DIR_ADMIN."/pedidos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/pagamentos-status");
+    $page->setTpl("/admin/pedidos-status");
 
 });
 
@@ -369,7 +369,7 @@ $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/pagamentos", function(){
+$app->get("/".DIR_ADMIN."/pedidos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -381,7 +381,7 @@ $app->get("/".DIR_ADMIN."/pagamentos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pagamentos");
+    $page->setTpl("/admin/pedidos");
 
 });
 

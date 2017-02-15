@@ -244,16 +244,16 @@ $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 
 });
 
-// pagamentos
-$app->get("/pessoas/:idpessoa/pagamentos", function($idpessoa){
+// pedidos
+$app->get("/pessoas/:idpessoa/pedidos", function($idpessoa){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS a.*, b.*, c.desformapagamento, d.* FROM tb_pagamentos a
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.*, c.desformapagamento, d.* FROM tb_pedidos a
 			INNER JOIN tb_pessoas b USING(idpessoa)
 	        INNER JOIN tb_formaspagamentos c ON a.idformapagamento = c.idformapagamento
-	        INNER JOIN tb_pagamentosstatus d ON a.idstatus = d.idstatus
+	        INNER JOIN tb_pedidosstatus d ON a.idstatus = d.idstatus
 		WHERE a.idpessoa = ".$idpessoa." LIMIT ?, ?;
 	";
 

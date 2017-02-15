@@ -282,7 +282,7 @@ $app->get("/install-admin/sql/produtos/list", function(){
 		"sp_produtostipos_list",
 		"sp_produtosprecos_list",
 		"sp_carrinhosfromproduto_list",
-		"sp_pagamentosfromproduto_list",
+		"sp_pedidosfromproduto_list",
 		"sp_precosfromproduto_list"
 	);
 	saveProcedures($procs);
@@ -632,14 +632,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTiposProdutos->save();
 	//////////////////////////////////////
-	$menuPagamentosStatus = new Menu(array(
+	$menuPedidosStatus = new Menu(array(
 		'nrordem'=>6,
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
-		'deshref'=>'/pagamentos-status',
-		'desmenu'=>$lang->getString('menus_pagamento_statu')
+		'deshref'=>'/pedidos-status',
+		'desmenu'=>$lang->getString('menus_pedido_statu')
 	));
-	$menuPagamentosStatus->save();
+	$menuPedidosStatus->save();
 	//////////////////////////////////////
 	$menuPessoasTipos = new Menu(array(
 		'nrordem'=>7,
@@ -677,14 +677,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuHistoricosTipos->save();
 	//////////////////////////////////////
-	$menuFormasPagamentos = new Menu(array(
+	$menuFormasPedidos = new Menu(array(
 		'nrordem'=>11,
 		'idmenupai'=>$menuTipos->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/formas-pagamentos',
-		'desmenu'=>$lang->getString('menus_forma_pagamento')
+		'desmenu'=>$lang->getString('menus_forma_pedido')
 	));
-	$menuFormasPagamentos->save();
+	$menuFormasPedidos->save();
 	//////////////////////////////////////
 	$menuPessoasValoresCampos = new Menu(array(
 		'nrordem'=>11,
@@ -704,14 +704,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuConfiguracoesTipos->save();
 	//////////////////////////////////////
-	$menuPagamentos = new Menu(array(
+	$menuPedidos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
 		"desicone"=>'md-money-box',
-		"deshref"=>'/pagamentos',
-		"desmenu"=>$lang->getString('menus_pagamento')
+		"deshref"=>'/pedidos',
+		"desmenu"=>$lang->getString('menus_pedido')
 	));
-	$menuPagamentos->save();
+	$menuPedidos->save();
 	//////////////////////////////////////
 	$menuCarrinhos = new Menu(array(
 		"nrordem"=>6,
@@ -1587,7 +1587,7 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pagamentos/tables", function(){
+$app->get("/install-admin/sql/pedidos/tables", function(){
 	
 	$sql = new Sql();
 	$sql->query("
@@ -1603,7 +1603,7 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE tb_pagamentosstatus(
+		CREATE TABLE tb_pedidosstatus(
 			idstatus INT NOT NULL AUTO_INCREMENT,
 			desstatus VARCHAR(128) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -1611,8 +1611,8 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE tb_pagamentos(
-			idpagamento INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_pedidos(
+			idpedido INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
 			idformapagamento INT NOT NULL,
 			idstatus INT NOT NULL,
@@ -1620,42 +1620,42 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 			vltotal DECIMAL(10,2) NOT NULL,
 			nrparcelas INT NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idpagamento),
+			CONSTRAINT PRIMARY KEY(idpedido),
 			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
 			CONSTRAINT FOREIGN KEY(idformapagamento) REFERENCES tb_formaspagamentos(idformapagamento),
-			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pagamentosstatus(idstatus)
+			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pedidosstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE tb_pagamentosprodutos(
-			idpagamento INT NOT NULL,
+		CREATE TABLE tb_pedidosprodutos(
+			idpedido INT NOT NULL,
 			idproduto INT NOT NULL,
 			nrqtd INT NOT NULL,
 			vlpreco DECIMAL(10,2) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idpagamento, idproduto),
-			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento),
+			CONSTRAINT PRIMARY KEY (idpedido, idproduto),
+			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE tb_pagamentosrecibos(
-			idpagamento INT NOT NULL,
+		CREATE TABLE tb_pedidosrecibos(
+			idpedido INT NOT NULL,
 			desautenticacao VARCHAR(256) NOT NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idpagamento),
-			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento)
+			CONSTRAINT PRIMARY KEY (idpedido),
+			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->query("
-		CREATE TABLE tb_pagamentoshistoricos(
+		CREATE TABLE tb_pedidoshistoricos(
 			idhistorico INT NOT NULL AUTO_INCREMENT,
-			idpagamento INT NOT NULL,
+			idpedido INT NOT NULL,
 			idusuario INT NOT NULL,
 			dtcadastro TIMESTAMP NULL,			
 			CONSTRAINT PRIMARY KEY(idhistorico),
-			CONSTRAINT FOREIGN KEY(idpagamento) REFERENCES tb_pagamentos(idpagamento),
+			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
 			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -1663,7 +1663,7 @@ $app->get("/install-admin/sql/pagamentos/tables", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pagamentos/inserts", function(){
+$app->get("/install-admin/sql/pedidos/inserts", function(){
 
 	$lang = new Language();
 	
@@ -1726,10 +1726,10 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 		1, $lang->getString('gateway_sorocred'), 12, 1
 	));
 	$sql->query("
-		INSERT INTO tb_pagamentosstatus(desstatus)
+		INSERT INTO tb_pedidosstatus(desstatus)
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
-	    $lang->getString('statu_pagamento'),
+	    $lang->getString('statu_pedido'),
 	 	$lang->getString('statu_analise'),
 	 	$lang->getString('statu_pago'),
 	 	$lang->getString('statu_disponivel'),
@@ -1741,58 +1741,58 @@ $app->get("/install-admin/sql/pagamentos/inserts", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pagamentos/list", function(){
+$app->get("/install-admin/sql/pedidos/list", function(){
 	$procs = array(
 		'sp_formaspagamentos_list',
-		'sp_pagamentos_list',
-		'sp_pagamentosprodutos_list',
-		'sp_pagamentosrecibos_list',
-		'sp_pagamentosstatus_list',
-		'sp_pagamentosfrompessoa_list',
-		'sp_recibosfrompagamento_list',
-		'sp_pagamentoshistoricos_list'
+		'sp_pedidos_list',
+		'sp_pedidosprodutos_list',
+		'sp_pedidosrecibos_list',
+		'sp_pedidosstatus_list',
+		'sp_pedidosfrompessoa_list',
+		'sp_recibosfrompedido_list',
+		'sp_pedidoshistoricos_list'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pagamentos/get", function(){
+$app->get("/install-admin/sql/pedidos/get", function(){
 	$procs = array(
 		'sp_formaspagamentos_get',
-		'sp_pagamentos_get',
-		'sp_pagamentosprodutos_get',
-		'sp_pagamentosrecibos_get',
-		'sp_pagamentosstatus_get',
-		'sp_pagamentoshistoricos_get'
+		'sp_pedidos_get',
+		'sp_pedidosprodutos_get',
+		'sp_pedidosrecibos_get',
+		'sp_pedidosstatus_get',
+		'sp_pedidoshistoricos_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pagamentos/save", function(){
+$app->get("/install-admin/sql/pedidos/save", function(){
 	$procs = array(
 		'sp_formaspagamentos_save',
-		'sp_pagamentos_save',
-		'sp_pagamentosprodutos_save',
-		'sp_pagamentosrecibos_save',
-		'sp_pagamentosstatus_save',
-		'sp_pagamentoshistoricos_save'
+		'sp_pedidos_save',
+		'sp_pedidosprodutos_save',
+		'sp_pedidosrecibos_save',
+		'sp_pedidosstatus_save',
+		'sp_pedidoshistoricos_save'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pagamentos/remove", function(){
+$app->get("/install-admin/sql/pedidos/remove", function(){
 	$procs = array(
 		'sp_formaspagamentos_remove',
-		'sp_pagamentos_remove',
-		'sp_pagamentosprodutos_remove',
-		'sp_pagamentosrecibos_remove',
-		'sp_pagamentosstatus_remove',
-		'sp_pagamentoshistoricos_remove'
+		'sp_pedidos_remove',
+		'sp_pedidosprodutos_remove',
+		'sp_pedidosrecibos_remove',
+		'sp_pedidosstatus_remove',
+		'sp_pedidoshistoricos_remove'
 	);
 	saveProcedures($procs);
 	

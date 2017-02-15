@@ -515,6 +515,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUsuarios->save();
 	//////////////////////////////////////
+	$menuConfigs = new Menu(array(
+		'nrordem'=>3,
+		'idmenupai'=>$menuAdmin->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/sistema/configuracoes',
+		'desmenu'=>$lang->getString('menus_configuracoes')
+	));
+	$menuConfigs->save();
+	//////////////////////////////////////
 	$menuSqlToClass = new Menu(array(
 		'nrordem'=>0,
 		'idmenupai'=>$menuSistema->getidmenu(),

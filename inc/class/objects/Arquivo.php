@@ -43,11 +43,30 @@ class Arquivo extends Model {
     public function remove():bool
     {
 
-        $this->proc("sp_arquivos_remove", array(
-            $this->getidarquivo()
-        ));
+        $configs = Session::getConfiguracoes();
+        $uploadDir = $configs->getByName('UPLOAD_DIR');
 
-        return true;
+        if ($this->getdesdiretorio()) {
+            $uploadDir .= $this->getdesdiretorio();
+        }
+
+        $filename = PATH.$uploadDir.$this->desarquivo().'.'.$this->getdesextensao();
+
+        $deleted = false;
+
+        if (file_exists($filename)) {
+            $deleted = unlink($filename);
+        }
+
+        if ($deleted) {
+
+            $this->proc("sp_arquivos_remove", array(
+                $this->getidarquivo()
+            ));
+
+        }
+
+        return $deleted;
         
     }
 

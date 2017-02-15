@@ -1,0 +1,23 @@
+{include="panel-header"}<header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Criar novo pedido</h1></header><div class="slidePanel-inner"><form id="form-pedido-save" class="slidePanel-form"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idpedido"><label>pedido</label><input type="text" class="form-control" name="despedido"></div><div class="form-group form-material"><label>Tipo de pedido</label><select name="idpedidotipo" class="form-control"></select></div><button class="btn btn-block btn-primary" id="btnpedidoSave" type="submit">Salvar Novo pedido</button></div></form></div><script>$("[name=idpedidotipo]").combobox({
+		url:PATH+"/pedidos/tipos",
+		displayField:"despedidotipo",
+		valueField:"idpedidotipo"
+	});
+
+	var form = $("#form-pedido-save");
+
+  	form.form({
+  		url:PATH+"/pedidos",
+  		success:function(){
+
+  			form.find("button#btnpedidoSave").btnload("unload");
+  			System.success("pedido criado com sucesso");
+  			$(".slidePanel-close").trigger("click");
+  			$(".refresh").trigger("click");
+
+  		},
+  		failure:function(r){
+  			form.find("button#btnpedidoSave").btnload("unload");
+  			System.showError(r);
+  		}
+  	});</script>

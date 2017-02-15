@@ -58,7 +58,7 @@ class Produto extends Model {
 
     }
 
-    public function getPagamentos(){
+    public function getPedidos(){
 
         $pagamentos = new Produtos();
 

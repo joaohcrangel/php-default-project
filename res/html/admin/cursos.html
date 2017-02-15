@@ -157,7 +157,37 @@ init.push(function(){
 
           var $tr = $(tpl(row));
 
-          $tbody.append($tr);         
+          $tbody.append($tr);
+
+          $tr.find(".btn-danger").on("click", function(){
+
+            System.confirm("Deseja remover o curso "+row.descurso+"?", function(b, s, f){
+
+              if(b){
+
+                rest({
+                  url:PATH+"/cursos/"+row.idcurso,
+                  method:"DELETE",
+                  success:function(){
+
+                    System.done();
+                    s("Curso removido com sucesso");
+                    $tr.remove();
+
+                  },
+                  failure:function(r){
+                    System.showError(r);
+                    System.done();
+                  }
+                });
+
+              }else{
+                f();
+              }
+
+            })
+
+          });
 
         });
 

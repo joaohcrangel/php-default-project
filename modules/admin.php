@@ -319,13 +319,13 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/pagamentos-status", function(){
+$app->get("/".DIR_ADMIN."/pedidos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/pagamentos-status");
+    $page->setTpl("/admin/pedidos-status");
 
 });
 
@@ -369,7 +369,7 @@ $app->get("/".DIR_ADMIN."/formas-pagamento", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/pagamentos", function(){
+$app->get("/".DIR_ADMIN."/pedidos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -381,7 +381,7 @@ $app->get("/".DIR_ADMIN."/pagamentos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pagamentos");
+    $page->setTpl("/admin/pedidos");
 
 });
 
@@ -438,6 +438,26 @@ $app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
     $page = new AdminPage();
 
     $page->setTpl("/admin/configuracoes-tipos");
+
+});
+
+$app->get("/".DIR_ADMIN."/arquivos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $conf = Session::getConfiguracoes();
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'app-media page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/arquivos", array(
+        'diretorio'=>$conf->getByName("UPLOAD_DIR")
+    ));
 
 });
 

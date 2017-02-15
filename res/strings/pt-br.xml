@@ -52,17 +52,17 @@
 	<string name="menus_lugar_tipo">Lugares Tipos</string>
 	<string name="menus_cupom_tipo">Cupons Tipos</string>
 	<string name="menus_produto_tipo">Produtos Tipos</string>
-	<string name="menus_pagamento_statu">Pagamentos Status</string>
+	<string name="menus_pedido_statu">Pedidos Status</string>
 	<string name="menus_pessoa_tipo">Pessoas Tipos</string>
 	<string name="menus_contato_tipo">Contatos Tipos</string>
 	<string name="menus_gateway">Gateways</string>
 	<string name="menus_historico_tipo">Historicos Tipos</string>
-	<string name="menus_forma_pagamento">Formas Pagamentos</string>
+	<string name="menus_forma_pedido">Formas de Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
 	<string name="menus_configuracao_tipo">Configuracões Tipos</string>
 	<string name="menus_configuracoes">Configuracões</string>
 
-	<string name="menus_pagamento">Pagamentos</string>
+	<string name="menus_pedido">Pedidos</string>
 	<string name="menus_carrinho">Carrinho</string>
 	<string name="menus_lugar">Lugares</string>
 	<string name="menus_site">Site</string>
@@ -120,7 +120,7 @@
 	<string name="gateway_grandcard">GRANDCARD</string>
 	<string name="gateway_sorocred">Sorocred</string>
 
-	<string name="statu_pagamento">Aguardando Pagamento</string>
+	<string name="statu_pedido">Aguardando Pedido</string>
 	<string name="statu_analise">Em análise</string>
 	<string name="statu_pago">Pago</string>
 	<string name="statu_disponivel">Disponível</string>
@@ -144,7 +144,7 @@
 	<string name="lugartipo_hcode_pais">Brasil</string>
 	<string name="lugartipo_hcode_cep">09853120</string>
 
-	<string name="configtipo_string">STRING</string>	
+	<string name="configtipo_string">STRING</string>
 	<string name="configtipo_int">INT</string>	
 	<string name="configtipo_float">FLOAT</string>	
 	<string name="configtipo_boolean">BOOL</string>	

@@ -9,6 +9,17 @@ class Arquivos extends Collection {
 
     public function get(){}
 
+     public static function listAll():Arquivos
+    {
+
+    	$arquivo = new Arquivos();
+
+    	$arquivo->loadFromQuery("CALL sp_arquivos_list();");
+
+    	return $arquivo;
+
+    }
+
 }
 
 ?>

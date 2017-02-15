@@ -3,6 +3,8 @@
 // produtos
 $app->get("/panel/produtos/:idproduto", function($idproduto){
 
+	$conf = Session::getConfiguracoes();
+
 	$produto = new Produto((int)$idproduto);
 
 	$page = new Page(array(
@@ -11,7 +13,8 @@ $app->get("/panel/produtos/:idproduto", function($idproduto){
 	));
 
 	$page->setTpl("panel/produto", array(
-		"produto"=>$produto->getFields()
+		"produto"=>$produto->getFields(),
+		"diretorio"=>$conf->getByName("UPLOAD_DIR")
 	));
 
 });
@@ -402,6 +405,34 @@ $app->get("/panel/pessoas-valorescampos-criar", function(){
 	));
 
 	$page->setTpl("panel/pessoa-valorcampo-criar");
+
+});
+
+// Configuracoes-tipos
+
+$app->get("/panel/configuracoes-tipos/:idconfiguracaotipo", function($idconfiguracaotipo){
+
+	$configuracao = new ConfiguracaoTipo((int)$idconfiguracaotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/configuracao-tipo-salvar", array(
+		"configuracao"=>$configuracao->getFields()
+	));
+
+});
+
+$app->get("/panel/configuracoes-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/configuracao-tipo-criar");
 
 });
 

@@ -8,6 +8,10 @@ $app->post("/usuarios/login", function(){
 
 	Session::setUsuario($usuario, (isset($_POST['remember'])));
 
+	$configuracoes = Configuracoes::listAll();
+
+	Session::setConfiguracoes($configuracoes);
+
 	Menu::resetMenuSession();
 
 	echo success(array(
@@ -25,6 +29,10 @@ $app->get("/usuarios/login", function(){
 
 	Session::setUsuario($usuario, (isset($_POST['remember'])));
 
+	$configuracoes = Configuracoes::listAll();
+
+	Session::setConfiguracoes($configuracoes);
+
 	Menu::resetMenuSession();
 	
 	echo success(array(
@@ -37,6 +45,10 @@ $app->get("/usuarios/login", function(){
 $app->get("/usuarios/menus/reset", function(){
 
 	Permissao::checkSession(Permissao::ADMIN);
+
+	$configuracoes = Configuracoes::listAll();
+
+	Session::setConfiguracoes($configuracoes);
 
 	Menu::resetMenuSession();
 

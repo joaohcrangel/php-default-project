@@ -26,6 +26,11 @@ class AdminPage {
 		$this->language = new Language();
 
 		$options['data']['string'] = $this->language->loadString();
+
+		$conf = Session::getConfiguracoes();
+
+		$options['data']['conf'] = Session::getConfiguracoes()->getNames();
+
 		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
 		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;
 		$options['data']['path'] = SITE_PATH;

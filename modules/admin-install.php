@@ -533,14 +533,32 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
-	$menuTemplate = new Menu(array(
+	$menuExemplos = new Menu(array(
+		'nrordem'=>2,
+		'idmenupai'=>$menuSistema->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'',
+		'desmenu'=>$lang->getString('menus_exemplos')
+	));
+	$menuExemplos->save();
+	//////////////////////////////////////
+	$menuUpload = new Menu(array(
+		'nrordem'=>0,
+		'idmenupai'=>$menuExemplos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/exemplos/upload',
+		'desmenu'=>$lang->getString('menus_exemplos_upload')
+	));
+	$menuUpload->save();
+	//////////////////////////////////////
+	$menuPermissoes = new Menu(array(
 		'nrordem'=>3,
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/permissoes',
 		'desmenu'=>$lang->getString('menus_permissoes')
 	));
-	$menuTemplate->save();
+	$menuPermissoes->save();
 	//////////////////////////////////////
 	$menuProdutos = new Menu(array(
 		'nrordem'=>4,
@@ -668,6 +686,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPessoasValoresCampos->save();
 	//////////////////////////////////////
+	$menuConfiguracoesTipos = new Menu(array(
+		'nrordem'=>12,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/configuracoes-tipos',
+		'desmenu'=>$lang->getString('menus_configuracao_tipo')
+	));
+	$menuConfiguracoesTipos->save();
+	//////////////////////////////////////
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
@@ -695,26 +722,47 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuLugares->save();
 	//////////////////////////////////////
+	$menuSite = new Menu(array(
+		"nrordem"=>8,
+		"idmenupai"=>NULL,
+		"desicone"=>"md-view-web",
+		"deshref"=>"",
+		"desmenu"=>$lang->getString('menus_site')
+	));
+	$menuSite->save();
+	//////////////////////////////////////
+	$menuSiteMenu = new Menu(array(
+		"nrordem"=>0,
+		"idmenupai"=>$menuSite->getidmenu(),
+		"desicone"=>"",
+		"deshref"=>"/site/menu",
+		"desmenu"=>$lang->getString('menus_site_menu')
+	));
+	$menuSiteMenu->save();
+	//////////////////////////////////////
 	
 	echo success();
 });
 $app->get("/install-admin/sql/menus/get", function(){
 	$names = array(
-       "sp_menus_get"
+       "sp_menus_get",
+       "sp_sitesmenus_get"
 	);
 	saveProcedures($names);
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
 	$names = array(
-        "sp_menus_list"
+        "sp_menus_list",
+        "sp_sitesmenus_list"
 	);
 	saveProcedures($names);
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
 	$names = array(
-       "sp_menus_remove"
+       "sp_menus_remove",
+       "sp_sitesmenus_remove"
 	);
 	saveProcedures($names);
 	echo success();
@@ -723,7 +771,9 @@ $app->get("/install-admin/sql/menus/save", function(){
 	$procs = array(
 		"sp_menusfromusuario_list",
 		"sp_menustrigger_save",
-		"sp_menus_save"
+		"sp_menus_save",
+		"sp_sitesmenustrigger_save",
+		"sp_sitesmenus_save"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1740,11 +1790,11 @@ $app->get("/install-admin/sql/pagamentos/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/tables", function(){
+$app->get("/install-admin/sql/sitescontatos/tables", function(){
 	
 	$sql = new Sql();
 	$sql->query("
-		CREATE TABLE tb_sitecontatos(
+		CREATE TABLE tb_sitescontatos(
 			idsitecontato INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
 			desmensagem VARCHAR(2048) NOT NULL,
@@ -1758,38 +1808,38 @@ $app->get("/install-admin/sql/sitecontatos/tables", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/list", function(){
+$app->get("/install-admin/sql/sitescontatos/list", function(){
 	$procs = array(
-		"sp_sitecontatos_list",
-		"sp_sitecontatosfrompessoa_list"
+		"sp_sitescontatos_list",
+		"sp_sitescontatosfrompessoa_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/get", function(){
+$app->get("/install-admin/sql/sitescontatos/get", function(){
 	$procs = array(
-		'sp_sitecontatosbypessoa_get',
-		'sp_sitecontatos_get'
+		'sp_sitescontatosbypessoa_get',
+		'sp_sitescontatos_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/save", function(){
+$app->get("/install-admin/sql/sitescontatos/save", function(){
 	$name = array(
-		"sp_sitecontatos_save"
+		"sp_sitescontatos_save"
 	);
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitecontatos/remove", function(){
+$app->get("/install-admin/sql/sitescontatos/remove", function(){
 	$name = array(
-		"sp_sitecontatos_remove"
+		"sp_sitescontatos_remove"
 	);
 	saveProcedures($name);
 	
@@ -1813,9 +1863,9 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			idlugar INT NOT NULL AUTO_INCREMENT,
 			idlugarpai INT NULL,
 			deslugar VARCHAR(128) NOT NULL,
-			idendereco INT NOT NULL,
+			idendereco INT NULL,
 			idlugartipo INT NOT NULL,
-			desconteudo TEXT,
+			desconteudo TEXT NULL,
 			nrviews INT NULL,
 			vlreview DECIMAL(10,2) NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -1969,6 +2019,30 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 		'deslugartipo'=>$lang->getString('lugartipo_pais')
 	));
 	$pais->save();
+
+	$empresas = new LugarTipo(array(
+		'deslugartipo'=>$lang->getString('lugartipo_empresas')
+	));
+	$empresas->save();
+	
+	$endereco = new Endereco(array(
+		'idenderecotipo'=>EnderecoTipo::COMERCIAL,
+		'desendereco'=>$lang->getString('lugartipo_hcode_endereco'),
+		'desnumero'=>$lang->getString('lugartipo_hcode_numero'),
+		'desbairro'=>$lang->getString('lugartipo_hcode_bairro'),
+		'descidade'=>$lang->getString('lugartipo_hcode_cidade'),
+		'desestado'=>$lang->getString('lugartipo_hcode_estado'),
+		'despais'=>$lang->getString('lugartipo_hcode_pais'),
+		'descep'=>$lang->getString('lugartipo_hcode_cep')
+	));
+	$endereco->save();
+
+	$lugarHcode = new Lugar(array(
+		'deslugar'=>$lang->getString('lugar_hcode'),
+		'idlugartipo'=>$empresas->getidlugartipo(),
+		'idendereco'=>$endereco->getidendereco()
+	));
+	$lugarHcode->save();
 	
 	echo success();
 	
@@ -2133,6 +2207,7 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		  PRIMARY KEY (idconfiguracaotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
 	$sql->query("
 		CREATE TABLE tb_configuracoes (
 		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
@@ -2142,11 +2217,107 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idconfiguracao),
 		  KEY FK_configuracoes_configuracoestipos_idx (idconfiguracaotipo),
+		  KEY IX_desconfiguracao (desconfiguracao),
 		  CONSTRAINT FK_configuracoes_configuracoestipos FOREIGN KEY (idconfiguracaotipo) REFERENCES tb_configuracoestipos (idconfiguracaotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	
 	echo success();
 
+});
+
+$app->get("/install-admin/sql/configuracoes/inserts", function(){
+
+	$lang = new Language();
+
+	$texto = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_string')
+	));
+	$texto->save();
+
+	$int = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_int')
+	));
+	$int->save();
+
+	$float = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_float')
+	));
+	$float->save();
+
+	$bool = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_boolean')
+	));
+	$bool->save();
+
+	$data = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_datetime')
+	));
+	$data->save();
+
+	$array = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_array')
+	));
+	$array->save();
+
+	$adminName = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_admin_name'),
+		'desvalor'=>$lang->getString('config_admin_name_value'),
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
+	));
+	$adminName->save();
+
+	$uploadDir = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_upload_dir'),
+		'desvalor'=>$lang->getString('config_upload_dir_value'),
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
+	));
+	$uploadDir->save();
+
+	$uploadMimes = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_upload_mimetype'),
+		'desvalor'=>json_encode(array(
+			'jpg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'pdf' => 'application/pdf'
+		)),
+		'idconfiguracaotipo'=>$array->getidconfiguracaotipo()
+	));
+	$uploadMimes->save();
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/configuracoes/get", function(){
+	$procs = array(
+		'sp_configuracoestipos_get',
+		'sp_configuracoestipos_list',
+		'sp_configuracoes_get',
+		'sp_configuracoes_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/configuracoes/save", function(){
+	$procs = array(
+		'sp_configuracoestipos_save',
+		'sp_configuracoes_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/configuracoes/remove", function(){
+	$procs = array(
+		'sp_configuracoestipos_remove',
+		'sp_configuracoes_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
 });
 
 $app->get("/install-admin/sql/arquivos/tables", function(){
@@ -2158,7 +2329,7 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 		  desdiretorio varchar(256) NOT NULL,
 		  desarquivo varchar(128) NOT NULL,
 		  desextensao varchar(32) NOT NULL,
-		  desnome varchar(128) NOT NULL,
+		  desalias varchar(128) NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idarquivo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -2166,5 +2337,51 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 	echo success();
 
 });
+
+$app->get("/install-admin/sql/arquivos/get", function(){
+	$procs = array(
+		'sp_arquivos_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/arquivos/save", function(){
+	$procs = array(
+		'sp_arquivos_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/arquivos/remove", function(){
+	$procs = array(
+		'sp_arquivos_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/produtosarquivos/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_produtosarquivos (
+		  idproduto int(11) NOT NULL,
+		  idarquivo int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idproduto,idarquivo),
+		  KEY FK_produtosarquivos_arquivos_idx (idarquivo),
+		  CONSTRAINT FK_produtosarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_produtosarquivos_produtos FOREIGN KEY (idproduto) REFERENCES tb_produtos (idproduto) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
+	");
+
+	echo success();
+
+});
+
 
 ?>

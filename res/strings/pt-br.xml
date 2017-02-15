@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	
+	<string name="login_footer">Default Admin developer by Hcode Team</string>
 
 	<string name="weekdayname_0">Domingo</string>
 	<string name="weekdayname_1">Segunda-feira</string>
@@ -57,9 +59,15 @@
 	<string name="menus_historico_tipo">Historicos Tipos</string>
 	<string name="menus_forma_pagamento">Formas Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
+	<string name="menus_configuracao_tipo">Configuracões Tipos</string>
+
 	<string name="menus_pagamento">Pagamentos</string>
 	<string name="menus_carrinho">Carrinho</string>
 	<string name="menus_lugar">Lugares</string>
+	<string name="menus_site">Site</string>
+	<string name="menus_site_menu">Menu</string>
+	<string name="menus_exemplos">Exemplos</string>
+	<string name="menus_exemplos_upload">Upload de Arquivos</string>
 
 	<string name="contato_tipo">E-mail</string>
 	<string name="telefone_tipo">Telefone</string>
@@ -123,10 +131,32 @@
 	<string name="lugartipo_cidade">Cidade</string>
 	<string name="lugartipo_estado">Estado</string>
 	<string name="lugartipo_pais">País</string>
+	<string name="lugartipo_empresas">Empresas</string>
 
+	<string name="lugar_hcode">Hcode</string>	
 
+	<string name="lugartipo_hcode_endereco">Rua Ademar Saraiva Leão</string>
+	<string name="lugartipo_hcode_numero">234</string>
+	<string name="lugartipo_hcode_bairro">Alvarenga</string>
+	<string name="lugartipo_hcode_cidade">São Bernardo do Campo</string>
+	<string name="lugartipo_hcode_estado">São Paulo</string>
+	<string name="lugartipo_hcode_pais">Brasil</string>
+	<string name="lugartipo_hcode_cep">09853120</string>
 
+	<string name="configtipo_string">STRING</string>	
+	<string name="configtipo_int">INT</string>	
+	<string name="configtipo_float">FLOAT</string>	
+	<string name="configtipo_boolean">BOOL</string>	
+	<string name="configtipo_datetime">DATETIME</string>
+	<string name="configtipo_array">ARRAY</string>
 
+	<string name="config_admin_name">ADMIN_NAME</string>		
+	<string name="config_admin_name_value">Default Admin</string>
+
+	<string name="config_upload_dir">UPLOAD_DIR</string>		
+	<string name="config_upload_dir_value">/res/uploads/</string>
+
+	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
 
 </resources>
 

@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_sitecontatosbypessoa_get(
+CREATE PROCEDURE sp_sitescontatosbypessoa_get(
 pdesemail VARCHAR(128)
 )
 BEGIN

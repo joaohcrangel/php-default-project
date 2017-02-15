@@ -30,6 +30,7 @@ class Page {
 		$this->language = new Language();
 
 		$options['data']['string'] = $this->language->loadString();
+
 		if (isset($_SESSION)) $options['data']['session'] = $_SESSION;
 		if (isset($_SERVER)) $options['data']['server'] = $_SERVER;
 		$options['data']['path'] = SITE_PATH;

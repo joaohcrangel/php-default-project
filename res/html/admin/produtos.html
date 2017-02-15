@@ -113,11 +113,6 @@
 	</td>
 </tr>
 </script>
-
-<script id="tpl-select-row" type="text/x-handlebars-template">
-	<option value="{{idprodutotipo}}">{{desprodutotipo}}</option>
-</script>
-
 <script>
 window.pagina = 1;
 init.push(function(){
@@ -129,7 +124,6 @@ init.push(function(){
 	var $footer = $("#produto-footer");
 
 	var tpl = Handlebars.compile($("#tpl-produto-row").html());
-	var tplSelect = Handlebars.compile($("#tpl-select-row").html());
 	var tplFooter = Handlebars.compile($("#tpl-footer").html());	
 
 	$footer.html(tplFooter({
@@ -150,32 +144,11 @@ init.push(function(){
 
   	});
 
-  	function renderSelect(){
-
-  		$select.prop("disabled", true);
-
-		rest({
-			url:PATH+"/produtos/tipos",
-			success:function(r){
-
-				$select.html('');
-
-				$.each(r.data, function(index, row){
-					$select.append($(tplSelect(row)));
-				});
-
-				$select.prop("disabled", false);
-
-			},
-			failure:function(r){
-				$select.prop("disabled", false);
-				System.showError(r);
-			}
-		});
-
-	}
-
-	renderSelect();
+  	$("#form-filtros [name=idprodutotipo]").combobox({
+  		url:PATH+"/produtos/tipos",
+  		displayField:'desprodutotipo',
+  		valueField:'idprodutotipo'
+  	});
 
 	function loadProdutos(pagina){
 
@@ -204,9 +177,9 @@ init.push(function(){
 			},
 			success:function(r){
 
-				if(r.data.length > 0){
+				$tbody.html('');
 
-					$tbody.html('');
+				if(r.data.length > 0){
 
 					$footer.html(tplFooter(r));
 
@@ -294,6 +267,8 @@ init.push(function(){
 	});
 
 	window.loadProdutos = loadProdutos;
+
+	 loadProdutos();
 
 });
 

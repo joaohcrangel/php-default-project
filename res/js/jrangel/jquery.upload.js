@@ -24,7 +24,8 @@
 				autoOpen:false,
 				success:function(){},
 				failure:function(){},
-				startAjax:function(){}
+				startAjax:function(){},
+				complete:function(){}
 			};
 				
 			var o =  $.extend(defaults, options);
@@ -56,17 +57,27 @@
 
 					if (o.debug === true) console.warn("iframe load", $iframe);
 
-					var r = $.parseJSON($iframe[0].contentDocument.body.innerText);
+					try {
 
-					if (r.success){
+						var r = $.parseJSON($iframe[0].contentDocument.body.innerText);
 
-						if (o.debug === true) console.info("success", r);
+						if (r.success){
 
-						if (typeof o.success === 'function') o.success(r);
+							if (o.debug === true) console.info("success", r);
 
-					} else {
+							if (typeof o.success === 'function') o.success(r);
 
-						if (o.debug === true) console.info("failure", r);
+						} else {
+
+							if (o.debug === true) console.info("failure", r);
+
+							if (typeof o.failure === 'function') o.failure(r);
+
+						}
+
+						if (typeof o.complete === 'function') o.complete(r);
+
+					} catch(e) {
 
 						if (typeof o.failure === 'function') o.failure(r);
 
@@ -95,8 +106,6 @@
 
 					if (typeof o.startAjax === 'function') o.startAjax($input[0].files);
 
-					console.log($form);
-
 					$form.submit();
 
 				};
@@ -118,6 +127,7 @@
 	});
 	
 })(jQuery);
+
 $.upload = (function(){
 	
 	return function(options){
@@ -143,6 +153,9 @@ $.upload = (function(){
 			if (o.multiple === true) {
 				$inputFile.attr("multiple", "multiple");
 			}
+
+			$inputFile.hide();
+			$inputFile.appendTo("body");
 
 			$inputFile.upload(o);
 

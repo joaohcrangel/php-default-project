@@ -42,6 +42,23 @@
 <script src="{$path}/res/js/jrangel/jquery.form.js"></script>
 <script>
 System = {};
+function getPageSize(){
+
+    var scnWid, scnHei;
+    if (self.innerHeight) {
+        scnWid = self.innerWidth;
+        scnHei = self.innerHeight;
+    } else if (document.documentElement && document.documentElement.clientHeight) {
+        scnWid = document.documentElement.clientWidth;
+        scnHei = document.documentElement.clientHeight;
+    } else if (document.body) {
+        scnWid = document.body.clientWidth;
+        scnHei = document.body.clientHeight;
+    }
+
+    return {width:scnWid, height:scnHei};
+
+}
 angular.module("install", []).controller("sql", function($scope, $http){
 
 	$scope.install = function(){
@@ -57,7 +74,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 				console.info("Iniciando instalação...");
 
 				$('#btn-installDB').btnload('unload');
-				
+
 				$scope.installDataBase(0, $scope.objects);
 			},
 			failure:function(e){
@@ -69,8 +86,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 
 	$scope.installDataBase = function(_index, _objects){
 
-		console.log('installDataBase');
-
 		$('#btn-installDB').btnload('load');
 
 		if (_index >= _objects.length) {
@@ -81,31 +96,47 @@ angular.module("install", []).controller("sql", function($scope, $http){
 
 		} else {
 
+			var $tr = $($('table tbody tr')[_index]);
+
+			var hM = getPageSize().height/2;
+
+			if ($tr.position().top > hM) {
+				$(document).scrollTop($tr.position().top - hM);
+			}
+
 			if (_objects[_index].enabled === true) {
 
 				_objects[_index].status = "processing";
 				_objects[_index].warning = true;
 
-				rest({
-					$http:$http,
-					url:PATH+'/install-admin'+_objects[_index].url,
-					success:function(r){
+				try{
 
-						_objects[_index].status = "success";
-						_objects[_index].warning = false;
-						_objects[_index].success = true;
-						$scope.installDataBase(++_index, _objects);
+					rest({
+						$http:$http,
+						url:PATH+'/install-admin'+_objects[_index].url,
+						success:function(r){
 
-					},
-					failure:function(r){
+							_objects[_index].status = "success";
+							_objects[_index].warning = false;
+							_objects[_index].success = true;
+							$scope.installDataBase(++_index, _objects);
 
-						_objects[_index].warning = false;
-						_objects[_index].danger = true;
-						_objects[_index].status = r.error | "failure";
-						$scope.installDataBase(++_index, _objects);
+						},
+						failure:function(r){
 
-					}
-				});
+							_objects[_index].warning = false;
+							_objects[_index].danger = true;
+							_objects[_index].status = r.error | "failure";
+							$scope.installDataBase(++_index, _objects);
+
+						}
+					});
+
+				} catch(e) {
+
+					console.warn(e);
+
+				}
 
 
 			} else {
@@ -528,27 +559,27 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},
 
 		{
-			url:"/sql/sitecontatos/tables",
+			url:"/sql/sitescontatos/tables",
 			name:"Site Contatos - Tabelas",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/sitecontatos/get",
+			url:"/sql/sitescontatos/get",
 			name:"Site Contatos - Procedure GET",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/sitecontatos/list",
+			url:"/sql/sitescontatos/list",
 			name:"Site Contatos - Procedure LIST",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/sitecontatos/save",
+			url:"/sql/sitescontatos/save",
 			name:"Site Contatos - Procedure SAVE",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/sitecontatos/remove",
+			url:"/sql/sitescontatos/remove",
 			name:"Site Contatos - Procedure REMOVE",
 			status:"",
 			enabled:true
@@ -634,13 +665,53 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},
+		{
+			url:"/sql/configuracoes/get",
+			name:"Configurações - GET",
+			status:"",
+			enabled:true
+		},
+		{
+			url:"/sql/configuracoes/save",
+			name:"Configurações - SAVE",
+			status:"",
+			enabled:true
+		},
+		{
+			url:"/sql/configuracoes/remove",
+			name:"Configurações - REMOVE",
+			status:"",
+			enabled:true
+		},
 
 		{
 			url:"/sql/arquivos/tables",
 			name:"Arquivos - Tabelas",
 			status:"",
 			enabled:true
+		},{
+			url:"/sql/arquivos/get",
+			name:"Arquivos - GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/arquivos/save",
+			name:"Arquivos - SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/arquivos/remove",
+			name:"Arquivos - REMOVE",
+			status:"",
+			enabled:true
 		},
+		{
+			url:"/sql/produtosarquivos/tables",
+			name:"Produtos Arquivos - Tabela",
+			status:"",
+			enabled:true
+		},
+
 
 		{
 			url:"/sql/pessoas/inserts",
@@ -685,6 +756,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/cupons/inserts",
 			name:"Cupons - Inserts",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/configuracoes/inserts",
+			name:"Configurações - Inserts",
 			status:"",
 			enabled:true
 		}

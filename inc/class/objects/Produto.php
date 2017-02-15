@@ -70,15 +70,48 @@ class Produto extends Model {
 
     }
 
-    public function getPrecos(){
+    public function getProdutosPrecos(){
 
-        $precos = new Produtos();
+        $precos = new ProdutosPrecos();
 
         $precos->loadFromQuery("CALL sp_precosfromproduto_list(?);", array(
             $this->getidproduto()
         ));
 
         return $precos;
+
+    }
+
+    public function getArquivos():Arquivos
+    {
+
+        $arquivos = new Arquivos();
+
+        $arquivos->loadFromQuery("
+            SELECT * 
+            FROM tb_arquivos a
+            INNER JOIN tb_produtosarquivos b ON a.idarquivo = b.idarquivo
+            WHERE b.idproduto = ?
+        ", array(
+            $this->getidproduto()
+        ));
+
+        return $arquivos;
+
+    }
+
+    public function addArquivo(Arquivo $arquivo):bool
+    {
+
+        $this->execute("
+            INSERT INTO tb_produtosarquivos (idproduto, idarquivo)
+            VALUES(?, ?);
+        ", array(
+            $this->getidproduto(),
+            $arquivo->getidarquivo()
+        ));
+
+        return true;
 
     }
 

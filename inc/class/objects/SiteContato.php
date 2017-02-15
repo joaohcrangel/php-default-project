@@ -10,7 +10,7 @@ class SiteContato extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_sitecontatos_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_sitescontatos_get(".$args[0].");");
                 
     }
 
@@ -18,7 +18,7 @@ class SiteContato extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_sitecontatos_save(?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_sitescontatos_save(?, ?, ?, ?);", array(
                 $this->getidsitecontato(),
                 $this->getidpessoa(),
                 $this->getdesmensagem(),
@@ -37,7 +37,7 @@ class SiteContato extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_sitecontatos_remove(".$this->getidsitecontato().")");
+        $this->execute("CALL sp_sitescontatos_remove(".$this->getidsitecontato().")");
 
         return true;
         

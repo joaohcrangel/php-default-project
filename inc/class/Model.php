@@ -103,7 +103,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 
 					case "id":
 					case "nr":
-					if($value != NULL) $this->{"set".$key}((int)$value);
+					if($value !== NULL) $this->{"set".$key}((int)$value);
 					break;
 
 					case "vl":

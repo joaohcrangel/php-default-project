@@ -58,14 +58,99 @@ $app->post('/produtos', function(){
         $produto = new Produto();
     }
 
-    $produto->set($_POST);
+    $_POST['inremovido'] = ($_POST['inremovido']==='0')?false:true;
 
-    var_dump($_POST);
-    exit;
+    $produto->set($_POST);
 
     $produto->save();
 
     echo success(array("data"=>$produto->getFields()));
+
+});
+
+$app->get("/produtos/:idproduto/precos", function($idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $produto = new Produto(array(
+        'idproduto'=>(int)$idproduto
+    ));
+
+    $precos = $produto->getProdutosPrecos();
+
+    $data = $precos->getFields();
+
+    foreach ($data as &$row) {
+        if (!isset($row['isodttermino'])) {
+            
+        } else {
+            $row['desduracao'] = Utils::getDateTimeDiffHuman(
+                                new DateTime($row['isodtinicio']),
+                                new DateTime($row['isodttermino'])
+                            );
+        }
+
+        
+        
+    }
+
+    echo success(array(
+        'data'=>$data
+    ));
+
+});
+
+$app->get("/produtos/:idproduto/arquivos", function($idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $produto = new Produto(array(
+        'idproduto'=>(int)$idproduto
+    ));
+
+    $arquivos = $produto->getArquivos();
+
+    echo success(array(
+        'data'=>$arquivos->getFields()
+    ));
+
+});
+
+$app->post("/produtos/:idproduto/arquivos", function($idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $produto = new Produto(array(
+        'idproduto'=>(int)$idproduto
+    ));
+
+    $file = $_FILES['arquivo'];
+
+    $arquivo = Arquivo::upload(
+        $file['name'],
+        $file['type'],
+        $file['tmp_name'],
+        $file['error'],
+        $file['size']
+    );
+
+    $produto->addArquivo($arquivo);
+    
+    echo success(array(
+        'data'=>$arquivo->getFields()
+    ));
 
 });
 

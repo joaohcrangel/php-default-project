@@ -1,0 +1,450 @@
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-6"><div class="example-wrap"><h4 class="example-title">Menu do Sistema</h4><div class="example"><div class="dd" data-plugin="nestable" id="manager-menu">{$menuHTML}</div></div></div></div><div class="col-sm-6"><div class="example-wrap" id="sidePanel"></div></div></div></div></div><script id="tpl-panel-permissoes-li" type="text/x-handlebars-template"><li class="list-group-item">
+    <div class="checkbox-custom checkbox-primary">
+        <input type="checkbox" id="inputSchedule-{{idpermissao}}" value="{{idpermissao}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-{{idpermissao}}">
+            <span>
+                {{despermissao}}
+            </span>
+        </label>
+    </div>
+</li></script><script id="tpl-panel-usuarios-li" type="text/x-handlebars-template"><li class="list-group-item">
+    <div class="checkbox-custom checkbox-primary">
+        <input type="checkbox" id="inputSchedule-{{idusuario}}" value="{{idusuario}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-{{idusuario}}">
+            <div class="media">
+                <div class="media-left">
+                    <a class="avatar" href="javascript:void(0)">
+                        <img src="{$path}/res/theme/material/global/portraits/9.jpg" alt="">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div>
+                        <a class="name" href="javascript:void(0)">{{despessoa}}</a>
+                    </div>
+                    <small>
+                        {{despermissao}}
+                    </small>
+                </div>
+            </div>
+        </label>
+    </div>
+</li></script><script id="tpl-panel-load" type="text/x-handlebars-template"><div class="example-loading example-well h-300 vertical-align text-xs-center">
+  <div class="loader vertical-align-middle loader-circle"></div>
+</div></script><script id="tpl-panel-edit" type="text/x-handlebars-template"><div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs" id="menu-tabs">
+    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+    	<li class="nav-item" role="presentation">
+            <a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados"
+            role="tab">
+      <i class="icon md-edit" aria-hidden="true"></i> Editar Menu
+    </a>
+        </li>
+        
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplPermissoesLi" data-ul-url="{$path}/menus/{{idmenu}}/permissoes" href="#tabMenuPermissoes" aria-controls="tabMenuPermissoes"
+            role="tab">
+      <i class="icon md-lock" aria-hidden="true"></i> Permissões
+    </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplUsuariosLi" data-ul-url="{$path}/menus/{{idmenu}}/usuarios" href="#tabMenuUsuarios" aria-controls="tabMenuUsuarios"
+            role="tab">
+      <i class="icon md-accounts" aria-hidden="true"></i> Usuários
+    </a>
+        </li>
+    </ul>
+    <div class="tab-content p-t-15">
+        <div class="tab-pane active" id="tabMenuDados" role="tabpanel">
+            <div class="panel">
+            	<form id="menu-editar">
+            		<div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="desmenu">Texto</label>
+	                  <input type="text" class="form-control" id="desmenu" name="desmenu" placeholder="Texto do menu">
+	                </div>
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="deshref">Href/Link</label>
+	                  <input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação">
+	                </div>
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="desicone">Icone</label>
+	                  <input type="text" class="form-control" id="desicone" name="desicone" placeholder="Icone">
+	                </div>
+	                <div class="form-group form-material p-b-10">
+                      <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+                      <button type="button" class="btn btn-icon btn-delete btn-danger waves-effect pull-xs-right"><i class="icon md-delete" aria-hidden="true"></i></button>
+                    </div>
+            	</form>                    
+            </div>
+        </div>
+        <div class="tab-pane" id="tabMenuUsuarios" role="tabpanel">
+            <div class="panel">
+                <ul class="list-group list-group-full list-group-dividered">
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane" id="tabMenuPermissoes" role="tabpanel">
+            <div class="panel">
+                <ul class="list-group list-group-full list-group-dividered">
+                    
+                </ul>
+                <div class="panel-footer p-10">
+                    <button type="button" class="btn btn-success btn-add waves-effect">
+                        <i class="icon md-plus" aria-hidden="true">
+                        </i>
+                        Adicionar
+                    </button>
+                    <button type="button" class="btn btn-danger btn-delete waves-effect pull-xs-right">
+                        <i class="icon md-close" aria-hidden="true">
+                        </i>
+                        Remover
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></script><script>var menus_prepare = [];
+init.push(function(){
+
+    function resetMenu(callback){
+
+        rest({
+            url:PATH+"/usuarios/menus/reset",
+            success:function(){
+
+                if (typeof callback === 'function') callback();
+
+            }
+        });
+
+    }
+
+    function saveMenu(index, menus, callback) {
+
+        if (index >= menus.length) {
+            resetMenu(callback);
+        } else {
+
+            var menu = menus[index];
+
+            rest({
+                url:PATH+"/menus/"+menu.idmenu,
+                method:'POST',
+                data:menu,
+                success:function(r){
+                    saveMenu(++index, menus, callback);
+                    $('[data-idmenu="'+menu.idmenu+'"]').removeClass('isLoading');
+                },
+                failure:function(e){
+                    saveMenu(++index, menus, callback);
+                    System.showError(e);
+                    $('[data-idmenu="'+menu.idmenu+'"]').removeClass('isLoading');
+                }
+            });
+
+        }
+
+    }
+
+    function saveMenus(menus, idmenupai){
+
+        $.each(menus, function(index, menu){
+
+            $('[data-idmenu="'+menu.idmenu+'"]').addClass('isLoading');
+
+            menu.idmenupai = idmenupai;
+            menu.nrordem = index;
+
+            menus_prepare.push(menu);
+
+            if (menu.children && menu.children.length > 0) saveMenus(menu.children, menu.idmenu);
+
+        });
+
+        return menus_prepare;
+
+    }
+
+	$('#manager-menu').on('change', function(e){
+
+		var list   = e.length ? e : $(e.target),
+            output = list.data('output');
+
+        menus_prepare = [];
+
+        System.load();
+
+        saveMenu(0, saveMenus(list.nestable('serialize'), 0), function(){
+
+            System.done();
+
+        });
+
+	});
+
+	function addEvents(_$li) {
+
+		_$li.find('.btn-add').on("click", function(e){
+
+			var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
+
+			$('#sidePanel').html(tplLoad({}));
+
+			var $li = $(e.target).closest('li');
+
+			var $ol =  $li.find('ol:first');
+
+			if (!$ol.length) {
+				$ol = $('<ol class="dd-list"></ol>');
+				$li.append($ol);
+			}
+
+			var $liParent = $li.closest('li.dd-item');
+			var idmenupai = ($liParent.length > 0)?$liParent.data('idmenu'):0;
+			var nrordem = $liParent.find('ol').find('li').length;
+
+			rest({
+				url:PATH+"/menus",
+				method:'POST',
+				data:{
+					idmenu:0,
+					idmenupai:idmenupai,
+					desmenu:'Novo Menu',
+					nrordem:nrordem
+				},
+				success:function(r){
+
+                    resetMenu(function(){
+
+                        var $liNew = $(
+                            '<li data-idmenu="'+r.data.idmenu+'" data-desmenu="'+r.data.desmenu+'" class="dd-item dd-item-alt">'+
+                                '<div class="dd-handle"></div>'+
+                                '<div class="dd-content"><span>'+r.data.desmenu+'</span>'+
+                                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>'+
+                                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>'+
+                                '</div>'+
+                            '</li>'
+                        );
+
+                        $ol.append($liNew);
+
+                        addEvents($liNew);
+
+                        $('#manager-menu').trigger('change');
+
+                        $liNew.find('.btn-edit').trigger('click');
+
+                    });
+
+				}
+			});
+
+		});
+
+		_$li.find('.btn-edit').on("click", function(e){
+
+			var $li = $(e.target).closest('li');
+			var tpl = Handlebars.compile($('#tpl-panel-edit').html());
+            var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
+
+            var tplUl = {
+                tplUsuariosLi:Handlebars.compile($('#tpl-panel-usuarios-li').html()),
+                tplPermissoesLi:Handlebars.compile($('#tpl-panel-permissoes-li').html())
+            };
+			
+
+			$('#sidePanel').html(tplLoad({}));
+
+			rest({
+				url:PATH+"/menus/"+$li.data('idmenu'),
+				success:function(r){
+
+					var $html = $(tpl(r.data));
+
+					$html.find('#menu-editar').formLoad(r.data);
+
+					$html.find('#menu-editar').form({
+						url:PATH+"/menus/"+r.data.idmenu,
+						resetForm:false,
+						success:function(r){
+
+                            resetMenu(function(){
+
+                                $('#manager-menu li[data-idmenu="'+r.data.idmenu+'"]').data({
+                                    idmenu:r.data.idmenu,
+                                    desmenu:r.data.desmenu
+                                }).find('span').html(r.data.desmenu);
+
+                            });							
+
+						}
+					});
+
+					$html.find('#menu-editar').find('.btn-delete').on('click', function(){
+
+						var $btn = $(this);
+
+						System.confirm('Deseja excluir o menu '+$li.data('desmenu')+'?', function(confirm, s, f){
+
+							if (confirm) {
+
+								$btn.btnload('load');
+
+								rest({
+									url:PATH+"/menus/"+$li.data('idmenu'),
+									method:'DELETE',
+									success:function(r){
+
+										$('#manager-menu li[data-idmenu="'+$li.data('idmenu')+'"]').remove();
+										$('#sidePanel').html('');
+										s();
+
+									},
+									failure:function(r){
+
+										System.showError(r);
+										$btn.btnload('unload');
+										f();
+
+									}
+								});
+
+							}
+
+						});
+
+					});
+
+					$('#sidePanel').html($html);
+
+                    $html.find('#tabMenuPermissoes').find('.btn-add').on('click', function(){
+
+                        $("body").selecionar({
+                            title:"Selecionar Permissões",
+                            fieldList:'despermissao',
+                            multiple:true,
+                            cache:false,
+                            btnText:"Selecionar",
+                            url:PATH+"/menus/"+$li.data('idmenu')+"/permissoes/faltantes",
+                            selected: function(permissoes){
+                                
+                                var idpermissao = [];
+
+                                $.each(permissoes, function(){
+                                    idpermissao.push(this.idpermissao);
+                                });
+
+                                if (permissoes.length > 0) {
+
+                                    rest({
+                                        url:PATH+"/menus/"+$li.data('idmenu')+"/permissoes",
+                                        method:'POST',
+                                        data:{
+                                            idpermissao:idpermissao.toString()
+                                        },
+                                        success:function(r){
+
+                                            resetMenu(function(){
+
+                                                var $ul = $html.find('#tabMenuPermissoes').find('ul');
+
+                                                $.each(r.data, function(index, permissao){
+                                                    $ul.append($(tplUl.tplPermissoesLi(permissao)));
+                                                });  
+
+                                            });                                                                                      
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+                        });
+
+                    });
+
+                    $html.find('#tabMenuPermissoes').find('.btn-delete').on('click', function(){
+
+                        var idpermissao = [];
+                        var $btn = $(this);
+
+                        $btn.closest('.panel').find('input:checked').each(function(){
+
+                            idpermissao.push(this.value);
+
+                        });
+
+                        if (idpermissao.length > 0) {
+
+                            $btn.btnload('load');
+
+                            rest({
+                                url:PATH+"/menus/"+$li.data('idmenu')+"/permissoes",
+                                method:'DELETE',
+                                data:{
+                                    idpermissao:idpermissao.toString()
+                                },
+                                success:function(r){
+
+                                    resetMenu(function(){
+
+                                        $btn.closest('.panel').find('input:checked').each(function(){
+                                            $(this).closest('li').remove();
+                                        });
+
+                                        $btn.btnload('unload');
+
+                                    });                                    
+
+                                },
+                                failure:function(e){
+
+                                    System.showError(e);
+                                    $btn.btnload('unload');
+
+                                }
+                            });
+
+                        }
+
+                    });
+
+                    $html.find('a[data-toggle="tab"]').on('click', function (e) {
+                        
+                        var $tab = $(this), $panel = $($tab.attr('href')), $ul = $panel.find('ul');
+
+                        if (!$tab.data('loaded'+$tab.data('ul-url'))) {
+
+                            rest({
+                                url:$tab.data('ul-url'),
+                                success:function(r){
+
+                                    $tab.data('loaded'+$tab.data('ul-url'), true);
+
+                                    $ul.html('');
+
+                                    $.each(r.data, function(index, usuario){
+
+                                        $ul.append(tplUl[$tab.data('ul-tpl')](usuario));
+
+                                    });
+
+                                }
+                            });
+
+                        }
+
+                    });
+
+				}
+			});
+
+		});
+
+	}
+
+	$('#manager-menu li').each(function(){
+		addEvents($(this));
+	});
+
+});</script>

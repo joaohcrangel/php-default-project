@@ -4,8 +4,8 @@
     font-weight: normal;
     font-style: normal; 
 
-    src: url('.//dropify.eot');
-    src: url('.//dropify.eot#iefix') format('embedded-opentype'), url('.//dropify.woff') format('woff'), url('.//dropify.ttf') format('truetype'), url('.//dropify.svg#dropify') format('svg');
+    src: url('./dropify.eot');
+    src: url('./dropify.eot#iefix') format('embedded-opentype'), url('./dropify.woff') format('woff'), url('./dropify.ttf') format('truetype'), url('./dropify.svg#dropify') format('svg');
 }
 
 [class^='dropify-font-']:before,

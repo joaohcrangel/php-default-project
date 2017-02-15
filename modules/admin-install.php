@@ -533,14 +533,32 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
-	$menuTemplate = new Menu(array(
+	$menuExemplos = new Menu(array(
+		'nrordem'=>2,
+		'idmenupai'=>$menuSistema->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'',
+		'desmenu'=>$lang->getString('menus_exemplos')
+	));
+	$menuExemplos->save();
+	//////////////////////////////////////
+	$menuUpload = new Menu(array(
+		'nrordem'=>0,
+		'idmenupai'=>$menuExemplos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/exemplos/upload',
+		'desmenu'=>$lang->getString('menus_exemplos_upload')
+	));
+	$menuUpload->save();
+	//////////////////////////////////////
+	$menuPermissoes = new Menu(array(
 		'nrordem'=>3,
 		'idmenupai'=>$menuAdmin->getidmenu(),
 		'desicone'=>'',
 		'deshref'=>'/permissoes',
 		'desmenu'=>$lang->getString('menus_permissoes')
 	));
-	$menuTemplate->save();
+	$menuPermissoes->save();
 	//////////////////////////////////////
 	$menuProdutos = new Menu(array(
 		'nrordem'=>4,
@@ -2204,24 +2222,34 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 	$lang = new Language();
 
 	$texto = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_texto')
+		'desconfiguracaotipo'=>$lang->getString('configtipo_string')
 	));
 	$texto->save();
 
-	$numero = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_numero')
+	$int = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_int')
 	));
-	$numero->save();
+	$int->save();
+
+	$float = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_float')
+	));
+	$float->save();
 
 	$bool = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_boleano')
+		'desconfiguracaotipo'=>$lang->getString('configtipo_boolean')
 	));
 	$bool->save();
 
 	$data = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_data')
+		'desconfiguracaotipo'=>$lang->getString('configtipo_datetime')
 	));
 	$data->save();
+
+	$array = new ConfiguracaoTipo(array(
+		'desconfiguracaotipo'=>$lang->getString('configtipo_array')
+	));
+	$array->save();
 
 	$adminName = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_admin_name'),
@@ -2229,6 +2257,25 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
 	));
 	$adminName->save();
+
+	$uploadDir = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_upload_dir'),
+		'desvalor'=>$lang->getString('config_upload_dir_value'),
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo()
+	));
+	$uploadDir->save();
+
+	$uploadMimes = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_upload_mimetype'),
+		'desvalor'=>json_encode(array(
+			'jpg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'pdf' => 'application/pdf'
+		)),
+		'idconfiguracaotipo'=>$array->getidconfiguracaotipo()
+	));
+	$uploadMimes->save();
 
 	echo success();
 
@@ -2274,12 +2321,38 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 		  desarquivo varchar(128) NOT NULL,
 		  desextensao varchar(32) NOT NULL,
 		  desnome varchar(128) NOT NULL,
+		  desalias varchar(128) NULL,
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idarquivo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 
+});
+
+$app->get("/install-admin/sql/arquivos/get", function(){
+	$procs = array(
+		'sp_arquivos_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/arquivos/save", function(){
+	$procs = array(
+		'sp_arquivos_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/arquivos/remove", function(){
+	$procs = array(
+		'sp_arquivos_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
 });
 
 ?>

@@ -66,7 +66,9 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/icheck/icheck.css',
         './theme/material/global/vendor/bootstrap-treeview/bootstrap-treeview.css',
         './theme/material/global/vendor/jstree/jstree.min.css',
-        './theme/material/global/vendor/chartist/chartist.css'
+        './theme/material/global/vendor/chartist/chartist.css',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload.css',
+        './theme/material/global/vendor/dropify/dropify.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -119,6 +121,19 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js',
         './theme/material/global/vendor/jquery-placeholder/jquery.placeholder.js',
         './theme/material/global/vendor/select2/select2.min.js',
+
+        './theme/material/global/vendor/jquery-ui/jquery-ui.js',
+        './theme/material/global/vendor/blueimp-tmpl/tmpl.js',
+        './theme/material/global/vendor/blueimp-canvas-to-blob/canvas-to-blob.js',
+        './theme/material/global/vendor/blueimp-load-image/load-image.all.min.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload-process.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload-image.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload-audio.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload-video.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload-validate.js',
+        './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload-ui.js',
+        './theme/material/global/vendor/dropify/dropify.js',
         // Scripts
         './theme/material/global/js/State.js',
         './theme/material/global/js/Component.js',
@@ -135,7 +150,13 @@ gulp.task('scripts-admin', function() {
         // Page
         './theme/material/base/assets/js/Site.js',
         './theme/material/global/js/Plugin/asscrollable.js',
+        './theme/material/global/js/Plugin/select2.js',
         './theme/material/global/js/Plugin/slidepanel.js',
+        './theme/material/global/js/Plugin/bootstrap-tokenfield.js',
+        './theme/material/global/js/Plugin/bootstrap-tagsinput.js',
+        './theme/material/global/js/Plugin/bootstrap-select.js',
+        './theme/material/global/js/Plugin/bootstrap-maxlength.js',
+        './theme/material/global/js/Plugin/jquery-knob.js',
         './theme/material/global/js/Plugin/switchery.js',        
         './theme/material/global/js/Plugin/matchheight.js',
         './theme/material/global/js/Plugin/jvectormap.js',
@@ -158,6 +179,12 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/icheck.js',
         './theme/material/global/js/Plugin/bootstrap-treeview.js',
         './theme/material/global/js/Plugin/jstree.js',
+        './theme/material/global/js/Plugin/input-group-file.js',
+        './theme/material/global/js/Plugin/dropify.js',
+        './theme/material/global/js/Plugin/asrange.js',
+        './theme/material/global/js/Plugin/asspinner.js',
+        './theme/material/global/js/Plugin/jquery-labelauty.js',
+
         //Others Plugins
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',
@@ -173,7 +200,7 @@ gulp.task('scripts-admin', function() {
     ])
         .pipe(jshint())
         .pipe(uglify())
-        .pipe(jsmin())
+        //.pipe(jsmin())
         .pipe(concat('./../js/libs.js'))
         .pipe(gulp.dest('js'));
 

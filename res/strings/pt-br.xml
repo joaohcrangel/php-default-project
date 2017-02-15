@@ -64,6 +64,8 @@
 	<string name="menus_lugar">Lugares</string>
 	<string name="menus_site">Site</string>
 	<string name="menus_site_menu">Menu</string>
+	<string name="menus_exemplos">Exemplos</string>
+	<string name="menus_exemplos_upload">Upload de Arquivos</string>
 
 	<string name="contato_tipo">E-mail</string>
 	<string name="telefone_tipo">Telefone</string>
@@ -139,13 +141,20 @@
 	<string name="lugartipo_hcode_pais">Brasil</string>
 	<string name="lugartipo_hcode_cep">09853120</string>
 
-	<string name="configtipo_texto">Texto</string>	
-	<string name="configtipo_numero">Número</string>	
-	<string name="configtipo_boleano">Boleano</string>	
-	<string name="configtipo_data">Data</string>
+	<string name="configtipo_string">STRING</string>	
+	<string name="configtipo_int">INT</string>	
+	<string name="configtipo_float">FLOAT</string>	
+	<string name="configtipo_boolean">BOOL</string>	
+	<string name="configtipo_datetime">DATETIME</string>
+	<string name="configtipo_array">ARRAY</string>
 
 	<string name="config_admin_name">ADMIN_NAME</string>		
-	<string name="config_admin_name_value">Default Admin</string>		
+	<string name="config_admin_name_value">Default Admin</string>
+
+	<string name="config_upload_dir">UPLOAD_DIR</string>		
+	<string name="config_upload_dir_value">/res/uploads/</string>
+
+	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
 
 </resources>
 

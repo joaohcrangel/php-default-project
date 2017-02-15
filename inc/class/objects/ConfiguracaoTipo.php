@@ -2,6 +2,13 @@
 
 class ConfiguracaoTipo extends Model {
 
+    const STRING = 1;
+    const INT = 2;
+    const FLOAT = 3;
+    const BOOL = 4;
+    const DATETIME = 5;
+    const ARRAY = 6;
+
     public $required = array('desconfiguracaotipo');
     protected $pk = "idconfiguracaotipo";
 

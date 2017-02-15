@@ -352,16 +352,3 @@
 
 .card {
   border-radius: 0; }
-
-.form-material .input-group .form-control {
-  padding-left: 5px; }
-
-.form-material .input-group-addon {
-  background-color: #eee;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.571429;
-  margin-bottom: 0;
-  padding: .429rem .929rem;
-  text-align: center;
-  color: #757575; }

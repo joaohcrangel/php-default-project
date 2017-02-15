@@ -60,6 +60,7 @@
 	<string name="menus_forma_pagamento">Formas Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
 	<string name="menus_configuracao_tipo">Configuracões Tipos</string>
+	<string name="menus_configuracoes">Configuracões</string>
 
 	<string name="menus_pagamento">Pagamentos</string>
 	<string name="menus_carrinho">Carrinho</string>
@@ -133,7 +134,7 @@
 	<string name="lugartipo_pais">País</string>
 	<string name="lugartipo_empresas">Empresas</string>
 
-	<string name="lugar_hcode">Hcode</string>	
+	<string name="lugar_hcode">Hcode</string>
 
 	<string name="lugartipo_hcode_endereco">Rua Ademar Saraiva Leão</string>
 	<string name="lugartipo_hcode_numero">234</string>
@@ -148,7 +149,7 @@
 	<string name="configtipo_float">FLOAT</string>	
 	<string name="configtipo_boolean">BOOL</string>	
 	<string name="configtipo_datetime">DATETIME</string>
-	<string name="configtipo_array">ARRAY</string>
+	<string name="configtipo_object">OBJECT</string>
 
 	<string name="config_admin_name">ADMIN_NAME</string>		
 	<string name="config_admin_name_value">Default Admin</string>

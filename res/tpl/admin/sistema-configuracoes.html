@@ -1,0 +1,314 @@
+<style>table td {
+		vertical-align: middle;
+	}</style><div class="page"><div class="page-content"><div class="panel panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Configurações</h3><div class="panel-actions panel-actions-keep"><a id="btn-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true"></a></div></div><table id="table-configs" class="table table-bordered table-striped"><thead><tr><th>Nome<th>Valor<th>Tipo<th>&nbsp;<th class="text-nowrap">&nbsp;<tbody><tfoot></table></div></div></div><div class="site-action" data-plugin="actionBtn"><button id="btn-conf-add" type="button" class="site-action-toggle btn-raised btn btn-success btn-floating waves-effect"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i></button></div><div class="modal modal-success" id="modal-add"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">Nova Configuração</h4></div><form><div class="modal-body"><div class="form-group form-material floating" data-plugin="formMaterial"><select class="form-control" name="idconfiguracaotipo"></select><label class="floating-label">Tipo</label></div><div class="form-group form-material floating" data-plugin="formMaterial"><input type="text" class="form-control empty" name="desconfiguracao"><label class="floating-label">Nome</label></div><div class="form-group form-material floating" data-plugin="formMaterial"><input type="text" class="form-control empty" name="desdescricao"><label class="floating-label">Descrição</label></div><div class="form-group form-material floating" data-plugin="formMaterial"><input type="text" class="form-control empty" name="desvalor"><label class="floating-label">Valor</label></div></div><div class="modal-footer"><button type="button" class="btn btn-default btn-pure" data-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-success">Salvar</button></div></form></div></div></div><script id="tpl-configuracoes-string" type="text/x-handlebars-template"><form>
+	<div class="form-group">
+		<input type="text" class="form-control" name="desvalor" autocomplete="off" value="{{desvalor}}">
+	</div>
+</form></script><script id="tpl-configuracoes-int" type="text/x-handlebars-template"><form>
+	<div class="form-group">
+		<input type="number" step="1" class="form-control" name="desvalor" autocomplete="off" value="{{desvalor}}">
+	</div>
+</form></script><script id="tpl-configuracoes-float" type="text/x-handlebars-template"><form>
+	<div class="form-group">
+		<input  type="number" step="0.1" class="form-control" name="desvalor" autocomplete="off" value="{{desvalor}}">
+	</div>
+</form></script><script id="tpl-configuracoes-bool" type="text/x-handlebars-template"><form>
+	<div class="form-group">
+		<input type="checkbox" class="icheckbox-primary" name="desvalor" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue"/>
+	</div>
+</form></script><script id="tpl-configuracoes-date" type="text/x-handlebars-template"><form>
+	<div class="form-group">
+		<input type="date" class="form-control" name="desvalor" value="{{desvalor}}"/>
+	</div>
+</form></script><script id="tpl-configuracoes-object" type="text/x-handlebars-template"><table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Chave</th>
+        <th>Valor</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+    </tbody>
+    <tfoot>
+    	<tr>
+			<td><input type="text" class="form-control" name="deschave"></td>
+			<td><input type="text" class="form-control" name="desvalor"></td>
+			<td class="text-center"><button type="button" class="btn btn-pure btn-success icon md-check waves-effect"></button></td>
+		</tr>
+    </tfoot>
+  </table></script><script id="tpl-configuracoes-object-item" type="text/x-handlebars-template"><tr>
+	<td><input type="text" class="form-control" name="deschave" value="{{key}}"></td>
+	<td><input type="text" class="form-control" name="desvalor" value="{{value}}"></td>
+	<td class="text-center"><button type="button" class="btn btn-pure btn-danger icon md-delete waves-effect"></button></td>
+</tr></script><script id="tpl-configuracoes-row" type="text/x-handlebars-template"><tr>
+	<td>
+		<h5 class="m-0" contenteditable="true" name="desconfiguracao">{{desconfiguracao}}</h5>
+		<small contenteditable="true" name="desdescricao">{{desdescricao}}</small>
+	</td>
+	<td class="value"></td>
+	<td>{{desconfiguracaotipo}}</td>
+	<td><button type="button" class="btn btn-delete btn-pure btn-danger icon md-delete waves-effect"></button></td>
+	<td class="desstatus">&nbsp;</td>
+</tr></script><script>init.push(function(){
+
+	var tpl = {
+		row:Handlebars.compile($('#tpl-configuracoes-row').html()),
+		"1":Handlebars.compile($('#tpl-configuracoes-string').html()),
+		"2":Handlebars.compile($('#tpl-configuracoes-int').html()),
+		"3":Handlebars.compile($('#tpl-configuracoes-float').html()),
+		"4":Handlebars.compile($('#tpl-configuracoes-bool').html()),
+		"5":Handlebars.compile($('#tpl-configuracoes-date').html()),
+		"6":Handlebars.compile($('#tpl-configuracoes-object').html()),
+		arrayItem:Handlebars.compile($('#tpl-configuracoes-object-item').html())
+	};
+
+	function saveConf(desvalor, $tr){
+
+		var data = $tr.data('conf');
+
+		switch (data.idconfiguracaotipo) {
+			case 6:
+			var desvalor = {};
+			$tr.find('tbody').find('tr').each(function(){
+
+				var _$tr = $(this);
+				var key = _$tr.find('[name=deschave]').val();
+				var value = _$tr.find('[name=desvalor]').val();
+
+				desvalor[key] = value;
+
+			});
+			data.desvalor = JSON.stringify(desvalor);
+			break;
+			default:
+			data.desvalor = desvalor;
+			break;
+		}
+
+		data.desconfiguracao = $tr.find('[name=desconfiguracao]').text();
+		data.desdescricao = $tr.find('[name=desdescricao]').text();
+
+		if (window.timerSave) {
+			clearTimeout(window.timerSave);
+		}
+		window.timerSave = setTimeout(function(){
+
+			$tr.addClass('warning').find('.desstatus').html('<i class="icon fa-spin md-refresh-alt"></i>');
+
+			rest({
+				url:PATH+"/configuracoes",
+				data:data,
+				method:'POST',
+				success:function(r){
+
+					$tr.removeClass('warning').find('.desstatus').html('<i class="icon md-check"></i>');
+					setTimeout(function(){
+						$tr.find('.desstatus').html('');
+					}, 2000);
+
+				},
+				failure:function(e){
+					System.showError(e);
+					$tr.removeClass('warning').find('.desstatus').html('<i class="icon md-alert-triangle"></i>');
+					setTimeout(function(){
+						$tr.find('.desstatus').html('');
+					}, 2000);
+				}
+			});
+
+		});
+
+	}
+
+	function initEvent($tr){
+
+		$tr.find('.btn-danger').on('click', function(){
+
+			var _$tr = $(this).closest('tr');
+			var $trParent = _$tr.closest('table').closest('tr');
+			_$tr.remove();
+			saveConf('', $trParent);
+
+		});
+
+		$tr.find('input').on('change', function(){
+
+			var _$tr = $(this).closest('tr');
+			var $trParent = _$tr.closest('table').closest('tr');
+			saveConf('', $trParent);
+
+		});
+
+	}
+
+	function carregar(callback){
+
+		rest({
+			url:PATH+"/configuracoes",
+			success:function(r){
+
+				var $tbody = $('#table-configs tbody');
+				$tbody.html('');
+
+				$.each(r.data, function(index, conf){
+
+					var $tr = $(tpl.row(conf));
+
+					$tr.data('conf', conf);
+					$tr.find('.value').html('');
+
+					$tr.find('[contenteditable]').on('blur keyup paste input', function(){
+
+						saveConf($(this).text(), $(this).closest('tr'));
+
+					});
+
+					$tr.find('.btn-delete').on('click', function(){
+
+						System.confirm('Deseja excluir a configuração '+conf.desconfiguracao+'?', function(b, s, f){
+
+							if (b) {
+
+								rest({
+									url:PATH+"/configuracoes/"+conf.idconfiguracao,
+									method:'DELETE',
+									success:function(r){
+										s();
+										$tr.remove();
+									},
+									failure:function(e){
+										f(e);
+									}
+								});
+
+							} else {
+
+								f();
+
+							}
+
+						});
+
+					});
+
+					var $form = $(tpl[conf.idconfiguracaotipo](conf));
+
+					switch (conf.idconfiguracaotipo) {
+						case 6:
+						var data = JSON.parse(conf.desvalor);
+
+						for (var name in data) {
+
+							var $tr2 = $(tpl.arrayItem({
+								key:name,
+								value:data[name]
+							}));
+
+							initEvent($tr2);
+
+							$form.find('tbody').append($tr2);
+
+						}
+
+						$form.find("tfoot").find('tr').find('input').on('keyup', function(e){
+
+							if (e.keyCode === 13) {
+
+								$tr.find('.btn-success').trigger('click');
+
+							}
+
+						});
+
+						$form.find("tfoot").find('tr').find('.btn-success').on('click', function(){
+
+							var _$tr = $(this).closest('tr');
+							var _conf = $form.closest('tr').data('conf');
+
+							var $trNew = $(tpl.arrayItem({
+								key:_$tr.find('[name=deschave]').val(),
+								value:_$tr.find('[name=desvalor]').val()
+							}));
+
+							initEvent($trNew);
+
+							$(this).closest('table').find('tbody').append($trNew);
+
+							saveConf('', $form.closest('tr'));
+
+							_$tr.find('[name=deschave]').val('');
+							_$tr.find('[name=desvalor]').val('');
+
+						});
+
+						break;
+
+						default:
+						$form.find('input').on('change', function(){
+
+							var _$tr = $(this).closest('tr');
+							saveConf($(this).val(), _$tr);
+
+						});
+						break;
+					}
+
+					$tr.find('.value').append($form);
+
+					$tbody.append($tr);
+
+				});
+
+				if (typeof callback === 'function') callback();
+
+			},
+			failure:function(e){
+				System.showError(e);
+			}
+		});
+
+	}
+
+	$('#btn-refresh').on('click', function(){
+
+		var $btn = $(this);
+
+		$btn.btnload('load');
+
+		carregar(function(){
+
+			$btn.btnload('unload');
+
+		});
+
+	});
+
+	$('#btn-refresh').trigger('click');
+
+	$('[name="idconfiguracaotipo"]').combobox({
+		url:PATH+"/configuracoes-tipos",
+		displayField:"desconfiguracaotipo",
+		valueField:"idconfiguracaotipo"
+	});
+
+	$('#btn-conf-add').on('click', function(){
+
+		$('#modal-add').modal('show');
+
+	});
+
+	$('#modal-add form').form({
+		url:PATH+"/configuracoes",
+		success:function(r){
+			System.success('Configuração adicionada!');
+			$('#btn-refresh').trigger('click');
+			$('#modal-add').modal('hide');
+		},
+		failure:function(e){
+			System.showError(e);
+		}
+	});
+
+});</script>

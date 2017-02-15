@@ -431,6 +431,16 @@ $app->get("/".DIR_ADMIN."/cupons", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/configuracoes-tipos");
+
+});
+
 
 $app->get("/".DIR_ADMIN."/pessoas/teste", function(){
 

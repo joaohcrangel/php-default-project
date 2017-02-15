@@ -59,6 +59,8 @@
 	<string name="menus_historico_tipo">Historicos Tipos</string>
 	<string name="menus_forma_pagamento">Formas Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
+	<string name="menus_configuracao_tipo">Configuracões Tipos</string>
+
 	<string name="menus_pagamento">Pagamentos</string>
 	<string name="menus_carrinho">Carrinho</string>
 	<string name="menus_lugar">Lugares</string>

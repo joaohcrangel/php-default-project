@@ -3,6 +3,8 @@
 // produtos
 $app->get("/panel/produtos/:idproduto", function($idproduto){
 
+	$conf = Session::getConfiguracoes();
+
 	$produto = new Produto((int)$idproduto);
 
 	$page = new Page(array(
@@ -11,7 +13,8 @@ $app->get("/panel/produtos/:idproduto", function($idproduto){
 	));
 
 	$page->setTpl("panel/produto", array(
-		"produto"=>$produto->getFields()
+		"produto"=>$produto->getFields(),
+		"diretorio"=>$conf->getByName("UPLOAD_DIR")
 	));
 
 });

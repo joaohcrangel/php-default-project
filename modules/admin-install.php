@@ -2363,4 +2363,25 @@ $app->get("/install-admin/sql/arquivos/remove", function(){
 	echo success();
 });
 
+$app->get("/install-admin/sql/produtosarquivos/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_produtosarquivos (
+		  idproduto int(11) NOT NULL,
+		  idarquivo int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idproduto,idarquivo),
+		  KEY FK_produtosarquivos_arquivos_idx (idarquivo),
+		  CONSTRAINT FK_produtosarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_produtosarquivos_produtos FOREIGN KEY (idproduto) REFERENCES tb_produtos (idproduto) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
+	");
+
+	echo success();
+
+});
+
+
 ?>

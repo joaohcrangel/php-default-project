@@ -18,7 +18,7 @@ $app->post("/configuracoes-tipos", function(){
 		$configuracao = new ConfiguracaoTipo();
 	}
 
-	$configuracao->set("_post");
+	$configuracao->set($_POST);
 
 	$configuracao->save();
 

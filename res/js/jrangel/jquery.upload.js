@@ -127,6 +127,7 @@
 	});
 	
 })(jQuery);
+
 $.upload = (function(){
 	
 	return function(options){
@@ -152,6 +153,9 @@ $.upload = (function(){
 			if (o.multiple === true) {
 				$inputFile.attr("multiple", "multiple");
 			}
+
+			$inputFile.hide();
+			$inputFile.appendTo("body");
 
 			$inputFile.upload(o);
 

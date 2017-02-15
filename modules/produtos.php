@@ -104,6 +104,56 @@ $app->get("/produtos/:idproduto/precos", function($idproduto){
 
 });
 
+$app->get("/produtos/:idproduto/arquivos", function($idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $produto = new Produto(array(
+        'idproduto'=>(int)$idproduto
+    ));
+
+    $arquivos = $produto->getArquivos();
+
+    echo success(array(
+        'data'=>$arquivos->getFields()
+    ));
+
+});
+
+$app->post("/produtos/:idproduto/arquivos", function($idproduto){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idproduto){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $produto = new Produto(array(
+        'idproduto'=>(int)$idproduto
+    ));
+
+    $file = $_FILES['arquivo'];
+
+    $arquivo = Arquivo::upload(
+        $file['name'],
+        $file['type'],
+        $file['tmp_name'],
+        $file['error'],
+        $file['size']
+    );
+
+    $produto->addArquivo($arquivo);
+    
+    echo success(array(
+        'data'=>$arquivo->getFields()
+    ));
+
+});
+
 $app->delete("/produtos/:idproduto", function($idproduto){
 
     Permissao::checkSession(Permissao::ADMIN, true);

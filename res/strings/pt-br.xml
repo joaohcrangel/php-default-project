@@ -152,11 +152,14 @@
 
 	<string name="config_admin_name">ADMIN_NAME</string>		
 	<string name="config_admin_name_value">Default Admin</string>
+	<string name="config_admin_name_description">Nome visual da administração.</string>
 
 	<string name="config_upload_dir">UPLOAD_DIR</string>		
 	<string name="config_upload_dir_value">/res/uploads/</string>
+	<string name="config_upload_dir_description">Diretório padrão para uploads de arquivos.</string>
 
 	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
+	<string name="config_upload_mimetype_description">Tipos de arquivos permitidos para fazer upload.</string>
 
 </resources>
 

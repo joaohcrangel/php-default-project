@@ -413,7 +413,7 @@ $app->get("/".DIR_ADMIN."/carrinhos", function(){
 
 $app->get("/".DIR_ADMIN."/cartoes-credito", function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -442,11 +442,23 @@ $app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
 });
 
 
-$app->get("/".DIR_ADMIN."/pessoas/teste", function(){
+$app->get("/".DIR_ADMIN."/cursos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/pessoas-teste");
+    $page->setTpl("/admin/cursos");
+
+});
+
+$app->get("/".DIR_ADMIN."/carousels", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/carousels");
 
 });
 

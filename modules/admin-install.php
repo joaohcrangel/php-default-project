@@ -2157,6 +2157,52 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 	echo success();
 });
 
+$app->get("/install-admin/sql/cursos/list", function(){
+	$procs = array(
+		'sp_cursos_list',
+		'sp_cursoscurriculos_list',
+		'sp_cursossecoes_list',
+		'sp_secoesfromcurso_list',
+		'sp_curriculosfromsecao_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/cursos/get", function(){
+	$procs = array(
+		'sp_cursos_get',
+		'sp_cursoscurriculos_get',
+		'sp_cursossecoes_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/cursos/save", function(){
+	$procs = array(
+		'sp_cursos_save',
+		'sp_cursoscurriculos_save',
+		'sp_cursossecoes_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/cursos/remove", function(){
+	$procs = array(
+		'sp_cursos_remove',
+		'sp_cursoscurriculos_remove',
+		'sp_cursossecoes_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
 $app->get("/install-admin/sql/carousels/tables", function(){
 	
 	$sql = new Sql();
@@ -2203,6 +2249,51 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 	");
 	echo success();
 
+});
+
+$app->get("/install-admin/sql/carousels/list", function(){
+	$procs = array(
+		'sp_carousels_list',
+		'sp_carouselsitems_list',
+		'sp_carouselsitemstipos_list',
+		'sp_itemsfromcarousel_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/carousels/get", function(){
+	$procs = array(
+		'sp_carousels_get',
+		'sp_carouselsitems_get',
+		'sp_carouselsitemstipos_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/carousels/save", function(){
+	$procs = array(
+		'sp_carousels_save',
+		'sp_carouselsitems_save',
+		'sp_carouselsitemstipos_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/carousels/remove", function(){
+	$procs = array(
+		'sp_carousels_remove',
+		'sp_carouselsitems_remove',
+		'sp_carouselsitemstipos_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
 });
 
 $app->get("/install-admin/sql/configuracoes/tables", function(){

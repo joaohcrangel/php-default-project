@@ -2266,7 +2266,7 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 	$data->save();
 
 	$array = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_array')
+		'desconfiguracaotipo'=>$lang->getString('configtipo_object')
 	));
 	$array->save();
 

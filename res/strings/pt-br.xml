@@ -149,7 +149,7 @@
 	<string name="configtipo_float">FLOAT</string>	
 	<string name="configtipo_boolean">BOOL</string>	
 	<string name="configtipo_datetime">DATETIME</string>
-	<string name="configtipo_array">ARRAY</string>
+	<string name="configtipo_object">OBJECT</string>
 
 	<string name="config_admin_name">ADMIN_NAME</string>		
 	<string name="config_admin_name_value">Default Admin</string>

@@ -686,6 +686,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPessoasValoresCampos->save();
 	//////////////////////////////////////
+	$menuConfiguracoesTipos = new Menu(array(
+		'nrordem'=>12,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/configuracoes-tipos',
+		'desmenu'=>$lang->getString('menus_configuracao_tipo')
+	));
+	$menuConfiguracoesTipos->save();
+	//////////////////////////////////////
 	$menuPagamentos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,

@@ -405,6 +405,34 @@ $app->get("/panel/pessoas-valorescampos-criar", function(){
 
 });
 
+// Configuracoes-tipos
+
+$app->get("/panel/configuracoes-tipos/:idconfiguracaotipo", function($idconfiguracaotipo){
+
+	$configuracao = new ConfiguracaoTipo((int)$idconfiguracaotipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/configuracao-tipo-salvar", array(
+		"configuracao"=>$configuracao->getFields()
+	));
+
+});
+
+$app->get("/panel/configuracoes-tipos-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/configuracao-tipo-criar");
+
+});
+
 /////////////////////////////////////////
 // Lugares-tipos salvar
 

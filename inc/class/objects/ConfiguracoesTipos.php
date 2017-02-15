@@ -11,6 +11,13 @@ class ConfiguracoesTipos extends Collection {
 
     public function get(){}
 
+     public static function listAll(){
+      $col = new  ConfiguracoesTipos();
+      $col->loadFromQuery("call sp_configuracoestipos_list()");
+      return $col;
+
+    }
+
 }
 
 ?>

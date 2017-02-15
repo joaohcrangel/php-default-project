@@ -8,7 +8,7 @@
 	<div class="page-content">
 		<div class="row">
 			<div class="col-md-12">
-				<form id="form-exemplo-1">
+				<form id="form-exemplo-1" method="post" action="{$path}/admin/exemplos/upload-form-exemplo-2" enctype="multipart/form-data">
 					<div class="panel panel-primary panel-line">
 						<div class="panel-heading">
 			            	<h3 class="panel-title">Form</h3>
@@ -21,7 +21,7 @@
 			                    <span class="input-group-btn">
 			                      <span class="btn btn-success btn-file">
 			                        <i class="icon md-upload" aria-hidden="true"></i>
-			                        <input type="file" name="" multiple="">
+			                        <input type="file" name="arquivo" multiple="">
 			                      </span>
 			                    </span>
 			                  </div>
@@ -34,14 +34,14 @@
 					</div>	
 				</form>
 
-				<form id="form-exemplo-2">
+				<form id="form-exemplo-2" method="post" action="{$path}/admin/exemplos/upload-form-exemplo-2" enctype="multipart/form-data">
 					<div class="panel panel-primary panel-line">
 						<div class="panel-heading">
 			            	<h3 class="panel-title">Plugin Dropify</h3>
 			            </div>
 			            <div class="panel-body">
 			            					
-							<input type="file" id="input-file-now" data-plugin="dropify" data-default-file="" />
+							<input type="file" id="input-file-now" name="arquivo" data-plugin="dropify" data-default-file="" />
 			                
 			            </div>
 			            <div class="panel-footer">

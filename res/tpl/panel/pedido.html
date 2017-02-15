@@ -1,0 +1,36 @@
+{include="panel-header"}<div id="pedido-{$pedido.idpedido}"><header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Pagamento de {$pedido.despessoa}</h1></header><div class="slidePanel-inner"><form asutocomplete="off" id="form-pedido" class="slidePanel-form"><div class="form-group form-material"><input type="hidden" name="idpedido" value="{$pedido.idpedido}"></div><div class="form-group form-material"><label class="control-label" for="idformapagamento">Forma de Pagamento</label><select name="idformapagamento" class="form-control" id="idformapagamento" value="{$pedido.idformapagamento}"></select></div><div class="form-group form-material"><label class="control-label" for="idstatus">Status</label><select name="idstatus" class="form-control" id="idstatus" value="{$pedido.idstatus}"></select></div><div class="form-group form-material"><label class="control-label" for="vltotal">Valor</label><input type="number" class="form-control" name="vltotal" id="vltotal" value="{$pedido.vltotal}"></div><div class="form-group form-material"><label class="control-label" for="nrparcelas">Número de parcelas</label><input type="number" class="form-control" name="nrparcelas" id="nrparcelas" value="{$pedido.nrparcelas}"></div><button type="submit" class="btn btn-block btn-primary" id="btn-pedido-salvar">Salvar</button></form></div></div><script>var pedido = JSON.parse('{function="json_encode($pedido)"}');
+
+$("[name=idformapagamento]").combobox({
+	url:PATH+"/formas-pagamentos/all",
+	displayField:"desformapagamento",
+	valueField:"idformapagamento",
+	value:pedido.idformapagamento
+});
+
+$("[name=idstatus]").combobox({
+  url:PATH+"/pedidos-status/all",
+  displayField:"desstatus",
+  valueField:"idstatus",
+  value:pedido.idstatus
+});
+  
+var form = $("#form-pedido");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/pedidos",
+  success:function(){
+
+    form.find("button#btn-pedido-salvar").btnload("unload");
+    System.success("Pagamento salvo com sucesso");
+    $("button.slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-pedido-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});</script>

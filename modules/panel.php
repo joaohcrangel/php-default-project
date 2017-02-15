@@ -655,5 +655,89 @@ $app->get("/panel/lugar-horarios", function(){
 	));
 
 });
+/////////////////////////////////////////////////////////////
+
+// cursos
+$app->get("/panel/cursos/:idcurso", function($idcurso){
+
+	$curso = new Curso((int)$idcurso);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/curso", array(
+		"curso"=>$curso->getFields()
+	));
+
+});
+
+$app->get("/panel/curso-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/curso-criar");
+
+});
+//////////////////////////////////////////////////////////////////////
+
+// carousels
+$app->get("/panel/carousels/:idcarousel", function($idcarousel){
+
+	$carousel = new Carousel((int)$idcarousel);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/carousel", array(
+		"carousel"=>$carousel->getFields()
+	));
+
+});
+
+$app->get("/panel/carousel-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/carousel-criar");
+
+});
+//////////////////////////////////////////////////////////////////
+
+// carousels items tipos
+$app->get("/panel/carousels-items-tipos/:idtipo", function($idtipo){
+
+	$tipo = new CarouselItemTipo((int)$idtipo);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/carousel-item-tipo", array(
+		"tipo"=>$tipo->getFields()
+	));
+
+});
+
+$app->get("/panel/carousel-item-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/carousel-item-tipo-criar");
+
+});
 
 ?>

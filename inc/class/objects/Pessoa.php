@@ -72,9 +72,9 @@ class Pessoa extends Model {
 
     }
 
-    public function getPagamentos():Pagamentos
+    public function getPedidos():Pedidos
     {
-        return new Pagamentos($this);
+        return new Pedidos($this);
     }
    
 

@@ -210,7 +210,7 @@ class Sql {
 
 		}
 
-		$this->query(implode(";",$querys), $p, true);
+		$resource = $this->query(implode(";",$querys), $p, true);
 
 		$results = array();
 
@@ -233,13 +233,13 @@ class Sql {
 
 		    case Sql::SQLSERVER:
 
-		    throw new Exception("Pendente");
+		    	throw new Exception("Pendente");
 
 		    break;
 
 		    case Sql::PDO:
 
-		    	
+		    	$results = $resource;
 
 		    break;
 
@@ -270,6 +270,7 @@ class Sql {
 		$this->conecta();
 
 		$resource = null;
+		$originalQuery = $query;
 
 		if(count($params)){
 
@@ -302,8 +303,41 @@ class Sql {
 				if ($multi === false) {
 					$resource = $this->conn->exec($query);
 				} else {
+					$query .= ';';
 					$query = str_replace(';;', ';', $query);
-					$resource = $this->conn->exec($query);
+					$stmt = $this->conn->prepare($query);
+
+					$stmt->execute();
+
+					$resource = array();
+					do {
+
+						$rowCount = $stmt->rowCount();
+
+						//var_dump('rowCount', $rowCount);
+
+						if ($rowCount > 0) {
+
+							$fields = $this->getFieldsFromResouce($stmt);
+
+							$rowset = $this->getResultArrayPDO($fields, $stmt->fetchAll());
+
+
+
+						    if ($rowset) {
+						        array_push($resource, $rowset);
+						    } else {
+						    	array_push($resource, array());
+						    }
+
+						} else {
+
+							//array_push($resource, array());
+
+						}
+
+					} while ($stmt->nextRowset());
+					
 				}
 				break;
 
@@ -312,6 +346,7 @@ class Sql {
 				if($multi === false){
 					$resource = mysqli_query($this->conn, $query);
 				}else{
+					$query .= ';';
 					$query = str_replace(';;', ';', $query);
 					$resource = mysqli_multi_query($this->conn, $query);
 
@@ -544,26 +579,18 @@ class Sql {
 
 	}
 
-	public function getArrayRows($resource){
+	private function getResultArrayPDO($fields, $data){
 
-		$fields = $this->getFieldsFromResouce($resource);
+		foreach ($data as &$row) {
 
-		$data = array();
+			if (count($row) > 0) {
 
-		switch($this->type){
-
-			case SQL::PDO:
-
-			$data = $resource->fetchAll();
-
-			foreach ($data as &$row) {
-				
 				foreach ($row as $key => $value) {
 					if (is_numeric($key)) unset($row[$key]);
 				}
 
 				foreach ($fields as $f) {
-				
+
 					switch ($f['type']) {
 
 						case 'NEWDECIMAL':
@@ -596,6 +623,24 @@ class Sql {
 				}
 
 			}
+
+		}
+
+		return $data;
+
+	}
+
+	public function getArrayRows($resource){
+
+		$fields = $this->getFieldsFromResouce($resource);
+
+		$data = array();
+
+		switch($this->type){
+
+			case SQL::PDO:
+
+			$data = $this->getResultArrayPDO($fields, $resource->fetchAll());
 
 			break;
 

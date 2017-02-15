@@ -52,16 +52,17 @@
 	<string name="menus_lugar_tipo">Lugares Tipos</string>
 	<string name="menus_cupom_tipo">Cupons Tipos</string>
 	<string name="menus_produto_tipo">Produtos Tipos</string>
-	<string name="menus_pagamento_statu">Pagamentos Status</string>
+	<string name="menus_pedido_statu">Pedidos Status</string>
 	<string name="menus_pessoa_tipo">Pessoas Tipos</string>
 	<string name="menus_contato_tipo">Contatos Tipos</string>
 	<string name="menus_gateway">Gateways</string>
 	<string name="menus_historico_tipo">Historicos Tipos</string>
-	<string name="menus_forma_pagamento">Formas Pagamentos</string>
+	<string name="menus_forma_pedido">Formas de Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
 	<string name="menus_configuracao_tipo">Configuracões Tipos</string>
+	<string name="menus_configuracoes">Configuracões</string>
 
-	<string name="menus_pagamento">Pagamentos</string>
+	<string name="menus_pedido">Pedidos</string>
 	<string name="menus_carrinho">Carrinho</string>
 	<string name="menus_lugar">Lugares</string>
 	<string name="menus_site">Site</string>
@@ -119,7 +120,7 @@
 	<string name="gateway_grandcard">GRANDCARD</string>
 	<string name="gateway_sorocred">Sorocred</string>
 
-	<string name="statu_pagamento">Aguardando Pagamento</string>
+	<string name="statu_pedido">Aguardando Pedido</string>
 	<string name="statu_analise">Em análise</string>
 	<string name="statu_pago">Pago</string>
 	<string name="statu_disponivel">Disponível</string>
@@ -133,7 +134,7 @@
 	<string name="lugartipo_pais">País</string>
 	<string name="lugartipo_empresas">Empresas</string>
 
-	<string name="lugar_hcode">Hcode</string>	
+	<string name="lugar_hcode">Hcode</string>
 
 	<string name="lugartipo_hcode_endereco">Rua Ademar Saraiva Leão</string>
 	<string name="lugartipo_hcode_numero">234</string>
@@ -143,20 +144,23 @@
 	<string name="lugartipo_hcode_pais">Brasil</string>
 	<string name="lugartipo_hcode_cep">09853120</string>
 
-	<string name="configtipo_string">STRING</string>	
+	<string name="configtipo_string">STRING</string>
 	<string name="configtipo_int">INT</string>	
 	<string name="configtipo_float">FLOAT</string>	
 	<string name="configtipo_boolean">BOOL</string>	
 	<string name="configtipo_datetime">DATETIME</string>
-	<string name="configtipo_array">ARRAY</string>
+	<string name="configtipo_object">OBJECT</string>
 
 	<string name="config_admin_name">ADMIN_NAME</string>		
 	<string name="config_admin_name_value">Default Admin</string>
+	<string name="config_admin_name_description">Nome visual da administração.</string>
 
 	<string name="config_upload_dir">UPLOAD_DIR</string>		
 	<string name="config_upload_dir_value">/res/uploads/</string>
+	<string name="config_upload_dir_description">Diretório padrão para uploads de arquivos.</string>
 
 	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
+	<string name="config_upload_mimetype_description">Tipos de arquivos permitidos para fazer upload.</string>
 
 </resources>
 

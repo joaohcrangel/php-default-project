@@ -1,1 +1,98 @@
-<h1>Irei fazer</h1>
+<style>
+	.slidePanel{
+		overflow: overlay;
+	}
+</style>
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$curso.descurso}</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0">
+    
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+
+	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
+	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#cursoTab" aria-controls="cursoTab" role="tab" aria-expanded="true">Dados</a></li>
+	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#secoesTab" aria-controls="secoesTab" role="tab">Seções</a></li>
+	      </ul>
+	    </div>
+
+        <div class="panel-body p-t-20">
+          	<div class="tab-content">
+	            <div class="tab-pane active" id="cursoTab" role="tabpanel" aria-expanded="true">
+					<form id="form-curso">
+						<input type="hidden" name="inremovido">
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Curso</label>
+							<input type="text" name="descurso" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Título</label>
+							<input type="text" name="destitulo" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Carga Horária</label>
+							<input type="number" name="vlcargahoraria" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Número de Aulas</label>
+							<input type="number" name="nraulas" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Número de Exercícios</label>
+							<input type="number" name="nrexercicios" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Descrição</label>
+							<textarea name="desdescricao" cols="30" rows="10" class="form-control"></textarea>
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+						</div>
+					</form>
+	            </div>
+				<!-- terminando os dados do curso -->
+
+				<!-- iniciando as seções do curso -->
+	            <div class="tab-pane" id="secoesTab" role="tabpanel" aria-expanded="true">
+
+	            </div>
+	        </div>
+        </div>
+
+	</div>
+
+ </div>
+
+ <script>
+ 	
+ var curso = JSON.parse('{function="json_encode($curso)"}');
+
+ var form = $("#form-curso");
+
+ form.formLoad(curso);
+
+ form.form({
+ 	url:PATH+"/cursos",
+ 	resetForm:false,
+ 	params:{
+ 		idcurso:curso.idcurso
+ 	},
+ 	failure:function(r){
+ 		System.showError(r);
+ 	}
+ });
+
+ </script>

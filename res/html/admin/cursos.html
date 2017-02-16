@@ -85,7 +85,7 @@
   <tr>
     <td>{{descurso}}</td>
     <td>{{destitulo}}</td>
-    <td>{{vlcargahoraria}}</td>
+    <td>{{vlcargahoraria}}h</td>
     <td>
       <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/cursos/{{idcurso}}" data-toggle="slidePanel">
       </button>
@@ -151,64 +151,70 @@ init.push(function(){
       data:data,
       success:function(r){
 
-        $tbody.html('');
+        if(r.data.length > 0){
 
-        $.each(r.data, function(index, row){
+          $tbody.html('');
 
-          var $tr = $(tpl(row));
+          $.each(r.data, function(index, row){
 
-          $tbody.append($tr);
+            var $tr = $(tpl(row));
 
-          $tr.find(".btn-danger").on("click", function(){
+            $tbody.append($tr);
 
-            System.confirm("Deseja remover o curso "+row.descurso+"?", function(b, s, f){
+            $tr.find(".btn-danger").on("click", function(){
 
-              if(b){
+              System.confirm("Deseja remover o curso "+row.descurso+"?", function(b, s, f){
 
-                rest({
-                  url:PATH+"/cursos/"+row.idcurso,
-                  method:"DELETE",
-                  success:function(){
+                if(b){
 
-                    System.done();
-                    s("Curso removido com sucesso");
-                    $tr.remove();
+                  rest({
+                    url:PATH+"/cursos/"+row.idcurso,
+                    method:"DELETE",
+                    success:function(){
 
-                  },
-                  failure:function(r){
-                    System.showError(r);
-                    System.done();
-                  }
-                });
+                      System.done();
+                      s("Curso removido com sucesso");
+                      $tr.remove();
 
-              }else{
-                f();
-              }
+                    },
+                    failure:function(r){
+                      System.showError(r);
+                      System.done();
+                    }
+                  });
 
-            })
+                }else{
+                  f();
+                }
+
+              })
+
+            });
 
           });
 
-        });
+          var $footer = $("#curso-footer");
 
-        var $footer = $("#curso-footer");
+          $footer.html(tplFooter(r));
 
-        $footer.html(tplFooter(r));
+          System.initSlidePanel($tbody);
 
-        System.initSlidePanel($tbody);
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'paginator-gap',
+            currentPage:r.currentPage,
+            itemsPerPage:r.itemsPerPage,
+            onChange:function(page){
+              loadCursos(page);
+            }
+          });
 
-        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-          skin:'paginator-gap',
-          currentPage:r.currentPage,
-          itemsPerPage:r.itemsPerPage,
-          onchange:function(page){
-            loadCursos(page);
-          }
-        });
+          $("#paginacao").asPaginator(r.total, config);
 
-        $("#paginacao").asPaginator(r.total, config);
+          $panel.done();
 
-        $panel.done();
+        }else{
+          $panel.done();
+        }
 
       },
       failure:function(r){        

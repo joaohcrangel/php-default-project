@@ -18,7 +18,7 @@ $app->get("/cursos", function(){
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS *
-    	FROM tb_cursos ".$where.";
+    	FROM tb_cursos ".$where." LIMIT ?, ?;
     ";
 
     $pagina = (int)get('pagina');
@@ -62,6 +62,8 @@ $app->post("/cursos", function(){
 	}else{
 		$curso = new Curso();
 	}
+
+	$_POST['inremovido'] = (post('inremovido') == 'true' ? true : false);
 
 	$curso->set($_POST);
 

@@ -2116,7 +2116,7 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 		CREATE TABLE tb_cursos (
 		  idcurso int(11) NOT NULL AUTO_INCREMENT,
 		  descurso varchar(64) NOT NULL,
-		  destittulo varchar(256) DEFAULT NULL,
+		  destitulo varchar(256) DEFAULT NULL,
 		  vlcargahoraria decimal(10,2) NOT NULL DEFAULT '0.00',
 		  nraulas int(11) NOT NULL DEFAULT '0',
 		  nrexercicios int(11) NOT NULL DEFAULT '0',

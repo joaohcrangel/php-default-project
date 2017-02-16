@@ -1,7 +1,7 @@
 CREATE PROCEDURE sp_cursos_save(
 pidcurso INT,
 pdescurso VARCHAR(64),
-pdestittulo VARCHAR(256),
+pdestitulo VARCHAR(256),
 pvlcargahoraria DECIMAL(10,2),
 pnraulas INT,
 pnrexercicios INT,
@@ -12,8 +12,8 @@ BEGIN
 
     IF pidcurso = 0 THEN
     
-        INSERT INTO tb_cursos (descurso, destittulo, vlcargahoraria, nraulas, nrexercicios, desdescricao, inremovido)
-        VALUES(pdescurso, pdestittulo, pvlcargahoraria, pnraulas, pnrexercicios, pdesdescricao, pinremovido);
+        INSERT INTO tb_cursos (descurso, destitulo, vlcargahoraria, nraulas, nrexercicios, desdescricao, inremovido)
+        VALUES(pdescurso, pdestitulo, pvlcargahoraria, pnraulas, pnrexercicios, pdesdescricao, pinremovido);
         
         SET pidcurso = LAST_INSERT_ID();
 
@@ -22,7 +22,7 @@ BEGIN
         UPDATE tb_cursos        
         SET 
             descurso = pdescurso,
-            destittulo = pdestittulo,
+            destitulo = pdestitulo,
             vlcargahoraria = pvlcargahoraria,
             nraulas = pnraulas,
             nrexercicios = pnrexercicios,

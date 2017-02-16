@@ -21,7 +21,7 @@ class Curso extends Model {
             $this->queryToAttr("CALL sp_cursos_save(?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidcurso(),
                 $this->getdescurso(),
-                $this->getdestittulo(),
+                $this->getdestitulo(),
                 $this->getvlcargahoraria(),
                 $this->getnraulas(),
                 $this->getnrexercicios(),

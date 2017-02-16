@@ -16,6 +16,8 @@
 
 	<form id="form-curso-criar">
 
+		<input type="hidden" name="inremovido">
+
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">Nome do Curso</label>
 			<input type="text" class="form-control" name="descurso">
@@ -61,13 +63,12 @@ var form = $("#form-curso-criar");
 form.form({
 	url:PATH+"/cursos",
 	params:{
-		idcurso:0,
-		inremovido:false
+		idcurso:0
 	},
 	resetForm:false,
 	success:function(){
 		System.success("Curso criado com sucesso");
-		loadCursos();
+		$("#form-filtros [type=submit]").trigger("click");
 	},
 	failure:function(r){
 		System.showError(r);

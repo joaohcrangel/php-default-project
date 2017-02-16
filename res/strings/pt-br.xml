@@ -38,7 +38,7 @@
 	<string name="menus_dashboard">Dashboard</string>
 	<string name="menus_sistema">Sistema</string>
 	<string name="menus_administracao">Administração</string>
-	<string name="menus_pessoa">Pessoa</string>
+	<string name="menus_pessoa">Pessoas</string>
 	<string name="menus_tipo">Tipos</string>
 	<string name="menus_menu">Menu</string>
 	<string name="menus_usuario">Usuários</string>
@@ -59,11 +59,12 @@
 	<string name="menus_historico_tipo">Historicos Tipos</string>
 	<string name="menus_forma_pedido">Formas de Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
-	<string name="menus_configuracao_tipo">Configuracões Tipos</string>
-	<string name="menus_configuracoes">Configuracões</string>
+	<string name="menus_configuracao_tipo">Configurações Tipos</string>
+	<string name="menus_configuracoes">Configurações</string>
+	<string name="menus_cursos">Cursos</string>
 
 	<string name="menus_pedido">Pedidos</string>
-	<string name="menus_carrinho">Carrinho</string>
+	<string name="menus_carrinho">Carrinhos</string>
 	<string name="menus_lugar">Lugares</string>
 	<string name="menus_site">Site</string>
 	<string name="menus_site_menu">Menu</string>

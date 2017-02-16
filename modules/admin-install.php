@@ -749,6 +749,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteMenu->save();
 	//////////////////////////////////////
+	$menuCursos = new Menu(array(
+		"nrordem"=>9,
+		"idmenupai"=>NULL,
+		"desicone"=>"md-book",
+		"deshref"=>"/cursos",
+		"desmenu"=>$lang->getString('menus_cursos')
+	));
+	$menuCursos->save();
+	//////////////////////////////////////
 	
 	echo success();
 });

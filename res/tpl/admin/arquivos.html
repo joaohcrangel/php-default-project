@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css"><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filter</h5><div class="list-group"><a class="list-group-item" href="javascript:void(0)"><i class="icon md-image" aria-hidden="true"></i>Images</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-volume-up" aria-hidden="true"></i>Audio</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-videocam" aria-hidden="true"></i>Video</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-file" aria-hidden="true"></i>Notes</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-link" aria-hidden="true"></i>Links</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-receipt" aria-hidden="true"></i>Files</a></div></section></div></div></div></div><div class="page-main" id="arquivo-page"><div class="page-header"><h1 class="page-title">Arquivos</h1></div><div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable"><div class="page-content-actions"><div class="pull-xs-right"><div class="btn-group media-arrangement" role="group"><button class="btn btn-default active" id="arrangement-grid" type="button"><i class="icon md-view-module" aria-hidden="true"></i></button> <button class="btn btn-default" id="arrangement-list" type="button"><i class="icon md-view-list" aria-hidden="true"></i></button></div></div><div class="actions-inner"><div class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" id="media_all" class="selectable-all"><label for="media_all"></label></div></div></div><div id="tab-arquivo-fotos"><div data-auto-height="100" class="media-list is-grid p-b-50 overflow-auto" data-plugin="animateList" data-animate="fade" data-child="li"><ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-3 blocks-lg-3 blocks-md-4 blocks-sm-4" data-plugin="animateList" data-child=">li"></ul></div></div></div></div></div><div class="site-action"><button type="button" id="adicionar" class="site-action-toggle btn-raised btn btn-success btn-floating"><i class="front-icon md-upload" aria-hidden="true"></i> Adicionar</button><div class="site-action-buttons"><button type="button" data-action="download" class="btn-raised btn btn-success btn-floating animation-slide-bottom"><i class="icon md-download" aria-hidden="true"></i></button> <button type="button" data-action="trash" class="btn-raised btn btn-success btn-floating animation-slide-bottom"><i class="icon md-delete" aria-hidden="true"></i></button></div><input type="file" id="fileupload" name="upload"></div><script id="tpl-arquivo-page" type="text/x-handlebars-template"><li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css"><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><h5 class="page-aside-title">Filter</h5><div class="list-group"><a class="list-group-item" href="javascript:void(0)"><i class="icon md-image" aria-hidden="true"></i>Images</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-volume-up" aria-hidden="true"></i>Audio</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-videocam" aria-hidden="true"></i>Video</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-file" aria-hidden="true"></i>Notes</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-link" aria-hidden="true"></i>Links</a> <a class="list-group-item" href="javascript:void(0)"><i class="icon md-receipt" aria-hidden="true"></i>Files</a></div></section></div></div></div></div><div class="page-main" id="arquivo-page"><div class="page-header"><h1 class="page-title">Arquivos</h1></div><div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable"><div class="page-content-actions"><div class="pull-xs-right"><div class="btn-group media-arrangement" role="group"><button class="btn btn-danger" id="btn-excluir" type="button"><i class="icon md-delete" aria-hidden="true"></i></button> <button class="btn btn-default active" id="arrangement-grid" type="button"><i class="icon md-view-module" aria-hidden="true"></i></button> <button class="btn btn-default" id="arrangement-list" type="button"><i class="icon md-view-list" aria-hidden="true"></i></button></div></div><div class="actions-inner"><div class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" id="media_all" class="selectable-all"><label for="media_all"></label></div></div></div><div id="paginacao"></div><div id="tab-arquivo-fotos"><div data-auto-height="500" class="media-list is-grid p-b-50 overflow-auto" data-plugin="animateList" data-animate="fade" data-child="li"><ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-3 blocks-lg-4 blocks-md-4 blocks-sm-3" data-plugin="animateList" data-child=">li"></ul></div></div></div></div></div><div class="site-action"><button type="button" id="adicionar" class="site-action-toggle btn-raised btn btn-success btn-floating"><i class="front-icon md-upload" aria-hidden="true"></i> Adicionar</button><div class="site-action-buttons"><button type="button" data-action="download" class="btn-raised btn btn-success btn-floating animation-slide-bottom"><i class="icon md-download" aria-hidden="true"></i></button> <button type="button" data-action="trash" class="btn-raised btn btn-success btn-floating animation-slide-bottom"><i class="icon md-delete" aria-hidden="true"></i></button></div><input type="file" id="fileupload" name="upload"></div><script id="tpl-arquivo-page" type="text/x-handlebars-template"><li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
 
   <div class="media-item" data-toggle="slidePanel" data-url="panel.tpl">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
@@ -17,7 +17,6 @@
 
   var panel = System.getPanelApi($('#arquivo-page'));
 
-
   var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
 
   function carregar(){
@@ -31,6 +30,9 @@
         $.each(r.data, function(index, arquivo){
 
           var $li = $($tplArquivoPage(arquivo));
+
+          $li.data('arquivo', arquivo);
+
           $("#tab-arquivo-fotos ul").append($li);
 
         });
@@ -50,7 +52,7 @@
     $(this).addClass('active');
     $("#arrangement-grid").removeClass('active');
     $(".media-list").addClass('is-list').removeClass('is-grid');
-
+    console.log("ok");
   });
 
   $("#arrangement-grid").on("click", function(){
@@ -58,13 +60,60 @@
     $(this).addClass('active');
     $("#arrangement-list").removeClass('active');
     $(".media-list").addClass('is-grid').removeClass('is-list');
+    
+  });
+
+  $("#adicionar").on("click",function(){
+
+    $.upload({
+      url:PATH+"/arquivos",
+     
+      success:function(r){
+
+        carregar();
+        System.success("Arquivo adicionado!");
+
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
 
   });
 
-});
+  $("#btn-excluir").on("click", function(){
 
-$("#adicionar").on("click",function(){
-    console.log("ok");
-  
+    var ids = [];
+
+    $("#tab-arquivo-fotos ul li input:checked").each(function(){
+
+      var $li = $(this).closest("li");
+
+      var arquivo = $li.data('arquivo');
+
+      ids.push(arquivo.idarquivo);
+
+
+    });
+
+    console.log(ids.toString());
+
+    rest({
+      url:PATH+"/arquivos",
+      method:"DELETE",
+      data:{
+        ids:ids.toString()
+      },
+      success:function(){
+
+        $("#tab-arquivo-fotos ul li input:checked").each(function(){
+          $(this).closest("li").remove();
+        });
+
+      }
+    });
+
+  });
+
 
 });</script>

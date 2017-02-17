@@ -5,46 +5,7 @@ $app->get("/arquivos", function(){
     Permissao::checkSession(Permissao::ADMIN, true);
 
     echo success(array("data"=>Arquivos::listAll()->getFields()));
-
-    $where = array();
-
-    if(get('desarquivo') != ''){
-        array_push($where, "desarquivo LIKE'%".get('desarquivo')."%'");
-    }
-
-    if(count($where) > 0){
-        $where = "WHERE ".implode(" AND ", $where)."";
-    }else{
-        $where = "";
-    }
-
-    $query = "
-        SELECT SQL_CALC_FOUND_ROWS * FROM tb_arquivos a
-        ".$where." LIMIT ?, ?; 
-    ";
-
-    $pagina = (int)get('pagina');
-
-    $itemsPorPage = (int)get('limite');
-
-    $paginacao = new Pagination(
-        $query,
-        array(),
-        "Arquivos",
-        $itemsPerPage
-
-    );
-
-    $arquivos = $paginacao->getPage($pagina);
-
-    echo success(array(
-        "data"=>$arquivos->getFields(),
-        "total"=>$paginacao->getTotal(),
-        "paginaAtual"=>$pagina,
-        "itemsPorPagina"=>$itemsPerPage
-
-    ));
-    
+  
 });
 
 $app->post("/arquivos", function(){

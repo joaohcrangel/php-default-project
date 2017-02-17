@@ -4,7 +4,38 @@ $app->get("/carousels/all", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>Carousels::listAll()->getFields()));
+	$where = array();
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where)."";
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS *
+    	FROM tb_carousels ".$where."
+    	LIMIT ?, ?;
+	";
+
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Carousels",
+		$itemsPerPage
+	);
+
+	$carousels = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$carousels->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 

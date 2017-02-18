@@ -105,8 +105,6 @@ $(".item-add button.btn-success").on("click", function(){
 
 	var $div = $(".item-add");
 
-	console.log($div.find("[name=desconteudo]").val());
-
 	saveItems(
 		$btn,
 		0,
@@ -121,28 +119,7 @@ $(".item-add button.btn-success").on("click", function(){
 			$div.find("input, textarea, select").val('');
 		},
 		function(){}			
-	)
-
-	// rest({
-	// 	url:PATH+"/carousels-items",
-	// 	method:"POST",
-	// 	data:{
-	// 		iditem:0,
-	// 		desitem:$div.find("[name=desitem]").val(),
-	// 		desconteudo:$div.find("[name=desconteudo]").val().toString(),
-	// 		nrordem:$div.find("[name=nrordem]").val(),
-	// 		idtipo:$div.find("[name=idtipo]").val(),
-	// 		idcarousel:carousel.idcarousel
-	// 	},
-	// 	success:function(){
-	// 		$btn.btnload("unload");
-	// 		loadItems();
-	// 	},
-	// 	failure:function(r){
-	// 		System.showError(r);
-	// 		$btn.btnload("unload");
-	// 	}
-	// });
+	);
 
 });
 

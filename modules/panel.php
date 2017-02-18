@@ -723,7 +723,7 @@ $app->get("/panel/carousels-items-tipos/:idtipo", function($idtipo){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo", array(
+	$page->setTpl("panel/carousel-item-tipo-salvar", array(
 		"tipo"=>$tipo->getFields()
 	));
 
@@ -741,3 +741,4 @@ $app->get("/panel/carousel-item-tipo-criar", function(){
 });
 
 ?>
+

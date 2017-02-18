@@ -704,6 +704,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuConfiguracoesTipos->save();
 	//////////////////////////////////////
+	$menuCarouselsItemsTipos = new Menu(array(
+		'nrordem'=>13,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/carousels-tipos',
+		'desmenu'=>$lang->getString('menus_carousel_tipo')
+	));
+	$menuCarouselsItemsTipos->save();
+	//////////////////////////////////////
 	$menuPedidos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,

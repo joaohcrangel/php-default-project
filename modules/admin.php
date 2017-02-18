@@ -494,6 +494,16 @@ $app->get("/".DIR_ADMIN."/carousels", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/carousels-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage();
+
+    $page->setTpl("/admin/carousels-tipos");
+
+});
+
 $app->get("/".DIR_ADMIN."/lugares", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -509,6 +519,8 @@ $app->get("/".DIR_ADMIN."/lugares", function(){
     $page->setTpl("/admin/lugares");
 
 });
+
+
 
 $app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
 

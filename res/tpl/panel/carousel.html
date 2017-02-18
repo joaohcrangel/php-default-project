@@ -1,1 +1,236 @@
-<h1>Irei fazer</h1>
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$carousel.descarousel}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-carousel" aria-controls="tab-carousel" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-carousel-items" aria-controls="tab-carousel-items" role="tab">Itens</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-carousel" role="tabpanel"><form id="form-carousel"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descarousel" class="form-control"></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-6"><label class="form-control-label">Número de Itens</label><input type="number" name="nritems" class="form-control"></div><div class="col-md-6"><label class="form-control-label">Número de Stage Padding</label><input type="number" name="nrstagepadding" class="form-control"></div></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-3"><label class="form-control-label">Loop</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inloop" name="inloop"><label for="inloop"></label></span></div><div class="col-md-3"><label class="form-control-label">Nav</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="innav" name="innav"><label for="innav"></label></span></div><div class="col-md-3"><label class="form-control-label">Centro</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="incenter" name="incenter"><label for="incenter"></label></span></div><div class="col-md-3"><label class="form-control-label">Auto Width</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inautowidth" name="inautowidth"><label for="inautowidth"></label></span></div></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-3"><label class="form-control-label">Vídeo</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="invideo" name="invideo"><label for="invideo"></label></span></div><div class="col-md-3"><label class="form-control-label">Lazy Load</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inlazyload" name="inlazyload"><label for="inlazyload"></label></span></div><div class="col-md-3"><label class="form-control-label">Dots</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="indots" name="indots"><label for="indots"></label></span></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane panel" id="tab-carousel-items" role="tabpanel"><form id="form-carousel-items"></form><label class="form-control-label"><h4>Adicionar novo item</h4></label><div class="row item-add"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><label class="form-control-label">Tipo de item</label><select name="idtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><div class="input-group p-b-20"><div class="form-control-wrap"><label class="form-control-label">Item</label><input type="text" name="desitem" class="form-control"></div></div></div><div class="form-group form-material col-md-3"><div class="input-group p-b-20"><div class="form-control-wrap"><label class="form-control-label">Ordem</label><input type="number" name="nrordem" class="form-control"></div></div></div><div class="form-group form-material col-md-9"><div class="input-group p-b-20"><div class="form-control-wrap"><label class="form-control-label">Conteúdo</label><textarea name="desconteudo" cols="30" rows="5" class="form-control"></textarea></div><span class="input-group-btn" style="vertical-align:bottom"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div></div></div></div></div></div><script id="tpl-carousel-item" type="text/x-handlebars-template"><div class="form-group form-material row" data-plugin="formMaterial">
+		
+		<div class="col-md-6">
+			<label class="form-control-label">Item</label>
+			<input type="text" name="desitem" class="form-control" value="{{desitem}}">		
+		</div>
+
+		<div class="col-md-6">
+			<label class="form-control-label">Tipo</label>
+			<select name="idtipo" class="form-control" value="{{idtipo}}"></select>
+		</div>
+
+	</div>
+	<div class="form-group form-material row p-b-60" data-plugin="formMaterial">
+
+		<div class="col-md-3">
+			<label class="form-control-label">Ordem</label>
+			<input type="text" name="nrordem" class="form-control" value="{{nrordem}}">		
+		</div>
+
+		<div class="col-md-9">
+			<div class="input-group">
+				<label class="form-control-label">Conteúdo</label>
+				<textarea name="desconteudo" class="form-control" cols="30" rows="5">{{desconteudo}}</textarea>
+				<span class="input-group-btn" style="vertical-align:bottom;">
+	                <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+	          	</span>
+	        </div>
+		</div>
+
+	</div></script><script>var carousel = JSON.parse('{function="json_encode($carousel)"}');
+	
+var $form = $("#form-carousel");
+
+$form.formLoad(carousel);
+
+$form.find("[type=checkbox]").each(function(){
+
+	var $checkbox = $(this);
+
+	var key = $checkbox.attr("name");
+
+	$.each(carousel, function(index, row){
+		if(key == index){
+			$checkbox.prop("checked", row);
+		}
+	});
+
+}).on("change", function(){
+
+	var disabled = $(this).prop("checked");
+
+	$(this).val(disabled);
+
+});
+
+$form.find("[type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	var data = $form.formValues();
+
+	data.idcarousel = carousel.idcarousel;
+	data.inloop = $form.find("[name=inloop]").val();
+	data.innav = $form.find("[name=innav]").val();
+	data.incenter = $form.find("[name=incenter]").val();
+	data.inautowidth = $form.find("[name=inautowidth]").val();
+	data.invideo = $form.find("[name=invideo]").val();
+	data.inlazyload = $form.find("[name=inlazyload]").val();
+	data.indots = $form.find("[name=indots]").val();
+
+	rest({
+		url:PATH+"/carousels",
+		method:"POST",
+		data:data,
+		success:function(){
+			System.success("Carousel salvo com sucesso");
+			$btn.btnload("unload");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});
+
+$(".item-add [name=idtipo]").combobox({
+	url:PATH+"/carousels-items/tipos",
+	displayField:"destipo",
+	valueField:"idtipo"
+});
+
+$(".item-add button.btn-success").on("click", function(){
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	var $div = $(".item-add");
+
+	console.log($div.find("[name=desconteudo]").val());
+
+	saveItems(
+		$btn,
+		0,
+		$div.find("[name=desitem]").val(),
+		$div.find("[name=desconteudo]").val().toString(),
+		$div.find("[name=nrordem]").val(),
+		$div.find("[name=idtipo]").val(),
+		carousel.idcarousel,
+		function(){
+			isItemsLogged = false;
+			loadItems();
+			$div.find("input, textarea, select").val('');
+		},
+		function(){}			
+	)
+
+	// rest({
+	// 	url:PATH+"/carousels-items",
+	// 	method:"POST",
+	// 	data:{
+	// 		iditem:0,
+	// 		desitem:$div.find("[name=desitem]").val(),
+	// 		desconteudo:$div.find("[name=desconteudo]").val().toString(),
+	// 		nrordem:$div.find("[name=nrordem]").val(),
+	// 		idtipo:$div.find("[name=idtipo]").val(),
+	// 		idcarousel:carousel.idcarousel
+	// 	},
+	// 	success:function(){
+	// 		$btn.btnload("unload");
+	// 		loadItems();
+	// 	},
+	// 	failure:function(r){
+	// 		System.showError(r);
+	// 		$btn.btnload("unload");
+	// 	}
+	// });
+
+});
+
+function saveItems(
+	$btn,
+	iditem,
+	desitem,
+	desconteudo,
+	nrordem,
+	idtipo,
+	idcarousel,
+	success,
+	failure
+){
+
+	rest({
+		url:PATH+"/carousels-items",
+		method:"POST",
+		data:{
+			iditem:iditem,
+			desitem:desitem,
+			desconteudo:desconteudo,
+			nrordem:nrordem,
+			idtipo:idtipo,
+			idcarousel:idcarousel
+		},
+		success:function(){
+			$btn.btnload("unload");
+			if(typeof success == 'function') success();
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+			if(typeof failure == 'function') failure(r);
+		}
+	});
+
+}
+
+var isItemsLogged = false;
+
+$("a.nav-link[href='#tab-carousel-items']").on("shown.bs.tab", function(){
+	loadItems();
+});
+
+function loadItems(){
+
+	if(isItemsLogged === false){
+
+		var $panel = System.getPanelApi($("#tab-carousel-items"));
+
+		var $form = $("#tab-carousel-items form");
+
+		var tplCarouselItem = Handlebars.compile($("#tpl-carousel-item").html());
+
+		$panel.load();
+
+		rest({
+			url:PATH+"/carousels/"+carousel.idcarousel+"/items",
+			success:function(r){
+
+				$form.html('');
+
+				$.each(r.data, function(index, row){
+
+					var $div = $(tplCarouselItem(row));
+
+					$form.append($div);
+
+					$div.find("[name=idtipo]").combobox({
+						url:PATH+"/carousels-items/tipos",
+						displayField:"destipo",
+						valueField:"idtipo",
+						value:row.idtipo
+					});
+
+				});
+
+				$panel.done();
+
+				isItemsLogged = true;
+
+			},
+			failure:function(r){
+				System.showError(r);
+				$panel.done();
+			}
+		});
+	}
+
+}</script>

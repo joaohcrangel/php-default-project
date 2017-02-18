@@ -59,6 +59,12 @@ $app->post("/carousels", function(){
 		$carousel = new Carousel();
 	}
 
+	foreach ($_POST as $key => $value) {
+		
+		if($value === 'false') $_POST[$key] = false;
+
+	}
+
 	$carousel->set($_POST);
 
 	$carousel->save();
@@ -89,7 +95,7 @@ $app->delete("/carousels/:idcarousel", function($idcarousel){
 ///////////////////////////////////////////////////////////////////////
 
 // carousels items
-$app->post("/carousel-items", function(){
+$app->post("/carousels-items", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -107,7 +113,7 @@ $app->post("/carousel-items", function(){
 
 });
 
-$app->delete("/carousel-items/:iditem", function($iditem){
+$app->delete("/carousels-items/:iditem", function($iditem){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -129,7 +135,7 @@ $app->delete("/carousel-items/:iditem", function($iditem){
 ///////////////////////////////////////////////////////////////////////
 
 // carousel items tipos
-$app->get("/carousel-items/tipos", function(){
+$app->get("/carousels-items/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -137,7 +143,7 @@ $app->get("/carousel-items/tipos", function(){
 
 });
 
-$app->post("/carousel-items-tipos", function(){
+$app->post("/carousels-items-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -155,7 +161,7 @@ $app->post("/carousel-items-tipos", function(){
 
 });
 
-$app->delete("/carousel-items-tipos/:idtipo", function($idtipo){
+$app->delete("/carousels-items-tipos/:idtipo", function($idtipo){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 

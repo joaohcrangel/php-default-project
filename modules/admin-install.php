@@ -768,8 +768,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuCursos->save();
 	//////////////////////////////////////
 	$menuCarousels = new Menu(array(
-		"nrordem"=>10,
-		"idmenupai"=>NULL,
+		"nrordem"=>1,
+		"idmenupai"=>$menuSite->getidmenu(),
 		"desicone"=>"md-code",
 		"deshref"=>"/carousels",
 		"desmenu"=>$lang->getString('menus_carousels')

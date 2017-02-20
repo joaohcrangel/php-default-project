@@ -1,0 +1,110 @@
+<div class="page">
+	<div class="page-content">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<div class="panel" id="panel-paises">
+					<div class="panel-heading">
+						<h3 class="panel-title">Países</h3>
+						<div class="panel-actions">
+							<a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
+						</div>
+					</div>
+						<table class="table table-hover table-striped">
+							<tbody>
+
+							</tbody>
+						</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="site-action">
+		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/pais-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button>
+	</div>
+</div>
+<script id="tpl-paises" type="text/x-handlebars-temprate">
+	<tr>
+		<td>{{despais}}</td>
+		<td>
+			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/paises/{{idpais}}" data-toggle="slidePanel">
+	      	</button>
+	      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-paises icon md-delete">
+	      	</button>
+		</td>
+	</tr>
+</script>
+<script>
+init.push(function(){
+	
+	var panel = System.getPanelApi($("#panel-paises"));
+
+	var $tbody = $("#panel-paises tbody");
+
+	var tplPaises = Handlebars.compile($("#tpl-paises").html());
+
+	function loadPaises(){
+
+		$(".refresh").on("click", function(){
+			loadPaises();
+
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/paises/all",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					var $tr = $(tplPaises(row));
+
+					$tbody.append($tr);
+
+					$tr.find(".btn-danger").on("click", function(){
+
+						System.confirm("Deseja realmente exlcuir "+row.despais+"?", function(b, s, f){
+
+							if(b){
+
+								rest({
+									url:PATH+"/paises/"+row.idpais,
+									method:"DELETE",
+									success:function(){
+										s("País removido com sucesso");
+										$tr.remove();
+									},
+									failure:function(r){
+										f(r);
+										System.done();
+									}
+								});
+
+							}else{
+								f();
+							}
+
+						})
+
+					});
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();  
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	}
+
+	loadPaises();
+
+});
+</script>

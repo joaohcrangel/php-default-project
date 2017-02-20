@@ -15,6 +15,7 @@
 		              	<thead>
 			                <tr>
 			                  <th>Forma de Pagamento</th>
+			                  <th>Gateway</th>
 			                  <th>&nbsp;</th>
 			                </tr>
 		              	</thead>
@@ -39,6 +40,7 @@
 <script id="tpl-forma-pagamento-row" type="text/x-handlebars-template">
 <tr data-idformapagamento="{{idformapagamento}}">
 	<td>{{desformapagamento}}</td>
+	<td>{{desgateway}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/formas-pagamentos/{{idformapagamento}}" data-toggle="slidePanel">
       	</button>

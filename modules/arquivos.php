@@ -4,7 +4,29 @@ $app->get("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>Arquivos::listAll()->getFields()));
+    $where = array();
+
+    if (get('desarquivo')) {
+        array_push($where, "desalias LIKE '%".get('desarquivo')."%'");
+    }
+
+    if (get('desextensao')) {
+        array_push($where, "desextensao = '".get('desextensao')."'");
+    }
+
+    if (count($where) > 0) {
+        $where = 'WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = 'SELECT * FROM tb_arquivos '.$where;
+
+    $arquivos = new Arquivos();
+
+    $arquivos->loadFromQuery($query);
+
+    echo success(array("data"=>$arquivos->getFields()));
   
 });
 

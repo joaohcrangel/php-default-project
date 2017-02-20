@@ -29,7 +29,7 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome do Arquivo</label>
-                  <input type="text" class="form-control" name="deslugar">
+                  <input type="text" class="form-control" name="desarquivo">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Endereço do Arquivo</label>
@@ -37,7 +37,13 @@
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Tipo do Arquivo</label>
-                  <select name="idarquivo" class="form-control"></select>
+                  <select name="desextensao" class="form-control">
+                    <option value=""> -- SELECIONE -- </option>
+                    <option value="jpg">JPG</option>
+                    <option value="png">PNG</option>
+                    <option value="gif">GIF</option>
+                    <option value="pdf">PDF</option>
+                  </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -48,7 +54,7 @@
     </div>
   </div>
   <!-- Media Content -->
-  <div class="page-main"id="arquivo-page">
+  <div class="page-main" id="arquivo-page">
     <!-- Media Content Header -->
     <div class="page-header">
       <h1 class="page-title">Arquivos</h1>
@@ -89,7 +95,7 @@
   </div>
 </div>
 <div class="site-action">
-  <button type="button" id="adicionar"class="site-action-toggle btn-raised btn btn-success btn-floating">
+  <button type="button" id="adicionar" class="site-action-toggle btn-raised btn btn-success btn-floating">
     <i class="front-icon md-upload" aria-hidden="true"></i> Adicionar
   </button>
   <div class="site-action-buttons">
@@ -138,14 +144,17 @@ init.push(function(){
      console.log("ok");
     e.preventDefault();
 
-    loadArquivo();
+    carregar();
     
   });
 
   function carregar(){
 
+    var params = $('#form-filtros').formValues();
+
     rest({
       url:PATH+"/arquivos",
+      data:params,
       success:function(r){
 
         $("#tab-arquivo-fotos ul").html('');

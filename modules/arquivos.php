@@ -4,8 +4,32 @@ $app->get("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>Arquivos::listAll()->getFields()));
-  
+    
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS *
+        FROM tb_arquivos a ".$where."
+        LIMIT ?, ?;
+    ";
+
+    $pagina = (int)get('pagina');
+    $itemsPerPage = (int)get('limite');
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "arquivos",
+        $itemsPerPage
+    );
+
+    $arquivos = $paginacao->getPage($pagina);
+
+    echo success(array(
+        "data"=>$arquivos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "currentPage"=>$pagina,
+        "itemsPerPage"=>$itemsPerPage
+    ));
+
 });
 
 $app->post("/arquivos", function(){

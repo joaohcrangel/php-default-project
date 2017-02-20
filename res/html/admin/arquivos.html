@@ -74,8 +74,6 @@
       </div>
       <!-- Media -->
 
-        <div id="paginacao"></div>
-
         <div id="tab-arquivo-fotos">
           <div data-auto-height="500" class="media-list is-grid p-b-50 overflow-auto" data-plugin="animateList" data-animate="fade"
           data-child="li">
@@ -83,6 +81,9 @@
             data-plugin="animateList" data-child=">li">
              
             </ul>
+
+            <div id="paginacao"></div>
+
           </div>
         </div>
     </div>
@@ -134,15 +135,23 @@ init.push(function(){
 
   var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
 
-  $("#form-filtros [type=submit]").on("click", function(e){
+  /*$("#form-filtros [type=submit]").on("click", function(e){
      console.log("ok");
     e.preventDefault();
 
     loadArquivo();
     
   });
+*/
+  function carregarArquivos(pagina){
 
-  function carregar(){
+    if(!pagina) pagina = 1;
+
+    var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
+    data.limite = 10;
+
 
     rest({
       url:PATH+"/arquivos",
@@ -160,6 +169,17 @@ init.push(function(){
 
         });
 
+        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          skin:'pagination-gap',
+          currentPage:r.currentPage,
+          itemsPerPage:r.itemsPerPage,
+          onChange:function(page){
+          loadArquivos(page);
+          }
+        });
+
+        $("#paginacao").asPaginator(r.total, config);
+
       },
       failure:function(e){
         System.showError(e);
@@ -168,7 +188,7 @@ init.push(function(){
 
   }
 
-  carregar();
+  carregarArquivos();
   
   $("#arrangement-list").on("click", function(){
     

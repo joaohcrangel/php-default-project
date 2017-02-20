@@ -767,6 +767,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCursos->save();
 	//////////////////////////////////////
+	$menuCarousels = new Menu(array(
+		"nrordem"=>10,
+		"idmenupai"=>NULL,
+		"desicone"=>"md-code",
+		"deshref"=>"/carousels",
+		"desmenu"=>$lang->getString('menus_carousels')
+	));
+	$menuCarousels->save();
+	//////////////////////////////////////
 	
 	echo success();
 });

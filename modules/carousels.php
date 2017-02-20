@@ -6,6 +6,10 @@ $app->get("/carousels/all", function(){
 
 	$where = array();
 
+	if(get('descarousel') != ''){
+		array_push($where, "descarousel LIKE '%".utf8_decode(get('descarousel'))."%'");
+	}
+
 	if(count($where) > 0){
 		$where = "WHERE ".implode(" AND ", $where)."";
 	}else{

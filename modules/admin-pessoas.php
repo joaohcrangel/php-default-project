@@ -24,7 +24,7 @@ $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
         'footer'=>false
     ));
 
-    $page->setTpl('/admin/pessoas-panel',  array(
+    $page->setTpl('/admin/pessoas-panel-new',  array(
         'pessoa'=>$pessoa->getFields()
     ));
 

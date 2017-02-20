@@ -68,6 +68,12 @@
 				<!-- iniciando as seções do curso -->
 	            <div class="tab-pane" id="secoesTab" role="tabpanel" aria-expanded="true">
 
+	            	<button type="button" class="btn btn-success btn-criar-secao">Criar Seção</button>
+
+					<div id="secoes" class="panel m-t-20">
+						
+					</div>
+
 	            </div>
 	        </div>
         </div>
@@ -76,9 +82,280 @@
 
  </div>
 
+ <div class="modal fade" id="modalSecaoCriar" data-backdrop="false"  tabindex="-1" role="dialog">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	      	<div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Criar seção</h4>
+	      	</div>
+	      	<form>
+		      	<div class="modal-body">        
+		        		
+		        	<div class="form-group form-material" data-plugin="formMaterial">
+		        		<label class="form-control-label">Nome</label>
+						<input type="text" name="dessecao" class="form-control">
+		        	</div>
+
+		        	<div class="form-group form-material" data-plugin="formMaterial">
+		        		<label class="form-control-label">Ordem</label>
+						<input type="number" name="nrordem" class="form-control">
+		        	</div>
+
+		      	</div>
+		      	<div class="modal-footer">
+			        <div class="form-group form-material" data-plugin="formMaterial">
+			    		<button type="submit" class="btn btn-primary">Salvar</button>
+			    	</div>
+			    </div>
+
+			</form>
+      
+   		</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalCurriculoCriar" data-backdrop="false"  tabindex="-1" role="dialog">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	      	<div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">Criar currículo</h4>
+	      	</div>
+	      	<form>
+		      	<div class="modal-body">        
+		        		
+		        	<div class="form-group form-material" data-plugin="formMaterial">
+		        		<label class="form-control-label">Nome</label>
+						<input type="text" name="descurriculo" class="form-control">
+		        	</div>
+
+		        	<div class="form-group form-material" data-plugin="formMaterial">
+		        		<label class="form-control-label">Ordem</label>
+						<input type="number" name="nrordem" class="form-control">
+		        	</div>
+
+		        	<div class="form-group form-material" data-plugin="formMaterial">
+		        		<label class="form-control-label">Descrição</label>
+						<textarea name="desdescricao" cols="30" rows="5" class="form-control"></textarea>
+		        	</div>
+
+		      	</div>
+		      	<div class="modal-footer">
+			        <div class="form-group form-material" data-plugin="formMaterial">
+			    		<button type="submit" class="btn btn-primary">Salvar</button>
+			    	</div>
+			    </div>
+
+			</form>
+      
+   		</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <script id="tpl-curso-secao-curriculo" type="text/x-handlebars-template">
+ 	<li class="list-group-item" style="display:flex;">
+ 		<input type="text" name="descurriculo" class="form-control" value="{{descurriculo}}">
+        <button type="button" class="btn btn-success btn-outline input-search-close icon md-check curriculo-salvar" style="padding:10px"></button>
+        <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button>
+ 	</li>
+ </script>
+
+ <script id="tpl-curso-secao" type="text/x-handlebars-template">
+ 	<ul class="list-group list-group-full">
+ 		<li class="list-group-item">
+	 		{{dessecao}}
+			<button type="button" class="btn btn-pure btn-success icon md-plus curriculo-criar" title="Adicionar currículo" style="padding:10px"></button>
+ 			<button type="button" class="btn btn-pure btn-danger icon md-delete secao-remove" title="Excluir seção" style="padding:10px"></button>
+ 		</li>
+ 	</ul>
+ </script>
+
  <script>
- 	
+
  var curso = JSON.parse('{function="json_encode($curso)"}');
+
+ var tpl = {
+ 	cursoSecao:Handlebars.compile($("#tpl-curso-secao").html()),
+ 	cursoCurriculo:Handlebars.compile($("#tpl-curso-secao-curriculo").html())
+ };
+
+ var $panelSecoes = System.getPanelApi($("#secoes"));
+
+ var isSecoesLogged = false;
+
+ function loadSecoes(){
+
+ 	if(isSecoesLogged === false){
+
+	 	var $panel = $("#secoes");
+
+	 	$panelSecoes.load();
+
+	 	rest({
+	 		url:PATH+"/cursos/"+curso.idcurso+"/secoes",
+	 		success:function(r){	 			
+
+	 			$panel.html('');
+
+	 			$.each(r.data, function(index, row){
+
+	 				var $row = $(tpl.cursoSecao(row));
+
+	 				$panel.append($row);
+
+	 				rest({
+	 					url:PATH+"/cursos-secoes/"+row.idsecao+"/curriculos",
+	 					success:function(r){
+
+	 						if(r.data.length > 0){
+
+	 							$row.find(".list-group-item").append("<ul class='list-group list-group-full ul-2'></ul>");
+
+		 						$.each(r.data, function(index1, row1){
+
+		 							var $li = $(tpl.cursoCurriculo(row1));
+		 							$row.find(".ul-2").append($li);
+
+		 							$li.find(".curriculo-salvar").on("click", function(){
+
+					 					var $btn = $(this);
+
+					 					$btn.btnload("load");
+
+					 					rest({
+					 						url:PATH+"/cursos-curriculos",
+					 						method:"POST",
+					 						data:{
+					 							idcurriculo:row1.idcurriculo,
+					 							descurriculo:$li.find("[name=descurriculo]").val(),
+					 							desdescricao:row1.desdescricao.toString(),
+					 							idsecao:row1.idsecao,
+					 							nrordem:row1.nrordem
+					 						},
+					 						success:function(){
+					 							$btn.btnload("unload");
+					 						},
+					 						failure:function(r){
+					 							System.showError(r);
+					 							$btn.btnload("unload");
+					 						}
+					 					})
+
+					 				});
+
+					 				$li.find(".btn-danger").on("click", function(){
+
+					 					var $btn = $(this);
+
+					 					$btn.btnload("load");
+
+					 					rest({
+					 						url:PATH+"/cursos-curriculos/"+row1.idcurriculo,
+					 						method:"DELETE",
+					 						success:function(){
+					 							$btn.btnload("unload");
+					 							$li.remove();
+					 						},
+					 						failure:function(r){
+					 							System.showError(r);
+					 							$btn.btnload("unload");
+					 						}
+					 					});
+
+					 				});
+
+		 						});
+
+		 					}
+
+	 					},
+	 					failure:function(r){
+	 						System.showError(r);
+	 					}
+	 				});	 				
+
+	 				$row.find(".curriculo-criar").on("click", function(){
+
+	 					var $modalCurriculo = $("#modalCurriculoCriar");
+
+	 					$modalCurriculo.modal("show");
+
+	 					$modalCurriculo.find("form").form({
+	 						url:PATH+"/cursos-curriculos",
+	 						params:{
+	 							idcurriculo:0,
+	 							idsecao:row.idsecao
+	 						},
+	 						success:function(){
+	 							$modalCurriculo.modal("hide");
+	 							loadSecoes();
+	 						}
+	 					});
+
+	 				});
+
+	 				$row.find(".secao-remove").on("click", function(){
+
+	 					var $btn = $(this);
+
+	 					$btn.btnload("load");
+
+	 					rest({
+	 						url:PATH+"/cursos-secoes/"+row.idsecao,
+	 						method:"DELETE",
+	 						success:function(){
+	 							$btn.btnload("unload");
+	 							$row.remove();
+	 						},
+	 						failure:function(r){
+	 							System.showError(r);
+	 							$btn.btnload("unload");
+	 						}
+	 					});
+
+	 				});
+
+	 			});
+
+	 			$(".btn-criar-secao").on("click", function(){
+
+ 					var $modal = $("#modalSecaoCriar");
+
+ 					$modal.modal('show');
+
+ 					$modal.find("form").form({
+ 						url:PATH+"/cursos-secoes",
+ 						params:{
+ 							idsecao:0,
+ 							idcurso:curso.idcurso
+ 						},
+ 						success:function(r){
+ 							$modal.modal("hide");
+ 							loadSecoes();
+ 						}
+ 					});
+
+ 				});
+
+	 			$panelSecoes.done();
+
+	 			isSecoesLogged = true;
+
+	 		},
+	 		failure:function(r){
+	 			System.showError(r);
+	 			$panelSecoes.done();
+	 		}
+	 	});
+
+	}
+
+ }
+
+ $("a.nav-link[href='#secoesTab']").on("shown.bs.tab", function(){
+ 	loadSecoes();
+ });
 
  var form = $("#form-curso");
 

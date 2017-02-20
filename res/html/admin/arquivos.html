@@ -21,15 +21,32 @@
     <div class="page-aside-inner page-aside-scroll">
       <div data-role="container">
         <div data-role="content">
-          <section class="page-aside-section">
-            <h5 class="page-aside-title">Filter</h5>
-            <div class="list-group">
-              <a class="list-group-item" href="javascript:void(0)"><i class="icon md-image" aria-hidden="true"></i>Images</a>
-              <a class="list-group-item" href="javascript:void(0)"><i class="icon md-volume-up" aria-hidden="true"></i>Audio</a>
-              <a class="list-group-item" href="javascript:void(0)"><i class="icon md-videocam" aria-hidden="true"></i>Video</a>
-              <a class="list-group-item" href="javascript:void(0)"><i class="icon md-file" aria-hidden="true"></i>Notes</a>
-              <a class="list-group-item" href="javascript:void(0)"><i class="icon md-link" aria-hidden="true"></i>Links</a>
-              <a class="list-group-item" href="javascript:void(0)"><i class="icon md-receipt" aria-hidden="true"></i>Files</a>
+          <section class="page-aside-section p-t-0">
+            <div class="panel-primary panel-line">
+              <div class="panel-heading">
+                <h3 class="panel-title">Filtrar Arquivo</h3>
+              </div>
+              <form id="form-filtros" class="p-x-25">
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label">Nome do Arquivo</label>
+                  <input type="text" class="form-control" name="desarquivo">
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label">Endereço do Arquivo</label>
+                  <input type="text" class="form-control" name="desendereco">
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label">Tipo do Arquivo</label>
+                  <select name="desextensao" class="form-control">
+                    <option value=""> -- SELECIONE -- </option>
+                    <option value="jpg">JPG</option>
+                    <option value="png">PNG</option>
+                    <option value="gif">GIF</option>
+                    <option value="pdf">PDF</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+              </form>
             </div>
           </section>
         </div>
@@ -37,7 +54,7 @@
     </div>
   </div>
   <!-- Media Content -->
-  <div class="page-main"id="arquivo-page">
+  <div class="page-main" id="arquivo-page">
     <!-- Media Content Header -->
     <div class="page-header">
       <h1 class="page-title">Arquivos</h1>
@@ -78,7 +95,7 @@
   </div>
 </div>
 <div class="site-action">
-  <button type="button" id="adicionar"class="site-action-toggle btn-raised btn btn-success btn-floating">
+  <button type="button" id="adicionar" class="site-action-toggle btn-raised btn btn-success btn-floating">
     <i class="front-icon md-upload" aria-hidden="true"></i> Adicionar
   </button>
   <div class="site-action-buttons">
@@ -113,14 +130,31 @@
 <script>
 init.push(function(){
 
+  $("[name=idarquivo]").combobox({
+    url:PATH+"/arquivos",
+    displayField:"desarquivo",
+    valueField:"idarquivo"
+  });
+
   var panel = System.getPanelApi($('#arquivo-page'));
 
   var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
 
+  $("#form-filtros [type=submit]").on("click", function(e){
+     console.log("ok");
+    e.preventDefault();
+
+    carregar();
+    
+  });
+
   function carregar(){
+
+    var params = $('#form-filtros').formValues();
 
     rest({
       url:PATH+"/arquivos",
+      data:params,
       success:function(r){
 
         $("#tab-arquivo-fotos ul").html('');

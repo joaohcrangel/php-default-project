@@ -12,25 +12,69 @@
     <form autocomplete="off" id="form-pessoa-cadastrar">
       <div class="panel">
         <div class="panel-body p-y-0">
-          <div class="form-group form-material floating" data-plugin="formMaterial">
-            <input type="text" class="form-control empty" name="despessoa">
-            <label class="floating-label">Nome *</label>
+          
+          <div class="row">
+            <div class="form-group col-xs-12 col-md-8">
+              <label class="form-control-label" for="despessoa">Nome do cliente <span class="red-900">*</span></label>
+              <input type="text" class="form-control" id="despessoa" name="despessoa">
+            </div>
+            <div class="form-group col-xs-12 col-md-4">
+              <label class="form-control-label" for="idpessoatipo">Tipo</label>
+              <select class="form-control" id="idpessoatipo" name="idpessoatipo"></select>
+            </div>
           </div>
-          <div class="form-group form-material floating" data-plugin="formMaterial">
-            <input type="text" class="form-control empty" name="desemail">
-            <label class="floating-label">E-mail</label>
+          
+          <div id="cadastro-pessoa-fisica">
+            <div class="row">
+              
+              <div class="form-group col-xs-12 col-md-4">
+                <label class="form-control-label" for="descpf">CPF</label>
+                <input type="text" class="form-control" id="descpf" name="descpf">
+              </div>
+              <div class="form-group col-xs-12 col-md-4">
+                <label class="form-control-label" for="desrg">RG</label>
+                <input type="text" class="form-control" id="desrg" name="desrg">
+              </div>
+              <div class="form-group col-xs-12 col-md-4">
+                <label class="form-control-label" for="dtnascimento">Data de nascimento</label>
+                <input type="date" class="form-control" id="dtnascimento" name="dtnascimento">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-12 col-md-6">
+                <label class="form-control-label" for="desemail">Email</label>
+                <input type="email" class="form-control" id="desemail" name="desemail">
+              </div>
+              <div class="form-group col-xs-12 col-md-3">
+                <label class="form-control-label" for="destelefonecomercial">Telefone comercial</label>
+                <input type="tel" class="form-control" id="destelefonecomercial" name="destelefonecomercial">
+              </div>
+              <div class="form-group col-xs-12 col-md-3">
+                <label class="form-control-label" for="destelefonecelular">Telefone celular</label>
+                <input type="tel" class="form-control" id="destelefonecelular" name="destelefonecelular">
+              </div>
+            </div>
           </div>
-          <div class="form-group form-material floating" data-plugin="formMaterial">
-            <input type="text" class="form-control empty" name="destelefone">
-            <label class="floating-label">Telefone</label>
+
+          <div id="cadastro-pessoa-juridica" class="hide">
+            
           </div>
-          <div class="form-group form-material floating" data-plugin="formMaterial">
-            <input type="text" class="form-control empty" name="descpf">
-            <label class="floating-label">CPF</label>
-          </div>
-          <div class="form-group form-material floating" data-plugin="formMaterial">
-            <select class="form-control" name="idpessoatipo"></select>
-            <label class="floating-label">Tipo *</label>
+
+          <div id="cadastro-endereco">
+            <div class="row">
+              <div class="form-group col-xs-12 col-md-3">
+                <label class="form-control-label" for="descep">CEP</label>
+                <input type="text" class="form-control" id="descep" name="descep">
+              </div>
+              <div class="form-group col-xs-12 col-md-6">
+                <label class="form-control-label" for="desendereco">Endereço</label>
+                <input type="text" class="form-control" id="desendereco" name="desendereco">
+              </div>
+              <div class="form-group col-xs-12 col-md-3">
+                <label class="form-control-label" for="desnumero">Número</label>
+                <input type="text" class="form-control" id="desnumero" name="desnumero">
+              </div>
+            </div>
           </div>
 
           <div class="form-group">

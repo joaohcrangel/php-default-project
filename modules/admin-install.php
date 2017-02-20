@@ -123,6 +123,24 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_pessoasvalorescampos(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->query("
+		CREATE TABLE tb_pessoascategoriastipos (
+		  idcategoria int(11) NOT NULL AUTO_INCREMENT,
+		  descategoria varchar(32) NOT NULL,
+		  PRIMARY KEY (idcategoria)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=4 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_pessoascategorias (
+		  idpessoa int(11) NOT NULL,
+		  idcategoria int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpessoa,idcategoria),
+		  KEY FK_pessoascategorias_pessoascategoriastipos_idx (idcategoria),
+		  CONSTRAINT FK_pessoascategorias_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_pessoascategorias_pessoascategoriastipos FOREIGN KEY (idcategoria) REFERENCES tb_pessoascategoriastipos (idcategoria) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/triggers", function(){
@@ -1043,6 +1061,37 @@ $app->get("/install-admin/sql/documentos/remove", function(){
 $app->get("/install-admin/sql/enderecos/tables", function(){
 	$sql = new Sql();
 	$sql->query("
+		CREATE TABLE tb_paises (
+		  idpais int(11) NOT NULL AUTO_INCREMENT,
+		  despais varchar(64) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpais)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_estados (
+		  idestado int(11) NOT NULL AUTO_INCREMENT,
+		  desestado varchar(64) NOT NULL,
+		  desuf char(2) NOT NULL,
+		  idpais int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idestado),
+		  KEY FK_estados_paises_idx (idpais),
+		  CONSTRAINT FK_estados_paises FOREIGN KEY (idpais) REFERENCES tb_paises (idpais) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_cidades (
+		  idcidade int(11) NOT NULL AUTO_INCREMENT,
+		  descidade varchar(128) NOT NULL,
+		  idestado int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcidade),
+		  KEY FK_cidades_estados_idx (idestado),
+		  CONSTRAINT FK_cidades_estados FOREIGN KEY (idestado) REFERENCES tb_estados (idestado) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
 		CREATE TABLE tb_enderecostipos (
 		  idenderecotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desenderecotipo varchar(64) NOT NULL,
@@ -1272,6 +1321,9 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  dtatualizacao datetime NOT NULL,
 		  dessexo ENUM('M', 'F'),
 		  dtnascimento DATE DEFAULT NULL,
+		  incliente BIT NOT NULL DEFAULT b'0',
+		  infornecedor BIT NOT NULL DEFAULT b'0',
+		  incolaborador BIT NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoasdados_pessoastipos_idx (idpessoatipo),

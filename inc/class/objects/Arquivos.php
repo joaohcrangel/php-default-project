@@ -9,7 +9,7 @@ class Arquivos extends Collection {
 
     public function get(){}
 
-     public static function listAll():Arquivos
+    public static function listAll():Arquivos
     {
 
     	$arquivo = new Arquivos();

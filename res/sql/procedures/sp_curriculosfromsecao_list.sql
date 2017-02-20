@@ -8,6 +8,6 @@ BEGIN
     FROM tb_cursoscurriculos a
         INNER JOIN tb_cursossecoes b ON a.idsecao = b.idsecao
         INNER JOIN tb_cursos c ON b.idcurso = c.idcurso
-    WHERE a.idsecao = pidsecao;
+    WHERE a.idsecao = pidsecao ORDER BY a.nrordem;
 
 END

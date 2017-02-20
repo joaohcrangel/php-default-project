@@ -1061,6 +1061,37 @@ $app->get("/install-admin/sql/documentos/remove", function(){
 $app->get("/install-admin/sql/enderecos/tables", function(){
 	$sql = new Sql();
 	$sql->query("
+		CREATE TABLE tb_paises (
+		  idpais int(11) NOT NULL AUTO_INCREMENT,
+		  despais varchar(64) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpais)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_estados (
+		  idestado int(11) NOT NULL AUTO_INCREMENT,
+		  desestado varchar(64) NOT NULL,
+		  desuf char(2) NOT NULL,
+		  idpais int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idestado),
+		  KEY FK_estados_paises_idx (idpais),
+		  CONSTRAINT FK_estados_paises FOREIGN KEY (idpais) REFERENCES tb_paises (idpais) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_cidades (
+		  idcidade int(11) NOT NULL AUTO_INCREMENT,
+		  descidade varchar(128) NOT NULL,
+		  idestado int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcidade),
+		  KEY FK_cidades_estados_idx (idestado),
+		  CONSTRAINT FK_cidades_estados FOREIGN KEY (idestado) REFERENCES tb_estados (idestado) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
 		CREATE TABLE tb_enderecostipos (
 		  idenderecotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desenderecotipo varchar(64) NOT NULL,

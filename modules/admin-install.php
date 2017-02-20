@@ -123,6 +123,24 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_pessoasvalorescampos(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->query("
+		CREATE TABLE tb_pessoascategoriastipos (
+		  idcategoria int(11) NOT NULL AUTO_INCREMENT,
+		  descategoria varchar(32) NOT NULL,
+		  PRIMARY KEY (idcategoria)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=4 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_pessoascategorias (
+		  idpessoa int(11) NOT NULL,
+		  idcategoria int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpessoa,idcategoria),
+		  KEY FK_pessoascategorias_pessoascategoriastipos_idx (idcategoria),
+		  CONSTRAINT FK_pessoascategorias_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_pessoascategorias_pessoascategoriastipos FOREIGN KEY (idcategoria) REFERENCES tb_pessoascategoriastipos (idcategoria) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/triggers", function(){
@@ -1272,6 +1290,9 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  dtatualizacao datetime NOT NULL,
 		  dessexo ENUM('M', 'F'),
 		  dtnascimento DATE DEFAULT NULL,
+		  incliente BIT NOT NULL DEFAULT b'0',
+		  infornecedor BIT NOT NULL DEFAULT b'0',
+		  incolaborador BIT NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoasdados_pessoastipos_idx (idpessoatipo),

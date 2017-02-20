@@ -17,7 +17,8 @@ BEGIN
         idrg, desrg,
         dtatualizacao,
         dessexo,
-        dtnascimento
+        dtnascimento,
+        incliente, infornecedor, incolaborador
     )
     SELECT 
     a.idpessoa, a.despessoa,
@@ -33,7 +34,10 @@ BEGIN
     h.iddocumento AS idrg, h.desdocumento AS desrg,
     NOW(),
     CAST(j.desvalor AS CHAR(1)) AS dessexo,
-    CAST(k.desvalor AS DATE) AS dtnascimento   
+    CAST(k.desvalor AS DATE) AS dtnascimento,
+    CASE l.idpessoa IS NULL THEN 0 ELSE 1 AS incliente,
+    CASE m.idpessoa IS NULL THEN 0 ELSE 1 AS infornecedor,
+    CASE n.idpessoa IS NULL THEN 0 ELSE 1 AS incolaborador
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
     LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
@@ -44,6 +48,9 @@ BEGIN
     LEFT JOIN tb_documentos h ON h.iddocumento = (SELECT h1.iddocumento FROM tb_documentos h1 WHERE h1.idpessoa = a.idpessoa AND h1.iddocumentotipo = 3 LIMIT 1) -- RG
     LEFT JOIN tb_pessoasvalores j ON j.idcampo = (SELECT j1.idcampo FROM tb_pessoasvalores j1 WHERE j1.idpessoa = a.idpessoa AND j1.idcampo = 1 LIMIT 1) -- SEXO
     LEFT JOIN tb_pessoasvalores k ON k.idcampo = (SELECT k1.idcampo FROM tb_pessoasvalores k1 WHERE k1.idpessoa = a.idpessoa AND k1.idcampo = 2 LIMIT 1) -- DATA DE NASCIMENTO
+    LEFT JOIN tb_pessoascategorias l ON a.idpessoa = l.idpessoa AND l.idcategoria = 1 -- CLIENTE
+    LEFT JOIN tb_pessoascategorias m ON a.idpessoa = m.idpessoa AND m.idcategoria = 1 -- FORNECEDOR
+    LEFT JOIN tb_pessoascategorias n ON a.idpessoa = n.idpessoa AND n.idcategoria = 1 -- COLABORADOR
     WHERE 
             a.idpessoa = pidpessoa 
             AND 

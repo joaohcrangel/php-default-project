@@ -9,6 +9,16 @@
     vertical-align: middle;
 }
 
+#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+
+
 
 </style>
 <div class="page bg-white">
@@ -50,17 +60,18 @@
   <!-- Media Content -->
   <div class="page-main"id="arquivo-page">
     <!-- Media Content Header -->
-    <div class="page-header">
-      <h1 class="page-title">Arquivos</h1>
+    <div class="page-header p-0">
+        <div class="btn-group" id="actions-buttons"></div>
     </div>
     <!-- Media Content -->
     <div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable">
       <!-- Actions -->
       <div class="page-content-actions">
         <div class="pull-xs-right">
+           <button class="btn btn-danger" id="btn-excluir" type="button"><i class="icon md-delete" aria-hidden="true"></i></button>
+        </div>
+        <div class="pull-xs-left">
           <div class="btn-group media-arrangement" role="group">
-
-            <button class="btn btn-danger" id="btn-excluir" type="button"><i class="icon md-delete" aria-hidden="true"></i></button>
             <button class="btn btn-default active" id="arrangement-grid" type="button"><i class="icon md-view-module" aria-hidden="true"></i></button>
             <button class="btn btn-default" id="arrangement-list" type="button"><i class="icon md-view-list" aria-hidden="true"></i></button>
           </div>
@@ -75,16 +86,17 @@
       <!-- Media -->
 
         <div id="tab-arquivo-fotos">
-          <div data-auto-height="500" class="media-list is-grid p-b-50 overflow-auto" data-plugin="animateList" data-animate="fade"
+          <div data-auto-height="100" class="media-list is-grid p-10 overflow-auto" data-plugin="animateList" data-animate="fade"
           data-child="li">
             <ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-3 blocks-lg-4 blocks-md-4 blocks-sm-3"
             data-plugin="animateList" data-child=">li">
              
             </ul>
 
-            <div id="paginacao"></div>
+            
 
           </div>
+          <div id="paginacao"></div>
         </div>
     </div>
   </div>
@@ -139,7 +151,7 @@ init.push(function(){
      console.log("ok");
     e.preventDefault();
 
-    loadCarregarArquivos();
+    carregarArquivos();
     
   });
 
@@ -152,9 +164,9 @@ init.push(function(){
     data.pagina = pagina;
     data.limite = 10;
 
-
     rest({
       url:PATH+"/arquivos",
+      data:data,
       success:function(r){
 
         $("#tab-arquivo-fotos ul").html('');
@@ -174,7 +186,7 @@ init.push(function(){
           currentPage:r.currentPage,
           itemsPerPage:r.itemsPerPage,
           onChange:function(page){
-          loadArquivos(page);
+            carregarArquivos(page);
           }
         });
 
@@ -195,7 +207,6 @@ init.push(function(){
     $(this).addClass('active');
     $("#arrangement-grid").removeClass('active');
     $(".media-list").addClass('is-list').removeClass('is-grid');
-    console.log("ok");
   });
 
   $("#arrangement-grid").on("click", function(){
@@ -210,10 +221,9 @@ init.push(function(){
 
     $.upload({
       url:PATH+"/arquivos",
-     
       success:function(r){
 
-        carregar();
+        carregarArquivos();
         System.success("Arquivo adicionado!");
 
       },
@@ -224,40 +234,58 @@ init.push(function(){
 
   });
 
-  $("#btn-excluir").on("click", function(){
+  new ToolBar({
+      id:"actions-buttons",
+      buttons:[{
+        text:"Cadastrar",
+        icon:"md-plus",
+        cls:"btn-success",
+        listeners:{
+          click:function(btn, e){
+            
+            System.openSlidePanel({
+              url:PATH+"/panel/produto-criar"
+            });
 
-    var ids = [];
+          }
+        }
+      },{
+        text:"Excluir",
+        icon:"md-delete",
+        cls:"btn-danger",
+        handler:function(){
 
-    $("#tab-arquivo-fotos ul li input:checked").each(function(){
+          var ids = [];
 
-      var $li = $(this).closest("li");
+          $("#tab-arquivo-fotos ul li input:checked").each(function(){
 
-      var arquivo = $li.data('arquivo');
+            var $li = $(this).closest("li");
 
-      ids.push(arquivo.idarquivo);
+            var arquivo = $li.data('arquivo');
+
+            ids.push(arquivo.idarquivo);
 
 
-    });
+          });
 
-    console.log(ids.toString());
+          rest({
+            url:PATH+"/arquivos",
+            method:"DELETE",
+            data:{
+              ids:ids.toString()
+            },
+            success:function(){
 
-    rest({
-      url:PATH+"/arquivos",
-      method:"DELETE",
-      data:{
-        ids:ids.toString()
-      },
-      success:function(){
+              $("#tab-arquivo-fotos ul li input:checked").each(function(){
+                $(this).closest("li").remove();
+              });
 
-        $("#tab-arquivo-fotos ul li input:checked").each(function(){
-          $(this).closest("li").remove();
-        });
+            }
+          });
 
-      }
-    });
-
+        }
+      }]
   });
-
 
 });
 

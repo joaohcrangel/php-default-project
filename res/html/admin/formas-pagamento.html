@@ -40,7 +40,7 @@
 
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-formas">
+				<div data-auto-height="10" class="panel" id="panel-formas">
 					<a class="hidden refresh"></a>
 					<div class="panel-heading overflow-auto">
 						<h3 class="panel-title">Formas de Pagamento</h3>
@@ -62,7 +62,7 @@
 
 		              	</tbody>
 		            </table>
-			           
+			        <div id="paginacao"></div>  
 				</div>
 			</div>
 		</div>
@@ -106,23 +106,31 @@ init.push(function(){
 	var $tpl = Handlebars.compile($("#tpl-forma-pagamento-row").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
-     console.log("ok");
+     
     e.preventDefault();
 
     loadFormas();
     
   });
 
-	function loadFormas(){
+	function loadFormas(pagina){
+
+		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
 			loadFormas();
 		});
 
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params.limite = 10;
+
 		panel.load();
 
 		rest({
 			url:PATH+"/formas-pagamentos/all",
+			data:params,
 			success:function(r){
 
 				$tbody.html('');
@@ -132,6 +140,18 @@ init.push(function(){
 					$tbody.append($tpl(row));
 
 				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadFormas(page);
+         			}
+        		});
+
+        		$("#paginacao").asPaginator(r.total, config);
+
 
 				System.initSlidePanel($tbody);
 
@@ -169,7 +189,9 @@ init.push(function(){
 
 				});
 
+			
 			},
+
 			failure:function(r){
 				System.showError(r);
 				panel.done();

@@ -10,7 +10,7 @@
 
 <div class="slidePanel-inner m-t-40">
 	
-	<form id="form-forma-pagamento-save" class="slidePanel-form">	
+	<form id="form-forma-pagamento-save" class="slidePanel-form">	 
 		<div class="form-group">
 		  	<div class="form-group form-material">
 		  		<input type="hidden" name="idformapagamento">
@@ -34,10 +34,10 @@
 
 <script>
 
-	$("#gateways").combobox({
-    url:PATH+"/gateways/all",
-    diplayField:"desgateway",
-    valueField:"idgateway"
+	$("#form-forma-pagamento-save [name=idgateway]").combobox({
+	    url:PATH+"/gateways/all",
+	    displayField:"desgateway",
+	    valueField:"idgateway"
 	});
 
 	var form = $("#form-forma-pagamento-save");

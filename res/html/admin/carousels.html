@@ -38,8 +38,8 @@
               </div>
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label" for="">Nome</label>
-                  <input type="text" class="form-control" name="" id="">
+                  <label class="form-control-label" for="descarousel">Nome</label>
+                  <input type="text" class="form-control" name="descarousel" id="descarousel">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -207,6 +207,7 @@ init.push(function(){
           $panel.done();
 
         }else{
+          $tbody.html('');
           $panel.done();
         }
 

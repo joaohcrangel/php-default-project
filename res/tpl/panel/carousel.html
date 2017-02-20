@@ -25,7 +25,8 @@
 				<label class="form-control-label">Conteúdo</label>
 				<textarea name="desconteudo" class="form-control" cols="30" rows="5">{{desconteudo}}</textarea>
 				<span class="input-group-btn" style="vertical-align:bottom;">
-	                <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+	                <button type="button" class="btn btn-success btn-outline input-search-close icon md-check" style="padding:10px"></button>
+	                <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button>
 	          	</span>
 	        </div>
 		</div>
@@ -54,6 +55,26 @@ $form.find("[type=checkbox]").each(function(){
 
 	$(this).val(disabled);
 
+	var $btn = $(this);
+
+	var data = $form.formValues();
+
+	data.idcarousel = carousel.idcarousel;
+	data.inloop = $form.find("[name=inloop]").prop("checked");
+	data.innav = $form.find("[name=innav]").prop("checked");
+	data.incenter = $form.find("[name=incenter]").prop("checked");
+	data.inautowidth = $form.find("[name=inautowidth]").prop("checked");
+	data.invideo = $form.find("[name=invideo]").prop("checked");
+	data.inlazyload = $form.find("[name=inlazyload]").prop("checked");
+	data.indots = $form.find("[name=indots]").prop("checked");
+
+	saveCarousel(
+		$btn,
+		data,
+		function(){},
+		function(){}
+	);
+
 });
 
 $form.find("[type=submit]").on("click", function(e){
@@ -62,37 +83,56 @@ $form.find("[type=submit]").on("click", function(e){
 
 	var $btn = $(this);
 
-	$btn.btnload("load");
-
 	var data = $form.formValues();
 
 	data.idcarousel = carousel.idcarousel;
-	data.inloop = $form.find("[name=inloop]").val();
-	data.innav = $form.find("[name=innav]").val();
-	data.incenter = $form.find("[name=incenter]").val();
-	data.inautowidth = $form.find("[name=inautowidth]").val();
-	data.invideo = $form.find("[name=invideo]").val();
-	data.inlazyload = $form.find("[name=inlazyload]").val();
-	data.indots = $form.find("[name=indots]").val();
+	data.inloop = $form.find("[name=inloop]").prop("checked");
+	data.innav = $form.find("[name=innav]").prop("checked");
+	data.incenter = $form.find("[name=incenter]").prop("checked");
+	data.inautowidth = $form.find("[name=inautowidth]").prop("checked");
+	data.invideo = $form.find("[name=invideo]").prop("checked");
+	data.inlazyload = $form.find("[name=inlazyload]").prop("checked");
+	data.indots = $form.find("[name=indots]").prop("checked");
+
+	saveCarousel(
+		$btn,
+		data,
+		function(){
+			System.success("Carousel salvo com sucesso");
+		},
+		function(){}
+	);
+
+});
+
+function saveCarousel(
+	$btn,
+	data,
+	success,
+	failure
+){
+
+	$btn.btnload("load");
 
 	rest({
 		url:PATH+"/carousels",
 		method:"POST",
 		data:data,
 		success:function(){
-			System.success("Carousel salvo com sucesso");
 			$btn.btnload("unload");
+			if(typeof success === 'function') success();
 		},
 		failure:function(r){
 			System.showError(r);
-			$btn.btnload("unload");
+			$btn.btnload("unload");			
+			if(typeof failure === 'function') failure(r);
 		}
 	});
 
-});
+}
 
 $(".item-add [name=idtipo]").combobox({
-	url:PATH+"/carousels-items/tipos",
+	url:PATH+"/carousels-tipos",
 	displayField:"destipo",
 	valueField:"idtipo"
 });
@@ -105,14 +145,18 @@ $(".item-add button.btn-success").on("click", function(){
 
 	var $div = $(".item-add");
 
+	var data = {
+		iditem:0,
+		desitem:$div.find("[name=desitem]").val(),
+		desconteudo:$div.find("[name=desconteudo]").val().toString(),
+		nrordem:$div.find("[name=nrordem]").val(),
+		idtipo:$div.find("[name=idtipo]").val(),
+		idcarousel:carousel.idcarousel
+	};
+
 	saveItems(
 		$btn,
-		0,
-		$div.find("[name=desitem]").val(),
-		$div.find("[name=desconteudo]").val().toString(),
-		$div.find("[name=nrordem]").val(),
-		$div.find("[name=idtipo]").val(),
-		carousel.idcarousel,
+		data,
 		function(){
 			isItemsLogged = false;
 			loadItems();
@@ -125,12 +169,7 @@ $(".item-add button.btn-success").on("click", function(){
 
 function saveItems(
 	$btn,
-	iditem,
-	desitem,
-	desconteudo,
-	nrordem,
-	idtipo,
-	idcarousel,
+	data,
 	success,
 	failure
 ){
@@ -138,14 +177,7 @@ function saveItems(
 	rest({
 		url:PATH+"/carousels-items",
 		method:"POST",
-		data:{
-			iditem:iditem,
-			desitem:desitem,
-			desconteudo:desconteudo,
-			nrordem:nrordem,
-			idtipo:idtipo,
-			idcarousel:idcarousel
-		},
+		data:data,
 		success:function(){
 			$btn.btnload("unload");
 			if(typeof success == 'function') success();
@@ -190,10 +222,75 @@ function loadItems(){
 					$form.append($div);
 
 					$div.find("[name=idtipo]").combobox({
-						url:PATH+"/carousels-items/tipos",
+						url:PATH+"/carousels-tipos",
 						displayField:"destipo",
 						valueField:"idtipo",
 						value:row.idtipo
+					}).on("change", function(e){
+
+						var $btn = $(this);
+
+						var data = {
+							iditem:row.iditem,
+							desitem:$div.find("[name=desitem]").val(),
+							desconteudo:$div.find("[name=desconteudo]").val().toString(),
+							nrordem:$div.find("[name=nrordem]").val(),
+							idtipo:$div.find("[name=idtipo]").val(),
+							idcarousel:carousel.idcarousel
+						};
+
+						saveItems(
+							$btn,
+							data,
+							function(){},
+							function(){}
+						);
+
+					});
+
+					$div.find(".btn-success").on("click", function(){
+
+						var $btn = $(this);
+
+						$btn.btnload("load");
+
+						var data = {
+							iditem:row.iditem,
+							desitem:$div.find("[name=desitem]").val(),
+							desconteudo:$div.find("[name=desconteudo]").val().toString(),
+							nrordem:$div.find("[name=nrordem]").val(),
+							idtipo:$div.find("[name=idtipo]").val(),
+							idcarousel:carousel.idcarousel
+						};
+
+						saveItems(
+							$btn,
+							data,
+							function(){},
+							function(){}
+						);
+
+					});
+
+					$div.find(".btn-danger").on("click", function(){
+
+						var $btn = $(this);
+
+						$btn.btnload("load");
+
+						rest({
+							url:PATH+"/carousels-items/"+row.iditem,
+							method:"DELETE",
+							success:function(){
+								$btn.btnload("unload");
+								$div.remove();
+							},
+							failure:function(r){
+								System.showError(r);
+								$btn.btnload("unload");
+							}
+						});
+
 					});
 
 				});

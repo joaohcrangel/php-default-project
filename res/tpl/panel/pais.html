@@ -10,7 +10,7 @@ $("#form-pais").form({
   success:function(){
     System.success("País salvo com sucesso");
     $(".slidePanel-close").trigger("click");
-    $(".refresh").trigger("click");
+    $("#form-filtros [type=submit]").trigger("click");
   },
   failure:function(r){
     System.showError(r);

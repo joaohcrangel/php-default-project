@@ -794,6 +794,24 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
+	$menuPaises = new Menu(array(
+		"nrordem"=>10,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/paises",
+		"desmenu"=>$lang->getString('menus_paises')
+	));
+	$menuPaises->save();
+	//////////////////////////////////////
+	$menuEstados = new Menu(array(
+		"nrordem"=>11,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/estados",
+		"desmenu"=>$lang->getString('menus_estados')
+	));
+	$menuEstados->save();
+	//////////////////////////////////////
 	
 	echo success();
 });

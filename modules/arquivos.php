@@ -4,31 +4,31 @@ $app->get("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    
-    $query = "
-        SELECT SQL_CALC_FOUND_ROWS *
-        FROM tb_arquivos a ".$where."
-        LIMIT ?, ?;
-    ";
 
-    $pagina = (int)get('pagina');
-    $itemsPerPage = (int)get('limite');
+    $where = array();
 
-    $paginacao = new Pagination(
-        $query,
-        array(),
-        "arquivos",
-        $itemsPerPage
-    );
+    if (get('desarquivo')) {
+        array_push($where, "desalias LIKE '%".get('desarquivo')."%'");
+    }
 
-    $arquivos = $paginacao->getPage($pagina);
+    if (get('desextensao')) {
+        array_push($where, "desextensao = '".get('desextensao')."'");
+    }
 
-    echo success(array(
-        "data"=>$arquivos->getFields(),
-        "total"=>$paginacao->getTotal(),
-        "currentPage"=>$pagina,
-        "itemsPerPage"=>$itemsPerPage
-    ));
+    if (count($where) > 0) {
+        $where = 'WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = 'SELECT * FROM tb_arquivos '.$where;
+
+    $arquivos = new Arquivos();
+
+    $arquivos->loadFromQuery($query);
+
+    echo success(array("data"=>$arquivos->getFields()));
+  
 
 });
 

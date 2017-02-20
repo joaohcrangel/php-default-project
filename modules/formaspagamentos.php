@@ -4,7 +4,31 @@ $app->get("/formas-pagamentos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>FormasPagamentos::listAll()->getFields()));
+    $where = array();
+
+    if (get('desformapagamento')) {
+        array_push($where, "desformapagamento LIKE '%".get('desformapagamento')."%'");
+    }
+    
+
+    if (get('nrparcelasmax')) {
+        array_push($where, "nrparcelasmax = '".get('nrparcelasmax')."'");
+    }
+    
+    if (count($where) > 0) {
+        $where = 'WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = 'SELECT * FROM tb_formaspagamentos'.$where;
+
+    $pagamentos = new FormasPagamentos();
+
+    $pagamentos->loadFromQuery($query);
+
+    echo success(array("data"=>$pagamentos->getFields()));
+  
 
 });
 

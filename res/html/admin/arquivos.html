@@ -135,14 +135,14 @@ init.push(function(){
 
   var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
 
-  /*$("#form-filtros [type=submit]").on("click", function(e){
+  $("#form-filtros [type=submit]").on("click", function(e){
      console.log("ok");
     e.preventDefault();
 
-    loadArquivo();
+    loadCarregarArquivos();
     
   });
-*/
+
   function carregarArquivos(pagina){
 
     if(!pagina) pagina = 1;

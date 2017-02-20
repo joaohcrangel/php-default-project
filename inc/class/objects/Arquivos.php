@@ -14,7 +14,7 @@ class Arquivos extends Collection {
 
     	$arquivo = new Arquivos();
 
-    	$arquivo->loadFromQuery("CALL sp_arquivos_list();");
+    	$arquivo->loadFromQuery("select * from tb_arquivos");
 
     	return $arquivo;
 

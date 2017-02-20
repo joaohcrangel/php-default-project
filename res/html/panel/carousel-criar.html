@@ -136,6 +136,9 @@ $form.find("[type=submit]").on("click", function(e){
 		method:"POST",
 		data:{
 			idcarousel:0,
+			descarousel:$form.find("[name=descarousel]").val(),
+			nritems:$form.find("[name=nritems]").val(),
+			nrstagepadding:$form.find("[name=nrstagepadding]").val(),
 			inloop:$form.find("[name=inloop]").prop("checked"),
 			innav:$form.find("[name=innav]").prop("checked"),
 			incenter:$form.find("[name=incenter]").prop("checked"),

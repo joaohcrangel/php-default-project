@@ -5,20 +5,12 @@ $app->get("/arquivos", function(){
     Permissao::checkSession(Permissao::ADMIN, true);
 
     echo success(array("data"=>Arquivos::listAll()->getFields()));
-
+  
 });
 
-$app->post("/arquivos/:idarquivo", function($idarquivo){
+$app->post("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
-
-    if(!(int)$idarquivo){
-        throw new Exception("Arquivo não informado", 400);        
-    }
-
-    $arquivo = new Arquivo(array(
-        'idarquivo'=>(int)$idarquivo
-    ));
 
     $file = $_FILES['arquivo'];
     $arquivo = Arquivo::upload(
@@ -28,8 +20,6 @@ $app->post("/arquivos/:idarquivo", function($idarquivo){
         $file['error'],
         $file['size']
     );
-
-    $arquivo->addArquivo($arquivo);
     
     echo success(array(
         'data'=>$arquivo->getFields()
@@ -52,6 +42,27 @@ $app->delete("/arquivos/:idarquivo", function($idarquivo){
     }
 
     $arquivo->remove();
+
+    echo success();
+
+});
+
+$app->delete("/arquivos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $ids = explode(",",post('ids'));
+
+    //var_dump($ids);
+
+    foreach ($ids as $idarquivo) {
+
+        $arquivo = new Arquivo(array(
+            'idarquivo'=>(int)$idarquivo
+        ));
+        //$arquivo->remove();
+
+    }
 
     echo success();
 

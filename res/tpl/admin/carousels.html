@@ -86,6 +86,36 @@
 
             $tbody.append($tr);
 
+            $tr.find(".btn-danger").on("click", function(){
+
+              System.confirm("Deseja realmente remover o carousel "+row.descarousel+"?", function(b, s, f){
+
+                if(b){
+
+                  rest({
+                    url:PATH+"/carousels/"+row.idcarousel,
+                    method:"DELETE",
+                    success:function(){
+
+                      s("Carousel removido com sucesso");
+
+                      $tr.remove();
+
+                    },
+                    failure:function(r){
+                      f(r);
+                      System.done();
+                    }
+                  })
+
+                }else{
+                  f();
+                }
+
+              })
+
+            });
+
           });
 
           System.initSlidePanel($tbody);

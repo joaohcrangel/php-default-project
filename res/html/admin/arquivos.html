@@ -1,4 +1,16 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css">
+<style>
+  .info-wrap .title {
+  text-overflow: ellipsis;
+    overflow: hidden;
+}
+.image-wrap {
+  display: table-cell;
+    vertical-align: middle;
+}
+
+
+</style>
 <div class="page bg-white">
   <!-- Media Sidebar -->
   <div class="page-aside">
@@ -36,6 +48,8 @@
       <div class="page-content-actions">
         <div class="pull-xs-right">
           <div class="btn-group media-arrangement" role="group">
+
+            <button class="btn btn-danger" id="btn-excluir" type="button"><i class="icon md-delete" aria-hidden="true"></i></button>
             <button class="btn btn-default active" id="arrangement-grid" type="button"><i class="icon md-view-module" aria-hidden="true"></i></button>
             <button class="btn btn-default" id="arrangement-list" type="button"><i class="icon md-view-list" aria-hidden="true"></i></button>
           </div>
@@ -48,10 +62,13 @@
         </div>
       </div>
       <!-- Media -->
+
+        <div id="paginacao"></div>
+
         <div id="tab-arquivo-fotos">
-          <div data-auto-height="100" class="media-list is-grid p-b-50 overflow-auto" data-plugin="animateList" data-animate="fade"
+          <div data-auto-height="500" class="media-list is-grid p-b-50 overflow-auto" data-plugin="animateList" data-animate="fade"
           data-child="li">
-            <ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-3 blocks-lg-3 blocks-md-4 blocks-sm-4"
+            <ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-3 blocks-lg-4 blocks-md-4 blocks-sm-3"
             data-plugin="animateList" data-child=">li">
              
             </ul>
@@ -98,7 +115,6 @@ init.push(function(){
 
   var panel = System.getPanelApi($('#arquivo-page'));
 
-
   var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
 
   function carregar(){
@@ -112,6 +128,9 @@ init.push(function(){
         $.each(r.data, function(index, arquivo){
 
           var $li = $($tplArquivoPage(arquivo));
+
+          $li.data('arquivo', arquivo);
+
           $("#tab-arquivo-fotos ul").append($li);
 
         });
@@ -131,7 +150,7 @@ init.push(function(){
     $(this).addClass('active');
     $("#arrangement-grid").removeClass('active');
     $(".media-list").addClass('is-list').removeClass('is-grid');
-
+    console.log("ok");
   });
 
   $("#arrangement-grid").on("click", function(){
@@ -139,14 +158,61 @@ init.push(function(){
     $(this).addClass('active');
     $("#arrangement-list").removeClass('active');
     $(".media-list").addClass('is-grid').removeClass('is-list');
+    
+  });
+
+  $("#adicionar").on("click",function(){
+
+    $.upload({
+      url:PATH+"/arquivos",
+     
+      success:function(r){
+
+        carregar();
+        System.success("Arquivo adicionado!");
+
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
 
   });
 
-});
+  $("#btn-excluir").on("click", function(){
 
-$("#adicionar").on("click",function(){
-    console.log("ok");
-  
+    var ids = [];
+
+    $("#tab-arquivo-fotos ul li input:checked").each(function(){
+
+      var $li = $(this).closest("li");
+
+      var arquivo = $li.data('arquivo');
+
+      ids.push(arquivo.idarquivo);
+
+
+    });
+
+    console.log(ids.toString());
+
+    rest({
+      url:PATH+"/arquivos",
+      method:"DELETE",
+      data:{
+        ids:ids.toString()
+      },
+      success:function(){
+
+        $("#tab-arquivo-fotos ul li input:checked").each(function(){
+          $(this).closest("li").remove();
+        });
+
+      }
+    });
+
+  });
+
 
 });
 

@@ -59,6 +59,12 @@ $app->post("/carousels", function(){
 		$carousel = new Carousel();
 	}
 
+	foreach ($_POST as $key => $value) {
+		
+		if($value === 'false') $_POST[$key] = false;
+
+	}
+
 	$carousel->set($_POST);
 
 	$carousel->save();
@@ -89,7 +95,7 @@ $app->delete("/carousels/:idcarousel", function($idcarousel){
 ///////////////////////////////////////////////////////////////////////
 
 // carousels items
-$app->post("/carousel-items", function(){
+$app->post("/carousels-items", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -107,7 +113,7 @@ $app->post("/carousel-items", function(){
 
 });
 
-$app->delete("/carousel-items/:iditem", function($iditem){
+$app->delete("/carousels-items/:iditem", function($iditem){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -129,7 +135,7 @@ $app->delete("/carousel-items/:iditem", function($iditem){
 ///////////////////////////////////////////////////////////////////////
 
 // carousel items tipos
-$app->get("/carousel-items/tipos", function(){
+$app->get("/carousels-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -137,14 +143,14 @@ $app->get("/carousel-items/tipos", function(){
 
 });
 
-$app->post("/carousel-items-tipos", function(){
+$app->post("/carousels-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idtipo') > 0){
-		$tipo = new CarouselsItemsTipos((int)post('idtipo'));
+		$tipo = new CarouselItemTipo((int)post('idtipo'));
 	}else{
-		$tipo = new CarouselsItemsTipos();
+		$tipo = new CarouselItemTipo();
 	}
 
 	$tipo->set($_POST);
@@ -155,21 +161,21 @@ $app->post("/carousel-items-tipos", function(){
 
 });
 
-$app->delete("/carousel-items-tipos/:idtipo", function($idtipo){
+$app->delete("/carousels-tipos/:idtipo", function($idtipo){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(!(int)$idtipo){
-		throw new Exception("Tipo não informado", 400);		
+		throw new Exception("Carousel não informado", 400);		
 	}
 
-	$tipo = new CarouselsItemsTipos((int)$idtipo);
+	$carousel = new CarouselItemTipo((int)$idtipo);
 
-	if(!(int)$tipo->getidtipo() > 0){
-		throw new Exception("Tipo não encontrado", 404);		
+	if(!(int)$carousel->getidtipo() > 0){
+		throw new Exception("Carousel não encontrado", 404);		
 	}
 
-	$tipo->remove();
+	$carousel->remove();
 
 	echo success();
 

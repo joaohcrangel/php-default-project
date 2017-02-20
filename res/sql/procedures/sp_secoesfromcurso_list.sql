@@ -4,6 +4,6 @@ pidcurso INT
 BEGIN
 
     SELECT * FROM tb_cursossecoes
-    WHERE idcurso = pidcurso;
+    WHERE idcurso = pidcurso ORDER BY nrordem;
 
 END

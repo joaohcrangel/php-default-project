@@ -788,11 +788,29 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuCarousels = new Menu(array(
 		"nrordem"=>1,
 		"idmenupai"=>$menuSite->getidmenu(),
-		"desicone"=>"md-code",
+		"desicone"=>"",
 		"deshref"=>"/carousels",
 		"desmenu"=>$lang->getString('menus_carousels')
 	));
 	$menuCarousels->save();
+	//////////////////////////////////////
+	$menuPaises = new Menu(array(
+		"nrordem"=>10,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/paises",
+		"desmenu"=>$lang->getString('menus_paises')
+	));
+	$menuPaises->save();
+	//////////////////////////////////////
+	$menuEstados = new Menu(array(
+		"nrordem"=>11,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/estados",
+		"desmenu"=>$lang->getString('menus_estados')
+	));
+	$menuEstados->save();
 	//////////////////////////////////////
 	
 	echo success();
@@ -1229,7 +1247,9 @@ $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 $app->get("/install-admin/sql/enderecos/get", function(){
 	$names = array(
         "sp_enderecos_get",
-        "sp_enderecostipos_get"
+        "sp_enderecostipos_get",
+        "sp_paises_get",
+        "sp_estados_get"
 	);
 	saveProcedures($names);
 	echo success();
@@ -1237,7 +1257,9 @@ $app->get("/install-admin/sql/enderecos/get", function(){
 $app->get("/install-admin/sql/enderecos/list", function(){
 	$names = array(
         "sp_enderecosfrompessoa_list",
-        "sp_enderecostipos_list"
+        "sp_enderecostipos_list",
+        "sp_paises_list",
+        "sp_estados_list"
     );
     saveProcedures($names);
 	echo success();
@@ -1245,7 +1267,9 @@ $app->get("/install-admin/sql/enderecos/list", function(){
 $app->get("/install-admin/sql/enderecos/save", function(){
 	$names = array(
        "sp_enderecos_save",
-       "sp_enderecostipos_save"
+       "sp_enderecostipos_save",
+       "sp_paises_save",
+       "sp_estados_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -1253,7 +1277,9 @@ $app->get("/install-admin/sql/enderecos/save", function(){
 $app->get("/install-admin/sql/enderecos/remove", function(){
 	$names = array(
        "sp_enderecos_remove",
-       "sp_enderecostipos_remove"
+       "sp_enderecostipos_remove",
+       "sp_paises_remove",
+       "sp_estados_remove"
 	);
 	saveProcedures($names);
 	echo success();

@@ -739,6 +739,61 @@ $app->get("/panel/carousel-item-tipo-criar", function(){
 	$page->setTpl("panel/carousel-item-tipo-criar");
 
 });
+////////////////////////////////////////////////////////////////
+
+// paises
+$app->get("/panel/paises/:idpais", function($idpais){
+
+	$pais = new Pais((int)$idpais);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pais", array(
+		"pais"=>$pais->getFields()
+	));
+
+});
+
+$app->get("/panel/pais-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pais-criar");
+
+});
+/////////////////////////////////////////////////////
+
+// estados
+$app->get("/panel/estados/:idestado", function($idestado){
+
+	$estado = new Estado((int)$idestado);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/estado", array(
+		"estado"=>$estado->getFields()
+	));
+
+});
+
+$app->get("/panel/estado-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/estado-criar");
+
+});
 
 ?>
-

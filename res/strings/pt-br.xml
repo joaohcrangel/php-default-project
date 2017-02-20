@@ -64,6 +64,8 @@
 	<string name="menus_configuracoes">Configurações</string>
 	<string name="menus_cursos">Cursos</string>
 	<string name="menus_carousels">Carousels</string>
+	<string name="menus_paises">Países</string>
+	<string name="menus_estados">Estados</string>
 
 	<string name="menus_pedido">Pedidos</string>
 	<string name="menus_carrinho">Carrinhos</string>

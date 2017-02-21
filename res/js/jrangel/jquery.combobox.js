@@ -27,7 +27,21 @@
                 value:undefined,
                 emptyText:'-- selecione --',
                 multiple:false,
-                select2:false
+                select2:false,
+                autoComplete:false,
+                delay:250,
+                minValue:1,
+                autoCompleteConfig:{
+                    tplInput:
+                    '<div class="jrangel-combobox-autocomplete">'+
+                        '<input type="text" class="form-control">'+
+                        '<span class="icon md-caret-down" style="position:absolute; right:14px; top:8px; font-size:20px;"></span>'+
+                    '</div>',
+                    tplResults:
+                    '<div class="dropdown-menu" style="width: 100%; max-height:200px; overflow:auto;" role="menu"></div>',
+                    tplResult:
+                    '<a class="dropdown-item" href="javascript:void(0)" role="menuitem">{{display}}<strong class="pull-xs-right">{{rightText}}</strong></a>'
+                }
             };
 
             var o =  $.extend(defaults, options);
@@ -131,53 +145,156 @@
 
                 };
 
-                $.store({
-                    method:o.method,
-                    url:o.url,
-                    cache:o.cache,
-                    success:function(data){
+                if (o.autoComplete === true) {
 
-                            successCombo(o, $el, data);
+                    if (o.debug === true) console.log('autoComplete true');
 
-                            if (typeof o.success === 'function') {
-                                    o.success($el, data);
-                            }
+                    $el.wrap('<div class="jrangel-combobox" style="position:relative"></div>');
 
-                            $el.on("contextmenu", function(){
+                    var $jRangelComBox = $el.closest('.jrangel-combobox');
+                    var $inputContainer = $(o.autoCompleteConfig.tplInput);
+                    var $input = $inputContainer.find('input');
+                    var $icon = $inputContainer.find('span.icon');
 
-                              $el.find(":selected").prop('selected', false);
-                              var $disabled = $el.find(":disabled");
-                              $disabled.prop({
-                                'disabled':false,
-                                'selected':true
-                              });
-                              $disabled.prop('disabled', true);                              
+                    var tplResult = Handlebars.compile(o.autoCompleteConfig.tplResult);
+                    var tplResults = Handlebars.compile(o.autoCompleteConfig.tplResults);
+                    var $results = $(tplResults());
 
-                            });
+                    function setLoading(bool){
 
-                            $el.on("dblclick", function(){
-
-                                $el.html('<option desabled selected>Atualizando...</option>');
-
-                                $.store({
-                                    method:o.method,
-                                    url:o.url,
-                                    cache:false,
-                                    success:function(data){
-
-                                        successCombo(o, $el, data);
-
-                                        if (typeof o.success === 'function') {
-                                                o.success($el, data);
-                                        }
-
-                                    }
-                                });
-
-                            });
+                        if (bool) {
+                            $icon.removeClass('md-caret-down');
+                            $icon.addClass('fa fa-refresh fa-spin');
+                        } else {
+                            $icon.removeClass('fa fa-refresh fa-spin');
+                            $icon.addClass('md-caret-down');
+                        }
 
                     }
-                });
+
+                    function appendTimeout(){
+
+                        if (o.debug === true) console.log('appendTimeout', o.delay);
+
+                        window.jRangelComboBoxTimer = setTimeout(loadResults, o.delay);
+
+                    }
+
+                    function loadResults(callback){
+
+                        if (o.debug === true) console.log('loadResults');
+
+                        if ($input.val().length >= o.minValue) {
+
+                            setLoading(true);
+
+                            rest({
+                                url:o.url,
+                                method:o.method,
+                                debug:o.debug,
+                                success:function(r){
+
+                                    setLoading(false);
+                                    $results.html('');
+
+                                    $.each(r.data, function(index, row){
+
+                                        var $item = $(tplResult({
+                                            display:row[o.displayField],
+                                            rightText:row[o.displayFieldRight]
+                                        }));
+
+                                        $item.on('click', function(){
+
+                                            $el.html('<option selected="selected" value="'+o.valueField+'">'+o.displayField+'</option>');
+
+                                        });
+
+                                        $results.append($item);
+
+                                    });
+
+                                },
+                                failure:function(e){
+                                    setLoading(false);
+                                    System.showError(e);
+                                }
+                            });
+
+                        }
+
+                    }
+
+                    $el.hide();
+                    $jRangelComBox.append($inputContainer);
+
+                    $input.on('change', function(){
+                        appendTimeout();
+                    });
+
+                    $input.on('keyup', function(e){
+                        if (e.keyCode === 13) {
+                            appendTimeout();
+                        }
+                    });
+                    
+                    $jRangelComBox.append($results);
+
+                    if (o.debug === true) console.log($jRangelComBox, $input);
+
+                } else {
+
+                    if (o.debug === true) console.log('autoComplete false');
+
+                    $.store({
+                        method:o.method,
+                        url:o.url,
+                        cache:o.cache,
+                        success:function(data){
+
+                                successCombo(o, $el, data);
+
+                                if (typeof o.success === 'function') {
+                                        o.success($el, data);
+                                }
+
+                                $el.on("contextmenu", function(){
+
+                                  $el.find(":selected").prop('selected', false);
+                                  var $disabled = $el.find(":disabled");
+                                  $disabled.prop({
+                                    'disabled':false,
+                                    'selected':true
+                                  });
+                                  $disabled.prop('disabled', true);                              
+
+                                });
+
+                                $el.on("dblclick", function(){
+
+                                    $el.html('<option desabled selected>Atualizando...</option>');
+
+                                    $.store({
+                                        method:o.method,
+                                        url:o.url,
+                                        cache:false,
+                                        success:function(data){
+
+                                            successCombo(o, $el, data);
+
+                                            if (typeof o.success === 'function') {
+                                                    o.success($el, data);
+                                            }
+
+                                        }
+                                    });
+
+                                });
+
+                        }
+                    });
+
+                }
 
             });
 

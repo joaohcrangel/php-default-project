@@ -73,7 +73,8 @@
   $("[name=idpessoatipo]").combobox({
     url:PATH+"/pessoas-tipos",
     displayField:"despessoatipo",
-    valueField:"idpessoatipo"
+    valueField:"idpessoatipo",
+    autoComplete:true
   });
 
   $("#pessoa-footer").html(tpl.footer({

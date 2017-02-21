@@ -4,6 +4,9 @@ $app->get("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
+    $currentPage = get("pagina");
+    $itemsPerPage = get("limite");
+
     $where = array();
 
     if (get('desarquivo')) {
@@ -20,14 +23,25 @@ $app->get("/arquivos", function(){
         $where = '';
     }
 
-    $query = 'SELECT * FROM tb_arquivos '.$where;
+    $query = 'SELECT SQL_CALC_FOUND_ROWS * FROM tb_arquivos '.$where.' LIMIT ?, ?';
 
-    $arquivos = new Arquivos();
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "Arquivos",
+        $itemsPerPage
+    );
 
-    $arquivos->loadFromQuery($query);
+    $arquivos = $paginacao->getPage($currentPage); 
 
-    echo success(array("data"=>$arquivos->getFields()));
+    echo success(array(
+        "data"=>$arquivos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+    ));
   
+
 });
 
 $app->post("/arquivos", function(){

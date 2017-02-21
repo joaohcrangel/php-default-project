@@ -4,8 +4,52 @@ $app->get("/formas-pagamentos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>FormasPagamentos::listAll()->getFields()));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
 
+    $where = array();
+
+    if (get('desformapagamento')) {
+        array_push($where, "desformapagamento LIKE '%".get('desformapagamento')."%'");
+    }
+    
+    if (get('nrparcelasmax')) {
+        array_push($where, "nrparcelasmax = '".get('nrparcelasmax')."'");
+    }
+    if (get('idgateway')) {
+        array_push($where, "idgateway = ".get('idgateway'));
+    }
+
+    
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = '
+        SELECT SQL_CALC_FOUND_ROWS * 
+        FROM tb_formaspagamentos a 
+        INNER JOIN tb_gateways b USING(idgateway)
+        '.$where.' LIMIT ?, ?';
+
+      $paginacao = new Pagination(
+        $query,
+        array(),
+        "FormasPagamentos",
+        $itemsPerPage
+    );
+
+    $formaspagamentos = $paginacao->getPage($currentPage); 
+
+    echo success(array(
+        "data"=>$formaspagamentos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+    ));
+  
 });
 
 $app->post("/formas-pagamentos", function(){

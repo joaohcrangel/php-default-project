@@ -283,8 +283,13 @@ $app->get("/".DIR_ADMIN."/formas-pagamentos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
-
+   $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
     $page->setTpl("/admin/formas-pagamento");
 
 });

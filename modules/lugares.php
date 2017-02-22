@@ -146,6 +146,14 @@ $app->delete("/lugares/:idlugar", function($idlugar){
 /////////////////////////////////////////////////////////////
 
 // lugares tipos
+$app->get("/lugares-tipos", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	echo success(array("data"=>LugaresTipos::listAll()->getFields()));
+
+});
+
 $app->get("/lugares/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -156,17 +164,17 @@ $app->get("/lugares/tipos", function(){
 	$where = array();
 
 	if(get('deslugartipo')) {
-		array_push($where, "deslugartipo LIKE '%".get('deslugartipo')."%'");
+		array_push($where, "deslugartipo LIKE '%".utf8_decode(get('deslugartipo'))."%'");
 	}
 
 	if (count($where) > 0) {
-		$where = ' WHERE '.implode(' AD ', $where);
+		$where = ' WHERE '.implode(' AND ', $where).'';
 	} else {
 		$where = '';
 	}
 
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_lugarestipos
-	".$where." limit ?, ?;";
+	".$where." LIMIT ?, ?;";
 
 	$paginacao = new Pagination(
         $query,
@@ -176,8 +184,6 @@ $app->get("/lugares/tipos", function(){
     );
 
 	 $lugarestipos = $paginacao->getPage($currentPage);
-
-
 
 	echo success(array(
 		"data"=> $lugarestipos->getFields(),

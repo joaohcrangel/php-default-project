@@ -295,6 +295,8 @@ $form.find("[type=submit]").on("click", function(e){
 		data,
 		function(){
 			System.success("Carousel salvo com sucesso");
+			$(".slidePanel-close").trigger("click");
+			$("#form-filtros [type=submit]").trigger("click");
 		},
 		function(){}
 	);

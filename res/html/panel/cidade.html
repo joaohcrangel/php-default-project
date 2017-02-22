@@ -38,7 +38,7 @@
 
 						<div class="form-group form-material" data-plugin="formMaterial">
 							<button type="submit" class="btn btn-info waves-effect">Salvar</button>
-							<button type="button" class="btn btn-default waves-effect slidePanel-close">Cancelar</button>
+							<button type="button" class="btn btn-default waves-effect slidePanel-close">Fechar</button>
 						</div>
 
 					</form>
@@ -75,6 +75,7 @@ form.form({
 	},
 	success:function(){
 		System.success("Cidade salva com sucesso");
+		$(".slidePanel-close").trigger("click");
 		$("#form-filtros [type=submit]").trigger("click");
 	},
 	failure:function(r){

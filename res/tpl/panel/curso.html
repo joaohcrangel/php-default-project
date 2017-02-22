@@ -204,6 +204,11 @@
  	params:{
  		idcurso:curso.idcurso
  	},
+ 	success:function(){
+ 		System.success("Curso salvo com sucesso");
+ 		$(".slidePanel-close").trigger("click");
+ 		$("#form-filtros [type=submit]").trigger("click");
+ 	},
  	failure:function(r){
  		System.showError(r);
  	}

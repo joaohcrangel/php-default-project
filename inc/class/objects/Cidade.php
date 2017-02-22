@@ -1,11 +1,9 @@
-
-
-
 <?php
 
 class Cidade extends Model {
 
     public $required = array('descidade', 'idestado');
+
     protected $pk = "idcidade";
 
     public function get(){

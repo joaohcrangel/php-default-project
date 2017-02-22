@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Cidades extends Collection {
@@ -11,6 +8,17 @@ class Cidades extends Collection {
     protected $pk = "idcidade";
 
     public function get(){}
+
+    public static function listAll():Cidades
+    {
+
+    	$cidades = new Cidades();
+
+    	$cidades->loadFromQuery("CALL sp_cidades_list();");
+
+    	return $cidades;
+
+    }
 
 }
 

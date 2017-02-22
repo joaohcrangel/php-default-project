@@ -1,0 +1,29 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600" style="height:100%"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$cidade.descidade}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-cidade" aria-controls="tab-cidade" role="tab" aria-expanded="true">Dados</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-cidade" role="tabpanel"><form id="form-cidade"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descidade" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Estado</label><select name="idestado" class="form-control"></select></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-info waves-effect">Salvar</button> <button type="button" class="btn btn-default waves-effect slidePanel-close">Cancelar</button></div></form></div></div></div></div></div><script>var cidade = JSON.parse('{function="json_encode($cidade)"}');
+
+var form = $("#form-cidade");
+
+form.formLoad(cidade);
+
+$("#form-cidade [name=idestado]").combobox({
+	url:PATH+"/estados",
+	displayField:"desestado",
+	valueField:"idestado",
+	value:cidade.idestado
+});
+
+form.form({
+	url:PATH+"/cidades",
+	resetForm:false,
+	params:{
+		idcidade:cidade.idcidade
+	},
+	success:function(){
+		System.success("Cidade salva com sucesso");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});</script>

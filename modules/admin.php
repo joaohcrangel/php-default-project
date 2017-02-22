@@ -253,7 +253,13 @@ $app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/enderecos-tipos");
 
@@ -554,6 +560,22 @@ $app->get("/".DIR_ADMIN."/estados", function(){
     ));
 
     $page->setTpl("/admin/estados");
+
+});
+
+$app->get("/".DIR_ADMIN."/cidades", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/cidades");
 
 });
 

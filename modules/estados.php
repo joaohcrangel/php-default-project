@@ -1,5 +1,13 @@
 <?php
 
+$app->get("/estados", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	echo success(array("data"=>Estados::listAll()->getFields()));
+
+});
+
 $app->get("/estados/all", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);

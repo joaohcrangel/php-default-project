@@ -1,6 +1,14 @@
 <link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
-
+<style>
+#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+</style>
 <div class="page bg-white">
 
 	<div class="page-aside">
@@ -35,9 +43,8 @@
             <div class="col-sm-12">
                 <div data-auto-height="20" class="panel" id="panel-usuario-tipo">
                     <div class="panel-heading">
-                        <h3 class="panel-title">
-                            
-                        </h3>
+                        <div class="btn-group" id="actions-buttons"></div>
+
                         <div class="panel-actions">
                             <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
                             aria-hidden="true"><i class="icon wb-refresh"></i></a>
@@ -188,6 +195,27 @@
 		});
 	};
 
+	new ToolBar({
+	    id:"actions-buttons",
+	    buttons:[{
+			text:"Cadastrar",
+			icon:"md-plus",
+			cls:"btn-success",
+			listeners:{
+				click:function(){
+
+				  System.openSlidePanel({
+				    url:PATH+"/panel/usuario-tipo-criar"
+				  });
+
+				}
+			}
+	    }]
+	});
+
+
+
     loadUsuarioTipo();
 });
+
 </script>

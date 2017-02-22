@@ -199,5 +199,6 @@
 
 	<string name="data_nascimento">dtnascimento</string>
 	<string name="sexo">dessexo</string>
+	<string name="foto">desfoto</string>
 	
 </resources>

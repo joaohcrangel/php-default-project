@@ -1226,8 +1226,27 @@ $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
 		(25, '".utf8_decode($lang->getString("estado_SE"))."', 'SE', 1),
 		(26, '".utf8_decode($lang->getString("estado_SP"))."', 'SP', 1),
 		(27, '".utf8_decode($lang->getString("estado_TO"))."', 'TO', 1);
-
 	");
+
+	echo success();
+
+});
+$app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
+
+	$data = json_decode(post('json'), true);
+
+	$sql = new Sql();
+
+	foreach ($data as $city) {
+		$sql->query("
+			INSERT INTO tb_cidades (idcidade, descidade, idestado)
+			VALUES(?, ?, ?);
+		", array(
+			(int)$city['idcidade'],
+			$city['descidade'],
+			(int)$city['idestado']
+		));
+	}	
 
 	echo success();
 
@@ -1235,13 +1254,10 @@ $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
 $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 
 	$sql = new Sql();
-	/*
-	$sql->query("
-		INSERT INTO tb_cidades (idcidade, descidade, idestado) VALUES
-		;
-	");
-	*/
-	echo success();
+	
+	$results = $sql->arrays("SELECT * FROM tb_cidades");
+
+	echo json_encode($results);
 
 });
 $app->get("/install-admin/sql/enderecos/get", function(){

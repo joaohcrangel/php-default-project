@@ -18,8 +18,9 @@
         SELECT * 
         FROM tb_cidades a
         INNER JOIN tb_estados b ON a.idestado = b.idestado
-        WHERE descidade LIKE '".get('q')."%'
+        WHERE descidade LIKE '".utf8_decode(get('q'))."%'
         ORDER BY descidade, desuf
+        LIMIT 10
     ");
 
     echo success(array(

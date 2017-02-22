@@ -31,6 +31,7 @@
                 autoComplete:false,
                 delay:250,
                 minValue:1,
+                queryName:'q',
                 autoCompleteConfig:{
                     tplInput:
                     '<div class="jrangel-combobox-autocomplete">'+
@@ -162,6 +163,8 @@
 
                     function setLoading(bool){
 
+                        console.log('setLoading', bool, $icon);
+
                         if (bool) {
                             $icon.removeClass('md-caret-down');
                             $icon.addClass('fa fa-refresh fa-spin');
@@ -176,6 +179,10 @@
 
                         if (o.debug === true) console.log('appendTimeout', o.delay);
 
+                        if (window.jRangelComboBoxTimer) {
+                            clearTimeout(window.jRangelComboBoxTimer);
+                        }
+
                         window.jRangelComboBoxTimer = setTimeout(loadResults, o.delay);
 
                     }
@@ -188,16 +195,21 @@
 
                             setLoading(true);
 
-                            rest({
+                            var data = {};
+                            data[o.queryName] = $input.val();
+
+                            $.store({
+                                cache:false,
                                 url:o.url,
                                 method:o.method,
                                 debug:o.debug,
-                                success:function(r){
+                                data:data,
+                                success:function(cities){
 
                                     setLoading(false);
                                     $results.html('');
 
-                                    $.each(r.data, function(index, row){
+                                    $.each(cities, function(index, row){
 
                                         var $item = $(tplResult({
                                             display:row[o.displayField],
@@ -205,14 +217,23 @@
                                         }));
 
                                         $item.on('click', function(){
-
-                                            $el.html('<option selected="selected" value="'+o.valueField+'">'+o.displayField+'</option>');
+                                            
+                                            $input.val(row[o.displayField]);
+                                            $results.hide();
+                                            $el.html('<option selected="selected" value="'+row[o.valueField]+'">'+row[o.displayField]+'</option>');
 
                                         });
+
+                                        $(document).bind('click', function(){
+                                            $(document).unbind('click');
+                                            $results.hide();
+                                        })
 
                                         $results.append($item);
 
                                     });
+
+                                    $results.css('display', 'block');
 
                                 },
                                 failure:function(e){
@@ -231,11 +252,14 @@
                     $input.on('change', function(){
                         appendTimeout();
                     });
-
-                    $input.on('keyup', function(e){
-                        if (e.keyCode === 13) {
-                            appendTimeout();
-                        }
+                    $input.on('keyup', function(){
+                        appendTimeout();
+                    });
+                    $input.on('paste', function(){
+                        appendTimeout();
+                    });
+                    $input.on('blur', function(){
+                        appendTimeout();
                     });
                     
                     $jRangelComBox.append($results);
@@ -252,44 +276,44 @@
                         cache:o.cache,
                         success:function(data){
 
-                                successCombo(o, $el, data);
+                            successCombo(o, $el, data);
 
-                                if (typeof o.success === 'function') {
-                                        o.success($el, data);
-                                }
+                            if (typeof o.success === 'function') {
+                                    o.success($el, data);
+                            }
 
-                                $el.on("contextmenu", function(){
+                            $el.on("contextmenu", function(){
 
-                                  $el.find(":selected").prop('selected', false);
-                                  var $disabled = $el.find(":disabled");
-                                  $disabled.prop({
-                                    'disabled':false,
-                                    'selected':true
-                                  });
-                                  $disabled.prop('disabled', true);                              
+                              $el.find(":selected").prop('selected', false);
+                              var $disabled = $el.find(":disabled");
+                              $disabled.prop({
+                                'disabled':false,
+                                'selected':true
+                              });
+                              $disabled.prop('disabled', true);      
 
-                                });
+                            });
 
-                                $el.on("dblclick", function(){
+                            $el.on("dblclick", function(){
 
-                                    $el.html('<option desabled selected>Atualizando...</option>');
+                                $el.html('<option desabled selected>Atualizando...</option>');
 
-                                    $.store({
-                                        method:o.method,
-                                        url:o.url,
-                                        cache:false,
-                                        success:function(data){
+                                $.store({
+                                    method:o.method,
+                                    url:o.url,
+                                    cache:false,
+                                    success:function(data){
 
-                                            successCombo(o, $el, data);
+                                        successCombo(o, $el, data);
 
-                                            if (typeof o.success === 'function') {
-                                                    o.success($el, data);
-                                            }
-
+                                        if (typeof o.success === 'function') {
+                                                o.success($el, data);
                                         }
-                                    });
 
+                                    }
                                 });
+
+                            });
 
                         }
                     });

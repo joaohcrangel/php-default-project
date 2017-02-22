@@ -26,5 +26,7 @@
   $('#form-pessoa-cadastrar [name=idcidade]').combobox({
     url:PATH+"/enderecos/cidades",
     autoComplete:true,
-    debug:true
+    displayField:'descidade',
+    displayFieldRight:'desuf',
+    valueField:'idcidade'
   });</script>

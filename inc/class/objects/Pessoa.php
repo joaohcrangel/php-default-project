@@ -179,6 +179,36 @@ class Pessoa extends Model {
 
     }
 
+    public function getPhotoURL():string
+    {
+
+        $uploadDir = $configs->getByName('UPLOAD_DIR');
+
+        $filename = PATH.$uploadDir.$this->getdesfoto();
+
+        if (file_exists($filename)) {
+            return $filename;
+        } else {
+            $filename = PATH."/res/img/";
+
+            switch ($this->getidpessoatipo()) {
+                case PessoaTipo::FISICA:
+
+                   return $this->setdesphotourl(PATH."/res/img/".(($this->getdessexo()==='F')?'female':'male').".png");
+
+                break;
+                case PessoaTipo::JURIDICA:
+
+                    return $this->setdesphotourl(PATH."/res/img/company.png");
+
+                break;
+            }
+
+            
+        }
+
+    }
+
 }
 
 ?>

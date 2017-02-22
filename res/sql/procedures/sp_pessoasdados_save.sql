@@ -36,7 +36,7 @@ BEGIN
     NOW(),
     CAST(j.desvalor AS CHAR(1)) AS dessexo,
     CAST(k.desvalor AS DATE) AS dtnascimento,
-    CAST(o.desfoto AS DATE) AS desfoto,
+    o.desvalor AS desfoto,
     CASE WHEN l.idpessoa IS NULL THEN 0 ELSE 1 END AS incliente,
     CASE WHEN m.idpessoa IS NULL THEN 0 ELSE 1 END AS infornecedor,
     CASE WHEN n.idpessoa IS NULL THEN 0 ELSE 1 END AS incolaborador

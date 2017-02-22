@@ -18,6 +18,9 @@ $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
     Permissao::checkSession(Permissao::ADMIN, true);
 
     $pessoa = new Pessoa((int)$idpessoa);
+    $configs = Session::getConfiguracoes();
+
+    $pessoa->getPhotoURL();
 
     $page = new AdminPage(array(
         'header'=>false,
@@ -25,7 +28,8 @@ $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
     ));
 
     $page->setTpl('/admin/pessoas-panel-new',  array(
-        'pessoa'=>$pessoa->getFields()
+        'pessoa'=>$pessoa->getFields(),
+        'config'=>$configs->getFields()
     ));
 
 });

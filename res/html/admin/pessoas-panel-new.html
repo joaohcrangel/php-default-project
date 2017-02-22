@@ -31,8 +31,8 @@
             
             <div class="card">
               <div class="card-header bg-white p-30 clearfix">
-                <a class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
-                  <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="">
+                <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+                  <img src="{$pessoa.desphotourl}" alt="Foto de {$pessoa.desprimeironome}">
                 </a>
                 <div class="pull-xs-left">
                   <div class="font-size-20 m-b-15">{$pessoa.despessoa}</div>
@@ -57,3 +57,24 @@
     
   </section>
 </div>
+<script>
+
+var PessoaPanel = (function(opts){
+
+  var t = this;
+
+  var defaults = {
+    debug:false
+  };
+
+  var o = $.extend({}, defaults, opts);
+
+  t.$el = "";
+  t.id = 0;
+
+  
+
+});
+
+var pessoaPanel = new PessoaPanel();
+</script>

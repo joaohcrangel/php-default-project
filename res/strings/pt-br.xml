@@ -169,6 +169,32 @@
 	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
 	<string name="config_upload_mimetype_description">Tipos de arquivos permitidos para fazer upload.</string>
 
+	<string name="estado_AC">Acre</string>
+	<string name="estado_AL">Alagoas</string>
+	<string name="estado_AM">Amazonas</string>
+	<string name="estado_AP">Amapá</string>
+	<string name="estado_BA">Bahia</string>
+	<string name="estado_CE">Ceará</string>
+	<string name="estado_DF">Distrito Federal</string>
+	<string name="estado_ES">Espírito Santo</string>
+	<string name="estado_GO">Goiás</string>
+	<string name="estado_MA">Maranhão</string>
+	<string name="estado_MG">Minas Gerais</string>
+	<string name="estado_MS">Mato Grosso do Sul</string>
+	<string name="estado_MT">Mato Grosso</string>
+	<string name="estado_PA">Pará</string>
+	<string name="estado_PB">Paraíba</string>
+	<string name="estado_PE">Pernambuco</string>
+	<string name="estado_PI">Piauí</string>
+	<string name="estado_PR">Paraná</string>
+	<string name="estado_RJ">Rio de Janeiro</string>
+	<string name="estado_RN">Rio Grande do Norte</string>
+	<string name="estado_RO">Rondônia</string>
+	<string name="estado_RR">Roraima</string>
+	<string name="estado_RS">Rio Grande do Sul</string>
+	<string name="estado_SC">Santa Catarina</string>
+	<string name="estado_SE">Sergipe</string>
+	<string name="estado_SP">São Paulo</string>
+	<string name="estado_TO">Tocantins</string>
+	
 </resources>
-
-

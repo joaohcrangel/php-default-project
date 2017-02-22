@@ -243,7 +243,14 @@ $app->get("/".DIR_ADMIN."/documentos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/documentos-tipos");
 
@@ -269,7 +276,13 @@ $app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/usuarios-tipos");
 
@@ -304,7 +317,13 @@ $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/lugares-tipos");
 

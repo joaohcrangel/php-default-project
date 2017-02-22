@@ -823,5 +823,33 @@ $app->get("/panel/cidade-criar", function(){
 	$page->setTpl("panel/cidade-criar");
 
 });
+////////////////////////////////////////////////////
+
+// pessoas categorias tipos
+$app->get("/panel/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
+
+	$categoria = new PessoaCategoriaTipo((int)$idcategoria);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-categoria-tipo", array(
+		"categoria"=>$categoria->getFields()
+	));
+
+});
+
+$app->get("/panel/pessoa-categoria-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-categoria-tipo-criar");
+
+});
 
 ?>

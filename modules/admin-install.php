@@ -165,6 +165,7 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'despessoatipo'=>$lang->getString("pessoas_juridica")
 	));
 	$pessoaTipoJ->save();
+	
 	$pessoa = new Pessoa(array(
 		'despessoa'=>$lang->getString("pessoas_nome"),
 		'idpessoatipo'=>PessoaTipo::FISICA

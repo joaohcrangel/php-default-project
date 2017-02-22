@@ -124,13 +124,9 @@ init.push(function(){
     valueField:"idestado"
   });
 
-  var isPaginacaoCalled;
-
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
-
-    isPaginacaoCalled = 0;
 
     loadCidades();
 
@@ -142,9 +138,7 @@ init.push(function(){
 
   function loadCidades(pagina){
 
-    if(!pagina){
-      pagina = 1;
-    }
+    if(!pagina) pagina = 1;
 
     $panel.load();
 
@@ -156,12 +150,7 @@ init.push(function(){
     rest({
       url:PATH+"/cidades/all",
       data:data,
-      success:function(r){        
-
-        // if(r.currentPage == 1 && isPaginacaoCalled == 0){
-        //   $("#paginacao").html('');
-        //   isPaginacaoCalled = 1;
-        // }
+      success:function(r){
 
         if(r.data.length > 0){          
 
@@ -213,24 +202,17 @@ init.push(function(){
             skin:'pagination-gap',
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
-            totalPages:r.totalPages,
-            totalItems:r.total,
             onChange:function(page){
               loadCidades(page);
             }
           });
-
-          console.log(config);
-
-          // $("#paginacao").html('');
 
           $("#paginacao").asPaginator(r.total, config);
 
           $panel.done();
 
         }else{
-          $tbody.html('');
-          $("#paginacao").asPaginator(1, PluginAspaginator.default.getDefaults());
+          $tbody.html('');          
           $panel.done();
         }      
 
@@ -260,6 +242,8 @@ init.push(function(){
         }
       }]
   });
+
+  loadCidades();
 
 });
 </script>

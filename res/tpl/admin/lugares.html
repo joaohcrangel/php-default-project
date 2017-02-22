@@ -43,7 +43,7 @@
   </tr></script><script>init.push(function(){
 
   $("[name=idlugartipo]").combobox({
-    url:PATH+"/lugares/tipos",
+    url:PATH+"/lugares-tipos",
     displayField:"deslugartipo",
     valueField:"idlugartipo"
   });
@@ -126,15 +126,11 @@
 
             $tr.find("[type=checkbox]").on("change", function(){
 
-              alert("ok");
+              var checked = $("#lista tr [type=checkbox]:checked");
 
-                // var input = $("#lista tbody [type=checkbox]:checked").length;
+              var disabled = (checked.length > 0) ? false : true;
 
-                // console.log(input);
-
-                // if(input > 0){
-                //   $("#btn-lugar-horario").prop("disabled", false);
-                // }
+              $("#btn-lugar-horario").prop("disabled", disabled);
 
             });
 
@@ -158,6 +154,7 @@
           $panel.done();
 
         }else{
+          $tbody.html('');
           $panel.done();
         }      
 

@@ -4,7 +4,40 @@ $app->get("/contatos/tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>ContatosTipos::listAll()->getFields()));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
+
+    $where = array();
+
+    if(get('descontatotipo')) {
+        array_push($where, "descontatotipo LIKE '%".get('descontatotipo')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AD ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_contatostipos
+    ".$where." limit ?, ?;";
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "ContatosTipos",
+        $itemsPerPage
+    );
+
+    $contatostipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$contatostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 

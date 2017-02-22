@@ -15,7 +15,7 @@
 	          <section class="page-aside-section p-t-0">
 	            <div class="panel-primary panel-line">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Filtrar Pessoas</h3>
+	                <h3 class="panel-title">Filtrar Tipos de Pessoas</h3>
 	              </div>
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
@@ -56,8 +56,8 @@
                         <tbody>
                         	
                         </tbody>
-
                     </table>
+                    <div id="paginacao"></div> 
                 </div>
             </div>
         </div>
@@ -86,17 +86,33 @@
 
 	var $tplPessoaTipo = Handlebars.compile($("#tpl-pessoa-tipo").html());
 
-	function loadPessoaTipo(){
+	$("#form-filtros [type=submit]").on("click", function(e){
+     
+    e.preventDefault();
+
+    loadPessoaTipo();
+    
+  });
+
+	function loadPessoaTipo(pagina){
+
+		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
 			loadPessoaTipo();
 
 		});
 
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params. limite = 10;
+
 		panel.load();
 
 		rest({
 			url:PATH+"/pessoas-tipos",
+			data:params,
 			success:function(r){
 
 				$tbody.html('');
@@ -106,6 +122,18 @@
 					$tbody.append($tplPessoaTipo(row));
 
 				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadPessoaTipo(page);
+         			}
+        		});
+
+        		$("#paginacao").asPaginator(r.total, config);
+
 
 				System.initSlidePanel($tbody);
 

@@ -143,7 +143,40 @@ $app->get("/carousels-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>CarouselsItemsTipos::listAll()->getFields()));
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('destipo')) {
+		array_push($where, "destipo LIKE '%".get('destipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_carouselsitemstipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "CarouselsItemsTipos",
+        $itemsPerPage
+    );
+
+	$carouselstipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+    	"data"=>$carouselstipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 

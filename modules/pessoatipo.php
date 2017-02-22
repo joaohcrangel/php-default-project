@@ -2,10 +2,41 @@
 
 $app->get('/pessoas-tipos',function(){
 
- 	$pessoatipo = PessoasTipos::listAll();
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+ 	
+ 	$where = array();
+
+	if(get('despessoatipo')) {
+		array_push($where, "despessoatipo LIKE '%".get('despessoatipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_pessoastipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "PessoasTipos",
+        $itemsPerPage
+    );
+
+      $pessoastipos = $paginacao->getPage($currentPage);
 
     echo success(array(
-         'data'=>$pessoatipo->getFields()
+    	"data"=>$pessoastipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
     ));
 });
 

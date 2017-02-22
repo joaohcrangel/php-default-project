@@ -181,8 +181,41 @@ $app->get("/produtos/tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>ProdutosTipos::listAll()->getFields()));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
 
+    $where = array();
+
+    if(get('desprodutotipo')) {
+        array_push($where, "desprodutotipo LIKE '%".get('desprodutotipo')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AD ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtostipos
+    ".$where." limit ?, ?;";
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "ProdutosTipos",
+        $itemsPerPage
+    );
+
+     $produtostipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$produtostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
+    
 });
 
 $app->post("/produtos-tipos", function(){

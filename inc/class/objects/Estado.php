@@ -14,6 +14,24 @@ class Estado extends Model {
                 
     }
 
+    public static function loadFromUf($uf):Estado
+    {
+
+        $estado = new Estado();
+
+        $estado->queryToAttr("
+            SELECT * 
+            FROM tb_estados a
+            INNER JOIN tb_paises b USING(idpais)
+            WHERE desuf = ?
+        ", array(
+            $uf
+        ));
+
+        return $estado;
+
+    }
+
     public function save(){
 
         if($this->getChanged() && $this->isValid()){

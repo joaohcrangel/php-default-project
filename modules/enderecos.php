@@ -8,6 +8,18 @@
 
  });
 
+$app->get('/enderecos/cep/:nrcep', function($nrcep){
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $endereco = Endereco::getByCEP($nrcep);
+
+    echo success(array(
+        'data'=>$endereco->getFields()
+    ));
+
+});
+
  $app->get('/enderecos/cidades', function(){
 
     Permissao::checkSession(Permissao::ADMIN);

@@ -1,5 +1,23 @@
 <?php
 
+$app->get("/documentos/tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>Documentos::listTipos()->getFields()));
+
+});
+
+$app->get("/documentos/cpf/:nrcpf", function($nrcpf){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    echo success(array("data"=>array(
+        'incpf'=>Documento::validaCPF($nrcpf)
+    )));
+
+});
+
 $app->post("/documentos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

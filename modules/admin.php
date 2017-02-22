@@ -233,7 +233,13 @@ $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/produtos-tipos");
 
@@ -292,7 +298,13 @@ $app->get("/".DIR_ADMIN."/historicos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/historicos-tipos");
 
@@ -333,7 +345,13 @@ $app->get("/".DIR_ADMIN."/cupons-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/cupons-tipos");
 
@@ -343,7 +361,13 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+          'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/gateways");
 
@@ -353,7 +377,13 @@ $app->get("/".DIR_ADMIN."/pedidos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pedidos-status");
 
@@ -363,7 +393,14 @@ $app->get("/".DIR_ADMIN."/contatos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/contatos-tipos");
 
@@ -373,7 +410,13 @@ $app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pessoas-valorescampos");
 
@@ -383,7 +426,13 @@ $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pessoas-tipos");
 
@@ -465,7 +514,14 @@ $app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/configuracoes-tipos");
 
@@ -528,7 +584,13 @@ $app->get("/".DIR_ADMIN."/carousels-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/carousels-tipos");
 

@@ -4,7 +4,8 @@ pidestado INT
 BEGIN
 
     SELECT *    
-    FROM tb_estados    
-    WHERE idestado = pidestado;
+    FROM tb_estados a
+    INNER JOIN tb_paises b USING(idpais) 
+    WHERE a.idestado = pidestado;
 
 END

@@ -20,10 +20,12 @@ class Pessoa extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?, ?, ?);", array(
                 $this->getidpessoa(),
                 $this->getdespessoa(),
-                $this->getidpessoatipo()
+                $this->getidpessoatipo(),
+                $this->getdtnascimento(),
+                $this->getdessexo()
             ));
 
             return $this->getidpessoa();
@@ -160,6 +162,20 @@ class Pessoa extends Model {
     {
 
         return $this->addDocumento($descnpj, DocumentoTipo::CNPJ);
+
+    }
+
+    public function addEndereco(Endereco $endereco):Endereco
+    {
+
+        $endereco->setidpessoa($this->getidpessoa());
+
+        $this->execute("CALL sp_pessoasenderecos_save(?, ?)", array(
+            $endereco->getidpessoa(),
+            $endereco->getidendereco()
+        ));
+
+        return $endereco;
 
     }
 

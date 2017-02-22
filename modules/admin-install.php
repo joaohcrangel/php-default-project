@@ -2,6 +2,7 @@
 
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
+define("PATH_FUNCTION", PATH."/res/sql/functions/");
 function saveProcedures($procs = array()){
 	$sql = new Sql();
 	foreach ($procs as $name) {
@@ -169,6 +170,20 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
+
+	$nascimento = new PessoaValorCampo(array(
+		'descampo'=>$lang->getString('data_nascimento')
+	));
+	$nascimento->save();
+	$sexo = new PessoaValorCampo(array(
+		'descampo'=>$lang->getString('sexo')
+	));
+	$sexo->save();
+	$foto = new PessoaValorCampo(array(
+		'descampo'=>$lang->getString('foto')
+	));
+	$foto->save();
+
 	echo success();
 	
 });
@@ -799,8 +814,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuCarousels->save();
 	//////////////////////////////////////
 	$menuPaises = new Menu(array(
-		"nrordem"=>10,
-		"idmenupai"=>NULL,
+		"nrordem"=>5,
+		"idmenupai"=>$menuAdmin->getidmenu(),
 		"desicone"=>"",
 		"deshref"=>"/paises",
 		"desmenu"=>$lang->getString('menus_paises')
@@ -808,8 +823,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuPaises->save();
 	//////////////////////////////////////
 	$menuEstados = new Menu(array(
-		"nrordem"=>11,
-		"idmenupai"=>NULL,
+		"nrordem"=>6,
+		"idmenupai"=>$menuAdmin->getidmenu(),
 		"desicone"=>"",
 		"deshref"=>"/estados",
 		"desmenu"=>$lang->getString('menus_estados')
@@ -817,8 +832,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuEstados->save();
 	//////////////////////////////////////
 	$menuCidades = new Menu(array(
-		"nrordem"=>12,
-		"idmenupai"=>NULL,
+		"nrordem"=>7,
+		"idmenupai"=>$menuAdmin->getidmenu(),
 		"desicone"=>"",
 		"deshref"=>"/cidades",
 		"desmenu"=>$lang->getString('menus_cidades')
@@ -1310,7 +1325,8 @@ $app->get("/install-admin/sql/enderecos/save", function(){
        "sp_enderecostipos_save",
        "sp_paises_save",
        "sp_estados_save",
-       "sp_cidades_save"
+       "sp_cidades_save",
+       "sp_pessoasenderecos_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -1452,6 +1468,7 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  dtatualizacao datetime NOT NULL,
 		  dessexo ENUM('M', 'F'),
 		  dtnascimento DATE DEFAULT NULL,
+		  desfoto varchar(128) DEFAULT NULL,
 		  incliente BIT NOT NULL DEFAULT b'0',
 		  infornecedor BIT NOT NULL DEFAULT b'0',
 		  incolaborador BIT NOT NULL DEFAULT b'0',
@@ -2705,5 +2722,18 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 
 });
 
+$app->get("/install-admin/sql/functions", function(){
+
+	$sql = new Sql();
+
+	foreach (scandir(PATH_FUNCTION) as $file) {
+		if ($file !== '.' && $file !== '..') {
+			$sql->queryFromFile(PATH_FUNCTION.$file);
+		}
+	}
+
+	echo success();
+
+});
 
 ?>

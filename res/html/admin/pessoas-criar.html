@@ -90,8 +90,8 @@
                   <input type="text" class="form-control" id="desbairro" name="desbairro">
                 </div>
                 <div class="form-group col-xs-12 col-md-5">
-                  <label class="form-control-label" for="idcidade">Cidade</label>
-                  <select class="form-control" id="idcidade" name="idcidade"></select>
+                  <label class="form-control-label" for="descidade">Cidade</label>
+                  <input type="text" class="form-control" id="descidade" name="descidade">
                 </div>
               </div>
               
@@ -134,12 +134,54 @@
     }
   });
 
-  $('#form-pessoa-cadastrar [name=idcidade]').combobox({
+  $('#form-pessoa-cadastrar [name=descidade]').combobox({
     url:PATH+"/enderecos/cidades",
     autoComplete:true,
     displayField:'descidade',
     displayFieldRight:'desuf',
-    valueField:'idcidade'
+    valueField:'idcidade',
+    submitValue:true,
+    hiddenName:'idcidade'
+  });
+
+  $('#form-pessoa-cadastrar [name=descpf]').on('change keyup', function(e){
+
+    if (!$(this).val()) {
+
+      var $formGroup = $('#form-pessoa-cadastrar [name=descpf]').closest('.form-group');
+      $formGroup.removeClass('has-success has-danger');
+
+    }
+
+  }).formValueCheck({
+    url:PATH+"/documentos/cpf",
+    icon:'md-check',
+    minLengthSubmit:11,
+    success:function(r){
+      
+      var $formGroup = $('#form-pessoa-cadastrar [name=descpf]').closest('.form-group');
+      $formGroup.removeClass('has-success has-danger');
+
+      if (r.incpf) {
+
+        $formGroup.addClass('has-success');
+
+      } else {
+
+        $formGroup.addClass('has-danger');
+
+      }
+
+    }
+  });
+
+  $('#form-pessoa-cadastrar [name=descep]').formValueCheck({
+    url:PATH+"/enderecos/cep",
+    success:function(r){
+      $('#form-pessoa-cadastrar').formLoad(r);
+      $('#form-pessoa-cadastrar [name=descidade]').trigger('change');
+      $('#form-pessoa-cadastrar [name=desnumero]').trigger('focus');
+    }
   });
 
 </script>

@@ -2,6 +2,7 @@
 
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
+define("PATH_FUNCTION", PATH."/res/sql/functions/");
 function saveProcedures($procs = array()){
 	$sql = new Sql();
 	foreach ($procs as $name) {
@@ -169,6 +170,16 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
+
+	$nascimento = new PessoaValorCampo(array(
+		'descampo'=>$lang->getString('data_nascimento')
+	));
+	$nascimento->save();
+	$sexo = new PessoaValorCampo(array(
+		'descampo'=>$lang->getString('sexo')
+	));
+	$sexo->save();
+
 	echo success();
 	
 });
@@ -1288,7 +1299,8 @@ $app->get("/install-admin/sql/enderecos/save", function(){
        "sp_enderecostipos_save",
        "sp_paises_save",
        "sp_estados_save",
-       "sp_cidades_save"
+       "sp_cidades_save",
+       "sp_pessoasenderecos_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -2683,5 +2695,18 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 
 });
 
+$app->get("/install-admin/sql/functions", function(){
+
+	$sql = new Sql();
+
+	foreach (scandir(PATH_FUNCTION) as $file) {
+		if ($file !== '.' && $file !== '..') {
+			$sql->queryFromFile(PATH_FUNCTION.$file);
+		}
+	}
+
+	echo success();
+
+});
 
 ?>

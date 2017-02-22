@@ -9,7 +9,7 @@ BEGIN
 		INSERT INTO tb_contatostipos (descontatotipo)
 		VALUES(pdescontatotipo);
 
-		SET pdescontatotipo = LAST_INSERT_ID();
+		SET pidcontatotipo = LAST_INSERT_ID();
 
 	ELSE
 

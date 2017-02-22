@@ -78,7 +78,7 @@
 	<string name="casa_tipo">Casa</string>
 	<string name="trabalho_tipo">Trabanho</string>
 	<string name="celular_tipo">Celular</string>
-	<string name="tipo_tipo">Fax</string>
+	<string name="fax_tipo">Fax</string>
 	<string name="outro_tipo">Outro</string>
 	<string name="pessoal_tipo">Pessoal</string>
 	<string name="trabalho_tipo">Trabalho</string>
@@ -192,5 +192,8 @@
 	<string name="estado_SE">Sergipe</string>
 	<string name="estado_SP">São Paulo</string>
 	<string name="estado_TO">Tocantins</string>
+
+	<string name="data_nascimento">dtnascimento</string>
+	<string name="sexo">dessexo</string>
 	
 </resources>

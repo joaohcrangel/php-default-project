@@ -15,6 +15,25 @@ class Cidade extends Model {
                 
     }
 
+    public function loadFromName($name){
+
+        $cidade = new Cidade();
+
+        $cidade->queryToAttr("
+            SELECT * 
+            FROM tb_cidades a
+            INNER JOIN tb_estados b USING(idestado)
+            INNER JOIN tb_paises c USING(idpais)
+            WHERE a.descidade = ?
+            LIMIT 1
+        ", array(
+            $name
+        ));
+
+        return $cidade;
+
+    }
+
     public function save(){
 
         if($this->getChanged() && $this->isValid()){

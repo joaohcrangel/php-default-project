@@ -48,3 +48,16 @@
 .select2-dropdown {
   z-index: 999999!important;
 }
+
+.dropdown-menu
+  .dropdown-item {
+    &:active {
+      background-color: #3f51b5!important;
+      color:#FFF!important;
+    }
+    &.selected {
+      background-color: #3f51b5!important;
+      color:#FFF!important;
+    }
+  }
+}

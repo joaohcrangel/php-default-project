@@ -9,6 +9,17 @@ class Estados extends Collection {
 
     public function get(){}
 
+    public static function listAll():Estados
+    {
+
+    	$estados = new Estados();
+
+    	$estados->loadFromQuery("CALL sp_estados_list();");
+
+    	return $estados;
+
+    }
+
 }
 
 ?>

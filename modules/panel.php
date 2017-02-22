@@ -795,5 +795,33 @@ $app->get("/panel/estado-criar", function(){
 	$page->setTpl("panel/estado-criar");
 
 });
+///////////////////////////////////////////////////////
+
+// cidades
+$app->get("/panel/cidades/:idcidade", function($idcidade){
+
+	$cidade = new Cidade((int)$idcidade);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cidade", array(
+		"cidade"=>$cidade->getFields()
+	));
+
+});
+
+$app->get("/panel/cidade-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cidade-criar");
+
+});
 
 ?>

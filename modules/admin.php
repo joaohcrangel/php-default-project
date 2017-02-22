@@ -563,6 +563,22 @@ $app->get("/".DIR_ADMIN."/estados", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/cidades", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/cidades");
+
+});
+
 $app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

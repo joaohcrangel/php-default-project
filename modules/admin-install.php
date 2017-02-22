@@ -1186,7 +1186,8 @@ $app->get("/install-admin/sql/enderecos/get", function(){
         "sp_enderecos_get",
         "sp_enderecostipos_get",
         "sp_paises_get",
-        "sp_estados_get"
+        "sp_estados_get",
+        "sp_cidades_get"
 	);
 	saveProcedures($names);
 	echo success();
@@ -1196,7 +1197,8 @@ $app->get("/install-admin/sql/enderecos/list", function(){
         "sp_enderecosfrompessoa_list",
         "sp_enderecostipos_list",
         "sp_paises_list",
-        "sp_estados_list"
+        "sp_estados_list",
+        "sp_cidades_list"
     );
     saveProcedures($names);
 	echo success();
@@ -1206,7 +1208,8 @@ $app->get("/install-admin/sql/enderecos/save", function(){
        "sp_enderecos_save",
        "sp_enderecostipos_save",
        "sp_paises_save",
-       "sp_estados_save"
+       "sp_estados_save",
+       "sp_cidades_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -1216,7 +1219,8 @@ $app->get("/install-admin/sql/enderecos/remove", function(){
        "sp_enderecos_remove",
        "sp_enderecostipos_remove",
        "sp_paises_remove",
-       "sp_estados_remove"
+       "sp_estados_remove",
+       "sp_cidades_remove"
 	);
 	saveProcedures($names);
 	echo success();

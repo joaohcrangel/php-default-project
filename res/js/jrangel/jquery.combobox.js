@@ -27,7 +27,22 @@
                 value:undefined,
                 emptyText:'-- selecione --',
                 multiple:false,
-                select2:false
+                select2:false,
+                autoComplete:false,
+                delay:250,
+                minValue:1,
+                queryName:'q',
+                autoCompleteConfig:{
+                    tplInput:
+                    '<div class="jrangel-combobox-autocomplete">'+
+                        '<input type="text" class="form-control">'+
+                        '<span class="icon md-caret-down" style="position:absolute; right:14px; top:8px; font-size:20px;"></span>'+
+                    '</div>',
+                    tplResults:
+                    '<div class="dropdown-menu" style="width: 100%; max-height:200px; overflow:auto;" role="menu"></div>',
+                    tplResult:
+                    '<a class="dropdown-item" href="javascript:void(0)" role="menuitem">{{display}}<strong class="pull-xs-right">{{rightText}}</strong></a>'
+                }
             };
 
             var o =  $.extend(defaults, options);
@@ -131,11 +146,135 @@
 
                 };
 
-                $.store({
-                    method:o.method,
-                    url:o.url,
-                    cache:o.cache,
-                    success:function(data){
+                if (o.autoComplete === true) {
+
+                    if (o.debug === true) console.log('autoComplete true');
+
+                    $el.wrap('<div class="jrangel-combobox" style="position:relative"></div>');
+
+                    var $jRangelComBox = $el.closest('.jrangel-combobox');
+                    var $inputContainer = $(o.autoCompleteConfig.tplInput);
+                    var $input = $inputContainer.find('input');
+                    var $icon = $inputContainer.find('span.icon');
+
+                    var tplResult = Handlebars.compile(o.autoCompleteConfig.tplResult);
+                    var tplResults = Handlebars.compile(o.autoCompleteConfig.tplResults);
+                    var $results = $(tplResults());
+
+                    function setLoading(bool){
+
+                        console.log('setLoading', bool, $icon);
+
+                        if (bool) {
+                            $icon.removeClass('md-caret-down');
+                            $icon.addClass('fa fa-refresh fa-spin');
+                        } else {
+                            $icon.removeClass('fa fa-refresh fa-spin');
+                            $icon.addClass('md-caret-down');
+                        }
+
+                    }
+
+                    function appendTimeout(){
+
+                        if (o.debug === true) console.log('appendTimeout', o.delay);
+
+                        if (window.jRangelComboBoxTimer) {
+                            clearTimeout(window.jRangelComboBoxTimer);
+                        }
+
+                        window.jRangelComboBoxTimer = setTimeout(loadResults, o.delay);
+
+                    }
+
+                    function loadResults(callback){
+
+                        if (o.debug === true) console.log('loadResults');
+
+                        if ($input.val().length >= o.minValue) {
+
+                            setLoading(true);
+
+                            var data = {};
+                            data[o.queryName] = $input.val();
+
+                            $.store({
+                                cache:false,
+                                url:o.url,
+                                method:o.method,
+                                debug:o.debug,
+                                data:data,
+                                success:function(cities){
+
+                                    setLoading(false);
+                                    $results.html('');
+
+                                    $.each(cities, function(index, row){
+
+                                        var $item = $(tplResult({
+                                            display:row[o.displayField],
+                                            rightText:row[o.displayFieldRight]
+                                        }));
+
+                                        $item.on('click', function(){
+                                            
+                                            $input.val(row[o.displayField]);
+                                            $results.hide();
+                                            $el.html('<option selected="selected" value="'+row[o.valueField]+'">'+row[o.displayField]+'</option>');
+
+                                        });
+
+                                        $(document).bind('click', function(){
+                                            $(document).unbind('click');
+                                            $results.hide();
+                                        })
+
+                                        $results.append($item);
+
+                                    });
+
+                                    $results.css('display', 'block');
+
+                                },
+                                failure:function(e){
+                                    setLoading(false);
+                                    System.showError(e);
+                                }
+                            });
+
+                        }
+
+                    }
+
+                    $el.hide();
+                    $jRangelComBox.append($inputContainer);
+
+                    $input.on('change', function(){
+                        appendTimeout();
+                    });
+                    $input.on('keyup', function(){
+                        appendTimeout();
+                    });
+                    $input.on('paste', function(){
+                        appendTimeout();
+                    });
+                    $input.on('blur', function(){
+                        appendTimeout();
+                    });
+                    
+                    $jRangelComBox.append($results);
+
+                    if (o.debug === true) console.log($jRangelComBox, $input);
+
+                } else {
+
+                    if (o.debug === true) console.log('autoComplete false');
+
+                    $.store({
+                        method:o.method,
+                        url:o.url,
+                        cache:o.cache,
+                        success:function(data){
 
                             successCombo(o, $el, data);
 
@@ -151,7 +290,7 @@
                                 'disabled':false,
                                 'selected':true
                               });
-                              $disabled.prop('disabled', true);                              
+                              $disabled.prop('disabled', true);      
 
                             });
 
@@ -176,8 +315,10 @@
 
                             });
 
-                    }
-                });
+                        }
+                    });
+
+                }
 
             });
 

@@ -2,7 +2,8 @@
 
 class Cidade extends Model {
 
-    public $required = array('idcidade', 'descidade', 'idestado');
+    public $required = array('descidade', 'idestado');
+
     protected $pk = "idcidade";
 
     public function get(){

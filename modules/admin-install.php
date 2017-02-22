@@ -1181,6 +1181,85 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 	echo success();
 
 });
+$app->get("/install-admin/sql/enderecos/paises/inserts", function(){
+
+	$sql = new Sql();
+	$sql->query("
+		INSERT INTO tb_paises (idpais, despais) VALUES (1, 'Brasil');
+	");
+
+	echo success();
+
+});
+$app->get("/install-admin/sql/enderecos/estados/inserts", function(){
+
+	$lang = new Language();
+
+	$sql = new Sql();
+
+	$sql->query("
+		INSERT INTO tb_estados (idestado, desestado, desuf, idpais) VALUES
+		(1, '".utf8_decode($lang->getString("estado_AC"))."', 'AC', 1),
+		(2, '".utf8_decode($lang->getString("estado_AL"))."', 'AL', 1),
+		(3, '".utf8_decode($lang->getString("estado_AM"))."', 'AM', 1),
+		(4, '".utf8_decode($lang->getString("estado_AP"))."', 'AP', 1),
+		(5, '".utf8_decode($lang->getString("estado_BA"))."', 'BA', 1),
+		(6, '".utf8_decode($lang->getString("estado_CE"))."', 'CE', 1),
+		(7, '".utf8_decode($lang->getString("estado_DF"))."', 'DF', 1),
+		(8, '".utf8_decode($lang->getString("estado_ES"))."', 'ES', 1),
+		(9, '".utf8_decode($lang->getString("estado_GO"))."', 'GO', 1),
+		(10, '".utf8_decode($lang->getString("estado_MA"))."', 'MA', 1),
+		(11, '".utf8_decode($lang->getString("estado_MG"))."', 'MG', 1),
+		(12, '".utf8_decode($lang->getString("estado_MS"))."', 'MS', 1),
+		(13, '".utf8_decode($lang->getString("estado_MT"))."', 'MT', 1),
+		(14, '".utf8_decode($lang->getString("estado_PA"))."', 'PA', 1),
+		(15, '".utf8_decode($lang->getString("estado_PB"))."', 'PB', 1),
+		(16, '".utf8_decode($lang->getString("estado_PE"))."', 'PE', 1),
+		(17, '".utf8_decode($lang->getString("estado_PI"))."', 'PI', 1),
+		(18, '".utf8_decode($lang->getString("estado_PR"))."', 'PR', 1),
+		(19, '".utf8_decode($lang->getString("estado_RJ"))."', 'RJ', 1),
+		(20, '".utf8_decode($lang->getString("estado_RN"))."', 'RN', 1),
+		(21, '".utf8_decode($lang->getString("estado_RO"))."', 'RO', 1),
+		(22, '".utf8_decode($lang->getString("estado_RR"))."', 'RR', 1),
+		(23, '".utf8_decode($lang->getString("estado_RS"))."', 'RS', 1),
+		(24, '".utf8_decode($lang->getString("estado_SC"))."', 'SC', 1),
+		(25, '".utf8_decode($lang->getString("estado_SE"))."', 'SE', 1),
+		(26, '".utf8_decode($lang->getString("estado_SP"))."', 'SP', 1),
+		(27, '".utf8_decode($lang->getString("estado_TO"))."', 'TO', 1);
+	");
+
+	echo success();
+
+});
+$app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
+
+	$data = json_decode(post('json'), true);
+
+	$sql = new Sql();
+
+	foreach ($data as $city) {
+		$sql->query("
+			INSERT INTO tb_cidades (idcidade, descidade, idestado)
+			VALUES(?, ?, ?);
+		", array(
+			(int)$city['idcidade'],
+			$city['descidade'],
+			(int)$city['idestado']
+		));
+	}	
+
+	echo success();
+
+});
+$app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_cidades");
+
+	echo json_encode($results);
+
+});
 $app->get("/install-admin/sql/enderecos/get", function(){
 	$names = array(
         "sp_enderecos_get",

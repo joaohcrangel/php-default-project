@@ -8,6 +8,27 @@
 
  });
 
+ $app->get('/enderecos/cidades', function(){
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $cidades = new Cidades();
+
+    $cidades->loadFromQuery("
+        SELECT * 
+        FROM tb_cidades a
+        INNER JOIN tb_estados b ON a.idestado = b.idestado
+        WHERE descidade LIKE '".utf8_decode(get('q'))."%'
+        ORDER BY descidade, desuf
+        LIMIT 10
+    ");
+
+    echo success(array(
+        'data'=>$cidades->getFields()
+    ));
+
+ });
+
  $app->get('/enderecos/tipos', function () {
 
 	Permissao::checkSession(Permissao::ADMIN);

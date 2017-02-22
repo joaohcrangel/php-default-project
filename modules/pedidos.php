@@ -117,7 +117,40 @@ $app->get("/pedidos-status/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>PedidosStatus::listAll()->getFields()));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
+
+    $where =array();
+
+    if(get('desstatus')) {
+        array_push($where, "desstatus LIKE '%".get('desstatus')."%'");
+    }
+
+   if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AD ', $where);
+    } else {
+        $where = '';
+    }
+    
+    $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_pedidosstatus
+    ".$where." limit ?, ?;";
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "PedidosStatus",
+        $itemsPerPage
+    );
+
+    $pedidosstatus = $paginacao->getPage($currentPage);
+
+     echo success(array(
+        "data"=>$pedidosstatus->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 

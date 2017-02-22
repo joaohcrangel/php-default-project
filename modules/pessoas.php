@@ -388,5 +388,88 @@ $app->get("/pessoas/:idpessoa/usuarios", function($idpessoa){
 	echo success(array("data"=>$pessoa->getUsuarios()->getFields()));
 
 });
+/////////////////////////////////////////////////////////////////////
+
+// pessoas categorias tipos
+$app->get("/pessoas-categorias-tipos/all", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$where = array();
+
+	if(get('descategoria') != ''){
+		array_push($where, "descategoria LIKE '%".utf8_decode(get('descategoria'))."%'");
+	}
+
+	if(count($where) > 0){
+		$where  = "WHERE ".implode(" AND ", $where)."";
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS *
+		FROM tb_pessoascategoriastipos ".$where."
+		LIMIT ?, ?;
+	";
+
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"PessoasCategoriasTipos",
+		$itemsPerPage
+	);
+
+	$categorias = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$categorias->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
+$app->post("/pessoas-categorias-tipos", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	if(post('idcategoria') > 0){
+		$categoria = new PessoaCategoriaTipo((int)post('idcategoria'));
+	}else{
+		$categoria = new PessoaCategoriaTipo();
+	}
+
+	$categoria->set($_POST);
+
+	$categoria->save();
+
+	echo success(array("data"=>$categoria->getFields()));
+
+});
+
+$app->delete("/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	if(!(int)$idcategoria){
+		throw new Exception("Categoria não informada", 400);		
+	}
+
+	$categoria = new PessoaCategoriaTipo((int)$idcategoria);
+
+	if(!(int)$categoria->getidcategoria() > 0){
+		throw new Exception("Categoria não encontrada", 404);		
+	}
+
+	$categoria->remove();
+
+	echo success();
+
+});
 
 ?>

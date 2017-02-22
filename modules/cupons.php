@@ -52,7 +52,42 @@ $app->get("/cupons/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>CuponsTipos::listAll()->getFields()));
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('descupomtipo')) {
+		array_push($where, "descupomtipo LIKE '%".get('descupomtipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_cuponstipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "CuponsTipos",
+        $itemsPerPage
+    );
+
+     $cuponstipos = $paginacao->getPage($currentPage);
+
+
+	echo success(array(
+		"data"=>$cuponstipos->getFields(),
+		"currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
+
 
 });
 

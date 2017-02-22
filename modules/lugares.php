@@ -150,8 +150,41 @@ $app->get("/lugares/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>LugaresTipos::listAll()->getFields()));
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
 
+	$where = array();
+
+	if(get('deslugartipo')) {
+		array_push($where, "deslugartipo LIKE '%".get('deslugartipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_lugarestipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "LugaresTipos",
+        $itemsPerPage
+    );
+
+	 $lugarestipos = $paginacao->getPage($currentPage);
+
+
+
+	echo success(array(
+		"data"=> $lugarestipos->getFields(),
+		"currentPage"=>$currentPage,
+		"itemsPerPage"=>$itemsPerPage,
+		"total"=>$paginacao->getTotal(),
+	));
 });
 
 $app->post("/lugares-tipos", function(){

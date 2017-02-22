@@ -190,7 +190,8 @@ $app->get("/install-admin/sql/pessoas/get", function(){
 		"sp_pessoashistoricos_get",
 		"sp_pessoasvalores_get",
 		"sp_pessoasvalorescampos_get",
-		"sp_pessoastipos_get"
+		"sp_pessoastipos_get",
+		"sp_pessoascategoriastipos_get"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -201,7 +202,8 @@ $app->get("/install-admin/sql/pessoas/list", function(){
 		"sp_pessoastipos_list",
         "sp_historicostipos_list",
         "sp_pessoasvalores_list",
-        "sp_pessoasvalorescampos_list"
+        "sp_pessoasvalorescampos_list",
+        "sp_pessoascategoriastipos_list"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -213,7 +215,8 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 		"sp_historicostipos_save",
 		"sp_pessoasvalores_save",
 		"sp_pessoasvalorescampos_save",
-		"sp_pessoastipos_save"
+		"sp_pessoastipos_save",
+		"sp_pessoascategoriastipos_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -225,7 +228,8 @@ $app->get("/install-admin/sql/pessoas/remove", function(){
 		"sp_historicostipos_remove",
 		"sp_pessoasvalores_remove",
 		"sp_pessoasvalorescampos_remove",
-		"sp_pessoastipos_remove"
+		"sp_pessoastipos_remove",
+		"sp_pessoascategoriastipos_remove"
 	);
 	saveProcedures($names);
 	echo success();
@@ -823,6 +827,24 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuEstados->save();
 	//////////////////////////////////////
+	$menuCidades = new Menu(array(
+		"nrordem"=>12,
+		"idmenupai"=>NULL,
+		"desicone"=>"",
+		"deshref"=>"/cidades",
+		"desmenu"=>$lang->getString('menus_cidades')
+	));
+	$menuCidades->save();
+	//////////////////////////////////////
+	$menuPessoasCategoriasTipos = new Menu(array(
+		'nrordem'=>14,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/pessoas-categorias-tipos',
+		'desmenu'=>$lang->getString('menus_pessoas_categorias_tipos')
+	));
+	$menuPessoasCategoriasTipos->save();
+	//////////////////////////////////////	
 	
 	echo success();
 });

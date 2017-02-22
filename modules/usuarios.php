@@ -98,8 +98,39 @@ $app->get("/usuarios/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN);
 
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('desusuariotipo')) {
+		array_push($where, "desusuariotipo LIKE '%".get('desusuariotipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_usuariostipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "UsuariosTipos",
+        $itemsPerPage
+    );
+
+    $usuariostipos = $paginacao->getPage($currentPage);
+
     echo success(array(
-    	'data'=>UsuariosTipos::listAll()->getFields()
+    	"data"=>$usuariostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
     ));
 
 });

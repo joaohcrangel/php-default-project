@@ -1,12 +1,42 @@
 <link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
-<div class="page">
-    <div class="page-content">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
+
+<div class="page bg-white">
+
+	<div class="page-aside">
+	    <div class="page-aside-switch">
+	      <i class="icon md-chevron-left" aria-hidden="true"></i>
+	      <i class="icon md-chevron-right" aria-hidden="true"></i>
+	    </div>
+	    <div class="page-aside-inner page-aside-scroll">
+	      <div data-role="container">
+	        <div data-role="content">
+	          <section class="page-aside-section p-t-0">
+	            <div class="panel-primary panel-line">
+	              <div class="panel-heading">
+	                <h3 class="panel-title">Filtrar Usuários</h3>
+	              </div>
+	              <form id="form-filtros" class="p-x-25">
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label">Nome</label>
+	                  <input type="text" class="form-control" name="desusuariotipo">
+	                </div>       
+	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+	              </form>
+	            </div>
+	          </section>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+
+    <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-usuario-tipo">
+                <div data-auto-height="20" class="panel" id="panel-usuario-tipo">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            Usuarios
+                            
                         </h3>
                         <div class="panel-actions">
                             <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
@@ -17,7 +47,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Usuario
+                                    Usuário
                                 </th>
                                 <th>
                                     &nbsp;
@@ -29,6 +59,7 @@
                              	
                         </tbody>
                     </table>
+                    <div id="paginacao"></div> 
                 </div>
             </div>
         </div>
@@ -62,17 +93,33 @@
 
 	var $tplUsuarioTipo = Handlebars.compile($("#tpl-usuario-tipo").html());
 
-	function loadUsuarioTipo(){
+	$("#form-filtros [type=submit]").on("click", function(e){
+     
+    e.preventDefault();
+
+    loadUsuarioTipo();
+    
+  });
+
+	function loadUsuarioTipo(pagina){
+
+		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
 			loadUsuarioTipo();
 
 		});
 
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params. limite = 10;
+
 		panel.load();
 
 		rest({
 			url:PATH+"/usuarios/tipos",
+			data:params,
 			success:function(r){
 
 				$tbody.html('');
@@ -82,6 +129,17 @@
 					$tbody.append($tplUsuarioTipo(row));
 
 				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadUsuarioTipo(page);
+         			}
+        		});
+
+        		$("#paginacao").asPaginator(r.total, config);
 
 				System.initSlidePanel($tbody);
 

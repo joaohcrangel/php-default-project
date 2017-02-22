@@ -140,29 +140,29 @@ $app->get("/panel/gateways-criar", function(){
 });
 
 // pagamentos-status
-$app->get("/panel/pagamentos-status/:idstatus", function($idstatus){
+$app->get("/panel/pedidos-status/:idstatus", function($idstatus){
 
-	$status = new PagamentoStatus((int)$idstatus);
+	$status = new PedidoStatus((int)$idstatus);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pagamentos-status-salvar", array(
+	$page->setTpl("panel/pedidos-status-salvar", array(
 		"status"=>$status->getFields()
 	));
 
 });
 
-$app->get("/panel/pagamentos-status-criar", function(){
+$app->get("/panel/pedidos-status-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pagamentos-status-criar");
+	$page->setTpl("panel/pedidos-status-criar");
 
 });
 
@@ -821,6 +821,34 @@ $app->get("/panel/cidade-criar", function(){
 	));
 
 	$page->setTpl("panel/cidade-criar");
+
+});
+////////////////////////////////////////////////////
+
+// pessoas categorias tipos
+$app->get("/panel/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
+
+	$categoria = new PessoaCategoriaTipo((int)$idcategoria);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-categoria-tipo", array(
+		"categoria"=>$categoria->getFields()
+	));
+
+});
+
+$app->get("/panel/pessoa-categoria-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-categoria-tipo-criar");
 
 });
 

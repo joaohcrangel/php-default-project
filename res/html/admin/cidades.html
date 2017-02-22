@@ -124,9 +124,13 @@ init.push(function(){
     valueField:"idestado"
   });
 
+  var isPaginacaoCalled;
+
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
+
+    isPaginacaoCalled = 0;
 
     loadCidades();
 
@@ -138,21 +142,28 @@ init.push(function(){
 
   function loadCidades(pagina){
 
-    if(!pagina) pagina = 1;
+    if(!pagina){
+      pagina = 1;
+    }
 
     $panel.load();
 
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 10;
+    data.limite = 3;
 
     rest({
       url:PATH+"/cidades/all",
       data:data,
-      success:function(r){
+      success:function(r){        
 
-        if(r.data.length > 0){
+        // if(r.currentPage == 1 && isPaginacaoCalled == 0){
+        //   $("#paginacao").html('');
+        //   isPaginacaoCalled = 1;
+        // }
+
+        if(r.data.length > 0){          
 
           $tbody.html('');
 
@@ -161,16 +172,6 @@ init.push(function(){
             var $tr = $(tplCidade(row));
 
             $tbody.append($tr);
-
-            $tr.find("[type=checkbox]").on("change", function(){
-
-              var checked = $("#lista [type=checkbox]:checked");
-
-              var disabled = (checked.length > 0) ? false : true;
-
-              $("#btn-cidade-excluir").prop("disabled", disabled);
-
-            });
 
             $tr.find(".btn-danger").on("click", function(){
 
@@ -212,10 +213,16 @@ init.push(function(){
             skin:'pagination-gap',
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
+            totalPages:r.totalPages,
+            totalItems:r.total,
             onChange:function(page){
               loadCidades(page);
             }
           });
+
+          console.log(config);
+
+          // $("#paginacao").html('');
 
           $("#paginacao").asPaginator(r.total, config);
 
@@ -223,6 +230,7 @@ init.push(function(){
 
         }else{
           $tbody.html('');
+          $("#paginacao").asPaginator(1, PluginAspaginator.default.getDefaults());
           $panel.done();
         }      
 

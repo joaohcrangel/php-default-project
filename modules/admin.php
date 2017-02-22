@@ -233,7 +233,13 @@ $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/produtos-tipos");
 
@@ -243,7 +249,14 @@ $app->get("/".DIR_ADMIN."/documentos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/documentos-tipos");
 
@@ -269,7 +282,13 @@ $app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/usuarios-tipos");
 
@@ -304,7 +323,13 @@ $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/lugares-tipos");
 
@@ -314,7 +339,13 @@ $app->get("/".DIR_ADMIN."/cupons-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/cupons-tipos");
 
@@ -334,7 +365,13 @@ $app->get("/".DIR_ADMIN."/pedidos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pedidos-status");
 
@@ -364,7 +401,13 @@ $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pessoas-tipos");
 
@@ -576,6 +619,22 @@ $app->get("/".DIR_ADMIN."/cidades", function(){
     ));
 
     $page->setTpl("/admin/cidades");
+
+});
+
+$app->get("/".DIR_ADMIN."/pessoas-categorias-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/pessoas-categorias-tipos");
 
 });
 

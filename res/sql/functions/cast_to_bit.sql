@@ -1,0 +1,4 @@
+CREATE FUNCTION cast_to_bit(N INT) RETURNS bit(1)
+BEGIN
+    RETURN N;
+END

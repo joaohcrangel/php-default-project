@@ -155,12 +155,59 @@ $app->post("/pessoas", function(){
 		$pessoa->addEmail(post('desemail'));
 	}
 
-	if (isset($_POST['destelefone'])) {
-		$pessoa->addTelefone(post('destelefone'));
+	if (isset($_POST['destelefonecomercial'])) {
+		$pessoa->addContato(post('destelefonecomercial'), ContatoSubtipo::TELEFONE_TRABALHO);
+	}
+
+	if (isset($_POST['destelefonecelular'])) {
+		$pessoa->addContato(post('destelefonecelular'), ContatoSubtipo::TELEFONE_CELULAR);
 	}
 
 	if (isset($_POST['descpf'])) {
 		$pessoa->addCPF(post('descpf'));
+	}
+
+	if (isset($_POST['desrg'])) {
+		$pessoa->addDocumento(post('desrg'), DocumentoTipo::RG);
+	}
+
+	if(post('idendereco') > 0){
+		$endereco = new Endereco((int)post('idendereco'));
+	}else{
+		$endereco = new Endereco();
+	}
+
+	foreach (array(
+		'descep',
+		'desendereco',
+		'desnumero',
+		'descomplemento',
+		'desbairro',
+		'descidade'
+	) as $field) {
+		if (isset($_POST[$field]) && post($field)) {
+			$endereco->{'set'.$field}(post($field));
+		}	
+	}
+
+	if (isset($_POST['idcidade']) && (int)post('idcidade') > 0) {
+		$cidade = new Cidade((int)post('idcidade'));
+	} else {
+		$cidade = Cidade::loadFromName(post('descidade'));
+	}
+
+	if (!$endereco->getidenderecotipo() > 0 && count($endereco->getFields()) > 0) {
+
+		$endereco->setidenderecotipo(($pessoa->getidpessoatipo() === PessoaTipo::FISICA)?EnderecoTipo::RESIDENCIAL:EnderecoTipo::COMERCIAL);
+
+	}
+
+	if (count($cidade->getFields())) $endereco->set($cidade->getFields());
+	if (count($endereco->getFields())) {
+
+		$endereco->save();
+		$pessoa->addEndereco($endereco);
+		
 	}
 
 	$pessoa->reload();

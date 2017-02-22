@@ -32,6 +32,8 @@
                 delay:250,
                 minValue:1,
                 queryName:'q',
+                submitValue:false,
+                hiddenName:'',
                 autoCompleteConfig:{
                     tplInput:
                     '<div class="jrangel-combobox-autocomplete">'+
@@ -152,18 +154,17 @@
 
                     $el.wrap('<div class="jrangel-combobox" style="position:relative"></div>');
 
+                    var lastSearch = '';
                     var $jRangelComBox = $el.closest('.jrangel-combobox');
-                    var $inputContainer = $(o.autoCompleteConfig.tplInput);
-                    var $input = $inputContainer.find('input');
-                    var $icon = $inputContainer.find('span.icon');
-
+                    var tplInput = Handlebars.compile(o.autoCompleteConfig.tplInput);
                     var tplResult = Handlebars.compile(o.autoCompleteConfig.tplResult);
                     var tplResults = Handlebars.compile(o.autoCompleteConfig.tplResults);
+                    var $inputContainer = $(tplInput({}));
+                    var $input = $inputContainer.find('input');
+                    var $icon = $inputContainer.find('span.icon');
                     var $results = $(tplResults());
 
                     function setLoading(bool){
-
-                        console.log('setLoading', bool, $icon);
 
                         if (bool) {
                             $icon.removeClass('md-caret-down');
@@ -171,6 +172,14 @@
                         } else {
                             $icon.removeClass('fa fa-refresh fa-spin');
                             $icon.addClass('md-caret-down');
+                        }
+
+                    }
+
+                    function openList(){
+
+                        if ($results.find('a').length) {
+                            $results.css('display', 'block');
                         }
 
                     }
@@ -191,7 +200,7 @@
 
                         if (o.debug === true) console.log('loadResults');
 
-                        if ($input.val().length >= o.minValue) {
+                        if ($input.val().length >= o.minValue && lastSearch !== $input.val()) {
 
                             setLoading(true);
 
@@ -206,6 +215,8 @@
                                 data:data,
                                 success:function(cities){
 
+                                    lastSearch = $input.val();
+
                                     setLoading(false);
                                     $results.html('');
 
@@ -216,24 +227,26 @@
                                             rightText:row[o.displayFieldRight]
                                         }));
 
-                                        $item.on('click', function(){
-                                            
+                                        $item.on('click', function(e){
+
+                                            e.preventDefault();
+                                            e.stopPropagation();
+
                                             $input.val(row[o.displayField]);
+
+                                            if (o.debug === true) console.info(row[o.valueField], $jRangelComBox.find('[type=hidden][name='+name+']'));
+
+                                            $jRangelComBox.find('[type=hidden][name='+name+']').val(row[o.valueField]);
+
                                             $results.hide();
-                                            $el.html('<option selected="selected" value="'+row[o.valueField]+'">'+row[o.displayField]+'</option>');
 
                                         });
-
-                                        $(document).bind('click', function(){
-                                            $(document).unbind('click');
-                                            $results.hide();
-                                        })
 
                                         $results.append($item);
 
                                     });
 
-                                    $results.css('display', 'block');
+                                    openList();
 
                                 },
                                 failure:function(e){
@@ -246,20 +259,92 @@
 
                     }
 
+                    $el.on('change', function(e){
+
+                        $input.val($(this).val());
+
+                    });
+
                     $el.hide();
+
+                    if (o.submitValue === true) {
+
+                        var name = (o.hiddenName || o.valueField);
+
+                        if ($jRangelComBox.find('[type=hidden][name='+name+']')) {
+                            var $hiddenInput = $('<input type="hidden" class="form-control" name="'+name+'">');
+                            $jRangelComBox.append($hiddenInput);    
+                        }
+
+                    }
+
                     $jRangelComBox.append($inputContainer);
+
+                    $icon.on('click', function(){
+                        $input.trigger('focus');
+                    });
 
                     $input.on('change', function(){
                         appendTimeout();
                     });
-                    $input.on('keyup', function(){
-                        appendTimeout();
+                    $input.on('keydown', function(e){
+
+                        var $aSelected = $results.find('.selected');
+                        var $aSelectedNext;
+
+                        openList();
+
+                        switch (e.keyCode) {
+                            case 37://LEFT
+
+                            break;
+                            case 38://UP
+                            $aSelectedNext = $aSelected.prev('a');
+                            if (!$aSelectedNext.length) {
+                                $aSelectedNext = $results.find('a:last');
+                            }
+                            $aSelected.removeClass('selected');
+                            $aSelectedNext.addClass('selected');
+                            break;
+                            case 39://RIGHT
+
+                            break;
+                            case 40://DOWN
+                            $aSelectedNext = $aSelected.next('a');
+                            if (!$aSelectedNext.length) {
+                                $aSelectedNext = $results.find('a:first');
+                            }
+                            $aSelected.removeClass('selected');
+                            $aSelectedNext.addClass('selected');
+                            break;
+                            case 13://ENTER
+                            e.stopPropagation();
+                            e.preventDefault();
+                            if (!$aSelected.length) {
+                                $aSelected = $results.find('a:last');
+                            }
+                            $aSelected.trigger('click');
+                            break;
+                            default:
+                            appendTimeout();
+                            break;
+                        }
+
+                        if ($aSelectedNext && $aSelectedNext.length) {
+                            $results.scrollTop($aSelectedNext[0].offsetTop);
+                        }
+                                                
                     });
                     $input.on('paste', function(){
                         appendTimeout();
                     });
-                    $input.on('blur', function(){
-                        appendTimeout();
+                    $input.on('blur', function(e){
+                        if (!$(e.relatedTarget).closest('.jrangel-combobox').length) {
+                            $results.hide();
+                        }
+                    });
+                    $input.on('focus', function(){
+                        openList();
                     });
                     
                     $jRangelComBox.append($results);

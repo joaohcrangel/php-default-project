@@ -3,9 +3,41 @@ $app->get('/configuracoes-tipos',function(){
 
  	$configuracao = ConfiguracoesTipos::listAll();
 
+ 	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('desconfiguracaotipo')) {
+		array_push($where, "desconfiguracaotipo LIKE '%".get('desconfiguracaotipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_configuracoestipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "ConfiguracoesTipos",
+        $itemsPerPage
+    );
+
+	$configuracoestipos = $paginacao->getPage($currentPage);
+
     echo success(array(
-         'data'=>$configuracao->getFields()
+    	"data"=>$configuracoestipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
     ));
+    
 });
 
 $app->post("/configuracoes-tipos", function(){

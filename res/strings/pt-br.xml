@@ -66,6 +66,8 @@
 	<string name="menus_carousels">Carousels</string>
 	<string name="menus_paises">Países</string>
 	<string name="menus_estados">Estados</string>
+	<string name="menus_cidades">Cidades</string>
+	<string name="menus_pessoas_categorias_tipos">Categorias de Pessoas</string>
 
 	<string name="menus_pedido">Pedidos</string>
 	<string name="menus_carrinho">Carrinhos</string>

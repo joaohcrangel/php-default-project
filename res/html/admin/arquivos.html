@@ -41,10 +41,7 @@
                   <label class="form-control-label">Nome do Arquivo</label>
                   <input type="text" class="form-control" name="deslugar">
                 </div>
-                <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label">Endereço do Arquivo</label>
-                  <input type="text" class="form-control" name="desendereco">
-                </div>
+  
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Tipo do Arquivo</label>
                   <select name="idarquivo" class="form-control"></select>
@@ -66,11 +63,9 @@
     <!-- Media Content -->
     <div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable">
       <!-- Actions -->
-      <div class="page-content-actions">
-        <div class="pull-xs-right">
-           <button class="btn btn-danger" id="btn-excluir" type="button"><i class="icon md-delete" aria-hidden="true"></i></button>
-        </div>
-        <div class="pull-xs-left">
+      <div id="btn-excluir" class="page-content-actions">
+      ''
+        <div id="arrangement-grid" class="pull-xs-left">
           <div class="btn-group media-arrangement" role="group">
             <button class="btn btn-default active" id="arrangement-grid" type="button"><i class="icon md-view-module" aria-hidden="true"></i></button>
             <button class="btn btn-default" id="arrangement-list" type="button"><i class="icon md-view-list" aria-hidden="true"></i></button>
@@ -101,16 +96,10 @@
     </div>
   </div>
 </div>
-<div class="site-action">
-  <button type="button" id="adicionar"class="site-action-toggle btn-raised btn btn-success btn-floating">
-    <i class="front-icon md-upload" aria-hidden="true"></i> Adicionar
-  </button>
+<div id="adicionar" class="site-action">
   <div class="site-action-buttons">
     <button type="button" data-action="download" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
       <i class="icon md-download" aria-hidden="true"></i>
-    </button>
-    <button type="button" data-action="trash" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
-      <i class="icon md-delete" aria-hidden="true"></i>
     </button>
   </div>
   <input type="file" id="fileupload" name="upload" />
@@ -148,7 +137,7 @@ init.push(function(){
   var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
 
   $("#form-filtros [type=submit]").on("click", function(e){
-     console.log("ok");
+  
     e.preventDefault();
 
     carregarArquivos();
@@ -238,17 +227,25 @@ init.push(function(){
       id:"actions-buttons",
       buttons:[{
         text:"Cadastrar",
-        icon:"md-plus",
+        icon:"md-upload",
         cls:"btn-success",
         listeners:{
-          click:function(btn, e){
+          click:function(){
             
-            System.openSlidePanel({
-              url:PATH+"/panel/produto-criar"
-            });
+            $.upload({
+              url:PATH+"/arquivos",
+              success:function(r){
 
-          }
+              carregarArquivos();
+              System.success("Arquivo adicionado!");
+            },
+            failure:function(e){
+              System.showError(e);
+            }
+          });
+            
         }
+      }
       },{
         text:"Excluir",
         icon:"md-delete",

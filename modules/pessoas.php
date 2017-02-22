@@ -16,7 +16,7 @@ $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
      $contato = $pessoa->getContatos();
 	echo success(array(
          'data'=>$contato->getFields()
-    ));  
+    ));
 });
 $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);

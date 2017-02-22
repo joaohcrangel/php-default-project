@@ -179,6 +179,10 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'descampo'=>$lang->getString('sexo')
 	));
 	$sexo->save();
+	$foto = new PessoaValorCampo(array(
+		'descampo'=>$lang->getString('foto')
+	));
+	$foto->save();
 
 	echo success();
 	
@@ -810,8 +814,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuCarousels->save();
 	//////////////////////////////////////
 	$menuPaises = new Menu(array(
-		"nrordem"=>10,
-		"idmenupai"=>NULL,
+		"nrordem"=>5,
+		"idmenupai"=>$menuAdmin->getidmenu(),
 		"desicone"=>"",
 		"deshref"=>"/paises",
 		"desmenu"=>$lang->getString('menus_paises')
@@ -819,8 +823,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuPaises->save();
 	//////////////////////////////////////
 	$menuEstados = new Menu(array(
-		"nrordem"=>11,
-		"idmenupai"=>NULL,
+		"nrordem"=>6,
+		"idmenupai"=>$menuAdmin->getidmenu(),
 		"desicone"=>"",
 		"deshref"=>"/estados",
 		"desmenu"=>$lang->getString('menus_estados')
@@ -828,8 +832,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuEstados->save();
 	//////////////////////////////////////
 	$menuCidades = new Menu(array(
-		"nrordem"=>12,
-		"idmenupai"=>NULL,
+		"nrordem"=>7,
+		"idmenupai"=>$menuAdmin->getidmenu(),
 		"desicone"=>"",
 		"deshref"=>"/cidades",
 		"desmenu"=>$lang->getString('menus_cidades')
@@ -1464,6 +1468,7 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  dtatualizacao datetime NOT NULL,
 		  dessexo ENUM('M', 'F'),
 		  dtnascimento DATE DEFAULT NULL,
+		  desfoto varchar(128) DEFAULT NULL,
 		  incliente BIT NOT NULL DEFAULT b'0',
 		  infornecedor BIT NOT NULL DEFAULT b'0',
 		  incolaborador BIT NOT NULL DEFAULT b'0',

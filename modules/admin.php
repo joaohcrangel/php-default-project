@@ -253,7 +253,13 @@ $app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/enderecos-tipos");
 

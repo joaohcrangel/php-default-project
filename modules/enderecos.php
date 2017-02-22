@@ -12,9 +12,42 @@
 
 	Permissao::checkSession(Permissao::ADMIN);
 
-	echo success(array(
-		'data'=>EnderecosTipos::listAll()->getFields()
-	));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
+
+    $where = array();
+
+    if(get('desenderecotipo')) {
+        array_push($where, "desenderecotipo LIKE '%".get('desenderecotipo')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS *
+        FROM tb_enderecostipos 
+        ".$where." LIMIT ?, ?;";
+
+      $paginacao = new Pagination(
+        $query,
+        array(),
+        "EnderecosTipos",
+        $itemsPerPage
+    );
+
+    $enderecostipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$enderecostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 

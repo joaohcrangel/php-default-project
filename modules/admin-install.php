@@ -915,6 +915,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCidades->save();
 	//////////////////////////////////////
+	$menuCidades = new Menu(array(
+		"nrordem"=>8,
+		"idmenupai"=>$menuAdmin->getidmenu(),
+		"desicone"=>"",
+		"deshref"=>"/arquivos",
+		"desmenu"=>$lang->getString('menus_arquivos')
+	));
+	$menuCidades->save();
+	//////////////////////////////////////
 	$menuPessoasCategoriasTipos = new Menu(array(
 		'nrordem'=>14,
 		'idmenupai'=>$menuTipos->getidmenu(),

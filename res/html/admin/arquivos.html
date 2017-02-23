@@ -19,6 +19,10 @@
 }
 
 
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);
+}
 
 </style>
 <div class="page bg-white">
@@ -39,12 +43,18 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome do Arquivo</label>
-                  <input type="text" class="form-control" name="deslugar">
+                  <input type="text" class="form-control" name="desarquivo">
                 </div>
   
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Tipo do Arquivo</label>
-                  <select name="idarquivo" class="form-control"></select>
+                  <select name="desextensao" class="form-control">
+                    <option value=""> -- SELECIONE -- </option>
+                    <option value="gif">Imagem GIF</option>
+                    <option value="jpg">Imagem JPG</option>
+                    <option value="png">Imagem PNG</option>
+                    <option value="pdf">Documento PDF</option>
+                  </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -54,46 +64,37 @@
       </div>
     </div>
   </div>
-  <!-- Media Content -->
-  <div class="page-main"id="arquivo-page">
-    <!-- Media Content Header -->
-    <div class="page-header p-0">
+  <div class="page-main"  id="arquivo-page">
+      <div class="page-header p-0" >
         <div class="btn-group" id="actions-buttons"></div>
-    </div>
-    <!-- Media Content -->
-    <div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable">
-      <!-- Actions -->
-      <div id="btn-excluir" class="page-content-actions">
-      ''
-        <div id="arrangement-grid" class="pull-xs-left">
-          <div class="btn-group media-arrangement" role="group">
-            <button class="btn btn-default active" id="arrangement-grid" type="button"><i class="icon md-view-module" aria-hidden="true"></i></button>
-            <button class="btn btn-default" id="arrangement-list" type="button"><i class="icon md-view-list" aria-hidden="true"></i></button>
-          </div>
-        </div>
-        <div class="actions-inner">
-          <div class="checkbox-custom checkbox-primary checkbox-lg">
-            <input type="checkbox" id="media_all" class="selectable-all">
-            <label for="media_all"></label>
-          </div>
-        </div>
       </div>
-      <!-- Media -->
-
-        <div id="tab-arquivo-fotos">
-          <div data-auto-height="100" class="media-list is-grid p-10 overflow-auto" data-plugin="animateList" data-animate="fade"
-          data-child="li">
-            <ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-3 blocks-lg-4 blocks-md-4 blocks-sm-3"
-            data-plugin="animateList" data-child=">li">
-             
-            </ul>
-
+      <!-- Media Content -->
+      <div  id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable">
+        <!-- Actions -->
+        <div id="btn-excluir" class="page-content-actions p-10">
+        
+          <div id="arrangement-grid" class="pull-xs-left">
             
-
           </div>
-          <div id="paginacao"></div>
+          <div class="actions-inner">
+            <div class="checkbox-custom checkbox-primary checkbox-lg p-t-0">
+              <input type="checkbox" id="media_all" class="selectable-all">
+              <label for="media_all"></label>
+            </div>
+          </div>
         </div>
-    </div>
+        <!-- Media -->
+
+          <div id="tab-arquivo-fotos" data-auto-height="-360">
+            <div  class="media-list is-grid" data-plugin="animateList" data-animate="fade"
+            data-child="li">
+              <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5"
+              data-plugin="animateList" data-child=">li"> 
+              </ul>
+            </div>
+          </div>
+      </div>
+      <div id="paginacao"></div>
   </div>
 </div>
 <div id="adicionar" class="site-action">
@@ -125,12 +126,6 @@
 </script>
 <script>
 init.push(function(){
-
-  $("[name=idarquivo]").combobox({
-    url:PATH+"/arquivos",
-    displayField:"desarquivo",
-    valueField:"idarquivo"
-  });
 
   var panel = System.getPanelApi($('#arquivo-page'));
 
@@ -223,29 +218,57 @@ init.push(function(){
 
   });
 
+  var btnAddClick = function(){
+    $.upload({
+      url:PATH+"/arquivos",
+      success:function(r){
+
+        carregarArquivos();
+        System.success("Arquivo adicionado!");
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+  };
+
+  var btnAddListneres = {
+    click:btnAddClick
+  };
+
   new ToolBar({
       id:"actions-buttons",
       buttons:[{
-        text:"Cadastrar",
+        text:"Adicionar",
         icon:"md-upload",
         cls:"btn-success",
+        listeners:btnAddListneres
+      },{
+        text:"Lista",
+        cls:"default",
+        icon:"md-view-list",
         listeners:{
           click:function(){
-            
-            $.upload({
-              url:PATH+"/arquivos",
-              success:function(r){
 
-              carregarArquivos();
-              System.success("Arquivo adicionado!");
-            },
-            failure:function(e){
-              System.showError(e);
-            }
-          });
-            
+            $(this).addClass('active');
+            $("#arrangement-grid").removeClass('active');
+            $(".media-list").addClass('is-list').removeClass('is-grid');
+
+          }
         }
-      }
+      },{
+        text:"Grade",
+        cls:"default",
+        icon:"md-view-module",
+        listeners:{
+          click:function(){
+
+            $(this).addClass('active');
+            $("#arrangement-list").removeClass('active');
+            $(".media-list").addClass('is-grid').removeClass('is-list');
+
+          }
+        }
       },{
         text:"Excluir",
         icon:"md-delete",
@@ -259,9 +282,9 @@ init.push(function(){
             var $li = $(this).closest("li");
 
             var arquivo = $li.data('arquivo');
-
+          
+             
             ids.push(arquivo.idarquivo);
-
 
           });
 
@@ -279,7 +302,6 @@ init.push(function(){
 
             }
           });
-
         }
       }]
   });

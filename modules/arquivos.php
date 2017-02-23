@@ -4,8 +4,8 @@ $app->get("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $currentPage = get("pagina");
-    $itemsPerPage = get("limite");
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
 
     $where = array();
 

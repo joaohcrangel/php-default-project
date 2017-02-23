@@ -7,7 +7,34 @@
     z-index: 999999;
     position: relative;
     margin: 25px;
-  }</style><div id="pessoa-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-pessoa" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button id="btn-close-slidepanel" type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">{$pessoa.despessoa}</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0 m-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="pessoa-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-pessoa-home" aria-controls="tab-pessoa-home" role="tab" aria-expanded="true">Home</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-pessoa-faleconosco" aria-controls="tab-pessoa-faleconosco" role="tab">Fale Conosco</a></ul></div><div class="panel-body p-0"><div class="tab-content"><div class="tab-pane" id="tab-pessoa-editar" role="tabpanel"><form id="form-pessoa-editar"><input type="hidden" name="idpessoa"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8"><label class="form-control-label" for="despessoa">Nome do cliente <span class="red-900">*</span></label><input type="text" class="form-control" id="despessoa" name="despessoa"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="idpessoatipo">Tipo</label><select class="form-control" id="idpessoatipo" name="idpessoatipo"></select></div></div><div id="cadastro-pessoa-fisica"><div class="row"><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="descpf">CPF</label><input type="text" class="form-control" id="descpf" name="descpf"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desrg">RG</label><input type="text" class="form-control" id="desrg" name="desrg"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="dtnascimento">Data de nascimento</label><input type="date" class="form-control" id="dtnascimento" name="dtnascimento"></div></div><div class="row"><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desemail">Email</label><input type="email" class="form-control" id="desemail" name="desemail"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="destelefonecomercial">Telefone comercial</label><input type="tel" class="form-control" id="destelefonecomercial" name="destelefonecomercial"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="destelefonecelular">Telefone celular</label><input type="tel" class="form-control" id="destelefonecelular" name="destelefonecelular"></div></div></div><div id="cadastro-pessoa-juridica" class="hide"></div><div id="cadastro-endereco"><div class="panel panel-primary panel-line p-b-0 m-0"><div class="panel-heading"><h3 class="panel-title p-l-0">Endereço do Cliente</h3></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desendereco">Endereço</label><input type="text" class="form-control" id="desendereco" name="desendereco"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumero">Número</label><input type="text" class="form-control" id="desnumero" name="desnumero"></div></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplemento">Complemento</label><input type="text" class="form-control" id="descomplemento" name="descomplemento"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desbairro">Bairro</label><input type="text" class="form-control" id="desbairro" name="desbairro"></div><div class="form-group col-xs-12 col-md-5"><label class="form-control-label" for="descidade">Cidade</label><input type="text" class="form-control" id="descidade" name="descidade"> <input type="hidden" name="desuf"></div></div></div></div></div></div><div class="p-25"><button type="submit" class="btn btn-primary btn-block waves-effect">Salvar Dados</button></div></form></div><div class="tab-pane active" id="tab-pessoa-home" role="tabpanel"><button id="btn-pessoa-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button><div class="card"><div class="card-header bg-white p-30 clearfix"><a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)"><img src="{$pessoa.desphotourl}" alt="Foto de {$pessoa.desprimeironome}"></a><div class="pull-xs-left"><div class="font-size-20 m-b-15">{$pessoa.despessoa}</div>{if="strlen($endereco.desenderecoresumido) > 0"}<p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i> <span class="text-break">{$endereco.desenderecoresumido}</span></p>{/if} {if="strlen($pessoa.desemail) > 0"}<p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i> <span class="text-break">{$pessoa.desemail}</span></p>{/if} {if="isset($cpf.desdocumentoformatado) &&strlen($cpf.desdocumentoformatado) > 0"}<p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i> <span class="text-break">{$cpf.desdocumentoformatado}</span></p>{/if} {if="isset($cnpj.desdocumentoformatado) && strlen($cnpj.desdocumentoformatado) > 0"}<p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i> <span class="text-break">{$cnpj.desdocumentoformatado}</span></p>{/if}</div></div></div></div><div class="tab-pane active" id="tab-pessoa-faleconosco" role="tabpanel"></div></div></div></div></section></div></div><script>var PessoaPanel = (function(data, selectorContainer, opts){
+  }</style><div id="pessoa-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-pessoa" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button id="btn-close-slidepanel" type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">{$pessoa.despessoa}</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0 m-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="pessoa-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-pessoa-home" aria-controls="tab-pessoa-home" role="tab" aria-expanded="true">Home</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-pessoa-faleconosco" aria-controls="tab-pessoa-faleconosco" role="tab">Fale Conosco</a></ul></div><div class="panel-body p-0"><div class="tab-content"><div class="tab-pane" id="tab-pessoa-editar" role="tabpanel"><form id="form-pessoa-editar"><input type="hidden" name="idpessoa"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8"><label class="form-control-label" for="despessoa">Nome do cliente <span class="red-900">*</span></label><input type="text" class="form-control" id="despessoa" name="despessoa"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="idpessoatipo">Tipo</label><select class="form-control" id="idpessoatipo" name="idpessoatipo"></select></div></div><div id="cadastro-pessoa-fisica"><div class="row"><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="descpf">CPF</label><input type="text" class="form-control" id="descpf" name="descpf"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desrg">RG</label><input type="text" class="form-control" id="desrg" name="desrg"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="dtnascimento">Data de nascimento</label><input type="date" class="form-control" id="dtnascimento" name="dtnascimento"></div></div><div class="row"><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desemail">Email</label><input type="email" class="form-control" id="desemail" name="desemail"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="destelefonecomercial">Telefone comercial</label><input type="tel" class="form-control" id="destelefonecomercial" name="destelefonecomercial"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="destelefonecelular">Telefone celular</label><input type="tel" class="form-control" id="destelefonecelular" name="destelefonecelular"></div></div></div><div id="cadastro-pessoa-juridica" class="hide"></div><div id="cadastro-endereco"><div class="panel panel-primary panel-line p-b-0 m-0"><div class="panel-heading"><h3 class="panel-title p-l-0">Endereço do Cliente</h3></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desendereco">Endereço</label><input type="text" class="form-control" id="desendereco" name="desendereco"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumero">Número</label><input type="text" class="form-control" id="desnumero" name="desnumero"></div></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplemento">Complemento</label><input type="text" class="form-control" id="descomplemento" name="descomplemento"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desbairro">Bairro</label><input type="text" class="form-control" id="desbairro" name="desbairro"></div><div class="form-group col-xs-12 col-md-5"><label class="form-control-label" for="descidade">Cidade</label><input type="text" class="form-control" id="descidade" name="descidade"> <input type="hidden" name="desuf"></div></div></div></div></div></div><div class="p-25"><button type="submit" class="btn btn-primary btn-block waves-effect">Salvar Dados</button></div></form></div><div class="tab-pane active" id="tab-pessoa-home" role="tabpanel"><button id="btn-pessoa-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button><div class="card"></div></div><div class="tab-pane active" id="tab-pessoa-faleconosco" role="tabpanel"></div></div></div></div></section></div></div>{noparse}<script id="tpl-pessoa-home-card" type="text/x-handlebars-template"><div class="card-header bg-white p-30 clearfix">
+  <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+    <img src="{{desphotourl}}" alt="Foto de {{desprimeironome}}">
+  </a>
+  <div class="pull-xs-left">
+    <div class="font-size-20 m-b-15">{{despessoa}}</div>
+    {{#if endereco.desenderecoresumido}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{endereco.desenderecoresumido}}</span>
+    </p>
+    {{/if}}
+    {{#if desemail}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{desemail}}</span>
+    </p>
+    {{/if}}
+    {{#if cpf.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cpf.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+    {{#if cnpj.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cnpj.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+  </div>
+</div></script>{/noparse}<script>var PessoaPanel = (function(data, selectorContainer, opts){
 
   var t = this;
 
@@ -33,9 +60,27 @@
 
   };
 
+  t.getTpl = function(id){
+
+    return Handlebars.compile($("#"+id).html());
+
+  };
+
+  t.setCard = function(){
+
+    console.log('setCard', t.getData());
+
+    var tpl = t.getTpl('tpl-pessoa-home-card');
+    var $render = $(tpl(t.getData()));
+
+    t.$el.find('#tab-pessoa-home').find('.card').html($render);
+
+  };
+
   t.$el.on('pessoa-change', function(){
 
     t.$el.find('#form-pessoa-editar').formLoad(t.getData());
+    t.setCard(t.getData());
 
   });
   
@@ -83,9 +128,7 @@
       url:PATH+"/pessoas/"+t.getIdPessoa()+"/photo",
       success:function(r){
 
-        if (r.data.desphotourl) {
-          t.$el.find('#pessoa-photo').find('img').attr('src', PATH+r.data.desphotourl);
-        }
+        t.setData(r.data);
 
       },
       failure:function(e){
@@ -98,9 +141,9 @@
   t.setTabActive = function(id){
 
     $('#pessoa-tabs .tab-content .tab-pane').removeClass('active');
-    $('#pessoa-tabs .tab-content .tab-pane'+id).addClass('active');
+    $('#pessoa-tabs .tab-content .tab-pane#'+id).addClass('active');
     $('#pessoa-tabs [role="tab"]').removeClass('active');
-    $('#pessoa-tabs [role="tab"][href="'+id+'"]').addClass('active');
+    $('#pessoa-tabs [role="tab"][href="#'+id+'"]').addClass('active');
 
   };
 
@@ -198,6 +241,7 @@
 
         t.setData(r.data);
         System.success('Dados salvos com sucesso!');
+        t.refreshList();
 
       }
     });
@@ -220,6 +264,12 @@
 
       }
     });
+
+  };
+
+  t.refreshList = function(){
+
+    if (typeof atualizarPagina === 'function') atualizarPagina();
 
   };
 
@@ -248,13 +298,13 @@
 
     t.$el.on('click', '#btn-actions-close', function(){
 
-      t.setTabActive('#tab-pessoa-home');
+      t.setTabActive('tab-pessoa-home');
       
     });
 
     t.$el.on('click', '#btn-pessoa-editar', function(){
 
-      t.setTabActive('#tab-pessoa-editar');
+      t.setTabActive('tab-pessoa-editar');
 
     });
 

@@ -143,37 +143,7 @@
               
               <button id="btn-pessoa-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button>
 
-              <div class="card">
-                <div class="card-header bg-white p-30 clearfix">
-                  <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
-                    <img src="{$pessoa.desphotourl}" alt="Foto de {$pessoa.desprimeironome}">
-                  </a>
-                  <div class="pull-xs-left">
-                    <div class="font-size-20 m-b-15">{$pessoa.despessoa}</div>
-                    {if="strlen($endereco.desenderecoresumido) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$endereco.desenderecoresumido}</span>
-                    </p>
-                    {/if}
-                    {if="strlen($pessoa.desemail) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$pessoa.desemail}</span>
-                    </p>
-                    {/if}
-                    {if="isset($cpf.desdocumentoformatado) &&strlen($cpf.desdocumentoformatado) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$cpf.desdocumentoformatado}</span>
-                    </p>
-                    {/if}
-                    {if="isset($cnpj.desdocumentoformatado) && strlen($cnpj.desdocumentoformatado) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$cnpj.desdocumentoformatado}</span>
-                    </p>
-                    {/if}
-                  </div>
-                </div>
-                
-              </div>
+              <div class="card"></div>
 
             </div>
             <div class="tab-pane active" id="tab-pessoa-faleconosco" role="tabpanel">
@@ -186,6 +156,38 @@
     </section>
   </div>
 </div>
+{noparse}
+<script id="tpl-pessoa-home-card" type="text/x-handlebars-template">
+<div class="card-header bg-white p-30 clearfix">
+  <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+    <img src="{{desphotourl}}" alt="Foto de {{desprimeironome}}">
+  </a>
+  <div class="pull-xs-left">
+    <div class="font-size-20 m-b-15">{{despessoa}}</div>
+    {{#if endereco.desenderecoresumido}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{endereco.desenderecoresumido}}</span>
+    </p>
+    {{/if}}
+    {{#if desemail}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{desemail}}</span>
+    </p>
+    {{/if}}
+    {{#if cpf.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cpf.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+    {{#if cnpj.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cnpj.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+  </div>
+</div>
+</script>
+{/noparse}
 <script>
 
 var PessoaPanel = (function(data, selectorContainer, opts){
@@ -214,9 +216,27 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.getTpl = function(id){
+
+    return Handlebars.compile($("#"+id).html());
+
+  };
+
+  t.setCard = function(){
+
+    console.log('setCard', t.getData());
+
+    var tpl = t.getTpl('tpl-pessoa-home-card');
+    var $render = $(tpl(t.getData()));
+
+    t.$el.find('#tab-pessoa-home').find('.card').html($render);
+
+  };
+
   t.$el.on('pessoa-change', function(){
 
     t.$el.find('#form-pessoa-editar').formLoad(t.getData());
+    t.setCard(t.getData());
 
   });
   
@@ -264,9 +284,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
       url:PATH+"/pessoas/"+t.getIdPessoa()+"/photo",
       success:function(r){
 
-        if (r.data.desphotourl) {
-          t.$el.find('#pessoa-photo').find('img').attr('src', PATH+r.data.desphotourl);
-        }
+        t.setData(r.data);
 
       },
       failure:function(e){
@@ -279,9 +297,9 @@ var PessoaPanel = (function(data, selectorContainer, opts){
   t.setTabActive = function(id){
 
     $('#pessoa-tabs .tab-content .tab-pane').removeClass('active');
-    $('#pessoa-tabs .tab-content .tab-pane'+id).addClass('active');
+    $('#pessoa-tabs .tab-content .tab-pane#'+id).addClass('active');
     $('#pessoa-tabs [role="tab"]').removeClass('active');
-    $('#pessoa-tabs [role="tab"][href="'+id+'"]').addClass('active');
+    $('#pessoa-tabs [role="tab"][href="#'+id+'"]').addClass('active');
 
   };
 
@@ -379,6 +397,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
         t.setData(r.data);
         System.success('Dados salvos com sucesso!');
+        t.refreshList();
 
       }
     });
@@ -401,6 +420,12 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
       }
     });
+
+  };
+
+  t.refreshList = function(){
+
+    if (typeof atualizarPagina === 'function') atualizarPagina();
 
   };
 
@@ -429,13 +454,13 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
     t.$el.on('click', '#btn-actions-close', function(){
 
-      t.setTabActive('#tab-pessoa-home');
+      t.setTabActive('tab-pessoa-home');
       
     });
 
     t.$el.on('click', '#btn-pessoa-editar', function(){
 
-      t.setTabActive('#tab-pessoa-editar');
+      t.setTabActive('tab-pessoa-editar');
 
     });
 

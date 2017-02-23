@@ -62,43 +62,43 @@ BEGIN
         CALL sp_contatos_save(0, 2, pidpessoa, pdestelefone, 1);
     ELSE
         DELETE FROM tb_contatos
-        WHERE idpessoa = pidpessoa AND idcontatosubtipo = 6;
+        WHERE idpessoa = pidpessoa AND idcontatosubtipo = 2;
     END IF;
 
     /* CPF da pessoa */
     IF pdescpf IS NOT NULL AND pidcpf > 0 THEN
         UPDATE tb_documentos
-        SET descontato = pdescpf
-        WHERE idcontato = pidcpf;
+        SET desdocumento = pdescpf
+        WHERE iddocumento = pidcpf;
     ELSEIF pdescpf IS NOT NULL AND pidcpf IS NULL THEN
         CALL sp_documentos_save(0, 1, pidpessoa, pdescpf);
     ELSE
         DELETE FROM tb_documentos
-        WHERE idpessoa = pidpessoa AND idcontatosubtipo = 6;
+        WHERE idpessoa = pidpessoa AND iddocumentotipo = 1;
     END IF;
 
     /* RG da pessoa */
     IF pdesrg IS NOT NULL AND pidrg > 0 THEN
         UPDATE tb_documentos
-        SET descontato = pdesrg
-        WHERE idcontato = pidrg;
+        SET desdocumento = pdesrg
+        WHERE iddocumento = pidrg;
     ELSEIF pdesrg IS NOT NULL AND pidrg IS NULL THEN
         CALL sp_documentos_save(0, 3, pidpessoa, pdesrg);
     ELSE
         DELETE FROM tb_documentos
-        WHERE idpessoa = pidpessoa AND idcontatosubtipo = 6;
+        WHERE idpessoa = pidpessoa AND iddocumentotipo = 3;
     END IF;
 
     /* CNPJ da pessoa */
     IF pdescnpj IS NOT NULL AND pidcnpj > 0 THEN
         UPDATE tb_documentos
-        SET descontato = pdescnpj
-        WHERE idcontato = pidcnpj;
+        SET desdocumento = pdescnpj
+        WHERE iddocumento = pidcnpj;
     ELSEIF pdescnpj IS NOT NULL AND pidcnpj IS NULL THEN
         CALL sp_documentos_save(0, 2, pidpessoa, pdescnpj);
     ELSE
         DELETE FROM tb_documentos
-        WHERE idpessoa = pidpessoa AND idcontatosubtipo = 6;
+        WHERE idpessoa = pidpessoa AND iddocumentotipo = 2;
     END IF;
     
     /* Data de Nascimento */

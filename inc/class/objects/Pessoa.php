@@ -283,6 +283,37 @@ class Pessoa extends Model {
 
     }
 
+    public function getFields(){
+
+        $this->getPhotoURL();
+
+        $endereco = $this->getEndereco();
+        $endereco->setdesenderecoresumido($endereco->getToString(Endereco::SUMMARY));
+
+        if ($this->getdescpf()) {
+            $cpf = $this->getDocumento(DocumentoTipo::CPF);
+            $cpf->getFormatted();
+        } else {
+            $cpf = new Documento();
+        }
+
+        if ($this->getdescnpj()) {
+            $cnpj = $this->getDocumento(DocumentoTipo::CNPJ);
+            $cnpj->getFormatted();
+        } else {
+            $cnpj = new Documento();
+        }
+
+        $data = parent::getFields();
+
+        $data['cpf'] = $cpf->getFields();
+        $data['cnpj'] = $cnpj->getFields();
+        $data['endereco'] = $endereco->getFields();
+
+        return $data;
+
+    }
+
 }
 
 ?>

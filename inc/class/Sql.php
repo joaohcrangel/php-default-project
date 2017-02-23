@@ -779,17 +779,10 @@ class Sql {
 
 			case Sql::PDO:
 
-
-
 				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 				$sth = $this->conn->prepare($query);				
 
-				$params = $this->trataParams($params, false);
-
-				if ($query === 'CALL sp_pessoas_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);') {
-					var_dump($query, $params);
-					exit;
-				}				
+				$params = $this->trataParams($params, false);			
 				
 		        $sth->execute($params);
 

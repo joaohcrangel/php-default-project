@@ -3,6 +3,7 @@ $app->get('/pessoas/:idpessoa',function($idpessoa){
    
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$pessoa = new Pessoa((int)$idpessoa);
+
 	echo success(array(
 		'data'=>$pessoa->getFields()
 	));

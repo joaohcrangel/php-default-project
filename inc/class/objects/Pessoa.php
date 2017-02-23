@@ -1,5 +1,4 @@
 <?php
-
 class Pessoa extends Model {
 
     public $required = array('despessoa', 'idpessoatipo');
@@ -9,7 +8,7 @@ class Pessoa extends Model {
     {
 
         $args = func_get_args();
-        if(!isset($args[0])) throw new Exception($this->pk." não informado");
+        if(!isset($args[0])) throw new Exception($this->pk." nÃ£o informado");
 
         $this->queryToAttr("CALL sp_pessoas_get(".$args[0].");");
                 
@@ -171,7 +170,7 @@ class Pessoa extends Model {
 
     }
 
-    public function setEndereco(Endereco $endereco):Endereco
+    public function addEndereco(Endereco $endereco):Endereco
     {
 
         $endereco->setidpessoa($this->getidpessoa());

@@ -3,6 +3,7 @@
 define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 define("PATH_FUNCTION", PATH."/res/sql/functions/");
+
 function saveProcedures($procs = array()){
 	$sql = new Sql();
 	foreach ($procs as $name) {
@@ -31,6 +32,9 @@ $app->get("/install", function(){
 });
 $app->get("/install-admin/uploads/clear", function(){
 
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	foreach (scandir(PATH."/res/uploads") as $file) {
 		if ($file !== '.' && $file !== '..') {
 			unlink(PATH."/res/uploads/".$file);
@@ -41,6 +45,10 @@ $app->get("/install-admin/uploads/clear", function(){
 
 });
 $app->get("/install-admin/sql/clear", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	$sql = new Sql();
 	
 	$procs = $sql->arrays("SHOW PROCEDURE STATUS WHERE Db = '".DB_NAME."';");
@@ -1286,6 +1294,9 @@ $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
 });
 $app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
 
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	
 	$data = json_decode(post('json'), true);
 
 	$sql = new Sql();

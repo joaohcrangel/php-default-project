@@ -62,7 +62,7 @@ class Session extends DefaultObject {
 	}
 
 	public static function getUsuario($lockRedirect = true):Usuario
-	{	
+	{
 
 		if(isset($_SESSION[Usuario::SESSION_NAME_LOCK])){
 			if (

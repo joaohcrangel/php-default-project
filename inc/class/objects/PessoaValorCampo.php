@@ -1,5 +1,3 @@
-
-
 <?php
 
 class PessoaValorCampo extends Model {

@@ -1,5 +1,3 @@
-
-
 <?php
 
 class DocumentoTipo extends Model {

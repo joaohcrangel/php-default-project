@@ -172,7 +172,7 @@ $app->post("/pessoas", function(){
 
 		$endereco->save();
 
-		$endereco = $pessoa->setEndereco($endereco);
+		$endereco = $pessoa->addEndereco($endereco);
 
 	}
 

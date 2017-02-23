@@ -1,5 +1,3 @@
-
-
 <?php
 
 class DocumentosTipos extends Collection {

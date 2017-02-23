@@ -4,6 +4,11 @@
       padding: 25px!important;
     }
   }
+  #btn-pessoa-editar {
+    z-index: 999999;
+    position: relative;
+    margin: 25px;
+  }
 </style>
 <div id="pessoa-panel">
   <header class="slidePanel-header">
@@ -27,39 +32,118 @@
         </div>
         <div class="panel-body p-0">
           <div class="tab-content">
-            <div class="tab-pane active" id="tab-pessoa-home" role="tabpanel">
-              
-              <div class="card">
-                <div class="card-header bg-white p-30 clearfix">
-                  <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
-                    <img src="{$pessoa.desphotourl}" alt="Foto de {$pessoa.desprimeironome}">
-                  </a>
-                  <div class="pull-xs-left">
-                    <div class="font-size-20 m-b-15">{$pessoa.despessoa}</div>
-                    {if="strlen($endereco.desenderecoresumido) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$endereco.desenderecoresumido}</span>
-                    </p>
-                    {/if}
-                    {if="strlen($pessoa.desemail) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$pessoa.desemail}</span>
-                    </p>
-                    {/if}
-                    {if="isset($cpf.desdocumentoformatado) &&strlen($cpf.desdocumentoformatado) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$cpf.desdocumentoformatado}</span>
-                    </p>
-                    {/if}
-                    {if="isset($cnpj.desdocumentoformatado) && strlen($cnpj.desdocumentoformatado) > 0"}
-                    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$cnpj.desdocumentoformatado}</span>
-                    </p>
-                    {/if}
+            <div class="tab-pane" id="tab-pessoa-editar" role="tabpanel">
+              <form id="form-pessoa-editar">
+                <input type="hidden" name="idpessoa">
+                <div class="panel m-0" style="box-shadow:none">
+                  <div class="panel-body p-y-0 p-t-20">
+                    
+                    <div class="panel-heading" style="height: 30px;">
+                      <div class="panel-actions panel-actions-keep">
+                        <a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px;"></a>
+                        <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px;"></a>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-xs-12 col-md-8">
+                        <label class="form-control-label" for="despessoa">Nome do cliente <span class="red-900">*</span></label>
+                        <input type="text" class="form-control" id="despessoa" name="despessoa">
+                      </div>
+                      <div class="form-group col-xs-12 col-md-4">
+                        <label class="form-control-label" for="idpessoatipo">Tipo</label>
+                        <select class="form-control" id="idpessoatipo" name="idpessoatipo"></select>
+                      </div>
+                    </div>
+                    
+                    <div id="cadastro-pessoa-fisica">
+                      <div class="row">
+                        
+                        <div class="form-group col-xs-12 col-md-4">
+                          <label class="form-control-label" for="descpf">CPF</label>
+                          <input type="text" class="form-control" id="descpf" name="descpf">
+                        </div>
+                        <div class="form-group col-xs-12 col-md-4">
+                          <label class="form-control-label" for="desrg">RG</label>
+                          <input type="text" class="form-control" id="desrg" name="desrg">
+                        </div>
+                        <div class="form-group col-xs-12 col-md-4">
+                          <label class="form-control-label" for="dtnascimento">Data de nascimento</label>
+                          <input type="date" class="form-control" id="dtnascimento" name="dtnascimento">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-xs-12 col-md-6">
+                          <label class="form-control-label" for="desemail">Email</label>
+                          <input type="email" class="form-control" id="desemail" name="desemail">
+                        </div>
+                        <div class="form-group col-xs-12 col-md-3">
+                          <label class="form-control-label" for="destelefonecomercial">Telefone comercial</label>
+                          <input type="tel" class="form-control" id="destelefonecomercial" name="destelefonecomercial">
+                        </div>
+                        <div class="form-group col-xs-12 col-md-3">
+                          <label class="form-control-label" for="destelefonecelular">Telefone celular</label>
+                          <input type="tel" class="form-control" id="destelefonecelular" name="destelefonecelular">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="cadastro-pessoa-juridica" class="hide">
+                      
+                    </div>
+
+                    <div id="cadastro-endereco">
+                      <div class="panel panel-primary panel-line p-b-0 m-0">
+                        <div class="panel-heading">
+                          <h3 class="panel-title p-l-0">Endereço do Cliente</h3>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="form-group col-xs-12 col-md-3">
+                            <label class="form-control-label" for="descep">CEP</label>
+                            <input type="text" class="form-control" id="descep" name="descep">
+                          </div>
+                          <div class="form-group col-xs-12 col-md-6">
+                            <label class="form-control-label" for="desendereco">Endereço</label>
+                            <input type="text" class="form-control" id="desendereco" name="desendereco">
+                          </div>
+                          <div class="form-group col-xs-12 col-md-3">
+                            <label class="form-control-label" for="desnumero">Número</label>
+                            <input type="text" class="form-control" id="desnumero" name="desnumero">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-xs-12 col-md-3">
+                            <label class="form-control-label" for="descomplemento">Complemento</label>
+                            <input type="text" class="form-control" id="descomplemento" name="descomplemento">
+                          </div>
+                          <div class="form-group col-xs-12 col-md-4">
+                            <label class="form-control-label" for="desbairro">Bairro</label>
+                            <input type="text" class="form-control" id="desbairro" name="desbairro">
+                          </div>
+                          <div class="form-group col-xs-12 col-md-5">
+                            <label class="form-control-label" for="descidade">Cidade</label>
+                            <input type="text" class="form-control" id="descidade" name="descidade">
+                            <input type="hidden" name="desuf">
+                          </div>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+
                   </div>
                 </div>
-                
-              </div>
+                <div class="p-25">
+                  <button type="submit" class="btn btn-primary btn-block waves-effect">Salvar Dados</button>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane active" id="tab-pessoa-home" role="tabpanel">
+              
+              <button id="btn-pessoa-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button>
+
+              <div class="card"></div>
 
             </div>
             <div class="tab-pane active" id="tab-pessoa-faleconosco" role="tabpanel">
@@ -72,6 +156,38 @@
     </section>
   </div>
 </div>
+{noparse}
+<script id="tpl-pessoa-home-card" type="text/x-handlebars-template">
+<div class="card-header bg-white p-30 clearfix">
+  <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+    <img src="{{desphotourl}}" alt="Foto de {{desprimeironome}}">
+  </a>
+  <div class="pull-xs-left">
+    <div class="font-size-20 m-b-15">{{despessoa}}</div>
+    {{#if endereco.desenderecoresumido}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{endereco.desenderecoresumido}}</span>
+    </p>
+    {{/if}}
+    {{#if desemail}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{desemail}}</span>
+    </p>
+    {{/if}}
+    {{#if cpf.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cpf.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+    {{#if cnpj.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cnpj.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+  </div>
+</div>
+</script>
+{/noparse}
 <script>
 
 var PessoaPanel = (function(data, selectorContainer, opts){
@@ -87,6 +203,49 @@ var PessoaPanel = (function(data, selectorContainer, opts){
   t.$el = $(selectorContainer);
   t.id = 0;
 
+  t.setData = function(pessoa){
+
+    t.data = pessoa;
+    t.$el.trigger('pessoa-change');
+
+  };
+
+  t.getData = function(){
+
+    return t.data;
+
+  };
+
+  t.getTpl = function(id){
+
+    return Handlebars.compile($("#"+id).html());
+
+  };
+
+  t.setCard = function(){
+
+    var tpl = t.getTpl('tpl-pessoa-home-card');
+    var $render = $(tpl(t.getData()));
+
+    t.$el.find('#tab-pessoa-home').find('.card').html($render);
+
+  };
+
+  t.$el.on('pessoa-change', function(){
+
+    t.$el.find('#form-pessoa-editar').formLoad(t.getData());
+    t.setCard(t.getData());
+
+  });
+  
+  t.setData(pessoa);
+
+  t.getIdPessoa = function(){
+
+    return t.getData().idpessoa;
+
+  };
+
   t.deletePessoa = function(){
 
     System.confirm("Deseja realmente excluir o cadastro de "+data.despessoa+" definitivamente? Todos os dados associados serão excluídos.", function(r, s, f){
@@ -94,7 +253,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
       if (r) {
 
         rest({
-          url:PATH+"/pessoas/"+data.idpessoa,
+          url:PATH+"/pessoas/"+t.getIdPessoa(),
           method:"DELETE",
           success:function(){
             s();
@@ -120,12 +279,10 @@ var PessoaPanel = (function(data, selectorContainer, opts){
   t.uploadPhoto = function(){
 
     $.upload({
-      url:PATH+"/pessoas/"+data.idpessoa+"/photo",
+      url:PATH+"/pessoas/"+t.getIdPessoa()+"/photo",
       success:function(r){
 
-        if (r.data.desphotourl) {
-          t.$el.find('#pessoa-photo').find('img').attr('src', PATH+r.data.desphotourl);
-        }
+        t.setData(r.data);
 
       },
       failure:function(e){
@@ -135,7 +292,175 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.setTabActive = function(id){
+
+    $('#pessoa-tabs .tab-content .tab-pane').removeClass('active');
+    $('#pessoa-tabs .tab-content .tab-pane#'+id).addClass('active');
+    $('#pessoa-tabs [role="tab"]').removeClass('active');
+    $('#pessoa-tabs [role="tab"][href="#'+id+'"]').addClass('active');
+
+  };
+
+  t.initFieldCidade = function(){
+
+    t.$el.find('[name=descidade]').combobox({
+      url:PATH+"/enderecos/cidades",
+      autoComplete:true,
+      displayField:'descidade',
+      displayFieldRight:'desuf',
+      valueField:'idcidade',
+      submitValue:true,
+      hiddenName:'idcidade'
+    });
+
+  };
+
+  t.initFieldClassEmpty = function(){
+
+    t.$el.find('input').on('change', function(){
+      if ($(this).val().length) {
+        $(this).removeClass('empty');
+      } else {
+        $(this).addClass('empty');
+      }
+    });
+
+  };
+
+  t.initFieldCPF = function(){
+
+    t.$el.find('[name=descpf]').on('change keyup', function(e){
+
+      if (!$(this).val()) {
+
+        var $formGroup =  t.$el.find('[name=descpf]').closest('.form-group');
+        $formGroup.removeClass('has-success has-danger');
+
+      }
+
+    }).formValueCheck({
+      url:PATH+"/documentos/cpf",
+      icon:'md-check',
+      minLengthSubmit:11,
+      success:function(r){
+        
+        var $formGroup =  t.$el.find('[name=descpf]').closest('.form-group');
+        $formGroup.removeClass('has-success has-danger');
+
+        if (r.incpf) {
+
+          $formGroup.addClass('has-success');
+
+        } else {
+
+          $formGroup.addClass('has-danger');
+
+        }
+
+      }
+    });
+
+  };
+
+  t.initFieldCEP = function(){
+
+    t.$el.find('[name=descep]').formValueCheck({
+      url:PATH+"/enderecos/cep",
+      success:function(r){
+        t.$el.find('#form-pessoa-editar').formLoad(r);
+        t.$el.find('#form-pessoa-editar').find('[name=descidade]').trigger('change');
+        t.$el.find('#form-pessoa-editar').find('[name=desnumero]').trigger('focus');
+      }
+    });
+
+  };
+
+  t.initFieldPessoaTipo = function(){
+
+    t.$el.find("[name=idpessoatipo]").combobox({
+      url:PATH+"/pessoas-tipos",
+      displayField:"despessoatipo",
+      valueField:"idpessoatipo",
+      value:1
+    });
+
+  };
+
+  t.initFormPessoaEditar = function(){
+
+    t.$el.find('#form-pessoa-editar').form({
+      url:PATH+"/pessoas",
+      resetForm:false,
+      success:function(r){
+
+        t.setData(r.data);
+        System.success('Dados salvos com sucesso!');
+        t.refreshList();
+
+      }
+    });
+
+  };
+
+  t.reload = function(callback){
+
+    rest({
+      url:PATH+"/pessoas/"+t.getIdPessoa(),
+      success:function(r){
+
+        t.setData(r.data);
+        if (typeof callback === 'function') callback();
+
+      },
+      failure:function(e){
+
+        System.showError(e);
+
+      }
+    });
+
+  };
+
+  t.refreshList = function(){
+
+    if (typeof atualizarPagina === 'function') atualizarPagina();
+
+  };
+
   t.init = function(){
+
+    t.initFieldCidade();
+    t.initFieldClassEmpty();
+    t.initFieldCPF();
+    t.initFieldCEP();
+    t.initFieldPessoaTipo();
+    t.initFormPessoaEditar();
+
+    t.$el.on('click', '#btn-actions-refresh', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.reload(function(){
+
+        $btn.btnload('unload');
+
+      });
+
+    });
+
+    t.$el.on('click', '#btn-actions-close', function(){
+
+      t.setTabActive('tab-pessoa-home');
+      
+    });
+
+    t.$el.on('click', '#btn-pessoa-editar', function(){
+
+      t.setTabActive('tab-pessoa-editar');
+
+    });
 
     t.$el.on('click', '#btn-delete-pessoa', function(){
 

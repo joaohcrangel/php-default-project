@@ -20,7 +20,8 @@ function rest(opts){
       success:function(){},
       failure:function(){},
       dataType:'json',
-      $http:null
+      $http:null,
+      delay:2000
     }, opts || {});
   
   if (!window.setTimeoutRest) window.setTimeoutRest = {};
@@ -49,7 +50,7 @@ function rest(opts){
               window.setTimeoutRest[opts.url] = undefined;
             }
             rest(opts);
-        }, 10000);
+        }, opts.delay);
 
         return false;
 
@@ -70,11 +71,13 @@ function rest(opts){
             }
             if (typeof System === 'object') System.ajaxExecution = false;
             if (typeof opts.success === 'function') opts.success(r.data, r);
+            if (typeof opts.complete === 'function') opts.complete(r);
           }, function(r){
 
             if (typeof console === 'object') console.error(r);
             if (typeof System === 'object') System.ajaxExecution = false;
             if (typeof opts.failure === 'function') opts.failure(r.data, r);
+            if (typeof opts.complete === 'function') opts.complete(r);
 
           });
       } else {
@@ -82,7 +85,7 @@ function rest(opts){
         if (opts.debug === true) console.log('AJAX WITH', '$.ajax');
           
           opts.success = function(r){
-            
+              
               if (window.setTimeoutRest[opts.url]) {
                 clearTimeout(window.setTimeoutRest[opts.url]);
                 window.setTimeoutRest[opts.url] = undefined;
@@ -90,6 +93,7 @@ function rest(opts){
 
               if (typeof System === 'object') System.ajaxExecution = false;
               success(r);
+              if (typeof opts.complete === 'function') opts.complete(r);
 
           };
 
@@ -123,6 +127,8 @@ function rest(opts){
                   }
                   failure({success:false}, r);
               }
+
+              if (typeof opts.complete === 'function') opts.complete(r);
 
           };
 

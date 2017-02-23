@@ -779,14 +779,10 @@ class Sql {
 
 			case Sql::PDO:
 
-
-
 				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 				$sth = $this->conn->prepare($query);				
 
-				$params = $this->trataParams($params, false);
-
-				
+				$params = $this->trataParams($params, false);			
 				
 		        $sth->execute($params);
 

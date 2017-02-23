@@ -18,16 +18,20 @@ class Pessoa extends Model {
     public function save():int
     {
 
-
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidpessoa(),
                 $this->getdespessoa(),
                 $this->getidpessoatipo(),
                 $this->getdtnascimento(),
                 $this->getdessexo(),
-                $this->getdesfoto()
+                $this->getdesfoto(),
+                $this->getdesemail(),
+                $this->getdesdestelefone(),
+                $this->getdescpf(),
+                $this->getdesrg(),
+                $this->getdescnpj()
             ));
 
             return $this->getidpessoa();
@@ -167,7 +171,7 @@ class Pessoa extends Model {
 
     }
 
-    public function addEndereco(Endereco $endereco):Endereco
+    public function setEndereco(Endereco $endereco):Endereco
     {
 
         $endereco->setidpessoa($this->getidpessoa());
@@ -276,6 +280,37 @@ class Pessoa extends Model {
         $this->addArquivo($foto);
         $this->setdesfoto($foto->getdesarquivo().'.'.$foto->getdesextensao());
         $this->save();
+
+    }
+
+    public function getFields(){
+
+        $this->getPhotoURL();
+
+        $endereco = $this->getEndereco();
+        $endereco->setdesenderecoresumido($endereco->getToString(Endereco::SUMMARY));
+
+        if ($this->getdescpf()) {
+            $cpf = $this->getDocumento(DocumentoTipo::CPF);
+            $cpf->getFormatted();
+        } else {
+            $cpf = new Documento();
+        }
+
+        if ($this->getdescnpj()) {
+            $cnpj = $this->getDocumento(DocumentoTipo::CNPJ);
+            $cnpj->getFormatted();
+        } else {
+            $cnpj = new Documento();
+        }
+
+        $data = parent::getFields();
+
+        $data['cpf'] = $cpf->getFields();
+        $data['cnpj'] = $cnpj->getFields();
+        $data['endereco'] = $endereco->getFields();
+
+        return $data;
 
     }
 

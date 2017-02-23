@@ -1922,6 +1922,27 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->query("
+		CREATE TABLE tb_pedidosnegociacoestipos (
+		  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
+		  desnegociacao varchar(64) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idnegociacao)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_pedidosnegociacoes (
+		  idnegociacao int(11) NOT NULL,
+		  idpedido int(11) NOT NULL,
+		  dtinicio datetime NOT NULL,
+		  dttermino datetime DEFAULT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idnegociacao,idpedido),
+		  KEY FK_pedidosnegociacoes_pedidos_idx (idpedido),
+		  CONSTRAINT FK_pedidosnegociacoes_pedidos FOREIGN KEY (idpedido) REFERENCES tb_pedidos (idpedido) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_pedidosnegociacoes_pedidosnegociacoestipos FOREIGN KEY (idpedido) REFERENCES tb_pedidosnegociacoestipos (idnegociacao) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	
 	echo success();
 	
@@ -1999,6 +2020,14 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 		$lang->getString('statu_disputa'),
 		$lang->getString('statu_devolvido'),
 		$lang->getString('statu_cancelado')
+	));
+
+	$sql->query("
+		INSERT INTO tb_pedidosnegociacoestipos(desnegociacao)
+		VALUES(?);
+	", array(
+	    $lang->getString('negociacao_orcemanto'),
+	 	$lang->getString('negociacao_venda')
 	));
 	
 	echo success();

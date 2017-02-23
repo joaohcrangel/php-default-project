@@ -18,16 +18,20 @@ class Pessoa extends Model {
     public function save():int
     {
 
-
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidpessoa(),
                 $this->getdespessoa(),
                 $this->getidpessoatipo(),
                 $this->getdtnascimento(),
                 $this->getdessexo(),
-                $this->getdesfoto()
+                $this->getdesfoto(),
+                $this->getdesemail(),
+                $this->getdesdestelefone(),
+                $this->getdescpf(),
+                $this->getdesrg(),
+                $this->getdescnpj()
             ));
 
             return $this->getidpessoa();

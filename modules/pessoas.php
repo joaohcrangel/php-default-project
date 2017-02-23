@@ -6,6 +6,7 @@ $app->get('/pessoas/:idpessoa',function($idpessoa){
 	echo success(array(
 		'data'=>$pessoa->getFields()
 	));
+
 });
 $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -122,8 +123,10 @@ $app->post("/pessoas", function(){
 	}else{
 		$pessoa = new Pessoa();
 	}
+
 	$pessoa->set($_POST);
 	$pessoa->save();
+	/*
 	if (isset($_POST['desemail'])) {
 		$pessoa->addEmail(post('desemail'));
 	}
@@ -146,7 +149,7 @@ $app->post("/pessoas", function(){
 	if (isset($_POST['desrg'])) {
 		$pessoa->addDocumento(post('desrg'), DocumentoTipo::RG);
 	}
-
+	*/
 	if(post('idendereco') > 0){
 		$endereco = new Endereco((int)post('idendereco'));
 	}else{

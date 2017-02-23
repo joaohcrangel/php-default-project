@@ -786,7 +786,10 @@ class Sql {
 
 				$params = $this->trataParams($params, false);
 
-				
+				if ($query === 'CALL sp_pessoas_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);') {
+					var_dump($query, $params);
+					exit;
+				}				
 				
 		        $sth->execute($params);
 

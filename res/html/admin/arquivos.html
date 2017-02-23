@@ -18,9 +18,7 @@
   font-size: 32px;
 }
 
-.app-media .media-list .image-wrap > .image {
-    max-width: 80%;
-}
+
 
 
 </style>
@@ -281,9 +279,9 @@ init.push(function(){
             var $li = $(this).closest("li");
 
             var arquivo = $li.data('arquivo');
-
+          
+             
             ids.push(arquivo.idarquivo);
-
 
           });
 
@@ -294,7 +292,7 @@ init.push(function(){
               ids:ids.toString()
             },
             success:function(){
-
+              
               $("#tab-arquivo-fotos ul li input:checked").each(function(){
                 $(this).closest("li").remove();
               });

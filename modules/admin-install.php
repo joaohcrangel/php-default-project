@@ -2795,4 +2795,23 @@ $app->get("/install-admin/sql/functions", function(){
 
 });
 
+$app->get("/install-admin/sql/urls/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_urls (
+		  idurl int(11) NOT NULL AUTO_INCREMENT,
+		  desurl varchar(128) NOT NULL,
+		  destitulo varchar(64) DEFAULT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idurl),
+		  UNIQUE KEY desurl_UNIQUE (desurl)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
 ?>

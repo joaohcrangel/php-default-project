@@ -200,5 +200,8 @@
 	<string name="data_nascimento">dtnascimento</string>
 	<string name="sexo">dessexo</string>
 	<string name="foto">desfoto</string>
+
+	<string name="negociacao_orcemanto">Em orçamento</string>
+	<string name="negociacao_venda">Venda</string>
 	
 </resources>

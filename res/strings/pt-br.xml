@@ -67,6 +67,7 @@
 	<string name="menus_paises">Países</string>
 	<string name="menus_estados">Estados</string>
 	<string name="menus_cidades">Cidades</string>
+	<string name="menus_arquivos">Arquivos</string>
 	<string name="menus_pessoas_categorias_tipos">Categorias de Pessoas</string>
 
 	<string name="menus_pedido">Pedidos</string>
@@ -99,7 +100,7 @@
 
 	<string name="cupom_valor">Valor Fixo</string>
 	<string name="cupom_porcentage">Porcentagem</string>
-	<string name="gateway_pagseguro">PagSegure</string>
+	<string name="gateway_pagseguro">PagSeguro</string>
 	<string name="gateway_visa">Visa</string>
 	<string name="gateway_mastercard">MasterCard</string>
 	<string name="gateway_dinerclub">Diners Club</string>

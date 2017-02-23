@@ -100,7 +100,7 @@ BEGIN
         DELETE FROM tb_documentos
         WHERE idpessoa = pidpessoa AND iddocumentotipo = 2;
     END IF;
-    
+
     /* Data de Nascimento */
     DELETE FROM tb_pessoasvalores WHERE idpessoa = pidpessoa AND idcampo = 1;
     IF NOT pdtnascimento IS NULL THEN

@@ -119,6 +119,7 @@ $app->post("/pessoas/:idpessoa/photo", function($idpessoa){
 
 });
 $app->post("/pessoas", function(){
+
 	if(post('idpessoa') > 0){
 		$pessoa = new Pessoa((int)post('idpessoa'));
 	}else{
@@ -127,31 +128,8 @@ $app->post("/pessoas", function(){
 
 	$pessoa->set($_POST);
 	$pessoa->save();
-	/*
-	if (isset($_POST['desemail'])) {
-		$pessoa->addEmail(post('desemail'));
-	}
-
-	if (isset($_POST['destelefonecomercial'])) {
-		$pessoa->addContato(post('destelefonecomercial'), ContatoSubtipo::TELEFONE_TRABALHO);
-	}
-
-	if (isset($_POST['destelefonecomercial'])) {
-		$pessoa->addContato(post('destelefonecomercial'), ContatoSubtipo::TELEFONE_TRABALHO);
-	}
-
-	if (isset($_POST['destelefonecelular'])) {
-		$pessoa->addContato(post('destelefonecelular'), ContatoSubtipo::TELEFONE_CELULAR);
-	}
-	if (isset($_POST['descpf'])) {
-		$pessoa->addCPF(post('descpf'));
-	}
-
-	if (isset($_POST['desrg'])) {
-		$pessoa->addDocumento(post('desrg'), DocumentoTipo::RG);
-	}
-	*/
-	if(post('idendereco') > 0){
+	
+	if((int)post('idendereco') > 0){
 		$endereco = new Endereco((int)post('idendereco'));
 	}else{
 		$endereco = new Endereco();
@@ -170,7 +148,6 @@ $app->post("/pessoas", function(){
 		}	
 	}
 
-
 	if (isset($_POST['idcidade']) && (int)post('idcidade') > 0) {
 		$cidade = new Cidade((int)post('idcidade'));
 	} else {
@@ -188,15 +165,19 @@ $app->post("/pessoas", function(){
 	}
 
 	if (count($cidade->getFields())) $endereco->set($cidade->getFields());
+
 	if (count($endereco->getFields())) {
 
 		$endereco->setinprincipal(true);
+
 		$endereco->save();
-		$pessoa->addEndereco($endereco);
-		
+
+		$endereco = $pessoa->setEndereco($endereco);
+
 	}
 
 	$pessoa->reload();
+
 	echo success(array(
 		"data"=>$pessoa->getFields()
 	));

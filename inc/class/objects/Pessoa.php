@@ -171,7 +171,7 @@ class Pessoa extends Model {
 
     }
 
-    public function addEndereco(Endereco $endereco):Endereco
+    public function setEndereco(Endereco $endereco):Endereco
     {
 
         $endereco->setidpessoa($this->getidpessoa());

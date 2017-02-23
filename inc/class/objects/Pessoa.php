@@ -18,6 +18,7 @@ class Pessoa extends Model {
     public function save():int
     {
 
+
         if($this->getChanged() && $this->isValid()){
 
             $this->queryToAttr("CALL sp_pessoas_save(?, ?, ?, ?, ?, ?);", array(
@@ -273,9 +274,8 @@ class Pessoa extends Model {
     public function setPhoto(Arquivo $foto){
 
         $this->addArquivo($foto);
-
         $this->setdesfoto($foto->getdesarquivo().'.'.$foto->getdesextensao());
-        return $this->save();
+        $this->save();
 
     }
 

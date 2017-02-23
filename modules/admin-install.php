@@ -29,6 +29,17 @@ $app->get("/install", function(){
 	$page->setTpl("install/index");
 
 });
+$app->get("/install-admin/uploads/clear", function(){
+
+	foreach (scandir(PATH."/res/uploads") as $file) {
+		if ($file !== '.' && $file !== '..') {
+			unlink(PATH."/res/uploads/".$file);
+		}
+	}
+
+	echo success();
+
+});
 $app->get("/install-admin/sql/clear", function(){
 	$sql = new Sql();
 	
@@ -148,7 +159,10 @@ $app->get("/install-admin/sql/pessoas/triggers", function(){
 	$triggers = array(
 		"tg_pessoas_AFTER_INSERT",
 		"tg_pessoas_AFTER_UPDATE",
-		"tg_pessoas_BEFORE_DELETE"
+		"tg_pessoas_BEFORE_DELETE",
+		"tg_pessoasvalores_AFTER_INSERT",
+		"tg_pessoasvalores_AFTER_UPDATE",
+		"tg_pessoasvalores_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	echo success();

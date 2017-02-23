@@ -109,6 +109,7 @@ $app->post("/pessoas/:idpessoa/photo", function($idpessoa){
 
 	$pessoa = new Pessoa((int)$idpessoa);
 	$pessoa->setPhoto($arquivo);
+	$pessoa->getPhotoURL();
 
 	echo success(array(
 		'data'=>$pessoa->getFields()

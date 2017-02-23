@@ -29,7 +29,7 @@ BEGIN
     IF NOT pdtnascimento IS NULL THEN
         
         INSERT INTO tb_pessoasvalores (idpessoa, idcampo, desvalor)
-        VALUES(pidpessoa, 1, CAST(pdtnascimento AS DATE));
+        VALUES(pidpessoa, 1, pdtnascimento);
     
     END IF;
     
@@ -42,7 +42,7 @@ BEGIN
     END IF;
 
     DELETE FROM tb_pessoasvalores WHERE idpessoa = pidpessoa AND idcampo = 3;
-    IF NOT pdessexo IS NULL THEN
+    IF NOT pdesfoto IS NULL THEN
         
         INSERT INTO tb_pessoasvalores (idpessoa, idcampo, desvalor)
         VALUES(pidpessoa, 3, pdesfoto);

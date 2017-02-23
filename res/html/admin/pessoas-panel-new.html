@@ -46,14 +46,14 @@
                       <span class="text-break">{$pessoa.desemail}</span>
                     </p>
                     {/if}
-                    {if="strlen($cpf.desdocumentoformatado) > 0"}
+                    {if="isset($cpf.desdocumentoformatado) &&strlen($cpf.desdocumentoformatado) > 0"}
                     <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
                       <span class="text-break">{$cpf.desdocumentoformatado}</span>
                     </p>
                     {/if}
-                    {if="strlen($pessoa.descnpj) > 0"}
+                    {if="isset($cnpj.desdocumentoformatado) && strlen($cnpj.desdocumentoformatado) > 0"}
                     <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
-                      <span class="text-break">{$pessoa.descnpj}</span>
+                      <span class="text-break">{$cnpj.desdocumentoformatado}</span>
                     </p>
                     {/if}
                   </div>
@@ -123,7 +123,9 @@ var PessoaPanel = (function(data, selectorContainer, opts){
       url:PATH+"/pessoas/"+data.idpessoa+"/photo",
       success:function(r){
 
-        console.log(r);
+        if (r.data.desphotourl) {
+          t.$el.find('#pessoa-photo').find('img').attr('src', PATH+r.data.desphotourl);
+        }
 
       },
       failure:function(e){

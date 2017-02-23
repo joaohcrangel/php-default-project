@@ -19,7 +19,10 @@
 }
 
 
-
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);
+}
 
 </style>
 <div class="page bg-white">
@@ -82,7 +85,7 @@
         </div>
         <!-- Media -->
 
-          <div id="tab-arquivo-fotos" data-auto-height="-335">
+          <div id="tab-arquivo-fotos" data-auto-height="-360">
             <div  class="media-list is-grid" data-plugin="animateList" data-animate="fade"
             data-child="li">
               <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5"
@@ -284,7 +287,7 @@ init.push(function(){
             ids.push(arquivo.idarquivo);
 
           });
-          
+
           rest({
             url:PATH+"/arquivos",
             method:"DELETE",
@@ -292,7 +295,7 @@ init.push(function(){
               ids:ids.toString()
             },
             success:function(){
-              
+
               $("#tab-arquivo-fotos ul li input:checked").each(function(){
                 $(this).closest("li").remove();
               });

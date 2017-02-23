@@ -18,9 +18,14 @@ $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
     Permissao::checkSession(Permissao::ADMIN, true);
 
     $pessoa = new Pessoa((int)$idpessoa);
-    $configs = Session::getConfiguracoes();
 
     $pessoa->getPhotoURL();
+
+    $endereco = $pessoa->getEndereco();
+    $endereco->setdesenderecoresumido($endereco->getToString(Endereco::SUMMARY));
+
+    $cpf = $pessoa->getDocumento(DocumentoTipo::CPF);
+    $cpf->getFormatted();
 
     $page = new AdminPage(array(
         'header'=>false,
@@ -29,7 +34,8 @@ $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
 
     $page->setTpl('/admin/pessoas-panel-new',  array(
         'pessoa'=>$pessoa->getFields(),
-        'config'=>$configs->getFields()
+        'endereco'=>$endereco->getFields(),
+        'cpf'=>$cpf->getFields()
     ));
 
 });

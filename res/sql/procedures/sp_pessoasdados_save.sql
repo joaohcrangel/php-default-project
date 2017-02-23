@@ -19,7 +19,10 @@ BEGIN
         dessexo,
         dtnascimento,
         desfoto,
-        incliente, infornecedor, incolaborador
+        incliente, infornecedor, incolaborador,
+        idendereco, idenderecotipo, desendereco, desnumero, 
+        desbairro, descidade, desestado, despais, descep, descomplemento,
+        desenderecotipo
     )
     SELECT 
     a.idpessoa, a.despessoa,
@@ -39,7 +42,9 @@ BEGIN
     o.desvalor AS desfoto,
     CASE WHEN l.idpessoa IS NULL THEN 0 ELSE 1 END AS incliente,
     CASE WHEN m.idpessoa IS NULL THEN 0 ELSE 1 END AS infornecedor,
-    CASE WHEN n.idpessoa IS NULL THEN 0 ELSE 1 END AS incolaborador
+    CASE WHEN n.idpessoa IS NULL THEN 0 ELSE 1 END AS incolaborador,
+    p.idendereco, p.idenderecotipo, p.desendereco, p.desnumero, p.desbairro, 
+    p.descidade, p.desestado, p.despais, p.descep, p.descomplemento, q.desenderecotipo
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
     LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
@@ -54,6 +59,8 @@ BEGIN
     LEFT JOIN tb_pessoascategorias l ON a.idpessoa = l.idpessoa AND l.idcategoria = 1 -- CLIENTE
     LEFT JOIN tb_pessoascategorias m ON a.idpessoa = m.idpessoa AND m.idcategoria = 1 -- FORNECEDOR
     LEFT JOIN tb_pessoascategorias n ON a.idpessoa = n.idpessoa AND n.idcategoria = 1 -- COLABORADOR
+    LEFT JOIN tb_enderecos p ON p.idendereco = (SELECT p1.idendereco FROM tb_enderecos p1 INNER JOIN tb_pessoasenderecos p2 WHERE p2.idpessoa = a.idpessoa ORDER by p1.inprincipal DESC LIMIT 1)
+    LEFT JOIN tb_enderecostipos q ON q.idenderecotipo = p.idenderecotipo
     WHERE 
             a.idpessoa = pidpessoa 
             AND 

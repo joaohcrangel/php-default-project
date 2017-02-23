@@ -2,7 +2,10 @@
 
 class Endereco extends Model {
 
-    public $required = array('idenderecotipo', 'desendereco', 'desnumero', 'desbairro', 'descidade', 'desestado', 'despais', 'descep');
+    const COMPLETE = 1;
+    const SUMMARY = 2;
+
+    public $required = array('idenderecotipo', 'desendereco', 'desnumero', 'desbairro', 'descidade', 'desestado', 'despais', 'descep', 'inprincipal');
     protected $pk = "idendereco";
 
     public function get(){
@@ -18,7 +21,7 @@ class Endereco extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_enderecos_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_enderecos_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidendereco(),
                 $this->getidenderecotipo(),
                 $this->getdesendereco(),
@@ -28,7 +31,8 @@ class Endereco extends Model {
                 $this->getdesestado(),
                 $this->getdespais(),
                 $this->getdescep(),
-                $this->getdescomplemento()
+                $this->getdescomplemento(),
+                $this->getinprincipal()
             ));
 
             return $this->getidendereco();
@@ -90,6 +94,7 @@ class Endereco extends Model {
             'desbairro'=>$data['bairro'],
             'descidade'=>$data['localidade'],
             'desestado'=>$estado->getdesestado(),
+            'desuf'=>$estado->getdesuf(),
             'despais'=>$estado->getdespais(),
             'descep'=>$data['cep']
         ));
@@ -97,6 +102,39 @@ class Endereco extends Model {
         $endereco->loadByNames();
 
         return $endereco;
+
+    }
+
+    public function getToString($options = Endereco::COMPLETE):string
+    {
+
+        $virgulas = array();
+
+        switch ($options) {
+            case Endereco::COMPLETE:
+            foreach (array(
+                'desendereco', 'desnumero', 'desbairro', 'descidade', 'desestado', 'despais'
+            ) as $field) {
+                if ($this->{'get'.$field}()) array_push($virgulas, $this->{'get'.$field}());
+            }
+            break;
+            case Endereco::SUMMARY:
+            foreach (array(
+                'descidade', 'desestado', 'despais'
+            ) as $field) {
+                if ($this->{'get'.$field}()) array_push($virgulas, $this->{'get'.$field}());
+            }
+            break;
+            break;
+        }
+
+        return implode(', ', $virgulas);
+
+    }
+
+    public function __toString(){
+
+        return $this->getToString(Endereco::COMPLETE);
 
     }
 

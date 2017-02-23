@@ -3,7 +3,8 @@ pidpessoa INT,
 pdespessoa VARCHAR(64),
 pidpessoatipo INT,
 pdtnascimento DATE,
-pdessexo CHAR(1)
+pdessexo CHAR(1),
+pdesfoto VARCHAR(128)
 )
 BEGIN
 
@@ -37,6 +38,14 @@ BEGIN
         
         INSERT INTO tb_pessoasvalores (idpessoa, idcampo, desvalor)
         VALUES(pidpessoa, 2, cast_to_bit(pdessexo));
+    
+    END IF;
+
+    DELETE FROM tb_pessoasvalores WHERE idpessoa = pidpessoa AND idcampo = 3;
+    IF NOT pdessexo IS NULL THEN
+        
+        INSERT INTO tb_pessoasvalores (idpessoa, idcampo, desvalor)
+        VALUES(pidpessoa, 3, pdesfoto);
     
     END IF;
 

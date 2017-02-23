@@ -1166,6 +1166,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  despais varchar(32) NOT NULL,
 		  descep char(8) NOT NULL,
 		  descomplemento varchar(32) DEFAULT NULL,
+		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idendereco),
 		  CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo)
@@ -1472,6 +1473,17 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  incliente BIT NOT NULL DEFAULT b'0',
 		  infornecedor BIT NOT NULL DEFAULT b'0',
 		  incolaborador BIT NOT NULL DEFAULT b'0',
+		  idendereco int(11) DEFAULT NULL,
+		  idenderecotipo int(11) DEFAULT NULL,
+		  desenderecotipo varchar(64) DEFAULT NULL,
+		  desendereco varchar(64) DEFAULT NULL, 
+		  desnumero varchar(16) DEFAULT NULL, 
+		  desbairro varchar(64) DEFAULT NULL, 
+		  descidade varchar(64) DEFAULT NULL, 
+		  desestado varchar(32) DEFAULT NULL, 
+		  despais varchar(32) DEFAULT NULL, 
+		  descep char(8) DEFAULT NULL, 
+		  descomplemento varchar(32),
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpessoa),
 		  KEY FK_pessoasdados_pessoastipos_idx (idpessoatipo),
@@ -2269,7 +2281,8 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 		'descidade'=>$lang->getString('lugartipo_hcode_cidade'),
 		'desestado'=>$lang->getString('lugartipo_hcode_estado'),
 		'despais'=>$lang->getString('lugartipo_hcode_pais'),
-		'descep'=>$lang->getString('lugartipo_hcode_cep')
+		'descep'=>$lang->getString('lugartipo_hcode_cep'),
+		'inprincipal'=>true
 	));
 	$endereco->save();
 
@@ -2717,6 +2730,37 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 		  CONSTRAINT FK_produtosarquivos_produtos FOREIGN KEY (idproduto) REFERENCES tb_produtos (idproduto) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
 	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/pessoasarquivos/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_pessoasarquivos (
+		  idpessoa int(11) NOT NULL,
+		  idarquivo int(11) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpessoa,idarquivo),
+		  KEY FK_pessoasarquivos_arquivos_idx (idarquivo),
+		  CONSTRAINT FK_pessoasarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_pessoasarquivos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/pessoasarquivos/procs", function(){
+
+	$procs = array(
+		'sp_pessoasarquivos_save'
+	);
+	saveProcedures($procs);
 
 	echo success();
 

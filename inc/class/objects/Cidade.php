@@ -15,20 +15,26 @@ class Cidade extends Model {
                 
     }
 
-    public function loadFromName($name){
+    public function loadFromName($name, $uf = ''){
 
         $cidade = new Cidade();
+
+        $params = array($name);
+        $where = array('a.descidade = ?');
+
+        if ($uf) {
+            array_push($where, 'b.desuf = ?');
+            array_push($params, $uf);
+        }
 
         $cidade->queryToAttr("
             SELECT * 
             FROM tb_cidades a
             INNER JOIN tb_estados b USING(idestado)
             INNER JOIN tb_paises c USING(idpais)
-            WHERE a.descidade = ?
+            WHERE ".implode(' AND ', $where)."
             LIMIT 1
-        ", array(
-            $name
-        ));
+        ", $params);
 
         return $cidade;
 

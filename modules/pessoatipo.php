@@ -29,14 +29,13 @@ $app->get('/pessoas-tipos',function(){
         $itemsPerPage
     );
 
-      $pessoastipos = $paginacao->getPage($currentPage);
+    $pessoastipos = $paginacao->getPage($currentPage);
 
     echo success(array(
     	"data"=>$pessoastipos->getFields(),
         "currentPage"=>$currentPage,
         "itemsPerPage"=>$itemsPerPage,
-        "total"=>$paginacao->getTotal(),
-
+        "total"=>$paginacao->getTotal()
     ));
 });
 

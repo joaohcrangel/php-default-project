@@ -68,7 +68,8 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/jstree/jstree.min.css',
         './theme/material/global/vendor/chartist/chartist.css',
         './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload.css',
-        './theme/material/global/vendor/dropify/dropify.css'
+        './theme/material/global/vendor/dropify/dropify.css',
+        './css/slide-panel.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({

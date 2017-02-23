@@ -119,6 +119,7 @@ class Usuario extends Model {
     {
 
         return $this->getObjectOrCreate('Pessoa', $this->getidpessoa());
+        
     }
 
     public static function isLogged():bool

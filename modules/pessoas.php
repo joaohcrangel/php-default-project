@@ -95,6 +95,26 @@ $app->get("/pessoas-post", function(){
 		"data"=>$pessoa->getFields()
 	));
 });
+$app->post("/pessoas/:idpessoa/photo", function($idpessoa){
+
+	$file = $_FILES['arquivo'];
+
+	$arquivo = Arquivo::upload(
+		$file['name'],
+		$file['type'],
+		$file['tmp_name'],
+		$file['error'],
+		$file['size']
+	);
+
+	$pessoa = new Pessoa((int)$idpessoa);
+	$pessoa->setPhoto($arquivo);
+
+	echo success(array(
+		'data'=>$pessoa->getFields()
+	));
+
+});
 $app->post("/pessoas", function(){
 	if(post('idpessoa') > 0){
 		$pessoa = new Pessoa((int)post('idpessoa'));
@@ -149,7 +169,11 @@ $app->post("/pessoas", function(){
 	if (isset($_POST['idcidade']) && (int)post('idcidade') > 0) {
 		$cidade = new Cidade((int)post('idcidade'));
 	} else {
-		$cidade = Cidade::loadFromName(post('descidade'));
+		if (post('desuf')) {
+			$cidade = Cidade::loadFromName(post('descidade'), post('desuf'));
+		} else {
+			$cidade = Cidade::loadFromName(post('descidade'));
+		}
 	}
 
 	if (!$endereco->getidenderecotipo() > 0 && count($endereco->getFields()) > 0) {
@@ -161,6 +185,7 @@ $app->post("/pessoas", function(){
 	if (count($cidade->getFields())) $endereco->set($cidade->getFields());
 	if (count($endereco->getFields())) {
 
+		$endereco->setinprincipal(true);
 		$endereco->save();
 		$pessoa->addEndereco($endereco);
 		

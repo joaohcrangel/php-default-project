@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	
-	<string name="login_footer">Default Admin developer by Hcode Team</string>
+	<string name="login_footer">developer by Hcode Team</string>
 
 	<string name="weekdayname_0">Domingo</string>
 	<string name="weekdayname_1">Segunda-feira</string>

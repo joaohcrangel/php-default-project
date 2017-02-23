@@ -271,33 +271,6 @@ $app->post("/usuarios/:idusuario/senha", function($idusuario){
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-$app->post("/usuarios/:idusuario", function($idusuario){
-
-	Permissao::checkSession(Permissao::ADMIN);
-
-	$usuario = new Usuario((int)$idusuario);
-
-	$pessoa = $usuario->getPessoa();
-
-	$pessoa->set($_POST);
-
-	$pessoa->save();
-
-	$usuario->set($_POST);
-
-	$usuario->save();
-
-	if ($usuario->getidusuario() === Session::getUsuario()->getidusuario()) {
-
-		$usuario->getPessoa();
-		Session::setUsuario($usuario);
-
-	}
-
-	echo success(array('data'=>$usuario->getFields()));
-
-});
-////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/usuarios", function(){
 
 	Permissao::checkSession(Permissao::ADMIN);
@@ -443,6 +416,33 @@ $app->get("/usuarios/:idusuario", function($idusuario){
 
 	if (!(int)$usuario->getidusuario() > 0) {
 		throw new Exception("Usuário não encontrado.", 404);
+	}
+
+	echo success(array('data'=>$usuario->getFields()));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/:idusuario", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario((int)$idusuario);
+
+	$pessoa = $usuario->getPessoa();
+
+	$pessoa->set($_POST);
+
+	$pessoa->save();
+
+	$usuario->set($_POST);
+
+	$usuario->save();
+
+	if ($usuario->getidusuario() === Session::getUsuario()->getidusuario()) {
+
+		$usuario->getPessoa();
+		Session::setUsuario($usuario);
+
 	}
 
 	echo success(array('data'=>$usuario->getFields()));

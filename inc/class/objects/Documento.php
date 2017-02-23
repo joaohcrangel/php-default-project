@@ -107,6 +107,30 @@ class Documento extends Model {
         return (($cnpj[12] == $digito1) && ($cnpj[13] == $digito2));
     }
 
+    public function getFormatted(){
+
+        switch ($this->getiddocumentotipo()) {
+            case DocumentoTipo::CPF:
+            $formatted = parent::toMask("###.###.###-##", $this->getdesdocumento());
+            break;
+            case DocumentoTipo::CNPJ:
+            $formatted = parent::toMask("##.###.###/####-##", $this->getdesdocumento());
+            break;
+            case DocumentoTipo::RG:
+            $formatted = parent::toMask("##.###.###/##", $this->getdesdocumento());
+            break;
+        }
+
+        return $this->setdesdocumentoformatado($formatted);
+
+    }
+
+    public function __toString(){
+
+        return $this->getFormatted();
+
+    }
+
 }
 
 ?>

@@ -62,10 +62,16 @@ class Session extends DefaultObject {
 	}
 
 	public static function getUsuario($lockRedirect = true):Usuario
-	{
+	{	
 
 		if(isset($_SESSION[Usuario::SESSION_NAME_LOCK])){
-			if ($lockRedirect === true) {
+			if (
+				$lockRedirect === true 
+				&& 
+				$_SERVER['REQUEST_URI'] !== SITE_PATH.'/'.DIR_ADMIN.'/lock'
+				&& 
+				$_SERVER['REQUEST_URI'] !== SITE_PATH.'/usuarios/unlock'
+			) {
 				header('Location: '.SITE_PATH.'/'.DIR_ADMIN.'/lock');
 				exit;
 			}

@@ -135,7 +135,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		CREATE TABLE tb_pessoascategorias (
 		  idpessoa int(11) NOT NULL,
 		  idcategoria int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 		  PRIMARY KEY (idpessoa,idcategoria),
 		  KEY FK_pessoascategorias_pessoascategoriastipos_idx (idcategoria),
 		  CONSTRAINT FK_pessoascategorias_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -165,6 +165,7 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'despessoatipo'=>$lang->getString("pessoas_juridica")
 	));
 	$pessoaTipoJ->save();
+	
 	$pessoa = new Pessoa(array(
 		'despessoa'=>$lang->getString("pessoas_nome"),
 		'idpessoatipo'=>PessoaTipo::FISICA

@@ -59,7 +59,7 @@ BEGIN
     LEFT JOIN tb_pessoascategorias l ON a.idpessoa = l.idpessoa AND l.idcategoria = 1 -- CLIENTE
     LEFT JOIN tb_pessoascategorias m ON a.idpessoa = m.idpessoa AND m.idcategoria = 1 -- FORNECEDOR
     LEFT JOIN tb_pessoascategorias n ON a.idpessoa = n.idpessoa AND n.idcategoria = 1 -- COLABORADOR
-    LEFT JOIN tb_enderecos p ON p.idendereco = (SELECT p1.idendereco FROM tb_enderecos p1 INNER JOIN tb_pessoasenderecos p2 WHERE p2.idpessoa = a.idpessoa ORDER by p1.inprincipal DESC LIMIT 1)
+    LEFT JOIN tb_enderecos p ON p.idendereco = (SELECT p1.idendereco FROM tb_enderecos p1 INNER JOIN tb_pessoasenderecos p2 ON p1.idendereco = p2.idendereco WHERE p2.idpessoa = a.idpessoa ORDER by p1.inprincipal DESC, p2.dtcadastro DESC LIMIT 1)
     LEFT JOIN tb_enderecostipos q ON q.idenderecotipo = p.idenderecotipo
     WHERE 
             a.idpessoa = pidpessoa 

@@ -80,6 +80,10 @@ $app->get("/install-admin/sql/clear", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/tables", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_pessoastipos (
@@ -164,10 +168,13 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_pessoas_AFTER_INSERT",
 		"tg_pessoas_AFTER_UPDATE",
 		"tg_pessoas_BEFORE_DELETE",
+
 		"tg_pessoasvalores_AFTER_INSERT",
 		"tg_pessoasvalores_AFTER_UPDATE",
 		"tg_pessoasvalores_BEFORE_DELETE"
@@ -176,6 +183,9 @@ $app->get("/install-admin/sql/pessoas/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
@@ -211,6 +221,8 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 	
 });
 $app->get("/install-admin/sql/pessoas/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_pessoas_get",
 		"sp_historicostipos_get",
@@ -224,6 +236,8 @@ $app->get("/install-admin/sql/pessoas/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_pessoas_list",
 		"sp_pessoastipos_list",
@@ -236,6 +250,8 @@ $app->get("/install-admin/sql/pessoas/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
 		"sp_pessoasdados_save",
 		"sp_pessoas_save",
@@ -249,6 +265,8 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
 		"sp_pessoasdados_remove",
 		"sp_pessoas_remove",
@@ -262,6 +280,8 @@ $app->get("/install-admin/sql/pessoas/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_produtostipos(
@@ -297,6 +317,8 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_produtos_AFTER_INSERT",
 		"tg_produtos_AFTER_UPDATE",
@@ -310,6 +332,9 @@ $app->get("/install-admin/sql/produtos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$lang = new Language();
 
@@ -327,6 +352,8 @@ $app->get("/install-admin/sql/produtos/inserts", function(){
 
 });
 $app->get("/install-admin/sql/produtos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_produto_get",
 		"sp_produtotipo_get",
@@ -337,6 +364,8 @@ $app->get("/install-admin/sql/produtos/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_produtos_list",
 		"sp_produtostipos_list",
@@ -350,6 +379,8 @@ $app->get("/install-admin/sql/produtos/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_produto_save",
 		"sp_produtotipo_save",
@@ -361,6 +392,8 @@ $app->get("/install-admin/sql/produtos/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_produto_remove",
 		"sp_produtotipo_remove",
@@ -371,6 +404,8 @@ $app->get("/install-admin/sql/produtos/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_usuariostipos (
@@ -397,6 +432,8 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_usuarios_AFTER_INSERT",
 		"tg_usuarios_AFTER_UPDATE",
@@ -406,6 +443,8 @@ $app->get("/install-admin/sql/usuarios/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/inserts", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
     $lang = new Language();
 
@@ -430,6 +469,8 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_usuarios_get",
 		"sp_usuarioslogin_get",
@@ -441,6 +482,8 @@ $app->get("/install-admin/sql/usuarios/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_usuarios_remove",
 		"sp_usuariostipos_remove"
@@ -450,6 +493,8 @@ $app->get("/install-admin/sql/usuarios/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_usuarios_save",
 		"sp_usuariostipos_save"
@@ -458,6 +503,8 @@ $app->get("/install-admin/sql/usuarios/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_usuariostipos_list",
         "sp_usuariosfrompessoa_list",
@@ -467,6 +514,8 @@ $app->get("/install-admin/sql/usuarios/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_menus (
@@ -508,6 +557,9 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
@@ -876,6 +928,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
        "sp_menus_get",
        "sp_sitesmenus_get"
@@ -884,6 +938,8 @@ $app->get("/install-admin/sql/menus/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_menus_list",
         "sp_sitesmenus_list"
@@ -892,6 +948,8 @@ $app->get("/install-admin/sql/menus/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
        "sp_menus_remove",
        "sp_sitesmenus_remove"
@@ -900,6 +958,8 @@ $app->get("/install-admin/sql/menus/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/menus/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_menusfromusuario_list",
 		"sp_menustrigger_save",
@@ -911,6 +971,8 @@ $app->get("/install-admin/sql/menus/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_contatostipos (
@@ -947,6 +1009,8 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_contatos_AFTER_INSERT",
 		"tg_contatos_AFTER_UPDATE",
@@ -957,6 +1021,9 @@ $app->get("/install-admin/sql/contatos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 	
@@ -1022,6 +1089,8 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 	
 });
 $app->get("/install-admin/sql/contatos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_contatos_get",
 		"sp_contatossubtipos_get",
@@ -1031,6 +1100,8 @@ $app->get("/install-admin/sql/contatos/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_contatosfrompessoa_list",
 		"sp_contatostipos_list",
@@ -1040,6 +1111,8 @@ $app->get("/install-admin/sql/contatos/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_contatos_save",
 		"sp_contatossubtipos_save",
@@ -1049,6 +1122,8 @@ $app->get("/install-admin/sql/contatos/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/contatos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_contatos_remove",
 		"sp_contatossubtipos_remove",
@@ -1058,6 +1133,8 @@ $app->get("/install-admin/sql/contatos/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_documentostipos (
@@ -1082,6 +1159,8 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_documentos_AFTER_INSERT",
 		"tg_documentos_AFTER_UPDATE",
@@ -1091,6 +1170,8 @@ $app->get("/install-admin/sql/documentos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/inserts", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		INSERT INTO tb_documentostipos (desdocumentotipo) VALUES
@@ -1105,6 +1186,8 @@ $app->get("/install-admin/sql/documentos/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_documentos_get",
         "sp_documentostipos_get"
@@ -1113,6 +1196,8 @@ $app->get("/install-admin/sql/documentos/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_documentosfrompessoa_list",
 		"sp_documentostipos_list"
@@ -1121,6 +1206,8 @@ $app->get("/install-admin/sql/documentos/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
        "sp_documentos_save",
        "sp_documentostipos_save"
@@ -1129,6 +1216,8 @@ $app->get("/install-admin/sql/documentos/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/documentos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_documentos_remove",
         "sp_documentostipos_remove"
@@ -1137,6 +1226,8 @@ $app->get("/install-admin/sql/documentos/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_paises (
@@ -1195,18 +1286,11 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
-		CREATE TABLE tb_pessoasenderecos(
-			idpessoa INT NOT NULL,
-			idendereco INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
-			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_enderecos_AFTER_INSERT",
 		"tg_enderecos_AFTER_UPDATE",
@@ -1216,6 +1300,9 @@ $app->get("/install-admin/sql/enderecos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
@@ -1244,6 +1331,9 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 });
 $app->get("/install-admin/sql/enderecos/paises/inserts", function(){
 
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	$sql = new Sql();
 	$sql->query("
 		INSERT INTO tb_paises (idpais, despais) VALUES (1, 'Brasil');
@@ -1253,6 +1343,9 @@ $app->get("/install-admin/sql/enderecos/paises/inserts", function(){
 
 });
 $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
@@ -1296,7 +1389,7 @@ $app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	
+
 	$data = json_decode(post('json'), true);
 
 	$sql = new Sql();
@@ -1317,6 +1410,9 @@ $app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
 });
 $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	$sql = new Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_cidades");
@@ -1325,6 +1421,8 @@ $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 
 });
 $app->get("/install-admin/sql/enderecos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_enderecos_get",
         "sp_enderecostipos_get",
@@ -1336,6 +1434,8 @@ $app->get("/install-admin/sql/enderecos/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_enderecosfrompessoa_list",
         "sp_enderecostipos_list",
@@ -1347,6 +1447,8 @@ $app->get("/install-admin/sql/enderecos/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
        "sp_enderecos_save",
        "sp_enderecostipos_save",
@@ -1359,6 +1461,8 @@ $app->get("/install-admin/sql/enderecos/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/enderecos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$names = array(
        "sp_enderecos_remove",
        "sp_enderecostipos_remove",
@@ -1370,6 +1474,8 @@ $app->get("/install-admin/sql/enderecos/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_permissoes (
@@ -1402,6 +1508,9 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 	
@@ -1438,6 +1547,8 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_permissoes_get',
 		'sp_permissoesfrommenus_list',
@@ -1448,9 +1559,13 @@ $app->get("/install-admin/sql/permissoes/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_permissoes_save",
 		"sp_permissoesmenus_save"
@@ -1459,6 +1574,8 @@ $app->get("/install-admin/sql/permissoes/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/permissoes/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_permissoes_remove",
 		"sp_permissoesmenus_remove"
@@ -1468,6 +1585,8 @@ $app->get("/install-admin/sql/permissoes/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/pessoasdados/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_pessoasdados (
@@ -1522,6 +1641,8 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/produtosdados/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_produtosdados(
@@ -1542,6 +1663,8 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_cuponstipos(
@@ -1571,6 +1694,9 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/list", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$procs = array(
 		'sp_cupons_list',
@@ -1580,6 +1706,8 @@ $app->get("/install-admin/sql/cupons/list", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cupons_save',
 		'sp_cuponstipos_save'
@@ -1588,6 +1716,8 @@ $app->get("/install-admin/sql/cupons/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cupons_get',
 		'sp_cuponstipos_get'
@@ -1596,6 +1726,8 @@ $app->get("/install-admin/sql/cupons/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cupons_remove',
 		'sp_cuponstipos_remove'
@@ -1604,6 +1736,9 @@ $app->get("/install-admin/sql/cupons/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/cupons/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 	
@@ -1619,6 +1754,8 @@ $app->get("/install-admin/sql/cupons/inserts", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/carrinhos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_carrinhos(
@@ -1667,6 +1804,8 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/carrinhos/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		"tg_carrinhoscupons_AFTER_INSERT",
 		"tg_carrinhoscupons_AFTER_UPDATE",		
@@ -1679,6 +1818,8 @@ $app->get("/install-admin/sql/carrinhos/triggers", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/carrinhos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_list",
 		"sp_carrinhosprodutos_list",
@@ -1693,6 +1834,8 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 	
 });
 $app->get("/install-admin/sql/carrinhos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_get",
 		"sp_carrinhosprodutos_get",
@@ -1704,6 +1847,8 @@ $app->get("/install-admin/sql/carrinhos/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/carrinhos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_save",
 		"sp_carrinhosprodutos_save",
@@ -1717,6 +1862,8 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 	
 });
 $app->get("/install-admin/sql/carrinhos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_remove",
 		"sp_carrinhosprodutos_remove",
@@ -1729,6 +1876,9 @@ $app->get("/install-admin/sql/carrinhos/remove", function(){
 	
 });
 $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -1749,6 +1899,8 @@ $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	
 });
 $app->get("/install-admin/sql/cartoesdecreditos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_cartoesdecreditos_list",
 		"sp_cartoesfrompessoa_list"
@@ -1759,6 +1911,8 @@ $app->get("/install-admin/sql/cartoesdecreditos/list", function(){
 	
 });
 $app->get("/install-admin/sql/cartoesdecreditos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_cartoesdecreditos_get"
 	);
@@ -1769,6 +1923,8 @@ $app->get("/install-admin/sql/cartoesdecreditos/get", function(){
 	
 });
 $app->get("/install-admin/sql/cartoesdecreditos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_cartoesdecreditos_save"
 	);
@@ -1778,6 +1934,8 @@ $app->get("/install-admin/sql/cartoesdecreditos/save", function(){
 	
 });
 $app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_cartoesdecreditos_remove"
 	);
@@ -1787,6 +1945,9 @@ $app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
 	
 });
 $app->get("/install-admin/sql/gateways/tables", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -1803,6 +1964,9 @@ $app->get("/install-admin/sql/gateways/tables", function(){
 });
 $app->get("/install-admin/sql/gateways/inserts", function(){
 
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	$lang = new Language();
 
 	$sql = new Sql();
@@ -1816,6 +1980,10 @@ $app->get("/install-admin/sql/gateways/inserts", function(){
 	
 });
 $app->get("/install-admin/sql/gateways/list", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
 	$name = array(
 		"sp_gateways_list"
 	);
@@ -1826,6 +1994,8 @@ $app->get("/install-admin/sql/gateways/list", function(){
 	
 });
 $app->get("/install-admin/sql/gateways/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_gateways_get"
 	);
@@ -1835,6 +2005,8 @@ $app->get("/install-admin/sql/gateways/get", function(){
 	
 });
 $app->get("/install-admin/sql/gateways/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_gateways_save"
 	);
@@ -1844,6 +2016,8 @@ $app->get("/install-admin/sql/gateways/save", function(){
 	
 });
 $app->get("/install-admin/sql/gateways/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_gateways_remove"
 	);
@@ -1853,7 +2027,8 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 	
 });
 $app->get("/install-admin/sql/pedidos/tables", function(){
-	
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->query("
 		CREATE TABLE tb_formaspagamentos(
@@ -1950,6 +2125,8 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 	
 });
 $app->get("/install-admin/sql/pedidos/inserts", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 	
@@ -2036,6 +2213,8 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 	
 });
 $app->get("/install-admin/sql/pedidos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_formaspagamentos_list',
 		'sp_pedidos_list',
@@ -2052,6 +2231,8 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	
 });
 $app->get("/install-admin/sql/pedidos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_formaspagamentos_get',
 		'sp_pedidos_get',
@@ -2066,6 +2247,8 @@ $app->get("/install-admin/sql/pedidos/get", function(){
 	
 });
 $app->get("/install-admin/sql/pedidos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_formaspagamentos_save',
 		'sp_pedidos_save',
@@ -2080,6 +2263,8 @@ $app->get("/install-admin/sql/pedidos/save", function(){
 	
 });
 $app->get("/install-admin/sql/pedidos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_formaspagamentos_remove',
 		'sp_pedidos_remove',
@@ -2094,6 +2279,8 @@ $app->get("/install-admin/sql/pedidos/remove", function(){
 	
 });
 $app->get("/install-admin/sql/sitescontatos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -2112,6 +2299,8 @@ $app->get("/install-admin/sql/sitescontatos/tables", function(){
 	
 });
 $app->get("/install-admin/sql/sitescontatos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_sitescontatos_list",
 		"sp_sitescontatosfrompessoa_list"
@@ -2122,6 +2311,8 @@ $app->get("/install-admin/sql/sitescontatos/list", function(){
 	
 });
 $app->get("/install-admin/sql/sitescontatos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_sitescontatosbypessoa_get',
 		'sp_sitescontatos_get'
@@ -2132,6 +2323,8 @@ $app->get("/install-admin/sql/sitescontatos/get", function(){
 	
 });
 $app->get("/install-admin/sql/sitescontatos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_sitescontatos_save"
 	);
@@ -2141,6 +2334,8 @@ $app->get("/install-admin/sql/sitescontatos/save", function(){
 	
 });
 $app->get("/install-admin/sql/sitescontatos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$name = array(
 		"sp_sitescontatos_remove"
 	);
@@ -2151,6 +2346,8 @@ $app->get("/install-admin/sql/sitescontatos/remove", function(){
 });
 // lugares
 $app->get("/install-admin/sql/lugares/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -2237,6 +2434,8 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 	
 });
 $app->get("/install-admin/sql/lugares/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$triggers = array(
 		'tg_lugares_AFTER_INSERT',
 		'tg_lugares_AFTER_UPDATE',
@@ -2252,6 +2451,8 @@ $app->get("/install-admin/sql/lugares/triggers", function(){
 
 });
 $app->get("/install-admin/sql/lugares/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_lugares_list",
 		"sp_lugarestipos_list",
@@ -2263,6 +2464,8 @@ $app->get("/install-admin/sql/lugares/list", function(){
 	
 });
 $app->get("/install-admin/sql/lugares/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_lugarestipos_get',
 		'sp_lugares_get',
@@ -2274,6 +2477,8 @@ $app->get("/install-admin/sql/lugares/get", function(){
 	
 });
 $app->get("/install-admin/sql/lugares/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_lugarestipos_save',
 		'sp_lugares_save',
@@ -2287,6 +2492,8 @@ $app->get("/install-admin/sql/lugares/save", function(){
 	
 });
 $app->get("/install-admin/sql/lugares/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_lugarestipos_remove',
 		'sp_lugares_remove',
@@ -2300,6 +2507,8 @@ $app->get("/install-admin/sql/lugares/remove", function(){
 	
 });
 $app->get("/install-admin/sql/lugares/inserts", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$lang = new Language();
 	
@@ -2353,6 +2562,8 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 });
 // coordenadas
 $app->get("/install-admin/sql/coordenadas/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	$sql->query("
@@ -2379,6 +2590,8 @@ $app->get("/install-admin/sql/coordenadas/tables", function(){
 
 });
 $app->get("/install-admin/sql/coordenadas/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_coordenadas_get'
 	);
@@ -2387,6 +2600,8 @@ $app->get("/install-admin/sql/coordenadas/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/coordenadas/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_coordenadas_save'
 	);
@@ -2395,6 +2610,8 @@ $app->get("/install-admin/sql/coordenadas/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/coordenadas/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_coordenadas_remove'
 	);
@@ -2404,6 +2621,8 @@ $app->get("/install-admin/sql/coordenadas/remove", function(){
 });
 
 $app->get("/install-admin/sql/cursos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
@@ -2453,6 +2672,8 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 });
 
 $app->get("/install-admin/sql/cursos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cursos_list',
 		'sp_cursoscurriculos_list',
@@ -2466,6 +2687,8 @@ $app->get("/install-admin/sql/cursos/list", function(){
 });
 
 $app->get("/install-admin/sql/cursos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cursos_get',
 		'sp_cursoscurriculos_get',
@@ -2477,6 +2700,8 @@ $app->get("/install-admin/sql/cursos/get", function(){
 });
 
 $app->get("/install-admin/sql/cursos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cursos_save',
 		'sp_cursoscurriculos_save',
@@ -2488,6 +2713,8 @@ $app->get("/install-admin/sql/cursos/save", function(){
 });
 
 $app->get("/install-admin/sql/cursos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cursos_remove',
 		'sp_cursoscurriculos_remove',
@@ -2499,6 +2726,8 @@ $app->get("/install-admin/sql/cursos/remove", function(){
 });
 
 $app->get("/install-admin/sql/carousels/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -2547,6 +2776,8 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 });
 
 $app->get("/install-admin/sql/carousels/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_carousels_list',
 		'sp_carouselsitems_list',
@@ -2559,6 +2790,8 @@ $app->get("/install-admin/sql/carousels/list", function(){
 });
 
 $app->get("/install-admin/sql/carousels/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_carousels_get',
 		'sp_carouselsitems_get',
@@ -2570,6 +2803,8 @@ $app->get("/install-admin/sql/carousels/get", function(){
 });
 
 $app->get("/install-admin/sql/carousels/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_carousels_save',
 		'sp_carouselsitems_save',
@@ -2581,6 +2816,8 @@ $app->get("/install-admin/sql/carousels/save", function(){
 });
 
 $app->get("/install-admin/sql/carousels/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_carousels_remove',
 		'sp_carouselsitems_remove',
@@ -2592,6 +2829,8 @@ $app->get("/install-admin/sql/carousels/remove", function(){
 });
 
 $app->get("/install-admin/sql/configuracoes/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -2623,6 +2862,8 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 });
 
 $app->get("/install-admin/sql/configuracoes/inserts", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
@@ -2690,6 +2931,8 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 });
 
 $app->get("/install-admin/sql/configuracoes/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_configuracoestipos_get',
 		'sp_configuracoestipos_list',
@@ -2701,6 +2944,8 @@ $app->get("/install-admin/sql/configuracoes/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/configuracoes/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_configuracoestipos_save',
 		'sp_configuracoes_save'
@@ -2710,6 +2955,8 @@ $app->get("/install-admin/sql/configuracoes/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/configuracoes/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_configuracoestipos_remove',
 		'sp_configuracoes_remove'
@@ -2720,6 +2967,8 @@ $app->get("/install-admin/sql/configuracoes/remove", function(){
 });
 
 $app->get("/install-admin/sql/arquivos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->query("
@@ -2738,6 +2987,8 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 });
 
 $app->get("/install-admin/sql/arquivos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_arquivos_get'
 	);
@@ -2746,6 +2997,8 @@ $app->get("/install-admin/sql/arquivos/get", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/arquivos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_arquivos_save'
 	);
@@ -2754,6 +3007,8 @@ $app->get("/install-admin/sql/arquivos/save", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/arquivos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_arquivos_remove'
 	);
@@ -2762,6 +3017,8 @@ $app->get("/install-admin/sql/arquivos/remove", function(){
 	echo success();
 });
 $app->get("/install-admin/sql/arquivos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_arquivos_list'
 	);
@@ -2771,6 +3028,8 @@ $app->get("/install-admin/sql/arquivos/list", function(){
 });
 
 $app->get("/install-admin/sql/produtosarquivos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
@@ -2791,6 +3050,8 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 });
 
 $app->get("/install-admin/sql/pessoasarquivos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
@@ -2811,6 +3072,8 @@ $app->get("/install-admin/sql/pessoasarquivos/tables", function(){
 });
 
 $app->get("/install-admin/sql/pessoasarquivos/procs", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$procs = array(
 		'sp_pessoasarquivos_save'
@@ -2822,6 +3085,8 @@ $app->get("/install-admin/sql/pessoasarquivos/procs", function(){
 });
 
 $app->get("/install-admin/sql/functions", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
@@ -2836,6 +3101,8 @@ $app->get("/install-admin/sql/functions", function(){
 });
 
 $app->get("/install-admin/sql/urls/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
@@ -2853,5 +3120,38 @@ $app->get("/install-admin/sql/urls/tables", function(){
 	echo success();
 
 });
+
+$app->get("/install-admin/sql/pessoasenderecos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_pessoasenderecos(
+			idpessoa INT NOT NULL,
+			idendereco INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
+			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/pessoasenderecos/triggers", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$triggers = array(
+		"tg_pessoasenderecos_AFTER_INSERT",
+		"tg_pessoasenderecos_AFTER_UPDATE",
+		"tg_pessoasenderecos_BEFORE_DELETE"
+	);
+	saveTriggers($triggers);
+	echo success();
+});
+
 
 ?>

@@ -98,6 +98,8 @@
                           <h3 class="panel-title p-l-0">Endereço do Cliente</h3>
                         </div>
                         
+                        <input type="hidden" name="idendereco">
+
                         <div class="row">
                           <div class="form-group col-xs-12 col-md-3">
                             <label class="form-control-label" for="descep">CEP</label>
@@ -233,7 +235,11 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   t.$el.on('pessoa-change', function(){
 
-    t.$el.find('#form-pessoa-editar').formLoad(t.getData());
+    var pessoa = t.getData();
+
+    pessoa.descep = pessoa.descepformatado;
+
+    t.$el.find('#form-pessoa-editar').formLoad(pessoa);
     t.setCard(t.getData());
 
   });

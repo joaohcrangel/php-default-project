@@ -17,6 +17,13 @@ class Endereco extends Model {
                 
     }
 
+    public function getCepFormatted(){
+
+        $formatted = parent::toMask("#####-###", str_replace('-', '', $this->getdescep()));
+        return $this->setdescepformatado($formatted);
+
+    }
+
     public function save(){
 
         if($this->getChanged() && $this->isValid()){
@@ -30,7 +37,7 @@ class Endereco extends Model {
                 $this->getdescidade(),
                 $this->getdesestado(),
                 $this->getdespais(),
-                $this->getdescep(),
+                str_replace('-', '', $this->getdescep()),
                 $this->getdescomplemento(),
                 $this->getinprincipal()
             ));
@@ -129,6 +136,14 @@ class Endereco extends Model {
         }
 
         return implode(', ', $virgulas);
+
+    }
+
+    public function getFields(){
+
+        $this->getCepFormatted();
+
+        return parent::getFields(); 
 
     }
 

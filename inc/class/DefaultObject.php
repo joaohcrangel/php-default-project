@@ -199,10 +199,10 @@ class DefaultObject {
 	public static function toMask($mask, $str):string
 	{
 
-	    $str = str_replace(" ","",$str);
-
 	    for($i=0;$i<strlen($str);$i++){
-	        $mask[strpos($mask,"#")] = $str[$i];
+
+	    	$mask[strpos($mask,"#")] = $str[$i];	
+	    	
 	    }
 
 	    return $mask;

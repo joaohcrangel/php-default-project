@@ -15,7 +15,7 @@
     <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
       <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
         <button id="btn-delete-pessoa" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button>
-        <button id="btn-close-slidepanel" type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+        <button id="btn-close-slidepanel" type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="tr//reue"></button>
       </div>
       <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">{$pessoa.despessoa}</h5></h4>
     </div>  
@@ -24,11 +24,7 @@
     <section class="slidePanel-inner-section p-0 m-0">
       
       <div class="panel nav-tabs-horizontal nav-tabs-inverse" id="pessoa-tabs" data-plugin="tabs">
-        <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
-          <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-pessoa-home" aria-controls="tab-pessoa-home" role="tab" aria-expanded="true">Home</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-pessoa-faleconosco" aria-controls="tab-pessoa-faleconosco" role="tab">Fale Conosco</a></li>
-          </ul>
+        <div class="panel-heading panel-heading-tab" style="border-radius: 0;" id="tabs-pessoas">
         </div>
         <div class="panel-body p-0">
           <div class="tab-content">
@@ -141,16 +137,51 @@
                 </div>
               </form>
             </div>
-            <div class="tab-pane active" id="tab-pessoa-home" role="tabpanel">
+            <div class="tab-pane" id="tab-pessoa-home" role="tabpanel">
               
               <button id="btn-pessoa-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button>
 
               <div class="card"></div>
 
             </div>
-            <div class="tab-pane active" id="tab-pessoa-faleconosco" role="tabpanel">
+            <div class="tab-pane" id="tab-pessoa-faleconosco" role="tabpanel">
               
             </div>
+            <div class="tab-pane" id="tab-pessoa-pedidos" role="tabpanel">
+              
+              <div class="panel">
+                <div class="panel-heading">
+                  <h3 class="panel-title indigo-500">Últimas vendas</h3>
+                  <div class="panel-actions">
+                    <select class="form-control" name="idnegociacao"></select>
+                  </div>
+                </div>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Venda</th>
+                      <th>Total (R$)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
+            <div class="tab-pane" id="tab-pessoa-historico" role="tabpanel">
+              
+            </div>
+            <div class="tab-pane" id="tab-pessoa-arquivos" role="tabpanel">
+              
+            </div>
+
           </div>
         </div>
       </div>
@@ -433,6 +464,37 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.initTabs = function(){
+
+    var tabs = new Tab({
+      id:"tabs-pessoas",
+      items:[{
+        title:"Home",
+        id:"tab-pessoa-home"
+      },{
+        title:"Vendas",
+        id:"tab-pessoa-pedidos"
+      },{
+        title:"Histórico",
+        id:"tab-pessoa-historico"
+      },{
+        title:"Fale Conosco",
+        id:"tab-pessoa-faleconosco"
+      },{
+        title:"Arquivos",
+        id:"tab-pessoa-arquivos"
+      }],
+      listeners:{
+        tabchange:function(obejct, event){
+
+          console.log(event.tabContent.id);          
+
+        }
+      }
+    });
+
+  };
+
   t.init = function(){
 
     t.initFieldCidade();
@@ -441,6 +503,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
     t.initFieldCEP();
     t.initFieldPessoaTipo();
     t.initFormPessoaEditar();
+    t.initTabs();
 
     t.$el.on('click', '#btn-actions-refresh', function(){
 

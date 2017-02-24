@@ -185,6 +185,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/asrange.js',
         './theme/material/global/js/Plugin/asspinner.js',
         './theme/material/global/js/Plugin/jquery-labelauty.js',
+        './theme/assets/vendor/sly/sly.min.js',
 
         //Others Plugins
         './js/jrangel/jquery.core.js',

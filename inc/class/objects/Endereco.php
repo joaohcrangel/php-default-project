@@ -93,6 +93,10 @@ class Endereco extends Model {
 
         curl_close($ch);
 
+        if (!isset($data['uf'])) {
+            throw new Exception("Cep não encontrado.", 404);
+        }
+
         $estado = Estado::loadFromUf($data['uf']);
 
         $endereco = new Endereco(array(

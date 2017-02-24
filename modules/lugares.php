@@ -78,6 +78,8 @@ $app->post("/lugares", function(){
 		$lugar->{'set'.$key}($value);
 	}
 
+	if($_POST['idlugarpai'] == '') $lugar->setidlugarpai(NULL);
+
 	$lugar->save();
 
 	if(isset($_POST['vllatitude']) && isset($_POST['vllongitude'])){

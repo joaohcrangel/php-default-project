@@ -115,7 +115,9 @@ class Lugar extends Model {
         foreach ($faltaDias as $dia) {
             $horarios->add(new LugarHorario(array(
                 'nrdia'=>$dia,
-                'idlugar'=>$this->getidlugar()
+                'idlugar'=>$this->getidlugar(),
+                'hrabre'=>'00:00:00',
+                'hrfecha'=>'00:00:00'
             )));
         }
 

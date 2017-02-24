@@ -33,7 +33,7 @@ function initMap(){
 var form = $("#form-lugar");
 	
 $("[name=idlugartipo]").combobox({
-	url:PATH+"/lugares/tipos",
+	url:PATH+"/lugares-tipos",
 	displayField:"deslugartipo",
 	valueField:"idlugartipo"
 });
@@ -48,11 +48,14 @@ form.form({
 	url:PATH+"/lugares",
 	params:{
 		idlugar:0,
-		idendereco:0
+		idendereco:0,
+		inprincipal:1
 	},
 	resetForm:false,
 	success:function(){
 		System.success("Lugar salvo com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
 	},
 	failure:function(r){
 		System.showError(r);

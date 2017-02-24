@@ -145,7 +145,7 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 3;
+    data.limite = 5;
 
     rest({
       url:PATH+"/cidades/all",
@@ -206,6 +206,8 @@ init.push(function(){
               loadCidades(page);
             }
           });
+
+          console.log(config);
 
           $("#paginacao").asPaginator(r.total, config);
 

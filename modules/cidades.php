@@ -43,8 +43,7 @@ $app->get("/cidades/all", function(){
 		"data"=>$cidades->getFields(),
 		"total"=>$paginacao->getTotal(),
 		"currentPage"=>$pagina,
-		"itemsPerPage"=>$itemsPerPage,
-		"totalPages"=>$paginacao->getTotalPages()
+		"itemsPerPage"=>$itemsPerPage
 	));
 
 });

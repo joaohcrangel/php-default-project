@@ -811,7 +811,27 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"URL - Table",
 			status:"",
 			enabled:true
-		},
+		},{
+			url:"/sql/urls/list",
+			name:"URL - Procedure LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/get",
+			name:"URL - Procedure GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/save",
+			name:"URL - Procedure SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/remove",
+			name:"URL - Procedure REMOVE",
+			status:"",
+			enabled:true
+		},		
 
 		{
 			url:"/sql/pessoas/inserts",

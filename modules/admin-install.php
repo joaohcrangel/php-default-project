@@ -3065,7 +3065,7 @@ $app->get("/install-admin/sql/urls/remove", function(){
 
 	echo success();
 });
-$app->get("/install-admin/sql/arquivos/list", function(){
+$app->get("/install-admin/sql/urls/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(

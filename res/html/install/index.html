@@ -843,21 +843,29 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},
 
 		{
-			url:"/sql/pessoasenderecos/tables",
-			name:"Pessoas Endereços - Tabela",
-			status:"",
-			enabled:true
-		},
-		{
-			url:"/sql/pessoasenderecos/triggers",
-			name:"Pessoas Endereços - Triggers",
-			status:"",
-			enabled:true
-		},
-
-		{
 			url:"/sql/urls/tables",
 			name:"URL - Table",
+			status:"",
+			enabled:true
+		},
+		{
+			url:"/sql/urls/get",
+			name:"Urls - GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/list",
+			name:"URL - LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/save",
+			name:"URL - SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/remove",
+			name:"URL - REMOVE",
 			status:"",
 			enabled:true
 		},

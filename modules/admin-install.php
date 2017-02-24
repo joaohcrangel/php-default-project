@@ -3035,6 +3035,46 @@ $app->get("/install-admin/sql/arquivos/list", function(){
 
 	echo success();
 });
+$app->get("/install-admin/sql/urls/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/urls/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/urls/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/arquivos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
 
 $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 	set_time_limit(0);

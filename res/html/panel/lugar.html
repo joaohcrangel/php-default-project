@@ -4,139 +4,185 @@
 	}
 </style>
 <link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
-<header class="slidePanel-header">
-  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
-    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
-      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
-    </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4>
-  </div>  
-</header>
-<div class="slidePanel-inner m-0 p-0">
-
-	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
-	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
-	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-horarios" aria-controls="tab-lugar-horarios" role="tab">Horários</a></li>
-	      </ul>
+<div id="lugar-panel">
+	<header class="slidePanel-header">
+	  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+	    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">  <button id="btn-delete-lugar" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button>
+	      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
 	    </div>
+	    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4>
+	  </div>  
+	</header>
+	<div class="slidePanel-inner m-0 p-0">
 
-	    <div class="panel-body p-t-20">
-      		<div class="tab-content">
-	        	<div class="tab-pane active" id="tab-lugar" role="tabpanel">
-					<form id="form-lugar">
-	
-						<div class="form-group form-material" data-plugin="formMaterial">
-							<label class="form-control-label">Lugar</label>
-							<input type="text" name="deslugar" class="form-control">
+		<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="lugar-tabs" data-plugin="tabs">
+		    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
+		      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+		        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-lugar" aria-controls="tab-lugar" role="tab" aria-expanded="true">Dados</a></li>
+		        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-mapa" aria-controls="tab-lugar-mapa" role="tab">Mapa</a></li>
+		        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-lugar-horarios" aria-controls="tab-lugar-horarios" role="tab">Horários</a></li>
+		      </ul>
+		    </div>
+
+		    <div class="panel-body p-t-20">
+	      		<div class="tab-content">
+	      			<div class="tab-pane" id="tab-lugar-editar" role="tabpanel">
+
+	      				<form id="form-lugar-editar">
+
+		      				<div class="panel m-0" style="box-shadow:none">
+
+		                  		<div class="panel-body p-y-0 p-t-20">
+
+		                  			<div class="panel-heading" style="height: 30px;">
+				                      <div class="panel-actions panel-actions-keep">
+				                        <a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px;"></a>
+				                        <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px;"></a>
+				                      </div>
+				                    </div>
+
+		                  			<div class="row">
+			
+										<div class="form-group col-xs-12 col-md-8" data-plugin="formMaterial">
+											<label class="form-control-label">Lugar</label>
+											<input type="text" class="form-control" name="deslugar">
+										</div>
+
+										<div class="form-group col-xs-12 col-md-4" data-plugin="formMaterial">
+											<label class="form-control-label">Tipo do Lugar</label>
+											<select name="idlugartipo" class="form-control"></select>
+										</div>
+
+									</div>
+
+									<div class="panel panel-primary panel-line p-b-0 m-0 m-t-20">
+				                        <div class="panel-heading">
+				                          <h3 class="panel-title p-l-0">Endereço</h3>
+				                        </div>
+
+				                        <div class="row">
+				                          <div class="form-group col-xs-12 col-md-6">
+				                            <label class="form-control-label" for="descep">CEP</label>
+				                            <input type="text" class="form-control" id="descep" name="descep">
+				                          </div>				                          
+				                          <div class="form-group col-xs-12 col-md-6">
+				                            <label class="form-control-label" for="idenderecotipo">Tipo do Endereço</label>
+				                            <select name="idenderecotipo" class="form-control"></select>
+				                          </div>				                          
+				                        </div>
+				                        <div class="row">
+				                        	<div class="form-group col-xs-12 col-md-6">
+					                            <label class="form-control-label" for="desendereco">Endereço</label>
+					                            <input type="text" class="form-control" id="desendereco" name="desendereco">
+				                          	</div>
+				                          	<div class="form-group col-xs-12 col-md-3">
+					                            <label class="form-control-label" for="desnumero">Número</label>
+					                            <input type="text" class="form-control" id="desnumero" name="desnumero">
+				                          	</div>
+				                          	<div class="form-group col-xs-12 col-md-3">
+					                            <label class="form-control-label" for="descomplemento">Complemento</label>
+					                            <input type="text" class="form-control" id="descomplemento" name="descomplemento">
+				                          	</div>
+				                        </div>
+				                        <div class="row">                     
+				                          <div class="form-group col-xs-12 col-md-6">
+				                            <label class="form-control-label" for="desbairro">Bairro</label>
+				                            <input type="text" class="form-control" id="desbairro" name="desbairro">
+				                          </div>
+				                          <div class="form-group col-xs-12 col-md-6">
+				                            <label class="form-control-label" for="descidade">Cidade</label>
+				                            <input type="text" class="form-control" id="descidade" name="descidade">
+				                            <input type="hidden" name="desuf">
+				                          </div>
+				                        </div>				                        
+			                      	</div>
+
+									<div class="form-group form-material" data-plugin="formMaterial">
+										<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+									</div>
+
+		                  		</div>
+
+		                  	</div>						
+
+						</form>
+
+	      			</div>
+	      			<!-- terminando painel de editar lugar -->
+		        	<div class="tab-pane active" id="tab-lugar" role="tabpanel">
+
+		        		<button id="btn-lugar-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button>
+
+	              		<div class="card"></div>
+				
+		        	</div>
+		        	<!-- fim da tab de dados do lugar -->
+
+		        	<!-- inicio da tab do mapa -->
+		        	<div class="tab-pane" id="tab-lugar-mapa" role="tabpanel">
+
+		        		<input type="hidden" name="vllatitude">
+		        		<input type="hidden" name="vllongitude">
+		        		<input type="hidden" name="nrzoom">
+
+						<div id="mapa" style="width:100%;height:400px"></div>
+
+						<div class="form-group form-material m-t-15" data-plugin="formMaterial">
+							<button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button>
 						</div>
 
-						<div class="form-group form-material" data-plugin="formMaterial">
-							<label class="form-control-label">Tipo do Lugar</label>
-							<select name="idlugartipo" id="lugartipoPanel" class="form-control"></select>
-						</div>						
+		        	</div>
+		        	<!-- fim da tab do mapa -->
 
-						<label class="form-control-label"><h4>Endereço</h4></label>
-						<div class="row">
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Tipo do Endereço</label>
-								<select name="idenderecotipo" class="form-control"></select>
-							</div>
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Endereço</label>
-								<input type="text" name="desendereco" class="form-control">
-							</div>
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Número</label>
-								<input type="text" name="desnumero" class="form-control">
-							</div>
+		        	<!-- inicio da tab de horarios -->
+		        	<div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel">
 
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Complemento</label>
-								<input type="text" name="descomplemento" class="form-control">
-							</div>
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Bairro</label>
-								<input type="text" name="desbairro" class="form-control">
-							</div>
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Cidade</label>
-								<input type="text" name="descidade" class="form-control">
-							</div>
+						<table class="table table-stripped table-hover">
 
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">Estado</label>
-								<input type="text" name="desestado" class="form-control">
-							</div>
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">País</label>
-								<input type="text" name="despais" class="form-control">
-							</div>
-							<div class="form-group form-material col-sm-4" data-plugin="formMaterial">
-								<label class="form-control-label">CEP</label>
-								<input type="text" name="descep" class="form-control">
-							</div>
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="horariosTodos"></th>
+									<th>Dia</th>
+									<th>Horário de Abertura</th>
+									<th>Horário de Fechamento</th>
+									<th></th>
+								</tr>
+							</thead>
+
+							<tbody>
+								
+							</tbody>
+
+						</table>
+
+						<div class="form-group form-material m-t-15" data-plugin="formMaterial">
+							<button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button>
 						</div>
 
-						<div class="form-group form-material" data-plugin="formMaterial">
-							<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
-						</div>
+		        	</div>
 
-					</form>
-	        	</div>
-	        	<!-- fim da tab de dados do lugar -->
-
-	        	<!-- inicio da tab do mapa -->
-	        	<div class="tab-pane" id="tab-lugar-mapa" role="tabpanel">
-
-	        		<input type="hidden" name="vllatitude">
-	        		<input type="hidden" name="vllongitude">
-	        		<input type="hidden" name="nrzoom">
-
-					<div id="mapa" style="width:100%;height:400px"></div>
-
-					<div class="form-group form-material m-t-15" data-plugin="formMaterial">
-						<button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button>
-					</div>
-
-	        	</div>
-	        	<!-- fim da tab do mapa -->
-
-	        	<!-- inicio da tab de horarios -->
-	        	<div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel">
-
-					<table class="table table-stripped table-hover">
-
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="horariosTodos"></th>
-								<th>Dia</th>
-								<th>Horário de Abertura</th>
-								<th>Horário de Fechamento</th>
-								<th></th>
-							</tr>
-						</thead>
-
-						<tbody>
-							
-						</tbody>
-
-					</table>
-
-					<div class="form-group form-material m-t-15" data-plugin="formMaterial">
-						<button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button>
-					</div>
-
-	        	</div>
-
+				</div>
 			</div>
+
 		</div>
 
 	</div>
-
 </div>
+
+{noparse}
+<script id="tpl-lugar-home-card" type="text/x-handlebars-template">
+<div class="card-header bg-white p-30 clearfix">
+  <div class="pull-xs-left">
+    <div class="font-size-20 m-b-15">{{deslugar}}</div>
+    {{#if desendereco}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{desendereco}}</span>
+    </p>
+    {{/if}}
+  </div>
+</div>
+</script>
+{/noparse}
 
 <script id="tpl-lugar-horario" type="text/x-handlebars-template">
 	<tr data-nrdia="{{nrweekday}}">
@@ -150,42 +196,227 @@
 
 <script>
 
-var lugar = JSON.parse('{function="json_encode($lugar)"}');
+var LugarPanel = (function(data, selectorContainer, opts){
 
-var form = $("#form-lugar");
+  var t = this;
 
-var tplHorarios = Handlebars.compile($("#tpl-lugar-horario").html());
+  var defaults = {
+    debug:false
+  };
 
-form.formLoad(lugar);
+  var o = $.extend({}, defaults, opts);
 
-$("[name=idlugartipo]#lugartipoPanel").combobox({
-	url:PATH+"/lugares/tipos",
-	displayField:"deslugartipo",
-	valueField:"idlugartipo",
-	value:lugar.idlugartipo
-});
+  t.$el = $(selectorContainer);
+  t.id = 0;
 
-$("[name=idenderecotipo]").combobox({
-	url:PATH+"/enderecostipos",
-	displayField:"desenderecotipo",
-	valueField:"idenderecotipo",
-	value:lugar.idenderecotipo
-});
+  t.setData = function(lugar){
 
-// parte do mapa
-function initMap(){
+    t.data = lugar;
+    t.$el.trigger('lugar-change');
 
-	var position = {
+  };
+
+  t.getData = function(){
+
+    return t.data;
+
+  };
+
+  t.getTpl = function(id){
+
+    return Handlebars.compile($("#"+id).html());
+
+  };
+
+  t.setCard = function(){
+
+    var tpl = t.getTpl('tpl-lugar-home-card');
+    var $render = $(tpl(t.getData()));
+
+    t.$el.find('#tab-lugar').find('.card').html($render);
+
+  };
+
+  t.formatCep = function(cep){
+
+  	return cep.substring(0, 5)+"-"+cep.substring(5);
+
+  }
+
+  t.$el.on('lugar-change', function(){
+
+    var lugar = t.getData();
+
+    lugar.descep = t.formatCep(lugar.descep);
+
+    t.$el.find('#form-lugar-editar').formLoad(lugar);
+    t.setCard(t.getData());
+
+  });
+  
+  t.setData(lugar);
+
+  t.getIdlugar = function(){
+
+    return t.getData().idlugar;
+
+  };
+
+  t.deleteLugar = function(){
+
+    System.confirm("Deseja realmente excluir o cadastro de "+data.deslugar+"?", function(r, s, f){
+
+      if (r) {
+
+        rest({
+          url:PATH+"/lugares/"+t.getIdlugar(),
+          method:"DELETE",
+          success:function(){
+            s();
+            data = {};
+            $(".slidePanel-close").trigger("click");
+            $("#form-filtros [type=submit]").trigger("click");
+          },
+          failure:function(e){
+            System.showError(e);
+            f(e.error);
+          }
+        });
+
+      } else {
+
+        f();
+
+      }
+
+    });
+
+  };
+
+  t.setTabActive = function(id){
+
+    $('#lugar-tabs .tab-content .tab-pane').removeClass('active');
+    $('#lugar-tabs .tab-content .tab-pane#'+id).addClass('active');
+    $('#lugar-tabs [role="tab"]').removeClass('active');
+    $('#lugar-tabs [role="tab"][href="#'+id+'"]').addClass('active');
+
+  };
+
+  t.initFieldCidade = function(){
+
+    t.$el.find('[name=descidade]').combobox({
+      url:PATH+"/enderecos/cidades",
+      autoComplete:true,
+      displayField:'descidade',
+      displayFieldRight:'desuf',
+      valueField:'idcidade',
+      submitValue:true,
+      hiddenName:'idcidade'
+    });
+
+  };
+
+  t.initFieldClassEmpty = function(){
+
+    t.$el.find('input').on('change', function(){
+      if ($(this).val().length) {
+        $(this).removeClass('empty');
+      } else {
+        $(this).addClass('empty');
+      }
+    });
+
+  };
+
+  t.initFieldCEP = function(){
+
+    t.$el.find('[name=descep]').formValueCheck({
+      url:PATH+"/enderecos/cep",
+      success:function(r){
+        t.$el.find('#form-lugar-editar').formLoad(r);
+        t.$el.find('#form-lugar-editar').find('[name=descidade]').trigger('change');
+        t.$el.find('#form-lugar-editar').find('[name=desnumero]').trigger('focus');
+      }
+    });
+
+  };
+
+  t.initFieldsTipos = function(){
+
+    t.$el.find("[name=idlugartipo]").combobox({
+      url:PATH+"/lugares-tipos",
+      displayField:"deslugartipo",
+      valueField:"idlugartipo",
+      value:t.getData().idlugartipo
+    });
+
+    t.$el.find("[name=idenderecotipo]").combobox({
+      url:PATH+"/enderecostipos",
+      displayField:"desenderecotipo",
+      valueField:"idenderecotipo",
+      value:t.getData().idenderecotipo
+    });
+
+  };
+
+  t.initFormLugarEditar = function(){
+
+    t.$el.find('#form-lugar-editar').form({
+      url:PATH+"/lugares",
+      params:{
+      	idlugar:t.getData().idlugar,
+      	idendereco:t.getData().idendereco
+      },
+      resetForm:false,
+      success:function(r){
+
+        t.setData(r.data);
+        System.success('Dados salvos com sucesso!');
+        t.refreshList();
+
+      }
+    });
+
+  };
+
+  t.reload = function(callback){
+
+    rest({
+      url:PATH+"/lugares/"+t.getIdlugar(),
+      success:function(r){
+
+        t.setData(r.data);
+        if (typeof callback === 'function') callback();
+
+      },
+      failure:function(e){
+
+        System.showError(e);
+
+      }
+    });
+
+  };
+
+  t.refreshList = function(){
+
+  	$("#form-filtros [type=submit]").trigger("click");
+
+  };
+
+  t.initMap = function(){
+
+  	var position = {
 		lat: -8.361126490598373,
 		lng: -55.705590349999966
 	}
 
 	var zoom = 3;
 
-	if(parseFloat(lugar.vllatitude) != 0 && parseFloat(lugar.vllongitude) != 0){
-		position.lat = lugar.vllatitude;
-		position.lng = lugar.vllongitude;
-		zoom = lugar.nrzoom;
+	if(parseFloat(t.getData().vllatitude) != 0 && parseFloat(t.getData().vllongitude) != 0){
+		position.lat = t.getData().vllatitude;
+		position.lng = t.getData().vllongitude;
+		zoom = t.getData().nrzoom;
 	}
 
 	var map = new google.maps.Map(document.getElementById("mapa"), {
@@ -201,164 +432,205 @@ function initMap(){
 
 	marker.setMap(map);
 
-	$("#tab-lugar-mapa [name=vllatitude]").val(position.lat);
-	$("#tab-lugar-mapa [name=vllongitude]").val(position.lng);
-	$("#tab-lugar-mapa [name=nrzoom]").val(zoom);
+	t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(position.lat);
+	t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(position.lng);
+	t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(zoom);
 
 	google.maps.event.addListener(marker, 'dragend', function(){
 
-		$("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
-		$("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
-		$("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
+		t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
+		t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
+		t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
 
 	});
 
-}
+  };
 
-console.log(lugar);
+  t.init = function(){
 
-$("#tab-lugar-mapa .btn-salvar").on("click", function(){
+    t.initFieldCidade();
+    t.initFieldClassEmpty();
+    t.initFieldCEP();
+    t.initFieldsTipos();
+    t.initFormLugarEditar();
+    t.initMap();
 
-	var $btn = $(this);
+    t.$el.find("[name=descidade]").trigger("change");
 
-	$btn.btnload("load");
+    t.$el.on('click', '#btn-actions-refresh', function(){
 
-	rest({
-		url:PATH+"/lugares/"+lugar.idlugar+"/coordenadas",
-		method:"POST",
-		data:{
-			idcoordenada:lugar.idcoordenada,
-			vllatitude:$("#tab-lugar-mapa [name=vllatitude]").val(),
-			vllongitude:$("#tab-lugar-mapa [name=vllongitude]").val(),
-			nrzoom:$("#tab-lugar-mapa [name=nrzoom]").val()
-		},
-		success:function(){
-			$btn.btnload("unload");
-		},
-		failure:function(r){
-			$btn.btnload("unload");
-			System.showError(r);
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.reload(function(){
+
+        $btn.btnload('unload');
+
+      });
+
+    });
+
+    t.$el.on('click', '#btn-actions-close', function(){
+
+      t.setTabActive('tab-lugar');
+      
+    });
+
+    t.$el.on('click', '#btn-lugar-editar', function(){
+
+      t.setTabActive('tab-lugar-editar');
+
+    });
+
+    t.$el.on('click', '#btn-delete-lugar', function(){
+
+      t.deleteLugar();
+
+    });
+
+    t.$el.on('click', '#lugar-photo', function(){
+
+      t.uploadPhoto();
+
+    });
+
+    t.$el.on("click", "#tab-lugar-mapa .btn-salvar", function(){
+
+		var $btn = $(this);
+
+		$btn.btnload("load");
+
+		rest({
+			url:PATH+"/lugares/"+lugar.idlugar+"/coordenadas",
+			method:"POST",
+			data:{
+				idcoordenada:lugar.idcoordenada,
+				vllatitude:t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(),
+				vllongitude:t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(),
+				nrzoom:t.$el.find("#tab-lugar-mapa [name=nrzoom]").val()
+			},
+			success:function(){
+				$btn.btnload("unload");
+			},
+			failure:function(r){
+				$btn.btnload("unload");
+				System.showError(r);
+			}
+		})
+
+	});
+
+	var isHorariosLogged = 0;
+
+	t.$el.on("shown.bs.tab", "a.nav-link[href='#tab-lugar-horarios']", function(){
+
+		if(isHorariosLogged == 0){
+
+			var $panel = System.getPanelApi(t.$el.find("#tab-lugar-horarios"));
+
+			var $tbody = t.$el.find("#tab-lugar-horarios").find("table tbody");
+
+			$panel.load();
+
+			$tbody.html('');
+
+			var tplHorarios = t.getTpl("tpl-lugar-horario");
+
+			$.each(t.getData().Horarios, function(index, row){
+
+				var $tr = $(tplHorarios(row))
+
+				$tbody.append($tr);
+
+				$tr.find("input[type=checkbox]").on("change", function(){
+
+					var disabled = !$(this).prop('checked');
+
+					$tr.find('input:not(:checkbox)').attr('disabled', disabled);
+		        	$tr.find('button').attr('disabled', disabled);
+
+		        	if(disabled){
+		        		$tr.find("input:not(:checkbox)").val("");
+		        	}
+
+				});
+
+				$tr.find(".btn-default").on("click", function(){
+
+					var hrabre = $tr.find("[name=hrabre]").val();
+					var hrfecha = $tr.find("[name=hrfecha]").val();
+
+					t.$el.find("#tab-lugar-horarios tbody tr [name=hrabre]:enabled").val(hrabre);
+					t.$el.find("#tab-lugar-horarios tbody tr [name=hrfecha]:enabled").val(hrfecha);
+
+				});
+
+			});
+
+			$panel.done();
+
+			t.$el.find('#horariosTodos').on('change', function() {
+
+		        t.$el.find('#tab-lugar-horarios tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+		    });
+
+			t.$el.find("#tab-lugar-horarios .btn-salvar-horarios").on("click", function(){
+
+				var $btn = $(this);
+
+				$btn.btnload("load");
+
+				var nrdia = [];
+				var hrabre = [];
+				var hrfecha = [];
+
+				t.$el.find("#tab-lugar-horarios tbody tr").each(function(){
+
+					if($(this).find(":checkbox").prop("checked") || $(this).find("[type='time']").val() != '00:00:00'){
+
+						nrdia.push($(this).data("nrdia"));
+						hrabre.push($(this).find("[name=hrabre]").val());
+						hrfecha.push($(this).find("[name=hrfecha]").val());
+
+					}
+
+				});
+
+				rest({
+					url:PATH+"/lugares-horarios",
+					method:"POST",
+					data:{
+						ids:lugar.idlugar.toString(),
+						nrdia:nrdia.toString(),
+						hrabre:hrabre.toString(),
+						hrfecha:hrfecha.toString()
+					},
+					success:function(){
+						$btn.btnload("unload");
+						isHorariosLogged = 1;
+					},
+					failure:function(r){				
+						System.showError(r);
+						$btn.btnload("unload");
+					}
+				});
+
+			});
+
 		}
-	})
+
+	});
+
+  };
+
+  t.init();
 
 });
 
-var isHorariosLogged = 0;
-
-$("a.nav-link[href='#tab-lugar-horarios']").on("shown.bs.tab", function(){
-
-	if(isHorariosLogged == 0){
-
-		var $panel = System.getPanelApi($("#tab-lugar-horarios"));
-
-		var $tbody = $("#tab-lugar-horarios").find("table tbody");
-
-		$panel.load();
-
-		$tbody.html('');
-
-		$.each(lugar.Horarios, function(index, row){
-
-			var $tr = $(tplHorarios(row))
-
-			$tbody.append($tr);
-
-			$tr.find("input[type=checkbox]").on("change", function(){
-
-				var disabled = !$(this).prop('checked');
-
-				$tr.find('input:not(:checkbox)').attr('disabled', disabled);
-	        	$tr.find('button').attr('disabled', disabled);
-
-	        	if(disabled){
-	        		$tr.find("input:not(:checkbox)").val("");
-	        	}
-
-			});
-
-			$tr.find(".btn-default").on("click", function(){
-
-				var hrabre = $tr.find("[name=hrabre]").val();
-				var hrfecha = $tr.find("[name=hrfecha]").val();
-
-				$("#tab-lugar-horarios tbody tr [name=hrabre]:enabled").val(hrabre);
-				$("#tab-lugar-horarios tbody tr [name=hrfecha]:enabled").val(hrfecha);
-
-			});
-
-		});
-
-		$panel.done();
-
-		$('#horariosTodos').on('change', function() {
-
-	        $('#tab-lugar-horarios tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
-
-	    });
-
-		$("#tab-lugar-horarios .btn-salvar-horarios").on("click", function(){
-
-			var $btn = $(this);
-
-			$btn.btnload("load");
-
-			var nrdia = [];
-			var hrabre = [];
-			var hrfecha = [];
-
-			$("#tab-lugar-horarios tbody tr").each(function(){
-
-				if($(this).find(":checkbox").prop("checked") || $(this).find("[type='time']").val() != '00:00:00'){
-
-					nrdia.push($(this).data("nrdia"));
-					hrabre.push($(this).find("[name=hrabre]").val());
-					hrfecha.push($(this).find("[name=hrfecha]").val());
-
-				}
-
-			});
-
-			rest({
-				url:PATH+"/lugares-horarios",
-				method:"POST",
-				data:{
-					ids:lugar.idlugar.toString(),
-					nrdia:nrdia.toString(),
-					hrabre:hrabre.toString(),
-					hrfecha:hrfecha.toString()
-				},
-				success:function(){
-					$btn.btnload("unload");
-					isHorariosLogged = 1;
-				},
-				failure:function(r){				
-					System.showError(r);
-					$btn.btnload("unload");
-				}
-			});
-
-		});
-
-	}
-
-});
-
-form.form({
-	url:PATH+"/lugares",
-	resetForm:false,
-	params:{
-		idlugar:lugar.idlugar,
-		idendereco:lugar.idendereco,
-		idpessoa:lugar.idpessoa
-	},
-	success:function(){
-		System.success("Lugar salvo com sucesso");
-		$("#form-filtros [type=submit]").trigger("click");
-	},
-	failure:function(r){
-		System.showError(r);
-	}
-});
+var lugar = JSON.parse('{function="json_encode($lugar)"}');
+var lugarPanel = new LugarPanel(lugar, '#lugar-panel');
 
 </script>
 

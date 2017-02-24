@@ -52,17 +52,67 @@ $app->get("/lugares", function(){
 
 });
 
+$app->get("/lugares/:idlugar", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	echo success(array("data"=>$lugar->getFields()));
+
+});
+
 $app->post("/lugares", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
+	// pre($_POST);
+	// exit;
+
 	if(isset($_POST['idendereco'])){
 
-		$endereco = new Endereco((int)post('idendereco'));
+		if((int)post('idendereco') > 0){
+			$endereco = new Endereco((int)post('idendereco'));
+		}else{
+			$endereco = new Endereco();
+		}
 
-		$endereco->set($_POST);
+		foreach (array(
+			'idenderecotipo',
+			'descep',
+			'desendereco',
+			'desnumero',
+			'descomplemento',
+			'desbairro',
+			'descidade'
+		) as $field) {
+			if (isset($_POST[$field]) && post($field)) {
+				$endereco->{'set'.$field}(post($field));
+			}	
+		}
 
-		$endereco->save();
+		if (isset($_POST['idcidade']) && (int)post('idcidade') > 0) {
+			$cidade = new Cidade((int)post('idcidade'));
+		} else {
+			if (post('desuf')) {
+				$cidade = Cidade::loadFromName(post('descidade'), post('desuf'));
+			} else {
+				$cidade = Cidade::loadFromName(post('descidade'));
+			}
+		}
+
+		if (count($cidade->getFields())) $endereco->set($cidade->getFields());
+
+		pre($cidade->getFields());
+		exit;
+
+		if (count($endereco->getFields())) {
+
+			$endereco->setinprincipal(true);
+
+			$endereco->save();
+
+		}
 
 		$_POST['idendereco'] = $endereco->getidendereco();
 
@@ -78,7 +128,7 @@ $app->post("/lugares", function(){
 		$lugar->{'set'.$key}($value);
 	}
 
-	if($_POST['idlugarpai'] == '') $lugar->setidlugarpai(NULL);
+	if(post('idlugarpai') == '' || (int)$lugar->getidlugarpai() == 0) $lugar->setidlugarpai(NULL);
 
 	$lugar->save();
 

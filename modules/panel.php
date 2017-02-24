@@ -851,5 +851,33 @@ $app->get("/panel/pessoa-categoria-tipo-criar", function(){
 	$page->setTpl("panel/pessoa-categoria-tipo-criar");
 
 });
+///////////////////////////////////////////////////////////
+
+// urls
+$app->get("/panel/urls/:idurl", function($idurl){
+
+	$url = new Url((int)$idurl);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/url", array(
+		"url"=>$url->getFields()
+	));
+
+});
+
+$app->get("/panel/url-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/url-criar");
+
+});
 
 ?>

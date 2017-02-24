@@ -57,6 +57,10 @@ function initMap(){
 
 	marker.setMap(map);
 
+	$("#tab-lugar-mapa [name=vllatitude]").val(position.lat);
+	$("#tab-lugar-mapa [name=vllongitude]").val(position.lng);
+	$("#tab-lugar-mapa [name=nrzoom]").val(zoom);
+
 	google.maps.event.addListener(marker, 'dragend', function(){
 
 		$("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
@@ -95,96 +99,103 @@ $("#tab-lugar-mapa .btn-salvar").on("click", function(){
 
 });
 
+var isHorariosLogged = 0;
+
 $("a.nav-link[href='#tab-lugar-horarios']").on("shown.bs.tab", function(){
 
-	var $panel = System.getPanelApi($("#tab-lugar-horarios"));
+	if(isHorariosLogged == 0){
 
-	var $tbody = $("#tab-lugar-horarios").find("table tbody");
+		var $panel = System.getPanelApi($("#tab-lugar-horarios"));
 
-	$panel.load();
+		var $tbody = $("#tab-lugar-horarios").find("table tbody");
 
-	$tbody.html('');
+		$panel.load();
 
-	$.each(lugar.Horarios, function(index, row){
+		$tbody.html('');
 
-		var $tr = $(tplHorarios(row))
+		$.each(lugar.Horarios, function(index, row){
 
-		$tbody.append($tr);
+			var $tr = $(tplHorarios(row))
 
-		$tr.find("input[type=checkbox]").on("change", function(){
+			$tbody.append($tr);
 
-			var disabled = !$(this).prop('checked');
+			$tr.find("input[type=checkbox]").on("change", function(){
 
-			$tr.find('input:not(:checkbox)').attr('disabled', disabled);
-        	$tr.find('button').attr('disabled', disabled);
+				var disabled = !$(this).prop('checked');
 
-        	if(disabled){
-        		$tr.find("input:not(:checkbox)").val("");
-        	}
+				$tr.find('input:not(:checkbox)').attr('disabled', disabled);
+	        	$tr.find('button').attr('disabled', disabled);
 
-		});
+	        	if(disabled){
+	        		$tr.find("input:not(:checkbox)").val("");
+	        	}
 
-		$tr.find(".btn-default").on("click", function(){
+			});
 
-			var hrabre = $tr.find("[name=hrabre]").val();
-			var hrfecha = $tr.find("[name=hrfecha]").val();
+			$tr.find(".btn-default").on("click", function(){
 
-			$("#tab-lugar-horarios tbody tr [name=hrabre]:enabled").val(hrabre);
-			$("#tab-lugar-horarios tbody tr [name=hrfecha]:enabled").val(hrfecha);
+				var hrabre = $tr.find("[name=hrabre]").val();
+				var hrfecha = $tr.find("[name=hrfecha]").val();
 
-		});
+				$("#tab-lugar-horarios tbody tr [name=hrabre]:enabled").val(hrabre);
+				$("#tab-lugar-horarios tbody tr [name=hrfecha]:enabled").val(hrfecha);
 
-	});
-
-	$panel.done();
-
-	$('#horariosTodos').on('change', function() {
-
-        $('#tab-lugar-horarios tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
-
-    });
-
-	$("#tab-lugar-horarios .btn-salvar-horarios").on("click", function(){
-
-		var $btn = $(this);
-
-		$btn.btnload("load");
-
-		var nrdia = [];
-		var hrabre = [];
-		var hrfecha = [];
-
-		$("#tab-lugar-horarios tbody tr").each(function(){
-
-			if($(this).find(":checkbox").prop("checked")){
-
-				nrdia.push($(this).data("nrdia"));
-				hrabre.push($(this).find("[name=hrabre]").val());
-				hrfecha.push($(this).find("[name=hrfecha]").val());
-
-			}
+			});
 
 		});
 
-		rest({
-			url:PATH+"/lugares-horarios",
-			method:"POST",
-			data:{
-				ids:lugar.idlugar.toString(),
-				nrdia:nrdia.toString(),
-				hrabre:hrabre.toString(),
-				hrfecha:hrfecha.toString()
-			},
-			success:function(){
-				$btn.btnload("unload");
-			},
-			failure:function(r){				
-				System.showError(r);
-				$btn.btnload("unload");
-			}
+		$panel.done();
+
+		$('#horariosTodos').on('change', function() {
+
+	        $('#tab-lugar-horarios tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+	    });
+
+		$("#tab-lugar-horarios .btn-salvar-horarios").on("click", function(){
+
+			var $btn = $(this);
+
+			$btn.btnload("load");
+
+			var nrdia = [];
+			var hrabre = [];
+			var hrfecha = [];
+
+			$("#tab-lugar-horarios tbody tr").each(function(){
+
+				if($(this).find(":checkbox").prop("checked") || $(this).find("[type='time']").val() != '00:00:00'){
+
+					nrdia.push($(this).data("nrdia"));
+					hrabre.push($(this).find("[name=hrabre]").val());
+					hrfecha.push($(this).find("[name=hrfecha]").val());
+
+				}
+
+			});
+
+			rest({
+				url:PATH+"/lugares-horarios",
+				method:"POST",
+				data:{
+					ids:lugar.idlugar.toString(),
+					nrdia:nrdia.toString(),
+					hrabre:hrabre.toString(),
+					hrfecha:hrfecha.toString()
+				},
+				success:function(){
+					$btn.btnload("unload");
+					isHorariosLogged = 1;
+				},
+				failure:function(r){				
+					System.showError(r);
+					$btn.btnload("unload");
+				}
+			});
+
 		});
 
-	});
+	}
 
 });
 

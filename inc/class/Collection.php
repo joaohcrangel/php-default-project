@@ -205,7 +205,7 @@ abstract class Collection extends Model {
 
 		$success = true;
 
-		for ($i = 0; $i < count($itens); $i++) { 
+		for ($i = 0; $i < count($itens); $i++) {
 			
 			$item = $itens[$i];
 			$result = $results[$i][0];

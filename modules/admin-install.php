@@ -2118,7 +2118,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
+	   /*
 		$sql->query("
 			CREATE TABLE tb_pedidosnegociacoestipos (
 			  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
@@ -2127,7 +2127,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			  PRIMARY KEY (idnegociacao)
 			) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 		");
-
+		*/
 	$sql->query("
 		CREATE TABLE tb_pedidosnegociacoes (
 		  idnegociacao int(11) NOT NULL,
@@ -2222,9 +2222,6 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 		$lang->getString('statu_cancelado')
 	));
 
-
-
-
 	$sql->query("
 		INSERT INTO tb_pedidosnegociacoestipos(desnegociacao)
 		VALUES(?);
@@ -2253,6 +2250,21 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	
 	echo success();
 	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_pedidosnegociacoestipos (
+			idnegociacao int(11) NOT NULL AUTO_INCREMENT,
+			desnegociacao varchar(64) NOT NULL,
+			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (idnegociacao)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 });
 
 $app->get("/install-admin/sql/pedidosnegociacoestipos/list", function(){
@@ -2308,8 +2320,8 @@ $app->get("/install-admin/sql/pedidosnegociacoestipos/remove", function(){
 	saveProcedures($procs);
 	
 	echo success();
-	
-});
+		
+});		
 
 $app->get("/install-admin/sql/pedidos/get", function(){
 	set_time_limit(0);

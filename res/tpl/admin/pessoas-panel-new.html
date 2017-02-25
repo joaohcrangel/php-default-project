@@ -75,11 +75,17 @@
 
   };
 
+  t.formatCep = function(cep){
+
+    return cep.substring(0, 5)+"-"+cep.substring(5);
+
+  }
+
   t.$el.on('pessoa-change', function(){
 
     var pessoa = t.getData();
 
-    pessoa.descep = pessoa.descepformatado;
+    pessoa.descep = t.formatCep(pessoa.descep);
 
     t.$el.find('#form-pessoa-editar').formLoad(pessoa);
     t.setCard(t.getData());

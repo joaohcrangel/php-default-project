@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#cidade-footer {
+#url-footer {
   height: 39px;
 }
 .page {
@@ -34,16 +34,16 @@
           <section class="page-aside-section p-t-0">
             <div class="panel-primary panel-line">
               <div class="panel-heading">
-                <h3 class="panel-title">Filtrar Cidades</h3>
+                <h3 class="panel-title">Filtrar URLs</h3>
               </div>
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
-                  <input type="text" class="form-control" name="descidade">
+                  <input type="text" class="form-control" name="desurl">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label">Estado</label>
-                  <select name="idestado" class="form-control"></select>
+                  <label class="form-control-label">Título</label>
+                  <input type="text" class="form-control" name="destitulo">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -60,12 +60,22 @@
     <div class="page-header p-0">
       <div class="btn-group" id="actions-buttons"></div>
     </div>
-    <div id="mailContent" class="page-content page-content-table m-t-20" data-plugin="asSelectable">
+    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
       <div style="border-bottom: #e0e0e0 1px solid;">
         <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
           <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
           data-child="tr">
-            <tbody></tbody>
+            <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th>URL</th>
+                <th>Título</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
           </table>
           <!-- pagination -->
           <div id="paginacao"></div>
@@ -74,7 +84,7 @@
     </div>
   </div>
 </div>
-<footer id="cidade-footer" class="site-footer p-0"></footer>
+<footer id="url-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -88,7 +98,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idcidade="{{idcidade}}">
+  <tr data-idurl="{{idurl}}">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -96,11 +106,11 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{descidade}}</td>
-    <td>{{desestado}}</td>
+    <td>{{desurl}}</td>
+    <td>{{destitulo}}</td>
     <td>
-      <button type="button" class="btn btn-primary btn-sm text-uppercase" data-url="{$path}/panel/cidades/{{idcidade}}" data-toggle="slidePanel" style="border-radius:0;">Editar</button>
-      <button type="button" class="btn btn-danger btn-sm text-uppercase" style="border-radius:0;">Remover</button>
+      <button class="btn btn-pure btn-default icon md-edit" title="Editar url" data-url="{$path}/panel/urls/{{idurl}}" data-toggle="slidePanel"></button>
+      <!-- <button class="btn btn-pure btn-danger icon md-delete" title="Excluir url"></button> -->
     </td>
   </tr>
 </script>
@@ -108,7 +118,7 @@
 <script>
 init.push(function(){
 
-  var tplCidade = Handlebars.compile($("#tpl-row").html());
+  var tplUrl = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -116,19 +126,13 @@ init.push(function(){
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#cidade-footer");
-
-  $("#form-filtros [name=idestado]").combobox({
-    url:PATH+"/estados",
-    displayField:"desestado",
-    valueField:"idestado"
-  });
+  var $footer = $("#url-footer");
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadCidades();
+    loadUrls();
 
   });
 
@@ -136,7 +140,7 @@ init.push(function(){
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadCidades(pagina){
+  function loadUrls(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -145,42 +149,40 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 5;
+    data.limite = 10;
 
     rest({
-      url:PATH+"/cidades/all",
+      url:PATH+"/urls/all",
       data:data,
       success:function(r){
 
-        if(r.data.length > 0){          
+        if(r.data.length > 0){
 
           $tbody.html('');
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplCidade(row));
+            var $tr = $(tplUrl(row));
 
             $tbody.append($tr);
 
             $tr.find(".btn-danger").on("click", function(){
 
-              System.confirm("Deseja realmente remover "+row.descidade+"?", function(b, s, f){
+              System.confirm("Deseja remover a url?", function(b, s, f){
 
                 if(b){
 
                   rest({
-                    url:PATH+"/cidades/"+row.idcidade,
+                    url:PATH+"/urls/"+row.idurl,
                     method:"DELETE",
                     success:function(){
-
-                      s("Cidade removida com sucesso");
-                      $tr.remove();
                       System.done();
-
+                      System.success("URL excluída com sucesso");
+                      $tr.remove();
                     },
                     failure:function(r){
-                      f(r);
                       System.done();
+                      System.showError(r);
                     }
                   });
 
@@ -188,7 +190,17 @@ init.push(function(){
                   f();
                 }
 
-              });
+              });             
+
+            });
+
+            $tr.find("[type=checkbox]").on("change", function(){
+
+              var checked = $("#lista tr [type=checkbox]:checked");
+
+              var disabled = (checked.length > 0) ? false : true;
+
+              $("#btn-url-remove").prop("disabled", disabled);
 
             });
 
@@ -203,18 +215,16 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadCidades(page);
+              loadUrls(page);
             }
           });
-
-          console.log(config);
 
           $("#paginacao").asPaginator(r.total, config);
 
           $panel.done();
 
         }else{
-          $tbody.html('');          
+          $tbody.html('');
           $panel.done();
         }      
 
@@ -237,15 +247,57 @@ init.push(function(){
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/cidade-criar"
+              url:PATH+"/panel/url-criar"
+            });
+
+          }
+        }
+      },{
+        text:"Excluir",
+        icon:"md-delete",
+        id:"btn-url-remove",
+        cls:"btn-default",
+        disabled:true,
+        listeners:{
+          click:function(){
+
+            var ids = [];
+
+            $("#lista tr [type=checkbox]:checked").each(function(){              
+              ids.push($(this).closest("tr").data("idurl"));
+            });
+          
+            System.confirm("Deseja remover a(s) url(s)?", function(b, s, f){
+
+              if(b){
+
+                rest({
+                  url:PATH+"/urls",
+                  method:"DELETE",
+                  data:{
+                    ids:ids.toString()
+                  },
+                  success:function(){
+                    System.done();
+                    System.success("URL(s) excluída(s) com sucesso");
+                    $("#form-filtros [type=submit]").trigger("click");
+                  },
+                  failure:function(r){
+                    System.done();
+                    System.showError(r);
+                  }
+                });
+
+              }else{
+                f();
+              }
+
             });
 
           }
         }
       }]
   });
-
-  loadCidades();
 
 });
 </script>

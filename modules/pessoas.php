@@ -1,4 +1,5 @@
 <?php
+
 $app->get('/pessoas/:idpessoa',function($idpessoa){
    
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -9,6 +10,7 @@ $app->get('/pessoas/:idpessoa',function($idpessoa){
 	));
 
 });
+
 $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
      
@@ -20,6 +22,7 @@ $app->get('/pessoas/:idpessoa/contatos',function($idpessoa){
          'data'=>$contato->getFields()
     ));
 });
+
 $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
      
@@ -31,6 +34,7 @@ $app->get('/pessoas/:idpessoa/historicos',function($idpessoa){
          'data'=>$historico->getFields()
     ));  
 });
+
 $app->get("/pessoas",function(){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$q = get("q");
@@ -66,10 +70,12 @@ $app->get("/pessoas",function(){
 	));
 	/***********************************************************************************************/
 });
+
 $app->get("/pessoas/all", function(){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	echo success(array("data"=>Pessoas::listAll()->getFields()));
 });
+
 $app->get("/pessoas-post", function(){
 	$_POST = array(
 		'despessoa'=>'João Rangel',
@@ -97,6 +103,7 @@ $app->get("/pessoas-post", function(){
 		"data"=>$pessoa->getFields()
 	));
 });
+
 $app->post("/pessoas/:idpessoa/photo", function($idpessoa){
 
 	$file = $_FILES['arquivo'];
@@ -118,6 +125,7 @@ $app->post("/pessoas/:idpessoa/photo", function($idpessoa){
 	));
 
 });
+
 $app->post("/pessoas", function(){
 
 	if(post('idpessoa') > 0){
@@ -182,6 +190,7 @@ $app->post("/pessoas", function(){
 		"data"=>$pessoa->getFields()
 	));
 });
+
 $app->delete("/pessoas/:idpessoa", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	if(!(int)$idpessoa > 0){
@@ -194,18 +203,21 @@ $app->delete("/pessoas/:idpessoa", function($idpessoa){
 	$pessoa->remove();
 	echo success();
 });
+
 // documentos
 $app->get("/pessoas/:idpessoa/documentos", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$pessoa = new Pessoa((int)$idpessoa);
 	echo success(array("data"=>$pessoa->getDocumentos()->getFields()));
 });
+
 // contatos
 $app->get("/pessoas/:idpessoa/contatos", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$pessoa = new Pessoa((int)$idpessoa);
 	echo success(array("data"=>$pessoa->getContatos()->getFields()));
 });
+
 // site contatos
 $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -229,6 +241,7 @@ $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 		"itemsPerPage"=>$itemsPerPage
 	));
 });
+
 // pedidos
 $app->get("/pessoas/:idpessoa/pedidos", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -255,12 +268,14 @@ $app->get("/pessoas/:idpessoa/pedidos", function($idpessoa){
 		"itemsPerPage"=>$itemsPerPage
 	));
 });
+
 // cartoes de credito
 $app->get("/pessoas/:idpessoa/cartoes", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$pessoa = new Pessoa((int)$idpessoa);
 	echo success(array("data"=>$pessoa->getCartoesCreditos()->getFields()));
 });
+
 // carrinhos
 $app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -284,12 +299,14 @@ $app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
 		"itemsPerPage"=>$itemsPerPage
 	));
 });
+
 // enderecos
 $app->get("/pessoas/:idpessoa/enderecos", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$pessoa = new Pessoa((int)$idpessoa);
 	echo success(array("data"=>$pessoa->getEnderecos()->getFields()));
 });
+
 // usuarios
 $app->get("/pessoas/:idpessoa/usuarios", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -297,6 +314,7 @@ $app->get("/pessoas/:idpessoa/usuarios", function($idpessoa){
 	echo success(array("data"=>$pessoa->getUsuarios()->getFields()));
 });
 /////////////////////////////////////////////////////////////////////
+
 // pessoas categorias tipos
 $app->get("/pessoas-categorias-tipos/all", function(){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -330,6 +348,7 @@ $app->get("/pessoas-categorias-tipos/all", function(){
 		"itemsPerPage"=>$itemsPerPage
 	));
 });
+
 $app->post("/pessoas-categorias-tipos", function(){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	if(post('idcategoria') > 0){
@@ -341,6 +360,7 @@ $app->post("/pessoas-categorias-tipos", function(){
 	$categoria->save();
 	echo success(array("data"=>$categoria->getFields()));
 });
+
 $app->delete("/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	if(!(int)$idcategoria){
@@ -353,4 +373,5 @@ $app->delete("/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
 	$categoria->remove();
 	echo success();
 });
+
 ?>

@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Urls extends Collection {
@@ -11,6 +8,18 @@ class Urls extends Collection {
     protected $pk = "idurl";
 
     public function get(){}
+
+
+    public static function listAll():Urls
+    {
+
+    	$urls = new Urls();
+
+    	$urls->loadFromQuery("CALL sp_urls_list();");
+
+    	return $urls;
+
+    }
 
 }
 

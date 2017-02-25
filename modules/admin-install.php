@@ -933,6 +933,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'desmenu'=>$lang->getString('menus_pessoas_categorias_tipos')
 	));
 	$menuPessoasCategoriasTipos->save();
+	//////////////////////////////////////
+	$menuUrls = new Menu(array(
+		'nrordem'=>10,
+		'idmenupai'=>NULL,
+		'desicone'=>'',
+		'deshref'=>'/urls',
+		'desmenu'=>$lang->getString('menus_urls')
+	));
+	$menuUrls->save();
 	//////////////////////////////////////	
 	
 	echo success();
@@ -3228,6 +3237,58 @@ $app->get("/install-admin/sql/urls/tables", function(){
 		  UNIQUE KEY desurl_UNIQUE (desurl)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/urls/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_urls_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/urls/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_urls_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/urls/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_urls_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/urls/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_urls_remove'
+	);
+	saveProcedures($procs);
 
 	echo success();
 

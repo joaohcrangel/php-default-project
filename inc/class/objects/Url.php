@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Url extends Model {

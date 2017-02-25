@@ -193,6 +193,7 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'despessoatipo'=>$lang->getString("pessoas_fisica")
 	));
 	$pessoaTipoF->save();
+
 	$pessoaTipoJ = new PessoaTipo(array(
 		'despessoatipo'=>$lang->getString("pessoas_juridica")
 	));
@@ -2108,14 +2109,16 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
-		CREATE TABLE tb_pedidosnegociacoestipos (
-		  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
-		  desnegociacao varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idnegociacao)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
+
+		$sql->query("
+			CREATE TABLE tb_pedidosnegociacoestipos (
+			  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
+			  desnegociacao varchar(64) NOT NULL,
+			  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  PRIMARY KEY (idnegociacao)
+			) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+		");
+
 	$sql->query("
 		CREATE TABLE tb_pedidosnegociacoes (
 		  idnegociacao int(11) NOT NULL,
@@ -2210,6 +2213,9 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 		$lang->getString('statu_cancelado')
 	));
 
+
+
+
 	$sql->query("
 		INSERT INTO tb_pedidosnegociacoestipos(desnegociacao)
 		VALUES(?);
@@ -2239,6 +2245,63 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	echo success();
 	
 });
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+	
+		'sp_pedidosnegociacoestipos_list'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+
+		'sp_pedidosnegociacoestipos_get'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_pedidosnegociacoestipos_save'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+	
+		'sp_pedidosnegociacoestipos_remove'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
 $app->get("/install-admin/sql/pedidos/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);

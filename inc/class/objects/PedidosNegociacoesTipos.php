@@ -9,6 +9,17 @@ class PedidosNegociacoesTipos extends Collection {
 
     public function get(){}
 
+      public static function listAll():PedidosNegociacoesTipos
+    {
+
+    	$pedido = new PedidosNegociacoesTipos();
+
+    	$pedido->loadFromQuery("CALL sp_pedidosnegociacoestipos_list();");
+
+    	return $pedido;
+
+    }
+
 }
 
 ?>

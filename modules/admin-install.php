@@ -826,6 +826,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarouselsItemsTipos->save();
 	//////////////////////////////////////
+	$menuPedidosNegociacoesTipos = new Menu(array(
+		'nrordem'=>13,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/pedidosnegociacoestipos',
+		'desmenu'=>$lang->getString('menus_negociacao_tipo')
+	));
+	$menuPedidosNegociacoesTipos->save();
+	//////////////////////////////////////
 	$menuPedidos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
@@ -1435,6 +1444,18 @@ $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 	$sql = new Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_cidades");
+
+	echo json_encode($results);
+
+});
+$app->get("/install-admin/sql/pedidosnegociacoestipos/inserts", function(){ 
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_pedidosnegociacoestipos");
 
 	echo json_encode($results);
 

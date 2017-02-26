@@ -422,6 +422,22 @@ $app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/pedidosnegociacoestipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/pedidosnegociacoestipos");
+
+});
+
 $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

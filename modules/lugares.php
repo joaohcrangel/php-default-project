@@ -198,15 +198,8 @@ $app->delete("/lugares/:idlugar", function($idlugar){
 /////////////////////////////////////////////////////////////
 
 // lugares tipos
+
 $app->get("/lugares-tipos", function(){
-
-	Permissao::checkSession(Permissao::ADMIN, true);
-
-	echo success(array("data"=>LugaresTipos::listAll()->getFields()));
-
-});
-
-$app->get("/lugares/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -220,7 +213,7 @@ $app->get("/lugares/tipos", function(){
 	}
 
 	if (count($where) > 0) {
-		$where = ' WHERE '.implode(' AND ', $where).'';
+		$where = ' WHERE '.implode(' AND ', $where);
 	} else {
 		$where = '';
 	}

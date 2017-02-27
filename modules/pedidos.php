@@ -411,7 +411,7 @@ $app->post("/pedidosnegociacoestipos", function(){
         $pedido = new PedidoNegociacaoTipo();
     }
 
-    $pedido->set();
+    $pedido->set($_POST);
 
     $pedido->save();
 

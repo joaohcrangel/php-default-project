@@ -38,7 +38,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/lugares/tipos",
+			url:PATH+"/lugares-tipos",
 			data:params,
 			success:function(r){
 
@@ -50,7 +50,9 @@
 
 				});
 
-				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+				var config = $.extend({},
+				 	PluginAspaginator.default.
+				 	getDefaults(), {
           			skin:'pagination-gap',
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,

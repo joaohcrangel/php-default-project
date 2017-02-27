@@ -290,7 +290,7 @@ $app->post("/lugares-horarios", function(){
 	foreach ($ids as $idlugar) {
 		
 		$lugar = new Lugar((int)$idlugar);
-
+	
 		$horarios = new LugaresHorarios();
 
 		$nrdia = explode(",", post('nrdia'));

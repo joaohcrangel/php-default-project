@@ -74,7 +74,9 @@
 			</i>
 		</button>
 	</div>
-</div><script id="tpl-lugares-tipos" type="/x-handlebars-temprate"><tr data-idlugartipo="{{idlugartipo}}">
+</div>
+<script id="tpl-lugares-tipos" type="/x-handlebars-temprate">
+<tr data-idlugartipo="{{idlugartipo}}">
 	<td>{{deslugartipo}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/lugares-tipos/{{idlugartipo}}" data-toggle="slidePanel">
@@ -82,7 +84,10 @@
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-lugartipo icon wb-trash">
       	</button>
 	</td>
-	</tr></script><script>init.push(function(){
+	</tr>
+	</script>
+	<script>
+	init.push(function(){
 	var panel = System.getPanelApi($("#panel-lugares-tipos"));
 
 	var $tbody = $("#panel-lugares-tipos tbody");
@@ -114,7 +119,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/lugares/tipos",
+			url:PATH+"/lugares-tipos",
 			data:params,
 			success:function(r){
 

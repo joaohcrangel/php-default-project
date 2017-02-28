@@ -28,6 +28,9 @@
 	            <div class="tab-pane active" id="cursoTab" role="tabpanel" aria-expanded="true">
 					<form id="form-curso">
 						<input type="hidden" name="inremovido">
+						
+						<div id="summernote"></div>
+
 						<div class="row">
 
 							<div class="form-group form-material col-md-6" data-plugin="formMaterial">
@@ -200,50 +203,23 @@
 
  var isSecoesLogged = false;
 
+ var cursoSecoes = [];
+
  function loadSecoes(){
 
- 	if(isSecoesLogged === false){
-
-	 	var $panel = $("#secoes");
+ 	if(isSecoesLogged === false){ 		
 
 	 	$panelSecoes.load();
 
 	 	rest({
 	 		url:PATH+"/cursos/"+curso.idcurso+"/secoes",
-	 		success:function(r){	 			
-
-	 			$panel.html('');
+	 		success:function(r){
 
 	 			$.each(r.data, function(index, row){
+	 				cursoSecoes.push(row);
+	 			});	 			
 
-	 				var $row = $(tpl.cursoSecao(row));
-
-	 				$panel.append($row);
-
-	 				loadCurriculos($row, row);
-
-	 				$row.find(".secao-remove").on("click", function(){
-
-	 					var $btn = $(this);
-
-	 					$btn.btnload("load");
-
-	 					rest({
-	 						url:PATH+"/cursos-secoes/"+row.idsecao,
-	 						method:"DELETE",
-	 						success:function(){
-	 							$btn.btnload("unload");
-	 							$row.remove();
-	 						},
-	 						failure:function(r){
-	 							System.showError(r);
-	 							$btn.btnload("unload");
-	 						}
-	 					});
-
-	 				});
-
-	 			});
+	 			renderSecoes(cursoSecoes);
 
 	 			$(".btn-criar-secao").on("click", function(){
 
@@ -260,8 +236,8 @@
  						success:function(r){
  							$modal.find("[type=submit]").text("Salvar");
  							$modal.modal("hide");
- 							isSecoesLogged = false;
- 							loadSecoes();
+ 							cursoSecoes.push(r.data);
+ 							renderSecoes(cursoSecoes);
  						}
  					});
 
@@ -282,53 +258,108 @@
 
  }
 
+ function renderSecoes(data){
+
+ 	var $panel = $("#secoes");
+
+ 	$panel.html('');
+
+ 	$.each(data, function(index, row){	 				
+
+		var $row = $(tpl.cursoSecao(row));
+
+		$panel.append($row);
+
+		loadCurriculos($row, row);
+
+		$row.find(".secao-remove").on("click", function(){
+
+			var $btn = $(this);
+
+			$btn.btnload("load");
+
+			rest({
+				url:PATH+"/cursos-secoes/"+row.idsecao,
+				method:"DELETE",
+				success:function(){
+
+					var ids = [];
+
+					$.each(cursoSecoes, function(index, value){
+						if(value.idsecao != row.idsecao){
+							ids.push(value);
+						}
+					});
+
+					cursoSecoes = ids;
+					renderSecoes(cursoSecoes);
+
+					$btn.btnload("unload");
+					$row.remove();
+				},
+				failure:function(r){
+					System.showError(r);
+					$btn.btnload("unload");
+				}
+			});
+
+		});
+
+	});
+
+ }
+
  function loadCurriculos($row, row){
 
  	rest({
 		url:PATH+"/cursos-secoes/"+row.idsecao+"/curriculos",
 		success:function(r){
 
-			if(r.data.length > 0){
+			$row.find(".curriculo-criar").on("click", function(){
 
-				$row.find(".curriculo-criar").on("click", function(){
+				idsecao = row.idsecao;
 
- 					var $modalCurriculo = $("#modalCurriculoCriar");
+				var $modalCurriculo = $("#modalCurriculoCriar");
 
- 					$modalCurriculo.modal("show");
+				$modalCurriculo.modal("show");
 
- 					$modalCurriculo.find("[type=submit]").on("click", function(){
+				$modalCurriculo.find("[type=submit]").on("click", function(e){
 
- 						var $btn = $(this);
+					e.preventDefault();
 
- 						$btn.btnload("load");
+					var $btn = $(this);					
 
- 						rest({
- 							url:PATH+"/cursos-curriculos",
- 							method:"POST",
- 							data:{
- 								idcurriculo:0,
- 								idsecao:row.idsecao,
- 								descurriculo:$modalCurriculo.find("[name=descurriculo]").val(),
- 								nrordem:$modalCurriculo.find("[name=nrordem]").val(),
- 								desdescricao:$modalCurriculo.find("[name=desdescricao]").val()
- 							},
- 							success:function(){
- 								$modalCurriculo.find("input, textarea").val('');
- 								$btn.btnload("unload");
- 								$btn.text("Salvar");
-	 							$modalCurriculo.modal("hide");
-	 							isSecoesLogged = false;
-	 							loadSecoes();
-	 						},
-	 						failure:function(r){
-	 							$btn.btnload("unload");
-	 							System.showError(r);
-	 						}
- 						});
+					$btn.btnload("load");
 
- 					});
+					rest({
+						url:PATH+"/cursos-curriculos",
+						method:"POST",
+						data:{
+							idcurriculo:0,
+							idsecao:idsecao,
+							descurriculo:$modalCurriculo.find("[name=descurriculo]").val(),
+							nrordem:$modalCurriculo.find("[name=nrordem]").val(),
+							desdescricao:$modalCurriculo.find("[name=desdescricao]").val()
+						},
+						success:function(){
+							$modalCurriculo.find("input, textarea").val('');
+							$btn.btnload("unload");
+							$btn.text("Salvar");
+							$modalCurriculo.modal("hide");
+							delete idsecao;
+							renderSecoes(cursoSecoes);							
+						},
+						failure:function(r){
+							$btn.btnload("unload");
+							System.showError(r);
+						}
+					});
 
- 				});
+				});
+
+			});
+
+			if(r.data.length > 0){				
 
 				$row.find(".list-group-item").append("<ul class='list-group list-group-full ul-2'></ul>");
 

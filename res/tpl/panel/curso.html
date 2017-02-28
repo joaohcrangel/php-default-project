@@ -1,6 +1,6 @@
 <style>.slidePanel{
 		overflow: overlay;
-	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$curso.descurso}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#cursoTab" aria-controls="cursoTab" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#secoesTab" aria-controls="secoesTab" role="tab">Seções</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="cursoTab" role="tabpanel" aria-expanded="true"><form id="form-curso"><input type="hidden" name="inremovido"><div class="row"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Curso</label><input type="text" name="descurso" class="form-control"></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Título</label><input type="text" name="destitulo" class="form-control"></div></div><div class="row"><div class="form-group form-material col-md-4" data-plugin="formMaterial"><label class="form-control-label">Carga Horária</label><input type="number" name="vlcargahoraria" class="form-control"></div><div class="form-group form-material col-md-4" data-plugin="formMaterial"><label class="form-control-label">Número de Aulas</label><input type="number" name="nraulas" class="form-control"></div><div class="form-group form-material col-md-4" data-plugin="formMaterial"><label class="form-control-label">Número de Exercícios</label><input type="number" name="nrexercicios" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Descrição</label><textarea name="desdescricao" cols="30" rows="10" class="form-control"></textarea></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane" id="secoesTab" role="tabpanel" aria-expanded="true"><button type="button" class="btn btn-success btn-criar-secao">Criar Seção</button><div id="secoes" class="panel m-t-20"></div></div></div></div></div></div><div class="modal fade" id="modalSecaoCriar" data-backdrop="false" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Criar seção</h4></div><form><div class="modal-body"><div class="row"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="dessecao" class="form-control"></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Ordem</label><input type="number" name="nrordem" class="form-control"></div></div></div><div class="modal-footer"><div class="form-group form-material" data-plugin="formMaterial"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" class="btn btn-primary">Salvar</button></div></div></form></div></div></div><div class="modal fade" id="modalCurriculoCriar" data-backdrop="false" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Criar currículo</h4></div><form><div class="modal-body"><div class="row"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descurriculo" class="form-control"></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Ordem</label><input type="number" name="nrordem" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Descrição</label><textarea name="desdescricao" cols="30" rows="5" class="form-control"></textarea></div></div><div class="modal-footer"><div class="form-group form-material" data-plugin="formMaterial"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" id="btn-curriculo-salvar" class="btn btn-primary">Salvar</button></div></div></form></div></div></div><script id="tpl-curso-secao-curriculo" type="text/x-handlebars-template"><li class="list-group-item" style="display:flex;">
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$curso.descurso}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#cursoTab" aria-controls="cursoTab" role="tab" aria-expanded="true">Dados</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#secoesTab" aria-controls="secoesTab" role="tab">Seções</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="cursoTab" role="tabpanel" aria-expanded="true"><form id="form-curso"><input type="hidden" name="inremovido"><div id="summernote"></div><div class="row"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Curso</label><input type="text" name="descurso" class="form-control"></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Título</label><input type="text" name="destitulo" class="form-control"></div></div><div class="row"><div class="form-group form-material col-md-4" data-plugin="formMaterial"><label class="form-control-label">Carga Horária</label><input type="number" name="vlcargahoraria" class="form-control"></div><div class="form-group form-material col-md-4" data-plugin="formMaterial"><label class="form-control-label">Número de Aulas</label><input type="number" name="nraulas" class="form-control"></div><div class="form-group form-material col-md-4" data-plugin="formMaterial"><label class="form-control-label">Número de Exercícios</label><input type="number" name="nrexercicios" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Descrição</label><textarea name="desdescricao" cols="30" rows="10" class="form-control"></textarea></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><div class="tab-pane" id="secoesTab" role="tabpanel" aria-expanded="true"><button type="button" class="btn btn-success btn-criar-secao">Criar Seção</button><div id="secoes" class="panel m-t-20"></div></div></div></div></div></div><div class="modal fade" id="modalSecaoCriar" data-backdrop="false" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Criar seção</h4></div><form><div class="modal-body"><div class="row"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="dessecao" class="form-control"></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Ordem</label><input type="number" name="nrordem" class="form-control"></div></div></div><div class="modal-footer"><div class="form-group form-material" data-plugin="formMaterial"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" class="btn btn-primary">Salvar</button></div></div></form></div></div></div><div class="modal fade" id="modalCurriculoCriar" data-backdrop="false" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Criar currículo</h4></div><form><div class="modal-body"><div class="row"><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descurriculo" class="form-control"></div><div class="form-group form-material col-md-6" data-plugin="formMaterial"><label class="form-control-label">Ordem</label><input type="number" name="nrordem" class="form-control"></div></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Descrição</label><textarea name="desdescricao" cols="30" rows="5" class="form-control"></textarea></div></div><div class="modal-footer"><div class="form-group form-material" data-plugin="formMaterial"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" id="btn-curriculo-salvar" class="btn btn-primary">Salvar</button></div></div></form></div></div></div><script id="tpl-curso-secao-curriculo" type="text/x-handlebars-template"><li class="list-group-item" style="display:flex;">
  		<input type="text" name="descurriculo" class="form-control" value="{{descurriculo}}">
         <button type="button" class="btn btn-success btn-outline input-search-close icon md-check curriculo-salvar" style="padding:10px"></button>
         <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button>
@@ -21,50 +21,23 @@
 
  var isSecoesLogged = false;
 
+ var cursoSecoes = [];
+
  function loadSecoes(){
 
- 	if(isSecoesLogged === false){
-
-	 	var $panel = $("#secoes");
+ 	if(isSecoesLogged === false){ 		
 
 	 	$panelSecoes.load();
 
 	 	rest({
 	 		url:PATH+"/cursos/"+curso.idcurso+"/secoes",
-	 		success:function(r){	 			
-
-	 			$panel.html('');
+	 		success:function(r){
 
 	 			$.each(r.data, function(index, row){
+	 				cursoSecoes.push(row);
+	 			});	 			
 
-	 				var $row = $(tpl.cursoSecao(row));
-
-	 				$panel.append($row);
-
-	 				loadCurriculos($row, row);
-
-	 				$row.find(".secao-remove").on("click", function(){
-
-	 					var $btn = $(this);
-
-	 					$btn.btnload("load");
-
-	 					rest({
-	 						url:PATH+"/cursos-secoes/"+row.idsecao,
-	 						method:"DELETE",
-	 						success:function(){
-	 							$btn.btnload("unload");
-	 							$row.remove();
-	 						},
-	 						failure:function(r){
-	 							System.showError(r);
-	 							$btn.btnload("unload");
-	 						}
-	 					});
-
-	 				});
-
-	 			});
+	 			renderSecoes(cursoSecoes);
 
 	 			$(".btn-criar-secao").on("click", function(){
 
@@ -81,8 +54,8 @@
  						success:function(r){
  							$modal.find("[type=submit]").text("Salvar");
  							$modal.modal("hide");
- 							isSecoesLogged = false;
- 							loadSecoes();
+ 							cursoSecoes.push(r.data);
+ 							renderSecoes(cursoSecoes);
  						}
  					});
 
@@ -103,53 +76,108 @@
 
  }
 
+ function renderSecoes(data){
+
+ 	var $panel = $("#secoes");
+
+ 	$panel.html('');
+
+ 	$.each(data, function(index, row){	 				
+
+		var $row = $(tpl.cursoSecao(row));
+
+		$panel.append($row);
+
+		loadCurriculos($row, row);
+
+		$row.find(".secao-remove").on("click", function(){
+
+			var $btn = $(this);
+
+			$btn.btnload("load");
+
+			rest({
+				url:PATH+"/cursos-secoes/"+row.idsecao,
+				method:"DELETE",
+				success:function(){
+
+					var ids = [];
+
+					$.each(cursoSecoes, function(index, value){
+						if(value.idsecao != row.idsecao){
+							ids.push(value);
+						}
+					});
+
+					cursoSecoes = ids;
+					renderSecoes(cursoSecoes);
+
+					$btn.btnload("unload");
+					$row.remove();
+				},
+				failure:function(r){
+					System.showError(r);
+					$btn.btnload("unload");
+				}
+			});
+
+		});
+
+	});
+
+ }
+
  function loadCurriculos($row, row){
 
  	rest({
 		url:PATH+"/cursos-secoes/"+row.idsecao+"/curriculos",
 		success:function(r){
 
-			if(r.data.length > 0){
+			$row.find(".curriculo-criar").on("click", function(){
 
-				$row.find(".curriculo-criar").on("click", function(){
+				idsecao = row.idsecao;
 
- 					var $modalCurriculo = $("#modalCurriculoCriar");
+				var $modalCurriculo = $("#modalCurriculoCriar");
 
- 					$modalCurriculo.modal("show");
+				$modalCurriculo.modal("show");
 
- 					$modalCurriculo.find("[type=submit]").on("click", function(){
+				$modalCurriculo.find("[type=submit]").on("click", function(e){
 
- 						var $btn = $(this);
+					e.preventDefault();
 
- 						$btn.btnload("load");
+					var $btn = $(this);					
 
- 						rest({
- 							url:PATH+"/cursos-curriculos",
- 							method:"POST",
- 							data:{
- 								idcurriculo:0,
- 								idsecao:row.idsecao,
- 								descurriculo:$modalCurriculo.find("[name=descurriculo]").val(),
- 								nrordem:$modalCurriculo.find("[name=nrordem]").val(),
- 								desdescricao:$modalCurriculo.find("[name=desdescricao]").val()
- 							},
- 							success:function(){
- 								$modalCurriculo.find("input, textarea").val('');
- 								$btn.btnload("unload");
- 								$btn.text("Salvar");
-	 							$modalCurriculo.modal("hide");
-	 							isSecoesLogged = false;
-	 							loadSecoes();
-	 						},
-	 						failure:function(r){
-	 							$btn.btnload("unload");
-	 							System.showError(r);
-	 						}
- 						});
+					$btn.btnload("load");
 
- 					});
+					rest({
+						url:PATH+"/cursos-curriculos",
+						method:"POST",
+						data:{
+							idcurriculo:0,
+							idsecao:idsecao,
+							descurriculo:$modalCurriculo.find("[name=descurriculo]").val(),
+							nrordem:$modalCurriculo.find("[name=nrordem]").val(),
+							desdescricao:$modalCurriculo.find("[name=desdescricao]").val()
+						},
+						success:function(){
+							$modalCurriculo.find("input, textarea").val('');
+							$btn.btnload("unload");
+							$btn.text("Salvar");
+							$modalCurriculo.modal("hide");
+							delete idsecao;
+							renderSecoes(cursoSecoes);							
+						},
+						failure:function(r){
+							$btn.btnload("unload");
+							System.showError(r);
+						}
+					});
 
- 				});
+				});
+
+			});
+
+			if(r.data.length > 0){				
 
 				$row.find(".list-group-item").append("<ul class='list-group list-group-full ul-2'></ul>");
 

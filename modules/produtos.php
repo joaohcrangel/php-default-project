@@ -4,6 +4,10 @@ $app->get("/produtos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
+    $pagina = (int)get('pagina');    
+
+    $itemsPorPagina = (int)get('limit');
+
     $where = array();
 
     if(isset($_GET['ids'])){
@@ -22,13 +26,9 @@ $app->get("/produtos/all", function(){
     }
 
     $query = "
-        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtosdados a
+        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtos a
         ".$where." LIMIT ?, ?
     ;";
-    
-    $pagina = (int)get('pagina');    
-
-    $itemsPorPagina = (int)get('limit');
 
     $paginacao = new Pagination(
         $query,

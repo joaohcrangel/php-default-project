@@ -261,8 +261,6 @@
 		t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
 		t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
 		t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
-
-		console.log(marker.getPosition().lat(), marker.getPosition().lng(), map.getZoom());
 	}
 
 	google.maps.event.addListener(marker, 'dragend', function(){

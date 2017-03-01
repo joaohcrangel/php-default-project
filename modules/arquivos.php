@@ -48,17 +48,10 @@ $app->post("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $file = $_FILES['arquivo'];
-    $arquivo = Arquivo::upload(
-        $file['name'],
-        $file['type'],
-        $file['tmp_name'],
-        $file['error'],
-        $file['size']
-    );
+    $arquivos = Arquivos::upload($_FILES['arquivo']);
     
     echo success(array(
-        'data'=>$arquivo->getFields()
+        'data'=>$arquivos->getFields()
     ));
 
 });
@@ -89,14 +82,12 @@ $app->delete("/arquivos", function(){
 
     $ids = explode(",",post('ids'));
 
-    //var_dump($ids);
-
     foreach ($ids as $idarquivo) {
 
         $arquivo = new Arquivo(array(
             'idarquivo'=>(int)$idarquivo
         ));
-        //$arquivo->remove();
+        $arquivo->remove();
 
     }
 

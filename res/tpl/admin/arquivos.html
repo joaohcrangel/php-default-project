@@ -1,10 +1,13 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css"><style>.info-wrap .title {
   text-overflow: ellipsis;
-    overflow: hidden;
+  overflow: hidden;
+  text-align: center;
+  height: 20px;
+  width: 100%;
 }
 .image-wrap {
-  display: table-cell;
-    vertical-align: middle;
+
+  text-align: center;
 }
 
 #actions-buttons button {
@@ -15,23 +18,23 @@
 #actions-buttons button .icon {
   font-size: 32px;
 }
-
 .page {
   height: calc(100% - 83px);
   min-height: calc(100% - 83px);
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Arquivo</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome do Arquivo</label><input type="text" class="form-control" name="desarquivo"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Arquivo</label><select name="desextensao" class="form-control"><option value="">-- SELECIONE --<option value="gif">Imagem GIF<option value="jpg">Imagem JPG<option value="png">Imagem PNG<option value="pdf">Documento PDF</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main" id="arquivo-page"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable"><div id="btn-excluir" class="page-content-actions p-10"><div id="arrangement-grid" class="pull-xs-left"></div><div class="actions-inner"><div class="checkbox-custom checkbox-primary checkbox-lg p-t-0"><input type="checkbox" id="media_all" class="selectable-all"><label for="media_all"></label></div></div></div><div id="tab-arquivo-fotos" data-auto-height="-360"><div class="media-list is-grid" data-plugin="animateList" data-animate="fade" data-child="li"><ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul></div></div></div><div id="paginacao"></div></div></div><div id="adicionar" class="site-action"><div class="site-action-buttons"><button type="button" data-action="download" class="btn-raised btn btn-success btn-floating animation-slide-bottom"><i class="icon md-download" aria-hidden="true"></i></button></div><input type="file" id="fileupload" name="upload"></div><script id="tpl-arquivo-page" type="text/x-handlebars-template"><li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
-
+}
+.app-media .media-list .image-wrap > .image {
+  max-height: 64px;
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Arquivo</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome do Arquivo</label><input type="text" class="form-control" name="desarquivo"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Arquivo</label><select name="desextensao" class="form-control"><option value="">-- SELECIONE --<option value="gif">Imagem GIF<option value="jpg">Imagem JPG<option value="png">Imagem PNG<option value="pdf">Documento PDF</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main" id="arquivo-page"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable"><div id="btn-excluir" class="page-content-actions p-10"><div id="arrangement-grid" class="pull-xs-left"></div><div class="actions-inner"><div class="checkbox-custom checkbox-primary checkbox-lg p-t-0"><input type="checkbox" id="media_all" class="selectable-all"><label for="media_all"></label></div></div></div><div id="tab-arquivo-fotos" data-auto-height="-360"><div class="media-list is-grid" data-plugin="animateList" data-animate="fade" data-child="li"><ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul></div></div></div><div id="paginacao"></div></div></div><script id="tpl-arquivo-page" type="text/x-handlebars-template"><li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
   <div class="media-item" data-toggle="slidePanel" data-url="panel.tpl">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="selectable-item" id="media_1" />
       <label for="media_1"></label>
     </div>
     <div class="image-wrap">
-      <img class="image img-rounded" src="{$path}{$diretorio}{{desarquivo}}.{{desextensao}}" alt="...">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
     </div>
     <div class="info-wrap">
       <div class="title">{{desalias}}</div>
-      <div class="time">{{desdtcadastro}}</div>
     </div>
   </div>
 </li></script><script>init.push(function(){
@@ -83,7 +86,9 @@
           }
         });
 
-        $("#paginacao").asPaginator(r.total, config);
+        console.log(r.total, config);
+
+        $("#paginacao").html('').removeAttr('class').asPaginator(r.total, config);
 
       },
       failure:function(e){
@@ -110,26 +115,11 @@
     
   });
 
-  $("#adicionar").on("click",function(){
-
-    $.upload({
-      url:PATH+"/arquivos",
-      success:function(r){
-
-        carregarArquivos();
-        System.success("Arquivo adicionado!");
-
-      },
-      failure:function(e){
-        System.showError(e);
-      }
-    });
-
-  });
-
   var btnAddClick = function(){
     $.upload({
+      multiple:true,
       url:PATH+"/arquivos",
+      accept:"*",
       success:function(r){
 
         carregarArquivos();

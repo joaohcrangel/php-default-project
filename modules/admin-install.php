@@ -950,7 +950,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuUrls = new Menu(array(
 		'nrordem'=>10,
 		'idmenupai'=>NULL,
-		'desicone'=>'',
+		'desicone'=>'md-link',
 		'deshref'=>'/urls',
 		'desmenu'=>$lang->getString('menus_urls')
 	));

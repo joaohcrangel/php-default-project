@@ -1,5 +1,4 @@
 <?php
-
 class Arquivo extends Model {
 
     public $required = array('desdiretorio', 'desarquivo', 'desextensao', 'desalias');

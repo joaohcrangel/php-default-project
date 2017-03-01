@@ -85,9 +85,7 @@
           onChange:function(page){
             carregarArquivos(page);
           }
-        });
-
-        console.log(r.total, config);
+        });  
 
         $("#paginacao").html('').removeAttr('class').asPaginator(r.total, config);
 

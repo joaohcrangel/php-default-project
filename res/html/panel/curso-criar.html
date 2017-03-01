@@ -2,8 +2,8 @@
 	.slidePanel{
 		overflow: overlay;
 	}
+	
 </style>
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <header class="slidePanel-header">
   <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
@@ -18,34 +18,42 @@
 
 		<input type="hidden" name="inremovido">
 
-		<div class="form-group form-material" data-plugin="formMaterial">
-			<label class="form-control-label">Nome do Curso</label>
-			<input type="text" class="form-control" name="descurso">
+		<div class="row">
+
+			<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+				<label class="form-control-label">Curso</label>
+				<input type="text" name="descurso" class="form-control">
+			</div>
+
+			<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+				<label class="form-control-label">Título</label>
+				<input type="text" name="destitulo" class="form-control">
+			</div>
+
 		</div>
 
-		<div class="form-group form-material" data-plugin="formMaterial">
-			<label class="form-control-label">Título</label>
-			<input type="text" class="form-control" name="destitulo">
-		</div>
+		<div class="row">
 
-		<div class="form-group form-material" data-plugin="formMaterial">
-			<label class="form-control-label">Carga Horária</label>
-			<input type="number" class="form-control" name="vlcargahoraria">
-		</div>
+			<div class="form-group form-material col-md-4" data-plugin="formMaterial">
+				<label class="form-control-label">Carga Horária</label>
+				<input type="number" name="vlcargahoraria" class="form-control">
+			</div>
 
-		<div class="form-group form-material" data-plugin="formMaterial">
-			<label class="form-control-label">Número de Aulas</label>
-			<input type="number" class="form-control" name="nraulas">
-		</div>
+			<div class="form-group form-material col-md-4" data-plugin="formMaterial">
+				<label class="form-control-label">Número de Aulas</label>
+				<input type="number" name="nraulas" class="form-control">
+			</div>
 
-		<div class="form-group form-material" data-plugin="formMaterial">
-			<label class="form-control-label">Número de Exercícios</label>
-			<input type="number" class="form-control" name="nrexercicios">
+			<div class="form-group form-material col-md-4" data-plugin="formMaterial">
+				<label class="form-control-label">Número de Exercícios</label>
+				<input type="number" name="nrexercicios" class="form-control">
+			</div>
+
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">Descrição</label>
-			<textarea name="desdescricao" cols="30" rows="10" class="form-control"></textarea>
+			<div id="summernote"></div>
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -60,11 +68,22 @@
 	
 var form = $("#form-curso-criar");
 
+$("#summernote").summernote({
+	height:200
+});
+
 form.form({
 	url:PATH+"/cursos",
 	params:{
 		idcurso:0
 	},
+	beforeParams: function() {
+
+        return {
+            desdescricao: $('#summernote').next('.note-editor').find('.note-editable').html()
+        };
+
+    },
 	resetForm:false,
 	success:function(){
 		System.success("Curso criado com sucesso");

@@ -9,6 +9,7 @@ class Urls extends Collection {
 
     public function get(){}
 
+
     public static function listAll():Urls
     {
 

@@ -614,6 +614,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pessoas Dados - Tabelas",
 			status:"",
 			enabled:true
+		},{
+			url:"/sql/pessoasenderecos/tables",
+			name:"Pessoas Endereços - Tables",
+			status:"",
+			enabled:true
 		},
 		{
 			url:"/sql/coordenadas/tables",
@@ -791,49 +796,62 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pessoas Arquivos - Procedures",
 			status:"",
 			enabled:true
-		},
-
-		{
-			url:"/sql/pessoasenderecos/tables",
-			name:"Pessoas Endereços - Tabela",
-			status:"",
-			enabled:true
-		},
-		{
-			url:"/sql/pessoasenderecos/triggers",
-			name:"Pessoas Endereços - Triggers",
-			status:"",
-			enabled:true
-		},
-
-		{
-			url:"/sql/urls/tables",
-			name:"URLs - Table",
-			status:"",
-			enabled:true
 		},{
-			url:"/sql/urls/list",
-			name:"URLs - Procedure LIST",
+			url:"/sql/urls/tables",
+			name:"URL - Table",
 			status:"",
 			enabled:true
 		},{
 			url:"/sql/urls/get",
-			name:"URLs - Procedure GET",
+			name:"Urls - GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/urls/list",
+			name:"Urls - LIST",
 			status:"",
 			enabled:true
 		},{
 			url:"/sql/urls/save",
-			name:"URLs - Procedure SAVE",
+			name:"Urls - SAVE",
 			status:"",
 			enabled:true
 		},{
 			url:"/sql/urls/remove",
-			name:"URLs - Procedure REMOVE",
+			name:"Urls - REMOVE",
 			status:"",
 			enabled:true
-		},		
-
-		{
+		},{
+			url:"/sql/pedidosnegociacoestipos/tables",
+			name:"PedidoNegociacaoTipo - Table",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pedidosnegociacoestipos/get",
+			name:"PedidosNegociacoesTipos - GET",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pedidosnegociacoestipos/list",
+			name:"PedidosNegociacoesTipos - LIST",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pedidosnegociacoestipos/save",
+			name:"PedidosNegociacoesTipos - SAVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pedidosnegociacoestipos/remove",
+			name:"PedidosNegociacoesTipos - REMOVE",
+			status:"",
+			enabled:true
+		},{
+			url:"/sql/pedidosnegociacoestipos/inserts",
+			name:"PedidosNegociacoesTipos - Inserts",
+			status:"",
+			enabled:true
+		},{
 			url:"/sql/pessoas/inserts",
 			name:"Pessoas - Inserts",
 			status:"",

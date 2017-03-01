@@ -229,6 +229,20 @@ $app->get("/".DIR_ADMIN."/produtos", function(){
 
 });
 
+$app->get("/admin/permissoes", function(){
+
+    $permisao = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $permisao->setTpl("/admin/permissoes");
+
+});
+
 $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -419,6 +433,22 @@ $app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
     ));
 
     $page->setTpl("/admin/pessoas-valorescampos");
+
+});
+
+$app->get("/".DIR_ADMIN."/pedidosnegociacoestipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/pedidosnegociacoestipos");
 
 });
 

@@ -193,6 +193,7 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'despessoatipo'=>$lang->getString("pessoas_fisica")
 	));
 	$pessoaTipoF->save();
+
 	$pessoaTipoJ = new PessoaTipo(array(
 		'despessoatipo'=>$lang->getString("pessoas_juridica")
 	));
@@ -825,6 +826,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarouselsItemsTipos->save();
 	//////////////////////////////////////
+	$menuPedidosNegociacoesTipos = new Menu(array(
+		'nrordem'=>13,
+		'idmenupai'=>$menuTipos->getidmenu(),
+		'desicone'=>'',
+		'deshref'=>'/pedidosnegociacoestipos',
+		'desmenu'=>$lang->getString('menus_negociacao_tipo')
+	));
+	$menuPedidosNegociacoesTipos->save();
+	//////////////////////////////////////
 	$menuPedidos = new Menu(array(
 		"nrordem"=>5,
 		"idmenupai"=>NULL,
@@ -1434,6 +1444,18 @@ $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 	$sql = new Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_cidades");
+
+	echo json_encode($results);
+
+});
+$app->get("/install-admin/sql/pedidosnegociacoestipos/inserts", function(){ 
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_pedidosnegociacoestipos");
 
 	echo json_encode($results);
 
@@ -2117,14 +2139,16 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
-		CREATE TABLE tb_pedidosnegociacoestipos (
-		  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
-		  desnegociacao varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idnegociacao)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
+	   /*
+		$sql->query("
+			CREATE TABLE tb_pedidosnegociacoestipos (
+			  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
+			  desnegociacao varchar(64) NOT NULL,
+			  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  PRIMARY KEY (idnegociacao)
+			) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+		");
+		*/
 	$sql->query("
 		CREATE TABLE tb_pedidosnegociacoes (
 		  idnegociacao int(11) NOT NULL,
@@ -2248,6 +2272,78 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	echo success();
 	
 });
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$sql = new Sql();
+
+	$sql->query("
+		CREATE TABLE tb_pedidosnegociacoestipos (
+			idnegociacao int(11) NOT NULL AUTO_INCREMENT,
+			desnegociacao varchar(64) NOT NULL,
+			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (idnegociacao)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+	
+		'sp_pedidosnegociacoestipos_list'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+
+		'sp_pedidosnegociacoestipos_get'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_pedidosnegociacoestipos_save'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/pedidosnegociacoestipos/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+	
+		'sp_pedidosnegociacoestipos_remove'
+		
+	);
+	saveProcedures($procs);
+	
+	echo success();
+		
+});		
+
 $app->get("/install-admin/sql/pedidos/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -3039,6 +3135,46 @@ $app->get("/install-admin/sql/arquivos/list", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_arquivos_list'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/urls/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_get'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/urls/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_save'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/urls/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_remove'
+	);
+	saveProcedures($procs);
+
+	echo success();
+});
+$app->get("/install-admin/sql/urls/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_list'
 	);
 	saveProcedures($procs);
 

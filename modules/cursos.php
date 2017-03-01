@@ -53,7 +53,22 @@ $app->get("/cursos/:idcurso/secoes", function($idcurso){
 
 });
 
+$app->get("/cursos/:idcurso/html", function($idcurso){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$curso = new Curso((int)$idcurso);
+
+	echo success(array(
+		"data"=>addslashes($curso->getdesdescricao())
+	));
+
+});
+
 $app->post("/cursos", function(){
+
+	// pre($_POST);
+	// exit;
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 

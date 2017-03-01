@@ -166,6 +166,34 @@ $app->get("/panel/pedidos-status-criar", function(){
 
 });
 
+// pedidosnegociacoestipos
+
+$app->get("/panel/pedidosnegociacoes-tipos/:idnegociacao", function($idnegociacao){
+
+	$pedido = new PedidoNegociacaoTipo((int)$idnegociacao);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pedidonegociacao-tipo-salvar", array(
+		"pedido"=>$pedido->getFields()
+	));
+
+});
+
+$app->get("/panel/pedidonegociacao-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pedidonegociacao-tipo-criar");
+
+});
+
 // site contatos
 $app->get("/panel/sites-contatos/:idsitecontato", function($idsitecontato){
 

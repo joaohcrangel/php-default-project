@@ -1,21 +1,44 @@
 <?php
 
-$app->get("/admin/permissoes", function(){
-
-	$permisao = new AdminPage();
-
-	$permisao->setTpl("/admin/permissoes");
-
-});
-
-
 $app->get('/permissoes', function () {
 
 	Permissao::checkSession(Permissao::ADMIN);
 
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('despermissao')) {
+		array_push($where, "despermissao LIKE '%".get('despermissao')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_permissoes
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "Permissoes",
+        $itemsPerPage
+    );
+
+    $permissoes = $paginacao->getPage($currentPage);
+
+
 	echo success(array(
-		'data'=>Permissoes::listAll()->getFields()
-	));
+		"data"=>$permissoes->getFields(),
+		"currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 

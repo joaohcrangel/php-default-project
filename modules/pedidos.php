@@ -357,4 +357,86 @@ $app->delete("/pedidos-historicos/:idhistorico", function($idhistorico){
 
 });
 
+//////////////////////////////////////////////////////////////
+
+// pedidosnegociacoestipos
+$app->get("/pedidosnegociacoestipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
+
+    $where = array();
+
+    if(get('desnegociacao')) {
+        array_push($where, "desnegociacao LIKE '%".get('desnegociacao')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AD ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_pedidosnegociacoestipos
+    ".$where." limit ?, ?;";
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "PedidosNegociacoesTipos",
+        $itemsPerPage
+    );
+
+    $pedidosnegociacoestipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$pedidosnegociacoestipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
+
+});
+
+$app->post("/pedidosnegociacoestipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if((int)post('idnegociacao') > 0){
+        $pedido = new PedidoNegociacaoTipo((int)post('idnegociacao'));
+    }else{
+        $pedido = new PedidoNegociacaoTipo();
+    }
+
+    $pedido->set($_POST);
+
+    $pedido->save();
+
+    echo success(array("data"=>$pedido->getFields()));
+
+});
+
+$app->delete("/pedidosnegociacoestipos/:idnegociacao", function($idnegociacao){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    if(!(int)$idnegociacao){
+        throw new Exception("Pedido não informado", 400);        
+    }
+
+    $pedido = new PedidoNegociacaoTipo((int)$idnegociacao);
+
+    if(!(int)$pedido->getidnegociacao() > 0){
+        throw new Exception("Pedido não encontrado", 404);        
+    }
+
+    $pedido->remove();
+
+    echo success();
+
+});
+
 ?>

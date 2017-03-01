@@ -13,12 +13,12 @@
 	          <section class="page-aside-section p-t-0">
 	            <div class="panel-primary panel-line">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Filtrar Endereços</h3>
+	                <h3 class="panel-title">Filtrar Negociações</h3>
 	              </div>
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
-	                  <label class="form-control-label">Nome do Endereço</label>
-	                  <input type="text" class="form-control" name="desenderecotipo">
+	                  <label class="form-control-label">Nome da Negociação</label>
+	                  <input type="text" class="form-control" name="desnegociacao">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -33,7 +33,7 @@
 
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-endereco-tipo">
+                <div class="panel" id="panel-pedido-tipo">
                     <div class="panel-heading">
             		    <h3 class="panel-title"></h3>
                         <div class="panel-actions">
@@ -45,7 +45,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Endereco
+                                    Pedidos Negociações Tipos
                                 </th>
                                     <th> &nbsp;</th>
                             </tr>           
@@ -61,7 +61,7 @@
     </div>
     <div class="site-action animation-duration-300">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/endereco-tipo-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/pedidonegociacao-tipo-criar" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -69,38 +69,39 @@
         </button>
     </div>
 </div>
-<script id="tpl-endereco-tipo" type="/x-handlebars-temprate"><tr data-idenderecotipo="{{idenderecotipo}}">
-	<td>{{desenderecotipo}}</td>
+<script id="tpl-pedido-tipo" type="/x-handlebars-temprate">
+<tr data-idnegociacao="{{idnegociacao}}">
+	<td>{{desnegociacao}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/enderecos/tipos/{{idenderecotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pedidosnegociacoes-tipos/{{idnegociacao}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-endereco icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pedido icon wb-trash">
       	</button>
 	</td>
 </tr>
 </script>
 <script>
 init.push(function(){
-	var panel = System.getPanelApi($("#panel-endereco-tipo"));
+	var panel = System.getPanelApi($("#panel-pedido-tipo"));
 
-	var $tbody = $("#panel-endereco-tipo tbody");
+	var $tbody = $("#panel-pedido-tipo tbody");
 
-	var $tplEnderecoTipo = Handlebars.compile($("#tpl-endereco-tipo").html());
+	var $tplPedidoTipo = Handlebars.compile($("#tpl-pedido-tipo").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
-     console.log("ok");
+     
     e.preventDefault();
 
-    loadEnderecoTipo();
+    loadPedidoTipo();
     
   });
 
-	function loadEnderecoTipo(pagina){
+	function loadPedidoTipo(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadEnderecoTipo();
+			loadPedidoTipo();
 
 		});
 
@@ -112,7 +113,7 @@ init.push(function(){
 		panel.load();
 
 		rest({
-			url:PATH+"/enderecos/tipos",
+			url:PATH+"/pedidosnegociacoestipos",
 			data:params,
 			success:function(r){
 
@@ -120,7 +121,7 @@ init.push(function(){
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplEnderecoTipo(row));
+					$tbody.append($tplPedidoTipo(row));
 
 				});
 
@@ -129,7 +130,7 @@ init.push(function(){
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadEnderecoTipo(page);
+            			loadPedidoTipo(page);
          			}
         		});
 
@@ -139,23 +140,23 @@ init.push(function(){
 
 				panel.done();
 
-				$(".btn-excluir-endereco").on("click", function(e){
+				$(".btn-excluir-pedido").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idenderecotipo = $btn.closest("tr").data("idenderecotipo");
-					System.confirm('Deseja remover esse endereco?', function(b, s, f){
+					var idnegociacao = $btn.closest("tr").data("idnegociacao");
+					System.confirm('Deseja remover esse Pedido?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/enderecos-tipos/"+idenderecotipo,
+				          		url: PATH+"/pedidosnegociacoestipos/"+idnegociacao,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadEnderecoTipo();
+				           		 	loadPedidoTipo();
 				            		s();
 
 				          		},
@@ -182,6 +183,6 @@ init.push(function(){
 		});
 	};
 
-    loadEnderecoTipo();
+    loadPedidoTipo();
 });
 </script>

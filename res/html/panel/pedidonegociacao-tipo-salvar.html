@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
-<header class="slidePanel-header">
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header">
     <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
         <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions"
         role="group">
@@ -9,7 +8,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Editar Lugar
+                Editar Negociações Tipos
             </h5>
         </h4>
     </div>
@@ -17,33 +16,32 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-lugares-tipos-save">
+            <form id="form-pedido-tipo">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idlugartipo">
+                        <input type="hidden" name="idnegociacao">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="deslugartipo">
+                        <input type="text" class="form-control" name="desnegociacao">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnlugares-tipos-Save" type="submit">
-                        Salvar Novo Lugar
+                    <button class="btn btn-block btn-primary" id="btnpedido-tipo" type="submit">
+                        Salvar Negociações Tipos
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script>
-var lugaresTipos = JSON.parse('{function="json_encode($lugartipo)"}');
+<script>var pedidoTipo = JSON.parse('{function="json_encode($pedido)"}');
 
-$("#form-lugares-tipos-save").form({
-  url:PATH+"/lugares-tipos",
+$("#form-pedido-tipo").form({
+  url:PATH+"/pedidosnegociacoestipos",
   params:{
-    idlugartipo:lugaresTipos.idlugartipo
+    idnegociacao:pedidoTipo.idnegociacao
   },
   success:function(){
-    System.success("Lugar criado com sucesso");
+    System.success("Pedido criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
 
@@ -53,6 +51,5 @@ $("#form-lugares-tipos-save").form({
   }
 });
 
-$("#form-lugares-tipos-save").formLoad(lugaresTipos);
-
+$("#form-pedido-tipo").formLoad(pedidoTipo);
 </script>

@@ -148,6 +148,10 @@ $.upload = (function(){
 
 			var o =  $.extend(defaults, options);
 
+			if (o.multiple === true) {
+				o.inputName = o.inputName + '[]';
+			}
+
 			var $inputFile = $('<input type="file" name="'+o.inputName+'" accept="'+o.accept+'">');
 
 			if (o.multiple === true) {

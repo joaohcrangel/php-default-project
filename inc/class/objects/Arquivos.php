@@ -20,6 +20,49 @@ class Arquivos extends Collection {
 
     }
 
+    public static function upload($_FILE):Arquivos
+    {
+
+        $files = array();
+
+        if (gettype($_FILE['name']) === 'array') {
+            for ($i=0; $i < count($_FILE['name']); $i++) { 
+                array_push($files, array(
+                    'name'=>$_FILE['name'][$i],
+                    'type'=>$_FILE['type'][$i],
+                    'tmp_name'=>$_FILE['tmp_name'][$i],
+                    'error'=>$_FILE['error'][$i],
+                    'size'=>$_FILE['size'][$i]
+                ));
+            }        
+        } else {
+            array_push($files, array(
+                'name'=>$_FILE['name'],
+                'type'=>$_FILE['type'],
+                'tmp_name'=>$_FILE['tmp_name'],
+                'error'=>$_FILE['error'],
+                'size'=>$_FILE['size']
+            ));
+        }
+
+        $arquivos = new Arquivos();
+
+        foreach ($files as $f) {
+            
+            $arquivos->add(Arquivo::upload(
+                $f['name'],
+                $f['type'],
+                $f['tmp_name'],
+                $f['error'],
+                $f['size']
+            ));
+
+        }
+
+        return $arquivos;
+
+    }
+
 }
 
 ?>

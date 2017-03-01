@@ -57,8 +57,8 @@ BEGIN
     LEFT JOIN tb_pessoasvalores k ON k.idcampo = (SELECT k1.idcampo FROM tb_pessoasvalores k1 WHERE k1.idpessoa = a.idpessoa AND k1.idcampo = 2 LIMIT 1) -- DATA DE NASCIMENTO
     LEFT JOIN tb_pessoasvalores o ON o.idcampo = (SELECT o1.idcampo FROM tb_pessoasvalores o1 WHERE o1.idpessoa = a.idpessoa AND o1.idcampo = 3 LIMIT 1) -- FOTO
     LEFT JOIN tb_pessoascategorias l ON a.idpessoa = l.idpessoa AND l.idcategoria = 1 -- CLIENTE
-    LEFT JOIN tb_pessoascategorias m ON a.idpessoa = m.idpessoa AND m.idcategoria = 1 -- FORNECEDOR
-    LEFT JOIN tb_pessoascategorias n ON a.idpessoa = n.idpessoa AND n.idcategoria = 1 -- COLABORADOR
+    LEFT JOIN tb_pessoascategorias m ON a.idpessoa = m.idpessoa AND m.idcategoria = 2 -- FORNECEDOR
+    LEFT JOIN tb_pessoascategorias n ON a.idpessoa = n.idpessoa AND n.idcategoria = 3 -- COLABORADOR
     LEFT JOIN tb_enderecos p ON p.idendereco = (SELECT p1.idendereco FROM tb_enderecos p1 INNER JOIN tb_pessoasenderecos p2 ON p1.idendereco = p2.idendereco WHERE p2.idpessoa = a.idpessoa ORDER by p1.inprincipal DESC, p2.dtcadastro DESC LIMIT 1)
     LEFT JOIN tb_enderecostipos q ON q.idenderecotipo = p.idenderecotipo
     WHERE 

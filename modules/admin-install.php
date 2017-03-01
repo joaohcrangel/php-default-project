@@ -221,7 +221,18 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'descampo'=>$lang->getString('foto')
 	));
 	$foto->save();
-
+	$cliente = new PessoaCategoriaTipo(array(
+		'descategoria'=>$lang->getString('pessoa_cliente')
+	));
+	$cliente->save();
+	$fornecedor = new PessoaCategoriaTipo(array(
+		'descategoria'=>$lang->getString('pessoa_fornecedor')
+	));
+	$fornecedor->save();
+	$colaborador = new PessoaCategoriaTipo(array(
+		'descategoria'=>$lang->getString('pessoa_colaborador')
+	));
+	$colaborador->save();
 	echo success();
 	
 });

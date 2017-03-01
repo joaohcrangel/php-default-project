@@ -145,7 +145,118 @@
 
             </div>
             <div class="tab-pane" id="tab-pessoa-faleconosco" role="tabpanel">
-              
+              <div class="panel">
+                <div class="panel-body" data-auto-height="-288">
+                  <div class="chat-box">
+                    <div class="chats">
+                      <div class="chat">
+                        <div class="chat-avatar">
+                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="June Lane">
+                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="June Lane">
+                          </a>
+                        </div>
+                        <div class="chat-body">
+                          <div class="chat-content">
+                            <p>
+                              Hello. What can I do for you?
+                            </p>
+                            <time class="chat-time" datetime="2016-06-01T08:30">8:30 am</time>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chat chat-left">
+                        <div class="chat-avatar">
+                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="Edward Fletcher">
+                            <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="Edward Fletcher">
+                          </a>
+                        </div>
+                        <div class="chat-body">
+                          <div class="chat-content">
+                            <p>
+                              I'm just looking around.
+                            </p>
+                            <p>Will you tell me something about yourself? </p>
+                            <time class="chat-time" datetime="2016-06-01T08:35">8:35 am</time>
+                          </div>
+                          <div class="chat-content">
+                            <p>
+                              Are you there? That time!
+                            </p>
+                            <time class="chat-time" datetime="2016-06-01T08:40">8:40 am</time>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chat">
+                        <div class="chat-avatar">
+                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="June Lane">
+                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="June Lane">
+                          </a>
+                        </div>
+                        <div class="chat-body">
+                          <div class="chat-content">
+                            <p>
+                              Where?
+                            </p>
+                            <time class="chat-time" datetime="2016-06-01T08:35">8:35 am</time>
+                          </div>
+                          <div class="chat-content">
+                            <p>
+                              OK, my name is Limingqiang. I like singing, playing basketballand so on.
+                            </p>
+                            <time class="chat-time" datetime="2016-06-01T08:42">8:42 am</time>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chat chat-left">
+                        <div class="chat-avatar">
+                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="Edward Fletcher">
+                            <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="Edward Fletcher">
+                          </a>
+                        </div>
+                        <div class="chat-body">
+                          <div class="chat-content">
+                            <p>You wait for notice.</p>
+                          </div>
+                          <div class="chat-content">
+                            <p>Consectetuorem ipsum dolor sit?</p>
+                            <time class="chat-time" datetime="2016-06-01T08:50">8:50 am</time>
+                          </div>
+                          <div class="chat-content">
+                            <p>OK?</p>
+                            <time class="chat-time" datetime="2016-06-01T08:55">8:55 am</time>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chat">
+                        <div class="chat-avatar">
+                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="June Lane">
+                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="June Lane">
+                          </a>
+                        </div>
+                        <div class="chat-body">
+                          <div class="chat-content">
+                            <p>OK!</p>
+                            <time class="chat-time" datetime="2016-06-01T09:00">9:00 am</time>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <form>
+                    <div class="input-group form-material">
+                      <span class="input-group-btn">
+                        <a href="javascript: void(0)" class="btn btn-pure btn-default icon md-camera"></a>
+                      </span>
+                      <input class="form-control" type="text" placeholder="Type message here ...">
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-pure btn-default icon md-mail-send"></button>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
             <div class="tab-pane" id="tab-pessoa-pedidos" role="tabpanel">
               
@@ -153,7 +264,14 @@
                 <div class="panel-heading">
                   <h3 class="panel-title indigo-500">Últimas vendas</h3>
                   <div class="panel-actions">
-                    <select class="form-control" name="idnegociacao"></select>
+                    <div class="row-fluid">
+                      <div class="col-xs-6">
+                        <select class="form-control pull-xs-right" name="idnegociacao"></select>
+                      </div>
+                      <div class="col-xs-6">
+                        <a class="panel-action icon md-refresh-alt pull-xs-right" id="btn-pedido-reload" aria-hidden="true"></a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <table class="table table-hover">
@@ -165,11 +283,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                    </tr>
+                    
                   </tbody>
                 </table>
               </div>
@@ -190,6 +304,13 @@
   </div>
 </div>
 {noparse}
+<script id="tpl-pessoa-pedido-row" type="text/x-handlebars-template">
+  <tr>
+    <td>{{desdtcadastro}}</td>
+    <td>{{idpedido}}</td>
+    <td class="real">{{desvltotal}}</td>
+  </tr>
+</script>
 <script id="tpl-pessoa-home-card" type="text/x-handlebars-template">
 <div class="card-header bg-white p-30 clearfix">
   <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
@@ -493,9 +614,64 @@ var PessoaPanel = (function(data, selectorContainer, opts){
       listeners:{
         tabchange:function(obejct, event){
 
-          console.log(event.tabContent.id);          
+          switch (event.tabContent.id) {
+
+            case 'tab-pessoa-pedidos':
+            t.$el.find('[name=idnegociacao]').combobox({
+              url:'/pedidos/negiciacoestipos',
+              displayField:'desnegociacao',
+              valueField:'idnegociacao'
+            });
+
+            t.laodTableVendas();
+
+            break;
+
+            case 'tab-pessoa-faleconosco':
+            System.initAutoHeight($('#tab-pessoa-faleconosco'));
+            break;
+            
+          }
 
         }
+      }
+    });
+
+  };
+
+  t.laodTableVendas = function(cache, callback){
+
+    var $panel = $('#tab-pessoa-pedidos > .panel');
+    var panel = System.getPanelApi($panel);
+    var $tbody = $('#tab-pessoa-pedidos tbody');
+
+    panel.load();
+
+    if (typeof cache === 'undefined') cache = true;
+
+    $.store({
+      cache:cache,
+      url:PATH+"/pessoas/"+t.getIdPessoa()+"/pedidos",
+      success:function(data){
+
+        $tbody.html('');
+
+        $.each(data, function(index, row){
+
+          var $tr = t.getTpl('tpl-pessoa-pedido-row')(row);
+
+          $tbody.append($tr);
+
+        });
+
+        panel.done();
+
+        if (typeof callback === 'function') callback(data);
+
+      },
+      failure:function(e){
+        System.showError(e);
+        panel.done();
       }
     });
 
@@ -523,6 +699,20 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
       });
 
+    });
+
+    t.$el.on('click', '#btn-pedido-reload', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.laodTableVendas(false, function(){
+
+        $btn.btnload('unload');
+
+      });
+      
     });
 
     t.$el.on('click', '#btn-actions-close', function(){

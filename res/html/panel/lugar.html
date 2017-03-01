@@ -430,12 +430,19 @@ var LugarPanel = (function(data, selectorContainer, opts){
 	t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(position.lng);
 	t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(zoom);
 
-	google.maps.event.addListener(marker, 'dragend', function(){
-
+	function setForm(){
 		t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
 		t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
 		t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
+	}
 
+	google.maps.event.addListener(marker, 'dragend', function(){
+		setForm();
+	});
+
+	google.maps.event.addListener(map, "rightclick", function(e){
+    	marker.setPosition(e.latLng);
+    	setForm();
 	});
 
   };

@@ -3031,6 +3031,14 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 	));
 	$uploadMimes->save();
 
+	$googleMapKey = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_google_map_key'),
+		'desvalor'=>$lang->getString('google_map_key'),
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desdescricao'=>$lang->getString('config_google_map_key_description')
+	));
+	$googleMapKey->save();
+
 	echo success();
 
 });

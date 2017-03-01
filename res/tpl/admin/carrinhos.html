@@ -65,7 +65,7 @@
 		var data = $("#form-filtros").formValues();
 
 		data.pagina = pagina;
-		data.limite = Math.floor((window.innerHeihgt-291)/53);
+		data.limite = Math.floor((window.innerHeight-291)/53);
 		data.limite = (data.limite<5)?5:data.limite;
 
 		rest({

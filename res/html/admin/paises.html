@@ -136,7 +136,7 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = Math.floor((window.innerHeihgt-307)/53);
+    data.limite = Math.floor((window.innerHeight-307)/53);
     data.limite = (data.limite>5)?5:data.limite;
 
     rest({

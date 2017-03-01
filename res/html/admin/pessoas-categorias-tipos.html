@@ -59,14 +59,14 @@
     </div>
     <div id="mailContent" class="page-content page-content-table m-t-20" data-plugin="asSelectable">
       <div style="border-bottom: #e0e0e0 1px solid;">
-        <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
+        <div class="panel panel-bordered overflow-auto" data-auto-height="-309">
           <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
           data-child="tr">
             <tbody></tbody>
           </table>
-          <!-- pagination -->
-          <div id="paginacao"></div>
         </div>
+         <!-- pagination -->
+        <div id="paginacao"></div>
       </div>      
     </div>
   </div>
@@ -137,7 +137,8 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 3;
+    data.limite = Math.floor((window.innerHeight-309)/53);
+    data.limite = (data.limite<5)?5:data.limite;
 
     rest({
       url:PATH+"/pessoas-categorias-tipos/all",

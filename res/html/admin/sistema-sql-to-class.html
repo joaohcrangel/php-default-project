@@ -77,13 +77,13 @@
 	            </div>
 	            <div class="panel-footer">
 	            	<div class="btn-group" id="actions-buttons">
-						<button type="button" class="btn btn-default btn-sm" ng-click="download('model')">Model</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="download('collection')">Collection</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="execute('get')">SP GET</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="execute('save')">SP SAVE</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="execute('remove')">SP DELETE</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="execute('list')">SP LIST</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="download('rest')">REST</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="download('model', $event)">Model</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="download('collection', $event)">Collection</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="execute('get', $event)">SP GET</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="execute('save', $event)">SP SAVE</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="execute('remove', $event)">SP DELETE</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="execute('list', $event)">SP LIST</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="download('rest', $event)">REST</button>
 					</div>
 	            </div>
 	        </div>
@@ -139,9 +139,9 @@ app.controller('sql-to-class', function($scope, $http){
 
 	};
 
-	$scope.execute = function(what){
+	$scope.execute = function(what, event){
 
-		var $btns = $('#actions-buttons button');
+		var $btns = $(event.target);
 
 		$btns.btnload('load');
 
@@ -166,15 +166,21 @@ app.controller('sql-to-class', function($scope, $http){
 
 				$btns.btnload('unload');
 
+			},
+			failure:function(e){
+
+				System.showError(e);
+				$btns.btnload('unload');
+
 			}
 		});
 
 	};
 
-	$scope.download = function(what){
+	$scope.download = function(what, event){
 
 		var target = "download"+new Date().getTime();
-		var $btns = $('#actions-buttons button');
+		var $btns = $(event.target);
 		var $form = $('#panel-form form').clone();
 
 		$btns.btnload('load');

@@ -865,9 +865,9 @@ $app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
             break;
         }
 
-        $sql->query("DROP procedure IF EXISTS $spName;");
+        $sql->exec("DROP procedure IF EXISTS $spName;");
 
-        $sql->query($template_code);
+        $sql->exec($template_code);
 
         echo success(array(
             'data'=>array(

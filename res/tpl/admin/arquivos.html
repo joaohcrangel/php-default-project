@@ -55,7 +55,8 @@
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 10;
+    data.limite = Math.floor((window.innerHeihgt-360)/53);
+    data.limite = (data.limite<5)?5:data.limite;
 
     rest({
       url:PATH+"/arquivos",

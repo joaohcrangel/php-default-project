@@ -31,7 +31,7 @@ function initMap(){
 	google.maps.event.addListener(marker, 'dragend', function(){
 		setForm();
 	});
-
+	
 	google.maps.event.addListener(map, "rightclick", function(e){
     	marker.setPosition(e.latLng);
     	setForm();

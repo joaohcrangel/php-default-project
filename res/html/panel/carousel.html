@@ -15,11 +15,7 @@
 <div class="slidePanel-inner m-0 p-0">
 
 	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
-	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
-	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-carousel" aria-controls="tab-carousel" role="tab" aria-expanded="true">Dados</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-carousel-items" aria-controls="tab-carousel-items" role="tab">Itens</a></li>
-	      </ul>
+	    <div class="panel-heading panel-heading-tab" id="tabs-carousel" style="border-radius: 0;">
 	    </div>
 
 	    <div class="panel-body p-t-20">
@@ -391,10 +387,6 @@ function saveItems(
 
 var isItemsLogged = false;
 
-$("a.nav-link[href='#tab-carousel-items']").on("shown.bs.tab", function(){
-	loadItems();
-});
-
 function loadItems(){
 
 	if(isItemsLogged === false){
@@ -506,5 +498,30 @@ function loadItems(){
 	}
 
 }
+
+new Tab({
+	id:"tabs-carousel",
+	items:[{
+		title:"Dados",
+		id:"tab-carousel"
+	},{
+		title:"Itens",
+		id:"tab-carousel-items"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch(event.tabContent.id){
+
+				case "tab-carousel-items":
+				loadItems();
+
+				break;
+
+			}
+
+		}
+	}
+});
 
 </script>

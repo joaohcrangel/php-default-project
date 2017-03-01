@@ -5,7 +5,7 @@
 .image-wrap {
 	display: table-cell;
     vertical-align: middle;
-}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$produto.desproduto}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0 app-media"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="produto-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0"><ul class="nav nav-tabs nav-tabs-solid" role="tablist"><li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-produto" aria-controls="tab-produto" role="tab" aria-expanded="true">Produto</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-preco" aria-controls="tab-produto-preco" role="tab">Histórico de Preços</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-fotos" aria-controls="tab-produto-preco" role="tab">Fotos</a></ul></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-produto" role="tabpanel"><form asutocomplete="off" id="form-produto" class="slidePanel-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desproduto">Produto</label><input type="text" class="form-control" name="desproduto"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idprodutotipo">Tipo do Produto</label><select name="idprodutotipo" class="form-control" id="idprodutotipo"></select></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idprodutotipo">Preço</label><div class="input-group"><span class="input-group-addon">R$</span> <input type="number" name="vlpreco" class="form-control" step="0.01" min="0.01" pattern="[0-9]+([\,][0-9]+)?"></div></div><button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button></form></div><div class="tab-pane" id="tab-produto-preco" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="panel-actions panel-actions-keep"><a id="btn-action-refresh" class="panel-action" href="#" aria-expanded="false" role="button"><i class="icon md-refresh" aria-hidden="true"></i></a></div></div><div id="produto-preco-chart" style="width:100%; height: 250px"></div><table class="table table-hover"><thead><tr><th>De<th>Até<th>Duração<th>Preço<th>&nbsp;<tbody></table></div></div><div class="tab-pane" id="tab-produto-fotos" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="btn-group" aria-label="Basic example" role="group"><button type="button" id="adicionar" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button></div><div class="panel-actions panel-actions-keep"><a id="btn-action-refresh-fotos" class="panel-action" href="#" aria-expanded="false" role="button"><i class="icon md-refresh" aria-hidden="true"></i></a></div></div><div class="media-list p-0 m-t-20 is-grid"><ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-4 blocks-lg-4 blocks-md-4 blocks-sm-4" data-plugin="animateList" data-child=">li"></ul></div></div></div></div></div></div></div><script id="tpl-produto-arquivo" type="text/x-handlebars-template"><li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$produto.desproduto}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0 app-media"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="produto-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-produto" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-produto" role="tabpanel"><form asutocomplete="off" id="form-produto" class="slidePanel-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desproduto">Produto</label><input type="text" class="form-control" name="desproduto"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idprodutotipo">Tipo do Produto</label><select name="idprodutotipo" class="form-control" id="idprodutotipo"></select></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idprodutotipo">Preço</label><div class="input-group"><span class="input-group-addon">R$</span> <input type="number" name="vlpreco" class="form-control" step="0.01" min="0.01" pattern="[0-9]+([\,][0-9]+)?"></div></div><button type="submit" class="btn btn-block btn-primary" id="btn-produto-salvar">Salvar</button></form></div><div class="tab-pane" id="tab-produto-preco" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="panel-actions panel-actions-keep"><a id="btn-action-refresh" class="panel-action" href="#" aria-expanded="false" role="button"><i class="icon md-refresh" aria-hidden="true"></i></a></div></div><div id="produto-preco-chart" style="width:100%; height: 250px"></div><table class="table table-hover"><thead><tr><th>De<th>Até<th>Duração<th>Preço<th>&nbsp;<tbody></table></div></div><div class="tab-pane" id="tab-produto-fotos" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="btn-group" aria-label="Basic example" role="group"><button type="button" id="adicionar" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button></div><div class="panel-actions panel-actions-keep"><a id="btn-action-refresh-fotos" class="panel-action" href="#" aria-expanded="false" role="button"><i class="icon md-refresh" aria-hidden="true"></i></a></div></div><div class="media-list p-0 m-t-20 is-grid"><ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-4 blocks-lg-4 blocks-md-4 blocks-sm-4" data-plugin="animateList" data-child=">li"></ul></div></div></div></div></div></div></div><script id="tpl-produto-arquivo" type="text/x-handlebars-template"><li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
   <div class="media-item" data-toggle="slidePanel" data-url="panel.tpl">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="selectable-item" id="media_1">
@@ -178,6 +178,43 @@ $('#tab-produto-preco #btn-action-refresh').on('click', function(){
 	});
 
 });
+
+new Tab({
+	id:"tabs-produto",
+	items:[{
+		title:"Produto",
+		id:"tab-produto"
+	},{
+		title:"Histórico de Preços",
+		id:"tab-produto-preco"
+	},{
+		title:"Fotos",
+		id:"tab-produto-fotos"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			console.log(object);
+
+			switch (event.tabContent.id) {
+
+				case 'tab-produto-preco':
+
+				$('#tab-produto-preco #btn-action-refresh').trigger('click');
+				
+				break;
+
+				case 'tab-produto-fotos':
+
+				$("#btn-action-refresh-fotos").trigger('click');
+
+				break;
+
+			}
+
+		}
+	}
+})
 
 $("#form-produto").formLoad(produto);
 

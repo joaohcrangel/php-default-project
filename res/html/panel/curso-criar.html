@@ -53,7 +53,7 @@
 
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">Descrição</label>
-			<textarea name="desdescricao" cols="30" rows="10" class="form-control"></textarea>
+			<div id="summernote"></div>
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -68,11 +68,22 @@
 	
 var form = $("#form-curso-criar");
 
+$("#summernote").summernote({
+	height:200
+});
+
 form.form({
 	url:PATH+"/cursos",
 	params:{
 		idcurso:0
 	},
+	beforeParams: function() {
+
+        return {
+            desdescricao: $('#summernote').next('.note-editor').find('.note-editable').html()
+        };
+
+    },
 	resetForm:false,
 	success:function(){
 		System.success("Curso criado com sucesso");

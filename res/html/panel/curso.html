@@ -28,8 +28,6 @@
 	            <div class="tab-pane active" id="cursoTab" role="tabpanel" aria-expanded="true">
 					<form id="form-curso">
 						<input type="hidden" name="inremovido">
-						
-						<div id="summernote"></div>
 
 						<div class="row">
 
@@ -66,7 +64,7 @@
 
 						<div class="form-group form-material" data-plugin="formMaterial">
 							<label class="form-control-label">Descrição</label>
-							<textarea name="desdescricao" cols="30" rows="10" class="form-control"></textarea>
+							<div id="summernote"></div>
 						</div>
 
 						<div class="form-group form-material" data-plugin="formMaterial">
@@ -155,7 +153,7 @@
 
 		        	<div class="form-group form-material" data-plugin="formMaterial">
 		        		<label class="form-control-label">Descrição</label>
-						<textarea name="desdescricao" cols="30" rows="5" class="form-control"></textarea>
+						<div id="summernote-curriculo"></div>
 		        	</div>
 
 		      	</div>
@@ -317,43 +315,37 @@
 
 			$row.find(".curriculo-criar").on("click", function(){
 
+				$("#summernote-curriculo").summernote({
+					height:100
+				});
+
 				idsecao = row.idsecao;
 
 				var $modalCurriculo = $("#modalCurriculoCriar");
 
 				$modalCurriculo.modal("show");
 
-				$modalCurriculo.find("[type=submit]").on("click", function(e){
+				var $btn = $modalCurriculo.find("[type=submit]");
 
-					e.preventDefault();
+				$modalCurriculo.find("form").form({					
+					url:PATH+"/cursos-curriculos",
+					params:{
+						idcurriculo:0,
+						idsecao:idsecao
+					},
+					beforeParams: function() {
 
-					var $btn = $(this);					
+				        return {
+				            desdescricao: $('#summernote-curriculo').next('.note-editor').find('.note-editable').html()
+				        };
 
-					$btn.btnload("load");
-
-					rest({
-						url:PATH+"/cursos-curriculos",
-						method:"POST",
-						data:{
-							idcurriculo:0,
-							idsecao:idsecao,
-							descurriculo:$modalCurriculo.find("[name=descurriculo]").val(),
-							nrordem:$modalCurriculo.find("[name=nrordem]").val(),
-							desdescricao:$modalCurriculo.find("[name=desdescricao]").val()
-						},
-						success:function(){
-							$modalCurriculo.find("input, textarea").val('');
-							$btn.btnload("unload");
-							$btn.text("Salvar");
-							$modalCurriculo.modal("hide");
-							delete idsecao;
-							renderSecoes(cursoSecoes);							
-						},
-						failure:function(r){
-							$btn.btnload("unload");
-							System.showError(r);
-						}
-					});
+				    },					
+					success:function(){						
+						$btn.text("Salvar");
+						$modalCurriculo.modal("hide");
+						delete idsecao;
+						renderSecoes(cursoSecoes);							
+					}
 
 				});
 
@@ -426,6 +418,25 @@
 
  }
 
+ function getHTML(idcurso){
+
+ 	rest({
+ 		url:PATH+"/cursos/"+idcurso+"/html",
+ 		success:function(r){
+
+ 			var $summernote = $("#summernote");
+ 			$summernote.html(r.data);
+ 			$summernote.summernote({
+ 				height:200
+ 			});
+
+ 		}
+ 	})
+
+ }
+
+ getHTML(curso.idcurso);
+
  $("a.nav-link[href='#secoesTab']").on("shown.bs.tab", function(){
  	loadSecoes();
  });
@@ -440,6 +451,13 @@
  	params:{
  		idcurso:curso.idcurso
  	},
+	beforeParams: function() {
+
+        return {
+            desdescricao: $('#summernote').next('.note-editor').find('.note-editable').html()
+        };
+
+    },
  	success:function(){
  		System.success("Curso salvo com sucesso");
  		$(".slidePanel-close").trigger("click");

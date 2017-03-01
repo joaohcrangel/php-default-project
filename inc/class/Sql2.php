@@ -27,27 +27,51 @@ class Sql extends PDO {
 	public function query($query, $params = array(), $multi = false)
 	{
 
-		$sth = $this->conn->prepare($query);
+		$stmt = $this->conn->prepare($query);
 
-		$sth->execute($params);
+		$stmt->execute($params);
 
-		$resource = $this->conn->exec($query);
-
-		return $resource;
+		return $stmt;
 
 	}
 
-	public function arrays($query, $array = false, $params = array()):array
+	public function arrays():array
 	{
 
-		$resource = $this->query($query, $params, false);
+		$args = func_get_args();
+
+		switch (count($args)) {
+			case 1:
+			$query = $args[0];
+			$array = false;
+			$params = array();
+			break;
+
+			case 2:
+			$query = $args[0];
+			$array = false;
+			$params = $args[1];
+			break;
+
+			case 3:
+			$query = $args[0];
+			$array = $args[1];
+			$params = $args[2];
+			break;
+		}
+
+		$stmt = $this->query($query, $params, false);
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	}
 
 	public function select($query, $params = array())
 	{
 
-		return $this->arrays($query, true, $params);
+		$results = $this->arrays($query, $params);
+
+		return (count($results) > 0)?$results[0]:array();
 
 	}
 
@@ -66,9 +90,23 @@ class Sql extends PDO {
 
 	}
 
+	private function getParamsSymbols($params, $symbol = "?"):array
+	{
+
+		$i = array();
+		foreach ($params as $p) {
+			array_push($i, $symbol);
+		}
+
+		return $i;
+
+	}
+
 	public function proc($name, $params = array(), $returnQuery = false){
 
+		$query = "CALL $name(".implode(",", $this->getParamsSymbols()).")";
 
+		return $this->arrays($query, $params);
 
 	}
 

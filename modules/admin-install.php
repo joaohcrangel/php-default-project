@@ -1984,24 +1984,6 @@ $app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/gateways/tables", function(){
-
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	
-	$sql = new Sql();
-	$sql->query("
-		CREATE TABLE tb_gateways(
-			idgateway INT NOT NULL AUTO_INCREMENT,
-			desgateway VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			CONSTRAINT PRIMARY KEY(idgateway)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
-	
-	echo success();
-
-});
 $app->get("/install-admin/sql/gateways/inserts", function(){
 
 	set_time_limit(0);
@@ -2070,6 +2052,14 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
+	$sql->query("
+		CREATE TABLE tb_gateways(
+			idgateway INT NOT NULL AUTO_INCREMENT,
+			desgateway VARCHAR(128) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY(idgateway)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	$sql->query("
 		CREATE TABLE tb_formaspagamentos(
 			idformapagamento INT NOT NULL AUTO_INCREMENT,

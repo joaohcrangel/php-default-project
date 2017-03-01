@@ -71,6 +71,8 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/chartist/chartist.css',
         './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload.css',
         './theme/material/global/vendor/dropify/dropify.css',
+        './theme/material/global/vendor/imagesloaded/imagesloaded.pkgd.js',
+        './theme/material/global/vendor/masonry/masonry.pkgd.min.js',
         './css/slide-panel.css'
     ])
         .pipe(concat('theme.css'))
@@ -191,6 +193,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/asrange.js',
         './theme/material/global/js/Plugin/asspinner.js',
         './theme/material/global/js/Plugin/jquery-labelauty.js',
+        './theme/material/global/js/Plugin/masonry.js',
         './theme/assets/vendor/sly/sly.min.js',
 
         //Others Plugins

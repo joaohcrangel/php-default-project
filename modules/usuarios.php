@@ -34,7 +34,7 @@ $app->get("/usuarios/login", function(){
 	Session::setConfiguracoes($configuracoes);
 
 	Menu::resetMenuSession();
-	
+
 	echo success(array(
 		'token'=>session_id(), 
 		'data'=>$usuario->getFields()

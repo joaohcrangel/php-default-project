@@ -1,5 +1,4 @@
 <?php
-
 class Arquivo extends Model {
 
     public $required = array('desdiretorio', 'desarquivo', 'desextensao', 'desalias');
@@ -11,8 +10,6 @@ class Arquivo extends Model {
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
         $this->queryToAttr("CALL sp_arquivos_get(".$args[0].");");
-
-        $this->getdesurl();
                 
     }
 
@@ -50,7 +47,15 @@ class Arquivo extends Model {
             $uploadDir .= $this->getdesdiretorio();
         }
 
-        $filename = PATH.$uploadDir.$this->desarquivo().'.'.$this->getdesextensao();
+        if (!$this->getidarquivo() > 0) {
+            throw new Exception("Informe o ID do arquivo.");
+        }
+
+        if ($this->getidarquivo() > 0 && (!$this->getdesarquivo() | !$this->getdesextensao())) {
+            $this->reload();
+        }
+
+        $filename = PATH.$uploadDir.$this->getdesarquivo().'.'.$this->getdesextensao();
 
         $deleted = false;
 
@@ -68,6 +73,19 @@ class Arquivo extends Model {
 
         return $deleted;
         
+    }
+
+    public function getdesthumb($preview = true):string
+    {
+
+        if ($preview === true && in_array($this->getdesextensao(), array('jpg','gif','png','svg'))) {
+            return $this->setdesthumb($this->getdesurl());
+        } elseif (file_exists(SITE_PATH . "res/img/filetypes/" . $this->getdesextensao() . ".svg")) {
+            return $this->setdesthumb(SITE_PATH . "/res/img/filetypes/" . $this->getdesextensao() . ".svg");
+        } else {
+            return $this->setdesthumb(SITE_PATH . "/res/img/filetypes/_.svg");
+        }
+
     }
 
     public function getdesurl():string
@@ -104,6 +122,7 @@ class Arquivo extends Model {
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
         $finfo = new finfo(FILEINFO_MIME_TYPE);
+       
         $ext = array_search(
             $finfo->file($tmp_name),
             $mimes,
@@ -210,6 +229,15 @@ class Arquivo extends Model {
         $arquivo->save();
 
         return $arquivo;
+
+    }
+
+    public function getFields(){
+
+        $this->getdesurl();
+        $this->getdesthumb();
+
+        return parent::getFields();
 
     }
 

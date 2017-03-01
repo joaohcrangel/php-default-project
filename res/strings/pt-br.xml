@@ -205,5 +205,9 @@
 
 	<string name="negociacao_orcemanto">Em orçamento</string>
 	<string name="negociacao_venda">Venda</string>
+
+	<string name="pessoa_cliente">Cliente</string>
+	<string name="pessoa_fornecedor">Fornecedor</string>
+	<string name="pessoa_colaborador">Colaborador</string>
 	
 </resources>

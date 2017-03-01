@@ -1,12 +1,15 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css">
 <style>
-  .info-wrap .title {
+.info-wrap .title {
   text-overflow: ellipsis;
-    overflow: hidden;
+  overflow: hidden;
+  text-align: center;
+  height: 20px;
+  width: 100%;
 }
 .image-wrap {
-  display: table-cell;
-    vertical-align: middle;
+
+  text-align: center;
 }
 
 #actions-buttons button {
@@ -17,12 +20,13 @@
 #actions-buttons button .icon {
   font-size: 32px;
 }
-
 .page {
   height: calc(100% - 83px);
   min-height: calc(100% - 83px);
 }
-
+.app-media .media-list .image-wrap > .image {
+  max-height: 64px;
+}
 </style>
 <div class="page bg-white">
   <!-- Media Sidebar -->
@@ -96,29 +100,19 @@
       <div id="paginacao"></div>
   </div>
 </div>
-<div id="adicionar" class="site-action">
-  <div class="site-action-buttons">
-    <button type="button" data-action="download" class="btn-raised btn btn-success btn-floating animation-slide-bottom">
-      <i class="icon md-download" aria-hidden="true"></i>
-    </button>
-  </div>
-  <input type="file" id="fileupload" name="upload" />
-</div>
 
 <script id="tpl-arquivo-page" type="text/x-handlebars-template">
-<li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
-
+<li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
   <div class="media-item" data-toggle="slidePanel" data-url="panel.tpl">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="selectable-item" id="media_1" />
       <label for="media_1"></label>
     </div>
     <div class="image-wrap">
-      <img class="image img-rounded" src="{$path}{$diretorio}{{desarquivo}}.{{desextensao}}" alt="...">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
     </div>
     <div class="info-wrap">
       <div class="title">{{desalias}}</div>
-      <div class="time">{{desdtcadastro}}</div>
     </div>
   </div>
 </li>
@@ -145,8 +139,7 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = Math.floor((window.innerHeihgt-360)/53);
-    data.limite = (data.limite<5)?5:data.limite;
+    data.limite = 10;
 
     rest({
       url:PATH+"/arquivos",
@@ -172,9 +165,9 @@ init.push(function(){
           onChange:function(page){
             carregarArquivos(page);
           }
-        });
+        });  
 
-        $("#paginacao").asPaginator(r.total, config);
+        $("#paginacao").html('').removeAttr('class').asPaginator(r.total, config);
 
       },
       failure:function(e){
@@ -201,26 +194,11 @@ init.push(function(){
     
   });
 
-  $("#adicionar").on("click",function(){
-
-    $.upload({
-      url:PATH+"/arquivos",
-      success:function(r){
-
-        carregarArquivos();
-        System.success("Arquivo adicionado!");
-
-      },
-      failure:function(e){
-        System.showError(e);
-      }
-    });
-
-  });
-
   var btnAddClick = function(){
     $.upload({
+      multiple:true,
       url:PATH+"/arquivos",
+      accept:"*",
       success:function(r){
 
         carregarArquivos();

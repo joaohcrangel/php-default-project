@@ -7,14 +7,14 @@ define("PATH_FUNCTION", PATH."/res/sql/functions/");
 function saveProcedures($procs = array()){
 	$sql = new Sql();
 	foreach ($procs as $name) {
-		$sql->query("DROP PROCEDURE IF EXISTS {$name};");
+		$sql->exec("DROP PROCEDURE IF EXISTS {$name};");
 		$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	}
 }
 function saveTriggers($triggers = array()){
 	$sql = new Sql();
 	foreach ($triggers as $name) {
-		$sql->query("DROP TRIGGER IF EXISTS {$name};");
+		$sql->exec("DROP TRIGGER IF EXISTS {$name};");
 		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
 	}
 }
@@ -51,13 +51,17 @@ $app->get("/install-admin/sql/clear", function(){
 
 	$sql = new Sql();
 	
-	$procs = $sql->arrays("SHOW PROCEDURE STATUS WHERE Db = '".DB_NAME."';");
+	$procs = $sql->arrays("SHOW PROCEDURE STATUS WHERE Db = ?", array(
+		DB_NAME
+	));
+
 	foreach ($procs as $row) {
-		$sql->query("DROP PROCEDURE IF EXISTS ".$row['Name'].";");
+		$sql->exec("DROP PROCEDURE IF EXISTS ".$row['Name'].";");
 	}
+
 	$funcs = $sql->arrays("SHOW FUNCTION STATUS WHERE Db = '".DB_NAME."';");
 	foreach ($funcs as $row) {
-		$sql->query("DROP FUNCTION IF EXISTS ".$row['Name'].";");
+		$sql->exec("DROP FUNCTION IF EXISTS ".$row['Name'].";");
 	}
 	$const = $sql->arrays("
 		SELECT 
@@ -68,13 +72,13 @@ $app->get("/install-admin/sql/clear", function(){
 		  REFERENCED_TABLE_SCHEMA = '".DB_NAME."';
 	");
 	foreach ($const as $row) {
-		$sql->query("alter table ".$row['TABLE_NAME']." drop foreign key ".$row['CONSTRAINT_NAME'].";");
+		$sql->exec("alter table ".$row['TABLE_NAME']." drop foreign key ".$row['CONSTRAINT_NAME'].";");
 	}
 	$tables = $sql->arrays("
 		SHOW TABLES;
 	");
 	foreach ($tables as $row) {
-		$sql->query("DROP TABLE IF EXISTS ".$row['Tables_in_'.DB_NAME].";");
+		$sql->exec("DROP TABLE IF EXISTS ".$row['Tables_in_'.DB_NAME].";");
 	}
 	
 	echo success();
@@ -85,7 +89,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoastipos (
 		  idpessoatipo int(11) NOT NULL AUTO_INCREMENT,
 		  despessoatipo varchar(64) NOT NULL,
@@ -93,7 +97,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idpessoatipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoas (
 		  idpessoa int(11) NOT NULL AUTO_INCREMENT,
 		  idpessoatipo int(1) NOT NULL,
@@ -105,7 +109,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 		  CONSTRAINT FK_pessoas_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_historicostipos (
 			idhistoricotipo int(11) NOT NULL AUTO_INCREMENT,
 			deshistoricotipo varchar(32) NOT NULL,
@@ -113,7 +117,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			PRIMARY KEY (idhistoricotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
         CREATE TABLE tb_pessoashistoricos (
 			idpessoahistorico int(11) NOT NULL AUTO_INCREMENT,
 			idpessoa int(11) NOT NULL,
@@ -127,7 +131,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT fk_pessoashistoricos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoasvalorescampos(
 			idcampo INT NOT NULL AUTO_INCREMENT,
 			descampo VARCHAR(128) NOT NULL,
@@ -135,7 +139,7 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT PRIMARY KEY(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoasvalores(
 			idpessoavalor INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
@@ -147,14 +151,14 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_pessoasvalorescampos(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoascategoriastipos (
 		  idcategoria int(11) NOT NULL AUTO_INCREMENT,
 		  descategoria varchar(32) NOT NULL,
 		  PRIMARY KEY (idcategoria)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=4 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoascategorias (
 		  idpessoa int(11) NOT NULL,
 		  idcategoria int(11) NOT NULL,
@@ -217,7 +221,18 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 		'descampo'=>$lang->getString('foto')
 	));
 	$foto->save();
-
+	$cliente = new PessoaCategoriaTipo(array(
+		'descategoria'=>$lang->getString('pessoa_cliente')
+	));
+	$cliente->save();
+	$fornecedor = new PessoaCategoriaTipo(array(
+		'descategoria'=>$lang->getString('pessoa_fornecedor')
+	));
+	$fornecedor->save();
+	$colaborador = new PessoaCategoriaTipo(array(
+		'descategoria'=>$lang->getString('pessoa_colaborador')
+	));
+	$colaborador->save();
 	echo success();
 	
 });
@@ -284,7 +299,7 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_produtostipos(
 			idprodutotipo INT NOT NULL AUTO_INCREMENT,
 			desprodutotipo VARCHAR(64) NOT NULL,
@@ -292,7 +307,7 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 			CONSTRAINT PRIMARY KEY(idprodutotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_produtos(
 			idproduto INT NOT NULL AUTO_INCREMENT,
 			idprodutotipo INT NOT NULL,
@@ -303,7 +318,7 @@ $app->get("/install-admin/sql/produtos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_produtosprecos(
 			idpreco INT NOT NULL AUTO_INCREMENT,
 			idproduto INT NOT NULL,
@@ -408,7 +423,7 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_usuariostipos (
 		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desusuariotipo varchar(32) NOT NULL,
@@ -416,7 +431,7 @@ $app->get("/install-admin/sql/usuarios/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idusuariotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_usuarios (
 		  idusuario int(11) NOT NULL AUTO_INCREMENT,
 		  idpessoa int(11) NOT NULL,
@@ -461,7 +476,7 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 		$lang->getString('usuarios_clientes')
 	));
 	
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
 		(?, ?, ?, ?);
 	", array(
@@ -518,7 +533,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_menus (
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
 		  idmenupai int(11) DEFAULT NULL,
@@ -532,7 +547,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenupai) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_menususuarios (
 		  idmenu int(11) NOT NULL,
 		  idusuario int(11) NOT NULL,
@@ -541,7 +556,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_sitesmenus (
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
 		  idmenupai int(11) DEFAULT NULL,
@@ -946,7 +961,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$menuUrls = new Menu(array(
 		'nrordem'=>10,
 		'idmenupai'=>NULL,
-		'desicone'=>'',
+		'desicone'=>'md-link',
 		'deshref'=>'/urls',
 		'desmenu'=>$lang->getString('menus_urls')
 	));
@@ -1002,7 +1017,7 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_contatostipos (
 		  idcontatotipo int(11) NOT NULL AUTO_INCREMENT,
 		  descontatotipo varchar(64) NOT NULL,
@@ -1010,7 +1025,7 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idcontatotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_contatossubtipos (
 		  idcontatosubtipo int NOT NULL AUTO_INCREMENT,
 		  descontatosubtipo varchar(32) NOT NULL,
@@ -1021,7 +1036,7 @@ $app->get("/install-admin/sql/contatos/tables", function(){
 		  KEY FK_contatostipos (idcontatotipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_contatos (
 		  idcontato int(11) NOT NULL AUTO_INCREMENT,
 		  idcontatosubtipo int(11) NOT NULL,
@@ -1164,7 +1179,7 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_documentostipos (
 		  iddocumentotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desdocumentotipo varchar(64) NOT NULL,
@@ -1172,7 +1187,7 @@ $app->get("/install-admin/sql/documentos/tables", function(){
 		  CONSTRAINT PRIMARY KEY (iddocumentotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_documentos (
 		  iddocumento int(11) NOT NULL AUTO_INCREMENT,
 		  iddocumentotipo int(11) NOT NULL,
@@ -1201,7 +1216,7 @@ $app->get("/install-admin/sql/documentos/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_documentostipos (desdocumentotipo) VALUES
 		(?),
 		(?),
@@ -1257,7 +1272,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_paises (
 		  idpais int(11) NOT NULL AUTO_INCREMENT,
 		  despais varchar(64) NOT NULL,
@@ -1265,7 +1280,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  PRIMARY KEY (idpais)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_estados (
 		  idestado int(11) NOT NULL AUTO_INCREMENT,
 		  desestado varchar(64) NOT NULL,
@@ -1277,7 +1292,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  CONSTRAINT FK_estados_paises FOREIGN KEY (idpais) REFERENCES tb_paises (idpais) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cidades (
 		  idcidade int(11) NOT NULL AUTO_INCREMENT,
 		  descidade varchar(128) NOT NULL,
@@ -1288,7 +1303,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  CONSTRAINT FK_cidades_estados FOREIGN KEY (idestado) REFERENCES tb_estados (idestado) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_enderecostipos (
 		  idenderecotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desenderecotipo varchar(64) NOT NULL,
@@ -1296,7 +1311,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idenderecotipo)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_enderecos (
 		  idendereco int(11) NOT NULL AUTO_INCREMENT,
 		  idenderecotipo int(11) NOT NULL,
@@ -1363,7 +1378,7 @@ $app->get("/install-admin/sql/enderecos/paises/inserts", function(){
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_paises (idpais, despais) VALUES (1, 'Brasil');
 	");
 
@@ -1379,7 +1394,7 @@ $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_estados (idestado, desestado, desuf, idpais) VALUES
 		(1, '".utf8_decode($lang->getString("estado_AC"))."', 'AC', 1),
 		(2, '".utf8_decode($lang->getString("estado_AL"))."', 'AL', 1),
@@ -1423,7 +1438,7 @@ $app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
 	$sql = new Sql();
 
 	foreach ($data as $city) {
-		$sql->query("
+		$sql->arrays("
 			INSERT INTO tb_cidades (idcidade, descidade, idestado)
 			VALUES(?, ?, ?);
 		", array(
@@ -1517,7 +1532,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_permissoes (
 		  idpermissao int(11) NOT NULL AUTO_INCREMENT,
 		  despermissao varchar(64) NOT NULL,
@@ -1525,7 +1540,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idpermissao)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_permissoesmenus (
 		  idpermissao int(11) NOT NULL,
 		  idmenu int(11) NOT NULL,
@@ -1535,7 +1550,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		  CONSTRAINT FK_permissoesmenus FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_permissoesusuarios (
 		  idpermissao int(11) NOT NULL,
 		  idusuario int(11) NOT NULL,
@@ -1571,12 +1586,12 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_permissoesmenus (idmenu, idpermissao)
 		SELECT idmenu, 1 FROM tb_menus;
 	", array());
 
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_permissoesusuarios (idusuario, idpermissao) VALUES
 		(?, ?),
 		(?, ?);
@@ -1628,7 +1643,7 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoasdados (
 		  idpessoa int(11) NOT NULL,
 		  despessoa varchar(128) NOT NULL,
@@ -1684,7 +1699,7 @@ $app->get("/install-admin/sql/produtosdados/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_produtosdados(
 			idproduto INT NOT NULL,
 			idprodutotipo INT NOT NULL,
@@ -1706,7 +1721,7 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cuponstipos(
 			idcupomtipo INT NOT NULL AUTO_INCREMENT,
 			descupomtipo VARCHAR(128) NOT NULL,
@@ -1714,7 +1729,7 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 			CONSTRAINT PRIMARY KEY(idcupomtipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cupons(
 			idcupom INT NOT NULL AUTO_INCREMENT,
 			idcupomtipo INT NOT NULL,
@@ -1783,7 +1798,7 @@ $app->get("/install-admin/sql/cupons/inserts", function(){
 	$lang = new Language();
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_cuponstipos(descupomtipo)
 		VALUES(?), (?);
 	", array(
@@ -1797,7 +1812,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carrinhos(
 			idcarrinho INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
@@ -1811,7 +1826,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carrinhosprodutos(
 			idcarrinhoproduto INT NOT NULL AUTO_INCREMENT,
 			idcarrinho INT NOT NULL,
@@ -1823,7 +1838,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carrinhosfretes(
 			idcarrinho INT NOT NULL,
 			descep CHAR(8) NOT NULL,
@@ -1832,7 +1847,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carrinhoscupons(
 			idcarrinho INT NOT NULL,
 			idcupom INT NOT NULL,
@@ -1921,7 +1936,7 @@ $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cartoesdecreditos(
 			idcartao INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
@@ -1992,7 +2007,7 @@ $app->get("/install-admin/sql/gateways/inserts", function(){
 	$lang = new Language();
 
 	$sql = new Sql();
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_gateways(desgateway) VALUES(?);
 	", array(
 		$lang->getString('gateway_pagseguro')
@@ -2052,7 +2067,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_gateways(
 			idgateway INT NOT NULL AUTO_INCREMENT,
 			desgateway VARCHAR(128) NOT NULL,
@@ -2060,7 +2075,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT PRIMARY KEY(idgateway)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_formaspagamentos(
 			idformapagamento INT NOT NULL AUTO_INCREMENT,
 			idgateway INT NOT NULL,
@@ -2072,7 +2087,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pedidosstatus(
 			idstatus INT NOT NULL AUTO_INCREMENT,
 			desstatus VARCHAR(128) NOT NULL,
@@ -2080,7 +2095,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT PRIMARY KEY(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pedidos(
 			idpedido INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
@@ -2096,7 +2111,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pedidosstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pedidosprodutos(
 			idpedido INT NOT NULL,
 			idproduto INT NOT NULL,
@@ -2109,7 +2124,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pedidosrecibos(
 			idpedido INT NOT NULL,
 			desautenticacao VARCHAR(256) NOT NULL,
@@ -2118,7 +2133,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pedidoshistoricos(
 			idhistorico INT NOT NULL AUTO_INCREMENT,
 			idpedido INT NOT NULL,
@@ -2129,17 +2144,15 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	   /*
-		$sql->query("
-			CREATE TABLE tb_pedidosnegociacoestipos (
-			  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
-			  desnegociacao varchar(64) NOT NULL,
-			  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			  PRIMARY KEY (idnegociacao)
-			) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-		");
-		*/
-	$sql->query("
+	$sql->exec("
+		CREATE TABLE tb_pedidosnegociacoestipos (
+		  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
+		  desnegociacao varchar(64) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idnegociacao)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");		
+	$sql->exec("
 		CREATE TABLE tb_pedidosnegociacoes (
 		  idnegociacao int(11) NOT NULL,
 		  idpedido int(11) NOT NULL,
@@ -2163,7 +2176,7 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 	$lang = new Language();
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_formaspagamentos (idgateway, desformapagamento, nrparcelasmax, instatus) VALUES
 		(?, ?, ?, ?),
 		(?, ?, ?, ?),
@@ -2220,7 +2233,7 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 		1, $lang->getString('gateway_grandcard'), 12, 1,
 		1, $lang->getString('gateway_sorocred'), 12, 1
 	));
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_pedidosstatus(desstatus)
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
@@ -2233,7 +2246,7 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 		$lang->getString('statu_cancelado')
 	));
 
-	$sql->query("
+	$sql->arrays("
 		INSERT INTO tb_pedidosnegociacoestipos(desnegociacao)
 		VALUES(?);
 	", array(
@@ -2261,21 +2274,6 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	
 	echo success();
 	
-});
-
-$app->get("/install-admin/sql/pedidosnegociacoestipos/tables", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$sql = new Sql();
-
-	$sql->query("
-		CREATE TABLE tb_pedidosnegociacoestipos (
-			idnegociacao int(11) NOT NULL AUTO_INCREMENT,
-			desnegociacao varchar(64) NOT NULL,
-			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idnegociacao)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
 });
 
 $app->get("/install-admin/sql/pedidosnegociacoestipos/list", function(){
@@ -2387,7 +2385,7 @@ $app->get("/install-admin/sql/sitescontatos/tables", function(){
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_sitescontatos(
 			idsitecontato INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
@@ -2454,7 +2452,7 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_lugarestipos(
 			idlugartipo INT NOT NULL AUTO_INCREMENT,
 			deslugartipo VARCHAR(128) NOT NULL,
@@ -2462,7 +2460,7 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			CONSTRAINT PRIMARY KEY(idlugartipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_lugares(
 			idlugar INT NOT NULL AUTO_INCREMENT,
 			idlugarpai INT NULL,
@@ -2479,7 +2477,7 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_lugareshorarios(
 			idhorario INT NOT NULL AUTO_INCREMENT,
 			idlugar INT NOT NULL,
@@ -2491,7 +2489,7 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_lugarescoordenadas(
 			idlugar INT NOT NULL,
 			idcoordenada INT NOT NULL,
@@ -2500,7 +2498,7 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_lugaresdados(
 			idlugar INT NOT NULL,
 			deslugar VARCHAR(128) NOT NULL,
@@ -2670,7 +2668,7 @@ $app->get("/install-admin/sql/coordenadas/tables", function(){
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_coordenadas(
 			idcoordenada INT NOT NULL AUTO_INCREMENT,
 			vllatitude DECIMAL(20,17) NOT NULL,
@@ -2680,7 +2678,7 @@ $app->get("/install-admin/sql/coordenadas/tables", function(){
 			CONSTRAINT PRIMARY KEY(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_enderecoscoordenadas(
 			idendereco INT NOT NULL,
 			idcoordenada INT NOT NULL,
@@ -2730,7 +2728,7 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cursos (
 		  idcurso int(11) NOT NULL AUTO_INCREMENT,
 		  descurso varchar(64) NOT NULL,
@@ -2745,7 +2743,7 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cursossecoes (
 		  idsecao int(11) NOT NULL AUTO_INCREMENT,
 		  dessecao varchar(128) NOT NULL,
@@ -2758,7 +2756,7 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_cursoscurriculos (
 		  idcurriculo int(11) NOT NULL AUTO_INCREMENT,
 		  descurriculo varchar(128) NOT NULL,
@@ -2834,7 +2832,7 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carousels (
 		  idcarousel int(11) NOT NULL AUTO_INCREMENT,
 		  descarousel varchar(64) NOT NULL,
@@ -2851,7 +2849,7 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 		  PRIMARY KEY (idcarousel)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carouselsitemstipos (
 		  idtipo int(11) NOT NULL AUTO_INCREMENT,
 		  destipo varchar(32) NOT NULL,
@@ -2859,7 +2857,7 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 		  PRIMARY KEY (idtipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_carouselsitems (
 		  iditem int(11) NOT NULL AUTO_INCREMENT,
 		  desitem varchar(45) NOT NULL,
@@ -2937,7 +2935,7 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_configuracoestipos (
 		  idconfiguracaotipo int(11) NOT NULL AUTO_INCREMENT,
 		  desconfiguracaotipo varchar(32) NOT NULL,
@@ -2946,7 +2944,7 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_configuracoes (
 		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
 		  desconfiguracao varchar(64) NOT NULL,
@@ -3075,7 +3073,7 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_arquivos (
 		  idarquivo int(11) NOT NULL AUTO_INCREMENT,
 		  desdiretorio varchar(256) NOT NULL,
@@ -3177,7 +3175,7 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_produtosarquivos (
 		  idproduto int(11) NOT NULL,
 		  idarquivo int(11) NOT NULL,
@@ -3199,7 +3197,7 @@ $app->get("/install-admin/sql/pessoasarquivos/tables", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoasarquivos (
 		  idpessoa int(11) NOT NULL,
 		  idarquivo int(11) NOT NULL,
@@ -3250,7 +3248,7 @@ $app->get("/install-admin/sql/urls/tables", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_urls (
 		  idurl int(11) NOT NULL AUTO_INCREMENT,
 		  desurl varchar(128) NOT NULL,
@@ -3323,7 +3321,7 @@ $app->get("/install-admin/sql/pessoasenderecos/tables", function(){
 
 	$sql = new Sql();
 
-	$sql->query("
+	$sql->exec("
 		CREATE TABLE tb_pessoasenderecos(
 			idpessoa INT NOT NULL,
 			idendereco INT NOT NULL,

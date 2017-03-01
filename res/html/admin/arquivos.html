@@ -139,8 +139,7 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = Math.floor((window.innerHeihgt-360)/53);
-    data.limite = (data.limite<5)?5:data.limite;
+    data.limite = 10;
 
     rest({
       url:PATH+"/arquivos",
@@ -166,9 +165,7 @@ init.push(function(){
           onChange:function(page){
             carregarArquivos(page);
           }
-        });
-
-        console.log(r.total, config);
+        });  
 
         $("#paginacao").html('').removeAttr('class').asPaginator(r.total, config);
 

@@ -31,7 +31,6 @@
 <script>
 
 	$("#form-produto-save [name=idprodutotipo]").combobox({
-		debug:true,
 		url:PATH+"/produtos/tipos",
 		displayField:"desprodutotipo",
 		valueField:"idprodutotipo"
@@ -44,7 +43,7 @@
   		params:{
   			idproduto:0,
   			idpreco:0,
-  			inremovido:false
+  			inremovido:0
   		},
   		success:function(){
 

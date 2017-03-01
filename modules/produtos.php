@@ -10,6 +10,10 @@ $app->get("/produtos/all", function(){
 
     $where = array();
 
+    if(get('desproduto') != ''){
+        array_push($where, "a.desproduto LIKE '%".utf8_decode(get('desproduto'))."%'");
+    }
+
     if(isset($_GET['ids'])){
         $ids = explode(',',get('ids'));
         $newIds = array();
@@ -26,7 +30,7 @@ $app->get("/produtos/all", function(){
     }
 
     $query = "
-        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtos a
+        SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtosdados a
         ".$where." LIMIT ?, ?
     ;";
 
@@ -58,7 +62,7 @@ $app->post('/produtos', function(){
         $produto = new Produto();
     }
 
-    $_POST['inremovido'] = ($_POST['inremovido']==='0')?false:true;
+    $_POST['inremovido'] = ($_POST['inremovido'] === '0') ? false : true;
 
     $produto->set($_POST);
 

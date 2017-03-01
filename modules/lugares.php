@@ -103,9 +103,6 @@ $app->post("/lugares", function(){
 
 		if (count($cidade->getFields())) $endereco->set($cidade->getFields());
 
-		pre($cidade->getFields());
-		exit;
-
 		if (count($endereco->getFields())) {
 
 			$endereco->setinprincipal(true);

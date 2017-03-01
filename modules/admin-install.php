@@ -2783,7 +2783,7 @@ $app->get("/install-admin/sql/cursos/list", function(){
 		'sp_cursoscurriculos_list',
 		'sp_cursossecoes_list',
 		'sp_secoesfromcurso_list',
-		'sp_curriculosfromsecao_list'
+		'sp_curriculosfromcurso_list'
 	);
 	saveProcedures($procs);
 

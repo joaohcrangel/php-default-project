@@ -21,12 +21,7 @@
 <div class="slidePanel-inner m-0 p-0 app-media">
 	
 	<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="produto-tabs" data-plugin="tabs">
-	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
-	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-produto" aria-controls="tab-produto" role="tab" aria-expanded="true">Produto</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-preco" aria-controls="tab-produto-preco" role="tab">Histórico de Preços</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-fotos" aria-controls="tab-produto-preco" role="tab">Fotos</a></li>
-	      </ul>
+	    <div class="panel-heading panel-heading-tab" id="tabs-produto" style="border-radius: 0;">
 	    </div>
 	    <div class="panel-body p-t-20">
 	      <div class="tab-content">
@@ -277,6 +272,41 @@ $('#tab-produto-preco #btn-action-refresh').on('click', function(){
 	});
 
 });
+
+new Tab({
+	id:"tabs-produto",
+	items:[{
+		title:"Produto",
+		id:"tab-produto"
+	},{
+		title:"Histórico de Preços",
+		id:"tab-produto-preco"
+	},{
+		title:"Fotos",
+		id:"tab-produto-fotos"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch (event.tabContent.id) {
+
+				case 'tab-produto-preco':
+
+				$('#tab-produto-preco #btn-action-refresh').trigger('click');
+				
+				break;
+
+				case 'tab-produto-fotos':
+
+				$("#btn-action-refresh-fotos").trigger('click');
+
+				break;
+
+			}
+
+		}
+	}
+})
 
 $("#form-produto").formLoad(produto);
 

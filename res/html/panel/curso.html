@@ -1,5 +1,5 @@
 <style>
-	.slidePanel{
+	.slidePanel-inner{
 		overflow: overlay;
 	}
 </style>
@@ -201,7 +201,9 @@
 
  function loadSecoes(){
 
- 	if(isSecoesLogged === false){ 		
+ 	if(isSecoesLogged === false){
+
+ 		var $panel = $("#secoes");				 	 		
 
 	 	$panelSecoes.load();
 
@@ -209,11 +211,137 @@
 	 		url:PATH+"/cursos/"+curso.idcurso+"/secoes",
 	 		success:function(r){
 
-	 			$.each(r.data, function(index, row){
-	 				cursoSecoes.push(row);
-	 			});	 			
+	 			$panel.html('');	 			
 
-	 			renderSecoes(cursoSecoes);
+	 			$.each(r.dataSecoes, function(index, secao){
+
+					var $row = $(tpl.cursoSecao(secao));
+
+					$panel.append($row);
+
+					if(r.dataCurriculos.length > 0){
+	 					$row.find(".list-group-item").append("<ul class='list-group list-group-full ul-2'></ul>");
+	 				}
+
+					$.each(r.dataCurriculos, function(index, curriculo){
+
+						if(secao.idsecao == curriculo.idsecao){		 					
+
+							var $li = $(tpl.cursoCurriculo(curriculo));
+							$row.find(".ul-2").append($li);
+
+							$li.find(".curriculo-salvar").on("click", function(){
+
+								var $btn = $(this);
+
+								$btn.btnload("load");
+
+								rest({
+									url:PATH+"/cursos-curriculos",
+									method:"POST",
+									data:{
+										idcurriculo:curriculo.idcurriculo,
+										descurriculo:$li.find("[name=descurriculo]").val(),
+										desdescricao:curriculo.desdescricao.toString(),
+										idsecao:curriculo.idsecao,
+										nrordem:curriculo.nrordem
+									},
+									success:function(){
+										$btn.btnload("unload");
+									},
+									failure:function(r){
+										System.showError(r);
+									}
+								});
+
+							});
+
+			 				$li.find(".btn-danger").on("click", function(){
+
+			 					var $btn = $(this);
+
+			 					$btn.btnload("load");
+
+			 					rest({
+			 						url:PATH+"/cursos-curriculos/"+curriculo.idcurriculo,
+			 						method:"DELETE",
+			 						success:function(){
+			 							$btn.btnload("unload");
+			 							$li.remove();
+			 						},
+			 						failure:function(r){
+			 							System.showError(r);
+			 							$btn.btnload("unload");
+			 						}
+			 					});
+
+			 				});
+
+						}
+
+					});
+
+					$row.find(".curriculo-criar").on("click", function(){
+
+						$("#summernote-curriculo").summernote({
+							height:100
+						});
+
+						var $modalCurriculo = $("#modalCurriculoCriar");
+
+						$modalCurriculo.modal("show").on("shown.bs.modal", function(){
+							$modalCurriculo.find("[name=descurriculo]").focus();
+						});
+
+						var $btn = $modalCurriculo.find("[type=submit]");
+
+						$modalCurriculo.find("form").form({					
+							url:PATH+"/cursos-curriculos",
+							params:{
+								idcurriculo:0,
+								idsecao:secao.idsecao
+							},
+							beforeParams: function() {
+
+						        return {
+						            desdescricao: $('#summernote-curriculo').next('.note-editor').find('.note-editable').html()
+						        };
+
+						    },					
+							success:function(){						
+								$btn.text("Salvar");
+								$('#summernote-curriculo').next('.note-editor').find('.note-editable').html('');
+								$modalCurriculo.modal("hide");
+								isSecoesLogged = false;
+								loadSecoes();
+							}
+
+						});
+
+					});
+
+					$row.find(".secao-remove").on("click", function(){
+
+						var $btn = $(this);
+
+						$btn.btnload("load");
+
+						rest({
+							url:PATH+"/cursos-secoes/"+secao.idsecao,
+							method:"DELETE",
+							success:function(){
+								$btn.btnload("unload");
+								$row.remove();
+							},
+							failure:function(r){
+								System.showError(r);
+								$btn.btnload("unload");
+							}
+						});
+
+					});
+
+	 			});
 
 	 			$(".btn-criar-secao").on("click", function(){
 
@@ -230,8 +358,8 @@
  						success:function(r){
  							$modal.find("[type=submit]").text("Salvar");
  							$modal.modal("hide");
- 							cursoSecoes.push(r.data);
- 							renderSecoes(cursoSecoes);
+ 							isSecoesLogged = false;
+ 							loadSecoes();
  						}
  					});
 
@@ -249,168 +377,6 @@
 	 	});
 
 	}
-
- }
-
- function renderSecoes(data){
-
- 	var $panel = $("#secoes");
-
- 	$panel.html('');
-
- 	$.each(data, function(index, row){	 				
-
-		var $row = $(tpl.cursoSecao(row));
-
-		$panel.append($row);
-
-		loadCurriculos($row, row);
-
-		$row.find(".secao-remove").on("click", function(){
-
-			var $btn = $(this);
-
-			$btn.btnload("load");
-
-			rest({
-				url:PATH+"/cursos-secoes/"+row.idsecao,
-				method:"DELETE",
-				success:function(){
-
-					var ids = [];
-
-					$.each(cursoSecoes, function(index, value){
-						if(value.idsecao != row.idsecao){
-							ids.push(value);
-						}
-					});
-
-					cursoSecoes = ids;
-					renderSecoes(cursoSecoes);
-
-					$btn.btnload("unload");
-					$row.remove();
-				},
-				failure:function(r){
-					System.showError(r);
-					$btn.btnload("unload");
-				}
-			});
-
-		});
-
-	});
-
- }
-
- function loadCurriculos($row, row){
-
- 	rest({
-		url:PATH+"/cursos-secoes/"+row.idsecao+"/curriculos",
-		success:function(r){
-
-			$row.find(".curriculo-criar").on("click", function(){
-
-				$("#summernote-curriculo").summernote({
-					height:100
-				});
-
-				idsecao = row.idsecao;
-
-				var $modalCurriculo = $("#modalCurriculoCriar");
-
-				$modalCurriculo.modal("show");
-
-				var $btn = $modalCurriculo.find("[type=submit]");
-
-				$modalCurriculo.find("form").form({					
-					url:PATH+"/cursos-curriculos",
-					params:{
-						idcurriculo:0,
-						idsecao:idsecao
-					},
-					beforeParams: function() {
-
-				        return {
-				            desdescricao: $('#summernote-curriculo').next('.note-editor').find('.note-editable').html()
-				        };
-
-				    },					
-					success:function(){						
-						$btn.text("Salvar");
-						$modalCurriculo.modal("hide");
-						delete idsecao;
-						renderSecoes(cursoSecoes);							
-					}
-
-				});
-
-			});
-
-			if(r.data.length > 0){				
-
-				$row.find(".list-group-item").append("<ul class='list-group list-group-full ul-2'></ul>");
-
-				$.each(r.data, function(index, value){
-
-					var $li = $(tpl.cursoCurriculo(value));
-					$row.find(".ul-2").append($li);
-
-					$li.find(".curriculo-salvar").on("click", function(){
-
-						var $btn = $(this);
-
-						$btn.btnload("load");
-
-						rest({
-							url:PATH+"/cursos-curriculos",
-							method:"POST",
-							data:{
-								idcurriculo:value.idcurriculo,
-								descurriculo:$li.find("[name=descurriculo]").val(),
-								desdescricao:value.desdescricao.toString(),
-								idsecao:value.idsecao,
-								nrordem:value.nrordem
-							},
-							success:function(){
-								$btn.btnload("unload");
-							},
-							failure:function(r){
-								System.showError(r);
-							}
-						});
-
-					});
-
-	 				$li.find(".btn-danger").on("click", function(){
-
-	 					var $btn = $(this);
-
-	 					$btn.btnload("load");
-
-	 					rest({
-	 						url:PATH+"/cursos-curriculos/"+value.idcurriculo,
-	 						method:"DELETE",
-	 						success:function(){
-	 							$btn.btnload("unload");
-	 							$li.remove();
-	 						},
-	 						failure:function(r){
-	 							System.showError(r);
-	 							$btn.btnload("unload");
-	 						}
-	 					});
-
-	 				});
-	 			});
-
-			}
-
-		},
-		failure:function(r){
-			System.showError(r);
-		}
-	});
 
  }
 

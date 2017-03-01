@@ -1,4 +1,4 @@
-CREATE sp_curriculosfromcurso_list(
+CREATE PROCEDURE sp_curriculosfromcurso_list(
 pidcurso INT
 )
 BEGIN

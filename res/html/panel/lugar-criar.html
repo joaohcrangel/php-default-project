@@ -125,6 +125,11 @@ function initMap(){
 
 	});
 
+	google.maps.event.addListener(map, "rightclick", function(event){
+		map.setCenter(e.latLng);
+    	marker.setPosition(e.latLng);
+	});
+
 }
 
 var form = $("#form-lugar");
@@ -180,5 +185,5 @@ $(form).find('[name=descep]').formValueCheck({
 </script>
 
 <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZeruuGhybNkWSI8VK7tYiynxt3epFPEg&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key={$mapKey}&callback=initMap">
 </script>

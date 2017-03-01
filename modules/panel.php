@@ -638,6 +638,8 @@ $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 // lugares
 $app->get("/panel/lugares/:idlugar", function($idlugar){
 
+	$config = Session::getConfiguracoes();
+
 	$lugar = new Lugar((int)$idlugar);
 
 	$page = new Page(array(
@@ -654,19 +656,24 @@ $app->get("/panel/lugares/:idlugar", function($idlugar){
 	$data['Horarios'] = $horarios;
 
 	$page->setTpl("panel/lugar", array(
-		"lugar"=>$data
+		"lugar"=>$data,
+		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
 	));
 
 });
 
 $app->get("/panel/lugar-criar", function(){
 
+	$config = Session::getConfiguracoes();
+
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-criar");
+	$page->setTpl("panel/lugar-criar", array(
+		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
+	));
 
 });
 

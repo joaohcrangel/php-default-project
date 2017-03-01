@@ -16,11 +16,7 @@
     
 	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
 
-	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
-	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#cursoTab" aria-controls="cursoTab" role="tab" aria-expanded="true">Dados</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#secoesTab" aria-controls="secoesTab" role="tab">Seções</a></li>
-	      </ul>
+	    <div class="panel-heading panel-heading-tab" id="tabs-curso" style="border-radius: 0;">
 	    </div>
 
         <div class="panel-body p-t-20">
@@ -437,8 +433,30 @@
 
  getHTML(curso.idcurso);
 
- $("a.nav-link[href='#secoesTab']").on("shown.bs.tab", function(){
- 	loadSecoes();
+ new Tab({
+ 	id:"tabs-curso",
+ 	items:[{
+ 		title:"Dados",
+ 		id:"cursoTab"
+ 	},
+ 	{
+ 		title:"Seções",
+ 		id:"secoesTab"
+ 	}],
+ 	listeners:{
+ 		tabchange:function(object, event){
+
+ 			switch(event.tabContent.id){
+
+ 				case "secoesTab":
+ 				loadSecoes();
+
+ 				break;
+
+ 			}
+
+ 		}
+ 	}
  });
 
  var form = $("#form-curso");

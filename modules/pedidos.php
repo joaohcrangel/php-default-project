@@ -1,6 +1,7 @@
 <?php
 
 // pedidos
+/*
 $app->get("/pedidos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
@@ -8,7 +9,7 @@ $app->get("/pedidos/all", function(){
     echo success(array("data"=>Pedidos::listAll()->getFields()));
 
 });
-
+*/
 $app->get("/pedidos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

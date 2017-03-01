@@ -17,7 +17,7 @@
 }
 .page {
   height: calc(100% - 90px);
-  min-height: calc(100% - 90px);}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Produtos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2"><option selected="selected">--selecione--</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>Produto<th>Tipo do Produto<th>Valor<th>&nbsp;<tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="produto-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+  min-height: calc(100% - 90px);}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Produtos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label for="idprodutotipo" class="form-control-label">Nome</label><input type="text" name="desproduto" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label for="idprodutotipo" class="form-control-label">Tipo de Produto</label><select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2"><option selected="selected">--selecione--</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>Produto<th>Tipo do Produto<th>Valor<th>&nbsp;<tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="produto-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
       <div>{{data.length}} de {{total}} Resultado(s)</div>
     </div>
@@ -68,7 +68,7 @@ init.push(function(){
   		url:PATH+"/produtos/tipos",
   		displayField:'desprodutotipo',
   		valueField:'idprodutotipo'
-  	});
+  	}).select2();
 
 	function loadProdutos(pagina){
 
@@ -80,21 +80,25 @@ init.push(function(){
 			loadProdutos();
 		});
 
+		var data = $("#form-filtros").formValues();
+
+		data.pagina = pagina;
+		data.limit = Math.floor((window.innerHeight-291)/53);
+		data.limit = (data.limit < 5) ? 5 : data.limit;
+
 		var ids = [];
 
 		$("[name=idprodutotipo] option:selected").each(function(){
 			ids.push($(this).val());
 		});
 
+		data.ids = ids.toString();
+
 		panel.load();
 
 		rest({
 			url:PATH+"/produtos/all",
-			data:{
-				pagina:pagina,
-				limit:10,
-				ids:ids.toString()
-			},
+			data:data,
 			success:function(r){
 
 				$tbody.html('');

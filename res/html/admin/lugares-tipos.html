@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
-
 
 <div class="page bg-white">
 
@@ -34,7 +32,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div data-auto-height="20" class="panel" id="panel-lugares-tipos">
+				<div class="panel" id="panel-lugares-tipos" data-auto-height="-179">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							
@@ -59,9 +57,9 @@
 						<tbody>
 
 						</tbody>
-					</table>
-					<div id="paginacao"></div> 
+					</table> 
 				</div>
+				<div id="paginacao"></div>
 			</div>
 		</div>
 	</div>
@@ -114,7 +112,8 @@
 		var params = $("#form-filtros").formValues();
 
 		params.pagina = pagina;
-		params. limite = 10;
+		params. limite = Math.floor((window.innerHeihgt-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
 
 		panel.load();
 

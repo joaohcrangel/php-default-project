@@ -41,7 +41,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div data-auto-height="20" class="panel" id="panel-usuario-tipo">
+                <div class="panel" id="panel-usuario-tipo" data-auto-height="-179">
                     <div class="panel-heading">
                         <div class="btn-group" id="actions-buttons"></div>
 
@@ -66,8 +66,8 @@
                              	
                         </tbody>
                     </table>
-                    <div id="paginacao"></div> 
                 </div>
+                <div id="paginacao"></div> 
             </div>
         </div>
     </div>
@@ -120,7 +120,8 @@
 		var params = $("#form-filtros").formValues();
 
 		params.pagina = pagina;
-		params. limite = 10;
+		params. limite = Math.floor((window.innerHeihgt-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
 
 		panel.load();
 

@@ -32,7 +32,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-permissoes">
+				<div class="panel" id="panel-permissoes" data-auto-height="-291">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							Permissões
@@ -57,8 +57,8 @@
 
 						</tbody>
 					</table>
-					<div id="paginacao"></div>
 				</div>
+				<div id="paginacao"></div>
 			</div>
 		</div>
 	</div>
@@ -71,7 +71,8 @@
 			</i>
 		</button>
 	</div>
-</div><script id="tpl-permissao" type="/x-handlebars-temprate"><tr data-idpermissao="{{idpermissao}}">
+</div>
+<script id="tpl-permissao" type="/x-handlebars-temprate"><tr data-idpermissao="{{idpermissao}}">
 	<td>{{despermissao}}</td>
 	<td>
 		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/permissoes/{{idpermissao}}" data-toggle="slidePanel">
@@ -110,7 +111,8 @@
 		var params = $("#form-filtros").formValues();
 		
 		params.pagina = pagina;
-		params. limite = 10;
+		params. limite = Math.floor((window.innerHeihgt-291)/53);
+		params.limite = (params.limite<5)?5:params.limite;
 
 		panel.load();
 

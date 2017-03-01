@@ -225,6 +225,8 @@
 
   t.initMap = function(){
 
+  	console.log(t.getData());
+
   	var position = {
 		lat: -8.361126490598373,
 		lng: -55.705590349999966
@@ -255,12 +257,21 @@
 	t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(position.lng);
 	t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(zoom);
 
-	google.maps.event.addListener(marker, 'dragend', function(){
-
+	function setForm(){
 		t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
 		t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
 		t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
 
+		console.log(marker.getPosition().lat(), marker.getPosition().lng(), map.getZoom());
+	}
+
+	google.maps.event.addListener(marker, 'dragend', function(){
+		setForm();
+	});
+
+	google.maps.event.addListener(map, "rightclick", function(e){
+    	marker.setPosition(e.latLng);
+    	setForm();
 	});
 
   };

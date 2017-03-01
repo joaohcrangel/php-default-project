@@ -20,16 +20,21 @@ function initMap(){
 
 	marker.setMap(map);
 
-	google.maps.event.addListener(marker, 'dragend', function(){
+	function setForm(){
 
 		$("[name=vllatitude]").val(marker.getPosition().lat());
 		$("[name=vllongitude]").val(marker.getPosition().lng());
 		$("[name=nrzoom]").val(map.getZoom());
 
+	}
+
+	google.maps.event.addListener(marker, 'dragend', function(){
+		setForm();
 	});
 
-	google.maps.event.addListener(map, "rightclick", function(event){
-		console.log(event);
+	google.maps.event.addListener(map, "rightclick", function(e){
+    	marker.setPosition(e.latLng);
+    	setForm();
 	});
 
 }

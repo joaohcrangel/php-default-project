@@ -222,14 +222,17 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 	));
 	$foto->save();
 	$cliente = new PessoaCategoriaTipo(array(
+		'idcategoria'=>0,
 		'descategoria'=>$lang->getString('pessoa_cliente')
 	));
 	$cliente->save();
 	$fornecedor = new PessoaCategoriaTipo(array(
+		'idcategoria'=>0,
 		'descategoria'=>$lang->getString('pessoa_fornecedor')
 	));
 	$fornecedor->save();
 	$colaborador = new PessoaCategoriaTipo(array(
+		'idcategoria'=>0,
 		'descategoria'=>$lang->getString('pessoa_colaborador')
 	));
 	$colaborador->save();

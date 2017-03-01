@@ -1,16 +1,21 @@
+<style>
+.page-content {
+	height: calc(100% - 0px)!important;
+}
+</style>
 <div class="page">
   <div class="page-content">
     
 	<div class="row" ng-controller="sql-to-class">
 		<div class="col-md-5">
-			<div class="panel panel-bordered" id="panel-tables">
+			<div class="panel panel-bordered m-b-0" id="panel-tables">
 				<div class="panel-heading">
 					<h4 class="panel-title">Tabelas</h4>
 					<div class="panel-actions">
 		                <a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" ng-click="loadTables()" aria-hidden="true"></a>
 		            </div>
 				</div>
-	            <div class="panel-body">
+	            <div class="panel-body" data-auto-height="-250">
 					<table class="table">
 	                    <thead>
 	                      <tr>

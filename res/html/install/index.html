@@ -592,7 +592,16 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pedidos - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},{
+		},
+
+		{
+			url:"/sql/gateways/inserts",
+			name:"Gateways - Inserts",
+			status:"",
+			enabled:true
+		},
+		
+		{
 			url:"/sql/pedidos/inserts",
 			name:"Pedidos - Inserts",
 			status:"",
@@ -600,11 +609,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},
 		
 		{
-			url:"/sql/gateways/inserts",
-			name:"Gateways - Inserts",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/gateways/get",
 			name:"Gateways - Procedure GET",
 			status:"",
@@ -865,12 +869,8 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Urls - REMOVE",
 			status:"",
 			enabled:true
-		},{
-			url:"/sql/pedidosnegociacoestipos/tables",
-			name:"PedidoNegociacaoTipo - Table",
-			status:"",
-			enabled:true
-		},{
+		},
+		{
 			url:"/sql/pedidosnegociacoestipos/get",
 			name:"PedidosNegociacoesTipos - GET",
 			status:"",

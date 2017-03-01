@@ -318,6 +318,15 @@
   </a>
   <div class="pull-xs-left">
     <div class="font-size-20 m-b-15">{{despessoa}}</div>
+    {{#if incliente}}
+    <span class="tag tag-outline tag-primary">Cliente</span>
+    {{/if}}
+    {{#if infornecedor}}
+    <span class="tag tag-outline tag-dark">Fornecedor</span>
+    {{/if}}
+    {{#if incolaborador}}
+    <span class="tag tag-outline tag-success">Colaborador</span>
+    {{/if}}
     {{#if endereco.desenderecoresumido}}
     <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
       <span class="text-break">{{endereco.desenderecoresumido}}</span>

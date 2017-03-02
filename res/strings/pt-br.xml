@@ -171,6 +171,9 @@
 	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
 	<string name="config_upload_mimetype_description">Tipos de arquivos permitidos para fazer upload.</string>
 
+	<string name="config_upload_max_filesize">UPLOAD_MAX_FILESIZE</string>
+	<string name="config_upload_max_filesize_description">Tamanho máximo permitido para upload de arquivos em bytes.</string>
+
 	<string name="estado_AC">Acre</string>
 	<string name="estado_AL">Alagoas</string>
 	<string name="estado_AM">Amazonas</string>

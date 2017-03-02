@@ -286,14 +286,36 @@
                     
                   </tbody>
                 </table>
+                <div class="panel-footer">
+                  <div class="pagination"></div>
+                </div>
               </div>
               
             </div>
             <div class="tab-pane" id="tab-pessoa-historico" role="tabpanel">
               
+              
+
             </div>
             <div class="tab-pane" id="tab-pessoa-arquivos" role="tabpanel">
               
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="m-10 btn-group btn-group-flat">
+                    <button id="btn-pessoa-arquivos-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button>
+                  </div>
+                  <div class="panel-actions">
+                    <a id="btn-pessoa-arquivos-reload" class="panel-action icon md-refresh-alt" aria-hidden="true"></a>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul>
+                </div>
+                <div class="panel-footer">
+                  <div class="pagination"></div>
+                </div>
+              </div>
+  
             </div>
 
           </div>
@@ -350,6 +372,22 @@
   </div>
 </div>
 </script>
+<script id="tpl-pessoa-arquivo" type="text/x-handlebars-template">
+<li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" id="media_1" />
+      <label for="media_1"></label>
+    </div>
+    <div class="image-wrap">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
+    </div>
+    <div class="info-wrap">
+      <div class="title">{{desalias}}</div>
+    </div>
+  </div>
+</li>
+</script>
 {/noparse}
 <script>
 
@@ -365,6 +403,8 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   t.$el = $(selectorContainer);
   t.id = 0;
+  t.pagination = {};
+  t.limit = 10;
 
   t.setData = function(pessoa){
 
@@ -631,13 +671,15 @@ var PessoaPanel = (function(data, selectorContainer, opts){
               displayField:'desnegociacao',
               valueField:'idnegociacao'
             });
-
-            t.laodTableVendas();
-
+            t.loadTableVendas();
             break;
 
             case 'tab-pessoa-faleconosco':
             System.initAutoHeight($('#tab-pessoa-faleconosco'));
+            break;
+
+            case 'tab-pessoa-arquivos':
+            t.loadArquivos();
             break;
             
           }
@@ -648,40 +690,121 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   };
 
-  t.laodTableVendas = function(cache, callback){
+  function setPagination(id, opts){
 
+    var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+      skin:'pagination-gap',
+      currentPage: opts.currentPage,
+      itemsPerPage: opts.itensPerPage,
+      onChange: function(page){
+        
+        t.pagination[id] = page;
+        opts.load(page);
+
+      }
+    }, opts);
+
+    t.pagination[id] = opts.currentPage;
+
+    $(opts.selector).asPaginator(opts.total, config);
+
+  }
+
+  function getPagination(id){
+
+    return parseInt(t.pagination[id]) || 1;
+
+  }
+
+  function loadDefault(url, cache, callback){
+
+    if (typeof cache === 'undefined') cache = true;
+    if (typeof page === 'undefined') page = 1;
+
+    $.store({
+      cache:cache,
+      url:url,
+      success:function(data, result){
+        if (typeof callback === 'function') callback(data, result);
+      },
+      failure:function(e){
+        System.showError(e);
+        if (typeof callback === 'function') callback(false);
+      }
+    });
+
+  }
+
+  t.loadArquivos = function(page, callback){
+
+    var id = 'pessoa-arquivos';
+    var limit = t.limit;
+    var $panel = $('#tab-pessoa-arquivos > .panel');
+    var panel = System.getPanelApi($panel);
+    var $list = $('#tab-pessoa-arquivos ul');
+
+    if (typeof page === 'undefined') page = getPagination(id) || 1;
+
+    panel.load();
+
+    loadDefault(PATH+"/pessoas/"+t.getIdPessoa()+"/arquivos?page="+page+"&limit="+limit, false, function(data, result){
+
+      $list.html('');
+
+      $.each(data, function(index, row){
+
+        var $item = t.getTpl('tpl-pessoa-arquivo')(row);
+
+        $list.append($item);
+
+      });
+
+      setPagination(id, $.extend({}, result, {
+        selector:"#tab-pessoa-arquivos .pagination",
+        load:t.loadArquivos
+      }));
+
+      panel.done();
+
+      if (typeof callback === 'function') callback(data);
+
+    });
+
+  };
+
+  t.loadTableVendas = function(page, callback){
+
+    var id = 'pessoa-vendas';
+    var limit = t.limit;
     var $panel = $('#tab-pessoa-pedidos > .panel');
     var panel = System.getPanelApi($panel);
     var $tbody = $('#tab-pessoa-pedidos tbody');
 
+    if (typeof page === 'undefined') page = getPagination(id) || 1;
+
     panel.load();
 
-    if (typeof cache === 'undefined') cache = true;
+    loadDefault(PATH+"/pessoas/"+t.getIdPessoa()+"/pedidos?page="+page+"&limit="+limit, false, function(data, result){
 
-    $.store({
-      cache:cache,
-      url:PATH+"/pessoas/"+t.getIdPessoa()+"/pedidos",
-      success:function(data){
+      $tbody.html('');
 
-        $tbody.html('');
+      $.each(data, function(index, row){
 
-        $.each(data, function(index, row){
+        var $tr = t.getTpl('tpl-pessoa-pedido-row')(row);
 
-          var $tr = t.getTpl('tpl-pessoa-pedido-row')(row);
+        $tbody.append($tr);
 
-          $tbody.append($tr);
+      });
 
-        });
+      setPagination(id, $.extend({}, result, {
+        selector:"#tab-pessoa-arquivos .pagination",
+        load:t.loadArquivos
+      }));
 
-        panel.done();
+      panel.done();
 
-        if (typeof callback === 'function') callback(data);
+      if (typeof callback === 'function') callback(data);
 
-      },
-      failure:function(e){
-        System.showError(e);
-        panel.done();
-      }
     });
 
   };
@@ -716,7 +839,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
       $btn.btnload('load');
 
-      t.laodTableVendas(false, function(){
+      t.loadTableVendas(1, function(){
 
         $btn.btnload('unload');
 
@@ -745,6 +868,36 @@ var PessoaPanel = (function(data, selectorContainer, opts){
     t.$el.on('click', '#pessoa-photo', function(){
 
       t.uploadPhoto();
+
+    });
+
+    t.$el.on('click', '#btn-pessoa-arquivos-reload', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.loadArquivos(1, function(){
+
+        $btn.btnload('unload');
+
+      });
+
+    });
+
+    t.$el.on('click', '#btn-pessoa-arquivos-upload', function(){
+
+      $.upload({
+        url:PATH+"/pessoas/"+t.getIdPessoa()+"/arquivos",
+        multiple:true,
+        accept:"*",
+        modalInfo:true,
+        success:function(data){
+
+          t.loadArquivos();
+
+        }
+      });
 
     });
 

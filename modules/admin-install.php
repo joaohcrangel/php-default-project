@@ -3015,6 +3015,14 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 	));
 	$uploadDir->save();
 
+	$uploadMaxSize = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_upload_max_filesize'),
+		'desvalor'=>file_upload_max_size(),
+		'idconfiguracaotipo'=>$int->getidconfiguracaotipo(),
+		'desdescricao'=>$lang->getString('config_upload_max_filesize_description')
+	));
+	$uploadMaxSize->save();
+
 	$uploadMimes = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_upload_mimetype'),
 		'desvalor'=>json_encode(array(

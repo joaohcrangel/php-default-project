@@ -15,6 +15,7 @@ $.store = (function(){
 
 		return new (function(options){
 
+			var lastResult = {};
 			var tryRest = 0;
 			var t = this, defaults = {
 				debug:false,
@@ -103,7 +104,7 @@ $.store = (function(){
 
 					if (o.debug === true) console.log('cache OK');
 
-					if (typeof o.success === 'function') o.success(data[key]);
+					if (typeof o.success === 'function') o.success(data[key], lastResult);
 
 				} else {
 
@@ -121,6 +122,7 @@ $.store = (function(){
 
 							if (o.debug === true) console.log('store rest success', r);
 
+							lastResult = r;
 							o.cache = true;
 							t.setItem(key, r.data);
 							t.getItem(key);

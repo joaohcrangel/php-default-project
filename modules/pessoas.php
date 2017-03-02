@@ -242,6 +242,56 @@ $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 	));
 });
 
+$app->post("/pessoas/:idpessoa/arquivos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	if (!(int)$idpessoa > 0) {
+		throw new Exception("Informe o ID da pessoa.");
+	}
+
+	$pessoa = new Pessoa(array('idpessoa'=>(int)$idpessoa));
+
+	$arquivos = Arquivos::upload($_FILES['arquivo']);
+
+	foreach ($arquivos->getItens() as $arquivo) {
+		$pessoa->addArquivo($arquivo);
+	}
+
+	echo success(array(
+		'data'=>$arquivos->getFields()
+	));
+
+});
+
+$app->get("/pessoas/:idpessoa/arquivos", function($idpessoa){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS *
+		FROM tb_arquivos a
+		INNER JOIN tb_pessoasarquivos b ON a.idarquivo = b.idarquivo
+		WHERE b.idpessoa = ".$idpessoa." LIMIT ?, ?;
+	";
+	$pagina = (int)get('page');
+	$itemsPerPage = (int)get('limit');
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Arquivos",
+		$itemsPerPage
+	);
+	$arquivos = $paginacao->getPage($pagina);
+	echo success(array(
+		"data"=>$arquivos->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
 // pedidos
 $app->get("/pessoas/:idpessoa/pedidos", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -252,12 +302,12 @@ $app->get("/pessoas/:idpessoa/pedidos", function($idpessoa){
 	        INNER JOIN tb_pedidosstatus d ON a.idstatus = d.idstatus
 		WHERE a.idpessoa = ".$idpessoa." LIMIT ?, ?;
 	";
-	$pagina = (int)get('pagina');
-	$itemsPerPage = (int)get('limite');
+	$pagina = (int)get('page');
+	$itemsPerPage = (int)get('limit');
 	$paginacao = new Pagination(
 		$query,
 		array(),
-		"Pagamentos",
+		"Pedidos",
 		$itemsPerPage
 	);
 	$pessoa = $paginacao->getPage($pagina);
@@ -283,8 +333,8 @@ $app->get("/pessoas/:idpessoa/carrinhos", function($idpessoa){
 		SELECT SQL_CALC_FOUND_ROWS * FROM tb_carrinhos
 		WHERE idpessoa = ".$idpessoa." LIMIT ?, ?;
 	";
-	$pagina = (int)get('pagina');
-	$itemsPerPage = (int)get('limite');
+	$pagina = (int)get('page');
+	$itemsPerPage = (int)get('limit');
 	$paginacao = new Pagination(
 		$query,
 		array(),

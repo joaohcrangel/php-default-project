@@ -222,15 +222,25 @@ $app->get("/pessoas/:idpessoa/contatos", function($idpessoa){
 $app->get("/pessoas/:idpessoa/fale-conosco", function($idpessoa){
 	Permissao::checkSession(Permissao::ADMIN, true);
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS * FROM tb_sitecontatos
-		WHERE idpessoa = ".$idpessoa." ORDER BY desmensagem LIMIT ?, ?;
+		SELECT SQL_CALC_FOUND_ROWS 
+		a.idsitecontato, a.desmensagem, a.inlido, a.dtcadastro,
+		CASE WHEN a.idpessoaresposta IS NULL THEN b.idpessoa ELSE c.idpessoa END AS idpessoa,
+		CASE WHEN a.idpessoaresposta IS NULL THEN b.despessoa ELSE c.despessoa END AS despessoa,
+		CASE WHEN a.idpessoaresposta IS NULL THEN b.desfoto ELSE c.desfoto END AS desfoto,
+		CASE WHEN a.idpessoaresposta IS NULL THEN b.idpessoatipo ELSE c.idpessoatipo END AS idpessoatipo,
+		CASE WHEN a.idpessoaresposta IS NULL THEN 1 ELSE 0 END AS inresposta
+		FROM tb_sitescontatos a
+		INNER JOIN tb_pessoasdados b ON a.idpessoa = b.idpessoa
+		LEFT JOIN tb_pessoasdados c ON a.idpessoaresposta = c.idpessoa
+		WHERE a.idpessoa = ".$idpessoa."
+		ORDER BY a.desmensagem LIMIT ?, ?;
 	";
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
 	$paginacao = new Pagination(
 		$query,
 		array(),
-		"SiteContatos",
+		"Pessoas",
 		$itemsPerPage
 	);
 	$pessoa = $paginacao->getPage($pagina);	

@@ -149,97 +149,7 @@
                 <div class="panel-body" data-auto-height="-288">
                   <div class="chat-box">
                     <div class="chats">
-                      <div class="chat">
-                        <div class="chat-avatar">
-                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="June Lane">
-                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="June Lane">
-                          </a>
-                        </div>
-                        <div class="chat-body">
-                          <div class="chat-content">
-                            <p>
-                              Hello. What can I do for you?
-                            </p>
-                            <time class="chat-time" datetime="2016-06-01T08:30">8:30 am</time>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="chat chat-left">
-                        <div class="chat-avatar">
-                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="Edward Fletcher">
-                            <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="Edward Fletcher">
-                          </a>
-                        </div>
-                        <div class="chat-body">
-                          <div class="chat-content">
-                            <p>
-                              I'm just looking around.
-                            </p>
-                            <p>Will you tell me something about yourself? </p>
-                            <time class="chat-time" datetime="2016-06-01T08:35">8:35 am</time>
-                          </div>
-                          <div class="chat-content">
-                            <p>
-                              Are you there? That time!
-                            </p>
-                            <time class="chat-time" datetime="2016-06-01T08:40">8:40 am</time>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="chat">
-                        <div class="chat-avatar">
-                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="June Lane">
-                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="June Lane">
-                          </a>
-                        </div>
-                        <div class="chat-body">
-                          <div class="chat-content">
-                            <p>
-                              Where?
-                            </p>
-                            <time class="chat-time" datetime="2016-06-01T08:35">8:35 am</time>
-                          </div>
-                          <div class="chat-content">
-                            <p>
-                              OK, my name is Limingqiang. I like singing, playing basketballand so on.
-                            </p>
-                            <time class="chat-time" datetime="2016-06-01T08:42">8:42 am</time>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="chat chat-left">
-                        <div class="chat-avatar">
-                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="left" title="Edward Fletcher">
-                            <img src="{$path}/res/theme/material/global/portraits/5.jpg" alt="Edward Fletcher">
-                          </a>
-                        </div>
-                        <div class="chat-body">
-                          <div class="chat-content">
-                            <p>You wait for notice.</p>
-                          </div>
-                          <div class="chat-content">
-                            <p>Consectetuorem ipsum dolor sit?</p>
-                            <time class="chat-time" datetime="2016-06-01T08:50">8:50 am</time>
-                          </div>
-                          <div class="chat-content">
-                            <p>OK?</p>
-                            <time class="chat-time" datetime="2016-06-01T08:55">8:55 am</time>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="chat">
-                        <div class="chat-avatar">
-                          <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="June Lane">
-                            <img src="{$path}/res/theme/material/global/portraits/4.jpg" alt="June Lane">
-                          </a>
-                        </div>
-                        <div class="chat-body">
-                          <div class="chat-content">
-                            <p>OK!</p>
-                            <time class="chat-time" datetime="2016-06-01T09:00">9:00 am</time>
-                          </div>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -387,6 +297,21 @@
     </div>
   </div>
 </li>
+</script>
+<script id="tpl-pessoa-faleconosco-row" type="text/x-handlebars-template">
+  <div class="chat">
+    <div class="chat-avatar">
+      <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="{{despessoa}}">
+        <img src="{{desphotourl}}" alt="{{despessoa}}">
+      </a>
+    </div>
+    <div class="chat-body">
+      <div class="chat-content">
+        <p>{{desmensagem}}</p>
+        <time class="chat-time" datetime="{{dtcadastro}}">8:30 am</time>
+      </div>
+    </div>
+  </div>
 </script>
 {/noparse}
 <script>
@@ -675,6 +600,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
             break;
 
             case 'tab-pessoa-faleconosco':
+            t.loadFaleConosco();
             System.initAutoHeight($('#tab-pessoa-faleconosco'));
             break;
 
@@ -742,6 +668,45 @@ var PessoaPanel = (function(data, selectorContainer, opts){
     });
 
   }
+
+  t.loadFaleConosco = function(){
+
+    var id = 'pessoa-faleconosco';
+    var limit = t.limit;
+    var $panel = $('#tab-pessoa-faleconosco > .panel');
+    var panel = System.getPanelApi($panel);
+    var $list = $('#tab-pessoa-faleconosco .chats');
+
+    if (typeof page === 'undefined') page = getPagination(id) || 1;
+
+    panel.load();
+
+    loadDefault(PATH+"/pessoas/"+t.getIdPessoa()+"/fale-conosco?page="+page+"&limit="+limit, false, function(data, result){
+
+      $list.html('');
+
+      $.each(data, function(index, row){
+
+        var $item = $(t.getTpl('tpl-pessoa-faleconosco-row')(row));
+
+        if (!row.inresposta) $item.addClass('chat-left');
+
+        $list.append($item);
+
+      });
+
+      setPagination(id, $.extend({}, result, {
+        selector:"#tab-pessoa-faleconosco .pagination",
+        load:t.loadFaleConosco
+      }));
+
+      panel.done();
+
+      if (typeof callback === 'function') callback(data);
+
+    });
+
+  };
 
   t.loadArquivos = function(page, callback){
 

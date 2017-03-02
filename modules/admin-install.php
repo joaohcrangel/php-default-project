@@ -2392,6 +2392,7 @@ $app->get("/install-admin/sql/sitescontatos/tables", function(){
 		CREATE TABLE tb_sitescontatos(
 			idsitecontato INT NOT NULL AUTO_INCREMENT,
 			idpessoa INT NOT NULL,
+			idpessoaresposta INT NULL,
 			desmensagem VARCHAR(2048) NOT NULL,
 			inlido BIT(1) NULL,
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),

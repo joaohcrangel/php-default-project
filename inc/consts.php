@@ -8,6 +8,9 @@
  *
  */
 
+// Nome da chave do mapa
+define('MAP_KEY', 'AIzaSyCZeruuGhybNkWSI8VK7tYiynxt3epFPEg');
+
 //Nome da Chave do Cookie
 define('COOKIE_KEY', 'COOKIE_KEY');
 

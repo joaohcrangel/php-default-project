@@ -43,7 +43,9 @@
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 10;
+    data.limite = Math.floor((window.innerHeight-360)/126);
+    data.limite *= Math.floor($('.media-list').width()/126);
+    data.limite = (data.limite<5)?5:data.limite;
 
     rest({
       url:PATH+"/arquivos",
@@ -69,9 +71,11 @@
           onChange:function(page){
             carregarArquivos(page);
           }
-        });  
+        });
 
-        $("#paginacao").html('').removeAttr('class').asPaginator(r.total, config);
+        console.log(config);
+
+        $("#paginacao").asPaginator(r.total, config);
 
       },
       failure:function(e){

@@ -222,14 +222,17 @@ $app->get("/install-admin/sql/pessoas/inserts", function(){
 	));
 	$foto->save();
 	$cliente = new PessoaCategoriaTipo(array(
+		'idcategoria'=>0,
 		'descategoria'=>$lang->getString('pessoa_cliente')
 	));
 	$cliente->save();
 	$fornecedor = new PessoaCategoriaTipo(array(
+		'idcategoria'=>0,
 		'descategoria'=>$lang->getString('pessoa_fornecedor')
 	));
 	$fornecedor->save();
 	$colaborador = new PessoaCategoriaTipo(array(
+		'idcategoria'=>0,
 		'descategoria'=>$lang->getString('pessoa_colaborador')
 	));
 	$colaborador->save();
@@ -3035,6 +3038,14 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 		'desdescricao'=>$lang->getString('config_upload_mimetype_description')
 	));
 	$uploadMimes->save();
+
+	$googleMapKey = new Configuracao(array(
+		'desconfiguracao'=>$lang->getString('config_google_map_key'),
+		'desvalor'=>$lang->getString('google_map_key'),
+		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desdescricao'=>$lang->getString('config_google_map_key_description')
+	));
+	$googleMapKey->save();
 
 	echo success();
 

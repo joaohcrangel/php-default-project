@@ -174,6 +174,10 @@
 	<string name="config_upload_max_filesize">UPLOAD_MAX_FILESIZE</string>
 	<string name="config_upload_max_filesize_description">Tamanho máximo permitido para upload de arquivos em bytes.</string>
 
+	<string name="config_google_map_key">GOOGLE_MAPS_KEY</string>
+	<string name="google_map_key">AIzaSyAgIx0HyLRKgvY38HRWrixjPviokLaUtbE</string>	
+	<string name="config_google_map_key_description">Chave de acesso ao plugin do Google Maps</string>
+
 	<string name="estado_AC">Acre</string>
 	<string name="estado_AL">Alagoas</string>
 	<string name="estado_AM">Amazonas</string>

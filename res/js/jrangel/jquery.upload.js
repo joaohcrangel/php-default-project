@@ -151,8 +151,8 @@
               $.store({
 	        	url:PATH+"/arquivos-upload_max_filesize",
 	        	success:function(data){
-	        		
-	        		t.fileSizeMax = parseInt(data);
+
+	        		o.fileSizeMax = parseInt(data);
 	        		
 	        		$.each(files, function(index, file){
 
@@ -198,6 +198,9 @@
           $tr.data('file', file);
 
           if (file.size > o.fileSizeMax) {
+
+          	console.error(file.size, t.humanSize(file.size));
+          	console.error(o.fileSizeMax, t.humanSize(o.fileSizeMax));
 
             $tr.find('small').html("Não é possível enviar um arquivo maior que "+t.humanSize(o.fileSizeMax)+".");
             $tr.find('.actions').html(o.tplActionIconError({
@@ -267,10 +270,10 @@
             return false;
 
           }
-
+          /*
           var hM = window.innerHeight/2;
           t.$modal.find('.modal-body').scrollTop($tr[0].offsetTop - hM);
-
+		  */
           var file = $tr.data('file');
 
           if (o.debug === true) console.log(file);

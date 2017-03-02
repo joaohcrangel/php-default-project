@@ -3,7 +3,6 @@
 		overflow: overlay;
 	}
 </style>
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <div id="lugar-panel">
 	<header class="slidePanel-header">
 	  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
@@ -431,12 +430,19 @@ var LugarPanel = (function(data, selectorContainer, opts){
 	t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(position.lng);
 	t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(zoom);
 
-	google.maps.event.addListener(marker, 'dragend', function(){
-
+	function setForm(){
 		t.$el.find("#tab-lugar-mapa [name=vllatitude]").val(marker.getPosition().lat());
 		t.$el.find("#tab-lugar-mapa [name=vllongitude]").val(marker.getPosition().lng());
 		t.$el.find("#tab-lugar-mapa [name=nrzoom]").val(map.getZoom());
+	}
 
+	google.maps.event.addListener(marker, 'dragend', function(){
+		setForm();
+	});
+
+	google.maps.event.addListener(map, "rightclick", function(e){
+    	marker.setPosition(e.latLng);
+    	setForm();
 	});
 
   };
@@ -666,5 +672,5 @@ var lugarPanel = new LugarPanel(lugar, '#lugar-panel');
 
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZeruuGhybNkWSI8VK7tYiynxt3epFPEg&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={$mapKey}&callback=initMap">
 </script>

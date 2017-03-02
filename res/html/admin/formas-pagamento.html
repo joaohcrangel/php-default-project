@@ -40,9 +40,9 @@
 
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div data-auto-height="10" class="panel" id="panel-formas">
+				<div class="panel" id="panel-formas" data-auto-height="-179">
 					<a class="hidden refresh"></a>
-					<div class="panel-heading overflow-auto">
+					<div class="panel-heading">
 						<h3 class="panel-title"></h3>
 						<div class="panel-actions">
 			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
@@ -61,9 +61,9 @@
 		              	<tbody>
 
 		              	</tbody>
-		            </table>
-			        <div id="paginacao"></div>  
+		            </table> 
 				</div>
+				<div id="paginacao"></div> 
 			</div>
 		</div>
 	</div>
@@ -124,7 +124,8 @@ init.push(function(){
 		var params = $("#form-filtros").formValues();
 
 		params.pagina = pagina;
-		params.limite = 10;
+		params.limite = Math.floor((window.innerHeight-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
 
 		panel.load();
 

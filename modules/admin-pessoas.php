@@ -25,7 +25,8 @@ $app->get("/".DIR_ADMIN."/pessoas/:idpessoa", function($idpessoa){
     ));
 
     $page->setTpl('/admin/pessoas-panel-new',  array(
-        'pessoa'=>$pessoa->getFields()
+        'pessoa'=>$pessoa->getFields(),
+        'enderecosTipos'=>EnderecosTipos::listAll()->getFields()
     ));
 
 });

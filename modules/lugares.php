@@ -26,7 +26,8 @@ $app->get("/lugares", function(){
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS a.*, b.desendereco, c.deslugartipo FROM tb_lugares a
-			INNER JOIN tb_enderecos b ON a.idendereco = b.idendereco
+			INNER JOIN tb_lugaresenderecos b1 ON a.idlugar = b1.idlugar
+			INNER JOIN tb_enderecos b ON b1.idendereco = b.idendereco
 		    INNER JOIN tb_lugarestipos c ON a.idlugartipo = c.idlugartipo
 		".$where." ORDER BY a.deslugar LIMIT ?, ?;
 	";
@@ -62,12 +63,19 @@ $app->get("/lugares/:idlugar", function($idlugar){
 
 });
 
-$app->post("/lugares", function(){
+$app->get("/lugares/:idlugar/enderecos", function($idendereco){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	// pre($_POST);
-	// exit;
+	$lugar = new Lugar((int)$idlugar);
+
+	echo success(array("data"=>$lugar->getEnderecos()->getFields()));
+
+});
+
+$app->post("/lugares", function(){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(isset($_POST['idendereco'])){
 

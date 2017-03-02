@@ -160,7 +160,7 @@ $app->post("/pessoas", function(){
 		$cidade = new Cidade((int)post('idcidade'));
 	} else {
 		if (post('desuf')) {
-			$cidade = Cidade::loadFromName(post('descidade'), post('desuf'));
+			$cidade = Cidade::loadFromName(post('descidade'), post('desuf'));			
 		} else {
 			$cidade = Cidade::loadFromName(post('descidade'));
 		}

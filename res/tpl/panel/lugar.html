@@ -1,6 +1,6 @@
 <style>.slidePanel{
 		overflow: overlay;
-	}</style><div id="lugar-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-lugar" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="lugar-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-lugar" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane" id="tab-lugar-editar" role="tabpanel"><form id="form-lugar-editar"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" class="form-control" name="deslugar"></div><div class="form-group col-xs-12 col-md-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" class="form-control"></select></div></div><div class="panel panel-primary panel-line p-b-0 m-0 m-t-20"><div class="panel-heading"><h3 class="panel-title p-l-0">Endereço</h3></div><div class="row"><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="idenderecotipo">Tipo do Endereço</label><select name="idenderecotipo" class="form-control"></select></div></div><div class="row"><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desendereco">Endereço</label><input type="text" class="form-control" id="desendereco" name="desendereco"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumero">Número</label><input type="text" class="form-control" id="desnumero" name="desnumero"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplemento">Complemento</label><input type="text" class="form-control" id="descomplemento" name="descomplemento"></div></div><div class="row"><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desbairro">Bairro</label><input type="text" class="form-control" id="desbairro" name="desbairro"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="descidade">Cidade</label><input type="text" class="form-control" id="descidade" name="descidade"> <input type="hidden" name="desuf"></div></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></div></div></form></div><div class="tab-pane active" id="tab-lugar" role="tabpanel"><button id="btn-lugar-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button><div class="card"></div></div><div class="tab-pane" id="tab-lugar-mapa" role="tabpanel"><input type="hidden" name="vllatitude"> <input type="hidden" name="vllongitude"> <input type="hidden" name="nrzoom"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="horariosTodos"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button></div></div></div></div></div></div></div>{noparse}<script id="tpl-lugar-home-card" type="text/x-handlebars-template"><div class="card-header bg-white p-30 clearfix">
+	}</style><div id="lugar-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-lugar" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$lugar.deslugar}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="lugar-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-lugar" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane" id="tab-lugar-editar" role="tabpanel"><form id="form-lugar-editar"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" class="form-control" name="deslugar"></div><div class="form-group col-xs-12 col-md-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" class="form-control"></select></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></div></div></form></div><div class="tab-pane active" id="tab-lugar" role="tabpanel"><button id="btn-lugar-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button><div class="card"></div></div><div class="tab-pane" id="tab-lugar-mapa" role="tabpanel"><input type="hidden" name="vllatitude"> <input type="hidden" name="vllongitude"> <input type="hidden" name="nrzoom"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-lugar-horarios" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="horariosTodos"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-horarios">Salvar</button></div></div><div class="tab-pane panel" id="tab-lugar-enderecos" role="tabpanel"><div id="form-enderecos" class="panel"></div></div></div></div></div></div></div>{noparse}<script id="tpl-lugar-home-card" type="text/x-handlebars-template"><div class="card-header bg-white p-30 clearfix">
   <div class="pull-xs-left">
     <div class="font-size-20 m-b-15">{{deslugar}}</div>
     {{#if desendereco}}
@@ -15,7 +15,55 @@
 		<td><input type="time" name="hrabre" class="form-control" value="{{hrabre}}" disabled="disabled"></td>
 		<td><input type="time" name="hrfecha" class="form-control" value="{{hrfecha}}" disabled="disabled"></td>
 		<td><button type="button" class="btn btn-default" disabled="disabled">Padrão</button></td>
-	</tr></script><script>var LugarPanel = (function(data, selectorContainer, opts){
+	</tr></script><script id="tpl-lugar-endereco" type="text/x-handlebars-template"><form>
+		<div class="panel panel-primary panel-line p-b-0 m-0 m-t-20">
+	        <div class="panel-heading">
+	        	<div class="row">
+	        		<div class="col-md-5 panel-title p-l-0">
+	          			<select name="idenderecotipo" class="form-control"></select>
+	          		</div>
+	          	</div>
+	        </div>
+
+	        <div class="row">
+
+				<div class="form-group col-xs-12 col-md-3">
+	                <label class="form-control-label" for="descep">CEP</label>
+	                <input type="text" class="form-control" id="descep" name="descep">
+	          	</div>
+	          	<div class="form-group col-xs-12 col-md-6">
+	                <label class="form-control-label" for="desendereco">Endereço</label>
+	                <input type="text" class="form-control" id="desendereco" name="desendereco">
+	            </div>
+	            <div class="form-group col-xs-12 col-md-3">
+	                <label class="form-control-label" for="desnumero">Número</label>
+	                <input type="text" class="form-control" id="desnumero" name="desnumero">
+	            </div>
+	        </div>
+	        <div class="row">
+	            <div class="form-group col-xs-12 col-md-3">
+	                <label class="form-control-label" for="descomplemento">Complemento</label>
+	                <input type="text" class="form-control" id="descomplemento" name="descomplemento">
+	            </div>
+	            <div class="form-group col-xs-12 col-md-4">
+	                <label class="form-control-label" for="desbairro">Bairro</label>
+	                <input type="text" class="form-control" id="desbairro" name="desbairro">
+	            </div>
+	            <div class="form-group col-xs-12 col-md-5">
+	                <label class="form-control-label" for="descidade">Cidade</label>
+	                <input type="text" class="form-control" id="descidade" name="descidade">
+	                <input type="hidden" name="desuf">
+	            </div>
+
+	        </div>
+	  	</div>
+
+		<div class="form-group form-material" data-plugin="formMaterial">
+			<span class="input-group-btn pull-xs-right" style="vertical-align:bottom">
+				<button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+			</span>
+		</div>
+	</form></script><script>var LugarPanel = (function(data, selectorContainer, opts){
 
   var t = this;
 
@@ -69,6 +117,7 @@
     lugar.descep = t.formatCep(lugar.descep);
 
     t.$el.find('#form-lugar-editar').formLoad(lugar);
+    t.$el.find('#form-enderecos').formLoad(lugar);
     t.setCard(t.getData());
 
   });
@@ -152,9 +201,10 @@
     t.$el.find('[name=descep]').formValueCheck({
       url:PATH+"/enderecos/cep",
       success:function(r){
-        t.$el.find('#form-lugar-editar').formLoad(r);
-        t.$el.find('#form-lugar-editar').find('[name=descidade]').trigger('change');
-        t.$el.find('#form-lugar-editar').find('[name=desnumero]').trigger('focus');
+      	console.log(r);
+        t.$el.find('#form-enderecos').formLoad(r);
+        t.$el.find('#form-enderecos').find('[name=descidade]').trigger('change');
+        t.$el.find('#form-enderecos').find('[name=desnumero]').trigger('focus');
       }
     });
 
@@ -374,6 +424,41 @@
 
   };
 
+  t.initEnderecos = function(){
+
+  	var $panel = System.getPanelApi(t.$el.find("#form-enderecos"));
+
+  	var $form = t.$el.find("#form-enderecos");
+
+  	var tplEnderecos = t.getTpl('tpl-lugar-endereco');
+
+  	$panel.load();
+
+  	rest({
+  		url:PATH+"/lugares/"+t.getIdlugar()+"/enderecos",
+  		success:function(r){
+
+  			$form.html('');
+
+  			$.each(r.data, function(index, row){
+
+  				var $row = $(tplEnderecos(row));
+
+  				$row.find("form").formLoad(row);
+
+  			});
+
+  			$panel.done();
+
+  		},
+  		failure:function(r){
+  			$panel.done();
+  			System.showError(r);
+  		}
+  	})
+
+  };
+
   t.initTabs = function(){
 
 	var tabs = new Tab({
@@ -387,6 +472,9 @@
 		},{
 			title:"Horários",
 			id:"tab-lugar-horarios"
+		},{
+			title:"Endereços",
+			id:"tab-lugar-enderecos"
 		}],
 		listeners:{
 			tabchange:function(object, event){

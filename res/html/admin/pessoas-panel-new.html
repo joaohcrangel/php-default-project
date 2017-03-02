@@ -86,49 +86,7 @@
 
                     <div id="cadastro-pessoa-juridica" class="hide">
                       
-                    </div>
-
-                    <div id="cadastro-endereco">
-                      <div class="panel panel-primary panel-line p-b-0 m-0">
-                        <div class="panel-heading">
-                          <h3 class="panel-title p-l-0">Endereço do Cliente</h3>
-                        </div>
-                        
-                        <input type="hidden" name="idendereco">
-
-                        <div class="row">
-                          <div class="form-group col-xs-12 col-md-3">
-                            <label class="form-control-label" for="descep">CEP</label>
-                            <input type="text" class="form-control" id="descep" name="descep">
-                          </div>
-                          <div class="form-group col-xs-12 col-md-6">
-                            <label class="form-control-label" for="desendereco">Endereço</label>
-                            <input type="text" class="form-control" id="desendereco" name="desendereco">
-                          </div>
-                          <div class="form-group col-xs-12 col-md-3">
-                            <label class="form-control-label" for="desnumero">Número</label>
-                            <input type="text" class="form-control" id="desnumero" name="desnumero">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-xs-12 col-md-3">
-                            <label class="form-control-label" for="descomplemento">Complemento</label>
-                            <input type="text" class="form-control" id="descomplemento" name="descomplemento">
-                          </div>
-                          <div class="form-group col-xs-12 col-md-4">
-                            <label class="form-control-label" for="desbairro">Bairro</label>
-                            <input type="text" class="form-control" id="desbairro" name="desbairro">
-                          </div>
-                          <div class="form-group col-xs-12 col-md-5">
-                            <label class="form-control-label" for="descidade">Cidade</label>
-                            <input type="text" class="form-control" id="descidade" name="descidade">
-                            <input type="hidden" name="desuf">
-                          </div>
-                        </div>
-                        
-                      </div>
-                      
-                    </div>
+                    </div>                    
 
                   </div>
                 </div>
@@ -318,6 +276,109 @@
   
             </div>
 
+            <!-- inicio da tab de editar endereco -->
+            <div class="tab-pane panel" id="tab-endereco-editar" role="tabpanel">
+
+              <div class="panel-body">
+                  
+                <div class="panel-heading" style="height: 30px;">
+                  <div class="panel-actions panel-actions-keep">
+                    <a id="btn-actions-endereco-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px;"></a>
+                  </div>
+                </div>
+
+                <form id="form-enderecos">
+                
+                </form>
+
+              </div>             
+
+            </div>
+
+            <!-- inicio da tab que lista os enderecos -->
+            <div class="tab-pane" id="tab-pessoa-enderecos" role="tabpanel">
+
+              <div class="panel">
+
+                <div class="panel-body panel-primary panel-line p-b-0 m-0">
+
+                  <div class="btn-group open">
+                    <button type="button" class="btn btn-success pull-xs-left waves-effect" id="dropdownEndereco" data-toggle="dropdown" aria-expanded="true">
+                      <i class="icon md-plus" aria-hidden="true"></i> adicionar
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownEndereco" role="menu">
+                      {loop="enderecosTipos"}
+                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idenderecotipo="{$value.idenderecotipo}">{$value.desenderecotipo}</a>
+                      {/loop}
+                    </div>
+                  </div>
+
+                  <table class="table table-stripped table-hover">
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+              <!-- <div class="panel" id="endereco-add">
+
+                <form>
+
+                  <div class="panel-body panel-primary panel-line p-b-0 m-0">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-md-5">
+                          <h3 class="panel-title p-l-0">Adicionar endereço <select name="idenderecotipo" class="form-control"></select></h3>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-xs-12 col-md-3">
+                        <input type="hidden" name="idendereco">
+                        <label class="form-control-label" for="descep">CEP</label>
+                        <input type="text" class="form-control" id="descep" name="descep">
+                      </div>
+                      <div class="form-group col-xs-12 col-md-6">
+                        <label class="form-control-label" for="desendereco">Endereço</label>
+                        <input type="text" class="form-control" id="desendereco" name="desendereco">
+                      </div>
+                      <div class="form-group col-xs-12 col-md-3">
+                        <label class="form-control-label" for="desnumero">Número</label>
+                        <input type="text" class="form-control" id="desnumero" name="desnumero">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12 col-md-3">
+                        <label class="form-control-label" for="descomplemento">Complemento</label>
+                        <input type="text" class="form-control" id="descomplemento" name="descomplemento">
+                      </div>
+                      <div class="form-group col-xs-12 col-md-4">
+                        <label class="form-control-label" for="desbairro">Bairro</label>
+                        <input type="text" class="form-control" id="desbairro" name="desbairro">
+                      </div>
+                      <div class="form-group col-xs-12 col-md-5">          
+                          <label class="form-control-label" for="descidade">Cidade</label>
+                          <input type="text" class="form-control" id="descidade" name="descidade">
+                          <input type="hidden" name="desuf">
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom;">
+                          <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+                  
+              </div> -->
+            </div>
+              
+            </div>
+
           </div>
         </div>
       </div>
@@ -333,6 +394,7 @@
     <td class="real">{{desvltotal}}</td>
   </tr>
 </script>
+
 <script id="tpl-pessoa-home-card" type="text/x-handlebars-template">
 <div class="card-header bg-white p-30 clearfix">
   <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
@@ -372,6 +434,7 @@
   </div>
 </div>
 </script>
+
 <script id="tpl-pessoa-arquivo" type="text/x-handlebars-template">
 <li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
   <div class="media-item">
@@ -387,6 +450,70 @@
     </div>
   </div>
 </li>
+</script>
+
+<script id="tpl-pessoa-enderecos" type="text/x-handlebars-template">
+  <tr>
+    <td>{{desendereco}}, {{desnumero}} - {{descidade}} - {{descep}}</td>
+    <td>
+      <button class="btn btn-danger pull-xs-right waves-effect icon md-delete"></button>
+      <button class="btn-endereco-editar m-l-10 btn btn-primary pull-xs-right waves-effect icon md-edit"></button>
+    </td>
+  </tr>
+</script>
+
+<script id="tpl-pessoa-endereco" type="text/x-handlebars-template">
+  <div class="panel">
+
+    <div class="panel-body panel-primary panel-line p-b-0 m-0">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-5">
+            <h3 class="panel-title p-l-0"><select name="idenderecotipo" class="form-control"></select></h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-3">
+          <input type="hidden" name="idendereco" value="{{idendereco}}">
+          <label class="form-control-label" for="descep">CEP</label>
+          <input type="text" class="form-control" id="descep" name="descep" value="{{descep}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label class="form-control-label" for="desendereco">Endereço</label>
+          <input type="text" class="form-control" id="desendereco" name="desendereco" value="{{desendereco}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-3">
+          <label class="form-control-label" for="desnumero">Número</label>
+          <input type="text" class="form-control" id="desnumero" name="desnumero" value="{{desnumero}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-3">
+          <label class="form-control-label" for="descomplemento">Complemento</label>
+          <input type="text" class="form-control" id="descomplemento" name="descomplemento" value="{{descomplemento}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+          <label class="form-control-label" for="desbairro">Bairro</label>
+          <input type="text" class="form-control" id="desbairro" name="desbairro" value="{{desbairro}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-5">          
+            <label class="form-control-label" for="descidade">Cidade</label>
+            <input type="text" class="form-control" id="descidade" name="descidade" value="{{descidade}}">
+            <input type="hidden" name="desuf">            
+        </div>
+        <div class="input-group">
+          <span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom;">
+            <button type="button" class="btn btn-danger btn-outline input-search-close icon md-delete" style="padding:10px"></button>
+            <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+          </span>
+        </div>
+      </div>
+    </div>
+      
+    </div>
+  </div>
 </script>
 {/noparse}
 <script>
@@ -514,20 +641,6 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   };
 
-  t.initFieldCidade = function(){
-
-    t.$el.find('[name=descidade]').combobox({
-      url:PATH+"/enderecos/cidades",
-      autoComplete:true,
-      displayField:'descidade',
-      displayFieldRight:'desuf',
-      valueField:'idcidade',
-      submitValue:true,
-      hiddenName:'idcidade'
-    });
-
-  };
-
   t.initFieldClassEmpty = function(){
 
     t.$el.find('input').on('change', function(){
@@ -570,19 +683,6 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
         }
 
-      }
-    });
-
-  };
-
-  t.initFieldCEP = function(){
-
-    t.$el.find('[name=descep]').formValueCheck({
-      url:PATH+"/enderecos/cep",
-      success:function(r){
-        t.$el.find('#form-pessoa-editar').formLoad(r);
-        t.$el.find('#form-pessoa-editar').find('[name=descidade]').trigger('change');
-        t.$el.find('#form-pessoa-editar').find('[name=desnumero]').trigger('focus');
       }
     });
 
@@ -640,6 +740,242 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.saveEndereco = function($row, callback = function(){}){
+
+    rest({
+      url:PATH+"/pessoas",
+      method:"POST",
+      data:{
+        idpessoa:t.getIdPessoa(),
+        idpessoatipo:t.getData().idpessoatipo,
+        idendereco:$row.find("[name=idendereco]").val(),
+        idenderecotipo:$row.find("[name=idenderecotipo]").val(),
+        desendereco:$row.find("[name=desendereco]").val(),
+        descep:$row.find("[name=descep]").val(),
+        desnumero:$row.find("[name=desnumero]").val(),
+        descomplemento:$row.find("[name=descomplemento]").val(),
+        desbairro:$row.find("[name=desbairro]").val(),
+        descidade:$row.find("[name=descidade]").val(),
+        desuf:$row.find("[name=desuf]").val()
+      },
+      success:function(){
+        if(typeof callback == 'function') callback();
+      },
+      failure:function(r){
+        System.showError(r);
+        
+      }
+    });
+
+  }
+
+  t.renderEndereco = function(data){
+
+    var tplEndereco = t.getTpl("tpl-pessoa-endereco");
+
+    var $panel = System.getPanelApi(t.$el.find("#tab-endereco-editar"));
+
+    $panel.load();
+
+    var $form = t.$el.find("#tab-endereco-editar form#form-enderecos");
+
+    $form.html('');
+
+    data.descep = t.formatCep(data.descep);
+
+    var $row = $(tplEndereco(data));
+
+    $form.append($row);
+
+    $panel.done();
+
+    $row.find("[name=idenderecotipo]").combobox({
+      url:PATH+"/enderecostipos",
+      displayField:"desenderecotipo",
+      valueField:"idenderecotipo",
+      value:data.idenderecotipo
+    }).on("change", function(){
+      t.saveEndereco($row);            
+    });
+
+    $row.find('[name=descidade]').combobox({
+      url:PATH+"/enderecos/cidades",
+      autoComplete:true,
+      displayField:'descidade',
+      displayFieldRight:'desuf',
+      valueField:'idcidade',
+      submitValue:true,
+      hiddenName:'idcidade'
+    });
+
+    $row.find("[name=descidade]").trigger("change");
+
+    $row.find('[name=descep]').formValueCheck({
+      url:PATH+"/enderecos/cep",
+      success:function(r){
+
+        $.each(r, function(chave, value){
+          
+          $.each(data, function(index, valor){
+            
+            if(chave == index){
+              data[index] = value;
+              $row.find("[name="+index+"]").val(value);
+            }
+
+          });
+
+        });
+
+        $row.find("[name=desuf]").val(r.desuf);
+        $row.find("[name=descidade]").trigger("change");
+        $row.find("[name=desnumero]").trigger("focus");
+
+      }
+    });
+
+    $row.find(".btn-success").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      t.saveEndereco($row, function(){});
+
+      $btn.btnload("unload");
+
+    });
+
+    $row.find(".btn-danger").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/admin/enderecos/"+row.idendereco,
+        method:"DELETE",
+        success:function(){
+          $btn.btnload("unload");
+          $row.remove();
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      })
+
+    });
+
+  };
+
+  t.initEnderecos = function(){
+
+    var $panel = System.getPanelApi(t.$el.find("#tab-pessoa-enderecos"));
+
+    var tplEnderecosAll = t.getTpl("tpl-pessoa-enderecos");
+
+    var $tbody = t.$el.find("#tab-pessoa-enderecos table tbody");
+    var $form = t.$el.find("#form-enderecos");
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/pessoas/"+t.getIdPessoa()+"/enderecos",
+      success:function(r){
+
+        $tbody.html('');
+
+        $.each(r.data, function(index, row){
+
+          row.descep = t.formatCep(row.descep);
+
+          var $tr = $(tplEnderecosAll(row));
+
+          $tbody.append($tr);
+
+          $tr.find(".btn-endereco-editar").on("click", function(){
+
+            t.setTabActive('tab-endereco-editar');
+
+            rest({
+              url:PATH+"/enderecos/"+row.idendereco,
+              success:function(r){
+                t.renderEndereco(r.data);
+              },
+              failure:function(r){
+                System.showError(r);
+              }
+            });            
+
+          });
+
+          $tr.find(".btn-danger").on("click", function(){
+
+            var $btn = $(this);
+
+            $btn.btnload("load");
+
+            rest({
+              url:PATH+"/admin/enderecos/"+row.idendereco,
+              method:"DELETE",
+              success:function(){
+                $btn.btnload("unload");
+                $tr.remove();
+              },
+              failure:function(r){
+                $btn.btnload("unload");
+                System.showError(r);
+              }
+            });
+
+          });
+
+        });        
+
+        $panel.done();
+
+        var $formAdd = $("#endereco-add form");
+
+        $formAdd.find("[name=idenderecotipo]").combobox({
+          url:PATH+"/enderecostipos",
+          displayField:"desenderecotipo",
+          valueField:"idenderecotipo"
+        });
+
+        $formAdd.find('[name=descep]').formValueCheck({
+          url:PATH+"/enderecos/cep",
+          success:function(r){
+            $formAdd.formLoad(r);
+            $formAdd.find("[name=descidade]").trigger("change");
+            $formAdd.find("[name=desnumero]").trigger("focus");
+          }
+        });
+
+        $formAdd.find(".btn-success").on("click", function(){
+
+          var $btn = $(this);
+
+          $btn.btnload("load");
+
+          t.saveEndereco($formAdd, function(){
+            t.initEnderecos();
+            $formAdd.find("input").val('');
+          });
+
+          $btn.btnload("unload");
+
+        });
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  };
+
   t.initTabs = function(){
 
     var tabs = new Tab({
@@ -659,6 +995,9 @@ var PessoaPanel = (function(data, selectorContainer, opts){
       },{
         title:"Arquivos",
         id:"tab-pessoa-arquivos"
+      },{
+        title:"Endereços",
+        id:"tab-pessoa-enderecos"
       }],
       listeners:{
         tabchange:function(obejct, event){
@@ -680,6 +1019,10 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
             case 'tab-pessoa-arquivos':
             t.loadArquivos();
+            break;
+
+            case "tab-pessoa-enderecos":
+            t.initEnderecos();
             break;
             
           }
@@ -824,10 +1167,8 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   t.init = function(){
 
-    t.initFieldCidade();
     t.initFieldClassEmpty();
     t.initFieldCPF();
-    t.initFieldCEP();
     t.initFieldPessoaTipo();
     t.initFormPessoaEditar();
     t.initTabs();
@@ -864,6 +1205,12 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
       t.setTabActive('tab-pessoa-home');
       
+    });
+
+    t.$el.on('click',  "#btn-actions-endereco-close", function(){
+
+      t.setTabActive('tab-pessoa-enderecos');
+
     });
 
     t.$el.on('click', '#btn-pessoa-editar', function(){

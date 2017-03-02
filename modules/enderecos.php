@@ -8,6 +8,16 @@
 
  });
 
+ $app->get("/enderecos/:idendereco", function($idendereco){
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $endereco = new Endereco((int)$idendereco);
+
+    echo success(array("data"=>$endereco->getFields()));
+
+ });
+
 $app->get('/enderecos/cep/:nrcep', function($nrcep){
 
     Permissao::checkSession(Permissao::ADMIN);

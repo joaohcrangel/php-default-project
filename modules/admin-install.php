@@ -1499,7 +1499,8 @@ $app->get("/install-admin/sql/enderecos/list", function(){
         "sp_enderecostipos_list",
         "sp_paises_list",
         "sp_estados_list",
-        "sp_cidades_list"
+        "sp_cidades_list",
+        "sp_enderecosfromlugar_list"
     );
     saveProcedures($names);
 	echo success();
@@ -2468,7 +2469,6 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			idlugar INT NOT NULL AUTO_INCREMENT,
 			idlugarpai INT NULL,
 			deslugar VARCHAR(128) NOT NULL,
-			idendereco INT NULL,
 			idlugartipo INT NOT NULL,
 			desconteudo TEXT NULL,
 			nrviews INT NULL,
@@ -2476,7 +2476,6 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idlugar),
 			CONSTRAINT FOREIGN KEY(idlugarpai) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco),
 			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2502,6 +2501,35 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
+		CREATE TABLE tb_lugaresenderecos(
+			idlugar INT NOT NULL,
+			idendereco INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->exec("
+		CREATE TABLE tb_lugaresvalorescampos(
+			idcampo INT NOT NULL AUTO_INCREMENT,
+			descampo VARCHAR(128) NOT NULL,
+			CONSTRAINT PRIMARY KEY(idcampo),
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->exec("
+		CREATE TABLE tb_lugaresvalores(
+			idlugarvalor INT NOT NULL AUTO_INCREMENT,
+			idlugar INT NOT NULL,
+			idcampo INT NOT NULL,
+			desvalor VARCHAR(128) NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idlugarvalor),
+			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_lugaresvalorescampos(idcampo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->exec("
 		CREATE TABLE tb_lugaresdados(
 			idlugar INT NOT NULL,
 			deslugar VARCHAR(128) NOT NULL,
@@ -2509,16 +2537,16 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			deslugarpai VARCHAR(128) NULL,
 			idlugartipo INT NOT NULL,
 			deslugartipo  VARCHAR(128) NOT NULL,
-			idenderecotipo INT NOT NULL,
-			desenderecotipo VARCHAR(128) NOT NULL,
-			idendereco INT NOT NULL,
-			desendereco VARCHAR(128) NOT NULL,
-			desnumero VARCHAR(16) NOT NULL,
-			desbairro VARCHAR(64) NOT NULL,
-			descidade VARCHAR(64) NOT NULL,
-			desestado VARCHAR(32) NOT NULL,
-			despais VARCHAR(32) NOT NULL,
-			descep CHAR(8) NOT NULL,
+			idenderecotipo INT NULL,
+			desenderecotipo VARCHAR(128) NULL,
+			idendereco INT NULL,
+			desendereco VARCHAR(128) NULL,
+			desnumero VARCHAR(16) NULL,
+			desbairro VARCHAR(64) NULL,
+			descidade VARCHAR(64) NULL,
+			desestado VARCHAR(32) NULL,
+			despais VARCHAR(32) NULL,
+			descep CHAR(8) NULL,
 			descomplemento VARCHAR(32) NULL,
 			idcoordenada INT NULL,
 			vllatitude DECIMAL(20,17) NULL,
@@ -2548,7 +2576,11 @@ $app->get("/install-admin/sql/lugares/triggers", function(){
 
 		'tg_lugarescoordenadas_AFTER_INSERT',
 		'tg_lugarescoordenadas_AFTER_UPDATE',
-		'tg_lugarescoordenadas_BEFORE_DELETE'
+		'tg_lugarescoordenadas_BEFORE_DELETE',
+
+		'tg_lugaresenderecos_AFTER_INSERT',
+		'tg_lugaresenderecos_AFTER_UPDATE',
+		'tg_lugaresenderecos_BEFORE_DELETE'
 	);
 	saveTriggers($triggers);
 
@@ -2589,7 +2621,8 @@ $app->get("/install-admin/sql/lugares/save", function(){
 		'sp_lugares_save',
 		'sp_lugaresdados_save',
 		'sp_lugarescoordenadas_add',
-		'sp_lugareshorarios_save'
+		'sp_lugareshorarios_save',
+		'sp_lugaresenderecos_add'
 	);
 	saveProcedures($procs);
 	
@@ -2657,13 +2690,32 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 
 	$lugarHcode = new Lugar(array(
 		'deslugar'=>$lang->getString('lugar_hcode'),
-		'idlugartipo'=>$empresas->getidlugartipo(),
-		'idendereco'=>$endereco->getidendereco()
+		'idlugartipo'=>$empresas->getidlugartipo()
 	));
 	$lugarHcode->save();
+	$lugarHcode->setEndereco($endereco);
 	
 	echo success();
 	
+});
+// lugares arquivos
+$app->get("/install-admin/sql/lugaresarquivos/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$sql = new Sql();
+	$sql->exec("
+		CREATE TABLE tb_lugaresarquivos(
+			idlugar INT NOT NULL,
+			idarquivo INT NOT NULL,
+			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idarquivo) REFERENCES tb_arquivos(idarquivo)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
 });
 // coordenadas
 $app->get("/install-admin/sql/coordenadas/tables", function(){

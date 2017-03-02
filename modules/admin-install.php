@@ -3201,8 +3201,8 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idproduto,idarquivo),
 		  KEY FK_produtosarquivos_arquivos_idx (idarquivo),
-		  CONSTRAINT FK_produtosarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_produtosarquivos_produtos FOREIGN KEY (idproduto) REFERENCES tb_produtos (idproduto) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_produtosarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE CASCADE,
+		  CONSTRAINT FK_produtosarquivos_produtos FOREIGN KEY (idproduto) REFERENCES tb_produtos (idproduto) ON DELETE NO ACTION ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
 	");
 
@@ -3223,8 +3223,8 @@ $app->get("/install-admin/sql/pessoasarquivos/tables", function(){
 		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idpessoa,idarquivo),
 		  KEY FK_pessoasarquivos_arquivos_idx (idarquivo),
-		  CONSTRAINT FK_pessoasarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_pessoasarquivos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_pessoasarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE NO ACTION ON UPDATE CASCADE,
+		  CONSTRAINT FK_pessoasarquivos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 

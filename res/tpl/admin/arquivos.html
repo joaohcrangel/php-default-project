@@ -64,18 +64,24 @@
 
         });
 
-        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-          skin:'pagination-gap',
-          currentPage:r.currentPage,
-          itemsPerPage:r.itemsPerPage,
-          onChange:function(page){
-            carregarArquivos(page);
-          }
-        });
+        if (r.total > 0) {
 
-        console.log(config);
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage:r.currentPage,
+            itemsPerPage:r.itemsPerPage,
+            onChange:function(page){
+              carregarArquivos(page);
+            }
+          });
 
-        $("#paginacao").asPaginator(r.total, config);
+          $("#paginacao").show().asPaginator(r.total, config);
+
+        } else {
+
+          $("#paginacao").hide();
+
+        }
 
       },
       failure:function(e){
@@ -168,8 +174,7 @@
             var $li = $(this).closest("li");
 
             var arquivo = $li.data('arquivo');
-          
-             
+        
             ids.push(arquivo.idarquivo);
 
           });
@@ -185,6 +190,7 @@
               $("#tab-arquivo-fotos ul li input:checked").each(function(){
                 $(this).closest("li").remove();
               });
+              carregarArquivos();
 
             }
           });

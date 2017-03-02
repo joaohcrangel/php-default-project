@@ -308,7 +308,7 @@
                     <a id="btn-pessoa-arquivos-reload" class="panel-action icon md-refresh-alt" aria-hidden="true"></a>
                   </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body p-b-0">
                   <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul>
                 </div>
                 <div class="panel-footer">
@@ -692,21 +692,29 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
   function setPagination(id, opts){
 
-    var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-      skin:'pagination-gap',
-      currentPage: opts.currentPage,
-      itemsPerPage: opts.itensPerPage,
-      onChange: function(page){
-        
-        t.pagination[id] = page;
-        opts.load(page);
+    if (opts.total > 0) {
 
-      }
-    }, opts);
+      var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+        skin:'pagination-gap',
+        currentPage: opts.currentPage,
+        itemsPerPage: opts.itensPerPage,
+        onChange: function(page){
+          
+          t.pagination[id] = page;
+          opts.load(page);
 
-    t.pagination[id] = opts.currentPage;
+        }
+      }, opts);
 
-    $(opts.selector).asPaginator(opts.total, config);
+      t.pagination[id] = opts.currentPage;
+
+      $(opts.selector).show().asPaginator(opts.total, config);
+
+    } else {
+
+      $(opts.selector).hide();
+
+    }
 
   }
 
@@ -739,6 +747,11 @@ var PessoaPanel = (function(data, selectorContainer, opts){
 
     var id = 'pessoa-arquivos';
     var limit = t.limit;
+
+    limit = Math.floor((window.innerHeight-300)/127);
+    limit *= Math.floor(t.$el.find('#tab-pessoa-arquivos').find('.blocks').width()/134);
+    limit = (limit<5)?5:limit;
+
     var $panel = $('#tab-pessoa-arquivos > .panel');
     var panel = System.getPanelApi($panel);
     var $list = $('#tab-pessoa-arquivos ul');
@@ -894,7 +907,7 @@ var PessoaPanel = (function(data, selectorContainer, opts){
         modalInfo:true,
         success:function(data){
 
-          t.loadArquivos();
+          t.loadArquivos(1);
 
         }
       });

@@ -144,6 +144,7 @@ $app->post("/pessoas", function(){
 	}
 
 	foreach (array(
+		'idenderecotipo',
 		'descep',
 		'desendereco',
 		'desnumero',

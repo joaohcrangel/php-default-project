@@ -77,3 +77,22 @@
     }
   }
 }
+
+.media-item {
+  .info-wrap {
+    .title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-align: center;
+      height: 20px;
+      width: 100%;
+    }
+  }
+  .image-wrap {
+    text-align: center;
+
+  }
+  .image-wrap > .image {
+    max-height: 64px;
+  }
+}

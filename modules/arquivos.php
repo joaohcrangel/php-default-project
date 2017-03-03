@@ -44,6 +44,14 @@ $app->get("/arquivos", function(){
 
 });
 
+$app->get("/arquivos-upload_max_filesize", function(){
+
+    echo success(array(
+        "data"=>parse_size(ini_get('upload_max_filesize'))
+    ));
+
+});
+
 $app->post("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);

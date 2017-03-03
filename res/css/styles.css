@@ -58,3 +58,16 @@
 .dropdown-menu .dropdown-item.selected {
   background-color: #3f51b5 !important;
   color: #FFF !important; }
+
+.media-item .info-wrap .title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+  height: 20px;
+  width: 100%; }
+
+.media-item .image-wrap {
+  text-align: center; }
+
+.media-item .image-wrap > .image {
+  max-height: 64px; }

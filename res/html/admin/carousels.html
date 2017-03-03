@@ -90,11 +90,11 @@
   </div>
 </script>
 <script id="tpl-carousel-row" type="text/x-handlebars-template">
-  <tr>
+  <tr data-url="{$path}/panel/carousels/{{idcarousel}}" data-toggle="slidePanel">
     <td>{{descarousel}}</td>
     <td>{{nritems}}</td>
     <td>
-      <button type="button" class="btn btn-default icon md-edit btn-pure btn-xs" data-url="{$path}/panel/carousels/{{idcarousel}}" data-toggle="slidePanel"></button>
+      <!-- <button type="button" class="btn btn-default icon md-edit btn-pure btn-xs"></button> -->
       <button type="button" class="btn btn-danger icon md-delete btn-pure btn-xs"></button>
     </td>
   </tr>
@@ -192,6 +192,13 @@ init.push(function(){
 
           System.initSlidePanel($tbody);
 
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
+
           var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
             skin:'pagination-gap',
             currentPage:r.currentPage,
@@ -238,6 +245,8 @@ init.push(function(){
       }
     }]
   });
+
+  loadCarousels();
 
 });
 

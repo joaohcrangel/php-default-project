@@ -83,13 +83,13 @@
 <footer id="curso-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-curso-row" type="text/x-handlebars-template">
-  <tr>
+  <tr data-url="{$path}/panel/cursos/{{idcurso}}" data-toggle="slidePanel">
     <td>{{descurso}}</td>
     <td>{{destitulo}}</td>
     <td>{{vlcargahoraria}}h</td>
     <td>
-      <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/cursos/{{idcurso}}" data-toggle="slidePanel">
-      </button>
+      <!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
+      </button> -->
       <button type="button" class="btn btn-pure btn-danger btn-xs icon wb-trash">
       </button>
     </td>
@@ -201,6 +201,13 @@ init.push(function(){
 
           System.initSlidePanel($tbody);
 
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
+
           var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
             skin:'paginator-gap',
             currentPage:r.currentPage,
@@ -244,7 +251,9 @@ init.push(function(){
         }
       }
     }]
-  })
+  });
+
+  loadCursos();
 
 });
 

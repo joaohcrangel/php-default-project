@@ -1,17 +1,5 @@
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css">
 <style>
-.info-wrap .title {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: center;
-  height: 20px;
-  width: 100%;
-}
-.image-wrap {
-
-  text-align: center;
-}
-
 #actions-buttons button {
   padding: 2px 5px;
   font-size: 11px;
@@ -23,9 +11,6 @@
 .page {
   height: calc(100% - 83px);
   min-height: calc(100% - 83px);
-}
-.app-media .media-list .image-wrap > .image {
-  max-height: 64px;
 }
 </style>
 <div class="page bg-white">
@@ -103,7 +88,7 @@
 
 <script id="tpl-arquivo-page" type="text/x-handlebars-template">
 <li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
-  <div class="media-item" data-toggle="slidePanel" data-url="panel.tpl">
+  <div class="media-item">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="selectable-item" id="media_1" />
       <label for="media_1"></label>
@@ -139,7 +124,8 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = Math.floor((window.innerHeight-360)/53);
+    data.limite = Math.floor((window.innerHeight-360)/126);
+    data.limite *= Math.floor($('.media-list').width()/126);
     data.limite = (data.limite<5)?5:data.limite;
 
     rest({
@@ -159,16 +145,24 @@ init.push(function(){
 
         });
 
-        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-          skin:'pagination-gap',
-          currentPage:r.currentPage,
-          itemsPerPage:r.itemsPerPage,
-          onChange:function(page){
-            carregarArquivos(page);
-          }
-        });  
+        if (r.total > 0) {
 
-        $("#paginacao").html('').removeAttr('class').asPaginator(r.total, config);
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage:r.currentPage,
+            itemsPerPage:r.itemsPerPage,
+            onChange:function(page){
+              carregarArquivos(page);
+            }
+          });
+
+          $("#paginacao").show().asPaginator(r.total, config);
+
+        } else {
+
+          $("#paginacao").hide();
+
+        }
 
       },
       failure:function(e){
@@ -200,10 +194,10 @@ init.push(function(){
       multiple:true,
       url:PATH+"/arquivos",
       accept:"*",
+      modalInfo:true,
       success:function(r){
-
+        console.log('upload', r);
         carregarArquivos();
-        System.success("Arquivo adicionado!");
       },
       failure:function(e){
         System.showError(e);
@@ -261,8 +255,7 @@ init.push(function(){
             var $li = $(this).closest("li");
 
             var arquivo = $li.data('arquivo');
-          
-             
+        
             ids.push(arquivo.idarquivo);
 
           });
@@ -278,6 +271,7 @@ init.push(function(){
               $("#tab-arquivo-fotos ul li input:checked").each(function(){
                 $(this).closest("li").remove();
               });
+              carregarArquivos();
 
             }
           });

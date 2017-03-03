@@ -2,7 +2,7 @@
 
 class PessoaCategoriaTipo extends Model {
 
-    public $required = array('idcategoria', 'descategoria');
+    public $required = array('descategoria');
     protected $pk = "idcategoria";
 
     public function get(){

@@ -18,11 +18,10 @@ class Lugar extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_lugares_save(?, ?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_lugares_save(?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidlugar(),
                 $this->getidlugarpai(),
                 $this->getdeslugar(),
-                $this->getidendereco(),
                 $this->getidlugartipo(),
                 $this->getdesconteudo(),
                 $this->getnrviews(),
@@ -41,7 +40,9 @@ class Lugar extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_lugares_remove(".$this->getidlugar().")");
+        $this->exec("sp_lugares_remove", array(
+            $this->getidlugar()
+        ));
 
         return true;
         
@@ -61,10 +62,31 @@ class Lugar extends Model {
 
     }
 
+    public function setEndereco(Endereco $e):Endereco
+    {
+
+        $e->save();
+
+        $this->execute("CALL sp_lugaresenderecos_add(?, ?);", array(
+            $this->getidlugar(),
+            $e->getidendereco()
+        ));
+
+        return $e;
+
+    }
+
     public function getLugaresHorarios():LugaresHorarios
     {
 
         return new LugaresHorarios($this);
+
+    }
+
+    public function getEnderecos():Enderecos
+    {
+
+        return new Enderecos($this);
 
     }
 

@@ -32,6 +32,28 @@ class Enderecos extends Collection {
 
     }
 
+    public function getByPessoa(Pessoa $pessoa):Enderecos
+    {
+
+        $this->loadFromQuery("CALL sp_enderecosfrompessoa_list(?);", array(
+            $pessoa->getidpessoa()
+        ));
+
+        return $this;
+
+    }
+
+    public function getByLugar(Lugar $lugar):Enderecos
+    {
+
+        $this->loadFromQuery("CALL sp_enderecosfromlugar_list(?);", array(
+            $lugar->getidlugar()
+        ));
+
+        return $this;
+
+    }
+
 }
 
 ?>

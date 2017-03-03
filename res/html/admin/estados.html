@@ -84,7 +84,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idestado="{{idestado}}">
+  <tr data-idestado="{{idestado}}" data-url="{$path}/panel/estados/{{idestado}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -93,10 +93,6 @@
       </span>
     </td>
     <td>{{desestado}}</td>
-    <td>
-      <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/estados/{{idestado}}" data-toggle="slidePanel">
-      </button>
-    </td>
   </tr>
 </script>
 
@@ -165,6 +161,13 @@ init.push(function(){
           });
 
           System.initSlidePanel($tbody);
+
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
 
           $footer.html(tplFooter(r));
 

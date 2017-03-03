@@ -117,6 +117,10 @@ class Arquivo extends Model {
                 throw new RuntimeException('Erro desconhecido.');
         }
 
+        if ($size > parse_size(ini_get('upload_max_filesize'))) {
+            throw new RuntimeException('O arquivo excedeu o tamanho máximo de '.ini_get('upload_max_filesize').'.');
+        }
+
         $configs = Session::getConfiguracoes();
         $mimes = $configs->getByName('UPLOAD_MIME_TYPE');
         $uploadDir = $configs->getByName('UPLOAD_DIR');
@@ -130,7 +134,7 @@ class Arquivo extends Model {
         );
 
         if (!$ext) {
-            throw new RuntimeException('Formato de arquivo não permitido.');
+            throw new RuntimeException('Formato de arquivo não permitido. ('.$finfo->file($tmp_name).')');
         }
 
         $desnome = uniqid();

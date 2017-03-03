@@ -208,19 +208,27 @@ init.push(function(){
 
         panel.done();
 
-        var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-          skin:'pagination-gap',
-          currentPage: r.currentPage,
-          itemsPerPage: r.itensPerPage,
-          onChange: function(a){
-            
-            window.pagina = a;
-            consultar(a);
+        if (r.total > 0) {
 
-          }
-        });
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage: r.currentPage,
+            itemsPerPage: r.itensPerPage,
+            onChange: function(a){
+              
+              window.pagina = a;
+              consultar(a);
 
-        $("#paginacao").asPaginator(r.total, config);
+            }
+          });
+
+          $("#paginacao").show().asPaginator(r.total, config);
+
+        } else {
+
+          $("#paginacao").hide();
+
+        }
 
       },
       failure:function(e){

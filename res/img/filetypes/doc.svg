@@ -102,13 +102,13 @@ gg==" transform="matrix(0.24 0 0 0.24 -5.811 38.7295)">
 			<rect y="44.541" fill="#FAFAFA" width="122.786" height="108.939"/>
 		</g>
 	</g>
-	<polygon fill="#EB5A40" points="122.786,46.87 122.786,40.104 82.682,40.104 82.682,0 0,0 0,46.87 	"/>
-	<polygon fill="#EB5A40" points="85.402,0 85.402,37.381 122.786,37.381 	"/>
+	<polygon fill="#285599" points="122.786,46.87 122.786,40.104 82.682,40.104 82.682,0 0,0 0,46.87 	"/>
+	<polygon fill="#285599" points="85.402,0 85.402,37.381 122.786,37.381 	"/>
 	<g>
 		<g opacity="0.5">
-			<text transform="matrix(1 0 0 1 12.9126 32.7896)" fill="#231F20" font-family="'OpenSans-Semibold'" font-size="23.8882">PDF</text>
+			<text transform="matrix(1 0 0 1 12.9126 32.7896)" fill="#231F20" font-family="'OpenSans-Semibold'" font-size="23.8882">DOC</text>
 		</g>
-		<text transform="matrix(1 0 0 1 12.5527 32.4297)" fill="#FFFFFF" font-family="'OpenSans-Semibold'" font-size="23.8882">PDF</text>
+		<text transform="matrix(1 0 0 1 12.5527 32.4297)" fill="#FFFFFF" font-family="'OpenSans-Semibold'" font-size="23.8882">DOC</text>
 	</g>
 </g>
 </svg>

@@ -24,7 +24,7 @@
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idpais="{{idpais}}">
+  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idpais="{{idpais}}" data-url="{$path}/panel/paises/{{idpais}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -34,8 +34,8 @@
     </td>
     <td>{{despais}}</td>
     <td>
-      <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/paises/{{idpais}}" data-toggle="slidePanel">
-      </button>
+      <!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
+      </button> -->
     </td>
   </tr></script><script>init.push(function(){
 
@@ -101,6 +101,13 @@
           });
 
           System.initSlidePanel($tbody);
+
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
 
           $footer.html(tplFooter(r));
 

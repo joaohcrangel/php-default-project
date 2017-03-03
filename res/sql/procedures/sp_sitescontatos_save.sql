@@ -2,14 +2,15 @@ CREATE PROCEDURE sp_sitescontatos_save(
 pidsitecontato INT,
 pidpessoa INT,
 pdesmensagem VARCHAR(128),
-pinlido BIT
+pinlido BIT,
+pidpessoaresposta INT
 )
 BEGIN
 	
 	IF pidsitecontato = 0 THEN
     
-		INSERT INTO tb_sitescontatos(idpessoa, desmensagem, inlido)
-        VALUES(pidpessoa, pdesmensagem, pinlido);
+		INSERT INTO tb_sitescontatos(idpessoa, desmensagem, inlido, idpessoaresposta)
+        VALUES(pidpessoa, pdesmensagem, pinlido, pidpessoaresposta);
         
         SET pidsitecontato = LAST_INSERT_ID();
         
@@ -18,7 +19,8 @@ BEGIN
 		UPDATE tb_sitescontatos SET
 			idpessoa = pidpessoa,
             desmensagem = pdesmensagem,
-            inlido = pinlido
+            inlido = pinlido,
+            idpessoaresposta = pidpessoaresposta
 		WHERE idsitecontato = pidsitecontato;
         
 	END IF;

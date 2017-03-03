@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
 
 <div class="page bg-white">
@@ -32,10 +31,9 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-permissoes" data-auto-height="-291">
+				<div class="panel" id="panel-permissoes" data-auto-height="-179">
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							Permissões
 						</h3>
 						<div class="panel-actions">
 							<a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
@@ -111,7 +109,7 @@
 		var params = $("#form-filtros").formValues();
 		
 		params.pagina = pagina;
-		params. limite = Math.floor((window.innerHeight-291)/53);
+		params. limite = Math.floor((window.innerHeight-179)/53);
 		params.limite = (params.limite<5)?5:params.limite;
 
 		panel.load();

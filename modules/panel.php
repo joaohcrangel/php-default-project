@@ -657,7 +657,8 @@ $app->get("/panel/lugares/:idlugar", function($idlugar){
 
 	$page->setTpl("panel/lugar", array(
 		"lugar"=>$data,
-		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
+		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
+		"enderecosTipos"=>EnderecosTipos::listAll()->getFields()
 	));
 
 });

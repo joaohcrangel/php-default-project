@@ -63,7 +63,7 @@ $app->get("/lugares/:idlugar", function($idlugar){
 
 });
 
-$app->get("/lugares/:idlugar/enderecos", function($idendereco){
+$app->get("/lugares/:idlugar/enderecos", function($idlugar){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -132,6 +132,8 @@ $app->post("/lugares", function(){
 	foreach ($_POST as $key => $value) {
 		$lugar->{'set'.$key}($value);
 	}
+
+	if(count($endereco->getFields())) $lugar->setEndereco($endereco);
 
 	if(post('idlugarpai') == '' || (int)$lugar->getidlugarpai() == 0) $lugar->setidlugarpai(NULL);
 

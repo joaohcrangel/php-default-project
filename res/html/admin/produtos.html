@@ -102,13 +102,13 @@
 </script>
 	
 <script id="tpl-produto-row" type="text/x-handlebars-template">
-<tr data-idproduto="{{idproduto}}">
+<tr data-idproduto="{{idproduto}}" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
 	<td>{{desproduto}}</td>
 	<td>{{desprodutotipo}}</td>
 	<td>R$ {{desvlpreco}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
-      	</button>
+		<!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
+      	</button> -->
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
       	</button>
 	</td>
@@ -225,6 +225,13 @@ init.push(function(){
 					});
 
 					System.initSlidePanel($tbody);
+
+					$tbody.find('.selectable-item').on('click', function(e){
+
+			            e.stopPropagation();
+			            return true;
+
+		          	});
 
 					panel.done();
 

@@ -77,20 +77,7 @@
 					<div id="secoes" class="panel m-t-20">
 						
 						<table class="table table-stripped table-hover">
-							<tbody class="table-section" data-plugin="tableSection">
-								<tr>
-									<td><i class="table-section-arrow"></i></td>
-									<td>Rafael</td>
-									<td>18</td>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr>
-									<td>&nbsp;</td>
-									<td>Teste</td>
-									<td>Idade</td>
-								</tr>								
-							</tbody>							
+							
 						</table>
 
 					</div>
@@ -183,21 +170,25 @@
 </div><!-- /.modal -->
 
  <script id="tpl-curso-secao-curriculo" type="text/x-handlebars-template">
- 	<li class="list-group-item" style="display:flex;">
- 		<input type="text" name="descurriculo" class="form-control" value="{{descurriculo}}">
-        <button type="button" class="btn btn-success btn-outline input-search-close icon md-check curriculo-salvar" style="padding:10px"></button>
-        <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button>
- 	</li>
+ 	<tr>
+		<td>&nbsp;</td>
+		<td><input type="text" name="descurriculo" class="form-control" value="{{descurriculo}}"></td>
+		<td><button type="button" class="btn btn-success btn-outline input-search-close icon md-check curriculo-salvar" style="padding:10px"></button>
+        <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button></td>
+	</tr>
  </script>
 
  <script id="tpl-curso-secao" type="text/x-handlebars-template">
- 	<ul class="list-group list-group-full">
- 		<li class="list-group-item">
-	 		{{dessecao}}
-			<button type="button" class="btn btn-pure btn-success icon md-plus curriculo-criar" title="Adicionar currículo" style="padding:10px"></button>
- 			<button type="button" class="btn btn-pure btn-danger icon md-delete secao-remove" title="Excluir seção" style="padding:10px"></button>
- 		</li>
- 	</ul>
+ 	<tbody class="table-section" data-plugin="tableSection">
+	 	<tr>
+			<td><i class="table-section-arrow"></i></td>
+			<td>{{dessecao}}</td>
+			<td>
+				<button type="button" class="btn btn-pure btn-success icon md-plus curriculo-criar" title="Adicionar currículo" style="padding:10px"></button>
+				<button type="button" class="btn btn-danger btn-outline input-search-close icon md-delete secao-remove" style="padding:10px"></button>
+			</td>
+		</tr>
+	</tbody>
  </script>
 
  <script>
@@ -213,13 +204,11 @@
 
  var isSecoesLogged = false;
 
- var cursoSecoes = [];
-
  function loadSecoes(){
 
  	if(isSecoesLogged === false){
 
- 		var $panel = $("#secoes");				 	 		
+ 		var $panel = $("#secoes table");				 	 		
 
 	 	$panelSecoes.load();
 
@@ -235,67 +224,69 @@
 
 					$panel.append($row);
 
-					if(r.dataCurriculos.length > 0){
-	 					$row.find(".list-group-item").append("<ul class='list-group list-group-full ul-2'></ul>");
-	 				}
+					$row.after("<tbody></tbody>");
 
-					$.each(r.dataCurriculos, function(index, curriculo){
+					if(r.dataCurriculos.length > 0){						
 
-						if(secao.idsecao == curriculo.idsecao){		 					
+						$.each(r.dataCurriculos, function(index, curriculo){
 
-							var $li = $(tpl.cursoCurriculo(curriculo));
-							$row.find(".ul-2").append($li);
+							if(secao.idsecao == curriculo.idsecao){		 					
 
-							$li.find(".curriculo-salvar").on("click", function(){
+								var $tr = $(tpl.cursoCurriculo(curriculo));							
+								$row.next('tbody').append($tr);
 
-								var $btn = $(this);
+								$tr.find(".curriculo-salvar").on("click", function(){
 
-								$btn.btnload("load");
+									var $btn = $(this);
 
-								rest({
-									url:PATH+"/cursos-curriculos",
-									method:"POST",
-									data:{
-										idcurriculo:curriculo.idcurriculo,
-										descurriculo:$li.find("[name=descurriculo]").val(),
-										desdescricao:curriculo.desdescricao.toString(),
-										idsecao:curriculo.idsecao,
-										nrordem:curriculo.nrordem
-									},
-									success:function(){
-										$btn.btnload("unload");
-									},
-									failure:function(r){
-										System.showError(r);
-									}
+									$btn.btnload("load");
+
+									rest({
+										url:PATH+"/cursos-curriculos",
+										method:"POST",
+										data:{
+											idcurriculo:curriculo.idcurriculo,
+											descurriculo:$tr.find("[name=descurriculo]").val(),
+											desdescricao:curriculo.desdescricao.toString(),
+											idsecao:curriculo.idsecao,
+											nrordem:curriculo.nrordem
+										},
+										success:function(){
+											$btn.btnload("unload");
+										},
+										failure:function(r){
+											System.showError(r);
+										}
+									});
+
 								});
 
-							});
+				 				$tr.find(".btn-danger").on("click", function(){
 
-			 				$li.find(".btn-danger").on("click", function(){
+				 					var $btn = $(this);
 
-			 					var $btn = $(this);
+				 					$btn.btnload("load");
 
-			 					$btn.btnload("load");
+				 					rest({
+				 						url:PATH+"/cursos-curriculos/"+curriculo.idcurriculo,
+				 						method:"DELETE",
+				 						success:function(){
+				 							$btn.btnload("unload");
+				 							$tr.remove();
+				 						},
+				 						failure:function(r){
+				 							System.showError(r);
+				 							$btn.btnload("unload");
+				 						}
+				 					});
 
-			 					rest({
-			 						url:PATH+"/cursos-curriculos/"+curriculo.idcurriculo,
-			 						method:"DELETE",
-			 						success:function(){
-			 							$btn.btnload("unload");
-			 							$li.remove();
-			 						},
-			 						failure:function(r){
-			 							System.showError(r);
-			 							$btn.btnload("unload");
-			 						}
-			 					});
+				 				});
 
-			 				});
+							}
 
-						}
+						});
 
-					});
+					}
 
 					$row.find(".curriculo-criar").on("click", function(){
 
@@ -346,7 +337,8 @@
 							url:PATH+"/cursos-secoes/"+secao.idsecao,
 							method:"DELETE",
 							success:function(){
-								$btn.btnload("unload");
+								$btn.btnload("unload");								
+								$row.next('tbody').remove();								
 								$row.remove();
 							},
 							failure:function(r){
@@ -431,7 +423,7 @@
  			switch(event.tabContent.id){
 
  				case "secoesTab":
- 				// loadSecoes();
+ 				loadSecoes();
 
  				break;
 

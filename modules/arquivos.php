@@ -88,7 +88,7 @@ $app->delete("/arquivos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $ids = explode(",",post('ids'));
+    $ids = explode(",", post('ids'));
 
     foreach ($ids as $idarquivo) {
 
@@ -102,8 +102,5 @@ $app->delete("/arquivos", function(){
     echo success();
 
 });
-
-
-
 
  ?>

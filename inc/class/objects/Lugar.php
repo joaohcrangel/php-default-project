@@ -90,6 +90,13 @@ class Lugar extends Model {
 
     }
 
+    public function getArquivos():Arquivos
+    {
+
+        return new Arquivos($this);
+
+    }
+
     public function removeHorarios()
     {
 
@@ -146,6 +153,20 @@ class Lugar extends Model {
         $horarios->save();
 
         return $this->getLugaresHorarios();
+
+    }
+
+    public function addArquivo(Arquivo $arquivo):Arquivo
+    {
+
+        $arquivo->save();
+
+        $this->execute("CALL sp_lugaresarquivos_add(?, ?);", array(
+            $this->getidlugar(),
+            $arquivo->getidarquivo()
+        ));
+
+        return $arquivo;
 
     }
 

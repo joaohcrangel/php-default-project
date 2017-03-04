@@ -73,6 +73,56 @@ $app->get("/lugares/:idlugar/enderecos", function($idlugar){
 
 });
 
+$app->get("/lugares/:idlugar/arquivos", function($idlugar){
+
+	// pre($_GET);
+	// exit;
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	$where = array();
+
+	array_push($where, "b.idlugar = ".$lugar->getidlugar()."");
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where);
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.deslugar FROM tb_arquivos a
+			INNER JOIN tb_lugaresarquivos c ON a.idarquivo = c.idarquivo
+	        INNER JOIN tb_lugares b ON c.idlugar = b.idlugar
+	    ".$where." LIMIT ?, ?;
+	";
+
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limit');
+
+	// pre($query);
+	// exit;
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Arquivos",
+		$itemsPerPage
+	);
+
+	$arquivos = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$arquivos->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
 $app->post("/lugares", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -180,6 +230,25 @@ $app->post("/lugares/:idlugar/coordenadas", function($idlugar){
 	$lugar->setCoordenada($c);
 
 	echo success(array("data"=>$lugar->getFields()));
+
+});
+
+$app->post("/lugares/:idlugar/arquivos", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	$arquivos = Arquivos::upload($_FILES['arquivo']);
+
+	pre($arquivos->getItens());
+	exit;
+
+	foreach($arquivos->getItens() as $arquivo){
+		$lugar->addArquivo($arquivo);
+	}
+
+	echo success(array("data"=>$arquivos->getFields()));
 
 });
 

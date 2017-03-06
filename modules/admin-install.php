@@ -2623,8 +2623,7 @@ $app->get("/install-admin/sql/lugares/save", function(){
 		'sp_lugaresdados_save',
 		'sp_lugarescoordenadas_add',
 		'sp_lugareshorarios_save',
-		'sp_lugaresenderecos_add',
-		'sp_lugaresarquivos_add'
+		'sp_lugaresenderecos_add'
 	);
 	saveProcedures($procs);
 	
@@ -3195,8 +3194,7 @@ $app->get("/install-admin/sql/arquivos/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_arquivos_list',
-		'sp_arquivosfromlugar_list'
+		'sp_arquivos_list'
 	);
 	saveProcedures($procs);
 

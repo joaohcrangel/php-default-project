@@ -65,7 +65,7 @@ class Arquivo extends Model {
 
         if ($deleted) {
 
-            $this->proc("sp_arquivos_remove", array(
+            $this->execute("sp_arquivos_remove", array(
                 $this->getidarquivo()
             ));
 

@@ -219,6 +219,31 @@
 
 		            </div>
 
+					<div class="tab-pane" id="tab-lugar-arquivos" role="tabpanel">
+
+						<div class="panel">
+                			<div class="panel-heading">
+                				<div class="m-10 btn-group btn-group-flat">
+									<button id="btn-lugar-arquivos-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button>
+									<button id="btn-lugar-arquivos-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button>
+								</div>
+							</div>
+							<div class="panel-body p-b-0">
+								<ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul>
+							</div>
+							<div class="panel-footer">
+								<div id="paginacao-arquivos"></div>
+							</div>
+						</div>
+		            
+						<!-- <div  class="media-list is-grid" data-plugin="animateList" data-animate="fade" data-child="li">
+			              <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5"
+			              data-plugin="animateList" data-child=">li"> 
+			              </ul>
+			            </div> -->
+
+					</div>
+
 				</div>
 			</div>
 
@@ -315,6 +340,23 @@
       </div>
     </div>
   </div>
+</script>
+
+<script id="tpl-lugar-arquivos" type="text/x-handlebars-template">
+<li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" data-idarquivo="{{idarquivo}}" id="media_1" />
+      <label for="media_1"></label>
+    </div>
+    <div class="image-wrap">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
+    </div>
+    <div class="info-wrap">
+      <div class="title">{{desalias}}</div>
+    </div>
+  </div>
+</li>
 </script>
 
 <script>
@@ -929,6 +971,124 @@ var LugarPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.initArquivos = function(page){
+
+  	if(!page) page = 1;
+
+  	var $panel = System.getPanelApi(t.$el.find("#tab-lugar-arquivos"));
+
+  	var tplArquivos = t.getTpl('tpl-lugar-arquivos');
+  	var $ul = t.$el.find("#tab-lugar-arquivos ul");
+
+  	var data = {
+  		pagina:page
+  	};
+
+  	data.limit = Math.floor((window.innerHeight-373)/116);
+  	data.limit *= Math.floor(t.$el.find('#tab-lugar-arquivos').find('.blocks').width()/123);
+  	data.limit = (data.limit<5)?5:data.limit;
+
+  	$panel.load();
+
+  	rest({
+  		url:PATH+"/lugares/"+t.getIdLugar()+"/arquivos",
+  		data:data,
+  		success:function(r){
+
+  			$ul.html('');
+
+  			$.each(r.data, function(index, row){
+
+  				var $li = $(tplArquivos(row));
+
+  				$ul.append($li);
+
+  				$li.find("[type=checkbox]").on("change", function(){  					
+
+  					var checked = $("#tab-lugar-arquivos .panel-body [type=checkbox]:checked");
+
+  					var disabled = (checked.length > 0) ? false : true;
+
+  					$("#btn-lugar-arquivos-remove").prop("disabled", disabled);
+
+  				});
+
+  			});
+
+  			if(r.total > 0){
+
+  				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+  					skin:'pagination-gap',
+  					currentPage:r.currentPage,
+  					itemsPerPage:r.itemsPerPage,
+  					onChange:function(page){
+  						t.initArquivos(page);
+  					}
+  				});
+
+  				$("#paginacao-arquivos").show().asPaginator(r.total, config)
+
+  			}else{
+  				$("#paginacao-arquivos").hide();
+  			}
+
+  			$panel.done();
+
+  			$("#btn-lugar-arquivos-remove").on("click", function(){
+
+				var $btn = $(this);
+
+				$btn.btnload("load");
+
+				var ids = [];
+
+				$("#tab-lugar-arquivos .panel-body [type=checkbox]:checked").each(function(){
+					ids.push($(this).data("idarquivo"));
+				});
+
+				rest({
+					url:PATH+"/arquivos",
+					data:{
+						ids:ids.toString()
+					},
+					method:"DELETE",
+					success:function(){
+						$btn.btnload("unload");
+						t.initArquivos();
+					},
+					failure:function(r){
+						$btn.btnload("unload");
+						System.showError(r);
+					}
+				});
+
+			});
+
+  		},
+  		failure:function(r){
+  			$panel.done();
+  			System.showError(r);
+  		}
+  	});
+
+  };
+
+  t.addArquivo = function(){
+  	$.upload({
+      multiple:true,
+      url:PATH+"/lugares/"+t.getIdLugar()+"/arquivos",
+      accept:"*",
+      modalInfo:true,
+      success:function(r){
+        console.log('upload', r);
+        t.initArquivos();
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+  };
+
   t.initTabs = function(){
 
 	var tabs = new Tab({
@@ -945,6 +1105,9 @@ var LugarPanel = (function(data, selectorContainer, opts){
 		},{
 			title:"Endereços",
 			id:"tab-lugar-enderecos"
+		},{
+			title:"Fotos",
+			id:"tab-lugar-arquivos"
 		}],
 		listeners:{
 			tabchange:function(object, event){
@@ -961,6 +1124,10 @@ var LugarPanel = (function(data, selectorContainer, opts){
 
 					case "tab-lugar-enderecos":
 					t.initEnderecos();
+					break;
+
+					case "tab-lugar-arquivos":
+					t.initArquivos();
 					break;
 
 				}
@@ -1005,6 +1172,12 @@ var LugarPanel = (function(data, selectorContainer, opts){
     t.$el.on('click',  "#btn-actions-endereco-close", function(){
 
       t.setTabActive('tab-lugar-enderecos');
+
+    });
+
+    t.$el.on('click', "#btn-lugar-arquivos-upload", function(){
+
+    	t.addArquivo();
 
     });
 

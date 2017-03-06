@@ -63,6 +63,17 @@ class Arquivos extends Collection {
 
     }
 
+    public function getByLugar(Lugar $lugar):Arquivos
+    {
+
+        $this->loadFromQuery("CALL sp_arquivosfromlugar_list(?);", array(
+            $lugar->getidlugar()
+        ));
+
+        return $this;
+
+    }
+
 }
 
 ?>

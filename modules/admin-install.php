@@ -83,274 +83,274 @@ $app->get("/install-admin/sql/clear", function(){
 	
 	echo success();
 });
-$app->get("/install-admin/sql/pessoas/tables", function(){
+$app->get("/install-admin/sql/persons/tables", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_pessoastipos (
-		  idpessoatipo int(11) NOT NULL AUTO_INCREMENT,
-		  despessoatipo varchar(64) NOT NULL,
-		  dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpessoatipo)
+		CREATE TABLE tb_personstypes (
+		  idpersontype int(11) NOT NULL AUTO_INCREMENT,
+		  despersontype varchar(64) NOT NULL,
+		  dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idpersontype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pessoas (
-		  idpessoa int(11) NOT NULL AUTO_INCREMENT,
-		  idpessoatipo int(1) NOT NULL,
-		  despessoa varchar(64) NOT NULL,
-		  inremovido bit NOT NULL DEFAULT b'0',
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpessoa),
-		  KEY FK_pessoastipos (idpessoatipo),
-		  CONSTRAINT FK_pessoas_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION
+		CREATE TABLE tb_persons (
+		  idperson int(11) NOT NULL AUTO_INCREMENT,
+		  idpersontype int(1) NOT NULL,
+		  desperson varchar(64) NOT NULL,
+		  inremoved bit NOT NULL DEFAULT b'0',
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idperson),
+		  KEY FK_personstypes (idpersontype),
+		  CONSTRAINT FK_persons_personstypes FOREIGN KEY (idpersontype) REFERENCES tb_personstypes (idpersontype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_historicostipos (
-			idhistoricotipo int(11) NOT NULL AUTO_INCREMENT,
-			deshistoricotipo varchar(32) NOT NULL,
-			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idhistoricotipo)
+		CREATE TABLE tb_historicostypes (
+			idhistoricotype int(11) NOT NULL AUTO_INCREMENT,
+			deshistoricotype varchar(32) NOT NULL,
+			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (idhistoricotype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-        CREATE TABLE tb_pessoashistoricos (
-			idpessoahistorico int(11) NOT NULL AUTO_INCREMENT,
-			idpessoa int(11) NOT NULL,
-			idhistoricotipo int(11) NOT NULL,
+        CREATE TABLE tb_personshistoricos (
+			idpersonhistorico int(11) NOT NULL AUTO_INCREMENT,
+			idperson int(11) NOT NULL,
+			idhistoricotype int(11) NOT NULL,
 			deshistorico varchar(512) NOT NULL,
-			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idpessoahistorico),
-			KEY fk_pessoashistoricos_historicostipos (idhistoricotipo),
-			KEY fk_pessoashistoricos_pessoas_idx (idpessoa),
-			CONSTRAINT fk_pessoashistoricos_historicostipos FOREIGN KEY (idhistoricotipo) REFERENCES tb_historicostipos (idhistoricotipo) ON DELETE NO ACTION ON UPDATE NO ACTION,
-			CONSTRAINT fk_pessoashistoricos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
+			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (idpersonhistorico),
+			KEY fk_personshistoricos_historicostypes (idhistoricotype),
+			KEY fk_personshistoricos_persons_idx (idperson),
+			CONSTRAINT fk_personshistoricos_historicostypes FOREIGN KEY (idhistoricotype) REFERENCES tb_historicostypes (idhistoricotype) ON DELETE NO ACTION ON UPDATE NO ACTION,
+			CONSTRAINT fk_personshistoricos_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pessoasvalorescampos(
-			idcampo INT NOT NULL AUTO_INCREMENT,
-			descampo VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcampo)
+		CREATE TABLE tb_personsvaluesfields(
+			idfield INT NOT NULL AUTO_INCREMENT,
+			desfield VARCHAR(128) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idfield)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pessoasvalores(
-			idpessoavalor INT NOT NULL AUTO_INCREMENT,
-			idpessoa INT NOT NULL,
-			idcampo INT NOT NULL,
-			desvalor VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idpessoavalor),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
-			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_pessoasvalorescampos(idcampo)
+		CREATE TABLE tb_personsvalues(
+			idpersonvalue INT NOT NULL AUTO_INCREMENT,
+			idperson INT NOT NULL,
+			idfield INT NOT NULL,
+			desvalue VARCHAR(128) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idpersonvalue),
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
+			CONSTRAINT FOREIGN KEY(idfield) REFERENCES tb_personsvaluesfields(idfield)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pessoascategoriastipos (
-		  idcategoria int(11) NOT NULL AUTO_INCREMENT,
-		  descategoria varchar(32) NOT NULL,
-		  PRIMARY KEY (idcategoria)
+		CREATE TABLE tb_personscategoriestypes (
+		  idcategory int(11) NOT NULL AUTO_INCREMENT,
+		  descategory varchar(32) NOT NULL,
+		  PRIMARY KEY (idcategory)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=4 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pessoascategorias (
-		  idpessoa int(11) NOT NULL,
-		  idcategoria int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-		  PRIMARY KEY (idpessoa,idcategoria),
-		  KEY FK_pessoascategorias_pessoascategoriastipos_idx (idcategoria),
-		  CONSTRAINT FK_pessoascategorias_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_pessoascategorias_pessoascategoriastipos FOREIGN KEY (idcategoria) REFERENCES tb_pessoascategoriastipos (idcategoria) ON DELETE NO ACTION ON UPDATE NO ACTION
+		CREATE TABLE tb_personscategories (
+		  idperson int(11) NOT NULL,
+		  idcategory int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+		  PRIMARY KEY (idperson,idcategory),
+		  KEY FK_personscategories_personscategoriestypes_idx (idcategory),
+		  CONSTRAINT FK_personscategories_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_personscategories_personscategoriestypes FOREIGN KEY (idcategory) REFERENCES tb_personscategoriestypes (idcategory) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/pessoas/triggers", function(){
+$app->get("/install-admin/sql/persons/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_pessoas_AFTER_INSERT",
-		"tg_pessoas_AFTER_UPDATE",
-		"tg_pessoas_BEFORE_DELETE",
+		"tg_persons_AFTER_INSERT",
+		"tg_persons_AFTER_UPDATE",
+		"tg_persons_BEFORE_DELETE",
 
-		"tg_pessoasvalores_AFTER_INSERT",
-		"tg_pessoasvalores_AFTER_UPDATE",
-		"tg_pessoasvalores_BEFORE_DELETE"
+		"tg_personsvalues_AFTER_INSERT",
+		"tg_personsvalues_AFTER_UPDATE",
+		"tg_personsvalues_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/pessoas/inserts", function(){
+$app->get("/install-admin/sql/persons/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
-	$pessoaTipoF = new PessoaTipo(array(
+	$persontypeF = new PessoaTipo(array(
 		'despessoatipo'=>$lang->getString("pessoas_fisica")
 	));
-	$pessoaTipoF->save();
+	$pessoatipoF->save();
 
-	$pessoaTipoJ = new PessoaTipo(array(
+	$pessoatipoJ = new PessoaTipo(array(
 		'despessoatipo'=>$lang->getString("pessoas_juridica")
 	));
-	$pessoaTipoJ->save();
+	$pessoatipoJ->save();
 	
-	$pessoa = new Pessoa(array(
+	$pessoa = new PessoaTipo(array(
 		'despessoa'=>$lang->getString("pessoas_nome"),
 		'idpessoatipo'=>PessoaTipo::FISICA
 	));
 	$pessoa->save();
 
 	$nascimento = new PessoaValorCampo(array(
-		'descampo'=>$lang->getString('data_nascimento')
+		'desfield'=>$lang->getString('data_nascimento')
 	));
 	$nascimento->save();
 	$sexo = new PessoaValorCampo(array(
-		'descampo'=>$lang->getString('sexo')
+		'desfield'=>$lang->getString('sexo')
 	));
 	$sexo->save();
 	$foto = new PessoaValorCampo(array(
-		'descampo'=>$lang->getString('foto')
+		'desfield'=>$lang->getString('foto')
 	));
 	$foto->save();
 	$cliente = new PessoaCategoriaTipo(array(
-		'idcategoria'=>0,
-		'descategoria'=>$lang->getString('pessoa_cliente')
+		'idcategory'=>0,
+		'descategory'=>$lang->getString('pessoa_cliente')
 	));
 	$cliente->save();
 	$fornecedor = new PessoaCategoriaTipo(array(
-		'idcategoria'=>0,
-		'descategoria'=>$lang->getString('pessoa_fornecedor')
+		'idcategory'=>0,
+		'descategory'=>$lang->getString('pessoa_fornecedor')
 	));
 	$fornecedor->save();
 	$colaborador = new PessoaCategoriaTipo(array(
-		'idcategoria'=>0,
-		'descategoria'=>$lang->getString('pessoa_colaborador')
+		'idcategory'=>0,
+		'descategory'=>$lang->getString('pessoa_colaborador')
 	));
 	$colaborador->save();
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pessoas/get", function(){
+$app->get("/install-admin/sql/persons/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_pessoas_get",
-		"sp_historicostipos_get",
-		"sp_pessoashistoricos_get",
-		"sp_pessoasvalores_get",
-		"sp_pessoasvalorescampos_get",
-		"sp_pessoastipos_get",
-		"sp_pessoascategoriastipos_get"
+		"sp_persons_get",
+		"sp_historicostypes_get",
+		"sp_personshistoricos_get",
+		"sp_personsvalues_get",
+		"sp_personsvaluesfields_get",
+		"sp_personstypes_get",
+		"sp_personscategoriestypes_get"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/pessoas/list", function(){
+$app->get("/install-admin/sql/persons/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_pessoas_list",
-		"sp_pessoastipos_list",
-        "sp_historicostipos_list",
-        "sp_pessoasvalores_list",
-        "sp_pessoasvalorescampos_list",
-        "sp_pessoascategoriastipos_list"
+		"sp_persons_list",
+		"sp_personstypes_list",
+        "sp_historicostypes_list",
+        "sp_personsvalues_list",
+        "sp_personsvaluesfields_list",
+        "sp_personscategoriestypes_list"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/pessoas/save", function(){
+$app->get("/install-admin/sql/persons/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-		"sp_pessoasdados_save",
-		"sp_pessoas_save",
-		"sp_historicostipos_save",
-		"sp_pessoasvalores_save",
-		"sp_pessoasvalorescampos_save",
-		"sp_pessoastipos_save",
-		"sp_pessoascategoriastipos_save"
+		"sp_personsdados_save",
+		"sp_persons_save",
+		"sp_historicostypes_save",
+		"sp_personsvalues_save",
+		"sp_personsvaluesfields_save",
+		"sp_personstypes_save",
+		"sp_personscategoriestypes_save"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/pessoas/remove", function(){
+$app->get("/install-admin/sql/persons/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-		"sp_pessoasdados_remove",
-		"sp_pessoas_remove",
-		"sp_historicostipos_remove",
-		"sp_pessoasvalores_remove",
-		"sp_pessoasvalorescampos_remove",
-		"sp_pessoastipos_remove",
-		"sp_pessoascategoriastipos_remove"
+		"sp_personsdados_remove",
+		"sp_persons_remove",
+		"sp_historicostypes_remove",
+		"sp_personsvalues_remove",
+		"sp_personsvaluesfields_remove",
+		"sp_personstypes_remove",
+		"sp_personscategoriestypes_remove"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/produtos/tables", function(){
+$app->get("/install-admin/sql/products/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_produtostipos(
-			idprodutotipo INT NOT NULL AUTO_INCREMENT,
-			desprodutotipo VARCHAR(64) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idprodutotipo)
+		CREATE TABLE tb_productstypes(
+			idproducttype INT NOT NULL AUTO_INCREMENT,
+			desproducttype VARCHAR(64) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idproducttype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_produtos(
-			idproduto INT NOT NULL AUTO_INCREMENT,
-			idprodutotipo INT NOT NULL,
-			desproduto VARCHAR(64) NOT NULL,
-			inremovido BIT(1) NOT NULL DEFAULT b'0',
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			CONSTRAINT PRIMARY KEY(idproduto),
-			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
+		CREATE TABLE tb_products(
+			idproduct INT NOT NULL AUTO_INCREMENT,
+			idproducttype INT NOT NULL,
+			desproduct VARCHAR(64) NOT NULL,
+			inremoved BIT(1) NOT NULL DEFAULT b'0',
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY(idproduct),
+			CONSTRAINT FOREIGN KEY(idproducttype) REFERENCES tb_productstypes(idproducttype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_produtosprecos(
-			idpreco INT NOT NULL AUTO_INCREMENT,
-			idproduto INT NOT NULL,
-			dtinicio DATETIME NOT NULL,
-			dttermino DATETIME DEFAULT NULL,
-			vlpreco DECIMAL(10,2) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idpreco),
-			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
+		CREATE TABLE tb_productsprices(
+			idprice INT NOT NULL AUTO_INCREMENT,
+			idproduct INT NOT NULL,
+			dtstart DATETIME NOT NULL,
+			dtend DATETIME DEFAULT NULL,
+			vlprice DECIMAL(10,2) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idprice),
+			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/produtos/triggers", function(){
+$app->get("/install-admin/sql/products/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_produtos_AFTER_INSERT",
-		"tg_produtos_AFTER_UPDATE",
-		"tg_produtos_BEFORE_DELETE",
-		"tg_produtosprecos_AFTER_INSERT",
-		"tg_produtosprecos_AFTER_UPDATE",
-		"tg_produtosprecos_BEFORE_DELETE"
+		"tg_products_AFTER_INSERT",
+		"tg_products_AFTER_UPDATE",
+		"tg_products_BEFORE_DELETE",
+		"tg_productsprices_AFTER_INSERT",
+		"tg_productsprices_AFTER_UPDATE",
+		"tg_productsprices_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/produtos/inserts", function(){
+$app->get("/install-admin/sql/products/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -358,176 +358,176 @@ $app->get("/install-admin/sql/produtos/inserts", function(){
 	$lang = new Language();
 
 	$cursoUdemy = new ProdutoTipo(array(
-		'desprodutotipo'=>$lang->getString('produtos_curso')
+		'desproducttype'=>$lang->getString('products_curso')
 	));
 	$cursoUdemy->save();
 
 	$camiseta = new ProdutoTipo(array(
-		'desprodutotipo'=>$lang->getString('produtos_camiseta')
+		'desproducttype'=>$lang->getString('products_camiseta')
 	));
 	$camiseta->save();
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/produtos/get", function(){
+$app->get("/install-admin/sql/products/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_produto_get",
-		"sp_produtotipo_get",
-		"sp_produtosprecos_get"
+		"sp_product_get",
+		"sp_producttype_get",
+		"sp_productsprices_get"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/produtos/list", function(){
+$app->get("/install-admin/sql/products/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_produtos_list",
-		"sp_produtostipos_list",
-		"sp_produtosprecos_list",
-		"sp_carrinhosfromproduto_list",
-		"sp_pedidosfromproduto_list",
-		"sp_precosfromproduto_list"
+		"sp_products_list",
+		"sp_productstypes_list",
+		"sp_productsprices_list",
+		"sp_carrinhosfromproduct_list",
+		"sp_pedidosfromproduct_list",
+		"sp_pricesfromproduct_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/produtos/save", function(){
+$app->get("/install-admin/sql/products/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_produto_save",
-		"sp_produtotipo_save",
-		"sp_produtosprecos_save",
-		"sp_produtosdados_save"
+		"sp_product_save",
+		"sp_producttype_save",
+		"sp_productsprices_save",
+		"sp_productsdados_save"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/produtos/remove", function(){
+$app->get("/install-admin/sql/products/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_produto_remove",
-		"sp_produtotipo_remove",
-		"sp_produtosprecos_remove",
-		"sp_produtosdados_remove"
+		"sp_product_remove",
+		"sp_producttype_remove",
+		"sp_productsprices_remove",
+		"sp_productsdados_remove"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/tables", function(){
+$app->get("/install-admin/sql/users/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_usuariostipos (
-		  idusuariotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desusuariotipo varchar(32) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idusuariotipo)
+		CREATE TABLE tb_userstypes (
+		  idusertype int(11) NOT NULL AUTO_INCREMENT,
+		  desusertype varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idusertype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_usuarios (
-		  idusuario int(11) NOT NULL AUTO_INCREMENT,
-		  idpessoa int(11) NOT NULL,
-		  desusuario varchar(128) NOT NULL,
-		  dessenha varchar(256) NOT NULL,
-		  inbloqueado bit(1) NOT NULL DEFAULT b'0',
-		  idusuariotipo int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idusuario),
-		  CONSTRAINT FK_usuarios_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_usuarios_usuariostipos FOREIGN KEY (idusuariotipo) REFERENCES tb_usuariostipos (idusuariotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
+		CREATE TABLE tb_users (
+		  iduser int(11) NOT NULL AUTO_INCREMENT,
+		  idperson int(11) NOT NULL,
+		  desuser varchar(128) NOT NULL,
+		  despassword varchar(256) NOT NULL,
+		  inblocked bit(1) NOT NULL DEFAULT b'0',
+		  idusertype int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (iduser),
+		  CONSTRAINT FK_users_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_users_userstypes FOREIGN KEY (idusertype) REFERENCES tb_userstypes (idusertype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/triggers", function(){
+$app->get("/install-admin/sql/users/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_usuarios_AFTER_INSERT",
-		"tg_usuarios_AFTER_UPDATE",
-		"tg_usuarios_BEFORE_DELETE"
+		"tg_users_AFTER_INSERT",
+		"tg_users_AFTER_UPDATE",
+		"tg_users_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/inserts", function(){
+$app->get("/install-admin/sql/users/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
     $lang = new Language();
 
 	$sql = new Sql();
-	$hash = Usuario::getPasswordHash($lang->getString('usuarios_root'));
+	$hash = user::getPasswordHash($lang->getString('users_root'));
 
-	$sql->proc("sp_usuariostipos_save", array(
+	$sql->proc("sp_userstypes_save", array(
 		0,
-		$lang->getString('usuarios_admin')
+		$lang->getString('users_admin')
 	));
-	$sql->proc("sp_usuariostipos_save", array(
+	$sql->proc("sp_userstypes_save", array(
 		0,
-		$lang->getString('usuarios_clientes')
+		$lang->getString('users_clientes')
 	));
 	
 	$sql->arrays("
-		INSERT INTO tb_usuarios (idpessoa, desusuario, dessenha, idusuariotipo) VALUES
+		INSERT INTO tb_users (idperson, desuser, despassword, idusertype) VALUES
 		(?, ?, ?, ?);
 	", array(
-		1, $lang->getString('usuarios_root'), $hash, 1
+		1, $lang->getString('users_root'), $hash, 1
 	));
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/get", function(){
+$app->get("/install-admin/sql/users/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_usuarios_get",
-		"sp_usuarioslogin_get",
-		"sp_usuariosfromemail_get",
-		"sp_usuariosfrommenus_list",
-		"sp_usuariostipos_get"
+		"sp_users_get",
+		"sp_userslogin_get",
+		"sp_usersfromemail_get",
+		"sp_usersfrommenus_list",
+		"sp_userstypes_get"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/remove", function(){
+$app->get("/install-admin/sql/users/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_usuarios_remove",
-		"sp_usuariostipos_remove"
+		"sp_users_remove",
+		"sp_userstypes_remove"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/save", function(){
+$app->get("/install-admin/sql/users/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_usuarios_save",
-		"sp_usuariostipos_save"
+		"sp_users_save",
+		"sp_userstypes_save"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/usuarios/list", function(){
+$app->get("/install-admin/sql/users/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_usuariostipos_list",
-        "sp_usuariosfrompessoa_list",
-        "sp_usuarios_list"
+        "sp_userstypes_list",
+        "sp_usersfromperson_list",
+        "sp_users_list"
 	);
 	saveProcedures($names);
 	echo success();
@@ -539,38 +539,38 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	$sql->exec("
 		CREATE TABLE tb_menus (
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
-		  idmenupai int(11) DEFAULT NULL,
+		  idmenufather int(11) DEFAULT NULL,
 		  desmenu varchar(128) NOT NULL,
-		  desicone varchar(64) NOT NULL,
+		  desicon varchar(64) NOT NULL,
 		  deshref varchar(64) NOT NULL,
-		  nrordem int(11) NOT NULL,
+		  nrorder int(11) NOT NULL,
 		  nrsubmenus int(11) DEFAULT '0' NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idmenu),
-		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenupai) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_menus_menus FOREIGN KEY (idmenufather) REFERENCES tb_menus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_menususuarios (
+		CREATE TABLE tb_menususers (
 		  idmenu int(11) NOT NULL,
-		  idusuario int(11) NOT NULL,
-		  CONSTRAINT FOREIGN KEY FK_usuariosmenuspessoas (idusuario) REFERENCES tb_usuarios(idusuario),
-		  CONSTRAINT FOREIGN KEY FK_usuariosmenusmenus (idmenu) REFERENCES tb_menus(idmenu)
+		  iduser int(11) NOT NULL,
+		  CONSTRAINT FOREIGN KEY FK_usersmenuspersons (iduser) REFERENCES tb_users(iduser),
+		  CONSTRAINT FOREIGN KEY FK_usersmenusmenus (idmenu) REFERENCES tb_menus(idmenu)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	$sql->exec("
 		CREATE TABLE tb_sitesmenus (
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
-		  idmenupai int(11) DEFAULT NULL,
+		  idmenufather int(11) DEFAULT NULL,
 		  desmenu varchar(128) NOT NULL,
-		  desicone varchar(64) NOT NULL,
+		  desicon varchar(64) NOT NULL,
 		  deshref varchar(64) NOT NULL,
-		  nrordem int(11) NOT NULL,
+		  nrorder int(11) NOT NULL,
 		  nrsubmenus int(11) DEFAULT '0' NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idmenu),
-		  CONSTRAINT FK_sitesmenus_sitesmenus FOREIGN KEY (idmenupai) REFERENCES tb_sitesmenus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_sitesmenus_sitesmenus FOREIGN KEY (idmenufather) REFERENCES tb_sitesmenus (idmenu) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -584,387 +584,387 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 
 	//////////////////////////////////////
 	$menuDashboard = new Menu(array(
-		'nrordem'=>0,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-view-dashboard',
+		'nrorder'=>0,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-view-dashboard',
 		'deshref'=>'/',
 		'desmenu'=>$lang->getString('menus_dashboard')
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
 	$menuSistema = new Menu(array(
-		'nrordem'=>1,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-code-setting',
+		'nrorder'=>1,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-code-setting',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_sistema')
 	));
 	$menuSistema->save();
 	//////////////////////////////////////
 	$menuAdmin = new Menu(array(
-		'nrordem'=>2,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-settings',
+		'nrorder'=>2,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-settings',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_administracao')
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
-	$menuPessoas = new Menu(array(
-		'nrordem'=>3,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-accounts',
-		'deshref'=>'/pessoas',
-		'desmenu'=>$lang->getString('menus_pessoa')
+	$menupersons = new Menu(array(
+		'nrorder'=>3,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-accounts',
+		'deshref'=>'/persons',
+		'desmenu'=>$lang->getString('menus_person')
 	));
-	$menuPessoas->save();
+	$menupersons->save();
 	//////////////////////////////////////
-	$menuTipos = new Menu(array(
-		'nrordem'=>0,
-		'idmenupai'=>$menuAdmin->getidmenu(),
-		'desicone'=>'md-collection-item',
+	$menutypes = new Menu(array(
+		'nrorder'=>0,
+		'idmenufather'=>$menuAdmin->getidmenu(),
+		'desicon'=>'md-collection-item',
 		'deshref'=>'',
-		'desmenu'=>$lang->getString('menus_tipo')
+		'desmenu'=>$lang->getString('menus_type')
 	));
-	$menuTipos->save();
+	$menutypes->save();
 	//////////////////////////////////////
 	$menuMenu = new Menu(array(
-		'nrordem'=>1,
-		'idmenupai'=>$menuAdmin->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>1,
+		'idmenufather'=>$menuAdmin->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/sistema/menu',
 		'desmenu'=>$lang->getString('menus_menu')
 	));
 	$menuMenu->save();
 	//////////////////////////////////////
-	$menuUsuarios = new Menu(array(
-		'nrordem'=>2,
-		'idmenupai'=>$menuAdmin->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/sistema/usuarios',
-		'desmenu'=>$lang->getString('menus_usuario')
+	$menuusers = new Menu(array(
+		'nrorder'=>2,
+		'idmenufather'=>$menuAdmin->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/sistema/users',
+		'desmenu'=>$lang->getString('menus_user')
 	));
-	$menuUsuarios->save();
+	$menuusers->save();
 	//////////////////////////////////////
 	$menuConfigs = new Menu(array(
-		'nrordem'=>3,
-		'idmenupai'=>$menuAdmin->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>3,
+		'idmenufather'=>$menuAdmin->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/sistema/configuracoes',
 		'desmenu'=>$lang->getString('menus_configuracoes')
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
 	$menuSqlToClass = new Menu(array(
-		'nrordem'=>0,
-		'idmenupai'=>$menuSistema->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>0,
+		'idmenufather'=>$menuSistema->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/sistema/sql-to-class',
 		'desmenu'=>$lang->getString('menus_sql_to_class')
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
 	$menuTemplate = new Menu(array(
-		'nrordem'=>1,
-		'idmenupai'=>$menuSistema->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>1,
+		'idmenufather'=>$menuSistema->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/../res/theme/material/base/html/index.html',
 		'desmenu'=>$lang->getString('menus_template')
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
 	$menuExemplos = new Menu(array(
-		'nrordem'=>2,
-		'idmenupai'=>$menuSistema->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>2,
+		'idmenufather'=>$menuSistema->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_exemplos')
 	));
 	$menuExemplos->save();
 	//////////////////////////////////////
 	$menuUpload = new Menu(array(
-		'nrordem'=>0,
-		'idmenupai'=>$menuExemplos->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>0,
+		'idmenufather'=>$menuExemplos->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/exemplos/upload',
 		'desmenu'=>$lang->getString('menus_exemplos_upload')
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
 	$menuPermissoes = new Menu(array(
-		'nrordem'=>3,
-		'idmenupai'=>$menuAdmin->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>3,
+		'idmenufather'=>$menuAdmin->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/permissoes',
 		'desmenu'=>$lang->getString('menus_permissoes')
 	));
 	$menuPermissoes->save();
 	//////////////////////////////////////
-	$menuProdutos = new Menu(array(
-		'nrordem'=>4,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-devices',
-		'deshref'=>'/produtos',
-		'desmenu'=>$lang->getString('menus_produto')
+	$menuproducts = new Menu(array(
+		'nrorder'=>4,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-devices',
+		'deshref'=>'/products',
+		'desmenu'=>$lang->getString('menus_product')
 	));
-	$menuProdutos->save();
+	$menuproducts->save();
 	//////////////////////////////////////
-	$menuTiposEnderecos = new Menu(array(
-		'nrordem'=>0,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/enderecos-tipos',
-		'desmenu'=>$lang->getString('menus_endereco')
+	$menutypesadresses = new Menu(array(
+		'nrorder'=>0,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/adresses-types',
+		'desmenu'=>$lang->getString('menus_adress')
 	));
-	$menuTiposEnderecos->save();
+	$menutypesadresses->save();
 	//////////////////////////////////////
-	$menuTiposUsuarios = new Menu(array(
-		'nrordem'=>1,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/usuarios-tipos',
-		'desmenu'=>$lang->getString('menus_usuario_tipo')
+	$menutypesusers = new Menu(array(
+		'nrorder'=>1,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/users-types',
+		'desmenu'=>$lang->getString('menus_user_type')
 	));
-	$menuTiposUsuarios->save();
+	$menutypesusers->save();
 	//////////////////////////////////////
-	$menuTiposDocumentos = new Menu(array(
-		'nrordem'=>2,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/documentos-tipos',
-		'desmenu'=>$lang->getString('menus_documento_tipo')
+	$menutypesdocuments = new Menu(array(
+		'nrorder'=>2,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/documents-types',
+		'desmenu'=>$lang->getString('menus_document_type')
 	));
-	$menuTiposDocumentos->save();
+	$menutypesdocuments->save();
 	//////////////////////////////////////
-	$menuTiposLugares = new Menu(array(
-		'nrordem'=>3,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/lugares-tipos',
-		'desmenu'=>$lang->getString('menus_lugar_tipo')
+	$menutypesLugares = new Menu(array(
+		'nrorder'=>3,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/lugares-types',
+		'desmenu'=>$lang->getString('menus_lugar_type')
 	));
-	$menuTiposLugares->save();
+	$menutypesLugares->save();
 	//////////////////////////////////////
-	$menuTiposCupons = new Menu(array(
-		'nrordem'=>4,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/cupons-tipos',
-		'desmenu'=>$lang->getString('menus_cupom_tipo')
+	$menutypesCupons = new Menu(array(
+		'nrorder'=>4,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/cupons-types',
+		'desmenu'=>$lang->getString('menus_cupom_type')
 	));
-	$menuTiposCupons->save();
+	$menutypesCupons->save();
 	//////////////////////////////////////
-	$menuTiposProdutos = new Menu(array(
-		'nrordem'=>5,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/produtos-tipos',
-		'desmenu'=>$lang->getString('menus_produto_tipo')
+	$menutypesproducts = new Menu(array(
+		'nrorder'=>5,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/products-types',
+		'desmenu'=>$lang->getString('menus_product_type')
 	));
-	$menuTiposProdutos->save();
+	$menutypesproducts->save();
 	//////////////////////////////////////
 	$menuPedidosStatus = new Menu(array(
-		'nrordem'=>6,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>6,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/pedidos-status',
 		'desmenu'=>$lang->getString('menus_pedido_statu')
 	));
 	$menuPedidosStatus->save();
 	//////////////////////////////////////
-	$menuPessoasTipos = new Menu(array(
-		'nrordem'=>7,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/pessoas-tipos',
-		'desmenu'=>$lang->getString('menus_pessoa_tipo')
+	$menupersonstypes = new Menu(array(
+		'nrorder'=>7,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/persons-types',
+		'desmenu'=>$lang->getString('menus_person_type')
 	));
-	$menuPessoasTipos->save();
+	$menupersonstypes->save();
 	//////////////////////////////////////
-	$menuContatosTipos = new Menu(array(
-		'nrordem'=>8,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/contatos-tipos',
-		'desmenu'=>$lang->getString('menus_contato_tipo')
+	$menucontactstypes = new Menu(array(
+		'nrorder'=>8,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/contacts-types',
+		'desmenu'=>$lang->getString('menus_contact_type')
 	));
-	$menuContatosTipos->save();
+	$menucontactstypes->save();
 	//////////////////////////////////////
 	$menuGateways = new Menu(array(
-		'nrordem'=>9,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>9,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/gateways',
 		'desmenu'=>$lang->getString('menus_gateway')
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
-	$menuHistoricosTipos = new Menu(array(
-		'nrordem'=>10,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/historicos-tipos',
-		'desmenu'=>$lang->getString('menus_historico_tipo')
+	$menuHistoricostypes = new Menu(array(
+		'nrorder'=>10,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/historicos-types',
+		'desmenu'=>$lang->getString('menus_historico_type')
 	));
-	$menuHistoricosTipos->save();
+	$menuHistoricostypes->save();
 	//////////////////////////////////////
 	$menuFormasPedidos = new Menu(array(
-		'nrordem'=>11,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
+		'nrorder'=>11,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
 		'deshref'=>'/formas-pagamentos',
 		'desmenu'=>$lang->getString('menus_forma_pedido')
 	));
 	$menuFormasPedidos->save();
 	//////////////////////////////////////
-	$menuPessoasValoresCampos = new Menu(array(
-		'nrordem'=>11,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/pessoas-valorescampos',
-		'desmenu'=>$lang->getString('menus_pessoa_valor')
+	$menupersonsvaluesfields = new Menu(array(
+		'nrorder'=>11,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/persons-valuesfields',
+		'desmenu'=>$lang->getString('menus_person_value')
 	));
-	$menuPessoasValoresCampos->save();
+	$menupersonsvaluesfields->save();
 	//////////////////////////////////////
-	$menuConfiguracoesTipos = new Menu(array(
-		'nrordem'=>12,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/configuracoes-tipos',
-		'desmenu'=>$lang->getString('menus_configuracao_tipo')
+	$menuConfiguracoestypes = new Menu(array(
+		'nrorder'=>12,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/configuracoes-types',
+		'desmenu'=>$lang->getString('menus_configuracao_type')
 	));
-	$menuConfiguracoesTipos->save();
+	$menuConfiguracoestypes->save();
 	//////////////////////////////////////
-	$menuCarouselsItemsTipos = new Menu(array(
-		'nrordem'=>13,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/carousels-tipos',
-		'desmenu'=>$lang->getString('menus_carousel_tipo')
+	$menuCarouselsItemstypes = new Menu(array(
+		'nrorder'=>13,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/carousels-types',
+		'desmenu'=>$lang->getString('menus_carousel_type')
 	));
-	$menuCarouselsItemsTipos->save();
+	$menuCarouselsItemstypes->save();
 	//////////////////////////////////////
-	$menuPedidosNegociacoesTipos = new Menu(array(
-		'nrordem'=>13,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/pedidosnegociacoestipos',
-		'desmenu'=>$lang->getString('menus_negociacao_tipo')
+	$menuPedidosNegociacoestypes = new Menu(array(
+		'nrorder'=>13,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/pedidosnegociacoestypes',
+		'desmenu'=>$lang->getString('menus_negociacao_type')
 	));
-	$menuPedidosNegociacoesTipos->save();
+	$menuPedidosNegociacoestypes->save();
 	//////////////////////////////////////
 	$menuPedidos = new Menu(array(
-		"nrordem"=>5,
-		"idmenupai"=>NULL,
-		"desicone"=>'md-money-box',
+		"nrorder"=>5,
+		"idmenufather"=>NULL,
+		"desicon"=>'md-money-box',
 		"deshref"=>'/pedidos',
 		"desmenu"=>$lang->getString('menus_pedido')
 	));
 	$menuPedidos->save();
 	//////////////////////////////////////
 	$menuCarrinhos = new Menu(array(
-		"nrordem"=>6,
-		"idmenupai"=>NULL,
-		"desicone"=>"md-shopping-cart",
+		"nrorder"=>6,
+		"idmenufather"=>NULL,
+		"desicon"=>"md-shopping-cart",
 		"deshref"=>"/carrinhos",
 		"desmenu"=>$lang->getString('menus_carrinho')
 	));
 	$menuCarrinhos->save();
 	//////////////////////////////////////
 	$menuLugares = new Menu(array(
-		"nrordem"=>7,
-		"idmenupai"=>NULL,
-		"desicone"=>"md-city",
+		"nrorder"=>7,
+		"idmenufather"=>NULL,
+		"desicon"=>"md-city",
 		"deshref"=>"/lugares",
 		"desmenu"=>$lang->getString('menus_lugar')
 	));
 	$menuLugares->save();
 	//////////////////////////////////////
 	$menuSite = new Menu(array(
-		"nrordem"=>8,
-		"idmenupai"=>NULL,
-		"desicone"=>"md-view-web",
+		"nrorder"=>8,
+		"idmenufather"=>NULL,
+		"desicon"=>"md-view-web",
 		"deshref"=>"",
 		"desmenu"=>$lang->getString('menus_site')
 	));
 	$menuSite->save();
 	//////////////////////////////////////
 	$menuSiteMenu = new Menu(array(
-		"nrordem"=>0,
-		"idmenupai"=>$menuSite->getidmenu(),
-		"desicone"=>"",
+		"nrorder"=>0,
+		"idmenufather"=>$menuSite->getidmenu(),
+		"desicon"=>"",
 		"deshref"=>"/site/menu",
 		"desmenu"=>$lang->getString('menus_site_menu')
 	));
 	$menuSiteMenu->save();
 	//////////////////////////////////////
 	$menuCursos = new Menu(array(
-		"nrordem"=>9,
-		"idmenupai"=>NULL,
-		"desicone"=>"md-book",
+		"nrorder"=>9,
+		"idmenufather"=>NULL,
+		"desicon"=>"md-book",
 		"deshref"=>"/cursos",
 		"desmenu"=>$lang->getString('menus_cursos')
 	));
 	$menuCursos->save();
 	//////////////////////////////////////
 	$menuCarousels = new Menu(array(
-		"nrordem"=>1,
-		"idmenupai"=>$menuSite->getidmenu(),
-		"desicone"=>"",
+		"nrorder"=>1,
+		"idmenufather"=>$menuSite->getidmenu(),
+		"desicon"=>"",
 		"deshref"=>"/carousels",
 		"desmenu"=>$lang->getString('menus_carousels')
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
-	$menuPaises = new Menu(array(
-		"nrordem"=>5,
-		"idmenupai"=>$menuAdmin->getidmenu(),
-		"desicone"=>"",
+	$menupaises = new Menu(array(
+		"nrorder"=>5,
+		"idmenufather"=>$menuAdmin->getidmenu(),
+		"desicon"=>"",
 		"deshref"=>"/paises",
 		"desmenu"=>$lang->getString('menus_paises')
 	));
-	$menuPaises->save();
+	$menupaises->save();
 	//////////////////////////////////////
 	$menuEstados = new Menu(array(
-		"nrordem"=>6,
-		"idmenupai"=>$menuAdmin->getidmenu(),
-		"desicone"=>"",
+		"nrorder"=>6,
+		"idmenufather"=>$menuAdmin->getidmenu(),
+		"desicon"=>"",
 		"deshref"=>"/estados",
 		"desmenu"=>$lang->getString('menus_estados')
 	));
 	$menuEstados->save();
 	//////////////////////////////////////
 	$menuCidades = new Menu(array(
-		"nrordem"=>7,
-		"idmenupai"=>$menuAdmin->getidmenu(),
-		"desicone"=>"",
+		"nrorder"=>7,
+		"idmenufather"=>$menuAdmin->getidmenu(),
+		"desicon"=>"",
 		"deshref"=>"/cidades",
 		"desmenu"=>$lang->getString('menus_cidades')
 	));
 	$menuCidades->save();
 	//////////////////////////////////////
 	$menuCidades = new Menu(array(
-		"nrordem"=>8,
-		"idmenupai"=>$menuAdmin->getidmenu(),
-		"desicone"=>"",
+		"nrorder"=>8,
+		"idmenufather"=>$menuAdmin->getidmenu(),
+		"desicon"=>"",
 		"deshref"=>"/arquivos",
 		"desmenu"=>$lang->getString('menus_arquivos')
 	));
 	$menuCidades->save();
 	//////////////////////////////////////
-	$menuPessoasCategoriasTipos = new Menu(array(
-		'nrordem'=>14,
-		'idmenupai'=>$menuTipos->getidmenu(),
-		'desicone'=>'',
-		'deshref'=>'/pessoas-categorias-tipos',
-		'desmenu'=>$lang->getString('menus_pessoas_categorias_tipos')
+	$menupersonscategoriestypes = new Menu(array(
+		'nrorder'=>14,
+		'idmenufather'=>$menutypes->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/persons-categories-types',
+		'desmenu'=>$lang->getString('menus_persons_categories_types')
 	));
-	$menuPessoasCategoriasTipos->save();
+	$menupersonscategoriestypes->save();
 	//////////////////////////////////////
 	$menuUrls = new Menu(array(
-		'nrordem'=>10,
-		'idmenupai'=>NULL,
-		'desicone'=>'md-link',
+		'nrorder'=>10,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-link',
 		'deshref'=>'/urls',
 		'desmenu'=>$lang->getString('menus_urls')
 	));
@@ -1007,7 +1007,7 @@ $app->get("/install-admin/sql/menus/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_menusfromusuario_list",
+		"sp_menusfromuser_list",
 		"sp_menustrigger_save",
 		"sp_menus_save",
 		"sp_sitesmenustrigger_save",
@@ -1016,57 +1016,57 @@ $app->get("/install-admin/sql/menus/save", function(){
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/contatos/tables", function(){
+$app->get("/install-admin/sql/contacts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_contatostipos (
-		  idcontatotipo int(11) NOT NULL AUTO_INCREMENT,
-		  descontatotipo varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idcontatotipo)
+		CREATE TABLE tb_contactstypes (
+		  idcontacttype int(11) NOT NULL AUTO_INCREMENT,
+		  descontacttype varchar(64) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idcontacttype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_contatossubtipos (
-		  idcontatosubtipo int NOT NULL AUTO_INCREMENT,
-		  descontatosubtipo varchar(32) NOT NULL,
-		  idcontatotipo int NOT NULL,
-		  idusuario int NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idcontatosubtipo),
-		  KEY FK_contatostipos (idcontatotipo)
+		CREATE TABLE tb_contactssubtypes (
+		  idcontactsubtype int NOT NULL AUTO_INCREMENT,
+		  descontactsubtype varchar(32) NOT NULL,
+		  idcontacttype int NOT NULL,
+		  iduser int NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idcontactsubtype),
+		  KEY FK_contactstypes (idcontacttype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_contatos (
-		  idcontato int(11) NOT NULL AUTO_INCREMENT,
-		  idcontatosubtipo int(11) NOT NULL,
-		  idpessoa int(11) NOT NULL,
-		  descontato varchar(128) NOT NULL,
+		CREATE TABLE tb_contacts (
+		  idcontact int(11) NOT NULL AUTO_INCREMENT,
+		  idcontactsubtype int(11) NOT NULL,
+		  idperson int(11) NOT NULL,
+		  descontact varchar(128) NOT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idcontato),
-		  CONSTRAINT FOREIGN KEY FK_contatossubtipos (idcontatosubtipo) REFERENCES tb_contatossubtipos(idcontatosubtipo),
-		  CONSTRAINT FOREIGN KEY FK_pessoascontatos (idpessoa) REFERENCES tb_pessoas(idpessoa)
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idcontact),
+		  CONSTRAINT FOREIGN KEY FK_contactssubtypes (idcontactsubtype) REFERENCES tb_contactssubtypes(idcontactsubtype),
+		  CONSTRAINT FOREIGN KEY FK_personscontacts (idperson) REFERENCES tb_persons(idperson)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/contatos/triggers", function(){
+$app->get("/install-admin/sql/contacts/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_contatos_AFTER_INSERT",
-		"tg_contatos_AFTER_UPDATE",
-		"tg_contatos_BEFORE_DELETE"
+		"tg_contacts_AFTER_INSERT",
+		"tg_contacts_AFTER_UPDATE",
+		"tg_contacts_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
     
 	echo success();
 });
-$app->get("/install-admin/sql/contatos/inserts", function(){
+$app->get("/install-admin/sql/contacts/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1083,49 +1083,49 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 	));
 	$telefone->save();
 
-	$telefoneCasa = new ContatoSubtipo(array(
+	$telefoneCasa = new ContatoSubTipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('casa_tipo')
 	));
 	$telefoneCasa->save();
 
-	$telefoneTrabalho = new ContatoSubtipo(array(
+	$telefoneTrabalho = new ContatoSubTipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('trabalho_tipo')
 	));
 	$telefoneTrabalho->save();
 
-	$telefoneCelular = new ContatoSubtipo(array(
+	$telefoneCelular = new ContatoSubTipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('celular_tipo')
 	));
 	$telefoneCelular->save();
 
-	$telefoneFax = new ContatoSubtipo(array(
+	$telefoneFax = new ContatoSubTipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('fax_tipo')
 	));
 	$telefoneFax->save();
 
-	$telefoneOutro = new ContatoSubtipo(array(
+	$telefoneOutro = new ContatoSubTipo(array(
 		'idcontatotipo'=>$telefone->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('outro_tipo')
 	));
 	$telefoneOutro->save();
 
-	$emailPessoal = new ContatoSubtipo(array(
+	$emailpersonl = new ContatoSubTipo(array(
 		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('pessoal_tipo')
+		'descontatosubtipo'=>$lang->getString('personl_tipo')
 	));
-	$emailPessoal->save();
+	$emailpersonl->save();
 
-	$emailTrabalho = new ContatoSubtipo(array(
+	$emailTrabalho = new ContatoSubTipo(array(
 		'idcontatotipo'=>$email->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('trabalho_tipo')
 	));
 	$emailTrabalho->save();
 
-	$emailOutro = new ContatoSubtipo(array(
+	$emailOutro = new ContatoSubTipo(array(
 		'idcontatotipo'=>$email->getidcontatotipo(),
 		'descontatosubtipo'=>$lang->getString('outro_tipo_email')
 	));
@@ -1134,93 +1134,93 @@ $app->get("/install-admin/sql/contatos/inserts", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/contatos/get", function(){
+$app->get("/install-admin/sql/contacts/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_contatos_get",
-		"sp_contatossubtipos_get",
-		"sp_contatostipos_get"
+		"sp_contacts_get",
+		"sp_contactssubtypes_get",
+		"sp_contactstypes_get"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/contatos/list", function(){
+$app->get("/install-admin/sql/contacts/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_contatosfrompessoa_list",
-		"sp_contatostipos_list",
-		"sp_contatossubtipos_list"
+		"sp_contactsfromperson_list",
+		"sp_contactstypes_list",
+		"sp_contactssubtypes_list"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/contatos/save", function(){
+$app->get("/install-admin/sql/contacts/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_contatos_save",
-		"sp_contatossubtipos_save",
-		"sp_contatostipos_save"
+		"sp_contacts_save",
+		"sp_contactssubtypes_save",
+		"sp_contactstypes_save"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/contatos/remove", function(){
+$app->get("/install-admin/sql/contacts/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_contatos_remove",
-		"sp_contatossubtipos_remove",
-		"sp_contatostipos_remove"
+		"sp_contacts_remove",
+		"sp_contactssubtypes_remove",
+		"sp_contactstypes_remove"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/tables", function(){
+$app->get("/install-admin/sql/documents/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_documentostipos (
-		  iddocumentotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desdocumentotipo varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (iddocumentotipo)
+		CREATE TABLE tb_documentstypes (
+		  iddocumenttype int(11) NOT NULL AUTO_INCREMENT,
+		  desdocumenttype varchar(64) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (iddocumenttype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_documentos (
-		  iddocumento int(11) NOT NULL AUTO_INCREMENT,
-		  iddocumentotipo int(11) NOT NULL,
-		  idpessoa int(11) NOT NULL,
-		  desdocumento varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (iddocumento),
-		  CONSTRAINT FK_pessoasdocumentos FOREIGN KEY (idpessoa) REFERENCES tb_pessoas(idpessoa),
-		  CONSTRAINT FK_documentos FOREIGN KEY (iddocumentotipo) REFERENCES tb_documentostipos(iddocumentotipo)
+		CREATE TABLE tb_documents (
+		  iddocument int(11) NOT NULL AUTO_INCREMENT,
+		  iddocumenttype int(11) NOT NULL,
+		  idperson int(11) NOT NULL,
+		  desdocument varchar(64) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (iddocument),
+		  CONSTRAINT FK_personsdocuments FOREIGN KEY (idperson) REFERENCES tb_persons(idperson),
+		  CONSTRAINT FK_documents FOREIGN KEY (iddocumenttype) REFERENCES tb_documentstypes(iddocumenttype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/triggers", function(){
+$app->get("/install-admin/sql/documents/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_documentos_AFTER_INSERT",
-		"tg_documentos_AFTER_UPDATE",
-		"tg_documentos_BEFORE_DELETE"
+		"tg_documents_AFTER_INSERT",
+		"tg_documents_AFTER_UPDATE",
+		"tg_documents_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/inserts", function(){
+$app->get("/install-admin/sql/documents/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->arrays("
-		INSERT INTO tb_documentostipos (desdocumentotipo) VALUES
+		INSERT INTO tb_documentstypes (desdocumenttype) VALUES
 		(?),
 		(?),
 		(?);
@@ -1231,47 +1231,47 @@ $app->get("/install-admin/sql/documentos/inserts", function(){
 	));
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/get", function(){
+$app->get("/install-admin/sql/documents/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_documentos_get",
-        "sp_documentostipos_get"
+        "sp_documents_get",
+        "sp_documentstypes_get"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/list", function(){
+$app->get("/install-admin/sql/documents/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_documentosfrompessoa_list",
-		"sp_documentostipos_list"
+		"sp_documentsfromperson_list",
+		"sp_documentstypes_list"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/save", function(){
+$app->get("/install-admin/sql/documents/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-       "sp_documentos_save",
-       "sp_documentostipos_save"
+       "sp_documents_save",
+       "sp_documentstypes_save"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/documentos/remove", function(){
+$app->get("/install-admin/sql/documents/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_documentos_remove",
-        "sp_documentostipos_remove"
+        "sp_documents_remove",
+        "sp_documentstypes_remove"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/enderecos/tables", function(){
+$app->get("/install-admin/sql/adresses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
@@ -1279,7 +1279,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		CREATE TABLE tb_paises (
 		  idpais int(11) NOT NULL AUTO_INCREMENT,
 		  despais varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idpais)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -1289,7 +1289,7 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  desestado varchar(64) NOT NULL,
 		  desuf char(2) NOT NULL,
 		  idpais int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idestado),
 		  KEY FK_estados_paises_idx (idpais),
 		  CONSTRAINT FK_estados_paises FOREIGN KEY (idpais) REFERENCES tb_paises (idpais) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -1300,52 +1300,52 @@ $app->get("/install-admin/sql/enderecos/tables", function(){
 		  idcidade int(11) NOT NULL AUTO_INCREMENT,
 		  descidade varchar(128) NOT NULL,
 		  idestado int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcidade),
 		  KEY FK_cidades_estados_idx (idestado),
 		  CONSTRAINT FK_cidades_estados FOREIGN KEY (idestado) REFERENCES tb_estados (idestado) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_enderecostipos (
-		  idenderecotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desenderecotipo varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idenderecotipo)
+		CREATE TABLE tb_adressestypes (
+		  idadresstype int(11) NOT NULL AUTO_INCREMENT,
+		  desadresstype varchar(64) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idadresstype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_enderecos (
-		  idendereco int(11) NOT NULL AUTO_INCREMENT,
-		  idenderecotipo int(11) NOT NULL,
-		  desendereco varchar(64) NOT NULL,
-		  desnumero varchar(16) NOT NULL,
+		CREATE TABLE tb_adresses (
+		  idadress int(11) NOT NULL AUTO_INCREMENT,
+		  idadresstype int(11) NOT NULL,
+		  desadress varchar(64) NOT NULL,
+		  desnumber varchar(16) NOT NULL,
 		  desbairro varchar(64) NOT NULL,
 		  descidade varchar(64) NOT NULL,
 		  desestado varchar(32) NOT NULL,
-		  despais varchar(32) NOT NULL,
+		  despai varchar(32) NOT NULL,
 		  descep char(8) NOT NULL,
 		  descomplemento varchar(32) DEFAULT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idendereco),
-		  CONSTRAINT FK_enderecostipos FOREIGN KEY (idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo)
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idadress),
+		  CONSTRAINT FK_adressestypes FOREIGN KEY (idadresstype) REFERENCES tb_adressestypes(idadresstype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/enderecos/triggers", function(){
+$app->get("/install-admin/sql/adresses/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_enderecos_AFTER_INSERT",
-		"tg_enderecos_AFTER_UPDATE",
-		"tg_enderecos_BEFORE_DELETE"
+		"tg_adresses_AFTER_INSERT",
+		"tg_adresses_AFTER_UPDATE",
+		"tg_adresses_BEFORE_DELETE"
 	);
-	// saveTriggers($triggers);
+	saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/enderecos/inserts", function(){
+$app->get("/install-admin/sql/adresses/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1375,7 +1375,7 @@ $app->get("/install-admin/sql/enderecos/inserts", function(){
 	echo success();
 
 });
-$app->get("/install-admin/sql/enderecos/paises/inserts", function(){
+$app->get("/install-admin/sql/adresses/paises/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1388,7 +1388,7 @@ $app->get("/install-admin/sql/enderecos/paises/inserts", function(){
 	echo success();
 
 });
-$app->get("/install-admin/sql/enderecos/estados/inserts", function(){
+$app->get("/install-admin/sql/adresses/estados/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1398,7 +1398,7 @@ $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
 	$sql = new Sql();
 
 	$sql->arrays("
-		INSERT INTO tb_estados (idestado, desestado, desuf, idpais) VALUES
+		INSERT INTO tb_estados (idestado, desestado, desuf, idpai) VALUES
 		(1, '".utf8_decode($lang->getString("estado_AC"))."', 'AC', 1),
 		(2, '".utf8_decode($lang->getString("estado_AL"))."', 'AL', 1),
 		(3, '".utf8_decode($lang->getString("estado_AM"))."', 'AM', 1),
@@ -1431,7 +1431,7 @@ $app->get("/install-admin/sql/enderecos/estados/inserts", function(){
 	echo success();
 
 });
-$app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
+$app->post("/install-admin/sql/adresses/cidades/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1454,7 +1454,7 @@ $app->post("/install-admin/sql/enderecos/cidades/inserts", function(){
 	echo success();
 
 });
-$app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
+$app->get("/install-admin/sql/adresses/cidades/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1466,24 +1466,24 @@ $app->get("/install-admin/sql/enderecos/cidades/inserts", function(){
 	echo json_encode($results);
 
 });
-$app->get("/install-admin/sql/pedidosnegociacoestipos/inserts", function(){ 
+$app->get("/install-admin/sql/pedidosnegociacoestypes/inserts", function(){ 
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	
-	$results = $sql->arrays("SELECT * FROM tb_pedidosnegociacoestipos");
+	$results = $sql->arrays("SELECT * FROM tb_pedidosnegociacoestypes");
 
 	echo json_encode($results);
 
 });
-$app->get("/install-admin/sql/enderecos/get", function(){
+$app->get("/install-admin/sql/adresses/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_enderecos_get",
-        "sp_enderecostipos_get",
+        "sp_adresses_get",
+        "sp_adressestypes_get",
         "sp_paises_get",
         "sp_estados_get",
         "sp_cidades_get"
@@ -1491,40 +1491,40 @@ $app->get("/install-admin/sql/enderecos/get", function(){
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/enderecos/list", function(){
+$app->get("/install-admin/sql/adresses/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_enderecosfrompessoa_list",
-        "sp_enderecostipos_list",
+        "sp_adressesfromperson_list",
+        "sp_adressestypes_list",
         "sp_paises_list",
         "sp_estados_list",
         "sp_cidades_list",
-        "sp_enderecosfromlugar_list"
+        "sp_adressesfromlugar_list"
     );
     saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/enderecos/save", function(){
+$app->get("/install-admin/sql/adresses/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-       "sp_enderecos_save",
-       "sp_enderecostipos_save",
+       "sp_adresses_save",
+       "sp_adressestypes_save",
        "sp_paises_save",
        "sp_estados_save",
        "sp_cidades_save",
-       "sp_pessoasenderecos_save"
+       "sp_personsadresses_save"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/enderecos/remove", function(){
+$app->get("/install-admin/sql/adresses/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-       "sp_enderecos_remove",
-       "sp_enderecostipos_remove",
+       "sp_adresses_remove",
+       "sp_adressestypes_remove",
        "sp_paises_remove",
        "sp_estados_remove",
        "sp_cidades_remove"
@@ -1540,7 +1540,7 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		CREATE TABLE tb_permissoes (
 		  idpermissao int(11) NOT NULL AUTO_INCREMENT,
 		  despermissao varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpermissao)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -1548,20 +1548,20 @@ $app->get("/install-admin/sql/permissoes/tables", function(){
 		CREATE TABLE tb_permissoesmenus (
 		  idpermissao int(11) NOT NULL,
 		  idmenu int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idpermissao, idmenu),
 		  CONSTRAINT FK_menuspermissoes FOREIGN KEY (idmenu) REFERENCES tb_menus (idmenu),
 		  CONSTRAINT FK_permissoesmenus FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_permissoesusuarios (
+		CREATE TABLE tb_permissoesusers (
 		  idpermissao int(11) NOT NULL,
-		  idusuario int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpermissao, idusuario),
-		  CONSTRAINT FK_permissoesusuarios FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao),
-		  CONSTRAINT FK_usuariospermissoes FOREIGN KEY (idusuario) REFERENCES tb_usuarios (idusuario)
+		  iduser int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idpermissao, iduser),
+		  CONSTRAINT FK_permissoesusers FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao),
+		  CONSTRAINT FK_userspermissoes FOREIGN KEY (iduser) REFERENCES tb_users (iduser)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -1573,10 +1573,10 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 
 	$lang = new Language();
 	
-	$superUsuario = new Permissao(array(
-		'despermissao'=>$lang->getString('permissoes_usuario')
+	$superuser = new Permissao(array(
+		'despermissao'=>$lang->getString('permissoes_user')
 	));
-	$superUsuario->save();
+	$superuser->save();
 
 	$acessoAdmin = new Permissao(array(
 		'despermissao'=>$lang->getString('permissoes_administrativo')
@@ -1596,7 +1596,7 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 	", array());
 
 	$sql->arrays("
-		INSERT INTO tb_permissoesusuarios (idusuario, idpermissao) VALUES
+		INSERT INTO tb_permissoesusers (iduser, idpermissao) VALUES
 		(?, ?),
 		(?, ?);
 	", array(
@@ -1643,23 +1643,31 @@ $app->get("/install-admin/sql/permissoes/remove", function(){
 	
 	echo success();
 });
-$app->get("/install-admin/sql/pessoasdados/tables", function(){
+
+// AQUI O RAFA PARA
+
+
+// DAQUI PRA BAIXO É O RONALDO
+
+
+
+$app->get("/install-admin/sql/personsdados/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_pessoasdados (
-		  idpessoa int(11) NOT NULL,
-		  despessoa varchar(128) NOT NULL,
+		CREATE TABLE tb_personsdados (
+		  idperson int(11) NOT NULL,
+		  desperson varchar(128) NOT NULL,
 		  desnome varchar(32) NOT NULL,
 		  desprimeironome varchar(64) NOT NULL,
 		  desultimonome varchar(64) NOT NULL,
-		  idpessoatipo int(11) NOT NULL,
-		  despessoatipo varchar(64) NOT NULL,
-		  desusuario varchar(128) DEFAULT NULL,
-		  dessenha varchar(256) DEFAULT NULL,
-		  idusuario int(11) DEFAULT NULL,
-		  inbloqueado bit(1) DEFAULT NULL,
+		  idpersontype int(11) NOT NULL,
+		  despersontype varchar(64) NOT NULL,
+		  desuser varchar(128) DEFAULT NULL,
+		  despassword varchar(256) DEFAULT NULL,
+		  iduser int(11) DEFAULT NULL,
+		  inblocked bit(1) DEFAULT NULL,
 		  desemail varchar(128) DEFAULT NULL,
 		  idemail int(11) DEFAULT NULL,
 		  destelefone varchar(32) DEFAULT NULL,
@@ -1677,46 +1685,46 @@ $app->get("/install-admin/sql/pessoasdados/tables", function(){
 		  incliente BIT NOT NULL DEFAULT b'0',
 		  infornecedor BIT NOT NULL DEFAULT b'0',
 		  incolaborador BIT NOT NULL DEFAULT b'0',
-		  idendereco int(11) DEFAULT NULL,
-		  idenderecotipo int(11) DEFAULT NULL,
-		  desenderecotipo varchar(64) DEFAULT NULL,
-		  desendereco varchar(64) DEFAULT NULL, 
-		  desnumero varchar(16) DEFAULT NULL, 
+		  idadress int(11) DEFAULT NULL,
+		  idadresstype int(11) DEFAULT NULL,
+		  desadresstype varchar(64) DEFAULT NULL,
+		  desadress varchar(64) DEFAULT NULL, 
+		  desnumber varchar(16) DEFAULT NULL, 
 		  desbairro varchar(64) DEFAULT NULL, 
 		  descidade varchar(64) DEFAULT NULL, 
 		  desestado varchar(32) DEFAULT NULL, 
-		  despais varchar(32) DEFAULT NULL, 
+		  despai varchar(32) DEFAULT NULL, 
 		  descep char(8) DEFAULT NULL, 
 		  descomplemento varchar(32),
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpessoa),
-		  KEY FK_pessoasdados_pessoastipos_idx (idpessoatipo),
-		  KEY FK_pessoasdados_usuarios_idx (idusuario),
-		  CONSTRAINT FK_pessoasdados_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_pessoasdados_pessoastipos FOREIGN KEY (idpessoatipo) REFERENCES tb_pessoastipos (idpessoatipo) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_pessoasdados_usuarios FOREIGN KEY (idusuario) REFERENCES tb_usuarios (idusuario) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idperson),
+		  KEY FK_personsdados_personstypes_idx (idpersontype),
+		  KEY FK_personsdados_users_idx (iduser),
+		  CONSTRAINT FK_personsdados_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_personsdados_personstypes FOREIGN KEY (idpersontype) REFERENCES tb_personstypes (idpersontype) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_personsdados_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/produtosdados/tables", function(){
+$app->get("/install-admin/sql/productsdados/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_produtosdados(
-			idproduto INT NOT NULL,
-			idprodutotipo INT NOT NULL,
-			desproduto VARCHAR(64) NOT NULL,
-			vlpreco DEC(10,2) NULL,
-			desprodutotipo VARCHAR(64) NOT NULL,
-			dtinicio DATETIME NULL,
-			dttermino DATETIME NULL,
-			inremovido BIT(1) NOT NULL DEFAULT 0,
-			dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			CONSTRAINT PRIMARY KEY (idproduto),
-			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto),
-			CONSTRAINT FOREIGN KEY(idprodutotipo) REFERENCES tb_produtostipos(idprodutotipo)
+		CREATE TABLE tb_productsdados(
+			idproduct INT NOT NULL,
+			idproducttype INT NOT NULL,
+			desproduct VARCHAR(64) NOT NULL,
+			vlprice DEC(10,2) NULL,
+			desproducttype VARCHAR(64) NOT NULL,
+			dtstart DATETIME NULL,
+			dtend DATETIME NULL,
+			inremoved BIT(1) NOT NULL DEFAULT 0,
+			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY (idproduct),
+			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct),
+			CONSTRAINT FOREIGN KEY(idproducttype) REFERENCES tb_productstypes(idproducttype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -1726,28 +1734,28 @@ $app->get("/install-admin/sql/cupons/tables", function(){
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_cuponstipos(
-			idcupomtipo INT NOT NULL AUTO_INCREMENT,
-			descupomtipo VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcupomtipo)
+		CREATE TABLE tb_cuponstypes(
+			idcupomtype INT NOT NULL AUTO_INCREMENT,
+			descupomtype VARCHAR(128) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idcupomtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
 		CREATE TABLE tb_cupons(
 			idcupom INT NOT NULL AUTO_INCREMENT,
-			idcupomtipo INT NOT NULL,
+			idcupomtype INT NOT NULL,
 			descupom VARCHAR(128) NOT NULL,
 			descodigo VARCHAR(128) NOT NULL,
 			nrqtd INT NOT NULL DEFAULT 1,
 			nrqtdusado INT NOT NULL DEFAULT 0,
-			dtinicio DATETIME NULL,
-			dttermino DATETIME NULL,
-			inremovido BIT(1) NULL,
+			dtstart DATETIME NULL,
+			dtend DATETIME NULL,
+			inremoved BIT(1) NULL,
 			nrdesconto DECIMAL(10,2) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idcupom),
-			CONSTRAINT FOREIGN KEY(idcupomtipo) REFERENCES tb_cuponstipos(idcupomtipo)
+			CONSTRAINT FOREIGN KEY(idcupomtype) REFERENCES tb_cuponstypes(idcupomtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -1759,7 +1767,7 @@ $app->get("/install-admin/sql/cupons/list", function(){
 	
 	$procs = array(
 		'sp_cupons_list',
-		'sp_cuponstipos_list'
+		'sp_cuponstypes_list'
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1769,7 +1777,7 @@ $app->get("/install-admin/sql/cupons/save", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cupons_save',
-		'sp_cuponstipos_save'
+		'sp_cuponstypes_save'
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1779,7 +1787,7 @@ $app->get("/install-admin/sql/cupons/get", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cupons_get',
-		'sp_cuponstipos_get'
+		'sp_cuponstypes_get'
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1789,7 +1797,7 @@ $app->get("/install-admin/sql/cupons/remove", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_cupons_remove',
-		'sp_cuponstipos_remove'
+		'sp_cuponstypes_remove'
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1803,10 +1811,10 @@ $app->get("/install-admin/sql/cupons/inserts", function(){
 	
 	$sql = new Sql();
 	$sql->arrays("
-		INSERT INTO tb_cuponstipos(descupomtipo)
+		INSERT INTO tb_cuponstypes(descupomtype)
 		VALUES(?), (?);
 	", array(
-		$lang->getString('cupom_valor'),
+		$lang->getString('cupom_value'),
 		$lang->getString('cupom_porcentage')
 		
 	));
@@ -1819,27 +1827,27 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 	$sql->exec("
 		CREATE TABLE tb_carrinhos(
 			idcarrinho INT NOT NULL AUTO_INCREMENT,
-			idpessoa INT NOT NULL,
+			idperson INT NOT NULL,
 			dessession VARCHAR(128) NOT NULL,
 			infechado BIT(1),
-			nrprodutos INT NULL,
+			nrproducts INT NULL,
 			vltotal DECIMAL(10,2) NULL,
 			vltotalbruto DECIMAL(10,2),
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idcarrinho),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carrinhosprodutos(
-			idcarrinhoproduto INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_carrinhosproducts(
+			idcarrinhoproduct INT NOT NULL AUTO_INCREMENT,
 			idcarrinho INT NOT NULL,
-			idproduto INT NOT NULL,
-			dtremovido DATETIME NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idcarrinhoproduto),
+			idproduct INT NOT NULL,
+			dtremoved DATETIME NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY (idcarrinhoproduct),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
-			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
+			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -1847,7 +1855,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 			idcarrinho INT NOT NULL,
 			descep CHAR(8) NOT NULL,
 			vlfrete DECIMAL(10,2) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -1855,7 +1863,7 @@ $app->get("/install-admin/sql/carrinhos/tables", function(){
 		CREATE TABLE tb_carrinhoscupons(
 			idcarrinho INT NOT NULL,
 			idcupom INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
 			CONSTRAINT FOREIGN KEY(idcupom) REFERENCES tb_cupons(idcupom)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -1870,8 +1878,8 @@ $app->get("/install-admin/sql/carrinhos/triggers", function(){
 		"tg_carrinhoscupons_AFTER_UPDATE",		
 		"tg_carrinhosfretes_AFTER_INSERT",
 		"tg_carrinhosfretes_AFTER_UPDATE",		
-		"tg_carrinhosprodutos_AFTER_INSERT",
-		"tg_carrinhosprodutos_AFTER_UPDATE"		
+		"tg_carrinhosproducts_AFTER_INSERT",
+		"tg_carrinhosproducts_AFTER_UPDATE"		
 	);
 	saveTriggers($triggers);
 	echo success();
@@ -1881,11 +1889,11 @@ $app->get("/install-admin/sql/carrinhos/list", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_list",
-		"sp_carrinhosprodutos_list",
-		"sp_carrinhosfrompessoa_list",
+		"sp_carrinhosproducts_list",
+		"sp_carrinhosfromperson_list",
 		'sp_carrinhoscupons_list',
 		'sp_carrinhosfretes_list',
-		'sp_produtosfromcarrinho_list',
+		'sp_productsfromcarrinho_list',
 		'sp_cuponsfromcarrinho_list'
 	);
 	saveProcedures($procs);
@@ -1897,7 +1905,7 @@ $app->get("/install-admin/sql/carrinhos/get", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_get",
-		"sp_carrinhosprodutos_get",
+		"sp_carrinhosproducts_get",
 		'sp_carrinhoscupons_get',
 		'sp_carrinhosfretes_get'
 	);
@@ -1910,7 +1918,7 @@ $app->get("/install-admin/sql/carrinhos/save", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_save",
-		"sp_carrinhosprodutos_save",
+		"sp_carrinhosproducts_save",
 		'sp_carrinhoscupons_save',
 		'sp_carrinhosfretes_save',
 		'sp_carrinhosdados_save'
@@ -1925,7 +1933,7 @@ $app->get("/install-admin/sql/carrinhos/remove", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_carrinhos_remove",
-		"sp_carrinhosprodutos_remove",
+		"sp_carrinhosproducts_remove",
 		'sp_carrinhoscupons_remove',
 		'sp_carrinhosfretes_remove'
 	);
@@ -1943,14 +1951,14 @@ $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	$sql->exec("
 		CREATE TABLE tb_cartoesdecreditos(
 			idcartao INT NOT NULL AUTO_INCREMENT,
-			idpessoa INT NOT NULL,
+			idperson INT NOT NULL,
 			desnome VARCHAR(64) NOT NULL,
 			dtvalidade DATE NOT NULL,
 			nrcds VARCHAR(8) NOT NULL,
-			desnumero CHAR(16) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			desnumber CHAR(16) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idcartao),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
@@ -1962,7 +1970,7 @@ $app->get("/install-admin/sql/cartoesdecreditos/list", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_cartoesdecreditos_list",
-		"sp_cartoesfrompessoa_list"
+		"sp_cartoesfromperson_list"
 	);
 	saveProcedures($procs);
 	
@@ -2075,7 +2083,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 		CREATE TABLE tb_gateways(
 			idgateway INT NOT NULL AUTO_INCREMENT,
 			desgateway VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			CONSTRAINT PRIMARY KEY(idgateway)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2086,7 +2094,7 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 			desformapagamento VARCHAR(128) NOT NULL,
 			nrparcelasmax INT NOT NULL,
 			instatus BIT(1),
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idformapagamento),
 			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
@@ -2095,44 +2103,44 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 		CREATE TABLE tb_pedidosstatus(
 			idstatus INT NOT NULL AUTO_INCREMENT,
 			desstatus VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
 		CREATE TABLE tb_pedidos(
 			idpedido INT NOT NULL AUTO_INCREMENT,
-			idpessoa INT NOT NULL,
+			idperson INT NOT NULL,
 			idformapagamento INT NOT NULL,
 			idstatus INT NOT NULL,
 			dessession VARCHAR(128) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
 			nrparcelas INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idpedido),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
 			CONSTRAINT FOREIGN KEY(idformapagamento) REFERENCES tb_formaspagamentos(idformapagamento),
 			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pedidosstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidosprodutos(
+		CREATE TABLE tb_pedidosproducts(
 			idpedido INT NOT NULL,
-			idproduto INT NOT NULL,
+			idproduct INT NOT NULL,
 			nrqtd INT NOT NULL,
-			vlpreco DECIMAL(10,2) NOT NULL,
+			vlprice DECIMAL(10,2) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idpedido, idproduto),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY (idpedido, idproduct),
 			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
-			CONSTRAINT FOREIGN KEY(idproduto) REFERENCES tb_produtos(idproduto)
+			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
 		CREATE TABLE tb_pedidosrecibos(
 			idpedido INT NOT NULL,
 			desautenticacao VARCHAR(256) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY (idpedido),
 			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -2141,18 +2149,18 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 		CREATE TABLE tb_pedidoshistoricos(
 			idhistorico INT NOT NULL AUTO_INCREMENT,
 			idpedido INT NOT NULL,
-			idusuario INT NOT NULL,
-			dtcadastro TIMESTAMP NULL,			
+			iduser INT NOT NULL,
+			dtregister TIMESTAMP NULL,			
 			CONSTRAINT PRIMARY KEY(idhistorico),
 			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
-			CONSTRAINT FOREIGN KEY(idusuario) REFERENCES tb_usuarios(idusuario)
+			CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidosnegociacoestipos (
+		CREATE TABLE tb_pedidosnegociacoestypes (
 		  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
 		  desnegociacao varchar(64) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idnegociacao)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");		
@@ -2160,13 +2168,13 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 		CREATE TABLE tb_pedidosnegociacoes (
 		  idnegociacao int(11) NOT NULL,
 		  idpedido int(11) NOT NULL,
-		  dtinicio datetime NOT NULL,
-		  dttermino datetime DEFAULT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtstart datetime NOT NULL,
+		  dtend datetime DEFAULT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idnegociacao,idpedido),
 		  KEY FK_pedidosnegociacoes_pedidos_idx (idpedido),
 		  CONSTRAINT FK_pedidosnegociacoes_pedidos FOREIGN KEY (idpedido) REFERENCES tb_pedidos (idpedido) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_pedidosnegociacoes_pedidosnegociacoestipos FOREIGN KEY (idpedido) REFERENCES tb_pedidosnegociacoestipos (idnegociacao) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_pedidosnegociacoes_pedidosnegociacoestypes FOREIGN KEY (idpedido) REFERENCES tb_pedidosnegociacoestypes (idnegociacao) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
@@ -2251,7 +2259,7 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 	));
 
 	$sql->arrays("
-		INSERT INTO tb_pedidosnegociacoestipos(desnegociacao)
+		INSERT INTO tb_pedidosnegociacoestypes(desnegociacao)
 		VALUES(?);
 	", array(
 	    $lang->getString('negociacao_orcemanto'),
@@ -2267,10 +2275,10 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	$procs = array(
 		'sp_formaspagamentos_list',
 		'sp_pedidos_list',
-		'sp_pedidosprodutos_list',
+		'sp_pedidosproducts_list',
 		'sp_pedidosrecibos_list',
 		'sp_pedidosstatus_list',
-		'sp_pedidosfrompessoa_list',
+		'sp_pedidosfromperson_list',
 		'sp_recibosfrompedido_list',
 		'sp_pedidoshistoricos_list'
 	);
@@ -2280,12 +2288,12 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestipos/list", function(){
+$app->get("/install-admin/sql/pedidosnegociacoestypes/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 	
-		'sp_pedidosnegociacoestipos_list'
+		'sp_pedidosnegociacoestypes_list'
 		
 	);
 	saveProcedures($procs);
@@ -2294,12 +2302,12 @@ $app->get("/install-admin/sql/pedidosnegociacoestipos/list", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestipos/get", function(){
+$app->get("/install-admin/sql/pedidosnegociacoestypes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 
-		'sp_pedidosnegociacoestipos_get'
+		'sp_pedidosnegociacoestypes_get'
 		
 	);
 	saveProcedures($procs);
@@ -2308,12 +2316,12 @@ $app->get("/install-admin/sql/pedidosnegociacoestipos/get", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestipos/save", function(){
+$app->get("/install-admin/sql/pedidosnegociacoestypes/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		
-		'sp_pedidosnegociacoestipos_save'
+		'sp_pedidosnegociacoestypes_save'
 		
 	);
 	saveProcedures($procs);
@@ -2322,12 +2330,12 @@ $app->get("/install-admin/sql/pedidosnegociacoestipos/save", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestipos/remove", function(){
+$app->get("/install-admin/sql/pedidosnegociacoestypes/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 	
-		'sp_pedidosnegociacoestipos_remove'
+		'sp_pedidosnegociacoestypes_remove'
 		
 	);
 	saveProcedures($procs);
@@ -2342,7 +2350,7 @@ $app->get("/install-admin/sql/pedidos/get", function(){
 	$procs = array(
 		'sp_formaspagamentos_get',
 		'sp_pedidos_get',
-		'sp_pedidosprodutos_get',
+		'sp_pedidosproducts_get',
 		'sp_pedidosrecibos_get',
 		'sp_pedidosstatus_get',
 		'sp_pedidoshistoricos_get'
@@ -2358,7 +2366,7 @@ $app->get("/install-admin/sql/pedidos/save", function(){
 	$procs = array(
 		'sp_formaspagamentos_save',
 		'sp_pedidos_save',
-		'sp_pedidosprodutos_save',
+		'sp_pedidosproducts_save',
 		'sp_pedidosrecibos_save',
 		'sp_pedidosstatus_save',
 		'sp_pedidoshistoricos_save'
@@ -2374,7 +2382,7 @@ $app->get("/install-admin/sql/pedidos/remove", function(){
 	$procs = array(
 		'sp_formaspagamentos_remove',
 		'sp_pedidos_remove',
-		'sp_pedidosprodutos_remove',
+		'sp_pedidosproducts_remove',
 		'sp_pedidosrecibos_remove',
 		'sp_pedidosstatus_remove',
 		'sp_pedidoshistoricos_remove'
@@ -2384,67 +2392,67 @@ $app->get("/install-admin/sql/pedidos/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitescontatos/tables", function(){
+$app->get("/install-admin/sql/sitescontacts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_sitescontatos(
-			idsitecontato INT NOT NULL AUTO_INCREMENT,
-			idpessoa INT NOT NULL,
-			idpessoaresposta INT NULL,
+		CREATE TABLE tb_sitescontacts(
+			idsitecontact INT NOT NULL AUTO_INCREMENT,
+			idperson INT NOT NULL,
+			idpersonresposta INT NULL,
 			desmensagem VARCHAR(2048) NOT NULL,
 			inlido BIT(1) NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idsitecontato),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa)
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idsitecontact),
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitescontatos/list", function(){
+$app->get("/install-admin/sql/sitescontacts/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_sitescontatos_list",
-		"sp_sitescontatosfrompessoa_list"
+		"sp_sitescontacts_list",
+		"sp_sitescontactsfromperson_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitescontatos/get", function(){
+$app->get("/install-admin/sql/sitescontacts/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_sitescontatosbypessoa_get',
-		'sp_sitescontatos_get'
+		'sp_sitescontactsbyperson_get',
+		'sp_sitescontacts_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitescontatos/save", function(){
+$app->get("/install-admin/sql/sitescontacts/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_sitescontatos_save"
+		"sp_sitescontacts_save"
 	);
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/sitescontatos/remove", function(){
+$app->get("/install-admin/sql/sitescontacts/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_sitescontatos_remove"
+		"sp_sitescontacts_remove"
 	);
 	saveProcedures($name);
 	
@@ -2458,26 +2466,26 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_lugarestipos(
-			idlugartipo INT NOT NULL AUTO_INCREMENT,
-			deslugartipo VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			CONSTRAINT PRIMARY KEY(idlugartipo)
+		CREATE TABLE tb_lugarestypes(
+			idlugartype INT NOT NULL AUTO_INCREMENT,
+			deslugartype VARCHAR(128) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			CONSTRAINT PRIMARY KEY(idlugartype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
 		CREATE TABLE tb_lugares(
 			idlugar INT NOT NULL AUTO_INCREMENT,
-			idlugarpai INT NULL,
+			idlugarfather INT NULL,
 			deslugar VARCHAR(128) NOT NULL,
-			idlugartipo INT NOT NULL,
+			idlugartype INT NOT NULL,
 			desconteudo TEXT NULL,
 			nrviews INT NULL,
 			vlreview DECIMAL(10,2) NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugarpai) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo)
+			CONSTRAINT FOREIGN KEY(idlugarfather) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idlugartype) REFERENCES tb_lugarestypes(idlugartype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -2487,7 +2495,7 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 			nrdia TINYINT(4) NOT NULL,
 			hrabre TIME NULL,
 			hrfecha TIME NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idhorario),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -2496,70 +2504,70 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 		CREATE TABLE tb_lugarescoordenadas(
 			idlugar INT NOT NULL,
 			idcoordenada INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
 			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugaresenderecos(
+		CREATE TABLE tb_lugaresadresses(
 			idlugar INT NOT NULL,
-			idendereco INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			idadress INT NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco)
+			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugaresvalorescampos(
-			idcampo INT NOT NULL AUTO_INCREMENT,
-			descampo VARCHAR(128) NOT NULL,
-			CONSTRAINT PRIMARY KEY(idcampo),
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+		CREATE TABLE tb_lugaresvaluesfields(
+			idfield INT NOT NULL AUTO_INCREMENT,
+			desfield VARCHAR(128) NOT NULL,
+			CONSTRAINT PRIMARY KEY(idfield),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugaresvalores(
-			idlugarvalor INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_lugaresvalues(
+			idlugarvalue INT NOT NULL AUTO_INCREMENT,
 			idlugar INT NOT NULL,
-			idcampo INT NOT NULL,
-			desvalor VARCHAR(128) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idlugarvalor),
+			idfield INT NOT NULL,
+			desvalue VARCHAR(128) NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idlugarvalue),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_lugaresvalorescampos(idcampo)
+			CONSTRAINT FOREIGN KEY(idfield) REFERENCES tb_lugaresvaluesfields(idfield)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
 		CREATE TABLE tb_lugaresdados(
 			idlugar INT NOT NULL,
 			deslugar VARCHAR(128) NOT NULL,
-			idlugarpai INT NULL,
-			deslugarpai VARCHAR(128) NULL,
-			idlugartipo INT NOT NULL,
-			deslugartipo  VARCHAR(128) NOT NULL,
-			idenderecotipo INT NULL,
-			desenderecotipo VARCHAR(128) NULL,
-			idendereco INT NULL,
-			desendereco VARCHAR(128) NULL,
-			desnumero VARCHAR(16) NULL,
+			idlugarfather INT NULL,
+			deslugarfather VARCHAR(128) NULL,
+			idlugartype INT NOT NULL,
+			deslugartype  VARCHAR(128) NOT NULL,
+			idadresstype INT NULL,
+			desadresstype VARCHAR(128) NULL,
+			idadress INT NULL,
+			desadress VARCHAR(128) NULL,
+			desnumber VARCHAR(16) NULL,
 			desbairro VARCHAR(64) NULL,
 			descidade VARCHAR(64) NULL,
 			desestado VARCHAR(32) NULL,
-			despais VARCHAR(32) NULL,
+			despai VARCHAR(32) NULL,
 			descep CHAR(8) NULL,
 			descomplemento VARCHAR(32) NULL,
 			idcoordenada INT NULL,
 			vllatitude DECIMAL(20,17) NULL,
 			vllongitude DECIMAL(20,17) NULL,
 			nrzoom TINYINT(4) NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idlugar),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugarpai) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugartipo) REFERENCES tb_lugarestipos(idlugartipo),
-			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco),
-			CONSTRAINT FOREIGN KEY(idenderecotipo) REFERENCES tb_enderecostipos(idenderecotipo),
+			CONSTRAINT FOREIGN KEY(idlugarfather) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idlugartype) REFERENCES tb_lugarestypes(idlugartype),
+			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
+			CONSTRAINT FOREIGN KEY(idadresstype) REFERENCES tb_adressestypes(idadresstype),
 			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2579,9 +2587,9 @@ $app->get("/install-admin/sql/lugares/triggers", function(){
 		'tg_lugarescoordenadas_AFTER_UPDATE',
 		'tg_lugarescoordenadas_BEFORE_DELETE',
 
-		'tg_lugaresenderecos_AFTER_INSERT',
-		'tg_lugaresenderecos_AFTER_UPDATE',
-		'tg_lugaresenderecos_BEFORE_DELETE'
+		'tg_lugaresadresses_AFTER_INSERT',
+		'tg_lugaresadresses_AFTER_UPDATE',
+		'tg_lugaresadresses_BEFORE_DELETE'
 	);
 	saveTriggers($triggers);
 
@@ -2593,7 +2601,7 @@ $app->get("/install-admin/sql/lugares/list", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_lugares_list",
-		"sp_lugarestipos_list",
+		"sp_lugarestypes_list",
 		"sp_lugareshorarios_list"
 	);
 	saveProcedures($procs);
@@ -2605,7 +2613,7 @@ $app->get("/install-admin/sql/lugares/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_lugarestipos_get',
+		'sp_lugarestypes_get',
 		'sp_lugares_get',
 		'sp_lugareshorarios_get'
 	);
@@ -2631,12 +2639,13 @@ $app->get("/install-admin/sql/lugares/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_lugarestipos_save',
+		'sp_lugarestypes_save',
 		'sp_lugares_save',
 		'sp_lugaresdados_save',
 		'sp_lugarescoordenadas_add',
 		'sp_lugareshorarios_save',
-		'sp_lugaresenderecos_add'
+		'sp_lugaresadresses_add',
+		'sp_lugaresarquivos_add'
 	);
 	saveProcedures($procs);
 	
@@ -2647,7 +2656,7 @@ $app->get("/install-admin/sql/lugares/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_lugarestipos_remove',
+		'sp_lugarestypes_remove',
 		'sp_lugares_remove',
 		'sp_lugaresdados_remove',
 		'sp_lugareshorarios_remove',
@@ -2664,50 +2673,50 @@ $app->get("/install-admin/sql/lugares/inserts", function(){
 	
 	$lang = new Language();
 	
-	$bairro = new LugarTipo(array(
-		'deslugartipo'=>$lang->getString('lugartipo_bairro')
+	$bairro = new Lugartype(array(
+		'deslugartype'=>$lang->getString('lugartype_bairro')
 	));
 	$bairro->save();
 
-	$cidade = new LugarTipo(array(
-		'deslugartipo'=>$lang->getString('lugartipo_cidade')
+	$cidade = new Lugartype(array(
+		'deslugartype'=>$lang->getString('lugartype_cidade')
 	));
 	$cidade->save();
 
-	$estado = new LugarTipo(array(
-		'deslugartipo'=>$lang->getString('lugartipo_estado')
+	$estado = new Lugartype(array(
+		'deslugartype'=>$lang->getString('lugartype_estado')
 	));
 	$estado->save();
 
-	$pais = new LugarTipo(array(
-		'deslugartipo'=>$lang->getString('lugartipo_pais')
+	$pai = new Lugartype(array(
+		'deslugartype'=>$lang->getString('lugartype_pai')
 	));
-	$pais->save();
+	$pai->save();
 
-	$empresas = new LugarTipo(array(
-		'deslugartipo'=>$lang->getString('lugartipo_empresas')
+	$empresas = new Lugartype(array(
+		'deslugartype'=>$lang->getString('lugartype_empresas')
 	));
 	$empresas->save();
 	
-	$endereco = new Endereco(array(
-		'idenderecotipo'=>EnderecoTipo::COMERCIAL,
-		'desendereco'=>$lang->getString('lugartipo_hcode_endereco'),
-		'desnumero'=>$lang->getString('lugartipo_hcode_numero'),
-		'desbairro'=>$lang->getString('lugartipo_hcode_bairro'),
-		'descidade'=>$lang->getString('lugartipo_hcode_cidade'),
-		'desestado'=>$lang->getString('lugartipo_hcode_estado'),
-		'despais'=>$lang->getString('lugartipo_hcode_pais'),
-		'descep'=>$lang->getString('lugartipo_hcode_cep'),
+	$adress = new adress(array(
+		'idadresstype'=>adresstype::COMERCIAL,
+		'desadress'=>$lang->getString('lugartype_hcode_adress'),
+		'desnumber'=>$lang->getString('lugartype_hcode_number'),
+		'desbairro'=>$lang->getString('lugartype_hcode_bairro'),
+		'descidade'=>$lang->getString('lugartype_hcode_cidade'),
+		'desestado'=>$lang->getString('lugartype_hcode_estado'),
+		'despai'=>$lang->getString('lugartype_hcode_pai'),
+		'descep'=>$lang->getString('lugartype_hcode_cep'),
 		'inprincipal'=>true
 	));
-	$endereco->save();
+	$adress->save();
 
 	$lugarHcode = new Lugar(array(
 		'deslugar'=>$lang->getString('lugar_hcode'),
-		'idlugartipo'=>$empresas->getidlugartipo()
+		'idlugartype'=>$empresas->getidlugartype()
 	));
 	$lugarHcode->save();
-	$lugarHcode->setEndereco($endereco);
+	$lugarHcode->setadress($adress);
 	
 	echo success();
 	
@@ -2722,7 +2731,7 @@ $app->get("/install-admin/sql/lugaresarquivos/tables", function(){
 		CREATE TABLE tb_lugaresarquivos(
 			idlugar INT NOT NULL,
 			idarquivo INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
 			CONSTRAINT FOREIGN KEY(idarquivo) REFERENCES tb_arquivos(idarquivo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -2743,16 +2752,16 @@ $app->get("/install-admin/sql/coordenadas/tables", function(){
 			vllatitude DECIMAL(20,17) NOT NULL,
 			vllongitude DECIMAL(20,17) NOT NULL,
 			nrzoom TINYINT(4) NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_enderecoscoordenadas(
-			idendereco INT NOT NULL,
+		CREATE TABLE tb_adressescoordenadas(
+			idadress INT NOT NULL,
 			idcoordenada INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
 			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2806,8 +2815,8 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 		  nraulas int(11) NOT NULL DEFAULT '0',
 		  nrexercicios int(11) NOT NULL DEFAULT '0',
 		  desdescricao varchar(10240) DEFAULT NULL,
-		  inremovido bit(1) NOT NULL DEFAULT b'0',
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  inremoved bit(1) NOT NULL DEFAULT b'0',
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcurso)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2816,9 +2825,9 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 		CREATE TABLE tb_cursossecoes (
 		  idsecao int(11) NOT NULL AUTO_INCREMENT,
 		  dessecao varchar(128) NOT NULL,
-		  nrordem int(11) NOT NULL DEFAULT '0',
+		  nrorder int(11) NOT NULL DEFAULT '0',
 		  idcurso int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idsecao),
 		  KEY FK_cursossecoes_cursos_idx (idcurso),
 		  CONSTRAINT FK_cursossecoes_cursos FOREIGN KEY (idcurso) REFERENCES tb_cursos (idcurso) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -2831,8 +2840,8 @@ $app->get("/install-admin/sql/cursos/tables", function(){
 		  descurriculo varchar(128) NOT NULL,
 		  idsecao int(11) NOT NULL,
 		  desdescricao varchar(2048) DEFAULT NULL,
-		  nrordem varchar(45) DEFAULT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  nrorder varchar(45) DEFAULT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcurriculo),
 		  KEY FK_cursoscurriculos_cursossecoes_idx (idsecao),
 		  CONSTRAINT FK_cursoscurriculos_cursossecoes FOREIGN KEY (idsecao) REFERENCES tb_cursossecoes (idsecao) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -2914,16 +2923,16 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 		  indots bit(1) NOT NULL DEFAULT b'1',
 		  nritems int(11) NOT NULL DEFAULT '3',
 		  nrstagepadding int(11) NOT NULL DEFAULT '0',
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcarousel)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carouselsitemstipos (
-		  idtipo int(11) NOT NULL AUTO_INCREMENT,
-		  destipo varchar(32) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idtipo)
+		CREATE TABLE tb_carouselsitemstypes (
+		  idtype int(11) NOT NULL AUTO_INCREMENT,
+		  destype varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -2931,15 +2940,15 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 		  iditem int(11) NOT NULL AUTO_INCREMENT,
 		  desitem varchar(45) NOT NULL,
 		  desconteudo text,
-		  nrordem varchar(45) NOT NULL DEFAULT '0',
-		  idtipo int(11) NOT NULL,
+		  nrorder varchar(45) NOT NULL DEFAULT '0',
+		  idtype int(11) NOT NULL,
 		  idcarousel int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (iditem),
 		  KEY FK_carouselsitems_carousels_idx (idcarousel),
-		  KEY FK_carouselsitems_carouselsitemstipos_idx (idtipo),
+		  KEY FK_carouselsitems_carouselsitemstypes_idx (idtype),
 		  CONSTRAINT FK_carouselsitems_carousels FOREIGN KEY (idcarousel) REFERENCES tb_carousels (idcarousel) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_carouselsitems_carouselsitemstipos FOREIGN KEY (idtipo) REFERENCES tb_carouselsitemstipos (idtipo) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_carouselsitems_carouselsitemstypes FOREIGN KEY (idtype) REFERENCES tb_carouselsitemstypes (idtype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -2952,7 +2961,7 @@ $app->get("/install-admin/sql/carousels/list", function(){
 	$procs = array(
 		'sp_carousels_list',
 		'sp_carouselsitems_list',
-		'sp_carouselsitemstipos_list',
+		'sp_carouselsitemstypes_list',
 		'sp_itemsfromcarousel_list'
 	);
 	saveProcedures($procs);
@@ -2966,7 +2975,7 @@ $app->get("/install-admin/sql/carousels/get", function(){
 	$procs = array(
 		'sp_carousels_get',
 		'sp_carouselsitems_get',
-		'sp_carouselsitemstipos_get'
+		'sp_carouselsitemstypes_get'
 	);
 	saveProcedures($procs);
 
@@ -2979,7 +2988,7 @@ $app->get("/install-admin/sql/carousels/save", function(){
 	$procs = array(
 		'sp_carousels_save',
 		'sp_carouselsitems_save',
-		'sp_carouselsitemstipos_save'
+		'sp_carouselsitemstypes_save'
 	);
 	saveProcedures($procs);
 
@@ -2992,7 +3001,7 @@ $app->get("/install-admin/sql/carousels/remove", function(){
 	$procs = array(
 		'sp_carousels_remove',
 		'sp_carouselsitems_remove',
-		'sp_carouselsitemstipos_remove'
+		'sp_carouselsitemstypes_remove'
 	);
 	saveProcedures($procs);
 
@@ -3005,11 +3014,11 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_configuracoestipos (
-		  idconfiguracaotipo int(11) NOT NULL AUTO_INCREMENT,
-		  desconfiguracaotipo varchar(32) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idconfiguracaotipo)
+		CREATE TABLE tb_configuracoestypes (
+		  idconfiguracaotype int(11) NOT NULL AUTO_INCREMENT,
+		  desconfiguracaotype varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idconfiguracaotype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3017,14 +3026,14 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 		CREATE TABLE tb_configuracoes (
 		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
 		  desconfiguracao varchar(64) NOT NULL,
-		  desvalor varchar(2048) NOT NULL,
+		  desvalue varchar(2048) NOT NULL,
 		  desdescricao varchar(256) NULL,
-		  idconfiguracaotipo int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  idconfiguracaotype int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idconfiguracao),
-		  KEY FK_configuracoes_configuracoestipos_idx (idconfiguracaotipo),
+		  KEY FK_configuracoes_configuracoestypes_idx (idconfiguracaotype),
 		  KEY IX_desconfiguracao (desconfiguracao),
-		  CONSTRAINT FK_configuracoes_configuracoestipos FOREIGN KEY (idconfiguracaotipo) REFERENCES tb_configuracoestipos (idconfiguracaotipo) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_configuracoes_configuracoestypes FOREIGN KEY (idconfiguracaotype) REFERENCES tb_configuracoestypes (idconfiguracaotype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
@@ -3038,77 +3047,77 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 
 	$lang = new Language();
 
-	$texto = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_string')
+	$texto = new Configuracaotype(array(
+		'desconfiguracaotype'=>$lang->getString('configtype_string')
 	));
 	$texto->save();
 
-	$int = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_int')
+	$int = new Configuracaotype(array(
+		'desconfiguracaotype'=>$lang->getString('configtype_int')
 	));
 	$int->save();
 
-	$float = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_float')
+	$float = new Configuracaotype(array(
+		'desconfiguracaotype'=>$lang->getString('configtype_float')
 	));
 	$float->save();
 
-	$bool = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_boolean')
+	$bool = new Configuracaotype(array(
+		'desconfiguracaotype'=>$lang->getString('configtype_boolean')
 	));
 	$bool->save();
 
-	$data = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_datetime')
+	$data = new Configuracaotype(array(
+		'desconfiguracaotype'=>$lang->getString('configtype_datetime')
 	));
 	$data->save();
 
-	$array = new ConfiguracaoTipo(array(
-		'desconfiguracaotipo'=>$lang->getString('configtipo_object')
+	$array = new Configuracaotype(array(
+		'desconfiguracaotype'=>$lang->getString('configtype_object')
 	));
 	$array->save();
 
 	$adminName = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_admin_name'),
-		'desvalor'=>$lang->getString('config_admin_name_value'),
-		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desvalue'=>$lang->getString('config_admin_name_value'),
+		'idconfiguracaotype'=>$texto->getidconfiguracaotype(),
 		'desdescricao'=>$lang->getString('config_admin_name_description')
 	));
 	$adminName->save();
 
 	$uploadDir = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_upload_dir'),
-		'desvalor'=>$lang->getString('config_upload_dir_value'),
-		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desvalue'=>$lang->getString('config_upload_dir_value'),
+		'idconfiguracaotype'=>$texto->getidconfiguracaotype(),
 		'desdescricao'=>$lang->getString('config_upload_dir_description')
 	));
 	$uploadDir->save();
 
 	$uploadMaxSize = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_upload_max_filesize'),
-		'desvalor'=>file_upload_max_size(),
-		'idconfiguracaotipo'=>$int->getidconfiguracaotipo(),
+		'desvalue'=>file_upload_max_size(),
+		'idconfiguracaotype'=>$int->getidconfiguracaotype(),
 		'desdescricao'=>$lang->getString('config_upload_max_filesize_description')
 	));
 	$uploadMaxSize->save();
 
 	$uploadMimes = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_upload_mimetype'),
-		'desvalor'=>json_encode(array(
+		'desvalue'=>json_encode(array(
 			'jpg' => 'image/jpeg',
             'png' => 'image/png',
             'gif' => 'image/gif',
             'pdf' => 'application/pdf'
 		)),
-		'idconfiguracaotipo'=>$array->getidconfiguracaotipo(),
+		'idconfiguracaotype'=>$array->getidconfiguracaotype(),
 		'desdescricao'=>$lang->getString('config_upload_mimetype_description')
 	));
 	$uploadMimes->save();
 
 	$googleMapKey = new Configuracao(array(
 		'desconfiguracao'=>$lang->getString('config_google_map_key'),
-		'desvalor'=>$lang->getString('google_map_key'),
-		'idconfiguracaotipo'=>$texto->getidconfiguracaotipo(),
+		'desvalue'=>$lang->getString('google_map_key'),
+		'idconfiguracaotype'=>$texto->getidconfiguracaotype(),
 		'desdescricao'=>$lang->getString('config_google_map_key_description')
 	));
 	$googleMapKey->save();
@@ -3121,8 +3130,8 @@ $app->get("/install-admin/sql/configuracoes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_configuracoestipos_get',
-		'sp_configuracoestipos_list',
+		'sp_configuracoestypes_get',
+		'sp_configuracoestypes_list',
 		'sp_configuracoes_get',
 		'sp_configuracoes_list'
 	);
@@ -3134,7 +3143,7 @@ $app->get("/install-admin/sql/configuracoes/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_configuracoestipos_save',
+		'sp_configuracoestypes_save',
 		'sp_configuracoes_save'
 	);
 	saveProcedures($procs);
@@ -3145,7 +3154,7 @@ $app->get("/install-admin/sql/configuracoes/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_configuracoestipos_remove',
+		'sp_configuracoestypes_remove',
 		'sp_configuracoes_remove'
 	);
 	saveProcedures($procs);
@@ -3165,7 +3174,7 @@ $app->get("/install-admin/sql/arquivos/tables", function(){
 		  desarquivo varchar(128) NOT NULL,
 		  desextensao varchar(32) NOT NULL,
 		  desalias varchar(128) NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idarquivo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -3254,21 +3263,21 @@ $app->get("/install-admin/sql/urls/list", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/produtosarquivos/tables", function(){
+$app->get("/install-admin/sql/productsarquivos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_produtosarquivos (
-		  idproduto int(11) NOT NULL,
+		CREATE TABLE tb_productsarquivos (
+		  idproduct int(11) NOT NULL,
 		  idarquivo int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idproduto,idarquivo),
-		  KEY FK_produtosarquivos_arquivos_idx (idarquivo),
-		  CONSTRAINT FK_produtosarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT FK_produtosarquivos_produtos FOREIGN KEY (idproduto) REFERENCES tb_produtos (idproduto) ON DELETE CASCADE ON UPDATE CASCADE
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idproduct,idarquivo),
+		  KEY FK_productsarquivos_arquivos_idx (idarquivo),
+		  CONSTRAINT FK_productsarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE CASCADE ON UPDATE CASCADE,
+		  CONSTRAINT FK_productsarquivos_products FOREIGN KEY (idproduct) REFERENCES tb_products (idproduct) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
 	");
 
@@ -3276,21 +3285,21 @@ $app->get("/install-admin/sql/produtosarquivos/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/pessoasarquivos/tables", function(){
+$app->get("/install-admin/sql/personsarquivos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_pessoasarquivos (
-		  idpessoa int(11) NOT NULL,
+		CREATE TABLE tb_personsarquivos (
+		  idperson int(11) NOT NULL,
 		  idarquivo int(11) NOT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idpessoa,idarquivo),
-		  KEY FK_pessoasarquivos_arquivos_idx (idarquivo),
-		  CONSTRAINT FK_pessoasarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT FK_pessoasarquivos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE CASCADE ON UPDATE CASCADE
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idperson,idarquivo),
+		  KEY FK_personsarquivos_arquivos_idx (idarquivo),
+		  CONSTRAINT FK_personsarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE CASCADE ON UPDATE CASCADE,
+		  CONSTRAINT FK_personsarquivos_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3298,12 +3307,12 @@ $app->get("/install-admin/sql/pessoasarquivos/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/pessoasarquivos/procs", function(){
+$app->get("/install-admin/sql/personsarquivos/procs", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$procs = array(
-		'sp_pessoasarquivos_save'
+		'sp_personsarquivos_save'
 	);
 	saveProcedures($procs);
 
@@ -3338,7 +3347,7 @@ $app->get("/install-admin/sql/urls/tables", function(){
 		  idurl int(11) NOT NULL AUTO_INCREMENT,
 		  desurl varchar(128) NOT NULL,
 		  destitulo varchar(64) DEFAULT NULL,
-		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idurl),
 		  UNIQUE KEY desurl_UNIQUE (desurl)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -3400,19 +3409,19 @@ $app->get("/install-admin/sql/urls/remove", function(){
 
 });
 
-$app->get("/install-admin/sql/pessoasenderecos/tables", function(){
+$app->get("/install-admin/sql/personsadresses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_pessoasenderecos(
-			idpessoa INT NOT NULL,
-			idendereco INT NOT NULL,
-			dtcadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idpessoa) REFERENCES tb_pessoas(idpessoa),
-			CONSTRAINT FOREIGN KEY(idendereco) REFERENCES tb_enderecos(idendereco)
+		CREATE TABLE tb_personsadresses(
+			idperson INT NOT NULL,
+			idadress INT NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
+			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3420,13 +3429,13 @@ $app->get("/install-admin/sql/pessoasenderecos/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/pessoasenderecos/triggers", function(){
+$app->get("/install-admin/sql/personsadresses/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_pessoasenderecos_AFTER_INSERT",
-		"tg_pessoasenderecos_AFTER_UPDATE",
-		"tg_pessoasenderecos_BEFORE_DELETE"
+		"tg_personsadresses_AFTER_INSERT",
+		"tg_personsadresses_AFTER_UPDATE",
+		"tg_personsadresses_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	echo success();

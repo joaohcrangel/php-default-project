@@ -93,9 +93,9 @@ $app->get("/produtos/:idproduto/precos", function($idproduto){
             
         } else {
             $row['desduracao'] = Utils::getDateTimeDiffHuman(
-                                new DateTime($row['isodtinicio']),
-                                new DateTime($row['isodttermino'])
-                            );
+                new DateTime($row['isodtinicio']),
+                new DateTime($row['isodttermino'])
+            );
         }
 
         
@@ -112,18 +112,40 @@ $app->get("/produtos/:idproduto/arquivos", function($idproduto){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    if(!(int)$idproduto){
-        throw new Exception("Produto não informado", 400);        
+    $pagina = (int)get('pagina');
+    $itemsPerPage = (int)get('limit');
+
+    $where = array();
+
+    array_push($where, "c.idproduto = ".(int)$idproduto."");
+
+    if(count($where) > 0){
+        $where = "WHERE ".implode(" AND ", $where)."";
+    }else{
+        $where = "";
     }
 
-    $produto = new Produto(array(
-        'idproduto'=>(int)$idproduto
-    ));
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS a.*, c.desproduto FROM tb_arquivos a
+            INNER JOIN tb_produtosarquivos b ON a.idarquivo = b.idarquivo
+            INNER JOIN tb_produtos c ON b.idproduto = c.idproduto
+        ".$where." LIMIT ?, ?;
+    ";
 
-    $arquivos = $produto->getArquivos();
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "Arquivos",
+        $itemsPerPage
+    );
+
+    $arquivos = $paginacao->getPage($pagina);
 
     echo success(array(
-        'data'=>$arquivos->getFields()
+        "data"=>$arquivos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "currentPage"=>$pagina,
+        "itemsPerPage"=>$itemsPerPage
     ));
 
 });

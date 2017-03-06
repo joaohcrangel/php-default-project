@@ -2614,6 +2614,19 @@ $app->get("/install-admin/sql/lugares/get", function(){
 	echo success();
 	
 });
+
+$app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_lugaresvalorescampo_get'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
 $app->get("/install-admin/sql/lugares/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);

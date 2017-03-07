@@ -123,6 +123,19 @@ $app->get("/install-admin/sql/pessoas/tables", function(){
 			CONSTRAINT FOREIGN KEY(idcampo) REFERENCES tb_pessoasvalorescampos(idcampo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->query("
+		CREATE TABLE tb_pessoasdispositivos (
+		  iddispositivo int(11) NOT NULL AUTO_INCREMENT,
+		  idpessoa int(11) NOT NULL,
+		  desdispositivo varchar(128) NOT NULL,
+		  desid varchar(512) NOT NULL,
+		  dessistema varchar(128) NOT NULL,
+		  dtcadastro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (iddispositivo),
+		  KEY FK_pessoasdispositivos_pessoas_idx (idpessoa),
+		  CONSTRAINT FK_pessoasdispositivos_pessoas FOREIGN KEY (idpessoa) REFERENCES tb_pessoas (idpessoa) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 $app->get("/install-admin/sql/pessoas/triggers", function(){
@@ -161,7 +174,8 @@ $app->get("/install-admin/sql/pessoas/get", function(){
 		"sp_pessoashistoricos_get",
 		"sp_pessoasvalores_get",
 		"sp_pessoasvalorescampos_get",
-		"sp_pessoastipos_get"
+		"sp_pessoastipos_get",
+		"sp_pessoasdispositivos_get"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -184,7 +198,8 @@ $app->get("/install-admin/sql/pessoas/save", function(){
 		"sp_historicostipos_save",
 		"sp_pessoasvalores_save",
 		"sp_pessoasvalorescampos_save",
-		"sp_pessoastipos_save"
+		"sp_pessoastipos_save",
+		"sp_pessoasdispositivos_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -196,7 +211,8 @@ $app->get("/install-admin/sql/pessoas/remove", function(){
 		"sp_historicostipos_remove",
 		"sp_pessoasvalores_remove",
 		"sp_pessoasvalorescampos_remove",
-		"sp_pessoastipos_remove"
+		"sp_pessoastipos_remove",
+		"sp_pessoasdispositivos_remove"
 	);
 	saveProcedures($names);
 	echo success();
@@ -367,6 +383,7 @@ $app->get("/install-admin/sql/usuarios/inserts", function(){
 	", array(
 		1, $lang->getString('usuarios_root'), $hash, 1
 	));
+
 	echo success();
 });
 $app->get("/install-admin/sql/usuarios/get", function(){

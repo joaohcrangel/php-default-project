@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class PersonLog extends Model {
@@ -17,29 +14,30 @@ class PersonLog extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_personslogs_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_personslogs_save(?, ?, ?, ?);", array(
                 $this->getidpersonlog(),
                 $this->getidperson(),
                 $this->getidlogtype(),
-                $this->getdeslog(),
-                $this->getdtregister()
+                $this->getdeslog()
             ));
 
             return $this->getidpersonlog();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_personslogs_remove", array(
             $this->getidpersonlog()

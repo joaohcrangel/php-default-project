@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Person extends Model {
@@ -17,29 +14,30 @@ class Person extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_persons_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_persons_save(?, ?, ?, ?);", array(
                 $this->getidperson(),
                 $this->getidpersontype(),
                 $this->getdesperson(),
-                $this->getinremoved(),
-                $this->getdtregister()
+                $this->getinremoved()
             ));
 
             return $this->getidperson();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_persons_remove", array(
             $this->getidperson()
@@ -47,6 +45,268 @@ class Person extends Model {
 
         return true;
         
+    }
+
+    public function getContacts():Contacts
+    {
+
+        return new Contacts($this);
+
+    }
+
+    public function getLogs():PersonsLogs
+    {
+
+        return new PersonsLogs($this);
+
+    }
+
+    public function getDocuments():Documents
+    {
+
+        return new Documents($this);
+
+    }
+
+    public function getSiteContacts():SiteContacts
+    {
+
+        return new SiteContacts($this);
+
+    }
+
+    public function getOrders():Orders
+    {
+        return new Orders($this);
+    }
+   
+
+    public function getCreditCards():CreditCards
+    {
+
+        return new CreditCards($this);   
+
+    }
+
+    public function getCarts():Carts
+    {
+
+        return new Carts($this);    
+
+    }
+
+    public function getAdresses():Adresses
+    {
+
+        return new Adresses($this);  
+
+    }
+
+    public function getUsers():Users
+    {
+        return new Users($this);
+    }
+
+    public function addContact($descontact, $idcontactsubtype):Contact
+    {
+
+        $contact = new Contact(array(
+            'idcontactsubtype'=>(int)$idcontactsubtype,
+            'idperson'=>$this->getidperson(),
+            'descontact'=>$descontact,
+            'inprincipal'=>true
+        ));
+
+        $contact->save();
+
+        return $contact;
+
+    }
+
+    public function addEmail($desemail):Contact
+    {
+
+        return $this->addContact($desemail, ContactSubType::EMAIL_OTHER);
+
+    }
+
+    public function addPhone($desphone):Contact
+    {
+
+        return $this->addContact($destelefone, ContactSubType::PHONE_OTHER);
+
+    }
+
+    public function addDocument($desdocument, $iddocumenttype):Document
+    {
+
+        $document = new Document(array(
+            'idperson'=>$this->getidperson(),
+            'iddocumentotype'=>(int)$iddocumenttype,
+            'desdocument'=>$desdocument
+        ));
+
+        $document->save();
+
+        return $document;
+
+    }
+
+    public function addCPF($descpf):Document
+    {
+
+        return $this->addDocument($descpf, DocumentType::CPF);
+
+    }
+
+    public function addCNPJ($descnpj):Document
+    {
+
+        return $this->addDocument($descnpj, DocumentType::CNPJ);
+
+    }
+
+    public function addAdress(Adress $adress):Adress
+    {
+
+        $adress->setidperson($this->getidperson());
+
+        $this->execute("CALL sp_personsadresses_save(?, ?)", array(
+            $adress->getidperson(),
+            $adress->getidadress()
+        ));
+
+        return $adress;
+
+    }
+
+    public function getPhotoURL():string
+    {
+
+        $configs = Session::getConfiguracoes();
+        $uploadDir = $configs->getByName('UPLOAD_DIR');
+
+        $filename = $uploadDir.$this->getdesphoto();
+
+        if (file_exists(PATH.$filename) && is_file(PATH.$filename)) {
+            return $this->setdesphotourl($filename);
+        } else {
+
+            $filename = "/res/img/";
+
+            switch ($this->getidpersontype()) {
+                case PersonType::FISICA:
+
+                   return $this->setdesphotourl("/res/img/".(($this->getdessex()==='F')?'female':'male').".png");
+
+                break;
+                case PersonType::JURIDICA:
+
+                    return $this->setdesphotourl("/res/img/company.png");
+
+                break;
+            }
+
+            
+        }
+
+    }
+    public function getAdress():Adress
+    {
+
+        $data = array();
+
+        foreach (array(
+            'idadresstype', 'idadress', 'desadress',
+            'desnumber', 'desdistrict', 'descity', 'desstate',
+            'descountry', 'descep', 'inprincipal', 'desadresstype'
+        ) as $field) {
+            $data[$field] = $this->{'get'.$field}();
+        }
+
+        return new Adress($data);
+
+    }
+
+    public function getDocument($iddocumenttype):Document
+    {
+
+        $data = array();
+
+        switch ((int)$iddocumenttype) {
+            case DocumentType::CPF:
+            $data['desdocument'] = $this->getdescpf();
+            $data['iddocument'] = $this->getidcpf();
+            $data['iddocumenttype'] = DocumentType::CPF;
+            break;
+
+            case DocumentType::CNPJ:
+            $data['desdocument'] = $this->getdescnpj();
+            $data['iddocument'] = $this->getidcnpj();
+            $data['iddocumenttype'] = DocumentType::CNPJ;
+            break;
+
+            case DocumentType::RG:
+            $data['desdocument'] = $this->getdesrg();
+            $data['iddocument'] = $this->getidrg();
+            $data['iddocumenttype'] = DocumentType::RG;
+            break;
+        }
+
+        return new Document($data);
+
+    }
+
+    public function addArquivo(Arquivo $arquivo){
+
+        $arquivo->setidperson($this->getidperson());
+
+        $this->execute("CALL sp_personsarquivos_save(?, ?)", array(
+            $arquivo->getidperson(),
+            $arquivo->getidarquivo()
+        ));
+
+        return $arquivo;
+
+    }
+
+    public function setPhoto(Arquivo $foto){
+
+        $this->addArquivo($foto);
+        $this->setdesfoto($foto->getdesarquivo().'.'.$foto->getdesextensao());
+        $this->save();
+
+    }
+
+    public function getFields(){
+
+        $this->getPhotoURL();
+
+        $endereco = $this->getEndereco();
+        $endereco->setdesenderecoresumido($endereco->getToString(Endereco::SUMMARY));
+
+        if ($this->getdescpf()) {
+            $cpf = $this->getDocument(DocumentType::CPF);
+            $cpf->getFormatted();
+        } else {
+            $cpf = new Document();
+        }
+
+        if ($this->getdescnpj()) {
+            $cnpj = $this->getDocument(DocumentType::CNPJ);
+            $cnpj->getFormatted();
+        } else {
+            $cnpj = new Document();
+        }
+
+        $data = parent::getFields();
+
+        $data['cpf'] = $cpf->getFields();
+        $data['cnpj'] = $cnpj->getFields();
+        $data['endereco'] = $endereco->getFields();
+
+        return $data;
+
     }
 
 }

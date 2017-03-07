@@ -1,9 +1,9 @@
-
-
-
 <?php
 
 class UserType extends Model {
+
+    const ADMINISTRATIVO = 1;
+    const CLIENTE = 2;
 
     public $required = array('idusertype', 'desusertype');
     protected $pk = "idusertype";
@@ -17,27 +17,28 @@ class UserType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_userstypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_userstypes_save(?, ?);", array(
                 $this->getidusertype(),
-                $this->getdesusertype(),
-                $this->getdtregister()
+                $this->getdesusertype()
             ));
 
             return $this->getidusertype();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_userstypes_remove", array(
             $this->getidusertype()

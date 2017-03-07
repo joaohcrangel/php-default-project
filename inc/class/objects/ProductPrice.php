@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class ProductPrice extends Model {
@@ -17,30 +14,31 @@ class ProductPrice extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_productsprices_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_productsprices_save(?, ?, ?, ?, ?);", array(
                 $this->getidprice(),
                 $this->getidproduct(),
                 $this->getdtstart(),
                 $this->getdtend(),
-                $this->getvlprice(),
-                $this->getdtregister()
+                $this->getvlprice()
             ));
 
             return $this->getidprice();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_productsprices_remove", array(
             $this->getidprice()

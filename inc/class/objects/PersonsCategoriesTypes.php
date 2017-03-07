@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class PersonsCategoriesTypes extends Collection {
@@ -11,6 +8,17 @@ class PersonsCategoriesTypes extends Collection {
     protected $pk = "idcategory";
 
     public function get(){}
+
+    public static function listAll():PersonsCategoriesTypes
+    {
+
+    	$types = new PersonsCategoriesTypes();
+
+    	$types->loadFromQuery("CALL sp_personscategoriestypes_list();");
+
+    	return $types;
+
+    }
 
 }
 

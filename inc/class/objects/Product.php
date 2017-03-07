@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Product extends Model {
@@ -17,7 +14,8 @@ class Product extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -33,20 +31,90 @@ class Product extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_products_remove", array(
+        $this->execute("sp_products_remove", array(
             $this->getidproduct()
         ));
 
         return true;
         
+    }
+
+    public function getCarts(){
+
+        $carts = new Produtos();
+
+        $carts->loadFromQuery("CALL sp_cartsfromproduto_list(?);", array(
+            $this->getidproduto()
+        ));
+
+        return $carts;
+
+    }
+
+    public function getPedidos(){
+
+        $pagamentos = new Produtos();
+
+        $pagamentos->loadFromQuery("CALL sp_pagamentosfromproduto_list(?);", array(
+            $this->getidproduto()
+        ));
+
+        return $pagamentos;
+
+    }
+
+    public function getProdutosPrecos(){
+
+        $precos = new ProdutosPrecos();
+
+        $precos->loadFromQuery("CALL sp_precosfromproduto_list(?);", array(
+            $this->getidproduto()
+        ));
+
+        return $precos;
+
+    }
+
+    public function getArquivos():Arquivos
+    {
+
+        $arquivos = new Arquivos();
+
+        $arquivos->loadFromQuery("
+            SELECT * 
+            FROM tb_arquivos a
+            INNER JOIN tb_produtosarquivos b ON a.idarquivo = b.idarquivo
+            WHERE b.idproduto = ?
+        ", array(
+            $this->getidproduto()
+        ));
+
+        return $arquivos;
+
+    }
+
+    public function addArquivo(Arquivo $arquivo):bool
+    {
+
+        $this->execute("
+            INSERT INTO tb_produtosarquivos (idproduto, idarquivo)
+            VALUES(?, ?);
+        ", array(
+            $this->getidproduto(),
+            $arquivo->getidarquivo()
+        ));
+
+        return true;
+
     }
 
 }

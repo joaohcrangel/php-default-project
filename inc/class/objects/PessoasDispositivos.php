@@ -1,5 +1,3 @@
-
-
 <?php
 
 class PessoasDispositivos extends Collection {

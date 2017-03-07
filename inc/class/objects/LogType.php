@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class LogType extends Model {
@@ -17,27 +14,28 @@ class LogType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_logstypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_logstypes_save(?, ?);", array(
                 $this->getidlogtype(),
-                $this->getdeslogtype(),
-                $this->getdtregister()
+                $this->getdeslogtype()
             ));
 
             return $this->getidlogtype();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_logstypes_remove", array(
             $this->getidlogtype()

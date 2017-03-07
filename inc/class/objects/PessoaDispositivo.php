@@ -1,5 +1,3 @@
-
-
 <?php
 
 class PessoaDispositivo extends Model {

@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class ProductType extends Model {
@@ -17,29 +14,30 @@ class ProductType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_productstypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_productstypes_save(?, ?);", array(
                 $this->getidproducttype(),
-                $this->getdesproducttype(),
-                $this->getdtregister()
+                $this->getdesproducttype()
             ));
 
             return $this->getidproducttype();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_productstypes_remove", array(
+        $this->execute("sp_productstypes_remove", array(
             $this->getidproducttype()
         ));
 

@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class ContactType extends Model {
@@ -17,27 +14,28 @@ class ContactType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_contactstypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_contactstypes_save(?, ?);", array(
                 $this->getidcontacttype(),
-                $this->getdescontacttype(),
-                $this->getdtregister()
+                $this->getdescontacttype()
             ));
 
             return $this->getidcontacttype();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_contactstypes_remove", array(
             $this->getidcontacttype()

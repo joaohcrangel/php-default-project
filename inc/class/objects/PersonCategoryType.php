@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class PersonCategoryType extends Model {
@@ -17,7 +14,8 @@ class PersonCategoryType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -30,13 +28,14 @@ class PersonCategoryType extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_personscategoriestypes_remove", array(
             $this->getidcategory()

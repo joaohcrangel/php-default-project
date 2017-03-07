@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class PersonValueField extends Model {
@@ -17,27 +14,28 @@ class PersonValueField extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_personsvaluesfields_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_personsvaluesfields_save(?, ?);", array(
                 $this->getidfield(),
-                $this->getdesfield(),
-                $this->getdtregister()
+                $this->getdesfield()
             ));
 
             return $this->getidfield();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("sp_personsvaluesfields_remove", array(
             $this->getidfield()

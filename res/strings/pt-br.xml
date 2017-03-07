@@ -24,16 +24,16 @@
 	<string name="monthname_11">Novembro</string>
 	<string name="monthname_12">Dezembro</string>
 
-	<string name="pessoas_fisica">Física</string>
-	<string name="pessoas_juridica">Jurídico</string>
-	<string name="pessoas_nome">Super Usuário (root)</string>
+	<string name="persons_fisica">Física</string>
+	<string name="persons_juridica">Jurídico</string>
+	<string name="persons_nome">Super Usuário (root)</string>
 
-	<string name="produtos_curso">Curso Udemy</string>
-	<string name="produtos_camiseta">Camiseta</string>
+	<string name="products_curso">Curso Udemy</string>
+	<string name="products_camiseta">Camiseta</string>
 
-	<string name="usuarios_admin">Administrativo</string>
-	<string name="usuarios_cliente">Cliente</string>
-	<string name="usuarios_root">root</string>
+	<string name="users_admin">Administrativo</string>
+	<string name="users_clientes">Cliente</string>
+	<string name="users_root">root</string>
 
 	<string name="menus_dashboard">Dashboard</string>
 	<string name="menus_sistema">Sistema</string>
@@ -79,16 +79,16 @@
 	<string name="menus_exemplos">Exemplos</string>
 	<string name="menus_exemplos_upload">Upload de Arquivos</string>
 
-	<string name="contato_tipo">E-mail</string>
-	<string name="telefone_tipo">Telefone</string>
-	<string name="casa_tipo">Casa</string>
-	<string name="trabalho_tipo">Trabanho</string>
-	<string name="celular_tipo">Celular</string>
-	<string name="fax_tipo">Fax</string>
-	<string name="outro_tipo">Outro</string>
-	<string name="pessoal_tipo">Pessoal</string>
-	<string name="trabalho_tipo">Trabalho</string>
-	<string name="outro_tipo_email">Outro</string>
+	<string name="contact_tipo">E-mail</string>
+	<string name="phone_type">Telefone</string>
+	<string name="home_type">Casa</string>
+	<string name="work_type">Trabanho</string>
+	<string name="cell_phone_type">Celular</string>
+	<string name="fax_type">Fax</string>
+	<string name="other_type">Outro</string>
+	<string name="personal_type">Pessoal</string>
+	<string name="work_type">Trabalho</string>
+	<string name="other_type_email">Outro</string>
 
 	<string name="endereco_residencial">Residencial</string>
 	<string name="endereco_comercial">Comercial</string>
@@ -213,8 +213,8 @@
 	<string name="negociacao_orcemanto">Em orçamento</string>
 	<string name="negociacao_venda">Venda</string>
 
-	<string name="pessoa_cliente">Cliente</string>
-	<string name="pessoa_fornecedor">Fornecedor</string>
-	<string name="pessoa_colaborador">Colaborador</string>
+	<string name="person_cliente">Cliente</string>
+	<string name="person_fornecedor">Fornecedor</string>
+	<string name="person_colaborador">Colaborador</string>
 	
 </resources>

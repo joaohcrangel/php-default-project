@@ -1,9 +1,9 @@
-
-
-
 <?php
 
 class PersonType extends Model {
+
+    const FISICA = 1;
+    const JURIDICA = 2;
 
     public $required = array('idpersontype', 'despersontype');
     protected $pk = "idpersontype";
@@ -17,29 +17,30 @@ class PersonType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_personstypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_personstypes_save(?, ?);", array(
                 $this->getidpersontype(),
-                $this->getdespersontype(),
-                $this->getdtregister()
+                $this->getdespersontype()
             ));
 
             return $this->getidpersontype();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_personstypes_remove", array(
+        $this->execute("sp_personstypes_remove", array(
             $this->getidpersontype()
         ));
 

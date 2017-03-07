@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tg_documents_AFTER_INSERT AFTER INSERT ON tb_documents FOR EACH ROW
+BEGIN
+	CALL sp_personsdata_save(NEW.idperson);
+END

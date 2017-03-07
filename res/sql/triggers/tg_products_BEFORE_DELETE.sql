@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tg_products_BEFORE_DELETE BEFORE DELETE ON tb_products FOR EACH ROW
+BEGIN
+	CALL sp_productsdata_remove(OLD.idproduct);
+END

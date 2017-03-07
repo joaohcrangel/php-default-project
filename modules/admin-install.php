@@ -83,6 +83,7 @@ $app->get("/install-admin/sql/clear", function(){
 	
 	echo success();
 });
+
 $app->get("/install-admin/sql/persons/tables", function(){
 
 	set_time_limit(0);
@@ -110,25 +111,25 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_historicostypes (
-			idhistoricotype int(11) NOT NULL AUTO_INCREMENT,
-			deshistoricotype varchar(32) NOT NULL,
+		CREATE TABLE tb_logstypes (
+			idlogtype int(11) NOT NULL AUTO_INCREMENT,
+			deslogtype varchar(32) NOT NULL,
 			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idhistoricotype)
+			PRIMARY KEY (idlogtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-        CREATE TABLE tb_personshistoricos (
-			idpersonhistorico int(11) NOT NULL AUTO_INCREMENT,
+        CREATE TABLE tb_personslogs (
+			idpersonlog int(11) NOT NULL AUTO_INCREMENT,
 			idperson int(11) NOT NULL,
-			idhistoricotype int(11) NOT NULL,
-			deshistorico varchar(512) NOT NULL,
+			idlogtype int(11) NOT NULL,
+			deslog varchar(512) NOT NULL,
 			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idpersonhistorico),
-			KEY fk_personshistoricos_historicostypes (idhistoricotype),
-			KEY fk_personshistoricos_persons_idx (idperson),
-			CONSTRAINT fk_personshistoricos_historicostypes FOREIGN KEY (idhistoricotype) REFERENCES tb_historicostypes (idhistoricotype) ON DELETE NO ACTION ON UPDATE NO ACTION,
-			CONSTRAINT fk_personshistoricos_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
+			PRIMARY KEY (idpersonlog),
+			KEY fk_personslogs_logstypes (idlogtype),
+			KEY fk_personslogs_persons_idx (idperson),
+			CONSTRAINT fk_personslogs_logstypes FOREIGN KEY (idlogtype) REFERENCES tb_logstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION,
+			CONSTRAINT fk_personslogs_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -155,6 +156,7 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		CREATE TABLE tb_personscategoriestypes (
 		  idcategory int(11) NOT NULL AUTO_INCREMENT,
 		  descategory varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 		  PRIMARY KEY (idcategory)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=4 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -167,6 +169,19 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		  KEY FK_personscategories_personscategoriestypes_idx (idcategory),
 		  CONSTRAINT FK_personscategories_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_personscategories_personscategoriestypes FOREIGN KEY (idcategory) REFERENCES tb_personscategoriestypes (idcategory) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->query("
+		CREATE TABLE tb_personsdevices (
+		  iddevice int(11) NOT NULL AUTO_INCREMENT,
+		  idperson int(11) NOT NULL,
+		  desdevice varchar(128) NOT NULL,
+		  desid varchar(512) NOT NULL,
+		  dessystem varchar(128) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (iddevice),
+		  KEY FK_personsdevices_persons_idx (idperson),
+		  CONSTRAINT FK_personsdevices_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -193,47 +208,47 @@ $app->get("/install-admin/sql/persons/inserts", function(){
 
 	$lang = new Language();
 
-	$persontypeF = new PessoaTipo(array(
-		'despessoatipo'=>$lang->getString("pessoas_fisica")
+	$persontypeF = new PersonType(array(
+		'despersontype'=>$lang->getString("persons_fisica")
 	));
-	$pessoatipoF->save();
+	$personTypeF->save();
 
-	$pessoatipoJ = new PessoaTipo(array(
-		'despessoatipo'=>$lang->getString("pessoas_juridica")
+	$personTypeJ = new PersonType(array(
+		'despersontype'=>$lang->getString("persons_juridica")
 	));
-	$pessoatipoJ->save();
+	$personTypeJ->save();
 	
-	$pessoa = new PessoaTipo(array(
-		'despessoa'=>$lang->getString("pessoas_nome"),
-		'idpessoatipo'=>PessoaTipo::FISICA
+	$person = new Person(array(
+		'desperson'=>$lang->getString("persons_nome"),
+		'idpersontype'=>PersonType::FISICA
 	));
-	$pessoa->save();
+	$person->save();
 
-	$nascimento = new PessoaValorCampo(array(
+	$nascimento = new PersonValueField(array(
 		'desfield'=>$lang->getString('data_nascimento')
 	));
 	$nascimento->save();
-	$sexo = new PessoaValorCampo(array(
+	$sexo = new PersonValueField(array(
 		'desfield'=>$lang->getString('sexo')
 	));
 	$sexo->save();
-	$foto = new PessoaValorCampo(array(
+	$foto = new PersonValueField(array(
 		'desfield'=>$lang->getString('foto')
 	));
 	$foto->save();
-	$cliente = new PessoaCategoriaTipo(array(
+	$cliente = new PersonCategoryType(array(
 		'idcategory'=>0,
-		'descategory'=>$lang->getString('pessoa_cliente')
+		'descategory'=>$lang->getString('person_cliente')
 	));
 	$cliente->save();
-	$fornecedor = new PessoaCategoriaTipo(array(
+	$fornecedor = new PersonCategoryType(array(
 		'idcategory'=>0,
-		'descategory'=>$lang->getString('pessoa_fornecedor')
+		'descategory'=>$lang->getString('person_fornecedor')
 	));
 	$fornecedor->save();
-	$colaborador = new PessoaCategoriaTipo(array(
+	$colaborador = new PersonCategoryType(array(
 		'idcategory'=>0,
-		'descategory'=>$lang->getString('pessoa_colaborador')
+		'descategory'=>$lang->getString('person_colaborador')
 	));
 	$colaborador->save();
 	echo success();
@@ -244,12 +259,13 @@ $app->get("/install-admin/sql/persons/get", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_persons_get",
-		"sp_historicostypes_get",
-		"sp_personshistoricos_get",
+		"sp_logstypes_get",
+		"sp_personslogs_get",
 		"sp_personsvalues_get",
 		"sp_personsvaluesfields_get",
 		"sp_personstypes_get",
-		"sp_personscategoriestypes_get"
+		"sp_personscategoriestypes_get",
+		"sp_personsdevices_get"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -260,7 +276,7 @@ $app->get("/install-admin/sql/persons/list", function(){
 	$procs = array(
 		"sp_persons_list",
 		"sp_personstypes_list",
-        "sp_historicostypes_list",
+        "sp_logstypes_list",
         "sp_personsvalues_list",
         "sp_personsvaluesfields_list",
         "sp_personscategoriestypes_list"
@@ -275,11 +291,12 @@ $app->get("/install-admin/sql/persons/save", function(){
 		"sp_persons
 data_save",
 		"sp_persons_save",
-		"sp_historicostypes_save",
+		"sp_logstypes_save",
 		"sp_personsvalues_save",
 		"sp_personsvaluesfields_save",
 		"sp_personstypes_save",
-		"sp_personscategoriestypes_save"
+		"sp_personscategoriestypes_save",
+		"sp_personsdevices_save"
 	);
 	saveProcedures($names);
 	echo success();
@@ -291,11 +308,12 @@ $app->get("/install-admin/sql/persons/remove", function(){
 		"sp_persons
 data_remove",
 		"sp_persons_remove",
-		"sp_historicostypes_remove",
+		"sp_logstypes_remove",
 		"sp_personsvalues_remove",
 		"sp_personsvaluesfields_remove",
 		"sp_personstypes_remove",
-		"sp_personscategoriestypes_remove"
+		"sp_personscategoriestypes_remove",
+		"sp_personsdevices_remove"
 	);
 	saveProcedures($names);
 	echo success();
@@ -344,6 +362,7 @@ $app->get("/install-admin/sql/products/triggers", function(){
 		"tg_products_AFTER_INSERT",
 		"tg_products_AFTER_UPDATE",
 		"tg_products_BEFORE_DELETE",
+		
 		"tg_productsprices_AFTER_INSERT",
 		"tg_productsprices_AFTER_UPDATE",
 		"tg_productsprices_BEFORE_DELETE"
@@ -359,12 +378,12 @@ $app->get("/install-admin/sql/products/inserts", function(){
 	
 	$lang = new Language();
 
-	$cursoUdemy = new ProdutoTipo(array(
+	$cursoUdemy = new ProductType(array(
 		'desproducttype'=>$lang->getString('products_curso')
 	));
 	$cursoUdemy->save();
 
-	$camiseta = new ProdutoTipo(array(
+	$camiseta = new ProductType(array(
 		'desproducttype'=>$lang->getString('products_camiseta')
 	));
 	$camiseta->save();
@@ -472,7 +491,7 @@ $app->get("/install-admin/sql/users/inserts", function(){
     $lang = new Language();
 
 	$sql = new Sql();
-	$hash = user::getPasswordHash($lang->getString('users_root'));
+	$hash = User::getPasswordHash($lang->getString('users_root'));
 
 	$sql->proc("sp_userstypes_save", array(
 		0,
@@ -489,6 +508,7 @@ $app->get("/install-admin/sql/users/inserts", function(){
 	", array(
 		1, $lang->getString('users_root'), $hash, 1
 	));
+
 	echo success();
 });
 $app->get("/install-admin/sql/users/get", function(){
@@ -695,14 +715,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
-	$menuPermissoes = new Menu(array(
+	$menupermissions = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/permissoes',
-		'desmenu'=>$lang->getString('menus_permissoes')
+		'deshref'=>'/permissions',
+		'desmenu'=>$lang->getString('menus_permissions')
 	));
-	$menuPermissoes->save();
+	$menupermissions->save();
 	//////////////////////////////////////
 	$menuproducts = new Menu(array(
 		'nrorder'=>4,
@@ -740,14 +760,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesdocuments->save();
 	//////////////////////////////////////
-	$menutypesLugares = new Menu(array(
+	$menutypesplacees = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/lugares-types',
-		'desmenu'=>$lang->getString('menus_lugar_type')
+		'deshref'=>'/placees-types',
+		'desmenu'=>$lang->getString('menus_place_type')
 	));
-	$menutypesLugares->save();
+	$menutypesplacees->save();
 	//////////////////////////////////////
 	$menutypesCupons = new Menu(array(
 		'nrorder'=>4,
@@ -807,8 +827,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>10,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/historicos-types',
-		'desmenu'=>$lang->getString('menus_historico_type')
+		'deshref'=>'/logs-types',
+		'desmenu'=>$lang->getString('menus_log_type')
 	));
 	$menuHistoricostypes->save();
 	//////////////////////////////////////
@@ -875,14 +895,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarrinhos->save();
 	//////////////////////////////////////
-	$menuLugares = new Menu(array(
+	$menuplacees = new Menu(array(
 		"nrorder"=>7,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-city",
-		"deshref"=>"/lugares",
-		"desmenu"=>$lang->getString('menus_lugar')
+		"deshref"=>"/placees",
+		"desmenu"=>$lang->getString('menus_place')
 	));
-	$menuLugares->save();
+	$menuplacees->save();
 	//////////////////////////////////////
 	$menuSite = new Menu(array(
 		"nrorder"=>8,
@@ -929,32 +949,32 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupaises->save();
 	//////////////////////////////////////
-	$menuEstados = new Menu(array(
+	$menustates = new Menu(array(
 		"nrorder"=>6,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
-		"deshref"=>"/estados",
-		"desmenu"=>$lang->getString('menus_estados')
+		"deshref"=>"/states",
+		"desmenu"=>$lang->getString('menus_states')
 	));
-	$menuEstados->save();
+	$menustates->save();
 	//////////////////////////////////////
-	$menuCidades = new Menu(array(
+	$menucities = new Menu(array(
 		"nrorder"=>7,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
-		"deshref"=>"/cidades",
-		"desmenu"=>$lang->getString('menus_cidades')
+		"deshref"=>"/cities",
+		"desmenu"=>$lang->getString('menus_cities')
 	));
-	$menuCidades->save();
+	$menucities->save();
 	//////////////////////////////////////
-	$menuCidades = new Menu(array(
+	$menucities = new Menu(array(
 		"nrorder"=>8,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
 		"deshref"=>"/arquivos",
 		"desmenu"=>$lang->getString('menus_arquivos')
 	));
-	$menuCidades->save();
+	$menucities->save();
 	//////////////////////////////////////
 	$menupersonscategoriestypes = new Menu(array(
 		'nrorder'=>14,
@@ -1077,61 +1097,61 @@ $app->get("/install-admin/sql/contacts/inserts", function(){
 
 	$lang = new Language();
 	
-	$email = new ContatoTipo(array(
-		'descontatotipo'=>$lang->getString('contato_tipo')
+	$email = new ContactType(array(
+		'descontacttype'=>$lang->getString('contact_type')
 	));
 	$email->save();
 
-	$telefone = new ContatoTipo(array(
-		'descontatotipo'=>$lang->getString('telefone_tipo')
+	$telefone = new ContactType(array(
+		'descontacttype'=>$lang->getString('phone_type')
 	));
 	$telefone->save();
 
-	$telefoneCasa = new ContatoSubTipo(array(
-		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('casa_tipo')
+	$telefoneCasa = new ContactSubType(array(
+		'idcontacttype'=>$telefone->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('home_type')
 	));
 	$telefoneCasa->save();
 
-	$telefoneTrabalho = new ContatoSubTipo(array(
-		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('trabalho_tipo')
+	$telefoneTrabalho = new ContactSubType(array(
+		'idcontacttype'=>$telefone->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('work_type')
 	));
 	$telefoneTrabalho->save();
 
-	$telefoneCelular = new ContatoSubTipo(array(
-		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('celular_tipo')
+	$telefoneCelular = new ContactSubType(array(
+		'idcontacttype'=>$telefone->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('cell_phone_type')
 	));
 	$telefoneCelular->save();
 
-	$telefoneFax = new ContatoSubTipo(array(
-		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('fax_tipo')
+	$telefoneFax = new ContactSubType(array(
+		'idcontacttype'=>$telefone->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('fax_type')
 	));
 	$telefoneFax->save();
 
-	$telefoneOutro = new ContatoSubTipo(array(
-		'idcontatotipo'=>$telefone->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('outro_tipo')
+	$telefoneOutro = new ContactSubType(array(
+		'idcontacttype'=>$telefone->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('other_type')
 	));
 	$telefoneOutro->save();
 
-	$emailpersonl = new ContatoSubTipo(array(
-		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('personl_tipo')
+	$emailpersonl = new ContactSubType(array(
+		'idcontacttype'=>$email->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('personal_type')
 	));
 	$emailpersonl->save();
 
-	$emailTrabalho = new ContatoSubTipo(array(
-		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('trabalho_tipo')
+	$emailTrabalho = new ContactSubType(array(
+		'idcontacttype'=>$email->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('work_type')
 	));
 	$emailTrabalho->save();
 
-	$emailOutro = new ContatoSubTipo(array(
-		'idcontatotipo'=>$email->getidcontatotipo(),
-		'descontatosubtipo'=>$lang->getString('outro_tipo_email')
+	$emailOutro = new ContactSubType(array(
+		'idcontacttype'=>$email->getidcontacttype(),
+		'descontatosubtype'=>$lang->getString('other_type_email')
 	));
 	$emailOutro->save();
 
@@ -1280,34 +1300,34 @@ $app->get("/install-admin/sql/adresses/tables", function(){
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_paises (
-		  idpais int(11) NOT NULL AUTO_INCREMENT,
-		  despais varchar(64) NOT NULL,
+		CREATE TABLE tb_countries (
+		  idcountry int(11) NOT NULL AUTO_INCREMENT,
+		  descountry varchar(64) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idpais)
+		  PRIMARY KEY (idcountry)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_estados (
-		  idestado int(11) NOT NULL AUTO_INCREMENT,
-		  desestado varchar(64) NOT NULL,
+		CREATE TABLE tb_states (
+		  idstate int(11) NOT NULL AUTO_INCREMENT,
+		  desstate varchar(64) NOT NULL,
 		  desuf char(2) NOT NULL,
-		  idpais int(11) NOT NULL,
+		  idcountry int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idestado),
-		  KEY FK_estados_paises_idx (idpais),
-		  CONSTRAINT FK_estados_paises FOREIGN KEY (idpais) REFERENCES tb_paises (idpais) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  PRIMARY KEY (idstate),
+		  KEY FK_states_countries_idx (idcountry),
+		  CONSTRAINT FK_states_countries FOREIGN KEY (idcountry) REFERENCES tb_countries (idcountry) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_cidades (
-		  idcidade int(11) NOT NULL AUTO_INCREMENT,
-		  descidade varchar(128) NOT NULL,
-		  idestado int(11) NOT NULL,
+		CREATE TABLE tb_cities (
+		  idcity int(11) NOT NULL AUTO_INCREMENT,
+		  descity varchar(128) NOT NULL,
+		  idstate int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcidade),
-		  KEY FK_cidades_estados_idx (idestado),
-		  CONSTRAINT FK_cidades_estados FOREIGN KEY (idestado) REFERENCES tb_estados (idestado) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  PRIMARY KEY (idcity),
+		  KEY FK_cities_states_idx (idstate),
+		  CONSTRAINT FK_cities_states FOREIGN KEY (idstate) REFERENCES tb_states (idstate) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -1324,12 +1344,12 @@ $app->get("/install-admin/sql/adresses/tables", function(){
 		  idadresstype int(11) NOT NULL,
 		  desadress varchar(64) NOT NULL,
 		  desnumber varchar(16) NOT NULL,
-		  desbairro varchar(64) NOT NULL,
-		  descidade varchar(64) NOT NULL,
-		  desestado varchar(32) NOT NULL,
-		  despai varchar(32) NOT NULL,
+		  desdistrict varchar(64) NOT NULL,
+		  descity varchar(64) NOT NULL,
+		  desstate varchar(32) NOT NULL,
+		  descountry varchar(32) NOT NULL,
 		  descep char(8) NOT NULL,
-		  descomplemento varchar(32) DEFAULT NULL,
+		  descomplement varchar(32) DEFAULT NULL,
 		  inprincipal bit(1) NOT NULL DEFAULT b'0',
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idadress),
@@ -1346,7 +1366,7 @@ $app->get("/install-admin/sql/adresses/triggers", function(){
 		"tg_adresses_AFTER_UPDATE",
 		"tg_adresses_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	// saveTriggers($triggers);
 	echo success();
 });
 $app->get("/install-admin/sql/adresses/inserts", function(){
@@ -1356,43 +1376,43 @@ $app->get("/install-admin/sql/adresses/inserts", function(){
 
 	$lang = new Language();
 
-	$residencial = new EnderecoTipo(array(
-		'desenderecotipo'=>$lang->getString('endereco_residencial')
+	$residencial = new Enderecotype(array(
+		'desenderecotype'=>$lang->getString('endereco_residencial')
 	));
 	$residencial->save();
 
-	$comercial = new EnderecoTipo(array(
-		'desenderecotipo'=>$lang->getString('endereco_comercial')
+	$comercial = new Enderecotype(array(
+		'desenderecotype'=>$lang->getString('endereco_comercial')
 	));
 	$comercial->save();
 
-	$cobranca = new EnderecoTipo(array(
-		'desenderecotipo'=>$lang->getString('endereco_cobranca')
+	$cobranca = new Enderecotype(array(
+		'desenderecotype'=>$lang->getString('endereco_cobranca')
 	));
 	$cobranca->save();
 
-	$entrega = new EnderecoTipo(array(
-		'desenderecotipo'=>$lang->getString('endereco_entrega')
+	$entrega = new Enderecotype(array(
+		'desenderecotype'=>$lang->getString('endereco_entrega')
 	));
 	$entrega->save();
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/adresses/paises/inserts", function(){
+$app->get("/install-admin/sql/adresses/countries/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	$sql->arrays("
-		INSERT INTO tb_paises (idpais, despais) VALUES (1, 'Brasil');
+		INSERT INTO tb_countries (idcountry, descountry) VALUES (1, 'Brasil');
 	");
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/adresses/estados/inserts", function(){
+$app->get("/install-admin/sql/adresses/states/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1402,40 +1422,40 @@ $app->get("/install-admin/sql/adresses/estados/inserts", function(){
 	$sql = new Sql();
 
 	$sql->arrays("
-		INSERT INTO tb_estados (idestado, desestado, desuf, idpai) VALUES
-		(1, '".utf8_decode($lang->getString("estado_AC"))."', 'AC', 1),
-		(2, '".utf8_decode($lang->getString("estado_AL"))."', 'AL', 1),
-		(3, '".utf8_decode($lang->getString("estado_AM"))."', 'AM', 1),
-		(4, '".utf8_decode($lang->getString("estado_AP"))."', 'AP', 1),
-		(5, '".utf8_decode($lang->getString("estado_BA"))."', 'BA', 1),
-		(6, '".utf8_decode($lang->getString("estado_CE"))."', 'CE', 1),
-		(7, '".utf8_decode($lang->getString("estado_DF"))."', 'DF', 1),
-		(8, '".utf8_decode($lang->getString("estado_ES"))."', 'ES', 1),
-		(9, '".utf8_decode($lang->getString("estado_GO"))."', 'GO', 1),
-		(10, '".utf8_decode($lang->getString("estado_MA"))."', 'MA', 1),
-		(11, '".utf8_decode($lang->getString("estado_MG"))."', 'MG', 1),
-		(12, '".utf8_decode($lang->getString("estado_MS"))."', 'MS', 1),
-		(13, '".utf8_decode($lang->getString("estado_MT"))."', 'MT', 1),
-		(14, '".utf8_decode($lang->getString("estado_PA"))."', 'PA', 1),
-		(15, '".utf8_decode($lang->getString("estado_PB"))."', 'PB', 1),
-		(16, '".utf8_decode($lang->getString("estado_PE"))."', 'PE', 1),
-		(17, '".utf8_decode($lang->getString("estado_PI"))."', 'PI', 1),
-		(18, '".utf8_decode($lang->getString("estado_PR"))."', 'PR', 1),
-		(19, '".utf8_decode($lang->getString("estado_RJ"))."', 'RJ', 1),
-		(20, '".utf8_decode($lang->getString("estado_RN"))."', 'RN', 1),
-		(21, '".utf8_decode($lang->getString("estado_RO"))."', 'RO', 1),
-		(22, '".utf8_decode($lang->getString("estado_RR"))."', 'RR', 1),
-		(23, '".utf8_decode($lang->getString("estado_RS"))."', 'RS', 1),
-		(24, '".utf8_decode($lang->getString("estado_SC"))."', 'SC', 1),
-		(25, '".utf8_decode($lang->getString("estado_SE"))."', 'SE', 1),
-		(26, '".utf8_decode($lang->getString("estado_SP"))."', 'SP', 1),
-		(27, '".utf8_decode($lang->getString("estado_TO"))."', 'TO', 1);
+		INSERT INTO tb_states (idstate, desstate, desuf, idcountry) VALUES
+		(1, '".utf8_decode($lang->getString("state_AC"))."', 'AC', 1),
+		(2, '".utf8_decode($lang->getString("state_AL"))."', 'AL', 1),
+		(3, '".utf8_decode($lang->getString("state_AM"))."', 'AM', 1),
+		(4, '".utf8_decode($lang->getString("state_AP"))."', 'AP', 1),
+		(5, '".utf8_decode($lang->getString("state_BA"))."', 'BA', 1),
+		(6, '".utf8_decode($lang->getString("state_CE"))."', 'CE', 1),
+		(7, '".utf8_decode($lang->getString("state_DF"))."', 'DF', 1),
+		(8, '".utf8_decode($lang->getString("state_ES"))."', 'ES', 1),
+		(9, '".utf8_decode($lang->getString("state_GO"))."', 'GO', 1),
+		(10, '".utf8_decode($lang->getString("state_MA"))."', 'MA', 1),
+		(11, '".utf8_decode($lang->getString("state_MG"))."', 'MG', 1),
+		(12, '".utf8_decode($lang->getString("state_MS"))."', 'MS', 1),
+		(13, '".utf8_decode($lang->getString("state_MT"))."', 'MT', 1),
+		(14, '".utf8_decode($lang->getString("state_PA"))."', 'PA', 1),
+		(15, '".utf8_decode($lang->getString("state_PB"))."', 'PB', 1),
+		(16, '".utf8_decode($lang->getString("state_PE"))."', 'PE', 1),
+		(17, '".utf8_decode($lang->getString("state_PI"))."', 'PI', 1),
+		(18, '".utf8_decode($lang->getString("state_PR"))."', 'PR', 1),
+		(19, '".utf8_decode($lang->getString("state_RJ"))."', 'RJ', 1),
+		(20, '".utf8_decode($lang->getString("state_RN"))."', 'RN', 1),
+		(21, '".utf8_decode($lang->getString("state_RO"))."', 'RO', 1),
+		(22, '".utf8_decode($lang->getString("state_RR"))."', 'RR', 1),
+		(23, '".utf8_decode($lang->getString("state_RS"))."', 'RS', 1),
+		(24, '".utf8_decode($lang->getString("state_SC"))."', 'SC', 1),
+		(25, '".utf8_decode($lang->getString("state_SE"))."', 'SE', 1),
+		(26, '".utf8_decode($lang->getString("state_SP"))."', 'SP', 1),
+		(27, '".utf8_decode($lang->getString("state_TO"))."', 'TO', 1);
 	");
 
 	echo success();
 
 });
-$app->post("/install-admin/sql/adresses/cidades/inserts", function(){
+$app->post("/install-admin/sql/adresses/cities/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1446,26 +1466,26 @@ $app->post("/install-admin/sql/adresses/cidades/inserts", function(){
 
 	foreach ($data as $city) {
 		$sql->arrays("
-			INSERT INTO tb_cidades (idcidade, descidade, idestado)
+			INSERT INTO tb_cities (idcity, descity, idstate)
 			VALUES(?, ?, ?);
 		", array(
-			(int)$city['idcidade'],
-			$city['descidade'],
-			(int)$city['idestado']
+			(int)$city['idcity'],
+			$city['descity'],
+			(int)$city['idstate']
 		));
 	}	
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/adresses/cidades/inserts", function(){
+$app->get("/install-admin/sql/adresses/cities/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	
-	$results = $sql->arrays("SELECT * FROM tb_cidades");
+	$results = $sql->arrays("SELECT * FROM tb_cities");
 
 	echo json_encode($results);
 
@@ -1488,9 +1508,9 @@ $app->get("/install-admin/sql/adresses/get", function(){
 	$names = array(
         "sp_adresses_get",
         "sp_adressestypes_get",
-        "sp_paises_get",
-        "sp_estados_get",
-        "sp_cidades_get"
+        "sp_countries_get",
+        "sp_states_get",
+        "sp_cities_get"
 	);
 	saveProcedures($names);
 	echo success();
@@ -1501,10 +1521,10 @@ $app->get("/install-admin/sql/adresses/list", function(){
 	$names = array(
         "sp_adressesfromperson_list",
         "sp_adressestypes_list",
-        "sp_paises_list",
-        "sp_estados_list",
-        "sp_cidades_list",
-        "sp_adressesfromlugar_list"
+        "sp_countries_list",
+        "sp_states_list",
+        "sp_cities_list",
+        "sp_adressesfromplace_list"
     );
     saveProcedures($names);
 	echo success();
@@ -1515,9 +1535,9 @@ $app->get("/install-admin/sql/adresses/save", function(){
 	$names = array(
        "sp_adresses_save",
        "sp_adressestypes_save",
-       "sp_paises_save",
-       "sp_estados_save",
-       "sp_cidades_save",
+       "sp_countries_save",
+       "sp_states_save",
+       "sp_cities_save",
        "sp_personsadresses_save"
 	);
 	saveProcedures($names);
@@ -1529,48 +1549,48 @@ $app->get("/install-admin/sql/adresses/remove", function(){
 	$names = array(
        "sp_adresses_remove",
        "sp_adressestypes_remove",
-       "sp_paises_remove",
-       "sp_estados_remove",
-       "sp_cidades_remove"
+       "sp_countries_remove",
+       "sp_states_remove",
+       "sp_cities_remove"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/permissoes/tables", function(){
+$app->get("/install-admin/sql/permissions/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_permissoes (
-		  idpermissao int(11) NOT NULL AUTO_INCREMENT,
-		  despermissao varchar(64) NOT NULL,
+		CREATE TABLE tb_permissions (
+		  idpermission int(11) NOT NULL AUTO_INCREMENT,
+		  despermission varchar(64) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpermissao)
+		  CONSTRAINT PRIMARY KEY (idpermission)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_permissoesmenus (
-		  idpermissao int(11) NOT NULL,
+		CREATE TABLE tb_permissionsmenus (
+		  idpermission int(11) NOT NULL,
 		  idmenu int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpermissao, idmenu),
-		  CONSTRAINT FK_menuspermissoes FOREIGN KEY (idmenu) REFERENCES tb_menus (idmenu),
-		  CONSTRAINT FK_permissoesmenus FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao)
+		  CONSTRAINT PRIMARY KEY (idpermission, idmenu),
+		  CONSTRAINT FK_menuspermissions FOREIGN KEY (idmenu) REFERENCES tb_menus (idmenu),
+		  CONSTRAINT FK_permissionsmenus FOREIGN KEY (idpermission) REFERENCES tb_permissions (idpermission)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_permissoesusers (
-		  idpermissao int(11) NOT NULL,
+		CREATE TABLE tb_permissionsusers (
+		  idpermission int(11) NOT NULL,
 		  iduser int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idpermissao, iduser),
-		  CONSTRAINT FK_permissoesusers FOREIGN KEY (idpermissao) REFERENCES tb_permissoes (idpermissao),
-		  CONSTRAINT FK_userspermissoes FOREIGN KEY (iduser) REFERENCES tb_users (iduser)
+		  CONSTRAINT PRIMARY KEY (idpermission, iduser),
+		  CONSTRAINT FK_permissionsusers FOREIGN KEY (idpermission) REFERENCES tb_permissions (idpermission),
+		  CONSTRAINT FK_userspermissions FOREIGN KEY (iduser) REFERENCES tb_users (iduser)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/permissoes/inserts", function(){
+$app->get("/install-admin/sql/permissions/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1578,29 +1598,29 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 	$lang = new Language();
 	
 	$superuser = new Permissao(array(
-		'despermissao'=>$lang->getString('permissoes_user')
+		'despermission'=>$lang->getString('permissions_user')
 	));
 	$superuser->save();
 
 	$acessoAdmin = new Permissao(array(
-		'despermissao'=>$lang->getString('permissoes_administrativo')
+		'despermission'=>$lang->getString('permissions_administrativo')
 	));
 	$acessoAdmin->save();
 
 	$acessoClient = new Permissao(array(
-		'despermissao'=>$lang->getString('permissoes_cliente')
+		'despermission'=>$lang->getString('permissions_cliente')
 	));
 	$acessoClient->save();
 
 	$sql = new Sql();
 
 	$sql->arrays("
-		INSERT INTO tb_permissoesmenus (idmenu, idpermissao)
+		INSERT INTO tb_permissionsmenus (idmenu, idpermission)
 		SELECT idmenu, 1 FROM tb_menus;
 	", array());
 
 	$sql->arrays("
-		INSERT INTO tb_permissoesusers (iduser, idpermissao) VALUES
+		INSERT INTO tb_permissionsusers (iduser, idpermission) VALUES
 		(?, ?),
 		(?, ?);
 	", array(
@@ -1609,39 +1629,39 @@ $app->get("/install-admin/sql/permissoes/inserts", function(){
 	));
 	echo success();
 });
-$app->get("/install-admin/sql/permissoes/get", function(){
+$app->get("/install-admin/sql/permissions/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_permissoes_get',
-		'sp_permissoesfrommenus_list',
-		'sp_permissoesfrommenusfaltantes_list',
-		'sp_permissoes_list'
+		'sp_permissions_get',
+		'sp_permissionsfrommenus_list',
+		'sp_permissionsfrommenusmissing_list',
+		'sp_permissions_list'
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/permissoes/list", function(){
+$app->get("/install-admin/sql/permissions/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	echo success();
 });
-$app->get("/install-admin/sql/permissoes/save", function(){
+$app->get("/install-admin/sql/permissions/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_permissoes_save",
-		"sp_permissoesmenus_save"
+		"sp_permissions_save",
+		"sp_permissionsmenus_save"
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/permissoes/remove", function(){
+$app->get("/install-admin/sql/permissions/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_permissoes_remove",
-		"sp_permissoesmenus_remove"
+		"sp_permissions_remove",
+		"sp_permissionsmenus_remove"
 	);
 	saveProcedures($procs);
 	
@@ -2153,12 +2173,12 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidoshistoricos(
-			idhistorico INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_pedidoslogs(
+			idlog INT NOT NULL AUTO_INCREMENT,
 			idpedido INT NOT NULL,
 			iduser INT NOT NULL,
 			dtregister TIMESTAMP NULL,			
-			CONSTRAINT PRIMARY KEY(idhistorico),
+			CONSTRAINT PRIMARY KEY(idlog),
 			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
 			CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -2287,7 +2307,7 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 		'sp_pedidosstatus_list',
 		'sp_pedidosfromperson_list',
 		'sp_recibosfrompedido_list',
-		'sp_pedidoshistoricos_list'
+		'sp_pedidoslogs_list'
 	);
 	saveProcedures($procs);
 	
@@ -2360,7 +2380,7 @@ $app->get("/install-admin/sql/pedidos/get", function(){
 		'sp_pedidosproducts_get',
 		'sp_pedidosrecibos_get',
 		'sp_pedidosstatus_get',
-		'sp_pedidoshistoricos_get'
+		'sp_pedidoslogs_get'
 	);
 	saveProcedures($procs);
 	
@@ -2376,7 +2396,7 @@ $app->get("/install-admin/sql/pedidos/save", function(){
 		'sp_pedidosproducts_save',
 		'sp_pedidosrecibos_save',
 		'sp_pedidosstatus_save',
-		'sp_pedidoshistoricos_save'
+		'sp_pedidoslogs_save'
 	);
 	saveProcedures($procs);
 	
@@ -2392,7 +2412,7 @@ $app->get("/install-admin/sql/pedidos/remove", function(){
 		'sp_pedidosproducts_remove',
 		'sp_pedidosrecibos_remove',
 		'sp_pedidosstatus_remove',
-		'sp_pedidoshistoricos_remove'
+		'sp_pedidoslogs_remove'
 	);
 	saveProcedures($procs);
 	
@@ -2466,67 +2486,67 @@ $app->get("/install-admin/sql/sitescontacts/remove", function(){
 	echo success();
 	
 });
-// lugares
-$app->get("/install-admin/sql/lugares/tables", function(){
+// placees
+$app->get("/install-admin/sql/placees/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_lugarestypes(
-			idlugartype INT NOT NULL AUTO_INCREMENT,
-			deslugartype VARCHAR(128) NOT NULL,
+		CREATE TABLE tb_placeestypes(
+			idplacetype INT NOT NULL AUTO_INCREMENT,
+			desplacetype VARCHAR(128) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			CONSTRAINT PRIMARY KEY(idlugartype)
+			CONSTRAINT PRIMARY KEY(idplacetype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugares(
-			idlugar INT NOT NULL AUTO_INCREMENT,
-			idlugarfather INT NULL,
-			deslugar VARCHAR(128) NOT NULL,
-			idlugartype INT NOT NULL,
+		CREATE TABLE tb_placees(
+			idplace INT NOT NULL AUTO_INCREMENT,
+			idplacefather INT NULL,
+			desplace VARCHAR(128) NOT NULL,
+			idplacetype INT NOT NULL,
 			desconteudo TEXT NULL,
 			nrviews INT NULL,
 			vlreview DECIMAL(10,2) NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugarfather) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugartype) REFERENCES tb_lugarestypes(idlugartype)
+			CONSTRAINT PRIMARY KEY(idplace),
+			CONSTRAINT FOREIGN KEY(idplacefather) REFERENCES tb_placees(idplace),
+			CONSTRAINT FOREIGN KEY(idplacetype) REFERENCES tb_placeestypes(idplacetype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugareshorarios(
+		CREATE TABLE tb_placeeshorarios(
 			idhorario INT NOT NULL AUTO_INCREMENT,
-			idlugar INT NOT NULL,
+			idplace INT NOT NULL,
 			nrdia TINYINT(4) NOT NULL,
 			hrabre TIME NULL,
 			hrfecha TIME NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idhorario),
-			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar)
+			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugarescoordenadas(
-			idlugar INT NOT NULL,
+		CREATE TABLE tb_placeescoordenadas(
+			idplace INT NOT NULL,
 			idcoordenada INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
 			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugaresadresses(
-			idlugar INT NOT NULL,
+		CREATE TABLE tb_placeesadresses(
+			idplace INT NOT NULL,
 			idadress INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
 			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugaresvaluesfields(
+		CREATE TABLE tb_placeesvaluesfields(
 			idfield INT NOT NULL AUTO_INCREMENT,
 			desfield VARCHAR(128) NOT NULL,
 			CONSTRAINT PRIMARY KEY(idfield),
@@ -2534,18 +2554,19 @@ $app->get("/install-admin/sql/lugares/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_lugaresvalues(
-			idlugarvalue INT NOT NULL AUTO_INCREMENT,
-			idlugar INT NOT NULL,
+		CREATE TABLE tb_placeesvalues(
+			idplacevalue INT NOT NULL AUTO_INCREMENT,
+			idplace INT NOT NULL,
 			idfield INT NOT NULL,
 			desvalue VARCHAR(128) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idlugarvalue),
-			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idfield) REFERENCES tb_lugaresvaluesfields(idfield)
+			CONSTRAINT PRIMARY KEY(idplacevalue),
+			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
+			CONSTRAINT FOREIGN KEY(idfield) REFERENCES tb_placeesvaluesfields(idfield)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
+<<<<<<< HEAD
 		CREATE TABLE tb_lugares
 data(
 			idlugar INT NOT NULL,
@@ -2554,26 +2575,35 @@ data(
 			deslugarfather VARCHAR(128) NULL,
 			idlugartype INT NOT NULL,
 			deslugartype  VARCHAR(128) NOT NULL,
+=======
+		CREATE TABLE tb_placeesdados(
+			idplace INT NOT NULL,
+			desplace VARCHAR(128) NOT NULL,
+			idplacefather INT NULL,
+			desplacefather VARCHAR(128) NULL,
+			idplacetype INT NOT NULL,
+			desplacetype  VARCHAR(128) NOT NULL,
+>>>>>>> 072c3e1267d3725e9522f4fc1cfbf4293ec1fdf4
 			idadresstype INT NULL,
 			desadresstype VARCHAR(128) NULL,
 			idadress INT NULL,
 			desadress VARCHAR(128) NULL,
 			desnumber VARCHAR(16) NULL,
-			desbairro VARCHAR(64) NULL,
-			descidade VARCHAR(64) NULL,
-			desestado VARCHAR(32) NULL,
-			despai VARCHAR(32) NULL,
+			desdistrict VARCHAR(64) NULL,
+			descity VARCHAR(64) NULL,
+			desstate VARCHAR(32) NULL,
+			descountry VARCHAR(32) NULL,
 			descep CHAR(8) NULL,
-			descomplemento VARCHAR(32) NULL,
+			descomplement VARCHAR(32) NULL,
 			idcoordenada INT NULL,
 			vllatitude DECIMAL(20,17) NULL,
 			vllongitude DECIMAL(20,17) NULL,
 			nrzoom TINYINT(4) NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugarfather) REFERENCES tb_lugares(idlugar),
-			CONSTRAINT FOREIGN KEY(idlugartype) REFERENCES tb_lugarestypes(idlugartype),
+			CONSTRAINT PRIMARY KEY(idplace),
+			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
+			CONSTRAINT FOREIGN KEY(idplacefather) REFERENCES tb_placees(idplace),
+			CONSTRAINT FOREIGN KEY(idplacetype) REFERENCES tb_placeestypes(idplacetype),
 			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
 			CONSTRAINT FOREIGN KEY(idadresstype) REFERENCES tb_adressestypes(idadresstype),
 			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
@@ -2583,53 +2613,54 @@ data(
 	echo success();
 	
 });
-$app->get("/install-admin/sql/lugares/triggers", function(){
+$app->get("/install-admin/sql/placees/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		'tg_lugares_AFTER_INSERT',
-		'tg_lugares_AFTER_UPDATE',
-		'tg_lugares_BEFORE_DELETE',
+		'tg_placees_AFTER_INSERT',
+		'tg_placees_AFTER_UPDATE',
+		'tg_placees_BEFORE_DELETE',
 
-		'tg_lugarescoordenadas_AFTER_INSERT',
-		'tg_lugarescoordenadas_AFTER_UPDATE',
-		'tg_lugarescoordenadas_BEFORE_DELETE',
+		'tg_placeescoordenadas_AFTER_INSERT',
+		'tg_placeescoordenadas_AFTER_UPDATE',
+		'tg_placeescoordenadas_BEFORE_DELETE',
 
-		'tg_lugaresadresses_AFTER_INSERT',
-		'tg_lugaresadresses_AFTER_UPDATE',
-		'tg_lugaresadresses_BEFORE_DELETE'
+		'tg_placeesadresses_AFTER_INSERT',
+		'tg_placeesadresses_AFTER_UPDATE',
+		'tg_placeesadresses_BEFORE_DELETE'
 	);
 	saveTriggers($triggers);
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/lugares/list", function(){
+$app->get("/install-admin/sql/placees/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_lugares_list",
-		"sp_lugarestypes_list",
-		"sp_lugareshorarios_list"
+		"sp_placees_list",
+		"sp_placeestypes_list",
+		"sp_placeeshorarios_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/lugares/get", function(){
+$app->get("/install-admin/sql/placees/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_lugarestypes_get',
-		'sp_lugares_get',
-		'sp_lugareshorarios_get'
+		'sp_placeestypes_get',
+		'sp_placees_get',
+		'sp_placeeshorarios_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
+<<<<<<< HEAD
 
 $app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
 	set_time_limit(0);
@@ -2655,94 +2686,115 @@ data_save',
 		'sp_lugareshorarios_save',
 		'sp_lugaresadresses_add',
 		'sp_lugaresarquivos_add'
+=======
+$app->get("/install-admin/sql/placees/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_placeestypes_save',
+		'sp_placees_save',
+		'sp_placeesdados_save',
+		'sp_placeescoordenadas_add',
+		'sp_placeeshorarios_save',
+		'sp_placeesadresses_add',
+		'sp_placeesarquivos_add'
+>>>>>>> 072c3e1267d3725e9522f4fc1cfbf4293ec1fdf4
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/lugares/remove", function(){
+$app->get("/install-admin/sql/placees/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
+<<<<<<< HEAD
 		'sp_lugarestypes_remove',
 		'sp_lugares_remove',
 		'sp_lugares
 data_remove',
 		'sp_lugareshorarios_remove',
 		'sp_lugareshorariosall_remove'
+=======
+		'sp_placeestypes_remove',
+		'sp_placees_remove',
+		'sp_placeesdados_remove',
+		'sp_placeeshorarios_remove',
+		'sp_placeeshorariosall_remove'
+>>>>>>> 072c3e1267d3725e9522f4fc1cfbf4293ec1fdf4
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/lugares/inserts", function(){
+$app->get("/install-admin/sql/placees/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$lang = new Language();
 	
-	$bairro = new Lugartype(array(
-		'deslugartype'=>$lang->getString('lugartype_bairro')
+	$district = new placetype(array(
+		'desplacetype'=>$lang->getString('placetype_district')
 	));
-	$bairro->save();
+	$district->save();
 
-	$cidade = new Lugartype(array(
-		'deslugartype'=>$lang->getString('lugartype_cidade')
+	$city = new placetype(array(
+		'desplacetype'=>$lang->getString('placetype_city')
 	));
-	$cidade->save();
+	$city->save();
 
-	$estado = new Lugartype(array(
-		'deslugartype'=>$lang->getString('lugartype_estado')
+	$state = new placetype(array(
+		'desplacetype'=>$lang->getString('placetype_state')
 	));
-	$estado->save();
+	$state->save();
 
-	$pai = new Lugartype(array(
-		'deslugartype'=>$lang->getString('lugartype_pai')
+	$country = new placetype(array(
+		'desplacetype'=>$lang->getString('placetype_country')
 	));
-	$pai->save();
+	$country->save();
 
-	$empresas = new Lugartype(array(
-		'deslugartype'=>$lang->getString('lugartype_empresas')
+	$empresas = new placetype(array(
+		'desplacetype'=>$lang->getString('placetype_empresas')
 	));
 	$empresas->save();
 	
 	$adress = new adress(array(
 		'idadresstype'=>adresstype::COMERCIAL,
-		'desadress'=>$lang->getString('lugartype_hcode_adress'),
-		'desnumber'=>$lang->getString('lugartype_hcode_number'),
-		'desbairro'=>$lang->getString('lugartype_hcode_bairro'),
-		'descidade'=>$lang->getString('lugartype_hcode_cidade'),
-		'desestado'=>$lang->getString('lugartype_hcode_estado'),
-		'despai'=>$lang->getString('lugartype_hcode_pai'),
-		'descep'=>$lang->getString('lugartype_hcode_cep'),
+		'desadress'=>$lang->getString('placetype_hcode_adress'),
+		'desnumber'=>$lang->getString('placetype_hcode_number'),
+		'desdistrict'=>$lang->getString('placetype_hcode_district'),
+		'descity'=>$lang->getString('placetype_hcode_city'),
+		'desstate'=>$lang->getString('placetype_hcode_state'),
+		'descountry'=>$lang->getString('placetype_hcode_country'),
+		'descep'=>$lang->getString('placetype_hcode_cep'),
 		'inprincipal'=>true
 	));
 	$adress->save();
 
-	$lugarHcode = new Lugar(array(
-		'deslugar'=>$lang->getString('lugar_hcode'),
-		'idlugartype'=>$empresas->getidlugartype()
+	$placeHcode = new place(array(
+		'desplace'=>$lang->getString('place_hcode'),
+		'idplacetype'=>$empresas->getidplacetype()
 	));
-	$lugarHcode->save();
-	$lugarHcode->setadress($adress);
+	$placeHcode->save();
+	$placeHcode->setadress($adress);
 	
 	echo success();
 	
 });
-// lugares arquivos
-$app->get("/install-admin/sql/lugaresarquivos/tables", function(){
+// placees arquivos
+$app->get("/install-admin/sql/placeesarquivos/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_lugaresarquivos(
-			idlugar INT NOT NULL,
+		CREATE TABLE tb_placeesarquivos(
+			idplace INT NOT NULL,
 			idarquivo INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idlugar) REFERENCES tb_lugares(idlugar),
+			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
 			CONSTRAINT FOREIGN KEY(idarquivo) REFERENCES tb_arquivos(idarquivo)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");

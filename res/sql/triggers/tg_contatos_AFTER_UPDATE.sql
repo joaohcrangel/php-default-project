@@ -1,4 +1,0 @@
-CREATE DEFINER = CURRENT_USER TRIGGER tg_contatos_AFTER_UPDATE AFTER UPDATE ON tb_contatos FOR EACH ROW
-BEGIN
-	CALL sp_pessoasdados_save(NEW.idpessoa);
-END

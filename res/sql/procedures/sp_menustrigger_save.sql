@@ -1,6 +1,6 @@
 CREATE PROCEDURE sp_menustrigger_save (
 pidmenu INT,
-pidmenupai INT
+pidmenufather INT
 )
 BEGIN
 	
@@ -9,11 +9,11 @@ BEGIN
     
     SELECT COUNT(*) INTO pnrsubmenus1 
     FROM tb_menus 
-    WHERE idmenupai = pidmenu;
+    WHERE idmenufather = pidmenu;
     
     SELECT COUNT(*) INTO pnrsubmenus2 
     FROM tb_menus 
-    WHERE idmenupai = pidmenupai;
+    WHERE idmenufather = pidmenufather;
     
     UPDATE tb_menus
     SET nrsubmenus = pnrsubmenus1
@@ -21,6 +21,6 @@ BEGIN
     
     UPDATE tb_menus
     SET nrsubmenus = pnrsubmenus2
-    WHERE idmenu = pidmenupai;
+    WHERE idmenu = pidmenufather;
     
 END

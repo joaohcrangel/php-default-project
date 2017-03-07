@@ -288,7 +288,8 @@ $app->get("/install-admin/sql/persons/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-		"sp_personsdados_save",
+		"sp_persons
+data_save",
 		"sp_persons_save",
 		"sp_logstypes_save",
 		"sp_personsvalues_save",
@@ -304,7 +305,8 @@ $app->get("/install-admin/sql/persons/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-		"sp_personsdados_remove",
+		"sp_persons
+data_remove",
 		"sp_persons_remove",
 		"sp_logstypes_remove",
 		"sp_personsvalues_remove",
@@ -423,7 +425,8 @@ $app->get("/install-admin/sql/products/save", function(){
 		"sp_product_save",
 		"sp_producttype_save",
 		"sp_productsprices_save",
-		"sp_productsdados_save"
+		"sp_products
+data_save"
 	);
 	saveProcedures($procs);
 	
@@ -436,7 +439,8 @@ $app->get("/install-admin/sql/products/remove", function(){
 		"sp_product_remove",
 		"sp_producttype_remove",
 		"sp_productsprices_remove",
-		"sp_productsdados_remove"
+		"sp_products
+data_remove"
 	);
 	saveProcedures($procs);
 	echo success();
@@ -1671,17 +1675,17 @@ $app->get("/install-admin/sql/permissions/remove", function(){
 
 
 
-$app->get("/install-admin/sql/personsdados/tables", function(){
+$app->get("/install-admin/sql/personsdata/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_personsdados (
+		CREATE TABLE tb_personsdata (
 		  idperson int(11) NOT NULL,
 		  desperson varchar(128) NOT NULL,
-		  desnome varchar(32) NOT NULL,
-		  desprimeironome varchar(64) NOT NULL,
-		  desultimonome varchar(64) NOT NULL,
+		  desname varchar(32) NOT NULL,
+		  desfirstname varchar(64) NOT NULL,
+		  deslastname varchar(64) NOT NULL,
 		  idpersontype int(11) NOT NULL,
 		  despersontype varchar(64) NOT NULL,
 		  desuser varchar(128) DEFAULT NULL,
@@ -1690,49 +1694,49 @@ $app->get("/install-admin/sql/personsdados/tables", function(){
 		  inblocked bit(1) DEFAULT NULL,
 		  desemail varchar(128) DEFAULT NULL,
 		  idemail int(11) DEFAULT NULL,
-		  destelefone varchar(32) DEFAULT NULL,
-		  idtelefone int(11) DEFAULT NULL,
+		  desphone varchar(32) DEFAULT NULL,
+		  idphone int(11) DEFAULT NULL,
 		  descpf char(11) DEFAULT NULL,
 		  idcpf int(11) DEFAULT NULL,
 		  descnpj char(14) DEFAULT NULL,
 		  idcnpj int(11) DEFAULT NULL,
 		  desrg varchar(16) DEFAULT NULL,
 		  idrg int(11) DEFAULT NULL,
-		  dtatualizacao datetime NOT NULL,
-		  dessexo ENUM('M', 'F'),
-		  dtnascimento DATE DEFAULT NULL,
-		  desfoto varchar(128) DEFAULT NULL,
-		  incliente BIT NOT NULL DEFAULT b'0',
-		  infornecedor BIT NOT NULL DEFAULT b'0',
-		  incolaborador BIT NOT NULL DEFAULT b'0',
+		  dtupdate datetime NOT NULL,
+		  dessex ENUM('M', 'F'),
+		  dtbirth DATE DEFAULT NULL,
+		  desphotograph varchar(128) DEFAULT NULL,
+		  inclient BIT NOT NULL DEFAULT b'0',
+		  inprovider BIT NOT NULL DEFAULT b'0',
+		  incollaborator BIT NOT NULL DEFAULT b'0',
 		  idadress int(11) DEFAULT NULL,
 		  idadresstype int(11) DEFAULT NULL,
 		  desadresstype varchar(64) DEFAULT NULL,
 		  desadress varchar(64) DEFAULT NULL, 
 		  desnumber varchar(16) DEFAULT NULL, 
-		  desdistrict varchar(64) DEFAULT NULL, 
+		  desneighborhood varchar(64) DEFAULT NULL, 
 		  descity varchar(64) DEFAULT NULL, 
 		  desstate varchar(32) DEFAULT NULL, 
 		  descountry varchar(32) DEFAULT NULL, 
-		  descep char(8) DEFAULT NULL, 
+		  deszipcode char(8) DEFAULT NULL, 
 		  descomplement varchar(32),
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idperson),
-		  KEY FK_personsdados_personstypes_idx (idpersontype),
-		  KEY FK_personsdados_users_idx (iduser),
-		  CONSTRAINT FK_personsdados_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_personsdados_personstypes FOREIGN KEY (idpersontype) REFERENCES tb_personstypes (idpersontype) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_personsdados_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  KEY FK_personsdata_personstypes_idx (idpersontype),
+		  KEY FK_personsdata_users_idx (iduser),
+		  CONSTRAINT FK_personsdata_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_personsdata_personstypes FOREIGN KEY (idpersontype) REFERENCES tb_personstypes (idpersontype) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_personsdata_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/productsdados/tables", function(){
+$app->get("/install-admin/sql/productsdata/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_productsdados(
+		CREATE TABLE tb_productsdata(
 			idproduct INT NOT NULL,
 			idproducttype INT NOT NULL,
 			desproduct VARCHAR(64) NOT NULL,
@@ -1749,80 +1753,81 @@ $app->get("/install-admin/sql/productsdados/tables", function(){
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/cupons/tables", function(){
+$app->get("/install-admin/sql/coupons/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_cuponstypes(
-			idcupomtype INT NOT NULL AUTO_INCREMENT,
-			descupomtype VARCHAR(128) NOT NULL,
+		CREATE TABLE tb_couponstypes(
+			idcoupontype INT NOT NULL AUTO_INCREMENT,
+			descoupontype VARCHAR(128) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcupomtype)
+			CONSTRAINT PRIMARY KEY(idcoupontype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_cupons(
-			idcupom INT NOT NULL AUTO_INCREMENT,
-			idcupomtype INT NOT NULL,
-			descupom VARCHAR(128) NOT NULL,
-			descodigo VARCHAR(128) NOT NULL,
+		CREATE TABLE tb_coupons(
+			idcoupon INT NOT NULL AUTO_INCREMENT,
+			idcoupontype INT NOT NULL,
+			descoupon VARCHAR(128) NOT NULL,
+			descode VARCHAR(128) NOT NULL,
 			nrqtd INT NOT NULL DEFAULT 1,
-			nrqtdusado INT NOT NULL DEFAULT 0,
+			nrqtdused INT NOT NULL DEFAULT 0,
 			dtstart DATETIME NULL,
 			dtend DATETIME NULL,
 			inremoved BIT(1) NULL,
-			nrdesconto DECIMAL(10,2) NOT NULL,
+			nrdiscount DECIMAL(10,2) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcupom),
-			CONSTRAINT FOREIGN KEY(idcupomtype) REFERENCES tb_cuponstypes(idcupomtype)
+			CONSTRAINT PRIMARY KEY(idcoupon),
+			CONSTRAINT FOREIGN KEY(idcoupontype) REFERENCES tb_couponstypes(idcoupontype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/cupons/list", function(){
+$app->get("/install-admin/sql/coupons/list", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$procs = array(
-		'sp_cupons_list',
-		'sp_cuponstypes_list'
+		'sp_coupons_list',
+		'sp_couponstypes_list'
 	);
+
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/cupons/save", function(){
+$app->get("/install-admin/sql/coupons/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cupons_save',
-		'sp_cuponstypes_save'
+		'sp_coupons_save',
+		'sp_couponstypes_save'
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/cupons/get", function(){
+$app->get("/install-admin/sql/coupons/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cupons_get',
-		'sp_cuponstypes_get'
+		'sp_coupons_get',
+		'sp_couponstypes_get'
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/cupons/remove", function(){
+$app->get("/install-admin/sql/coupons/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cupons_remove',
-		'sp_cuponstypes_remove'
+		'sp_coupons_remove',
+		'sp_couponstypes_remove'
 	);
 	saveProcedures($procs);
 	echo success();
 });
-$app->get("/install-admin/sql/cupons/inserts", function(){
+$app->get("/install-admin/sql/coupons/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1831,149 +1836,150 @@ $app->get("/install-admin/sql/cupons/inserts", function(){
 	
 	$sql = new Sql();
 	$sql->arrays("
-		INSERT INTO tb_cuponstypes(descupomtype)
+		INSERT INTO tb_couponstypes(descoupontype)
 		VALUES(?), (?);
 	", array(
-		$lang->getString('cupom_value'),
-		$lang->getString('cupom_porcentage')
+		$lang->getString('coupon_value'),
+		$lang->getString('coupon_percentage')
 		
 	));
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/tables", function(){
+
+$app->get("/install-admin/sql/carts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_carrinhos(
-			idcarrinho INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_carts(
+			idcart INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
 			dessession VARCHAR(128) NOT NULL,
-			infechado BIT(1),
+			inclosed BIT(1),
 			nrproducts INT NULL,
 			vltotal DECIMAL(10,2) NULL,
-			vltotalbruto DECIMAL(10,2),
+			vltotalgross DECIMAL(10,2),
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcarrinho),
+			CONSTRAINT PRIMARY KEY(idcart),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carrinhosproducts(
-			idcarrinhoproduct INT NOT NULL AUTO_INCREMENT,
-			idcarrinho INT NOT NULL,
+		CREATE TABLE tb_cartsproducts(
+			idcartproduct INT NOT NULL AUTO_INCREMENT,
+			idcart INT NOT NULL,
 			idproduct INT NOT NULL,
 			dtremoved DATETIME NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idcarrinhoproduct),
-			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
+			CONSTRAINT PRIMARY KEY (idcartproduct),
+			CONSTRAINT FOREIGN KEY(idcart) REFERENCES tb_carts(idcart),
 			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carrinhosfretes(
-			idcarrinho INT NOT NULL,
-			descep CHAR(8) NOT NULL,
-			vlfrete DECIMAL(10,2) NOT NULL,
+		CREATE TABLE tb_cartsfreights(
+			idcart INT NOT NULL,
+			deszipcode CHAR(8) NOT NULL,
+			vlfreight DECIMAL(10,2) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
+			CONSTRAINT FOREIGN KEY(idcart) REFERENCES tb_idcarts(idcart)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carrinhoscupons(
-			idcarrinho INT NOT NULL,
-			idcupom INT NOT NULL,
+		CREATE TABLE tb_cartscoupons(
+			idcart INT NOT NULL,
+			idcoupon INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
-			CONSTRAINT FOREIGN KEY(idcupom) REFERENCES tb_cupons(idcupom)
+			CONSTRAINT FOREIGN KEY(idcart) REFERENCES tb_carts(idcart),
+			CONSTRAINT FOREIGN KEY(idcoupon) REFERENCES tb_coupons(idcoupon)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/triggers", function(){
+$app->get("/install-admin/sql/carts/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_carrinhoscupons_AFTER_INSERT",
-		"tg_carrinhoscupons_AFTER_UPDATE",		
-		"tg_carrinhosfretes_AFTER_INSERT",
-		"tg_carrinhosfretes_AFTER_UPDATE",		
-		"tg_carrinhosproducts_AFTER_INSERT",
-		"tg_carrinhosproducts_AFTER_UPDATE"		
+		"tg_cartscoupons_AFTER_INSERT",
+		"tg_cartscoupons_AFTER_UPDATE",		
+		"tg_cartsfreights_AFTER_INSERT",
+		"tg_cartsfreights_AFTER_UPDATE",		
+		"tg_cartsproducts_AFTER_INSERT",
+		"tg_cartsproducts_AFTER_UPDATE"		
 	);
 	saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/list", function(){
+$app->get("/install-admin/sql/carts/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_carrinhos_list",
-		"sp_carrinhosproducts_list",
-		"sp_carrinhosfromperson_list",
-		'sp_carrinhoscupons_list',
-		'sp_carrinhosfretes_list',
-		'sp_productsfromcarrinho_list',
-		'sp_cuponsfromcarrinho_list'
+		"sp_carts_list",
+		"sp_cartsproducts_list",
+		"sp_cartsfromperson_list",
+		'sp_cartsscoupons_list',
+		'sp_cartsfreights_list',
+		'sp_productsfromcart_list',
+		'sp_couponsfromcart_list'
 	);
 	saveProcedures($procs);
 	echo success();
 	
 });
-$app->get("/install-admin/sql/carrinhos/get", function(){
+$app->get("/install-admin/sql/carts/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_carrinhos_get",
-		"sp_carrinhosproducts_get",
-		'sp_carrinhoscupons_get',
-		'sp_carrinhosfretes_get'
+		"sp_carts_get",
+		"sp_cartsproducts_get",
+		'sp_ccartscoupons_get',
+		'sp_cartsfreights_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/save", function(){
+$app->get("/install-admin/sql/carts/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_carrinhos_save",
-		"sp_carrinhosproducts_save",
-		'sp_carrinhoscupons_save',
-		'sp_carrinhosfretes_save',
-		'sp_carrinhosdados_save'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
-$app->get("/install-admin/sql/carrinhos/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		"sp_carrinhos_remove",
-		"sp_carrinhosproducts_remove",
-		'sp_carrinhoscupons_remove',
-		'sp_carrinhosfretes_remove'
+		"sp_carts_save",
+		"sp_cartsproducts_save",
+		'sp_cartscoupons_save',
+		'sp_cartsfreights_save',
+		'sp_cartsdata_save'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
+$app->get("/install-admin/sql/carts/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		"sp_carts_remove",
+		"sp_cartsproducts_remove",
+		'sp_cartscoupons_remove',
+		'sp_cartsfreights_remove'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/creditcards/tables", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_cartoesdecreditos(
-			idcartao INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_creditcards(
+			idcard INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
-			desnome VARCHAR(64) NOT NULL,
-			dtvalidade DATE NOT NULL,
+			desname VARCHAR(64) NOT NULL,
+			dtvalidity DATE NOT NULL,
 			nrcds VARCHAR(8) NOT NULL,
 			desnumber CHAR(16) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -1985,23 +1991,23 @@ $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/list", function(){
+$app->get("/install-admin/sql/creditcards/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_cartoesdecreditos_list",
-		"sp_cartoesfromperson_list"
+		"sp_creditcards_list",
+		"sp_cardsfromperson_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/get", function(){
+$app->get("/install-admin/sql/creditcards/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_cartoesdecreditos_get"
+		"sp_creditcards_get"
 	);
 	
 	saveProcedures($name);
@@ -2009,22 +2015,22 @@ $app->get("/install-admin/sql/cartoesdecreditos/get", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/save", function(){
+$app->get("/install-admin/sql/creditcards/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_cartoesdecreditos_save"
+		"sp_creditcards_save"
 	);
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
+$app->get("/install-admin/sql/creditcards/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_cartoesdecreditos_remove"
+		"sp_creditcards_remove"
 	);
 	saveProcedures($name);
 	
@@ -2095,7 +2101,7 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pedidos/tables", function(){
+$app->get("/install-admin/sql/requests/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
@@ -2559,6 +2565,7 @@ $app->get("/install-admin/sql/placees/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
+
 		CREATE TABLE tb_placeesdados(
 			idplace INT NOT NULL,
 			desplace VARCHAR(128) NOT NULL,
@@ -2642,6 +2649,20 @@ $app->get("/install-admin/sql/placees/get", function(){
 	echo success();
 	
 });
+
+$app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_lugaresvalorescampo_get'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
 $app->get("/install-admin/sql/placees/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);

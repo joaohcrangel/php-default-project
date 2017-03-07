@@ -1,30 +1,30 @@
 <?php
 
-class Carrinhos extends Collection {
+class Carts extends Collection {
 
-    protected $class = "Carrinho";
-    protected $saveQuery = "sp_carrinhos_save";
-    protected $saveArgs = array("idcarrinho", "idpessoa", "dessession", "infechado", "nrprodutos", "vltotal", "vltotalbruto");
-    protected $pk = "idcarrinho";
+    protected $class = "Cart";
+    protected $saveQuery = "sp_carts_save";
+    protected $saveArgs = array("idcart", "idperson", "dessession", "inclosed", "nrproducts", "vltotal", "vltotalgross", "dtregister");
+    protected $pk = "idcart";
+
     public function get(){}
 
-    public static function listAll():Carrinhos
+    public static function listAll():Carts
     {
 
-    	$carrinhos = new Carrinhos();
+    	$carts = new Carts();
 
-    	$carrinhos->loadFromQuery("CALL sp_carrinhos_list();");
+    	$carts->loadFromQuery("CALL sp_carts_list();");
 
-    	return $carrinhos;
+    	return $carts;
 
     }
 
-    public function getByPessoa(Pessoa $pessoa):Carrinhos
-    
+     public function getByPerson(Person $person):Carts    
     {
     
-         $this->loadFromQuery("CALL sp_carrinhosfrompessoa_list(?)",array(
-               $pessoa->getidpessoa()
+         $this->loadFromQuery("CALL sp_cartsfromperson_list(?)",array(
+               $person->getidperson()
                
         ));
 

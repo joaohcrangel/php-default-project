@@ -1,10 +1,10 @@
-CREATE PROCEDURE sp_cartsproducts_get(
+CREATE PROCEDURE sp_cartsfreights_get(
 pidcart INT
 )
 BEGIN
 
     SELECT *    
-    FROM tb_cartsproducts    
+    FROM tb_cartsfreights    
     WHERE idcart = pidcart;
 
 END

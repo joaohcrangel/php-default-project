@@ -2,7 +2,7 @@
 
 class Cart extends Model {
 
-    public $required = array('idcart', 'idperson', 'dessession', 'nrproducts', 'vltotal');
+    public $required = array('idcart', 'idperson', 'dessession');
     protected $pk = "idcart";
 
     public function get(){
@@ -16,7 +16,6 @@ class Cart extends Model {
 
     public function save():int
     {
-
         if($this->getChanged() && $this->isValid()){
 
             $this->queryToAttr("CALL sp_carts_save(?, ?, ?, ?, ?, ?, ?);", array(
@@ -26,7 +25,7 @@ class Cart extends Model {
                 $this->getinclosed(),
                 $this->getnrproducts(),
                 $this->getvltotal(),
-                $this->getvltotalbruto()                
+                $this->getvltotalgross()
             ));
 
             return $this->getidcart();

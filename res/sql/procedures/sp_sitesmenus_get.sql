@@ -4,10 +4,10 @@ pidmenu INT
 BEGIN
 
     SELECT
-    a.idmenupai, a.idmenu, a.desmenu, a.desicone, a.deshref, a.nrordem, a.dtcadastro, a.nrsubmenus,
-    b.desmenu AS desmenupai
+    a.idmenufather, a.idmenu, a.desmenu, a.desicon, a.deshref, a.nrorder, a.dtregister, a.nrsubmenus,
+    b.desmenu AS desmenufather
     FROM tb_sitesmenus a
-    LEFT JOIN tb_sitesmenus b ON b.idmenu = a.idmenupai
+    LEFT JOIN tb_sitesmenus b ON b.idmenu = a.idmenufather
     WHERE a.idmenu = pidmenu;
 
 END

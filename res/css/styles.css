@@ -7,6 +7,11 @@
 .list-group .list-group-item:hover {
   background-color: #eee; }
 
+.slidePanel-inner-section {
+  background-color: #fff;
+  padding-top: 0;
+  padding-bottom: 0; }
+
 .ui-tooltip {
   display: none !important; }
 
@@ -26,8 +31,43 @@
   height: calc(100% - 91px);
   overflow-x: auto; }
 
+.layout-full {
+  padding-top: 0;
+  height: 100%; }
+  .layout-full.page-login-v3 {
+    height: 100%;
+    padding: 0;
+    margin: 0 !important;
+    background-color: transparent; }
+    .layout-full.page-login-v3 .page-content {
+      width: inherit; }
+
 .card {
   border-radius: 0; }
 
 .real::before {
   content: 'R$ '; }
+
+.select2-dropdown {
+  z-index: 999999 !important; }
+
+.dropdown-menu .dropdown-item:active {
+  background-color: #3f51b5 !important;
+  color: #FFF !important; }
+
+.dropdown-menu .dropdown-item.selected {
+  background-color: #3f51b5 !important;
+  color: #FFF !important; }
+
+.media-item .info-wrap .title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+  height: 20px;
+  width: 100%; }
+
+.media-item .image-wrap {
+  text-align: center; }
+
+.media-item .image-wrap > .image {
+  max-height: 64px; }

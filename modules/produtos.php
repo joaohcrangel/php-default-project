@@ -4,7 +4,15 @@ $app->get("/produtos/all", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
+    $pagina = (int)get('pagina');    
+
+    $itemsPorPagina = (int)get('limit');
+
     $where = array();
+
+    if(get('desproduto') != ''){
+        array_push($where, "a.desproduto LIKE '%".utf8_decode(get('desproduto'))."%'");
+    }
 
     if(isset($_GET['ids'])){
         $ids = explode(',',get('ids'));
@@ -25,10 +33,6 @@ $app->get("/produtos/all", function(){
         SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtosdados a
         ".$where." LIMIT ?, ?
     ;";
-    
-    $pagina = (int)get('pagina');    
-
-    $itemsPorPagina = (int)get('limit');
 
     $paginacao = new Pagination(
         $query,
@@ -58,7 +62,7 @@ $app->post('/produtos', function(){
         $produto = new Produto();
     }
 
-    $_POST['inremovido'] = ($_POST['inremovido']==='0')?false:true;
+    $_POST['inremovido'] = ($_POST['inremovido'] === '0') ? false : true;
 
     $produto->set($_POST);
 
@@ -89,9 +93,9 @@ $app->get("/produtos/:idproduto/precos", function($idproduto){
             
         } else {
             $row['desduracao'] = Utils::getDateTimeDiffHuman(
-                                new DateTime($row['isodtinicio']),
-                                new DateTime($row['isodttermino'])
-                            );
+                new DateTime($row['isodtinicio']),
+                new DateTime($row['isodttermino'])
+            );
         }
 
         
@@ -108,18 +112,40 @@ $app->get("/produtos/:idproduto/arquivos", function($idproduto){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    if(!(int)$idproduto){
-        throw new Exception("Produto não informado", 400);        
+    $pagina = (int)get('pagina');
+    $itemsPerPage = (int)get('limit');
+
+    $where = array();
+
+    array_push($where, "c.idproduto = ".(int)$idproduto."");
+
+    if(count($where) > 0){
+        $where = "WHERE ".implode(" AND ", $where)."";
+    }else{
+        $where = "";
     }
 
-    $produto = new Produto(array(
-        'idproduto'=>(int)$idproduto
-    ));
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS a.*, c.desproduto FROM tb_arquivos a
+            INNER JOIN tb_produtosarquivos b ON a.idarquivo = b.idarquivo
+            INNER JOIN tb_produtos c ON b.idproduto = c.idproduto
+        ".$where." LIMIT ?, ?;
+    ";
 
-    $arquivos = $produto->getArquivos();
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "Arquivos",
+        $itemsPerPage
+    );
+
+    $arquivos = $paginacao->getPage($pagina);
 
     echo success(array(
-        'data'=>$arquivos->getFields()
+        "data"=>$arquivos->getFields(),
+        "total"=>$paginacao->getTotal(),
+        "currentPage"=>$pagina,
+        "itemsPerPage"=>$itemsPerPage
     ));
 
 });
@@ -181,8 +207,41 @@ $app->get("/produtos/tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    echo success(array("data"=>ProdutosTipos::listAll()->getFields()));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
 
+    $where = array();
+
+    if(get('desprodutotipo')) {
+        array_push($where, "desprodutotipo LIKE '%".get('desprodutotipo')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AD ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_produtostipos
+    ".$where." limit ?, ?;";
+
+    $paginacao = new Pagination(
+        $query,
+        array(),
+        "ProdutosTipos",
+        $itemsPerPage
+    );
+
+     $produtostipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$produtostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
+    
 });
 
 $app->post("/produtos-tipos", function(){

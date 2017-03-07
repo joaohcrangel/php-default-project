@@ -34,7 +34,7 @@ $app->get("/usuarios/login", function(){
 	Session::setConfiguracoes($configuracoes);
 
 	Menu::resetMenuSession();
-	
+
 	echo success(array(
 		'token'=>session_id(), 
 		'data'=>$usuario->getFields()
@@ -98,8 +98,39 @@ $app->get("/usuarios/tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN);
 
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('desusuariotipo')) {
+		array_push($where, "desusuariotipo LIKE '%".get('desusuariotipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_usuariostipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "UsuariosTipos",
+        $itemsPerPage
+    );
+
+    $usuariostipos = $paginacao->getPage($currentPage);
+
     echo success(array(
-    	'data'=>UsuariosTipos::listAll()->getFields()
+    	"data"=>$usuariostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
     ));
 
 });
@@ -237,33 +268,6 @@ $app->post("/usuarios/:idusuario/senha", function($idusuario){
 	echo success(array(
 		'data'=>$usuario->getFields()
 	));
-
-});
-////////////////////////////////////////////////////////////////////////////////////////////////////
-$app->post("/usuarios/:idusuario", function($idusuario){
-
-	Permissao::checkSession(Permissao::ADMIN);
-
-	$usuario = new Usuario((int)$idusuario);
-
-	$pessoa = $usuario->getPessoa();
-
-	$pessoa->set($_POST);
-
-	$pessoa->save();
-
-	$usuario->set($_POST);
-
-	$usuario->save();
-
-	if ($usuario->getidusuario() === Session::getUsuario()->getidusuario()) {
-
-		$usuario->getPessoa();
-		Session::setUsuario($usuario);
-
-	}
-
-	echo success(array('data'=>$usuario->getFields()));
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -412,6 +416,33 @@ $app->get("/usuarios/:idusuario", function($idusuario){
 
 	if (!(int)$usuario->getidusuario() > 0) {
 		throw new Exception("Usuário não encontrado.", 404);
+	}
+
+	echo success(array('data'=>$usuario->getFields()));
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/usuarios/:idusuario", function($idusuario){
+
+	Permissao::checkSession(Permissao::ADMIN);
+
+	$usuario = new Usuario((int)$idusuario);
+
+	$pessoa = $usuario->getPessoa();
+
+	$pessoa->set($_POST);
+
+	$pessoa->save();
+
+	$usuario->set($_POST);
+
+	$usuario->save();
+
+	if ($usuario->getidusuario() === Session::getUsuario()->getidusuario()) {
+
+		$usuario->getPessoa();
+		Session::setUsuario($usuario);
+
 	}
 
 	echo success(array('data'=>$usuario->getFields()));

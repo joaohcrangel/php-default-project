@@ -29,6 +29,11 @@ class AdminPage {
 
 		$conf = Session::getConfiguracoes();
 
+		if ($conf->getSize() === 0) {
+			$configuracoes = Configuracoes::listAll();
+			Session::setConfiguracoes($configuracoes);
+		}
+
 		$options['data']['conf'] = Session::getConfiguracoes()->getNames();
 
 		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;

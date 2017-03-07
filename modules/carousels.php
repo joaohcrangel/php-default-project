@@ -4,7 +4,42 @@ $app->get("/carousels/all", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>Carousels::listAll()->getFields()));
+	$where = array();
+
+	if(get('descarousel') != ''){
+		array_push($where, "descarousel LIKE '%".utf8_decode(get('descarousel'))."%'");
+	}
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where)."";
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS *
+    	FROM tb_carousels ".$where."
+    	LIMIT ?, ?;
+	";
+
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limite');
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Carousels",
+		$itemsPerPage
+	);
+
+	$carousels = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$carousels->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
 
 });
 
@@ -26,6 +61,12 @@ $app->post("/carousels", function(){
 		$carousel = new Carousel((int)post('idcarousel'));
 	}else{
 		$carousel = new Carousel();
+	}
+
+	foreach ($_POST as $key => $value) {
+		
+		if($value === 'false') $_POST[$key] = false;
+
 	}
 
 	$carousel->set($_POST);
@@ -58,7 +99,7 @@ $app->delete("/carousels/:idcarousel", function($idcarousel){
 ///////////////////////////////////////////////////////////////////////
 
 // carousels items
-$app->post("/carousel-items", function(){
+$app->post("/carousels-items", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -76,7 +117,7 @@ $app->post("/carousel-items", function(){
 
 });
 
-$app->delete("/carousel-items/:iditem", function($iditem){
+$app->delete("/carousels-items/:iditem", function($iditem){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -98,22 +139,55 @@ $app->delete("/carousel-items/:iditem", function($iditem){
 ///////////////////////////////////////////////////////////////////////
 
 // carousel items tipos
-$app->get("/carousel-items/tipos", function(){
+$app->get("/carousels-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>CarouselsItemsTipos::listAll()->getFields()));
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('destipo')) {
+		array_push($where, "destipo LIKE '%".get('destipo')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AD ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_carouselsitemstipos
+	".$where." limit ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "CarouselsItemsTipos",
+        $itemsPerPage
+    );
+
+	$carouselstipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+    	"data"=>$carouselstipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 
-$app->post("/carousel-items-tipos", function(){
+$app->post("/carousels-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(post('idtipo') > 0){
-		$tipo = new CarouselsItemsTipos((int)post('idtipo'));
+		$tipo = new CarouselItemTipo((int)post('idtipo'));
 	}else{
-		$tipo = new CarouselsItemsTipos();
+		$tipo = new CarouselItemTipo();
 	}
 
 	$tipo->set($_POST);
@@ -124,21 +198,21 @@ $app->post("/carousel-items-tipos", function(){
 
 });
 
-$app->delete("/carousel-items-tipos/:idtipo", function($idtipo){
+$app->delete("/carousels-tipos/:idtipo", function($idtipo){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(!(int)$idtipo){
-		throw new Exception("Tipo não informado", 400);		
+		throw new Exception("Carousel não informado", 400);		
 	}
 
-	$tipo = new CarouselsItemsTipos((int)$idtipo);
+	$carousel = new CarouselItemTipo((int)$idtipo);
 
-	if(!(int)$tipo->getidtipo() > 0){
-		throw new Exception("Tipo não encontrado", 404);		
+	if(!(int)$carousel->getidtipo() > 0){
+		throw new Exception("Carousel não encontrado", 404);		
 	}
 
-	$tipo->remove();
+	$carousel->remove();
 
 	echo success();
 

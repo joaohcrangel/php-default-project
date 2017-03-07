@@ -3,9 +3,7 @@ pidendereco INT
 )
 BEGIN
 
-    SELECT
-    idendereco, idenderecotipo, desendereco, dtcadastro
-    
+    SELECT *    
     FROM tb_enderecos
 
     WHERE idendereco = pidendereco;

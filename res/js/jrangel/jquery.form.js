@@ -13,6 +13,146 @@
 
  	$.fn.extend({
 
+ 		formValueCheck:function(options) {
+
+ 			var defaults = {
+				debug:false,
+				icon:'md-pin',
+				iconError:'md-alert-octagon red-500',
+				iconPosition:'form-control-icon-right',
+				delay:250,
+				cache:true,
+				url:'',
+				minLengthSubmit:8,
+				success:function(){},
+				failure:function(){}
+			};
+
+			var o =  $.extend(defaults, options);
+
+			if(o.debug === true) console.info("options", o);
+
+    		return this.each(function() {
+
+    			var t = this;
+    			var $el = $(t);
+
+    			if(o.debug === true) console.info(t, $el);
+
+    			$el.wrap('<div class="input-group"></div>');
+
+    			var $inputGroup = $el.closest('.input-group');
+    			var $icon = $('<i class="form-control-icon '+o.iconPosition+' '+o.icon+'"></i>');
+    			var $input = $el;
+
+    			$inputGroup.css({
+    				'position':'relative'
+    			});
+
+    			$icon.css({
+    				'position': 'absolute',
+				    'right': 0,
+				    'top': 0,
+				    'z-index': 99999,
+				    'margin': '7px 14px'
+    			});
+    			
+    			$inputGroup.append($icon);
+    			//$inputGroup.append($input);
+
+    			if(o.debug === true) console.info($input);
+
+    			$input.on('keydown', function(e){
+
+    				if(o.debug === true) console.info('keydown', e);
+
+    				if (e.keyCode === 13) {
+
+    					e.stopPropagation();
+                        e.preventDefault();
+
+    				}
+
+    			});
+
+    			$input.on('keyup', function(e){
+
+    				if(o.debug === true) console.info('keyup', e);
+
+    				if (getValue().length === o.minLengthSubmit) loadRest();
+
+    			});
+
+    			$input.on('blur', function(e){
+
+    				if(o.debug === true) console.info('blur', e);
+
+    				if (getValue().length === o.minLengthSubmit) loadRest();
+
+    			});
+
+    			$input.on('change', function(e){
+
+    				if(o.debug === true) console.info('change', e);
+
+    				if (getValue().length === o.minLengthSubmit) loadRest();
+
+    			});
+
+    			$input.on('paste', function(e){
+
+    				if(o.debug === true) console.info('paste', e);
+
+    				if (getValue().length === o.minLengthSubmit) loadRest();
+
+    			});
+
+    			function getValue(){
+
+    				var value = $input.val().replace('-','');
+    				return value;
+
+    			}
+
+    			function setLoading(bool){
+
+    				if (bool) {
+    					$icon.removeClass(o.icon);
+    					$icon.addClass('fa fa-refresh fa-spin').css({
+    						'margin':'11px 14px'
+    					});
+    				} else {
+    					$icon.removeClass('fa fa-refresh fa-spin');
+    					$icon.addClass(o.icon).css({
+    						'margin':'7px 14px'
+    					});
+    				}
+
+    			}
+
+    			function loadRest(){
+
+    				setLoading(true);
+
+    				$.store({
+    					cache:o.cache,
+    					url:o.url+'/'+getValue(),
+    					success:function(r){
+    						setLoading(false);
+    						o.success(r);
+    					},
+    					failure:function(e){
+    						setLoading(false);
+    						o.failure(e);
+    					}
+    				});
+
+    			}
+
+    		});
+
+ 		},
+
  		formValues:function() {
 
  			var t = this,

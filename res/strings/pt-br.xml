@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	
-	<string name="login_footer">Default Admin developer by Hcode Team</string>
+	<string name="login_footer">developer by Hcode Team</string>
 
 	<string name="weekdayname_0">Domingo</string>
 	<string name="weekdayname_1">Segunda-feira</string>
@@ -60,8 +60,16 @@
 	<string name="menus_forma_pedido">Formas de Pagamentos</string>
 	<string name="menus_pessoa_valor">Pessoas Valores Campos</string>
 	<string name="menus_configuracao_tipo">Configurações Tipos</string>
+	<string name="menus_carousel_tipo">Carousels Items Tipos</string><string name="menus_negociacao_tipo">Pedidos Negociações Tipos</string>
 	<string name="menus_configuracoes">Configurações</string>
 	<string name="menus_cursos">Cursos</string>
+	<string name="menus_carousels">Carousels</string>
+	<string name="menus_paises">Países</string>
+	<string name="menus_estados">Estados</string>
+	<string name="menus_cidades">Cidades</string>
+	<string name="menus_arquivos">Arquivos</string>
+	<string name="menus_pessoas_categorias_tipos">Categorias de Pessoas</string>
+	<string name="menus_urls">URLs</string>
 
 	<string name="menus_pedido">Pedidos</string>
 	<string name="menus_carrinho">Carrinhos</string>
@@ -76,7 +84,7 @@
 	<string name="casa_tipo">Casa</string>
 	<string name="trabalho_tipo">Trabanho</string>
 	<string name="celular_tipo">Celular</string>
-	<string name="tipo_tipo">Fax</string>
+	<string name="fax_tipo">Fax</string>
 	<string name="outro_tipo">Outro</string>
 	<string name="pessoal_tipo">Pessoal</string>
 	<string name="trabalho_tipo">Trabalho</string>
@@ -93,7 +101,7 @@
 
 	<string name="cupom_valor">Valor Fixo</string>
 	<string name="cupom_porcentage">Porcentagem</string>
-	<string name="gateway_pagseguro">PagSegure</string>
+	<string name="gateway_pagseguro">PagSeguro</string>
 	<string name="gateway_visa">Visa</string>
 	<string name="gateway_mastercard">MasterCard</string>
 	<string name="gateway_dinerclub">Diners Club</string>
@@ -163,6 +171,50 @@
 	<string name="config_upload_mimetype">UPLOAD_MIME_TYPE</string>
 	<string name="config_upload_mimetype_description">Tipos de arquivos permitidos para fazer upload.</string>
 
+	<string name="config_upload_max_filesize">UPLOAD_MAX_FILESIZE</string>
+	<string name="config_upload_max_filesize_description">Tamanho máximo permitido para upload de arquivos em bytes.</string>
+
+	<string name="config_google_map_key">GOOGLE_MAPS_KEY</string>
+	<string name="google_map_key">AIzaSyAgIx0HyLRKgvY38HRWrixjPviokLaUtbE</string>	
+	<string name="config_google_map_key_description">Chave de acesso ao plugin do Google Maps</string>
+
+	<string name="estado_AC">Acre</string>
+	<string name="estado_AL">Alagoas</string>
+	<string name="estado_AM">Amazonas</string>
+	<string name="estado_AP">Amapá</string>
+	<string name="estado_BA">Bahia</string>
+	<string name="estado_CE">Ceará</string>
+	<string name="estado_DF">Distrito Federal</string>
+	<string name="estado_ES">Espírito Santo</string>
+	<string name="estado_GO">Goiás</string>
+	<string name="estado_MA">Maranhão</string>
+	<string name="estado_MG">Minas Gerais</string>
+	<string name="estado_MS">Mato Grosso do Sul</string>
+	<string name="estado_MT">Mato Grosso</string>
+	<string name="estado_PA">Pará</string>
+	<string name="estado_PB">Paraíba</string>
+	<string name="estado_PE">Pernambuco</string>
+	<string name="estado_PI">Piauí</string>
+	<string name="estado_PR">Paraná</string>
+	<string name="estado_RJ">Rio de Janeiro</string>
+	<string name="estado_RN">Rio Grande do Norte</string>
+	<string name="estado_RO">Rondônia</string>
+	<string name="estado_RR">Roraima</string>
+	<string name="estado_RS">Rio Grande do Sul</string>
+	<string name="estado_SC">Santa Catarina</string>
+	<string name="estado_SE">Sergipe</string>
+	<string name="estado_SP">São Paulo</string>
+	<string name="estado_TO">Tocantins</string>
+
+	<string name="data_nascimento">dtnascimento</string>
+	<string name="sexo">dessexo</string>
+	<string name="foto">desfoto</string>
+
+	<string name="negociacao_orcemanto">Em orçamento</string>
+	<string name="negociacao_venda">Venda</string>
+
+	<string name="pessoa_cliente">Cliente</string>
+	<string name="pessoa_fornecedor">Fornecedor</string>
+	<string name="pessoa_colaborador">Colaborador</string>
+	
 </resources>
-
-

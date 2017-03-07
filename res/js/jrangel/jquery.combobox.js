@@ -27,7 +27,24 @@
                 value:undefined,
                 emptyText:'-- selecione --',
                 multiple:false,
-                select2:false
+                select2:false,
+                autoComplete:false,
+                delay:250,
+                minValue:1,
+                queryName:'q',
+                submitValue:false,
+                hiddenName:'',
+                autoCompleteConfig:{
+                    tplInput:
+                    '<div class="jrangel-combobox-autocomplete">'+
+                        '<input type="text" class="form-control">'+
+                        '<span class="icon md-caret-down" style="position:absolute; right:14px; top:8px; font-size:20px;"></span>'+
+                    '</div>',
+                    tplResults:
+                    '<div class="dropdown-menu" style="width: 100%; max-height:200px; overflow:auto;" role="menu"></div>',
+                    tplResult:
+                    '<a class="dropdown-item" href="javascript:void(0)" role="menuitem">{{display}}<strong class="pull-xs-right">{{rightText}}</strong></a>'
+                }
             };
 
             var o =  $.extend(defaults, options);
@@ -131,11 +148,218 @@
 
                 };
 
-                $.store({
-                    method:o.method,
-                    url:o.url,
-                    cache:o.cache,
-                    success:function(data){
+                if (o.autoComplete === true) {
+
+                    if (o.debug === true) console.log('autoComplete true');
+
+                    $el.wrap('<div class="jrangel-combobox" style="position:relative"></div>');
+
+                    var lastSearch = '';
+                    var $jRangelComBox = $el.closest('.jrangel-combobox');
+                    var tplInput = Handlebars.compile(o.autoCompleteConfig.tplInput);
+                    var tplResult = Handlebars.compile(o.autoCompleteConfig.tplResult);
+                    var tplResults = Handlebars.compile(o.autoCompleteConfig.tplResults);
+                    var $inputContainer = $(tplInput({}));
+                    var $input = $inputContainer.find('input');
+                    var $icon = $inputContainer.find('span.icon');
+                    var $results = $(tplResults());
+
+                    function setLoading(bool){
+
+                        if (bool) {
+                            $icon.removeClass('md-caret-down');
+                            $icon.addClass('fa fa-refresh fa-spin');
+                        } else {
+                            $icon.removeClass('fa fa-refresh fa-spin');
+                            $icon.addClass('md-caret-down');
+                        }
+
+                    }
+
+                    function openList(){
+
+                        if ($results.find('a').length) {
+                            $results.css('display', 'block');
+                        }
+
+                    }
+
+                    function appendTimeout(){
+
+                        if (o.debug === true) console.log('appendTimeout', o.delay);
+
+                        if (window.jRangelComboBoxTimer) {
+                            clearTimeout(window.jRangelComboBoxTimer);
+                        }
+
+                        window.jRangelComboBoxTimer = setTimeout(loadResults, o.delay);
+
+                    }
+
+                    function loadResults(callback){
+
+                        if (o.debug === true) console.log('loadResults');
+
+                        if ($input.val().length >= o.minValue && lastSearch !== $input.val()) {
+
+                            setLoading(true);
+
+                            var data = {};
+                            data[o.queryName] = $input.val();
+
+                            $.store({
+                                cache:false,
+                                url:o.url,
+                                method:o.method,
+                                debug:o.debug,
+                                data:data,
+                                success:function(cities){
+
+                                    lastSearch = $input.val();
+
+                                    setLoading(false);
+                                    $results.html('');
+
+                                    $.each(cities, function(index, row){
+
+                                        var $item = $(tplResult({
+                                            display:row[o.displayField],
+                                            rightText:row[o.displayFieldRight]
+                                        }));
+
+                                        $item.on('click', function(e){
+
+                                            e.preventDefault();
+                                            e.stopPropagation();
+
+                                            $input.val(row[o.displayField]);
+
+                                            if (o.debug === true) console.info(row[o.valueField], $jRangelComBox.find('[type=hidden][name='+name+']'));
+
+                                            $jRangelComBox.find('[type=hidden][name='+name+']').val(row[o.valueField]);
+
+                                            $results.hide();
+
+                                        });
+
+                                        $results.append($item);
+
+                                    });
+
+                                    openList();
+
+                                },
+                                failure:function(e){
+                                    setLoading(false);
+                                    System.showError(e);
+                                }
+                            });
+
+                        }
+
+                    }
+
+                    $el.on('change', function(e){
+
+                        $input.val($(this).val());
+
+                    });
+
+                    $el.hide();
+
+                    if (o.submitValue === true) {
+
+                        var name = (o.hiddenName || o.valueField);
+
+                        if ($jRangelComBox.find('[type=hidden][name='+name+']')) {
+                            var $hiddenInput = $('<input type="hidden" class="form-control" name="'+name+'">');
+                            $jRangelComBox.append($hiddenInput);    
+                        }
+
+                    }
+
+                    $jRangelComBox.append($inputContainer);
+
+                    $icon.on('click', function(){
+                        $input.trigger('focus');
+                    });
+
+                    $input.on('change', function(){
+                        appendTimeout();
+                    });
+                    $input.on('keydown', function(e){
+
+                        var $aSelected = $results.find('.selected');
+                        var $aSelectedNext;
+
+                        openList();
+
+                        switch (e.keyCode) {
+                            case 37://LEFT
+
+                            break;
+                            case 38://UP
+                            $aSelectedNext = $aSelected.prev('a');
+                            if (!$aSelectedNext.length) {
+                                $aSelectedNext = $results.find('a:last');
+                            }
+                            $aSelected.removeClass('selected');
+                            $aSelectedNext.addClass('selected');
+                            break;
+                            case 39://RIGHT
+
+                            break;
+                            case 40://DOWN
+                            $aSelectedNext = $aSelected.next('a');
+                            if (!$aSelectedNext.length) {
+                                $aSelectedNext = $results.find('a:first');
+                            }
+                            $aSelected.removeClass('selected');
+                            $aSelectedNext.addClass('selected');
+                            break;
+                            case 13://ENTER
+                            e.stopPropagation();
+                            e.preventDefault();
+                            if (!$aSelected.length) {
+                                $aSelected = $results.find('a:last');
+                            }
+                            $aSelected.trigger('click');
+                            break;
+                            default:
+                            appendTimeout();
+                            break;
+                        }
+
+                        if ($aSelectedNext && $aSelectedNext.length) {
+                            $results.scrollTop($aSelectedNext[0].offsetTop);
+                        }
+                                                
+                    });
+                    $input.on('paste', function(){
+                        appendTimeout();
+                    });
+                    $input.on('blur', function(e){
+                        if (!$(e.relatedTarget).closest('.jrangel-combobox').length) {
+                            $results.hide();
+                        }
+                    });
+                    $input.on('focus', function(){
+                        openList();
+                    });
+                    
+                    $jRangelComBox.append($results);
+
+                    if (o.debug === true) console.log($jRangelComBox, $input);
+
+                } else {
+
+                    if (o.debug === true) console.log('autoComplete false');
+
+                    $.store({
+                        method:o.method,
+                        url:o.url,
+                        cache:o.cache,
+                        success:function(data){
 
                             successCombo(o, $el, data);
 
@@ -151,7 +375,7 @@
                                 'disabled':false,
                                 'selected':true
                               });
-                              $disabled.prop('disabled', true);                              
+                              $disabled.prop('disabled', true);      
 
                             });
 
@@ -176,8 +400,10 @@
 
                             });
 
-                    }
-                });
+                        }
+                    });
+
+                }
 
             });
 

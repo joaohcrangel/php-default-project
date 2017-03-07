@@ -1,0 +1,939 @@
+<style>@media (max-width: 768px) {
+    .p-xs-25 {
+      padding: 25px!important;
+    }
+  }
+  #btn-pessoa-editar {
+    z-index: 999999;
+    position: relative;
+    margin: 25px;
+  }</style><div id="pessoa-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-pessoa" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button id="btn-close-slidepanel" type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="tr//reue"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">{$pessoa.despessoa}</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0 m-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="pessoa-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" style="border-radius: 0" id="tabs-pessoas"></div><div class="panel-body p-0"><div class="tab-content"><div class="tab-pane" id="tab-pessoa-editar" role="tabpanel"><form id="form-pessoa-editar"><input type="hidden" name="idpessoa"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height:  30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8"><label class="form-control-label" for="despessoa">Nome do cliente <span class="red-900">*</span></label><input type="text" class="form-control" id="despessoa" name="despessoa"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="idpessoatipo">Tipo</label><select class="form-control" id="idpessoatipo" name="idpessoatipo"></select></div></div><div id="cadastro-pessoa-fisica"><div class="row"><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="descpf">CPF</label><input type="text" class="form-control" id="descpf" name="descpf"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desrg">RG</label><input type="text" class="form-control" id="desrg" name="desrg"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="dtnascimento">Data de nascimento</label><input type="date" class="form-control" id="dtnascimento" name="dtnascimento"></div></div><div class="row"><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desemail">Email</label><input type="email" class="form-control" id="desemail" name="desemail"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="destelefonecomercial">Telefone comercial</label><input type="tel" class="form-control" id="destelefonecomercial" name="destelefonecomercial"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="destelefonecelular">Telefone celular</label><input type="tel" class="form-control" id="destelefonecelular" name="destelefonecelular"></div></div></div><div id="cadastro-pessoa-juridica" class="hide"></div></div></div><div class="p-25"><button type="submit" class="btn btn-primary btn-block waves-effect">Salvar Dados</button></div></form></div><div class="tab-pane" id="tab-pessoa-home" role="tabpanel"><button id="btn-pessoa-editar" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> editar</button><div class="card"></div></div><div class="tab-pane" id="tab-pessoa-faleconosco" role="tabpanel"><div class="panel"><div class="panel-body" data-auto-height="-288"><div class="chat-box"><div class="chats"></div></div></div><div class="panel-footer"><form><div class="input-group form-material"><span class="input-group-btn"><a href="javascript: void(0)" class="btn btn-pure btn-default icon md-camera"></a> </span><input class="form-control" type="text" placeholder="Type message here ..."> <span class="input-group-btn"><button type="button" class="btn btn-pure btn-default icon md-mail-send"></button></span></div></form></div></div></div><div class="tab-pane" id="tab-pessoa-pedidos" role="tabpanel"><div class="panel"><div class="panel-heading"><h3 class="panel-title indigo-500">Últimas vendas</h3><div class="panel-actions"><div class="row-fluid"><div class="col-xs-6"><select class="form-control pull-xs-right" name="idnegociacao"></select></div><div class="col-xs-6"><a class="panel-action icon md-refresh-alt pull-xs-right" id="btn-pedido-reload" aria-hidden="true"></a></div></div></div></div><table class="table table-hover"><thead><tr><th>Data<th>Venda<th>Total (R$)<tbody></table><div class="panel-footer"><div class="pagination"></div></div></div></div><div class="tab-pane" id="tab-pessoa-historico" role="tabpanel"></div><div class="tab-pane" id="tab-pessoa-arquivos" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="m-10 btn-group btn-group-flat"><button id="btn-pessoa-arquivos-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button></div><div class="panel-actions"><a id="btn-pessoa-arquivos-reload" class="panel-action icon md-refresh-alt" aria-hidden="true"></a></div></div><div class="panel-body p-b-0"><ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul></div><div class="panel-footer"><div class="pagination"></div></div></div></div><div class="tab-pane panel" id="tab-endereco-editar" role="tabpanel"><div class="panel-body"><div class="panel-heading" style="height:  30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-endereco-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><form id="form-enderecos"></form></div></div><div class="tab-pane" id="tab-pessoa-enderecos" role="tabpanel"><div class="panel"><div class="panel-body panel-primary panel-line p-b-0 m-0"><div class="btn-group open"><button type="button" class="btn btn-success pull-xs-left waves-effect btn-endereco-add" id="dropdownEndereco" data-toggle="dropdown" aria-expanded="true"><i class="icon md-plus" aria-hidden="true"></i> adicionar</button><div class="dropdown-menu" aria-labelledby="dropdownEndereco" role="menu">{loop="enderecosTipos"} <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idenderecotipo="{$value.idenderecotipo}">{$value.desenderecotipo}</a> {/loop}</div></div><table class="table table-stripped table-hover m-t-15"><tbody></table></div></div></div><div class="tab-pane" id="tab-pessoa-endereco-add" role="tabpanel"><div class="panel" id="endereco-add"><div class="panel-body panel-primary panel-line p-b-0 m-0"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-endereco-add-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><form><div class="row"><div class="form-group col-xs-12 col-md-3"><input type="hidden" name="idendereco"> <input type="hidden" name="idenderecotipo"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desendereco">Endereço</label><input type="text" class="form-control" id="desendereco" name="desendereco"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumero">Número</label><input type="text" class="form-control" id="desnumero" name="desnumero"></div></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplemento">Complemento</label><input type="text" class="form-control" id="descomplemento" name="descomplemento"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desbairro">Bairro</label><input type="text" class="form-control" id="desbairro" name="desbairro"></div><div class="form-group col-xs-12 col-md-5"><label class="form-control-label" for="descidade">Cidade</label><input type="text" class="form-control" id="descidade" name="descidade"> <input type="hidden" name="desuf"></div><div class="input-group"><span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></form></div></div></div></div></div></div></section></div></div>{noparse}<script id="tpl-pessoa-pedido-row" type="text/x-handlebars-template"><tr>
+    <td>{{desdtcadastro}}</td>
+    <td>{{idpedido}}</td>
+    <td class="real">{{desvltotal}}</td>
+  </tr></script><script id="tpl-pessoa-home-card" type="text/x-handlebars-template"><div class="card-header bg-white p-30 clearfix">
+  <a id="pessoa-photo" class="avatar avatar-100 pull-xs-left m-r-20" href="javascript:void(0)">
+    <img src="{{desphotourl}}" alt="Foto de {{desprimeironome}}">
+  </a>
+  <div class="pull-xs-left">
+    <div class="font-size-20 m-b-15">{{despessoa}}</div>
+    {{#if incliente}}
+    <span class="tag tag-outline tag-primary">Cliente</span>
+    {{/if}}
+    {{#if infornecedor}}
+    <span class="tag tag-outline tag-dark">Fornecedor</span>
+    {{/if}}
+    {{#if incolaborador}}
+    <span class="tag tag-outline tag-success">Colaborador</span>
+    {{/if}}
+    {{#if endereco.desenderecoresumido}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{endereco.desenderecoresumido}}</span>
+    </p>
+    {{/if}}
+    {{#if desemail}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-email m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{desemail}}</span>
+    </p>
+    {{/if}}
+    {{#if cpf.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cpf.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+    {{#if cnpj.desdocumentoformatado}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-balance-wallet m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{cnpj.desdocumentoformatado}}</span>
+    </p>
+    {{/if}}
+  </div>
+</div></script><script id="tpl-pessoa-arquivo" type="text/x-handlebars-template"><li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" id="media_1" />
+      <label for="media_1"></label>
+    </div>
+    <div class="image-wrap">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
+    </div>
+    <div class="info-wrap">
+      <div class="title">{{desalias}}</div>
+    </div>
+  </div>
+</li></script><script id="tpl-pessoa-enderecos" type="text/x-handlebars-template"><tr>
+    <td>
+      <p>{{desendereco}}, {{desnumero}} - {{descidade}} - {{descep}}</p>
+      <p><small>{{desenderecotipo}}</small></p>
+    </td>
+    <td>
+      <button class="btn btn-danger pull-xs-right waves-effect icon md-delete"></button>
+      <button class="btn-endereco-editar m-l-10 btn btn-primary pull-xs-right waves-effect icon md-edit"></button>
+    </td>
+  </tr></script><script id="tpl-pessoa-endereco" type="text/x-handlebars-template"><div class="panel">
+
+    <div class="panel-body panel-primary panel-line p-b-0 m-0">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-5">
+            <h3 class="panel-title p-l-0"><select name="idenderecotipo" class="form-control"></select></h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-3">
+          <input type="hidden" name="idendereco" value="{{idendereco}}">
+          <label class="form-control-label" for="descep">CEP</label>
+          <input type="text" class="form-control" id="descep" name="descep" value="{{descep}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label class="form-control-label" for="desendereco">Endereço</label>
+          <input type="text" class="form-control" id="desendereco" name="desendereco" value="{{desendereco}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-3">
+          <label class="form-control-label" for="desnumero">Número</label>
+          <input type="text" class="form-control" id="desnumero" name="desnumero" value="{{desnumero}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-3">
+          <label class="form-control-label" for="descomplemento">Complemento</label>
+          <input type="text" class="form-control" id="descomplemento" name="descomplemento" value="{{descomplemento}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+          <label class="form-control-label" for="desbairro">Bairro</label>
+          <input type="text" class="form-control" id="desbairro" name="desbairro" value="{{desbairro}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-5">          
+            <label class="form-control-label" for="descidade">Cidade</label>
+            <input type="text" class="form-control" id="descidade" name="descidade" value="{{descidade}}">
+            <input type="hidden" name="desuf">            
+        </div>
+        <div class="input-group">
+          <span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom;">
+            <button type="button" class="btn btn-danger btn-outline input-search-close icon md-delete" style="padding:10px"></button>
+            <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div></script><script id="tpl-pessoa-faleconosco-row" type="text/x-handlebars-template"><div class="chat">
+    <div class="chat-avatar">
+      <a class="avatar" data-toggle="tooltip" href="#" data-placement="right" title="{{despessoa}}">
+        <img src="{{desphotourl}}" alt="{{despessoa}}">
+      </a>
+    </div>
+    <div class="chat-body">
+      <div class="chat-content">
+        <p>{{desmensagem}}</p>
+        <time class="chat-time" datetime="{{dtcadastro}}">8:30 am</time>
+      </div>
+    </div>
+  </div></script>{/noparse}<script>var PessoaPanel = (function(data, selectorContainer, opts){
+
+  var t = this;
+
+  var defaults = {
+    debug:false
+  };
+
+  var o = $.extend({}, defaults, opts);
+
+  t.$el = $(selectorContainer);
+  t.id = 0;
+  t.pagination = {};
+  t.limit = 10;
+
+  t.setData = function(pessoa){
+
+    t.data = pessoa;
+    t.$el.trigger('pessoa-change');
+
+  };
+
+  t.getData = function(){
+
+    return t.data;
+
+  };
+
+  t.getTpl = function(id){
+
+    return Handlebars.compile($("#"+id).html());
+
+  };
+
+  t.setCard = function(){
+
+    var tpl = t.getTpl('tpl-pessoa-home-card');
+    var $render = $(tpl(t.getData()));
+
+    t.$el.find('#tab-pessoa-home').find('.card').html($render);
+
+  };
+
+  t.formatCep = function(cep){
+
+    return cep.substring(0, 5)+"-"+cep.substring(5);
+
+  }
+
+  t.$el.on('pessoa-change', function(){
+
+    var pessoa = t.getData();
+
+    pessoa.descep = t.formatCep(pessoa.descep);
+
+    t.$el.find('#form-pessoa-editar').formLoad(pessoa);
+    t.setCard(t.getData());
+
+  });
+  
+  t.setData(pessoa);
+
+  t.getIdPessoa = function(){
+
+    return t.getData().idpessoa;
+
+  };
+
+  t.deletePessoa = function(){
+
+    System.confirm("Deseja realmente excluir o cadastro de "+data.despessoa+" definitivamente? Todos os dados associados serão excluídos.", function(r, s, f){
+
+      if (r) {
+
+        rest({
+          url:PATH+"/pessoas/"+t.getIdPessoa(),
+          method:"DELETE",
+          success:function(){
+            s();
+            data = {};
+            $("#btn-close-slidepanel").trigger("click");
+          },
+          failure:function(e){
+            System.showError(e);
+            f(e.error);
+          }
+        });
+
+      } else {
+
+        f();
+
+      }
+
+    });
+
+  };
+
+  t.uploadPhoto = function(){
+
+    $.upload({
+      url:PATH+"/pessoas/"+t.getIdPessoa()+"/photo",
+      success:function(r){
+
+        t.setData(r.data);
+
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+
+  };
+
+  t.setTabActive = function(id){
+
+    $('#pessoa-tabs .tab-content .tab-pane').removeClass('active');
+    $('#pessoa-tabs .tab-content .tab-pane#'+id).addClass('active');
+    $('#pessoa-tabs [role="tab"]').removeClass('active');
+    $('#pessoa-tabs [role="tab"][href="#'+id+'"]').addClass('active');
+
+  };
+
+  t.initFieldClassEmpty = function(){
+
+    t.$el.find('input').on('change', function(){
+      if ($(this).val().length) {
+        $(this).removeClass('empty');
+      } else {
+        $(this).addClass('empty');
+      }
+    });
+
+  };
+
+  t.initFieldCPF = function(){
+
+    t.$el.find('[name=descpf]').on('change keyup', function(e){
+
+      if (!$(this).val()) {
+
+        var $formGroup =  t.$el.find('[name=descpf]').closest('.form-group');
+        $formGroup.removeClass('has-success has-danger');
+
+      }
+
+    }).formValueCheck({
+      url:PATH+"/documentos/cpf",
+      icon:'md-check',
+      minLengthSubmit:11,
+      success:function(r){
+        
+        var $formGroup =  t.$el.find('[name=descpf]').closest('.form-group');
+        $formGroup.removeClass('has-success has-danger');
+
+        if (r.incpf) {
+
+          $formGroup.addClass('has-success');
+
+        } else {
+
+          $formGroup.addClass('has-danger');
+
+        }
+
+      }
+    });
+
+  };
+
+  t.initFieldPessoaTipo = function(){
+
+    t.$el.find("[name=idpessoatipo]").combobox({
+      url:PATH+"/pessoas-tipos",
+      displayField:"despessoatipo",
+      valueField:"idpessoatipo",
+      value:1
+    });
+
+  };
+
+  t.initFormPessoaEditar = function(){
+
+    t.$el.find('#form-pessoa-editar').form({
+      url:PATH+"/pessoas",
+      resetForm:false,
+      success:function(r){
+
+        t.setData(r.data);
+        System.success('Dados salvos com sucesso!');
+        t.refreshList();
+
+      }
+    });
+
+  };
+
+  t.reload = function(callback){
+
+    rest({
+      url:PATH+"/pessoas/"+t.getIdPessoa(),
+      success:function(r){
+
+        t.setData(r.data);
+        if (typeof callback === 'function') callback();
+
+      },
+      failure:function(e){
+
+        System.showError(e);
+
+      }
+    });
+
+  };
+
+  t.refreshList = function(){
+
+    if (typeof atualizarPagina === 'function') atualizarPagina();
+
+  };
+
+  t.saveEndereco = function($row, callback = function(){}){
+
+    rest({
+      url:PATH+"/pessoas",
+      method:"POST",
+      data:{
+        idpessoa:t.getIdPessoa(),
+        idpessoatipo:t.getData().idpessoatipo,
+        idendereco:$row.find("[name=idendereco]").val(),
+        idenderecotipo:$row.find("[name=idenderecotipo]").val(),
+        desendereco:$row.find("[name=desendereco]").val(),
+        descep:$row.find("[name=descep]").val(),
+        desnumero:$row.find("[name=desnumero]").val(),
+        descomplemento:$row.find("[name=descomplemento]").val(),
+        desbairro:$row.find("[name=desbairro]").val(),
+        descidade:$row.find("[name=descidade]").val(),
+        desuf:$row.find("[name=desuf]").val()
+      },
+      success:function(){
+        if(typeof callback == 'function') callback();
+      },
+      failure:function(r){
+        System.showError(r);
+        
+      }
+    });
+
+  }
+
+  t.renderEndereco = function(data){
+
+    var tplEndereco = t.getTpl("tpl-pessoa-endereco");
+
+    var $panel = System.getPanelApi(t.$el.find("#tab-endereco-editar"));
+
+    $panel.load();
+
+    var $form = t.$el.find("#tab-endereco-editar form#form-enderecos");
+
+    $form.html('');
+
+    data.descep = t.formatCep(data.descep);
+
+    var $row = $(tplEndereco(data));
+
+    $form.append($row);
+
+    $panel.done();
+
+    $row.find("[name=idenderecotipo]").combobox({
+      url:PATH+"/enderecostipos",
+      displayField:"desenderecotipo",
+      valueField:"idenderecotipo",
+      value:data.idenderecotipo
+    }).on("change", function(){
+      t.saveEndereco($row);            
+    });
+
+    $row.find('[name=descidade]').combobox({
+      url:PATH+"/enderecos/cidades",
+      autoComplete:true,
+      displayField:'descidade',
+      displayFieldRight:'desuf',
+      valueField:'idcidade',
+      submitValue:true,
+      hiddenName:'idcidade'
+    });
+
+    $row.find("[name=descidade]").trigger("change");
+
+    $row.find('[name=descep]').formValueCheck({
+      url:PATH+"/enderecos/cep",
+      success:function(r){
+
+        $.each(r, function(chave, value){
+          
+          $.each(data, function(index, valor){
+            
+            if(chave == index){
+              data[index] = value;
+              $row.find("[name="+index+"]").val(value);
+            }
+
+          });
+
+        });
+
+        $row.find("[name=desuf]").val(r.desuf);
+        $row.find("[name=descidade]").trigger("change");
+        $row.find("[name=desnumero]").trigger("focus");
+
+      }
+    });
+
+    $row.find(".btn-success").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      t.saveEndereco($row, function(){});
+
+      $btn.btnload("unload");
+
+    });
+
+    $row.find(".btn-danger").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/admin/enderecos/"+row.idendereco,
+        method:"DELETE",
+        success:function(){
+          $btn.btnload("unload");
+          $row.remove();
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
+
+  };
+
+  t.initEnderecos = function(){
+
+    var $panel = System.getPanelApi(t.$el.find("#tab-pessoa-enderecos"));
+
+    var tplEnderecosAll = t.getTpl("tpl-pessoa-enderecos");
+
+    var $tbody = t.$el.find("#tab-pessoa-enderecos table tbody");
+    var $form = t.$el.find("#form-enderecos");
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/pessoas/"+t.getIdPessoa()+"/enderecos",
+      success:function(r){
+
+        $tbody.html('');
+
+        $.each(r.data, function(index, row){
+
+          row.descep = t.formatCep(row.descep);
+
+          var $tr = $(tplEnderecosAll(row));
+
+          $tbody.append($tr);
+
+          $tr.find(".btn-endereco-editar").on("click", function(){
+
+            t.setTabActive('tab-endereco-editar');
+
+            rest({
+              url:PATH+"/enderecos/"+row.idendereco,
+              success:function(r){
+                t.renderEndereco(r.data);
+              },
+              failure:function(r){
+                System.showError(r);
+              }
+            });            
+
+          });
+
+          $tr.find(".btn-danger").on("click", function(){
+
+            var $btn = $(this);
+
+            $btn.btnload("load");
+
+            rest({
+              url:PATH+"/admin/enderecos/"+row.idendereco,
+              method:"DELETE",
+              success:function(){
+                $btn.btnload("unload");
+                $tr.remove();
+              },
+              failure:function(r){
+                $btn.btnload("unload");
+                System.showError(r);
+              }
+            });
+
+          });
+
+        });        
+
+        $panel.done();
+
+        $("#tab-pessoa-enderecos .btn-group .dropdown-item").on("click", function(){
+
+          var idenderecotipo = $(this).data("idenderecotipo");
+
+          t.setTabActive('tab-pessoa-endereco-add');
+
+          var $formAdd = t.$el.find("#endereco-add form");
+
+          $formAdd.find("[name=idenderecotipo]").val(idenderecotipo);
+
+          $formAdd.find("[name=idenderecotipo]").combobox({
+            url:PATH+"/enderecostipos",
+            displayField:"desenderecotipo",
+            valueField:"idenderecotipo"
+          });
+
+          $formAdd.find('[name=descep]').formValueCheck({
+            url:PATH+"/enderecos/cep",
+            success:function(r){
+              $formAdd.formLoad(r);
+              $formAdd.find("[name=descidade]").trigger("change");
+              $formAdd.find("[name=desnumero]").trigger("focus");
+            }
+          });
+
+          $formAdd.find(".btn-success").on("click", function(){
+
+            var $btn = $(this);
+
+            $btn.btnload("load");
+
+            t.saveEndereco($formAdd, function(){
+              t.initEnderecos();
+              t.setTabActive('tab-pessoa-enderecos');
+              $formAdd.find("input").val('');
+            });
+
+            $btn.btnload("unload");
+
+          });
+
+        });        
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  };
+
+  t.initTabs = function(){
+
+    var tabs = new Tab({
+      id:"tabs-pessoas",
+      items:[{
+        title:"Home",
+        id:"tab-pessoa-home"
+      },{
+        title:"Vendas",
+        id:"tab-pessoa-pedidos"
+      },{
+        title:"Histórico",
+        id:"tab-pessoa-historico"
+      },{
+        title:"Fale Conosco",
+        id:"tab-pessoa-faleconosco"
+      },{
+        title:"Arquivos",
+        id:"tab-pessoa-arquivos"
+      },{
+        title:"Endereços",
+        id:"tab-pessoa-enderecos"
+      }],
+      listeners:{
+        tabchange:function(obejct, event){
+
+          switch (event.tabContent.id) {
+
+            case 'tab-pessoa-pedidos':
+            t.$el.find('[name=idnegociacao]').combobox({
+              url:'/pedidos/negiciacoestipos',
+              displayField:'desnegociacao',
+              valueField:'idnegociacao'
+            });
+            t.loadTableVendas();
+            break;
+
+            case 'tab-pessoa-faleconosco':
+            t.loadFaleConosco();
+            System.initAutoHeight($('#tab-pessoa-faleconosco'));
+            break;
+
+            case 'tab-pessoa-arquivos':
+            t.loadArquivos();
+            break;
+
+            case 'tab-pessoa-enderecos':
+            t.initEnderecos();
+            break;
+            
+          }
+
+        }
+      }
+    });
+
+  };
+
+  function setPagination(id, opts){
+
+    if (opts.total > 0) {
+
+      var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+        skin:'pagination-gap',
+        currentPage: opts.currentPage,
+        itemsPerPage: opts.itensPerPage,
+        onChange: function(page){
+          
+          t.pagination[id] = page;
+          opts.load(page);
+
+        }
+      }, opts);
+
+      t.pagination[id] = opts.currentPage;
+
+      $(opts.selector).show().asPaginator(opts.total, config);
+
+    } else {
+
+      $(opts.selector).hide();
+
+    }
+
+  }
+
+  function getPagination(id){
+
+    return parseInt(t.pagination[id]) || 1;
+
+  }
+
+  function loadDefault(url, cache, callback){
+
+    if (typeof cache === 'undefined') cache = true;
+    if (typeof page === 'undefined') page = 1;
+
+    $.store({
+      cache:cache,
+      url:url,
+      success:function(data, result){
+        if (typeof callback === 'function') callback(data, result);
+      },
+      failure:function(e){
+        System.showError(e);
+        if (typeof callback === 'function') callback(false);
+      }
+    });
+
+  }
+
+  t.loadFaleConosco = function(){
+
+    var id = 'pessoa-faleconosco';
+    var limit = t.limit;
+    var $panel = $('#tab-pessoa-faleconosco > .panel');
+    var panel = System.getPanelApi($panel);
+    var $list = $('#tab-pessoa-faleconosco .chats');
+
+    if (typeof page === 'undefined') page = getPagination(id) || 1;
+
+    panel.load();
+
+    loadDefault(PATH+"/pessoas/"+t.getIdPessoa()+"/fale-conosco?page="+page+"&limit="+limit, false, function(data, result){
+
+      $list.html('');
+
+      $.each(data, function(index, row){
+
+        var $item = $(t.getTpl('tpl-pessoa-faleconosco-row')(row));
+
+        if (!row.inresposta) $item.addClass('chat-left');
+
+        $list.append($item);
+
+      });
+
+      setPagination(id, $.extend({}, result, {
+        selector:"#tab-pessoa-faleconosco .pagination",
+        load:t.loadFaleConosco
+      }));
+
+      panel.done();
+
+      if (typeof callback === 'function') callback(data);
+
+    });
+
+  };
+
+  t.loadArquivos = function(page, callback){
+
+    var id = 'pessoa-arquivos';
+    var limit = t.limit;
+
+    limit = Math.floor((window.innerHeight-300)/127);
+    limit *= Math.floor(t.$el.find('#tab-pessoa-arquivos').find('.blocks').width()/134);
+    limit = (limit<5)?5:limit;
+
+    var $panel = $('#tab-pessoa-arquivos > .panel');
+    var panel = System.getPanelApi($panel);
+    var $list = $('#tab-pessoa-arquivos ul');
+
+    if (typeof page === 'undefined') page = getPagination(id) || 1;
+
+    panel.load();
+
+    loadDefault(PATH+"/pessoas/"+t.getIdPessoa()+"/arquivos?page="+page+"&limit="+limit, false, function(data, result){
+
+      $list.html('');
+
+      $.each(data, function(index, row){
+
+        var $item = t.getTpl('tpl-pessoa-arquivo')(row);
+
+        $list.append($item);
+
+      });
+
+      setPagination(id, $.extend({}, result, {
+        selector:"#tab-pessoa-arquivos .pagination",
+        load:t.loadArquivos
+      }));
+
+      panel.done();
+
+      if (typeof callback === 'function') callback(data);
+
+    });
+
+  };
+
+  t.loadTableVendas = function(page, callback){
+
+    var id = 'pessoa-vendas';
+    var limit = t.limit;
+    var $panel = $('#tab-pessoa-pedidos > .panel');
+    var panel = System.getPanelApi($panel);
+    var $tbody = $('#tab-pessoa-pedidos tbody');
+
+    if (typeof page === 'undefined') page = getPagination(id) || 1;
+
+    panel.load();
+
+    loadDefault(PATH+"/pessoas/"+t.getIdPessoa()+"/pedidos?page="+page+"&limit="+limit, false, function(data, result){
+
+      $tbody.html('');
+
+      $.each(data, function(index, row){
+
+        var $tr = t.getTpl('tpl-pessoa-pedido-row')(row);
+
+        $tbody.append($tr);
+
+      });
+
+      setPagination(id, $.extend({}, result, {
+        selector:"#tab-pessoa-arquivos .pagination",
+        load:t.loadArquivos
+      }));
+
+      panel.done();
+
+      if (typeof callback === 'function') callback(data);
+
+    });
+
+  };
+
+  t.init = function(){
+
+    t.initFieldClassEmpty();
+    t.initFieldCPF();
+    t.initFieldPessoaTipo();
+    t.initFormPessoaEditar();
+    t.initTabs();
+
+    t.$el.on('click', '#btn-actions-refresh', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.reload(function(){
+
+        $btn.btnload('unload');
+
+      });
+
+    });
+
+    t.$el.on('click', '#btn-pedido-reload', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.loadTableVendas(1, function(){
+
+        $btn.btnload('unload');
+
+      });
+      
+    });
+
+    t.$el.on('click', '#btn-actions-close', function(){
+
+      t.setTabActive('tab-pessoa-home');
+      
+    });
+
+    t.$el.on('click',  "#btn-actions-endereco-close", function(){
+
+      t.setTabActive('tab-pessoa-enderecos');
+
+    });
+
+    t.$el.on('click', "#btn-actions-endereco-add-close", function(){
+
+      t.setTabActive('tab-pessoa-enderecos');
+
+    });
+
+    t.$el.on('click', '#btn-pessoa-editar', function(){
+
+      t.setTabActive('tab-pessoa-editar');
+
+    });
+
+    t.$el.on('click', '#btn-delete-pessoa', function(){
+
+      t.deletePessoa();
+
+    });
+
+    t.$el.on('click', '#pessoa-photo', function(){
+
+      t.uploadPhoto();
+
+    });
+
+    t.$el.on('click', '#btn-pessoa-arquivos-reload', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.loadArquivos(1, function(){
+
+        $btn.btnload('unload');
+
+      });
+
+    });
+
+    t.$el.on('click', '#btn-pessoa-arquivos-upload', function(){
+
+      $.upload({
+        url:PATH+"/pessoas/"+t.getIdPessoa()+"/arquivos",
+        multiple:true,
+        accept:"*",
+        modalInfo:true,
+        success:function(data){
+
+          t.loadArquivos(1);
+
+        }
+      });
+
+    });
+
+  };
+
+  t.init();
+
+});
+
+var pessoa = JSON.parse('{function="json_encode($pessoa)"}');  
+var pessoaPanel = new PessoaPanel(pessoa, '#pessoa-panel');</script>

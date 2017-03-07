@@ -1,38 +1,35 @@
-CREATE PROCEDURE sp_menus_save (
-pidmenupai INT,
+CREATE PROCEDURE sp_menus_save(
 pidmenu INT,
-pdesicone VARCHAR(64),
+pidmenufather INT,
+pdesmenu VARCHAR(128),
+pdesicon VARCHAR(64),
 pdeshref VARCHAR(64),
-pnrordem INT,
-pdesmenu VARCHAR(128)
+pnrorder INT,
+pnrsubmenus INT
 )
 BEGIN
 
-    IF pidmenupai = 0 THEN
-        SET pidmenupai = NULL;
-    END IF;
-
     IF pidmenu = 0 THEN
     
-        INSERT INTO tb_menus (idmenupai, desicone, deshref, nrordem, desmenu)
-        VALUES(pidmenupai, pdesicone, pdeshref, pnrordem, pdesmenu);
+        INSERT INTO tb_menus (idmenufather, desmenu, desicon, deshref, nrorder, nrsubmenus)
+        VALUES(pidmenufather, pdesmenu, pdesicon, pdeshref, pnrorder, pnrsubmenus);
         
         SET pidmenu = LAST_INSERT_ID();
 
     ELSE
         
-        UPDATE tb_menus
-
+        UPDATE tb_menus        
         SET 
-            idmenupai = pidmenupai,
-            desicone = pdesicone,
+            idmenufather = pidmenufather,
+            desmenu = pdesmenu,
+            desicon = pdesicon,
             deshref = pdeshref,
-            nrordem = pnrordem,
-            desmenu = pdesmenu
+            nrorder = pnrorder,
+            nrsubmenus = pnrsubmenus
         WHERE idmenu = pidmenu;
 
     END IF;
-    
+
     CALL sp_menustrigger_save(pidmenu, pidmenupai);
 
     CALL sp_menus_get(pidmenu);

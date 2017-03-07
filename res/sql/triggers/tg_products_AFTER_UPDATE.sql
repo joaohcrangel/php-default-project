@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tg_products_AFTER_UPDATE AFTER UPDATE ON tb_products FOR EACH ROW
+BEGIN
+	CALL sp_productsdata_save(NEW.idproduct);
+END

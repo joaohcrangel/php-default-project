@@ -9,11 +9,11 @@ class CursosCurriculos extends Collection {
 
     public function get(){}
 
-    public function getByCursoSecao(CursoSecao $secao):CursosCurriculos
+    public function getByCurso(Curso $curso):CursosCurriculos
     {
 
-    	$this->loadFromQuery("CALL sp_curriculosfromsecao_list(?);", array(
-    		$secao->getidsecao()
+    	$this->loadFromQuery("CALL sp_curriculosfromcurso_list(?);", array(
+    		$curso->getidcurso()
     	));
 
     	return $this;

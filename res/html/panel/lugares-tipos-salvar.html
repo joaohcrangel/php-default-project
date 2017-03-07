@@ -17,7 +17,7 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-lugares-Tipos-save">
+            <form id="form-lugares-tipos-save">
                 <div class="form-group">
                     <div class="form-group form-material">
                         <input type="hidden" name="idlugartipo">
@@ -26,7 +26,7 @@
                         </label>
                         <input type="text" class="form-control" name="deslugartipo">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnlugares-Tipos-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnlugares-tipos-Save" type="submit">
                         Salvar Novo Lugar
                     </button>
                 </div>
@@ -37,9 +37,7 @@
 <script>
 var lugaresTipos = JSON.parse('{function="json_encode($lugartipo)"}');
 
-$("#form-lugares-Tipos-save").formLoad(lugaresTipos);
-
-$("#form-lugares-Tipos-save").form({
+$("#form-lugares-tipos-save").form({
   url:PATH+"/lugares-tipos",
   params:{
     idlugartipo:lugaresTipos.idlugartipo
@@ -55,5 +53,6 @@ $("#form-lugares-Tipos-save").form({
   }
 });
 
+$("#form-lugares-tipos-save").formLoad(lugaresTipos);
 
 </script>

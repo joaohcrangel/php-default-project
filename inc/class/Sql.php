@@ -1,15 +1,10 @@
-<?php
-/**
-* Classe de Banco de Dados com conexão e métodos para cadastro, alteração e exclusão dinâmicos
-* @package Sql
-*/
-class Sql {
+<?php 
 
-	public $conn;
+class Sql extends PDO {
 
-	const MYSQL = 1;
-	const SQLSERVER = 2;
-	const PDO = 3;
+	private $conn;
+	private $statements = array();
+	private $utf8 = true;
 
 	private $type = DB_TYPE;
 
@@ -18,444 +13,46 @@ class Sql {
 	private $password = DB_PASSWORD;
 	private $database = DB_NAME;
 
-	private $utf8 = true;
-	private $sessionLog = true;
-
-	/*********************************************************************************************************/
-	/**
-	* Método usado para abrir o banco de dados com os atributos private supradeclarados
-	* @metodo conecta
-	*/
-	public function conecta($config = array()){
-
-		try {
-
-			if(count($config)){
-
-				$this->server = $config['server'];
-				$this->username = $config['username'];
-				$this->password = $config['password'];
-				$this->database = $config['database'];
-
-			}
-
-			switch($this->type){
-
-				case Sql::MYSQL:
-				return $this->conectaMySQL();
-				break;
-
-				case Sql::SQLSERVER:
-				return $this->conectaSQLServer();
-				break;
-
-				case Sql::PDO:
-				return $this->conectaPDO();
-				break;
-
-			}
-
-		} catch (Exception $e) {
-
-			var_dump($e->getMessage(), $e);
-
-			// header("location: ".SITE_PATH."/modules/install");
-
-		}
-
-	}
-
-	public function getType(){
-
-		return (int)$this->type;
-
-	}
-
-	public function getDataTypes(){
-
-		switch ($this->type) {
-			case Sql::MYSQL:
-				return array(
-		    		"BIGINT",
-		    		"DECIMAL",
-		    		"DOUBLE",
-		    		"FLOAT",
-		    		"INT",
-		    		"MEDIUMINT",
-		    		"SMALLINT",
-		    		"TINYINT",
-
-		    		"CHAR",
-		    		"VARCHAR",
-
-		    		"DATE",
-		    		"DATETIME",
-		    		"TIME",
-		    		"TIMESTAMP",
-		    		"YEAR",
-
-		    		"TEXT",
-		    		""
-		    	);
-				break;
-
-			case Sql::SQLSERVER:
-				return array();
-				break;
-		}
-
-	}
-
-	private function conectaPDO(){
+	public function __construct()
+	{
 
 		$this->conn = new PDO('mysql:host='.$this->server.';dbname='.$this->database, $this->username, $this->password);
+
     	$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 		return $this->conn;
 
 	}
 
-	private function conectaMySQL(){
+	public function __destruct()
+	{
 
-		$this->conn = @mysqli_connect($this->server, $this->username, $this->password);
 
-		if(!$this->conn){
-
-			throw new Exception("Não foi possível conectar com o servidor de banco de dados.");
-
-		}
-
-		if(!@mysqli_select_db($this->conn, $this->database)) {
-
-			throw new Exception("O banco de dados ".$this->database." não foi encontrado. ".mysqli_error($this->conn));
-
-		}
-
-		return $this->conn;
 
 	}
 
-	private function conectaSQLServer(){
+	public function exec($query)
+	{
 
-		$connInfo = array(
-			"Database"=>$this->database,
-			"UID"=>$this->username,
-			"PWD"=>$this->password
-		);
-		$this->conn = sqlsrv_connect($this->server, $connInfo);
-
-		if(!$this->conn){
-
-			die(print_r(sqlsrv_errors()));
-
-		}
-
-		return $this->conn;
+		return $this->conn->exec($query);
 
 	}
-	/*********************************************************************************************************/
-	/**
-	* Método Construtor que chama o método conecta() para abrir o banco de dados
-	* @metodo __construct
-	*/
-	public function __construct(){
 
-		if($this->database !== 'database_name_here'){
+	public function query($query, $params = array(), $multi = false)
+	{
 
-			return $this->conecta();
-
-		}
-
-	}
-	/*********************************************************************************************************/
-	/**
-	* Método destrutor que fecha a conexão previamente aberta
-	* @metodo __destruct
-	*/
-	public function __destruct(){
-
-		switch($this->type){
-
-			case Sql::MYSQL:
-			return mysqli_close($this->conn);
-			break;
-
-			case Sql::SQLSERVER:
-			return sqlsrv_close($this->conn);
-			break;
-
-			case Sql::PDO:
-			return true;
-			break;
-
-		}
-
-	}
-	/*********************************************************************************************************/
-	/**
-	* Método que executa várias instruções no banco de dados
-	* @metodo querys
-	*/
-	public function querys($querys = array(), $params = array()){
-
-		$p = array();
-
-		foreach($params as $param){
-
-			foreach($param as $val){
-
-				array_push($p, $val);
-
-			}
-
-		}
-
-		$resource = $this->query(implode(";",$querys), $p, true);
-
-		$results = array();
-
-		switch($this->type){
-
-			case Sql::MYSQL:
-
-				do{
-
-					if ($result = mysqli_store_result($this->conn)) {
-
-			            array_push($results, $this->getArrayRows($result));
-
-			            mysqli_free_result($result);
-			        }
-
-		    	}while(mysqli_more_results($this->conn) && mysqli_next_result($this->conn));
-
-		    break;
-
-		    case Sql::SQLSERVER:
-
-		    	throw new Exception("Pendente");
-
-		    break;
-
-		    case Sql::PDO:
-
-		    	$results = $resource;
-
-		    break;
-
-		}
-
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute($this->validParams($params));
+		$results = $stmt->fetchAll();
+		$stmt->nextRowset();
+		
 		return $results;
 
 	}
 
-	public function queryFromFile($filename, $params = array()){
-
-		if (file_exists($filename)) {
-
-			return $this->query(file_get_contents($filename), $params);
-
-		} else {
-			throw new Exception("O arquivo {$filename} não existe.", 400);
-		}
-
-	}
-	/*********************************************************************************************************/
-	/**
-	* Método que executa qualquer instrução no banco de dados em uso
-	* @metodo query
-	*/
-	public function query($query, $params = array(), $multi = false){
-
-		$this->conecta();
-
-		$resource = null;
-		$originalQuery = $query;
-
-		if(count($params)){
-
-			$query = str_replace('?','{?}', $query);
-			$query = $this->setParamsToQuery($query, $this->trataParams($params));
-
-		}
-
-		if ($_SERVER['HTTP_HOST'] === 'locahost' && isset($_GET['query-debug'])) pre($query);
-
-		try{
-
-			if ($this->sessionLog === true) {
-				if (!isset($_SESSION['querys']) || gettype($_SESSION['querys']) !== 'array') {
-					$_SESSION['querys'] = array();
-				}
-
-				array_push($_SESSION['querys'], array(
-					'query'=>$query,
-					'date'=>date('Y-m-d H:i:s')
-				));
-			}
-
-			$resource = null;
-
-			switch($this->type){
-
-				case Sql::PDO:
-
-				if ($multi === false) {
-					$resource = $this->conn->exec($query);
-				} else {
-					$query .= ';';
-					$query = str_replace(';;', ';', $query);
-					$stmt = $this->conn->prepare($query);
-
-					$stmt->execute();
-
-					$resource = array();
-					do {
-
-						$rowCount = $stmt->rowCount();
-
-						//var_dump('rowCount', $rowCount);
-
-						if ($rowCount > 0) {
-
-							$fields = $this->getFieldsFromResouce($stmt);
-
-							$rowset = $this->getResultArrayPDO($fields, $stmt->fetchAll());
-
-
-
-						    if ($rowset) {
-						        array_push($resource, $rowset);
-						    } else {
-						    	array_push($resource, array());
-						    }
-
-						} else {
-
-							//array_push($resource, array());
-
-						}
-
-					} while ($stmt->nextRowset());
-					
-				}
-				break;
-
-				case Sql::MYSQL:
-
-				if($multi === false){
-					$resource = mysqli_query($this->conn, $query);
-				}else{
-					$query .= ';';
-					$query = str_replace(';;', ';', $query);
-					$resource = mysqli_multi_query($this->conn, $query);
-
-				}
-				break;
-
-				case Sql::SQLSERVER:
-
-				if($multi === false){
-					$resource = sqlsrv_query($this->conn, $query);
-				}else{
-
-					$queryFinal = array();
-					$paramFinal = array();
-
-					for ($i = 0; $i < count($querys); $i++) {
-
-						$query = $querys[$i];
-						$param = $this->trataParams($params[$i]);
-
-						$st = sqlsrv_prepare($this->conn, $query, $param);
-
-						if(!$st){
-
-							die(print_r(sqlsrv_errors(), true));
-
-						}else{
-
-							array_push($queryFinal, $query);
-
-							foreach ($param as $p) {
-								array_push($paramFinal, $p);
-							}
-
-						}
-
-					}
-
-					$results = array();
-
-					$r = $this->query(implode("; ", $queryFinal), $paramFinal);
-
-					if(!$r){
-
-						die(print_r(sqlsrv_errors(), true));
-
-					}
-
-					$row = sqlsrv_fetch_array($r, SQLSRV_FETCH_ASSOC);
-					array_push($results, $row);
-
-					while($result = sqlsrv_next_result($r)){
-
-						$row = sqlsrv_fetch_array($r, SQLSRV_FETCH_ASSOC);
-						array_push($results, $row);
-
-					}
-
-					return $results;
-
-				}
-				break;
-
-			}
-
-		}catch(Exception $e){
-
-			 var_dump($e, debug_backtrace());
-
-		}
-
-		if(!isset($resource) || !$resource){
-
-			switch($this->type){
-
-				case Sql::MYSQL:
-				var_dump(mysqli_error($this->conn), debug_backtrace());
-				break;
-
-				case Sql::SQLSERVER:
-				var_dump(sqlsrv_errors(), debug_backtrace());
-				break;
-
-			}
-
-		}
-
-		return $resource;
-
-	}
-
-	private function setParamsToQuery($query, $params = array()){
-
-		if(strpos($query, '{?}')>-1 && count($params) > 0){
-
-			$first = preg_quote(array_shift($params));
-			$query = preg_replace('/\{\?\}/', $first, $query, 1);
-
-			return $this->setParamsToQuery($query, $params);
-
-		}else{
-
-			return $query;
-
-		}
-
-	}
-
-	public function trataParams($params = array(), $addQuotation = true){
+	private function validParams($params):array
+	{
 
 		$params_new = array();
 
@@ -464,11 +61,7 @@ class Sql {
 			switch(strtolower(gettype($value))){
 				case 'string':
 				$value = ($this->utf8 === true)?utf8_decode($value):$value;
-				if ($addQuotation === true) {
-					array_push($params_new, "'".$value."'");
-				} else {
-					array_push($params_new, $value);
-				}
+				array_push($params_new, $value);
 				break;
 				case 'integer':
 				case 'float':
@@ -477,26 +70,13 @@ class Sql {
 				break;
 				case 'bool':
 				case 'boolean':
-				if ($this->type === Sql::PDO) {
-					array_push($params_new, (bool)$value);
-				} else {
-					array_push($params_new, (($value)?1:0));
-				}
+				array_push($params_new, (bool)$value);
 				break;
 				case 'null':
-				if ($this->type === Sql::PDO) {
-					array_push($params_new, NULL);
-					//array_push($params_new, PDO::PARAM_NULL);
-				} else {
-					array_push($params_new, 'NULL');
-				}
+				array_push($params_new, NULL);
 				break;
 				default:
-				if ($addQuotation === true) {
-					array_push($params_new, "''");
-				} else {
-					array_push($params_new, "");
-				}
+				array_push($params_new, "");
 				break;
 			}
 
@@ -506,80 +86,62 @@ class Sql {
 
 	}
 
-	/*********************************************************************************************************/
-	/**
-	* Método que retorna um registro fatiado em array
-	* @metodo query
-	*/
-	public function select($query, $params = array()){
+	public function arrays():array
+	{
 
-		return $this->arrays($query, true, $params);
+		$args = func_get_args();
+
+		switch (count($args)) {
+			case 1:
+			$query = $args[0];
+			$array = false;
+			$params = array();
+			break;
+
+			case 2:
+			$query = $args[0];
+			$array = false;
+			$params = $args[1];
+			break;
+
+			case 3:
+			$query = $args[0];
+			$array = $args[1];
+			$params = $args[2];
+			break;
+		}
+
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute($this->validParams($params));
+		$results = $this->getResults($stmt);
+		$stmt->nextRowset();
+
+		return $results;
 
 	}
-	/*********************************************************************************************************/
-	/**
-	* Método que recebe o nome da tabela como parâmetro cria uma consulta para retornar todos os campos de uma tabela com seus respectivos datatypes. Transforma esse resultado em um array e retorna este array
-	* @metodo fields
-	*/
-	public function fields($table){
+
+	private function getFields($stmt){
 
 		$fields = array();
 
-		$result = $this->query("SHOW COLUMNS FROM tbl_".strtolower($table));
-
-		while($row = $result->fetch_object()){
-
-			array_push($fields, $row);
-
+		for ($i=0; $i < $stmt->columnCount(); $i++) {
+			$metadata = $stmt->getColumnMeta($i);
+			array_push($fields, array(
+				"field"=>$metadata['name'],
+				"type"=>strtoupper($metadata['native_type']),
+				"max_length"=>$metadata['len']
+			));
 		}
 
 		return $fields;
 
 	}
 
-	private function getFieldsFromResouce($resource){
+	private function getResults($stmt):array
+	{
 
-		$fields = array();
-
-		switch($this->type){
-
-			case SQL::MYSQL:
-			if(gettype($resource) === 'object'){
-				$finfo = $resource->fetch_fields();
-			    foreach($finfo as $val){
-					array_push($fields, array(
-						"field"=>$val->name,
-						"type"=>strtoupper($val->type),
-						"max_length"=>$val->max_length
-					));
-				}
-			}
-			break;
-
-			case SQL::SQLSERVER:
-			foreach(sqlsrv_field_metadata($resource) as $field){
-				array_push($fields, array("field"=>$field['Name'], "type"=>strtoupper($field['Type']), "max_length"=>$field['Size']));
-			}
-			break;
-
-			case SQL::PDO:
-			for ($i=0; $i < $resource->columnCount(); $i++) {
-				$metadata = $resource->getColumnMeta($i);
-				array_push($fields, array(
-					"field"=>$metadata['name'],
-					"type"=>strtoupper($metadata['native_type']),
-					"max_length"=>$metadata['len']
-				));
-			}
-			break;
-
-		}
-
-		return $fields;
-
-	}
-
-	private function getResultArrayPDO($fields, $data){
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$fields = $this->getFields($stmt);
 
 		foreach ($data as &$row) {
 
@@ -607,10 +169,31 @@ class Sql {
 						$row[$f['field']] = (bool)$row[$f['field']];
 						break;
 
+						case 'DATE':
+						if ($row[$f['field']]) {
+							$row[$f['field']] = $row[$f['field']];
+							$row['des'.$f['field']] = date("d/m/Y", strtotime($row[$f['field']]));
+							$row['ts'.$f['field']] = strtotime($row[$f['field']]);
+							$row['obj'.$f['field']] = new DateTime($row[$f['field']]);
+						} else {
+							$row['des'.$f['field']] = '';
+							$row['ts'.$f['field']] = '';
+							$row['obj'.$f['field']] = NULL;
+						}
+						break;
+
 						case 'TIMESTAMP':
+						case 'DATETIME':
 						$row[$f['field']] = $row[$f['field']];
-						$row['des'.$f['field']] = date("d/m/Y", strtotime($row[$f['field']]));
-						$row['ts'.$f['field']] = strtotime($row[$f['field']]);
+						if ($row[$f['field']]) {
+							$row['des'.$f['field']] = date("d/m/Y H:i:s", strtotime($row[$f['field']]));
+							$row['ts'.$f['field']] = strtotime($row[$f['field']]);
+							$row['obj'.$f['field']] = new DateTime($row[$f['field']]);
+						} else {
+							$row['des'.$f['field']] = '';
+							$row['ts'.$f['field']] = '';
+							$row['obj'.$f['field']] = NULL;
+						}
 						break;
 
 						case 'VAR_STRING':
@@ -630,229 +213,72 @@ class Sql {
 
 	}
 
-	public function getArrayRows($resource){
+	public function select($query, $params = array())
+	{
 
-		$fields = $this->getFieldsFromResouce($resource);
+		$results = $this->arrays($query, $params);
 
-		$data = array();
-
-		switch($this->type){
-
-			case SQL::PDO:
-
-			$data = $this->getResultArrayPDO($fields, $resource->fetchAll());
-
-			break;
-
-			case SQL::SQLSERVER:
-
-				while($a1 = sqlsrv_fetch_array($resource)){
-		            $record = array();
-		            foreach($fields as $f) {
-
-		                switch ((int)$f['type']) {
-							case 4:
-								$record[$f['field']] = (int)($a1[$f['field']]);
-								break;
-							case -6:
-								$record[$f['field']] = (int)($a1[$f['field']]);
-								break;
-							case 3:
-								$record[$f['field']] = (float)($a1[$f['field']]);
-								break;
-							case 16:
-								$record[$f['field']] = (int)($a1[$f['field']]);
-								break;
-							case 20:
-								$record[$f['field']] = (float)($a1[$f['field']]);
-								break;
-							case 11:
-								$record[$f['field']] = (bool)($a1[$f['field']]);
-								break;
-							case -7:
-								$record[$f['field']] = (bool)($a1[$f['field']]);
-								break;
-							case 6:
-								$record[$f['field']] = (float)number_format($a1[$f['field']], 2, '.', '');
-								break;
-							case 14:
-								$record[$f['field']] = (float)number_format($a1[$f['field']], 2, '.', '');
-								break;
-							case -154:
-								if($datetime){
-									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
-								}else{
-									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('H:i:s'):NULL;
-								}
-								$record["des".$f['field']] = date("d/m/Y H:i", strtotime($record[$f['field']]));
-							break;
-							case 7:
-								if($datetime){
-									if($datasql){
-										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('Y-m-d H:i'):NULL;
-									}else{
-										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
-									}
-								}else{
-									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('U'):NULL;
-								}
-								$record["des".$f['field']] = date("d/m/Y H:i", $record[$f['field']]);
-							break;
-							case 93:
-								if($datetime){
-									if($datasql){
-										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('Y-m-d H:i'):NULL;
-										$record["des".$f['field']] = date("d/m/Y", strtotime($record[$f['field']]));
-									}else{
-										$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]:NULL;
-									}
-								}else{
-									$record[$f['field']] = ($a1[$f['field']])?$a1[$f['field']]->format('U'):NULL;
-									$record["des".$f['field']] = date("d/m/Y", $record[$f['field']]);
-								}
-							break;
-							case 12:
-								$record[$f['field']] = trim(utf8_encode(trim($a1[$f['field']])));
-								break;
-							case 91:
-								$record[$f['field']] = strtotime($a1[$f['field']]->format('Y-m-d H:i:s'));
-								break;
-							default:
-								$record[$f['field']] = trim(utf8_encode(trim($a1[$f['field']])));
-								break;
-							}
-		            }
-		            if(is_array($record)) array_push($data, $record);
-		        }
-
-			break;
-
-			case SQL::MYSQL:
-
-				while(gettype($resource) === 'object' && $a1 = $resource->fetch_array()){
-
-					$record = array();
-
-					foreach($fields as $f){
-
-						switch($f['type']){
-							case 'DATETIME':
-							$record[$f['field']] = strtotime(formatdatetime($a1[$f['field']],8));
-							break;
-							case 'MONEY':
-							$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
-							break;
-							case 'DECIMAL':
-							$record[$f['field']] = number_format($a1[$f['field']],2,'.','');
-							break;
-							default:
-							$value = ($this->utf8 === true)?utf8_encode(trim($a1[$f['field']])):trim($a1[$f['field']]);
-							$record[$f['field']] = $value;
-							unset($value);
-							break;
-						}
-
-					}
-
-					array_push($data, $record);
-
-				}
-
-			break;
-
-		}
-
-		return $data;
+		return (count($results) > 0)?$results[0]:array();
 
 	}
 
-	/*********************************************************************************************************/
-	/**
-	* Método que recebe uma query como parâmetro executa esta query guardando o resultado na variável local $a.
-	* Cria uma variável $fields do tipo array que irá armazenar todos os campos da query em questão por meio do resultado da função fetch_fields(), usando um forech ele armazenará o nome do campo, seu datatype e quantos caracteres são permitidos nesse campo.
-	*Cria uma variável $data do tipo array que irá armazenar o retorno dos dados obtidos pela query, antes porém ela executa um foreach para formatar os campos datetime, decimal e money no padrão americano e tirando espaços para os demais tipos. alimenta o array $data com os registros formatados em $record.
-	* @metodo arrays
-	*/
-	public function arrays($query, $array = false, $params = array()){
+	public function querys($querys = array(), $params = array())
+	{
 
-		switch ($this->type) {
+		$stmt = $this->query(implode(";",$querys), $params, true);
 
-			case Sql::PDO:
-
-				$this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
-				$sth = $this->conn->prepare($query);				
-
-				$params = $this->trataParams($params, false);
-
-		        $sth->execute($params);
-
-				$data = $this->getArrayRows($sth);
-
-	        break;
-
-			default:
-
-				$data = $this->getArrayRows($this->query($query, $params));
-
-			break;
-
-		}
-
-		if(!$array){
-			return $data;
-		}else{
-			if(count($data)==1 && $array){
-				return $data[0];
-			}else{
-				return $data;
-			}
-		}
+		return $this->getResults($stmt);
 
 	}
 
-	public function objects($query, $array = true, $params = array()){
-		$data = $this->arrays($query, $array, $params);
-		foreach($data as &$a){
-			$a = (object)$a;
-		}
-		return $data;
-	}
-
-	public function insert($query, $params = array()){
+	public function insert($query, $params = array())
+	{
 
 		return $this->select($query, $params);
 
 	}
 
-	public function proc($name, $params = array(), $returnQuery = false){
+	private function getParamsSymbols($params, $symbol = "?"):array
+	{
 
 		$i = array();
 		foreach ($params as $p) {
-			array_push($i, "?");
+			array_push($i, $symbol);
 		}
 
-		switch($this->getType()){
+		return $i;
 
-			case Sql::MYSQL:
-			case Sql::PDO:
-			$query = "CALL ".$name."(".implode(", ", $i).");";
-			break;
+	}
 
-			case Sql::SQLSERVER:
-			$query = "EXEC ".$name." ".implode(", ", $i);
-			break;
+	public function proc($name, $params = array(), $returnQuery = false){
 
-		}
+		$query = "CALL $name(".implode(",", $this->getParamsSymbols($params)).");";
 
-		if($returnQuery === false){
-			return $this->arrays($query, false, $params);
-		}else{
+		if ($returnQuery === false) {
+			return $this->arrays($query, $params);
+		} else {
 			return $query;
 		}
 
 	}
 
-	public function getDataBases(){
+	public function queryFromFile($filename, $params = array())
+	{
+
+		if (file_exists($filename)) {
+
+			return $this->exec(file_get_contents($filename), false, $params);
+
+		} else {
+
+			throw new SqlException("O arquivo {$filename} não existe.", 400);
+		
+		}
+
+	}
+
+	public function getDataBases():array
+	{
 
 		$rows = array();
 		foreach ($this->arrays("SHOW DATABASES") as $row) {
@@ -862,7 +288,8 @@ class Sql {
 
 	}
 
-	public function getTables($database){
+	public function getTables($database):array
+	{
 
 		$rows = array();
 		foreach($this->arrays("SHOW TABLES FROM $database") as $row){
@@ -873,5 +300,5 @@ class Sql {
 	}
 
 }
-if (isset($_SESSION['querys'])) unset($_SESSION['querys']);
+
 ?>

@@ -1,0 +1,31 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600" style="height:100%"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados da categoria {$categoria.descategoria}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-categoria-tipo" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-categoria" role="tabpanel"><form id="form-categoria"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descategoria" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-info waves-effect">Salvar</button> <button type="button" class="btn btn-default waves-effect slidePanel-close">Fechar</button></div></form></div></div></div></div></div><script>var categoria = JSON.parse('{function="json_encode($categoria)"}');
+
+var form = $("#form-categoria");
+
+form.formLoad(categoria);
+
+form.form({
+	url:PATH+"/pessoas-categorias-tipos",
+	resetForm:false,
+	params:{
+		idcategoria:categoria.idcategoria
+	},
+	success:function(){
+		System.success("Categoria salva com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});
+
+new Tab({
+	id:"tabs-categoria-tipo",
+	items:[{
+		title:"Dados",
+		id:"tab-categoria"
+	}]
+})</script>

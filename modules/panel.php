@@ -140,29 +140,57 @@ $app->get("/panel/gateways-criar", function(){
 });
 
 // pagamentos-status
-$app->get("/panel/pagamentos-status/:idstatus", function($idstatus){
+$app->get("/panel/pedidos-status/:idstatus", function($idstatus){
 
-	$status = new PagamentoStatus((int)$idstatus);
+	$status = new PedidoStatus((int)$idstatus);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pagamentos-status-salvar", array(
+	$page->setTpl("panel/pedidos-status-salvar", array(
 		"status"=>$status->getFields()
 	));
 
 });
 
-$app->get("/panel/pagamentos-status-criar", function(){
+$app->get("/panel/pedidos-status-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pagamentos-status-criar");
+	$page->setTpl("panel/pedidos-status-criar");
+
+});
+
+// pedidosnegociacoestipos
+
+$app->get("/panel/pedidosnegociacoes-tipos/:idnegociacao", function($idnegociacao){
+
+	$pedido = new PedidoNegociacaoTipo((int)$idnegociacao);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pedidonegociacao-tipo-salvar", array(
+		"pedido"=>$pedido->getFields()
+	));
+
+});
+
+$app->get("/panel/pedidonegociacao-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pedidonegociacao-tipo-criar");
 
 });
 
@@ -610,6 +638,8 @@ $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 // lugares
 $app->get("/panel/lugares/:idlugar", function($idlugar){
 
+	$config = Session::getConfiguracoes();
+
 	$lugar = new Lugar((int)$idlugar);
 
 	$page = new Page(array(
@@ -626,19 +656,25 @@ $app->get("/panel/lugares/:idlugar", function($idlugar){
 	$data['Horarios'] = $horarios;
 
 	$page->setTpl("panel/lugar", array(
-		"lugar"=>$data
+		"lugar"=>$data,
+		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
+		"enderecosTipos"=>EnderecosTipos::listAll()->getFields()
 	));
 
 });
 
 $app->get("/panel/lugar-criar", function(){
 
+	$config = Session::getConfiguracoes();
+
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-criar");
+	$page->setTpl("panel/lugar-criar", array(
+		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
+	));
 
 });
 
@@ -723,7 +759,7 @@ $app->get("/panel/carousels-items-tipos/:idtipo", function($idtipo){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo", array(
+	$page->setTpl("panel/carousel-item-tipo-salvar", array(
 		"tipo"=>$tipo->getFields()
 	));
 
@@ -737,6 +773,146 @@ $app->get("/panel/carousel-item-tipo-criar", function(){
 	));
 
 	$page->setTpl("panel/carousel-item-tipo-criar");
+
+});
+////////////////////////////////////////////////////////////////
+
+// paises
+$app->get("/panel/paises/:idpais", function($idpais){
+
+	$pais = new Pais((int)$idpais);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pais", array(
+		"pais"=>$pais->getFields()
+	));
+
+});
+
+$app->get("/panel/pais-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pais-criar");
+
+});
+/////////////////////////////////////////////////////
+
+// estados
+$app->get("/panel/estados/:idestado", function($idestado){
+
+	$estado = new Estado((int)$idestado);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/estado", array(
+		"estado"=>$estado->getFields()
+	));
+
+});
+
+$app->get("/panel/estado-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/estado-criar");
+
+});
+///////////////////////////////////////////////////////
+
+// cidades
+$app->get("/panel/cidades/:idcidade", function($idcidade){
+
+	$cidade = new Cidade((int)$idcidade);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cidade", array(
+		"cidade"=>$cidade->getFields()
+	));
+
+});
+
+$app->get("/panel/cidade-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/cidade-criar");
+
+});
+////////////////////////////////////////////////////
+
+// pessoas categorias tipos
+$app->get("/panel/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
+
+	$categoria = new PessoaCategoriaTipo((int)$idcategoria);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-categoria-tipo", array(
+		"categoria"=>$categoria->getFields()
+	));
+
+});
+
+$app->get("/panel/pessoa-categoria-tipo-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/pessoa-categoria-tipo-criar");
+
+});
+///////////////////////////////////////////////////////////
+
+// urls
+$app->get("/panel/urls/:idurl", function($idurl){
+
+	$url = new Url((int)$idurl);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/url", array(
+		"url"=>$url->getFields()
+	));
+
+});
+
+$app->get("/panel/url-criar", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/url-criar");
 
 });
 

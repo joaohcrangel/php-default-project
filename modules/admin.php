@@ -229,11 +229,31 @@ $app->get("/".DIR_ADMIN."/produtos", function(){
 
 });
 
+$app->get("/admin/permissoes", function(){
+
+    $permisao = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $permisao->setTpl("/admin/permissoes");
+
+});
+
 $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/produtos-tipos");
 
@@ -243,7 +263,14 @@ $app->get("/".DIR_ADMIN."/documentos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/documentos-tipos");
 
@@ -253,7 +280,13 @@ $app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/enderecos-tipos");
 
@@ -263,7 +296,13 @@ $app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/usuarios-tipos");
 
@@ -273,7 +312,13 @@ $app->get("/".DIR_ADMIN."/historicos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/historicos-tipos");
 
@@ -283,8 +328,13 @@ $app->get("/".DIR_ADMIN."/formas-pagamentos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
-
+   $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
     $page->setTpl("/admin/formas-pagamento");
 
 });
@@ -293,7 +343,13 @@ $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/lugares-tipos");
 
@@ -303,7 +359,13 @@ $app->get("/".DIR_ADMIN."/cupons-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/cupons-tipos");
 
@@ -313,7 +375,13 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+          'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/gateways");
 
@@ -323,7 +391,13 @@ $app->get("/".DIR_ADMIN."/pedidos-status", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pedidos-status");
 
@@ -333,7 +407,14 @@ $app->get("/".DIR_ADMIN."/contatos-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/contatos-tipos");
 
@@ -343,9 +424,31 @@ $app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pessoas-valorescampos");
+
+});
+
+$app->get("/".DIR_ADMIN."/pedidosnegociacoestipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/pedidosnegociacoestipos");
 
 });
 
@@ -353,7 +456,13 @@ $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/pessoas-tipos");
 
@@ -435,7 +544,14 @@ $app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+
+    ));
 
     $page->setTpl("/admin/configuracoes-tipos");
 
@@ -482,9 +598,31 @@ $app->get("/".DIR_ADMIN."/carousels", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
 
     $page->setTpl("/admin/carousels");
+
+});
+
+$app->get("/".DIR_ADMIN."/carousels-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/carousels-tipos");
 
 });
 
@@ -501,6 +639,86 @@ $app->get("/".DIR_ADMIN."/lugares", function(){
     ));
 
     $page->setTpl("/admin/lugares");
+
+});
+
+$app->get("/".DIR_ADMIN."/paises", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/paises");
+
+});
+
+$app->get("/".DIR_ADMIN."/estados", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/estados");
+
+});
+
+$app->get("/".DIR_ADMIN."/cidades", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/cidades");
+
+});
+
+$app->get("/".DIR_ADMIN."/pessoas-categorias-tipos", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/pessoas-categorias-tipos");
+
+});
+
+$app->get("/".DIR_ADMIN."/urls", function(){
+
+    Permissao::checkSession(Permissao::ADMIN, true);
+
+    $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/urls");
 
 });
 
@@ -647,9 +865,9 @@ $app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
             break;
         }
 
-        $sql->query("DROP procedure IF EXISTS $spName;");
+        $sql->exec("DROP procedure IF EXISTS $spName;");
 
-        $sql->query($template_code);
+        $sql->exec($template_code);
 
         echo success(array(
             'data'=>array(

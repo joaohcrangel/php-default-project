@@ -1,10 +1,10 @@
 <?php
 
-class sitescontatos extends Collection {
+class SitesContatos extends Collection {
 
     protected $class = "SiteContato";
     protected $saveQuery = "sp_sitescontatos_save";
-    protected $saveArgs = array("idsitecontato", "idpessoa", "desmensagem", "inlido");
+    protected $saveArgs = array("idsitecontato", "idpessoa", "desmensagem", "inlido", "idpessoaresposta");
     protected $pk = "idsitecontato";
     public function get(){}
 

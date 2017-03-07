@@ -17,7 +17,12 @@ BEGIN
         idrg, desrg,
         dtatualizacao,
         dessexo,
-        dtnascimento
+        dtnascimento,
+        desfoto,
+        incliente, infornecedor, incolaborador,
+        idendereco, idenderecotipo, desendereco, desnumero, 
+        desbairro, descidade, desestado, despais, descep, descomplemento,
+        desenderecotipo
     )
     SELECT 
     a.idpessoa, a.despessoa,
@@ -33,7 +38,13 @@ BEGIN
     h.iddocumento AS idrg, h.desdocumento AS desrg,
     NOW(),
     CAST(j.desvalor AS CHAR(1)) AS dessexo,
-    CAST(k.desvalor AS DATE) AS dtnascimento   
+    CAST(k.desvalor AS DATE) AS dtnascimento,
+    o.desvalor AS desfoto,
+    CASE WHEN l.idpessoa IS NULL THEN 0 ELSE 1 END AS incliente,
+    CASE WHEN m.idpessoa IS NULL THEN 0 ELSE 1 END AS infornecedor,
+    CASE WHEN n.idpessoa IS NULL THEN 0 ELSE 1 END AS incolaborador,
+    p.idendereco, p.idenderecotipo, p.desendereco, p.desnumero, p.desbairro, 
+    p.descidade, p.desestado, p.despais, p.descep, p.descomplemento, q.desenderecotipo
     FROM tb_pessoas a
     INNER JOIN tb_pessoastipos b ON a.idpessoatipo = b.idpessoatipo
     LEFT JOIN tb_usuarios c ON c.idpessoa = a.idpessoa
@@ -44,6 +55,12 @@ BEGIN
     LEFT JOIN tb_documentos h ON h.iddocumento = (SELECT h1.iddocumento FROM tb_documentos h1 WHERE h1.idpessoa = a.idpessoa AND h1.iddocumentotipo = 3 LIMIT 1) -- RG
     LEFT JOIN tb_pessoasvalores j ON j.idcampo = (SELECT j1.idcampo FROM tb_pessoasvalores j1 WHERE j1.idpessoa = a.idpessoa AND j1.idcampo = 1 LIMIT 1) -- SEXO
     LEFT JOIN tb_pessoasvalores k ON k.idcampo = (SELECT k1.idcampo FROM tb_pessoasvalores k1 WHERE k1.idpessoa = a.idpessoa AND k1.idcampo = 2 LIMIT 1) -- DATA DE NASCIMENTO
+    LEFT JOIN tb_pessoasvalores o ON o.idcampo = (SELECT o1.idcampo FROM tb_pessoasvalores o1 WHERE o1.idpessoa = a.idpessoa AND o1.idcampo = 3 LIMIT 1) -- FOTO
+    LEFT JOIN tb_pessoascategorias l ON a.idpessoa = l.idpessoa AND l.idcategoria = 1 -- CLIENTE
+    LEFT JOIN tb_pessoascategorias m ON a.idpessoa = m.idpessoa AND m.idcategoria = 2 -- FORNECEDOR
+    LEFT JOIN tb_pessoascategorias n ON a.idpessoa = n.idpessoa AND n.idcategoria = 3 -- COLABORADOR
+    LEFT JOIN tb_enderecos p ON p.idendereco = (SELECT p1.idendereco FROM tb_enderecos p1 INNER JOIN tb_pessoasenderecos p2 ON p1.idendereco = p2.idendereco WHERE p2.idpessoa = a.idpessoa ORDER by p1.inprincipal DESC, p2.dtcadastro DESC LIMIT 1)
+    LEFT JOIN tb_enderecostipos q ON q.idenderecotipo = p.idenderecotipo
     WHERE 
             a.idpessoa = pidpessoa 
             AND 

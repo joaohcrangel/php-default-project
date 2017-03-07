@@ -8,14 +8,15 @@ pdescidade VARCHAR(128),
 pdesestado VARCHAR(128),
 pdespais VARCHAR(32),
 pdescep CHAR(8),
-pdescomplemento VARCHAR(64)
+pdescomplemento VARCHAR(64),
+pinprincipal BIT
 )
 BEGIN
 
     IF pidendereco = 0 THEN
     
-        INSERT INTO tb_enderecos (idenderecotipo, desendereco, desnumero, desbairro, descidade, desestado, despais, descep, descomplemento)
-        VALUES(pidenderecotipo, pdesendereco, pdesnumero, pdesbairro, pdescidade, pdesestado, pdespais, pdescep, pdescomplemento);
+        INSERT INTO tb_enderecos (idenderecotipo, desendereco, desnumero, desbairro, descidade, desestado, despais, descep, descomplemento, inprincipal)
+        VALUES(pidenderecotipo, pdesendereco, pdesnumero, pdesbairro, pdescidade, pdesestado, pdespais, pdescep, pdescomplemento, pinprincipal);
         
         SET pidendereco = LAST_INSERT_ID();
 
@@ -32,7 +33,8 @@ BEGIN
             desestado = pdesestado,
             despais = pdespais,
             descep = pdescep,
-            descomplemento = pdescomplemento
+            descomplemento = pdescomplemento,
+            inprincipal = pinprincipal
         WHERE idendereco = pidendereco;
 
     END IF;

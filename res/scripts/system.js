@@ -10,7 +10,6 @@ window.System = {
 
   $(document).ready(function($) {
     
-    //console.warn('Site Run');
     Site.run();
 
     System.getApi = function(plugin, $elements, options){
@@ -33,6 +32,27 @@ window.System = {
 
     };
 
+    function slidePanelAfterShow(){
+
+      var sp = this;
+      sp.$panel.find('.slidePanel-close').on('click', function(){
+        sp.hide();
+      });
+
+      var $content = sp.$panel.find('.slidePanel-inner');
+      var h = -66;
+
+      h += (sp.$panel.find('.slidePanel-header').outerHeight()*-1);
+      h += (sp.$panel.find('.slidePanel-footer').outerHeight()*-1);
+
+      $content.find();
+
+      $content.wrapInner('<div data-auto-height="'+h+'"></div>');
+
+      System.initAutoHeight($content);
+
+    };
+
     System.initSlidePanel = function($elementsParents){
 
       if (!$elementsParents) {
@@ -45,12 +65,7 @@ window.System = {
         settings: {
           method: 'GET'
         },
-        afterShow:function(){
-          var sp = this;
-          sp.$panel.find('.slidePanel-close').on('click', function(){
-            sp.hide();
-          });          
-        }
+        afterShow:slidePanelAfterShow
       }, PluginSlidepanel.default.getDefaults());
 
       $.slidePanel.setDefaults(options);
@@ -72,12 +87,7 @@ window.System = {
         settings: {
           method: 'GET'
         },
-        afterShow:function(){
-          var sp = this;
-          sp.$panel.find('.slidePanel-close').on('click', function(){
-            sp.hide();
-          });          
-        }
+        afterShow:slidePanelAfterShow
       }, PluginSlidepanel.default.getDefaults());
 
       $.slidePanel.setDefaults(options);
@@ -389,20 +399,20 @@ window.System = {
 
     System.initAutoHeight = function($elementParent){
 
-      if (!$elementParent) $elementParent = $('html');
+      if (!$elementParent) $elementParent = $('body');
 
       $elementParent.find('[data-auto-height]').each(function(){
 
         var $el = $(this);
 
-        if ($el.data('role') != 'content') {
+        if ($el.data('role') !== 'content') {
 
           $el.attr('data-role', 'content');
           $el.removeClass('overflow-auto');
 
-          var $container = $('<div data-plugin="scrollable" class="overflow-auto"><div data-role="container"></div></div>');     
+          var $container = $('<div data-plugin="scrollable"><div data-role="container"></div></div>');
           
-          $container.height($('body').height()+parseInt($el.data('auto-height')));
+          $container.height(getPageSize().height+parseInt($el.data('auto-height')));
 
           $el.wrap($container);
 
@@ -410,6 +420,7 @@ window.System = {
 
         } else {
 
+          $el.closest('[data-plugin="scrollable"]').height(getPageSize().height+parseInt($el.data('auto-height')));
           $el.closest('[data-plugin="scrollable"]').asScrollable("update");
 
         }

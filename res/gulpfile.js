@@ -45,6 +45,8 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/slidepanel/slidePanel.css',
         './theme/material/global/vendor/flag-icon-css/flag-icon.css',
         './theme/material/global/vendor/waves/waves.css',
+        './theme/material/global/vendor/waves/waves.css',
+        './theme/material/global/vendor/summernote/summernote.css',
         './theme/material/global/vendor/select2/select2.min.css',
         './theme/material/global/vendor/chartist/chartist.css',
         './theme/material/global/vendor/jvectormap/jquery-jvectormap.css',
@@ -68,7 +70,10 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/jstree/jstree.min.css',
         './theme/material/global/vendor/chartist/chartist.css',
         './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload.css',
-        './theme/material/global/vendor/dropify/dropify.css'
+        './theme/material/global/vendor/dropify/dropify.css',
+        './theme/material/global/vendor/imagesloaded/imagesloaded.pkgd.js',
+        './theme/material/global/vendor/masonry/masonry.pkgd.min.js',
+        './css/slide-panel.css'
     ])
         .pipe(concat('theme.css'))
         .pipe(cssmin({
@@ -102,6 +107,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/intro-js/intro.js',
         './theme/material/global/vendor/screenfull/screenfull.js',
         './theme/material/global/vendor/slidepanel/jquery-slidePanel.js',
+        './theme/material/global/vendor/summernote/summernote.min.js',
         './theme/material/global/vendor/chartist/chartist.min.js',
         './theme/material/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
         './theme/material/global/vendor/jvectormap/jquery-jvectormap.min.js',
@@ -157,12 +163,14 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/bootstrap-select.js',
         './theme/material/global/js/Plugin/bootstrap-maxlength.js',
         './theme/material/global/js/Plugin/jquery-knob.js',
-        './theme/material/global/js/Plugin/switchery.js',        
+        './theme/material/global/js/Plugin/switchery.js',
+        './theme/material/global/js/Plugin/summernote.js',
         './theme/material/global/js/Plugin/matchheight.js',
         './theme/material/global/js/Plugin/jvectormap.js',
         './theme/material/global/js/Plugin/peity.js',
         '.theme/material/base/assets/examples/js/dashboard/v1.js',
-        './theme/material/global/js/Plugin/asselectable.js',
+        '.theme/material/base/assets/examples/js/forms/editor-summernote.js',
+        './theme/material/global/js/Plugin/asselectable.js',        
         './theme/material/global/js/Plugin/editlist.js',
         './theme/material/global/js/Plugin/animate-list.js',
         './theme/material/global/js/Plugin/aspaginator.js',
@@ -170,6 +178,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/action-btn.js',        
         './theme/material/global/js/Plugin/jquery-placeholder.js',        
         './theme/material/global/js/Plugin/selectable.js',
+        './theme/material/global/js/Plugin/table.js',
         './theme/material/global/js/Plugin/bootbox.js',        
         './theme/material/global/js/Plugin/material.js',
         './theme/material/global/js/Plugin/html5sortable.js',
@@ -184,6 +193,8 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/asrange.js',
         './theme/material/global/js/Plugin/asspinner.js',
         './theme/material/global/js/Plugin/jquery-labelauty.js',
+        './theme/material/global/js/Plugin/masonry.js',
+        './theme/assets/vendor/sly/sly.min.js',
 
         //Others Plugins
         './js/jrangel/jquery.core.js',

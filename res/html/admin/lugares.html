@@ -18,8 +18,8 @@
   height: 39px;
 }
 .page {
-  min-height: calc(100% - 83px);
-}
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);}
 </style>
 <div class="page bg-white">
   <!-- Mailbox Sidebar -->
@@ -66,7 +66,7 @@
     </div>
     <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
       <div style="border-bottom: #e0e0e0 1px solid;">
-        <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
+        <div class="panel panel-bordered overflow-auto" data-auto-height="-291">
           <table id="lista" class="table" data-plugin="animateList" data-animate="fade"
           data-child="tr">
             <thead>
@@ -79,11 +79,13 @@
                 <th>&nbsp;</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              
+            </tbody>
           </table>
-          <!-- pagination -->
-          <div id="paginacao"></div>
         </div>
+         <!-- pagination -->
+          <div id="paginacao"></div>
       </div>      
     </div>
   </div>
@@ -102,7 +104,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idlugar="{{idlugar}}">
+  <tr data-idlugar="{{idlugar}}" data-url="{$path}/panel/lugares/{{idlugar}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -115,7 +117,7 @@
     <td>{{deslugartipo}}</td>
     <td>{{desconteudo}}</td>
     <td>
-      <button class="btn btn-pure btn-default icon md-edit" title="Editar Lugar" data-url="{$path}/panel/lugares/{{idlugar}}" data-toggle="slidePanel"></button>
+      <!-- <button class="btn btn-pure btn-default icon md-edit" title="Editar Lugar"></button> -->
       <button class="btn btn-pure btn-danger icon md-delete" title="Excluir Lugar"></button>
     </td>
   </tr>
@@ -125,7 +127,7 @@
 init.push(function(){
 
   $("[name=idlugartipo]").combobox({
-    url:PATH+"/lugares/tipos",
+    url:PATH+"/lugares-tipos",
     displayField:"deslugartipo",
     valueField:"idlugartipo"
   });
@@ -161,7 +163,8 @@ init.push(function(){
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 10;
+    data.limite = Math.floor((window.innerHeight-291)/53);
+    data.limite = (data.limite<5)?5:data.limite;
 
     rest({
       url:PATH+"/lugares",
@@ -208,21 +211,24 @@ init.push(function(){
 
             $tr.find("[type=checkbox]").on("change", function(){
 
-              alert("ok");
+              var checked = $("#lista tr [type=checkbox]:checked");
 
-                // var input = $("#lista tbody [type=checkbox]:checked").length;
+              var disabled = (checked.length > 0) ? false : true;
 
-                // console.log(input);
-
-                // if(input > 0){
-                //   $("#btn-lugar-horario").prop("disabled", false);
-                // }
+              $("#btn-lugar-horario").prop("disabled", disabled);
 
             });
 
           });
 
           System.initSlidePanel($tbody);
+
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
 
           $footer.html(tplFooter(r));
 
@@ -240,6 +246,7 @@ init.push(function(){
           $panel.done();
 
         }else{
+          $tbody.html('');
           $panel.done();
         }      
 
@@ -290,6 +297,8 @@ init.push(function(){
         }
       }]
   });
+
+  loadLugares();
 
 });
 </script>

@@ -1,5 +1,3 @@
-
-
 <?php
 
 class ConfiguracoesTipos extends Collection {

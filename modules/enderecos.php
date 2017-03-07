@@ -8,13 +8,89 @@
 
  });
 
+ $app->get("/enderecos/:idendereco", function($idendereco){
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $endereco = new Endereco((int)$idendereco);
+
+    echo success(array("data"=>$endereco->getFields()));
+
+ });
+
+$app->get('/enderecos/cep/:nrcep', function($nrcep){
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $endereco = Endereco::getByCEP($nrcep);
+
+    echo success(array(
+        'data'=>$endereco->getFields()
+    ));
+
+});
+
+ $app->get('/enderecos/cidades', function(){
+
+    Permissao::checkSession(Permissao::ADMIN);
+
+    $cidades = new Cidades();
+
+    $cidades->loadFromQuery("
+        SELECT * 
+        FROM tb_cidades a
+        INNER JOIN tb_estados b ON a.idestado = b.idestado
+        WHERE descidade LIKE '".utf8_decode(get('q'))."%'
+        ORDER BY descidade, desuf
+        LIMIT 10
+    ");
+
+    echo success(array(
+        'data'=>$cidades->getFields()
+    ));
+
+ });
+
  $app->get('/enderecos/tipos', function () {
 
 	Permissao::checkSession(Permissao::ADMIN);
 
-	echo success(array(
-		'data'=>EnderecosTipos::listAll()->getFields()
-	));
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
+
+    $where = array();
+
+    if(get('desenderecotipo')) {
+        array_push($where, "desenderecotipo LIKE '%".get('desenderecotipo')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "
+        SELECT SQL_CALC_FOUND_ROWS *
+        FROM tb_enderecostipos 
+        ".$where." LIMIT ?, ?;";
+
+      $paginacao = new Pagination(
+        $query,
+        array(),
+        "EnderecosTipos",
+        $itemsPerPage
+    );
+
+    $enderecostipos = $paginacao->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$enderecostipos->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$paginacao->getTotal(),
+
+    ));
 
 });
 

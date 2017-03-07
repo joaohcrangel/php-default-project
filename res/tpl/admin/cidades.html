@@ -1,0 +1,190 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+    margin-left: 310px;
+}
+#cidade-footer {
+  height: 39px;
+}
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Cidades</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="descidade"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Estado</label><select name="idestado" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="cidade-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idcidade="{{idcidade}}" data-url="{$path}/panel/cidades/{{idcidade}}" data-toggle="slidePanel">
+    <td class="cell-60">
+      <span class="checkbox-custom checkbox-primary checkbox-lg">
+        <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
+        />
+        <label for="mail_mid_1"></label>
+      </span>
+    </td>
+    <td>{{descidade}}</td>
+    <td>{{desestado}}</td>
+    <td>
+      <!-- <button type="button" class="btn btn-primary btn-sm text-uppercase" style="border-radius:0;">Editar</button> -->
+      <button type="button" class="btn btn-danger btn-sm text-uppercase" style="border-radius:0;">Remover</button>
+    </td>
+  </tr></script><script>init.push(function(){
+
+  var tplCidade = Handlebars.compile($("#tpl-row").html());
+
+  var tplFooter = Handlebars.compile($("#tpl-footer").html());
+
+  var $panel = System.getPanelApi($("#mailContent .panel"));
+
+  var $tbody = $("#mailContent .panel tbody");
+
+  var $footer = $("#cidade-footer");
+
+  $("#form-filtros [name=idestado]").combobox({
+    url:PATH+"/estados",
+    displayField:"desestado",
+    valueField:"idestado"
+  });
+
+  $("#form-filtros [type=submit]").on("click", function(e){
+
+    e.preventDefault();
+
+    loadCidades();
+
+  });
+
+  $("#form-filtros input").on("keyup", function(e){
+    if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+  });
+
+  function loadCidades(pagina){
+
+    if(!pagina) pagina = 1;
+
+    $panel.load();
+
+    var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
+    data.limite = Math.floor((window.innerHeight-291)/53);
+    data.limite = (data.limite<5)?5:data.limite;
+
+    rest({
+      url:PATH+"/cidades/all",
+      data:data,
+      success:function(r){
+
+        if(r.data.length > 0){          
+
+          $tbody.html('');
+
+          $.each(r.data, function(index, row){
+
+            var $tr = $(tplCidade(row));
+
+            $tbody.append($tr);
+
+            $tr.find(".btn-danger").on("click", function(){
+
+              System.confirm("Deseja realmente remover "+row.descidade+"?", function(b, s, f){
+
+                if(b){
+
+                  rest({
+                    url:PATH+"/cidades/"+row.idcidade,
+                    method:"DELETE",
+                    success:function(){
+
+                      s("Cidade removida com sucesso");
+                      $tr.remove();
+                      System.done();
+
+                    },
+                    failure:function(r){
+                      f(r);
+                      System.done();
+                    }
+                  });
+
+                }else{
+                  f();
+                }
+
+              });
+
+            });
+
+          });
+
+          System.initSlidePanel($tbody);
+
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
+
+          $footer.html(tplFooter(r));
+
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage:r.currentPage,
+            itemsPerPage:r.itemsPerPage,
+            onChange:function(page){
+              loadCidades(page);
+            }
+          });
+
+          console.log(config);
+
+          $("#paginacao").asPaginator(r.total, config);
+
+          $panel.done();
+
+        }else{
+          $tbody.html('');          
+          $panel.done();
+        }      
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  }
+
+  new ToolBar({
+      id:"actions-buttons",
+      buttons:[{
+        text:"Cadastrar",
+        icon:"md-plus",
+        cls:"btn-success",
+        listeners:{
+          click:function(btn, e){
+            
+            System.openSlidePanel({
+              url:PATH+"/panel/cidade-criar"
+            });
+
+          }
+        }
+      }]
+  });
+
+  loadCidades();
+
+});</script>

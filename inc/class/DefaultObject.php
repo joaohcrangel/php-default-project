@@ -196,5 +196,18 @@ class DefaultObject {
 
 	}
 
+	public static function toMask($mask, $str):string
+	{
+
+	    for($i=0;$i<strlen($str);$i++){
+
+	    	$mask[strpos($mask,"#")] = $str[$i];	
+	    	
+	    }
+
+	    return $mask;
+
+	}
+
 }
 ?>

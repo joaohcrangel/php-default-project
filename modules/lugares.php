@@ -26,7 +26,8 @@ $app->get("/lugares", function(){
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS a.*, b.desendereco, c.deslugartipo FROM tb_lugares a
-			INNER JOIN tb_enderecos b ON a.idendereco = b.idendereco
+			INNER JOIN tb_lugaresenderecos b1 ON a.idlugar = b1.idlugar
+			INNER JOIN tb_enderecos b ON b1.idendereco = b.idendereco
 		    INNER JOIN tb_lugarestipos c ON a.idlugartipo = c.idlugartipo
 		".$where." ORDER BY a.deslugar LIMIT ?, ?;
 	";
@@ -52,17 +53,121 @@ $app->get("/lugares", function(){
 
 });
 
+$app->get("/lugares/:idlugar", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	echo success(array("data"=>$lugar->getFields()));
+
+});
+
+$app->get("/lugares/:idlugar/enderecos", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	echo success(array("data"=>$lugar->getEnderecos()->getFields()));
+
+});
+
+$app->get("/lugares/:idlugar/arquivos", function($idlugar){
+
+	// pre($_GET);
+	// exit;
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	$where = array();
+
+	array_push($where, "b.idlugar = ".$lugar->getidlugar()."");
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where);
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.deslugar FROM tb_arquivos a
+			INNER JOIN tb_lugaresarquivos c ON a.idarquivo = c.idarquivo
+	        INNER JOIN tb_lugares b ON c.idlugar = b.idlugar
+	    ".$where." LIMIT ?, ?;
+	";
+
+	$pagina = (int)get('pagina');
+	$itemsPerPage = (int)get('limit');
+
+	// pre($query);
+	// exit;
+
+	$paginacao = new Pagination(
+		$query,
+		array(),
+		"Arquivos",
+		$itemsPerPage
+	);
+
+	$arquivos = $paginacao->getPage($pagina);
+
+	echo success(array(
+		"data"=>$arquivos->getFields(),
+		"total"=>$paginacao->getTotal(),
+		"currentPage"=>$pagina,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
 $app->post("/lugares", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
 	if(isset($_POST['idendereco'])){
 
-		$endereco = new Endereco((int)post('idendereco'));
+		if((int)post('idendereco') > 0){
+			$endereco = new Endereco((int)post('idendereco'));
+		}else{
+			$endereco = new Endereco();
+		}
 
-		$endereco->set($_POST);
+		foreach (array(
+			'idenderecotipo',
+			'descep',
+			'desendereco',
+			'desnumero',
+			'descomplemento',
+			'desbairro',
+			'descidade'
+		) as $field) {
+			if (isset($_POST[$field]) && post($field)) {
+				$endereco->{'set'.$field}(post($field));
+			}	
+		}
 
-		$endereco->save();
+		if (isset($_POST['idcidade']) && (int)post('idcidade') > 0) {
+			$cidade = new Cidade((int)post('idcidade'));
+		} else {
+			if (post('desuf')) {
+				$cidade = Cidade::loadFromName(post('descidade'), post('desuf'));
+			} else {
+				$cidade = Cidade::loadFromName(post('descidade'));
+			}
+		}
+
+		if (count($cidade->getFields())) $endereco->set($cidade->getFields());
+
+		if (count($endereco->getFields())) {
+
+			$endereco->setinprincipal(true);
+
+			$endereco->save();
+
+		}
 
 		$_POST['idendereco'] = $endereco->getidendereco();
 
@@ -77,6 +182,10 @@ $app->post("/lugares", function(){
 	foreach ($_POST as $key => $value) {
 		$lugar->{'set'.$key}($value);
 	}
+
+	if(count($endereco->getFields())) $lugar->setEndereco($endereco);
+
+	if(post('idlugarpai') == '' || (int)$lugar->getidlugarpai() == 0) $lugar->setidlugarpai(NULL);
 
 	$lugar->save();
 
@@ -124,6 +233,25 @@ $app->post("/lugares/:idlugar/coordenadas", function($idlugar){
 
 });
 
+$app->post("/lugares/:idlugar/arquivos", function($idlugar){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$lugar = new Lugar((int)$idlugar);
+
+	$arquivos = Arquivos::upload($_FILES['arquivo']);
+
+	pre($arquivos->getItens());
+	exit;
+
+	foreach($arquivos->getItens() as $arquivo){
+		$lugar->addArquivo($arquivo);
+	}
+
+	echo success(array("data"=>$arquivos->getFields()));
+
+});
+
 $app->delete("/lugares/:idlugar", function($idlugar){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
@@ -146,12 +274,44 @@ $app->delete("/lugares/:idlugar", function($idlugar){
 /////////////////////////////////////////////////////////////
 
 // lugares tipos
-$app->get("/lugares/tipos", function(){
+
+$app->get("/lugares-tipos", function(){
 
 	Permissao::checkSession(Permissao::ADMIN, true);
 
-	echo success(array("data"=>LugaresTipos::listAll()->getFields()));
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
 
+	$where = array();
+
+	if(get('deslugartipo')) {
+		array_push($where, "deslugartipo LIKE '%".utf8_decode(get('deslugartipo'))."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AND ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_lugarestipos
+	".$where." LIMIT ?, ?;";
+
+	$paginacao = new Pagination(
+        $query,
+        array(),
+        "LugaresTipos",
+        $itemsPerPage
+    );
+
+	 $lugarestipos = $paginacao->getPage($currentPage);
+
+	echo success(array(
+		"data"=> $lugarestipos->getFields(),
+		"currentPage"=>$currentPage,
+		"itemsPerPage"=>$itemsPerPage,
+		"total"=>$paginacao->getTotal(),
+	));
 });
 
 $app->post("/lugares-tipos", function(){
@@ -206,7 +366,7 @@ $app->post("/lugares-horarios", function(){
 	foreach ($ids as $idlugar) {
 		
 		$lugar = new Lugar((int)$idlugar);
-
+	
 		$horarios = new LugaresHorarios();
 
 		$nrdia = explode(",", post('nrdia'));

@@ -54,6 +54,11 @@ class Curso extends Model {
         return new CursosSecoes($this);
     }
 
+    public function getCurriculos():CursosCurriculos
+    {
+        return new CursosCurriculos($this);
+    }
+
 }
 
 ?>

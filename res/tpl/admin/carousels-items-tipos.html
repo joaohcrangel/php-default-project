@@ -1,0 +1,86 @@
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-carousel-tipo"><div class="panel-heading"><h3 class="panel-title">Carousel Items Tipos</h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Carousel Tipos Items<th>&nbsp;<tbody></table></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/documento-tipo-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-carousel-tipo" type="/x-handlebars-temprate"><tr data-idtipo="{{idtipo}}">
+		<td>{{destipo}}</td>
+		<td>
+			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/documentos/tipos/{{iddocumentotipo}}" data-toggle="slidePanel">
+	      	</button>
+	      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-tipo icon wb-trash">
+	      	</button>
+		</td>
+		</tr></script><script>init.push(function(){
+		
+		var panel = System.getPanelApi($("#panel-carousel-tipo"));
+
+		var $tbody = $("#panel-carousel-tipo tbody");
+
+		var $tplCarouselTipo = Handlebars.compile($("#tpl-carousel-tipo").html());
+
+		function loadCarouselTipo(){
+
+			$(".refresh").on("click", function(){
+				loadCarouselTipo();
+
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/carousels-items-tipos",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplCarouselTipo(row));
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-tipo").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idtipo = $btn.closest("tr").data("idtipo");
+					System.confirm('Deseja remover esse Carousel Tipo?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/carousels-items-tipos/"+idtipo,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadCarouselTipo();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+
+    loadCarouselTipo();
+});</script>

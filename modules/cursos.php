@@ -49,7 +49,22 @@ $app->get("/cursos/:idcurso/secoes", function($idcurso){
 
 	$curso = new Curso((int)$idcurso);
 
-	echo success(array("data"=>$curso->getSecoes()->getFields()));
+	echo success(array(
+		"dataSecoes"=>$curso->getSecoes()->getFields(),
+		"dataCurriculos"=>$curso->getCurriculos()->getFields()
+	));
+
+});
+
+$app->get("/cursos/:idcurso/html", function($idcurso){
+
+	Permissao::checkSession(Permissao::ADMIN, true);
+
+	$curso = new Curso((int)$idcurso);
+
+	echo success(array(
+		"data"=>addslashes($curso->getdesdescricao())
+	));
 
 });
 

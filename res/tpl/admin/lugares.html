@@ -16,15 +16,15 @@
   height: 39px;
 }
 .page {
-  min-height: calc(100% - 83px);
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Lugares</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="deslugar"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Endereço</label><input type="text" class="form-control" name="desendereco"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do lugar</label><select name="idlugartipo" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-50"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>&nbsp;<th>Lugar<th>Endereco<th>Tipo do Lugar<th>Descrição<th>&nbsp;<tbody></table><div id="paginacao"></div></div></div></div></div></div><footer id="lugar-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Lugares</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="deslugar"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Endereço</label><input type="text" class="form-control" name="desendereco"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do lugar</label><select name="idlugartipo" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>&nbsp;<th>Lugar<th>Endereco<th>Tipo do Lugar<th>Descrição<th>&nbsp;<tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="lugar-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
       <div>{{data.length}} de {{total}} resultado(s)</div>
     </div>
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idlugar="{{idlugar}}">
+  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idlugar="{{idlugar}}" data-url="{$path}/panel/lugares/{{idlugar}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -37,13 +37,13 @@
     <td>{{deslugartipo}}</td>
     <td>{{desconteudo}}</td>
     <td>
-      <button class="btn btn-pure btn-default icon md-edit" title="Editar Lugar" data-url="{$path}/panel/lugares/{{idlugar}}" data-toggle="slidePanel"></button>
+      <!-- <button class="btn btn-pure btn-default icon md-edit" title="Editar Lugar"></button> -->
       <button class="btn btn-pure btn-danger icon md-delete" title="Excluir Lugar"></button>
     </td>
   </tr></script><script>init.push(function(){
 
   $("[name=idlugartipo]").combobox({
-    url:PATH+"/lugares/tipos",
+    url:PATH+"/lugares-tipos",
     displayField:"deslugartipo",
     valueField:"idlugartipo"
   });
@@ -79,7 +79,8 @@
     var data = $("#form-filtros").formValues();
 
     data.pagina = pagina;
-    data.limite = 10;
+    data.limite = Math.floor((window.innerHeight-291)/53);
+    data.limite = (data.limite<5)?5:data.limite;
 
     rest({
       url:PATH+"/lugares",
@@ -126,21 +127,24 @@
 
             $tr.find("[type=checkbox]").on("change", function(){
 
-              alert("ok");
+              var checked = $("#lista tr [type=checkbox]:checked");
 
-                // var input = $("#lista tbody [type=checkbox]:checked").length;
+              var disabled = (checked.length > 0) ? false : true;
 
-                // console.log(input);
-
-                // if(input > 0){
-                //   $("#btn-lugar-horario").prop("disabled", false);
-                // }
+              $("#btn-lugar-horario").prop("disabled", disabled);
 
             });
 
           });
 
           System.initSlidePanel($tbody);
+
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
 
           $footer.html(tplFooter(r));
 
@@ -158,6 +162,7 @@
           $panel.done();
 
         }else{
+          $tbody.html('');
           $panel.done();
         }      
 
@@ -208,5 +213,7 @@
         }
       }]
   });
+
+  loadLugares();
 
 });</script>

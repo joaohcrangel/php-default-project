@@ -43,17 +43,19 @@ class Pagination {
 		$query,
 		$params = array(),
 		$collectionName = 'Collection',
-		$itemsPerPage = 25
+		$itemsPerPage = 100
 	){
 
 		$this->query = $query;
 		$this->originalParams = $this->params = $params;
 		$this->collectionName = $collectionName;
-		$this->itemsPerPage = $itemsPerPage;
+		$this->itemsPerPage = ($itemsPerPage > 0)?$itemsPerPage:100;
 
 	}
 
 	public function getPage($nrpage = 1){
+
+		if ($nrpage < 1) $nrpage = 1;
 
 		$this->params = $this->originalParams;
 

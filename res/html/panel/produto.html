@@ -21,12 +21,7 @@
 <div class="slidePanel-inner m-0 p-0 app-media">
 	
 	<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="produto-tabs" data-plugin="tabs">
-	    <div class="panel-heading panel-heading-tab" style="border-radius: 0;">
-	      <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-	        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab-produto" aria-controls="tab-produto" role="tab" aria-expanded="true">Produto</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-preco" aria-controls="tab-produto-preco" role="tab">Histórico de Preços</a></li>
-	        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-produto-fotos" aria-controls="tab-produto-preco" role="tab">Fotos</a></li>
-	      </ul>
+	    <div class="panel-heading panel-heading-tab" id="tabs-produto" style="border-radius: 0;">
 	    </div>
 	    <div class="panel-body p-t-20">
 	      <div class="tab-content">
@@ -76,7 +71,23 @@
 	          	
 	        </div>
 	        <div class="tab-pane" id="tab-produto-fotos" role="tabpanel">
+
 				<div class="panel">
+        			<div class="panel-heading">
+        				<div class="m-10 btn-group btn-group-flat">
+							<button id="btn-produto-arquivos-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button>
+							<button id="btn-produto-arquivos-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button>
+						</div>
+					</div>
+					<div class="panel-body p-b-0">
+						<ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul>
+					</div>
+					<div class="panel-footer">
+						<div id="paginacao-arquivos"></div>
+					</div>
+				</div>
+
+				<!-- <div class="panel">
 		            <div class="panel-heading">
 		              <div class="btn-group" aria-label="Basic example" role="group">
 	                    <button type="button" id="adicionar" class="btn btn-icon btn-success waves-effect">
@@ -89,7 +100,7 @@
 		            <div class="media-list p-0 m-t-20 is-grid">
 						<ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-4 blocks-lg-4 blocks-md-4 blocks-sm-4" data-plugin="animateList" data-child=">li"></ul>
 			        </div>
-			    </div>
+			    </div> -->
 	        </div>
 	      </div>
 	    </div>
@@ -97,18 +108,17 @@
 
 </div>
 <script id="tpl-produto-arquivo" type="text/x-handlebars-template">
-<li class="animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
-  <div class="media-item" data-toggle="slidePanel" data-url="panel.tpl">
+<li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
-      <input type="checkbox" class="selectable-item" id="media_1">
+      <input type="checkbox" class="selectable-item" data-idarquivo="{{idarquivo}}" id="media_1" />
       <label for="media_1"></label>
     </div>
     <div class="image-wrap">
-      <img class="image img-rounded" src="{$path}{$diretorio}{{desarquivo}}.{{desextensao}}" alt="...">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
     </div>
     <div class="info-wrap">
       <div class="title">{{desalias}}</div>
-      <div class="time">{{desdtcadastro}}</div>
     </div>
   </div>
 </li>
@@ -204,23 +214,90 @@ var scoreChart = function scoreChart(element, labels, data) {
 
 }
 
-$('#produto-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-	switch ($($(e.target).attr('href')).attr('id')) {
+function loadArquivos(page){
 
-		case 'tab-produto-preco':
+	if(!page) page = 1;
 
-		$('#tab-produto-preco #btn-action-refresh').trigger('click');
-		
-		break;
+	var $panel = System.getPanelApi($("#tab-produto-fotos .panel"));
 
-		case 'tab-produto-fotos':
+	var $ul = $("#tab-produto-fotos ul");
 
-		$("#btn-action-refresh-fotos").trigger('click');
+	var data = {
+		pagina:page
+	};
 
-		break;
+	data.limit = Math.floor((window.innerHeight-373)/116);
+  	data.limit *= Math.floor($('#tab-produto-fotos').find('.blocks').width()/123);
+  	data.limit = (data.limit<5)?5:data.limit;
 
-	}
-});
+	$panel.load();
+
+	rest({
+		url:PATH+"/produtos/"+produto.idproduto+"/arquivos",
+		data:data,
+		success:function(r){
+
+			$ul.html('');
+
+			$.each(r.data, function(index, row){
+
+				var $li = $(tpl.foto(row));
+
+				$ul.append($li);
+
+				$li.find("[type=checkbox]").on("change", function(){
+
+					var checked = $("#tab-produto-fotos ul [type=checkbox]:checked");
+
+					var disabled = (checked.length > 0): false ? true;
+
+					$("#btn-produto-arquivos-remove").prop("disabled", disabled);
+
+				});
+
+			});
+
+			if(r.total > 0){
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+					skin:'pagination-gap',
+					currentPage:r.currentPage,
+					itemsPerPage:r.itemsPerPage,
+					onChange:function(page){
+						loadArquivos(page);
+					}
+				});
+
+				$("#paginacao-arquivos").show().asPaginator(r.total, config);
+
+			}else{
+				$("#paginacao-arquivos").hide();
+			}
+
+			$panel.done();
+
+		},
+		failure:function(r){
+			$panel.done();
+			System.showError(r);
+		}
+	})
+
+}
+
+// $('#produto-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+// 	switch ($($(e.target).attr('href')).attr('id')) {
+
+// 		case 'tab-produto-preco':
+// 		$('#tab-produto-preco #btn-action-refresh').trigger('click');		
+// 		break;
+
+// 		case 'tab-produto-fotos':
+// 		loadArquivos()
+// 		break;
+
+// 	}
+// });
 
 $("#btn-action-refresh-fotos").on('click', function(){
 
@@ -278,6 +355,37 @@ $('#tab-produto-preco #btn-action-refresh').on('click', function(){
 
 });
 
+new Tab({
+	id:"tabs-produto",
+	items:[{
+		title:"Produto",
+		id:"tab-produto"
+	},{
+		title:"Histórico de Preços",
+		id:"tab-produto-preco"
+	},{
+		title:"Fotos",
+		id:"tab-produto-fotos"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch (event.tabContent.id) {
+
+				case 'tab-produto-preco':
+				$('#tab-produto-preco #btn-action-refresh').trigger('click');				
+				break;
+
+				case 'tab-produto-fotos':
+				loadArquivos();
+				break;
+
+			}
+
+		}
+	}
+});
+
 $("#form-produto").formLoad(produto);
 
 $("#form-produto [name=idprodutotipo]").combobox({
@@ -310,23 +418,6 @@ form.form({
     System.showError(r);
 
   }
-});
-
-$("#adicionar").on("click",function(){
-
-	$.upload({
-		url:PATH+"/produtos/"+produto.idproduto+"/arquivos",
-		success:function(r){
-
-			System.success("Arquivo adicionado!");
-			$("#btn-action-refresh-fotos").trigger('click');
-
-		},
-		failure:function(e){
-			System.showError(e);
-		}
-	});
-
 });
 
 </script>

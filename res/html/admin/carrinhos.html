@@ -9,8 +9,8 @@
     margin-left: 310px;
 }
 .page {
-  min-height: calc(100% - 83px);
-}
+  height: calc(100% - 90px);
+  min-height: calc(100% - 90px);}
 </style>
 <div class="page bg-white">
   	<!-- Mailbox Sidebar -->
@@ -58,7 +58,7 @@
   	<div class="page-main">
 	    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
 	      	<div style="border-bottom: #e0e0e0 1px solid;">
-		        <div class="panel panel-bordered overflow-auto" data-auto-height="-50">
+		        <div class="panel panel-bordered overflow-auto" data-auto-height="-291">
 		    		<table id="lista" class="table m-t-10" data-plugin="animateList" data-animate="fade" data-child="tr">
 		    			<thead>
 			          		<th>Pessoa</th>
@@ -70,10 +70,9 @@
 		            	
 		            	</tbody>
 		          	</table>
-
-		          	<!-- pagination -->
-		      		<div id="paginacao"></div>
 		        </div>
+		        <!-- pagination -->
+		      	<div id="paginacao"></div>
 	      	</div>      
 	    </div>
   	</div>
@@ -96,7 +95,10 @@
       	</button>
       	</button>
 	</td>
-</tr></script><script>init.push(function(){
+</tr>
+</script>
+<script>
+init.push(function(){
 
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
@@ -135,7 +137,8 @@
 		var data = $("#form-filtros").formValues();
 
 		data.pagina = pagina;
-		data.limite = 10;
+		data.limite = Math.floor((window.innerHeight-291)/53);
+		data.limite = (data.limite<5)?5:data.limite;
 
 		rest({
 			url:PATH+"/carrinhos/all",

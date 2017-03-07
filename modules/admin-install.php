@@ -1877,12 +1877,12 @@ $app->get("/install-admin/sql/carts/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carrinhosfretes(
-			idcarrinho INT NOT NULL,
-			descep CHAR(8) NOT NULL,
-			vlfrete DECIMAL(10,2) NOT NULL,
+		CREATE TABLE tb_cartsfreights(
+			idcart INT NOT NULL,
+			deszipcode CHAR(8) NOT NULL,
+			vlfreight DECIMAL(10,2) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho)
+			CONSTRAINT FOREIGN KEY(idcart) REFERENCES tb_idcarts(idcart)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -2566,16 +2566,7 @@ $app->get("/install-admin/sql/placees/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-<<<<<<< HEAD
-		CREATE TABLE tb_lugares
-data(
-			idlugar INT NOT NULL,
-			deslugar VARCHAR(128) NOT NULL,
-			idlugarfather INT NULL,
-			deslugarfather VARCHAR(128) NULL,
-			idlugartype INT NOT NULL,
-			deslugartype  VARCHAR(128) NOT NULL,
-=======
+
 		CREATE TABLE tb_placeesdados(
 			idplace INT NOT NULL,
 			desplace VARCHAR(128) NOT NULL,
@@ -2583,7 +2574,6 @@ data(
 			desplacefather VARCHAR(128) NULL,
 			idplacetype INT NOT NULL,
 			desplacetype  VARCHAR(128) NOT NULL,
->>>>>>> 072c3e1267d3725e9522f4fc1cfbf4293ec1fdf4
 			idadresstype INT NULL,
 			desadresstype VARCHAR(128) NULL,
 			idadress INT NULL,
@@ -2660,7 +2650,6 @@ $app->get("/install-admin/sql/placees/get", function(){
 	echo success();
 	
 });
-<<<<<<< HEAD
 
 $app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
 	set_time_limit(0);
@@ -2674,19 +2663,7 @@ $app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/lugares/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_lugarestypes_save',
-		'sp_lugares_save',
-		'sp_lugares
-data_save',
-		'sp_lugarescoordenadas_add',
-		'sp_lugareshorarios_save',
-		'sp_lugaresadresses_add',
-		'sp_lugaresarquivos_add'
-=======
+
 $app->get("/install-admin/sql/placees/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2698,7 +2675,6 @@ $app->get("/install-admin/sql/placees/save", function(){
 		'sp_placeeshorarios_save',
 		'sp_placeesadresses_add',
 		'sp_placeesarquivos_add'
->>>>>>> 072c3e1267d3725e9522f4fc1cfbf4293ec1fdf4
 	);
 	saveProcedures($procs);
 	
@@ -2709,20 +2685,11 @@ $app->get("/install-admin/sql/placees/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-<<<<<<< HEAD
-		'sp_lugarestypes_remove',
-		'sp_lugares_remove',
-		'sp_lugares
-data_remove',
-		'sp_lugareshorarios_remove',
-		'sp_lugareshorariosall_remove'
-=======
 		'sp_placeestypes_remove',
 		'sp_placees_remove',
 		'sp_placeesdados_remove',
 		'sp_placeeshorarios_remove',
 		'sp_placeeshorariosall_remove'
->>>>>>> 072c3e1267d3725e9522f4fc1cfbf4293ec1fdf4
 	);
 	saveProcedures($procs);
 	

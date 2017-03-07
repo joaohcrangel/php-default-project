@@ -40,7 +40,7 @@ class PersonDevice extends Model {
     public function remove():bool
     {
 
-        $this->proc("sp_personsdevices_remove", array(
+        $this->execute("sp_personsdevices_remove", array(
             $this->getiddevice()
         ));
 

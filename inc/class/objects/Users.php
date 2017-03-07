@@ -32,7 +32,7 @@ class Users extends Collection {
             $where = '';
         }
 
-    	$users = new users();
+    	$users = new Users();
 
     	$users->loadFromQuery("
             SELECT *
@@ -59,7 +59,7 @@ class Users extends Collection {
 
     }
 
-    public function getByperson(Person $person):Users
+    public function getByPerson(Person $person):Users
     {
 
         $this->loadFromQuery("CALL sp_usersfromperson_list(?);", array(

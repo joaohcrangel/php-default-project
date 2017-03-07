@@ -37,7 +37,7 @@ class LogType extends Model {
     public function remove():bool
     {
 
-        $this->proc("sp_logstypes_remove", array(
+        $this->execute("sp_logstypes_remove", array(
             $this->getidlogtype()
         ));
 

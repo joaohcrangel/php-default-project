@@ -9,7 +9,8 @@ class PersonsLogs extends Collection {
 
     public function get(){}
 
-    public function getByPessoa(Person $person){
+    public function getByPerson(Person $person):PersonsLogs
+    {
     
      	$this->loadFromQuery("CALL sp_personslogs_list(?)",array(
                $person->getidperson()

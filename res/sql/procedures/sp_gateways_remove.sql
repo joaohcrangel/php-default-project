@@ -3,9 +3,9 @@ pidgateway INT
 )
 BEGIN
 	
-	IF EXISTS(SELECT * FROM tb_formaspagamentos WHERE idgateway = pidgateway) THEN
+	IF EXISTS(SELECT * FROM tb_formspayments WHERE idgateway = pidgateway) THEN
     
-		DELETE FROM tb_formaspagamentos WHERE idgateway = pidgateway;
+		DELETE FROM tb_formspayments WHERE idgateway = pidgateway;
         
 	END IF;
     

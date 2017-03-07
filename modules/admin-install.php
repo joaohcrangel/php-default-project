@@ -1886,101 +1886,100 @@ $app->get("/install-admin/sql/carts/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_carrinhoscupons(
-			idcarrinho INT NOT NULL,
-			idcupom INT NOT NULL,
+		CREATE TABLE tb_cartscoupons(
+			idcart INT NOT NULL,
+			idcoupon INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idcarrinho) REFERENCES tb_carrinhos(idcarrinho),
-			CONSTRAINT FOREIGN KEY(idcupom) REFERENCES tb_cupons(idcupom)
+			CONSTRAINT FOREIGN KEY(idcart) REFERENCES tb_carts(idcart),
+			CONSTRAINT FOREIGN KEY(idcoupon) REFERENCES tb_coupons(idcoupon)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/triggers", function(){
+$app->get("/install-admin/sql/carts/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_carrinhoscupons_AFTER_INSERT",
-		"tg_carrinhoscupons_AFTER_UPDATE",		
-		"tg_carrinhosfretes_AFTER_INSERT",
-		"tg_carrinhosfretes_AFTER_UPDATE",		
-		"tg_carrinhosproducts_AFTER_INSERT",
-		"tg_carrinhosproducts_AFTER_UPDATE"		
+		"tg_cartscoupons_AFTER_INSERT",
+		"tg_cartscoupons_AFTER_UPDATE",		
+		"tg_cartsfreights_AFTER_INSERT",
+		"tg_cartsfreights_AFTER_UPDATE",		
+		"tg_cartsproducts_AFTER_INSERT",
+		"tg_cartsproducts_AFTER_UPDATE"		
 	);
 	saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/list", function(){
+$app->get("/install-admin/sql/carts/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_carrinhos_list",
-		"sp_carrinhosproducts_list",
-		"sp_carrinhosfromperson_list",
-		'sp_carrinhoscupons_list',
-		'sp_carrinhosfretes_list',
-		'sp_productsfromcarrinho_list',
-		'sp_cuponsfromcarrinho_list'
+		"sp_carts_list",
+		"sp_cartsproducts_list",
+		"sp_cartsfromperson_list",
+		'sp_cartsscoupons_list',
+		'sp_cartsfreights_list',
+		'sp_productsfromcart_list',
+		'sp_couponsfromcart_list'
 	);
 	saveProcedures($procs);
 	echo success();
 	
 });
-$app->get("/install-admin/sql/carrinhos/get", function(){
+$app->get("/install-admin/sql/carts/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_carrinhos_get",
-		"sp_carrinhosproducts_get",
-		'sp_carrinhoscupons_get',
-		'sp_carrinhosfretes_get'
+		"sp_carts_get",
+		"sp_cartsproducts_get",
+		'sp_ccartscoupons_get',
+		'sp_cartsfreights_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 });
-$app->get("/install-admin/sql/carrinhos/save", function(){
+$app->get("/install-admin/sql/carts/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_carrinhos_save",
-		"sp_carrinhosproducts_save",
-		'sp_carrinhoscupons_save',
-		'sp_carrinhosfretes_save',
-		'sp_carrinhos
-data_save'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
-$app->get("/install-admin/sql/carrinhos/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		"sp_carrinhos_remove",
-		"sp_carrinhosproducts_remove",
-		'sp_carrinhoscupons_remove',
-		'sp_carrinhosfretes_remove'
+		"sp_carts_save",
+		"sp_cartsproducts_save",
+		'sp_cartscoupons_save',
+		'sp_cartsfreights_save',
+		'sp_cartsdata_save'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
+$app->get("/install-admin/sql/carts/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		"sp_carts_remove",
+		"sp_cartsproducts_remove",
+		'sp_cartscoupons_remove',
+		'sp_cartsfreights_remove'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/creditcards/tables", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_cartoesdecreditos(
-			idcartao INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_creditcards(
+			idcard INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
-			desnome VARCHAR(64) NOT NULL,
-			dtvalidade DATE NOT NULL,
+			desname VARCHAR(64) NOT NULL,
+			dtvalidity DATE NOT NULL,
 			nrcds VARCHAR(8) NOT NULL,
 			desnumber CHAR(16) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -1992,23 +1991,23 @@ $app->get("/install-admin/sql/cartoesdecreditos/tables", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/list", function(){
+$app->get("/install-admin/sql/creditcards/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_cartoesdecreditos_list",
-		"sp_cartoesfromperson_list"
+		"sp_creditcards_list",
+		"sp_cardsfromperson_list"
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/get", function(){
+$app->get("/install-admin/sql/creditcards/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_cartoesdecreditos_get"
+		"sp_creditcards_get"
 	);
 	
 	saveProcedures($name);
@@ -2016,22 +2015,22 @@ $app->get("/install-admin/sql/cartoesdecreditos/get", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/save", function(){
+$app->get("/install-admin/sql/creditcards/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_cartoesdecreditos_save"
+		"sp_creditcards_save"
 	);
 	saveProcedures($name);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/cartoesdecreditos/remove", function(){
+$app->get("/install-admin/sql/creditcards/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$name = array(
-		"sp_cartoesdecreditos_remove"
+		"sp_creditcards_remove"
 	);
 	saveProcedures($name);
 	

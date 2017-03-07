@@ -83,6 +83,20 @@ $app->get("/install-admin/sql/clear", function(){
 	
 	echo success();
 });
+
+// $app->get("/teste", function(){
+// 	define("BANCO_DE_DADOS", [
+
+// '127.0.0.1',
+// 'root',
+// 'password',
+// 'test'
+
+// ]);
+
+// print_r(BANCO_DE_DADOS);
+// });
+
 $app->get("/install-admin/sql/persons/tables", function(){
 
 	set_time_limit(0);
@@ -110,25 +124,25 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_historicostypes (
-			idhistoricotype int(11) NOT NULL AUTO_INCREMENT,
-			deshistoricotype varchar(32) NOT NULL,
+		CREATE TABLE tb_logstypes (
+			idlogtype int(11) NOT NULL AUTO_INCREMENT,
+			deslogtype varchar(32) NOT NULL,
 			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idhistoricotype)
+			PRIMARY KEY (idlogtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-        CREATE TABLE tb_personshistoricos (
-			idpersonhistorico int(11) NOT NULL AUTO_INCREMENT,
+        CREATE TABLE tb_personslogs (
+			idpersonlog int(11) NOT NULL AUTO_INCREMENT,
 			idperson int(11) NOT NULL,
-			idhistoricotype int(11) NOT NULL,
-			deshistorico varchar(512) NOT NULL,
+			idlogtype int(11) NOT NULL,
+			deslog varchar(512) NOT NULL,
 			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (idpersonhistorico),
-			KEY fk_personshistoricos_historicostypes (idhistoricotype),
-			KEY fk_personshistoricos_persons_idx (idperson),
-			CONSTRAINT fk_personshistoricos_historicostypes FOREIGN KEY (idhistoricotype) REFERENCES tb_historicostypes (idhistoricotype) ON DELETE NO ACTION ON UPDATE NO ACTION,
-			CONSTRAINT fk_personshistoricos_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
+			PRIMARY KEY (idpersonlog),
+			KEY fk_personslogs_logstypes (idlogtype),
+			KEY fk_personslogs_persons_idx (idperson),
+			CONSTRAINT fk_personslogs_logstypes FOREIGN KEY (idlogtype) REFERENCES tb_logstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION,
+			CONSTRAINT fk_personslogs_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -155,6 +169,7 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		CREATE TABLE tb_personscategoriestypes (
 		  idcategory int(11) NOT NULL AUTO_INCREMENT,
 		  descategory varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 		  PRIMARY KEY (idcategory)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=4 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -244,8 +259,8 @@ $app->get("/install-admin/sql/persons/get", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_persons_get",
-		"sp_historicostypes_get",
-		"sp_personshistoricos_get",
+		"sp_logstypes_get",
+		"sp_personslogs_get",
 		"sp_personsvalues_get",
 		"sp_personsvaluesfields_get",
 		"sp_personstypes_get",
@@ -260,7 +275,7 @@ $app->get("/install-admin/sql/persons/list", function(){
 	$procs = array(
 		"sp_persons_list",
 		"sp_personstypes_list",
-        "sp_historicostypes_list",
+        "sp_logstypes_list",
         "sp_personsvalues_list",
         "sp_personsvaluesfields_list",
         "sp_personscategoriestypes_list"
@@ -274,7 +289,7 @@ $app->get("/install-admin/sql/persons/save", function(){
 	$names = array(
 		"sp_personsdados_save",
 		"sp_persons_save",
-		"sp_historicostypes_save",
+		"sp_logstypes_save",
 		"sp_personsvalues_save",
 		"sp_personsvaluesfields_save",
 		"sp_personstypes_save",
@@ -289,7 +304,7 @@ $app->get("/install-admin/sql/persons/remove", function(){
 	$names = array(
 		"sp_personsdados_remove",
 		"sp_persons_remove",
-		"sp_historicostypes_remove",
+		"sp_logstypes_remove",
 		"sp_personsvalues_remove",
 		"sp_personsvaluesfields_remove",
 		"sp_personstypes_remove",
@@ -342,6 +357,7 @@ $app->get("/install-admin/sql/products/triggers", function(){
 		"tg_products_AFTER_INSERT",
 		"tg_products_AFTER_UPDATE",
 		"tg_products_BEFORE_DELETE",
+		
 		"tg_productsprices_AFTER_INSERT",
 		"tg_productsprices_AFTER_UPDATE",
 		"tg_productsprices_BEFORE_DELETE"
@@ -803,8 +819,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>10,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/historicos-types',
-		'desmenu'=>$lang->getString('menus_historico_type')
+		'deshref'=>'/logs-types',
+		'desmenu'=>$lang->getString('menus_log_type')
 	));
 	$menuHistoricostypes->save();
 	//////////////////////////////////////
@@ -2146,12 +2162,12 @@ $app->get("/install-admin/sql/pedidos/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidoshistoricos(
-			idhistorico INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_pedidoslogs(
+			idlog INT NOT NULL AUTO_INCREMENT,
 			idpedido INT NOT NULL,
 			iduser INT NOT NULL,
 			dtregister TIMESTAMP NULL,			
-			CONSTRAINT PRIMARY KEY(idhistorico),
+			CONSTRAINT PRIMARY KEY(idlog),
 			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
 			CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -2280,7 +2296,7 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 		'sp_pedidosstatus_list',
 		'sp_pedidosfromperson_list',
 		'sp_recibosfrompedido_list',
-		'sp_pedidoshistoricos_list'
+		'sp_pedidoslogs_list'
 	);
 	saveProcedures($procs);
 	
@@ -2353,7 +2369,7 @@ $app->get("/install-admin/sql/pedidos/get", function(){
 		'sp_pedidosproducts_get',
 		'sp_pedidosrecibos_get',
 		'sp_pedidosstatus_get',
-		'sp_pedidoshistoricos_get'
+		'sp_pedidoslogs_get'
 	);
 	saveProcedures($procs);
 	
@@ -2369,7 +2385,7 @@ $app->get("/install-admin/sql/pedidos/save", function(){
 		'sp_pedidosproducts_save',
 		'sp_pedidosrecibos_save',
 		'sp_pedidosstatus_save',
-		'sp_pedidoshistoricos_save'
+		'sp_pedidoslogs_save'
 	);
 	saveProcedures($procs);
 	
@@ -2385,7 +2401,7 @@ $app->get("/install-admin/sql/pedidos/remove", function(){
 		'sp_pedidosproducts_remove',
 		'sp_pedidosrecibos_remove',
 		'sp_pedidosstatus_remove',
-		'sp_pedidoshistoricos_remove'
+		'sp_pedidoslogs_remove'
 	);
 	saveProcedures($procs);
 	

@@ -1,4 +1,0 @@
-CREATE DEFINER = CURRENT_USER TRIGGER tg_pessoas_AFTER_INSERT AFTER INSERT ON tb_pessoas FOR EACH ROW
-BEGIN
-	CALL sp_pessoasdados_save(NEW.idpessoa);
-END

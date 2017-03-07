@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tg_contacts_BEFORE_DELETE BEFORE DELETE ON tb_contacts FOR EACH ROW
+BEGIN
+	CALL sp_personsdados_save(OLD.idperson);
+END

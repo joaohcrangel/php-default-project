@@ -39,7 +39,7 @@ class Person extends Model {
     public function remove():bool
     {
 
-        $this->proc("sp_persons_remove", array(
+        $this->execute("sp_persons_remove", array(
             $this->getidperson()
         ));
 
@@ -114,7 +114,7 @@ class Person extends Model {
             'idcontactsubtype'=>(int)$idcontactsubtype,
             'idperson'=>$this->getidperson(),
             'descontact'=>$descontact,
-            'inprincipal'=>true
+            'inmain'=>true
         ));
 
         $contact->save();
@@ -219,7 +219,7 @@ class Person extends Model {
         foreach (array(
             'idadresstype', 'idadress', 'desadress',
             'desnumber', 'desdistrict', 'descity', 'desstate',
-            'descountry', 'descep', 'inprincipal', 'desadresstype'
+            'descountry', 'descep', 'inmain', 'desadresstype'
         ) as $field) {
             $data[$field] = $this->{'get'.$field}();
         }

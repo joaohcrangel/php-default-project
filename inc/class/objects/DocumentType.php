@@ -1,9 +1,10 @@
-
-
-
 <?php
 
 class DocumentType extends Model {
+
+    const CPF = 1;
+    const CNPJ = 2;
+    const RG = 3;
 
     public $required = array('iddocumenttype', 'desdocumenttype');
     protected $pk = "iddocumenttype";
@@ -17,7 +18,8 @@ class DocumentType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -31,15 +33,16 @@ class DocumentType extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_documentstypes_remove", array(
+        $this->execute("sp_documentstypes_remove", array(
             $this->getiddocumenttype()
         ));
 

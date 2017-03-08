@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Carts extends Collection {
@@ -23,8 +20,7 @@ class Carts extends Collection {
 
     }
 
-     public function getByPerson(Person $person):Carrinhos
-    
+     public function getByPerson(Person $person):Carts    
     {
     
          $this->loadFromQuery("CALL sp_cartsfromperson_list(?)",array(

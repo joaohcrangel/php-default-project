@@ -54,52 +54,52 @@ class Session extends DefaultObject {
 
 	}
 
-	public static function getPessoa():Pessoa
+	public static function getPerson():Person
 	{
 
-		return Session::getUsuario()->getPessoa();
+		return Session::getUser()->getPerson();
 
 	}
 
-	public static function getUsuario($lockRedirect = true):Usuario
+	public static function getUser($lockRedirect = true):User
 	{
 
-		if(isset($_SESSION[Usuario::SESSION_NAME_LOCK])){
+		if(isset($_SESSION[User::SESSION_NAME_LOCK])){
 			if (
 				$lockRedirect === true 
 				&& 
 				$_SERVER['REQUEST_URI'] !== SITE_PATH.'/'.DIR_ADMIN.'/lock'
 				&& 
-				$_SERVER['REQUEST_URI'] !== SITE_PATH.'/usuarios/unlock'
+				$_SERVER['REQUEST_URI'] !== SITE_PATH.'/users/unlock'
 			) {
 				header('Location: '.SITE_PATH.'/'.DIR_ADMIN.'/lock');
 				exit;
 			}
 		}
 
-		$usuario = Session::getObjectFromSession('Usuario');
+		$user = Session::getObjectFromSession('user');
 
-		if ($usuario !== NULL && !$usuario->getidusuario() > 0) {
+		if ($user !== NULL && !$user->getiduser() > 0) {
 
 			$cookie = getLocalCookie(COOKIE_KEY);
 
-			if ((int)$cookie['idusuario'] > 0) {
+			if ((int)$cookie['iduser'] > 0) {
 
-				$usuario = new Usuario((int)$cookie['idusuario']);
+				$user = new User((int)$cookie['iduser']);
 
 			}
 
 		}
 
-		if ($usuario !== NULL && $usuario->getidusuario() > 0) {
-			return $usuario;
+		if ($user !== NULL && $user->getiduser() > 0) {
+			return $user;
 		} else {
-			return new Usuario();
+			return new User();
 		}
 
 	}
 	
-	public static function setUsuario(\Usuario $usuario, $inCookie = false):Usuario
+	public static function setUser(\User $user, $inCookie = false):User
 	{
 
 		if ($inCookie === true) {
@@ -108,16 +108,16 @@ class Session extends DefaultObject {
 
 		}
 
-		return Session::setObjectInSession($usuario);
+		return Session::setObjectInSession($user);
 		
 	}
 
 	public static function checkLogin($redirect = false)
 	{
 
-		$usuario = Session::getUsuario();
+		$user = Session::getUser();
 
-		if (!$usuario->isLogged()) {
+		if (!$user->isLogged()) {
 
 			if ($redirect === true) {
 
@@ -135,66 +135,66 @@ class Session extends DefaultObject {
 
 	}
 
-	public static function getUsuariosLogs():UsuariosLogs
+	public static function getUsersLogs():UsersLogs
 	{
 
-		if (!isset($_SESSION[UsuarioLog::SESSION])) {
-			$_SESSION[UsuarioLog::SESSION] = array();
+		if (!isset($_SESSION[UserLog::SESSION])) {
+			$_SESSION[UserLog::SESSION] = array();
 		}
 
-		$usuariosLogs = new UsuariosLogs();
+		$usersLogs = new UsersLogs();
 
-		foreach($_SESSION[UsuarioLog::SESSION] as $usuarioLog){
+		foreach($_SESSION[UserLog::SESSION] as $userLog){
 
-			$usuariosLogs->add(new UsuarioLog($usuarioLog));
+			$usersLogs->add(new UserLog($userLog));
 
 		}
 
-		return $usuariosLogs;
+		return $usersLogs;
 
 	}
 
-	public static function clearUsuariosLogs()
+	public static function clearUsersLogs()
 	{
 
-		$_SESSION[UsuarioLog::SESSION] = array();
+		$_SESSION[UserLog::SESSION] = array();
 
 	}
 
-	public static function addUsuarioLog()
+	public static function addUserLog()
 	{
 
-		$usuario = Session::getUsuario();
+		$user = Session::getUser();
 
-		if ($usuario->isLogged()) {
+		if ($user->isLogged()) {
 
-			if (!isset($_SESSION[UsuarioLog::SESSION])) {
-				$_SESSION[UsuarioLog::SESSION] = array();
+			if (!isset($_SESSION[UserLog::SESSION])) {
+				$_SESSION[UserLog::SESSION] = array();
 			}
 
-			$log = new UsuarioLog(array(
-				'idusuario'=>$usuario->getidusuario()
+			$log = new UserLog(array(
+				'iduser'=>$user->getiduser()
 			));
 
 			$log->getDefaultValues();
 
-			array_push($_SESSION[UsuarioLog::SESSION], $log->getFields());
+			array_push($_SESSION[UserLog::SESSION], $log->getFields());
 
 		}
 
 	}
 
-	public static function setConfiguracoes(Configuracoes $configs)
+	public static function setConfigurations(Configurations $configs)
 	{
 
 		return Session::setObjectInSession($configs);
 
 	}
 
-	public static function getConfiguracoes():Configuracoes
+	public static function getConfigurations():Configurations
 	{
 
-		return Session::getCollectionFromSession('Configuracoes');
+		return Session::getCollectionFromSession('Configurations');
 
 	}
 	

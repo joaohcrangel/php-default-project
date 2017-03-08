@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class Country extends Model {
@@ -17,29 +14,30 @@ class Country extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_countries_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_countries_save(?, ?);", array(
                 $this->getidcountry(),
-                $this->getdescountry(),
-                $this->getdtregister()
+                $this->getdescountry()
             ));
 
             return $this->getidcountry();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_countries_remove", array(
+        $this->execute("sp_countries_remove", array(
             $this->getidcountry()
         ));
 

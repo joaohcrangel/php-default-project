@@ -10,15 +10,16 @@ class CreditCard extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_creditcards_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_creditscards_get(".$args[0].");");
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_creditcards_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_creditscards_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidcard(),
                 $this->getidperson(),
                 $this->getdesname(),
@@ -31,15 +32,16 @@ class CreditCard extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
-
-        $this->execute("CALL sp_creditcards_remove(".$this->getidcard().")");
+    public function remove():bool
+    {
+        
+        $this->execute("CALL sp_creditscards_remove(".$this->getidcard().")");
 
         return true;
         

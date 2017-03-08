@@ -40,7 +40,7 @@ class ProductPrice extends Model {
     public function remove():bool
     {
 
-        $this->proc("sp_productsprices_remove", array(
+        $this->execute("sp_productsprices_remove", array(
             $this->getidprice()
         ));
 

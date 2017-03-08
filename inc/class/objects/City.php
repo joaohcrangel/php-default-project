@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class City extends Model {
@@ -17,30 +14,56 @@ class City extends Model {
                 
     }
 
-    public function save(){
+    public function loadFromName($name, $uf = ''){
+
+        $city = new City();
+
+        $params = array($name);
+        $where = array('a.descity = ?');
+
+        if ($uf) {
+            array_push($where, 'b.desuf = ?');
+            array_push($params, $uf);
+        }
+
+        $city->queryToAttr("
+            SELECT * 
+            FROM tb_citys a
+            INNER JOIN tb_states b USING(idstate)
+            INNER JOIN tb_countries c USING(idcountry)
+            WHERE ".implode(' AND ', $where)."
+            LIMIT 1
+        ", $params);
+
+        return $city;
+
+    }
+
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_cities_save(?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_cities_save(?, ?, ?);", array(
                 $this->getidcity(),
                 $this->getdescity(),
-                $this->getidstate(),
-                $this->getdtregister()
+                $this->getidstate()
             ));
 
             return $this->getidcity();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_cities_remove", array(
+        $this->execute("sp_cities_remove", array(
             $this->getidcity()
         ));
 

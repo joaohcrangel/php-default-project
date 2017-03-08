@@ -1,9 +1,11 @@
-
-
-
 <?php
 
 class AdressType extends Model {
+
+    const RESIDENCIAL = 1;
+    const COMERCIAL = 2;
+    const COBRANCA = 3;
+    const ENTREGA = 4;
 
     public $required = array('idadresstype', 'desadresstype');
     protected $pk = "idadresstype";
@@ -17,29 +19,30 @@ class AdressType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_adressestypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_adressestypes_save(?, ?);", array(
                 $this->getidadresstype(),
-                $this->getdesadresstype(),
-                $this->getdtregister()
+                $this->getdesadresstype()
             ));
 
             return $this->getidadresstype();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_adressestypes_remove", array(
+        $this->execute("sp_adressestypes_remove", array(
             $this->getidadresstype()
         ));
 

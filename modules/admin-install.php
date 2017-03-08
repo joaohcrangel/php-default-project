@@ -11,11 +11,11 @@ function saveProcedures($procs = array()){
 		$sql->queryFromFile(PATH_PROC."{$name}.sql");
 	}
 }
-function saveTriggers($triggers = array()){
+function saveTriggers($triggers = array(), $pathTrigger = PATH_TRIGGER){
 	$sql = new Sql();
 	foreach ($triggers as $name) {
 		$sql->exec("DROP TRIGGER IF EXISTS {$name};");
-		$sql->queryFromFile(PATH_TRIGGER."{$name}.sql");
+		$sql->queryFromFile($pathTrigger."{$name}.sql");
 	}
 }
 $app->get("/install", function(){
@@ -621,7 +621,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>NULL,
 		'desicon'=>'md-code-setting',
 		'deshref'=>'',
-		'desmenu'=>$lang->getString('menus_sistema')
+		'desmenu'=>$lang->getString('menus_system')
 	));
 	$menuSistema->save();
 	//////////////////////////////////////
@@ -630,7 +630,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>NULL,
 		'desicon'=>'md-settings',
 		'deshref'=>'',
-		'desmenu'=>$lang->getString('menus_administracao')
+		'desmenu'=>$lang->getString('menus_admin')
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
@@ -675,7 +675,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/sistema/configuracoes',
-		'desmenu'=>$lang->getString('menus_configuracoes')
+		'desmenu'=>$lang->getString('menus_config')
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
@@ -702,7 +702,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'',
-		'desmenu'=>$lang->getString('menus_exemplos')
+		'desmenu'=>$lang->getString('menus_examples')
 	));
 	$menuExemplos->save();
 	//////////////////////////////////////
@@ -711,7 +711,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menuExemplos->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/exemplos/upload',
-		'desmenu'=>$lang->getString('menus_exemplos_upload')
+		'desmenu'=>$lang->getString('menus_examples_upload')
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
@@ -747,7 +747,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/users-types',
-		'desmenu'=>$lang->getString('menus_user_type')
+		'desmenu'=>$lang->getString('menus_user_types')
 	));
 	$menutypesusers->save();
 	//////////////////////////////////////
@@ -756,7 +756,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/documents-types',
-		'desmenu'=>$lang->getString('menus_document_type')
+		'desmenu'=>$lang->getString('menus_document_types')
 	));
 	$menutypesdocuments->save();
 	//////////////////////////////////////
@@ -765,7 +765,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/placees-types',
-		'desmenu'=>$lang->getString('menus_place_type')
+		'desmenu'=>$lang->getString('menus_place_types')
 	));
 	$menutypesplacees->save();
 	//////////////////////////////////////
@@ -774,7 +774,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/cupons-types',
-		'desmenu'=>$lang->getString('menus_cupom_type')
+		'desmenu'=>$lang->getString('menus_coupon_types')
 	));
 	$menutypesCupons->save();
 	//////////////////////////////////////
@@ -783,7 +783,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/products-types',
-		'desmenu'=>$lang->getString('menus_product_type')
+		'desmenu'=>$lang->getString('menus_product_types')
 	));
 	$menutypesproducts->save();
 	//////////////////////////////////////
@@ -792,7 +792,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/pedidos-status',
-		'desmenu'=>$lang->getString('menus_pedido_statu')
+		'desmenu'=>$lang->getString('menus_order_status')
 	));
 	$menuPedidosStatus->save();
 	//////////////////////////////////////
@@ -801,7 +801,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/persons-types',
-		'desmenu'=>$lang->getString('menus_person_type')
+		'desmenu'=>$lang->getString('menus_person_types')
 	));
 	$menupersonstypes->save();
 	//////////////////////////////////////
@@ -810,7 +810,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/contacts-types',
-		'desmenu'=>$lang->getString('menus_contact_type')
+		'desmenu'=>$lang->getString('menus_contact_types')
 	));
 	$menucontactstypes->save();
 	//////////////////////////////////////
@@ -819,7 +819,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/gateways',
-		'desmenu'=>$lang->getString('menus_gateway')
+		'desmenu'=>$lang->getString('menus_gateways')
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
@@ -828,7 +828,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/logs-types',
-		'desmenu'=>$lang->getString('menus_log_type')
+		'desmenu'=>$lang->getString('menus_log_types')
 	));
 	$menuHistoricostypes->save();
 	//////////////////////////////////////
@@ -837,7 +837,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/formas-pagamentos',
-		'desmenu'=>$lang->getString('menus_forma_pedido')
+		'desmenu'=>$lang->getString('menus_order_methods')
 	));
 	$menuFormasPedidos->save();
 	//////////////////////////////////////
@@ -846,7 +846,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/persons-valuesfields',
-		'desmenu'=>$lang->getString('menus_person_value')
+		'desmenu'=>$lang->getString('menus_person_values')
 	));
 	$menupersonsvaluesfields->save();
 	//////////////////////////////////////
@@ -855,7 +855,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/configuracoes-types',
-		'desmenu'=>$lang->getString('menus_configuracao_type')
+		'desmenu'=>$lang->getString('menus_config_types')
 	));
 	$menuConfiguracoestypes->save();
 	//////////////////////////////////////
@@ -864,7 +864,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/carousels-types',
-		'desmenu'=>$lang->getString('menus_carousel_type')
+		'desmenu'=>$lang->getString('menus_carousel_types')
 	));
 	$menuCarouselsItemstypes->save();
 	//////////////////////////////////////
@@ -873,7 +873,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/pedidosnegociacoestypes',
-		'desmenu'=>$lang->getString('menus_negociacao_type')
+		'desmenu'=>$lang->getString('menus_negotiation_types')
 	));
 	$menuPedidosNegociacoestypes->save();
 	//////////////////////////////////////
@@ -882,7 +882,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenufather"=>NULL,
 		"desicon"=>'md-money-box',
 		"deshref"=>'/pedidos',
-		"desmenu"=>$lang->getString('menus_pedido')
+		"desmenu"=>$lang->getString('menus_orders')
 	));
 	$menuPedidos->save();
 	//////////////////////////////////////
@@ -891,7 +891,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenufather"=>NULL,
 		"desicon"=>"md-shopping-cart",
 		"deshref"=>"/carrinhos",
-		"desmenu"=>$lang->getString('menus_carrinho')
+		"desmenu"=>$lang->getString('menus_carts')
 	));
 	$menuCarrinhos->save();
 	//////////////////////////////////////
@@ -900,7 +900,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenufather"=>NULL,
 		"desicon"=>"md-city",
 		"deshref"=>"/placees",
-		"desmenu"=>$lang->getString('menus_place')
+		"desmenu"=>$lang->getString('menus_places')
 	));
 	$menuplacees->save();
 	//////////////////////////////////////
@@ -927,7 +927,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenufather"=>NULL,
 		"desicon"=>"md-book",
 		"deshref"=>"/cursos",
-		"desmenu"=>$lang->getString('menus_cursos')
+		"desmenu"=>$lang->getString('menus_courses')
 	));
 	$menuCursos->save();
 	//////////////////////////////////////
@@ -945,7 +945,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
 		"deshref"=>"/paises",
-		"desmenu"=>$lang->getString('menus_paises')
+		"desmenu"=>$lang->getString('menus_countries')
 	));
 	$menupaises->save();
 	//////////////////////////////////////
@@ -972,7 +972,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
 		"deshref"=>"/arquivos",
-		"desmenu"=>$lang->getString('menus_arquivos')
+		"desmenu"=>$lang->getString('menus_files')
 	));
 	$menucities->save();
 	//////////////////////////////////////
@@ -1376,23 +1376,23 @@ $app->get("/install-admin/sql/adresses/inserts", function(){
 
 	$lang = new Language();
 
-	$residencial = new Enderecotype(array(
-		'desenderecotype'=>$lang->getString('endereco_residencial')
+	$residencial = new AdressType(array(
+		'desadresstype'=>$lang->getString('adress_residencial')
 	));
 	$residencial->save();
 
-	$comercial = new Enderecotype(array(
-		'desenderecotype'=>$lang->getString('endereco_comercial')
+	$comercial = new AdressType(array(
+		'desadresstype'=>$lang->getString('adress_comercial')
 	));
 	$comercial->save();
 
-	$cobranca = new Enderecotype(array(
-		'desenderecotype'=>$lang->getString('endereco_cobranca')
+	$cobranca = new AdressType(array(
+		'desadresstype'=>$lang->getString('adress_cobranca')
 	));
 	$cobranca->save();
 
-	$entrega = new Enderecotype(array(
-		'desenderecotype'=>$lang->getString('endereco_entrega')
+	$entrega = new AdressType(array(
+		'desadresstype'=>$lang->getString('adress_entrega')
 	));
 	$entrega->save();
 
@@ -1603,12 +1603,12 @@ $app->get("/install-admin/sql/permissions/inserts", function(){
 	$superuser->save();
 
 	$acessoAdmin = new Permissao(array(
-		'despermission'=>$lang->getString('permissions_administrativo')
+		'despermission'=>$lang->getString('permissions_admin')
 	));
 	$acessoAdmin->save();
 
 	$acessoClient = new Permissao(array(
-		'despermission'=>$lang->getString('permissions_cliente')
+		'despermission'=>$lang->getString('permissions_client')
 	));
 	$acessoClient->save();
 

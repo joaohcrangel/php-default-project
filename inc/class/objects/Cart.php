@@ -14,36 +14,34 @@ class Cart extends Model {
                 
     }
 
-    public function save(){
-
+    public function save():int
+    {
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_carts_save(?, ?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_carts_save(?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidcart(),
                 $this->getidperson(),
                 $this->getdessession(),
                 $this->getinclosed(),
                 $this->getnrproducts(),
                 $this->getvltotal(),
-                $this->getvltotalgross(),
+                $this->getvltotalgross()
             ));
 
             return $this->getidcart();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove()
+    public function remove():bool
     {
 
-        $this->proc("sp_carts_remove", array(
-            $this->getidcart()
-        ));
+        $this->execute("CALL sp_carts_remove(".$this->getidcart().")");
 
         return true;
         
@@ -59,11 +57,10 @@ class Cart extends Model {
         return new Coupons($this);
     }
 
-     public function getFreights():CartsFreights
-    {Freights
-        return new CartsFreights($this);
+    public function getFreights():FreightsCarts
+    {
+        return new FreightsCarts($this);
     }
-
 
 }
 

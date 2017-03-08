@@ -2114,19 +2114,19 @@ $app->get("/install-admin/sql/requests/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_formaspagamentos(
-			idformapagamento INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_formspayments(
+			idformpayment INT NOT NULL AUTO_INCREMENT,
 			idgateway INT NOT NULL,
-			desformapagamento VARCHAR(128) NOT NULL,
-			nrparcelasmax INT NOT NULL,
+			desformpayment VARCHAR(128) NOT NULL,
+			nrplotsmax INT NOT NULL,
 			instatus BIT(1),
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idformapagamento),
+			CONSTRAINT PRIMARY KEY(idformpayment),
 			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidosstatus(
+		CREATE TABLE tb_requestsstatus(
 			idstatus INT NOT NULL AUTO_INCREMENT,
 			desstatus VARCHAR(128) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -2134,34 +2134,37 @@ $app->get("/install-admin/sql/requests/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidos(
-			idpedido INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_requests(
+			idrequest INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
-			idformapagamento INT NOT NULL,
+			idformpayment INT NOT NULL,
 			idstatus INT NOT NULL,
 			dessession VARCHAR(128) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
-			nrparcelas INT NOT NULL,
+			nrplots INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idpedido),
+			CONSTRAINT PRIMARY KEY(idrequest),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
-			CONSTRAINT FOREIGN KEY(idformapagamento) REFERENCES tb_formaspagamentos(idformapagamento),
-			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_pedidosstatus(idstatus)
+			CONSTRAINT FOREIGN KEY(idformpayment) REFERENCES tb_formspayments(idformpayment),
+			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_requestsstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidosproducts(
-			idpedido INT NOT NULL,
+		CREATE TABLE tb_requestsproducts(
+			idrequest INT NOT NULL,
 			idproduct INT NOT NULL,
 			nrqtd INT NOT NULL,
 			vlprice DECIMAL(10,2) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idpedido, idproduct),
-			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
+			CONSTRAINT PRIMARY KEY (idrequest, idproduct),
+			CONSTRAINT FOREIGN KEY(idrequest) REFERENCES tb_requests(idrequest),
 			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	// começar daqui ////////////////////////////////
+
 	$sql->exec("
 		CREATE TABLE tb_pedidosrecibos(
 			idpedido INT NOT NULL,

@@ -2166,12 +2166,12 @@ $app->get("/install-admin/sql/requests/tables", function(){
 	// começar daqui ////////////////////////////////
 
 	$sql->exec("
-		CREATE TABLE tb_pedidosrecibos(
-			idpedido INT NOT NULL,
-			desautenticacao VARCHAR(256) NOT NULL,
+		CREATE TABLE tb_requestsreceipts(
+			idreceipt INT NOT NULL,
+			desauthentication VARCHAR(256) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idpedido),
-			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido)
+			CONSTRAINT PRIMARY KEY (idrequest),
+			CONSTRAINT FOREIGN KEY(idrequest) REFERENCES tb_requests(idrequest)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("

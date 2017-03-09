@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_lugares_save`(
+CREATE PROCEDURE sp_lugares_save(
 pidlugar INT,
 pidlugarpai INT,
 pdeslugar VARCHAR(128),

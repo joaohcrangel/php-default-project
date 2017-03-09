@@ -1714,7 +1714,7 @@ $app->get("/install-admin/sql/personsdata/tables", function(){
 		  desadresstype varchar(64) DEFAULT NULL,
 		  desadress varchar(64) DEFAULT NULL, 
 		  desnumber varchar(16) DEFAULT NULL, 
-		  desneighborhood varchar(64) DEFAULT NULL, 
+		  desdistrict varchar(64) DEFAULT NULL, 
 		  descity varchar(64) DEFAULT NULL, 
 		  desstate varchar(32) DEFAULT NULL, 
 		  descountry varchar(32) DEFAULT NULL, 
@@ -1932,7 +1932,7 @@ $app->get("/install-admin/sql/carts/get", function(){
 	$procs = array(
 		"sp_carts_get",
 		"sp_cartsproducts_get",
-		'sp_ccartscoupons_get',
+		'sp_cartscoupons_get',
 		'sp_cartsfreights_get'
 	);
 	saveProcedures($procs);
@@ -2163,8 +2163,6 @@ $app->get("/install-admin/sql/requests/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
-	// começar daqui ////////////////////////////////
-
 	$sql->exec("
 		CREATE TABLE tb_requestsreceipts(
 			idreceipt INT NOT NULL,
@@ -2174,43 +2172,46 @@ $app->get("/install-admin/sql/requests/tables", function(){
 			CONSTRAINT FOREIGN KEY(idrequest) REFERENCES tb_requests(idrequest)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+// daqui prá cima traduzir requests ////////////////////////////////
+
 	$sql->exec("
-		CREATE TABLE tb_pedidoslogs(
+		CREATE TABLE tb_orderslogs(
 			idlog INT NOT NULL AUTO_INCREMENT,
-			idpedido INT NOT NULL,
+			idorder INT NOT NULL,
 			iduser INT NOT NULL,
 			dtregister TIMESTAMP NULL,			
 			CONSTRAINT PRIMARY KEY(idlog),
-			CONSTRAINT FOREIGN KEY(idpedido) REFERENCES tb_pedidos(idpedido),
+			CONSTRAINT FOREIGN KEY(idorder) REFERENCES tb_orders(idorder),
 			CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_pedidosnegociacoestypes (
-		  idnegociacao int(11) NOT NULL AUTO_INCREMENT,
-		  desnegociacao varchar(64) NOT NULL,
+		CREATE TABLE tb_ordersnegotiationstypes (
+		  idnegotiation int(11) NOT NULL AUTO_INCREMENT,
+		  desnegotiation varchar(64) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idnegociacao)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");		
 	$sql->exec("
-		CREATE TABLE tb_pedidosnegociacoes (
-		  idnegociacao int(11) NOT NULL,
-		  idpedido int(11) NOT NULL,
+		CREATE TABLE tb_ordersnegotiations (
+		  idnegotiation int(11) NOT NULL,
+		  idorder int(11) NOT NULL,
 		  dtstart datetime NOT NULL,
 		  dtend datetime DEFAULT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idnegociacao,idpedido),
-		  KEY FK_pedidosnegociacoes_pedidos_idx (idpedido),
-		  CONSTRAINT FK_pedidosnegociacoes_pedidos FOREIGN KEY (idpedido) REFERENCES tb_pedidos (idpedido) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_pedidosnegociacoes_pedidosnegociacoestypes FOREIGN KEY (idpedido) REFERENCES tb_pedidosnegociacoestypes (idnegociacao) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  PRIMARY KEY (idnegotiation,idorder),
+		  KEY FK_ordersnegotiations_orders_idx (idorder),
+		  CONSTRAINT FK_ordersnegotiations_pedidos FOREIGN KEY (idorder) REFERENCES tb_orders (idorder) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT FK_ordersnegotiations_ordersnegotiationstypes FOREIGN KEY (idorder) REFERENCES tb_ordersnegotiationstypes (idnegotiation) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pedidos/inserts", function(){
+$app->get("/install-admin/sql/orders/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
@@ -2218,7 +2219,7 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 	
 	$sql = new Sql();
 	$sql->arrays("
-		INSERT INTO tb_formaspagamentos (idgateway, desformapagamento, nrparcelasmax, instatus) VALUES
+		INSERT INTO tb_formspayments (idgateway, desformpayment, nrplotsmax, instatus) VALUES
 		(?, ?, ?, ?),
 		(?, ?, ?, ?),
 		(?, ?, ?, ?),
@@ -2275,7 +2276,7 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 		1, $lang->getString('gateway_sorocred'), 12, 1
 	));
 	$sql->arrays("
-		INSERT INTO tb_pedidosstatus(desstatus)
+		INSERT INTO tb_ordersstatus(desstatus)
 		VALUES(?), (?), (?), (?), (?), (?), (?);
 	", array(
 	    $lang->getString('statu_pedido'),
@@ -2288,28 +2289,28 @@ $app->get("/install-admin/sql/pedidos/inserts", function(){
 	));
 
 	$sql->arrays("
-		INSERT INTO tb_pedidosnegociacoestypes(desnegociacao)
+		INSERT INTO tb_ordersnegotiationstypes(desnegotiation)
 		VALUES(?);
 	", array(
-	    $lang->getString('negociacao_orcemanto'),
-	 	$lang->getString('negociacao_venda')
+	    $lang->getString('negotiation_budget'),
+	 	$lang->getString('negotiation_sale')
 	));
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pedidos/list", function(){
+$app->get("/install-admin/sql/orders/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_formaspagamentos_list',
-		'sp_pedidos_list',
-		'sp_pedidosproducts_list',
-		'sp_pedidosrecibos_list',
+		'sp_formspayments_list',
+		'sp_orders_list',
+		'sp_ordersproducts_list',
+		'sp_ordersreceipts_list',
 		'sp_pedidosstatus_list',
-		'sp_pedidosfromperson_list',
-		'sp_recibosfrompedido_list',
-		'sp_pedidoslogs_list'
+		'sp_ordersfromperson_list',
+		'sp_receiptsfromorders_list',
+		'sp_orderslogs_list'
 	);
 	saveProcedures($procs);
 	
@@ -2317,12 +2318,12 @@ $app->get("/install-admin/sql/pedidos/list", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestypes/list", function(){
+$app->get("/install-admin/sql/ordersnegotiationstypes/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 	
-		'sp_pedidosnegociacoestypes_list'
+		'sp_ordersnegotiationstypes_list'
 		
 	);
 	saveProcedures($procs);
@@ -2331,12 +2332,12 @@ $app->get("/install-admin/sql/pedidosnegociacoestypes/list", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestypes/get", function(){
+$app->get("/install-admin/sql/ordersnegotiationstypes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 
-		'sp_pedidosnegociacoestypes_get'
+		'sp_ordersnegotiationstypes_get'
 		
 	);
 	saveProcedures($procs);
@@ -2345,7 +2346,7 @@ $app->get("/install-admin/sql/pedidosnegociacoestypes/get", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestypes/save", function(){
+$app->get("/install-admin/sql/ordersnegotiationstypes/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
@@ -2359,7 +2360,7 @@ $app->get("/install-admin/sql/pedidosnegociacoestypes/save", function(){
 	
 });
 
-$app->get("/install-admin/sql/pedidosnegociacoestypes/remove", function(){
+$app->get("/install-admin/sql/ordersnegotiationstypes/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
@@ -2373,48 +2374,48 @@ $app->get("/install-admin/sql/pedidosnegociacoestypes/remove", function(){
 		
 });		
 
-$app->get("/install-admin/sql/pedidos/get", function(){
+$app->get("/install-admin/sql/orders/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_formaspagamentos_get',
-		'sp_pedidos_get',
-		'sp_pedidosproducts_get',
-		'sp_pedidosrecibos_get',
-		'sp_pedidosstatus_get',
-		'sp_pedidoslogs_get'
+		'sp_formspayments_get',
+		'sp_orders_get',
+		'sp_ordersproducts_get',
+		'sp_ordersreceipts_get',
+		'sp_ordersstatus_get',
+		'sp_orderslogs_get'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pedidos/save", function(){
+$app->get("/install-admin/sql/orders/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_formaspagamentos_save',
-		'sp_pedidos_save',
-		'sp_pedidosproducts_save',
-		'sp_pedidosrecibos_save',
-		'sp_pedidosstatus_save',
-		'sp_pedidoslogs_save'
+		'sp_formspayments_save',
+		'sp_orders_save',
+		'sp_ordersproducts_save',
+		'sp_ordersreceipts_save',
+		'sp_ordersstatus_save',
+		'sp_orderslogs_save'
 	);
 	saveProcedures($procs);
 	
 	echo success();
 	
 });
-$app->get("/install-admin/sql/pedidos/remove", function(){
+$app->get("/install-admin/sql/orders/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_formaspagamentos_remove',
-		'sp_pedidos_remove',
-		'sp_pedidosproducts_remove',
-		'sp_pedidosrecibos_remove',
-		'sp_pedidosstatus_remove',
-		'sp_pedidoslogs_remove'
+		'sp_formspayments_remove',
+		'sp_orders_remove',
+		'sp_ordersproducts_remove',
+		'sp_ordersreceipts_remove',
+		'sp_ordersstatus_remove',
+		'sp_orderslogs_remove'
 	);
 	saveProcedures($procs);
 	
@@ -2430,9 +2431,9 @@ $app->get("/install-admin/sql/sitescontacts/tables", function(){
 		CREATE TABLE tb_sitescontacts(
 			idsitecontact INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
-			idpersonresposta INT NULL,
-			desmensagem VARCHAR(2048) NOT NULL,
-			inlido BIT(1) NULL,
+			idpersonanswer INT NULL,
+			desmessage VARCHAR(2048) NOT NULL,
+			inread BIT(1) NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idsitecontact),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
@@ -2488,7 +2489,9 @@ $app->get("/install-admin/sql/sitescontacts/remove", function(){
 	echo success();
 	
 });
-// placees
+
+// placees começar daqui
+
 $app->get("/install-admin/sql/placees/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2508,7 +2511,7 @@ $app->get("/install-admin/sql/placees/tables", function(){
 			idplacefather INT NULL,
 			desplace VARCHAR(128) NOT NULL,
 			idplacetype INT NOT NULL,
-			desconteudo TEXT NULL,
+			descontent TEXT NULL,
 			nrviews INT NULL,
 			vlreview DECIMAL(10,2) NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),

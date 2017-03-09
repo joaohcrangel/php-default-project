@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class LugaresValoresCampos extends Collection {

@@ -2490,7 +2490,6 @@ $app->get("/install-admin/sql/sitescontacts/remove", function(){
 	
 });
 
-// placees começar daqui
 
 $app->get("/install-admin/sql/placees/tables", function(){
 	set_time_limit(0);
@@ -2521,24 +2520,24 @@ $app->get("/install-admin/sql/placees/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_placeeshorarios(
-			idhorario INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_placeesschedules(
+			idschedule INT NOT NULL AUTO_INCREMENT,
 			idplace INT NOT NULL,
-			nrdia TINYINT(4) NOT NULL,
-			hrabre TIME NULL,
-			hrfecha TIME NULL,
+			nrday TINYINT(4) NOT NULL,
+			hropen TIME NULL,
+			hrclose TIME NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idhorario),
+			CONSTRAINT PRIMARY KEY(idschedule),
 			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_placeescoordenadas(
+		CREATE TABLE tb_placeescoordinates(
 			idplace INT NOT NULL,
-			idcoordenada INT NOT NULL,
+			idcoordinate INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
-			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
+			CONSTRAINT FOREIGN KEY(idcoordinate) REFERENCES tb_coordinates(idcoordinate)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -2550,6 +2549,9 @@ $app->get("/install-admin/sql/placees/tables", function(){
 			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	// Observação Procedures vazias lugaresvolorescampos
+
 	$sql->exec("
 		CREATE TABLE tb_placeesvaluesfields(
 			idfield INT NOT NULL AUTO_INCREMENT,
@@ -2572,7 +2574,7 @@ $app->get("/install-admin/sql/placees/tables", function(){
 	");
 	$sql->exec("
 
-		CREATE TABLE tb_placeesdados(
+		CREATE TABLE tb_placeesdatas(
 			idplace INT NOT NULL,
 			desplace VARCHAR(128) NOT NULL,
 			idplacefather INT NULL,
@@ -2588,9 +2590,9 @@ $app->get("/install-admin/sql/placees/tables", function(){
 			descity VARCHAR(64) NULL,
 			desstate VARCHAR(32) NULL,
 			descountry VARCHAR(32) NULL,
-			descep CHAR(8) NULL,
+			deszipcode CHAR(8) NULL,
 			descomplement VARCHAR(32) NULL,
-			idcoordenada INT NULL,
+			idcoordinate INT NULL,
 			vllatitude DECIMAL(20,17) NULL,
 			vllongitude DECIMAL(20,17) NULL,
 			nrzoom TINYINT(4) NULL,
@@ -2601,7 +2603,7 @@ $app->get("/install-admin/sql/placees/tables", function(){
 			CONSTRAINT FOREIGN KEY(idplacetype) REFERENCES tb_placeestypes(idplacetype),
 			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
 			CONSTRAINT FOREIGN KEY(idadresstype) REFERENCES tb_adressestypes(idadresstype),
-			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
+			CONSTRAINT FOREIGN KEY(idcoordinate) REFERENCES tb_coordinates(idcoordinate)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
@@ -2616,9 +2618,9 @@ $app->get("/install-admin/sql/placees/triggers", function(){
 		'tg_placees_AFTER_UPDATE',
 		'tg_placees_BEFORE_DELETE',
 
-		'tg_placeescoordenadas_AFTER_INSERT',
-		'tg_placeescoordenadas_AFTER_UPDATE',
-		'tg_placeescoordenadas_BEFORE_DELETE',
+		'tg_placeescoordinates_AFTER_INSERT',
+		'tg_placeescoordinates_AFTER_UPDATE',
+		'tg_placeescoordinates_BEFORE_DELETE',
 
 		'tg_placeesadresses_AFTER_INSERT',
 		'tg_placeesadresses_AFTER_UPDATE',
@@ -2635,7 +2637,7 @@ $app->get("/install-admin/sql/placees/list", function(){
 	$procs = array(
 		"sp_placees_list",
 		"sp_placeestypes_list",
-		"sp_placeeshorarios_list"
+		"sp_placeesschedules_list"
 	);
 	saveProcedures($procs);
 	
@@ -2648,7 +2650,7 @@ $app->get("/install-admin/sql/placees/get", function(){
 	$procs = array(
 		'sp_placeestypes_get',
 		'sp_placees_get',
-		'sp_placeeshorarios_get'
+		'sp_placeesschedules_get'
 	);
 	saveProcedures($procs);
 	
@@ -2656,12 +2658,12 @@ $app->get("/install-admin/sql/placees/get", function(){
 	
 });
 
-$app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
+$app->get("/install-admin/sql/placeesvaluesfields/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		
-		'sp_lugaresvalorescampo_get'
+		'sp_placeesvaluesfields_get'
 	);
 	saveProcedures($procs);
 	
@@ -2676,10 +2678,10 @@ $app->get("/install-admin/sql/placees/save", function(){
 		'sp_placeestypes_save',
 		'sp_placees_save',
 		'sp_placeesdados_save',
-		'sp_placeescoordenadas_add',
-		'sp_placeeshorarios_save',
+		'sp_placeescoordinates_add',
+		'sp_placeesschedules_save',
 		'sp_placeesadresses_add',
-		'sp_placeesarquivos_add'
+		'sp_placeesfiles_add'
 	);
 	saveProcedures($procs);
 	
@@ -2692,9 +2694,9 @@ $app->get("/install-admin/sql/placees/remove", function(){
 	$procs = array(
 		'sp_placeestypes_remove',
 		'sp_placees_remove',
-		'sp_placeesdados_remove',
-		'sp_placeeshorarios_remove',
-		'sp_placeeshorariosall_remove'
+		'sp_placeesdatas_remove',
+		'sp_placeesschedules_remove',
+		'sp_placeesschedulesall_remove'
 	);
 	saveProcedures($procs);
 	
@@ -2728,9 +2730,9 @@ $app->get("/install-admin/sql/placees/inserts", function(){
 	$country->save();
 
 	$empresas = new placetype(array(
-		'desplacetype'=>$lang->getString('placetype_empresas')
+		'desplacetype'=>$lang->getString('placetype_companies')
 	));
-	$empresas->save();
+	$companies->save();
 	
 	$adress = new adress(array(
 		'idadresstype'=>adresstype::COMERCIAL,
@@ -2740,8 +2742,8 @@ $app->get("/install-admin/sql/placees/inserts", function(){
 		'descity'=>$lang->getString('placetype_hcode_city'),
 		'desstate'=>$lang->getString('placetype_hcode_state'),
 		'descountry'=>$lang->getString('placetype_hcode_country'),
-		'descep'=>$lang->getString('placetype_hcode_cep'),
-		'inprincipal'=>true
+		'deszipcode'=>$lang->getString('placetype_hcode_cep'),
+		'inmain'=>true
 	));
 	$adress->save();
 
@@ -2756,18 +2758,18 @@ $app->get("/install-admin/sql/placees/inserts", function(){
 	
 });
 // placees arquivos
-$app->get("/install-admin/sql/placeesarquivos/tables", function(){
+$app->get("/install-admin/sql/placeesfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_placeesarquivos(
+		CREATE TABLE tb_placeesfiles(
 			idplace INT NOT NULL,
-			idarquivo INT NOT NULL,
+			idfile INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_placees(idplace),
-			CONSTRAINT FOREIGN KEY(idarquivo) REFERENCES tb_arquivos(idarquivo)
+			CONSTRAINT FOREIGN KEY(idfile) REFERENCES tb_files(idfile)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -2775,164 +2777,164 @@ $app->get("/install-admin/sql/placeesarquivos/tables", function(){
 
 });
 // coordenadas
-$app->get("/install-admin/sql/coordenadas/tables", function(){
+$app->get("/install-admin/sql/coordinates/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_coordenadas(
-			idcoordenada INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_coordinates(
+			idcoordinate INT NOT NULL AUTO_INCREMENT,
 			vllatitude DECIMAL(20,17) NOT NULL,
 			vllongitude DECIMAL(20,17) NOT NULL,
 			nrzoom TINYINT(4) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idcoordenada)
+			CONSTRAINT PRIMARY KEY(idcoordinate)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_adressescoordenadas(
+		CREATE TABLE tb_adressescoordinates(
 			idadress INT NOT NULL,
-			idcoordenada INT NOT NULL,
+			idcoordinate INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
-			CONSTRAINT FOREIGN KEY(idcoordenada) REFERENCES tb_coordenadas(idcoordenada)
+			CONSTRAINT FOREIGN KEY(idcoordinate) REFERENCES tb_coordinates(idcoordinate)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/coordenadas/get", function(){
+$app->get("/install-admin/sql/coordinates/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_coordenadas_get'
+		'sp_coordinates_get'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/coordenadas/save", function(){
+$app->get("/install-admin/sql/coordinates/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_coordenadas_save'
+		'sp_coordinates_save'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/coordenadas/remove", function(){
+$app->get("/install-admin/sql/coordinates/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_coordenadas_remove'
+		'sp_coordinates_remove'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
 
-$app->get("/install-admin/sql/cursos/tables", function(){
+$app->get("/install-admin/sql/courses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_cursos (
-		  idcurso int(11) NOT NULL AUTO_INCREMENT,
-		  descurso varchar(64) NOT NULL,
-		  destitulo varchar(256) DEFAULT NULL,
-		  vlcargahoraria decimal(10,2) NOT NULL DEFAULT '0.00',
-		  nraulas int(11) NOT NULL DEFAULT '0',
-		  nrexercicios int(11) NOT NULL DEFAULT '0',
-		  desdescricao varchar(10240) DEFAULT NULL,
+		CREATE TABLE tb_courses (
+		  idcourse int(11) NOT NULL AUTO_INCREMENT,
+		  descourse varchar(64) NOT NULL,
+		  destitle varchar(256) DEFAULT NULL,
+		  vlhours decimal(10,2) NOT NULL DEFAULT '0.00',
+		  nrclassrooms int(11) NOT NULL DEFAULT '0',
+		  nrexercise int(11) NOT NULL DEFAULT '0',
+		  desdescription varchar(10240) DEFAULT NULL,
 		  inremoved bit(1) NOT NULL DEFAULT b'0',
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcurso)
+		  PRIMARY KEY (idcourse)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	$sql->exec("
-		CREATE TABLE tb_cursossecoes (
-		  idsecao int(11) NOT NULL AUTO_INCREMENT,
-		  dessecao varchar(128) NOT NULL,
+		CREATE TABLE tb_coursessections(
+		  idsection int(11) NOT NULL AUTO_INCREMENT,
+		  dessection varchar(128) NOT NULL,
 		  nrorder int(11) NOT NULL DEFAULT '0',
-		  idcurso int(11) NOT NULL,
+		  idcourse int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idsecao),
-		  KEY FK_cursossecoes_cursos_idx (idcurso),
-		  CONSTRAINT FK_cursossecoes_cursos FOREIGN KEY (idcurso) REFERENCES tb_cursos (idcurso) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  PRIMARY KEY (idsection),
+		  KEY FK_coursessections_courses_idx (idcourse),
+		  CONSTRAINT FK_coursessections_courses FOREIGN KEY (idcourse) REFERENCES tb_courses (idcourse) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	$sql->exec("
-		CREATE TABLE tb_cursoscurriculos (
-		  idcurriculo int(11) NOT NULL AUTO_INCREMENT,
-		  descurriculo varchar(128) NOT NULL,
-		  idsecao int(11) NOT NULL,
-		  desdescricao varchar(2048) DEFAULT NULL,
+		CREATE TABLE tb_coursescurriculums(
+		  idcurriculum int(11) NOT NULL AUTO_INCREMENT,
+		  descurriculum varchar(128) NOT NULL,
+		  idsection int(11) NOT NULL,
+		  desdescription varchar(2048) DEFAULT NULL,
 		  nrorder varchar(45) DEFAULT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcurriculo),
-		  KEY FK_cursoscurriculos_cursossecoes_idx (idsecao),
-		  CONSTRAINT FK_cursoscurriculos_cursossecoes FOREIGN KEY (idsecao) REFERENCES tb_cursossecoes (idsecao) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  PRIMARY KEY (idcurriculum),
+		  KEY FK_coursescurriculums_coursessections_idx (idsection),
+		  CONSTRAINT FK_coursescurriculums_coursessections FOREIGN KEY (idsection) REFERENCES tb_coursessections (idsection) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	echo success();
 });
 
-$app->get("/install-admin/sql/cursos/list", function(){
+$app->get("/install-admin/sql/courses/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cursos_list',
-		'sp_cursoscurriculos_list',
-		'sp_cursossecoes_list',
-		'sp_secoesfromcurso_list',
-		'sp_curriculosfromcurso_list'
+		'sp_courses_list',
+		'sp_coursescurriculums_list',
+		'sp_coursessections_list',
+		'sp_sectionsfromcourses_list',
+		'sp_curriculumsfromcourses_list'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
 
-$app->get("/install-admin/sql/cursos/get", function(){
+$app->get("/install-admin/sql/courses/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cursos_get',
-		'sp_cursoscurriculos_get',
-		'sp_cursossecoes_get'
+		'sp_courses_get',
+		'sp_coursescurriculums_get',
+		'sp_coursessections_get'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
 
-$app->get("/install-admin/sql/cursos/save", function(){
+$app->get("/install-admin/sql/courses/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cursos_save',
-		'sp_cursoscurriculos_save',
-		'sp_cursossecoes_save'
+		'sp_courses_save',
+		'sp_coursescurriculums_save',
+		'sp_coursessections_save'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
 
-$app->get("/install-admin/sql/cursos/remove", function(){
+$app->get("/install-admin/sql/courses/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_cursos_remove',
-		'sp_cursoscurriculos_remove',
-		'sp_cursossecoes_remove'
+		'sp_courses_remove',
+		'sp_coursescurriculums_remove',
+		'sp_coursessections_remove'
 	);
 	saveProcedures($procs);
 
@@ -2973,7 +2975,7 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 		CREATE TABLE tb_carouselsitems (
 		  iditem int(11) NOT NULL AUTO_INCREMENT,
 		  desitem varchar(45) NOT NULL,
-		  desconteudo text,
+		  descontent text,
 		  nrorder varchar(45) NOT NULL DEFAULT '0',
 		  idtype int(11) NOT NULL,
 		  idcarousel int(11) NOT NULL,
@@ -3042,32 +3044,32 @@ $app->get("/install-admin/sql/carousels/remove", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/configuracoes/tables", function(){
+$app->get("/install-admin/sql/settings/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_configuracoestypes (
-		  idconfiguracaotype int(11) NOT NULL AUTO_INCREMENT,
-		  desconfiguracaotype varchar(32) NOT NULL,
+		CREATE TABLE tb_settingstypes (
+		  idsettingtype int(11) NOT NULL AUTO_INCREMENT,
+		  dessettingtype varchar(32) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idconfiguracaotype)
+		  PRIMARY KEY (idconfigurationtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	$sql->exec("
-		CREATE TABLE tb_configuracoes (
-		  idconfiguracao int(11) NOT NULL AUTO_INCREMENT,
-		  desconfiguracao varchar(64) NOT NULL,
+		CREATE TABLE tb_settings (
+		  idsetting int(11) NOT NULL AUTO_INCREMENT,
+		  dessetting varchar(64) NOT NULL,
 		  desvalue varchar(2048) NOT NULL,
-		  desdescricao varchar(256) NULL,
-		  idconfiguracaotype int(11) NOT NULL,
+		  desdescription varchar(256) NULL,
+		  idsettingtype int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idconfiguracao),
-		  KEY FK_configuracoes_configuracoestypes_idx (idconfiguracaotype),
-		  KEY IX_desconfiguracao (desconfiguracao),
-		  CONSTRAINT FK_configuracoes_configuracoestypes FOREIGN KEY (idconfiguracaotype) REFERENCES tb_configuracoestypes (idconfiguracaotype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  PRIMARY KEY (idsetting),
+		  KEY FK_configuracoes_settingstypes_idx (idsettingtype),
+		  KEY IX_dessetting  (dessetting ),
+		  CONSTRAINT FK_settings_settingstypes FOREIGN KEY (idsettingtype) REFERENCES tb_settingstypes  (idsettingtype ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	
@@ -3075,84 +3077,84 @@ $app->get("/install-admin/sql/configuracoes/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/configuracoes/inserts", function(){
+$app->get("/install-admin/sql/settings/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
-	$texto = new Configuracaotype(array(
-		'desconfiguracaotype'=>$lang->getString('configtype_string')
+	$texto = new Settingtype(array(
+		'dessettingtype'=>$lang->getString('configtype_string')
 	));
 	$texto->save();
 
-	$int = new Configuracaotype(array(
-		'desconfiguracaotype'=>$lang->getString('configtype_int')
+	$int = new Settingtype(array(
+		'dessettingtype'=>$lang->getString('configtype_int')
 	));
 	$int->save();
 
-	$float = new Configuracaotype(array(
-		'desconfiguracaotype'=>$lang->getString('configtype_float')
+	$float = new Settingtype(array(
+		'dessettingtype'=>$lang->getString('configtype_float')
 	));
 	$float->save();
 
-	$bool = new Configuracaotype(array(
-		'desconfiguracaotype'=>$lang->getString('configtype_boolean')
+	$bool = new Settingtype(array(
+		'dessettingtype'=>$lang->getString('configtype_boolean')
 	));
 	$bool->save();
 
-	$data = new Configuracaotype(array(
-		'desconfiguracaotype'=>$lang->getString('configtype_datetime')
+	$data = new Settingtype(array(
+		'dessettingtype'=>$lang->getString('configtype_datetime')
 	));
 	$data->save();
 
-	$array = new Configuracaotype(array(
-		'desconfiguracaotype'=>$lang->getString('configtype_object')
+	$array = new Settingtype(array(
+		'dessettingtype'=>$lang->getString('configtype_object')
 	));
 	$array->save();
 
-	$adminName = new Configuracao(array(
-		'desconfiguracao'=>$lang->getString('config_admin_name'),
+	$adminName = new Setting(array(
+		'dessetting'=>$lang->getString('config_admin_name'),
 		'desvalue'=>$lang->getString('config_admin_name_value'),
-		'idconfiguracaotype'=>$texto->getidconfiguracaotype(),
-		'desdescricao'=>$lang->getString('config_admin_name_description')
+		'idsettingtype'=>$texto->getidsettingtype(),
+		'desdescription'=>$lang->getString('config_admin_name_description')
 	));
 	$adminName->save();
 
-	$uploadDir = new Configuracao(array(
-		'desconfiguracao'=>$lang->getString('config_upload_dir'),
+	$uploadDir = new Setting(array(
+		'dessetting'=>$lang->getString('config_upload_dir'),
 		'desvalue'=>$lang->getString('config_upload_dir_value'),
-		'idconfiguracaotype'=>$texto->getidconfiguracaotype(),
-		'desdescricao'=>$lang->getString('config_upload_dir_description')
+		'idsettingtype'=>$texto->getidsettingtype(),
+		'desdescription'=>$lang->getString('config_upload_dir_description')
 	));
 	$uploadDir->save();
 
-	$uploadMaxSize = new Configuracao(array(
-		'desconfiguracao'=>$lang->getString('config_upload_max_filesize'),
+	$uploadMaxSize = new Setting(array(
+		'dessetting'=>$lang->getString('config_upload_max_filesize'),
 		'desvalue'=>file_upload_max_size(),
-		'idconfiguracaotype'=>$int->getidconfiguracaotype(),
-		'desdescricao'=>$lang->getString('config_upload_max_filesize_description')
+		'idsettingtype'=>$int->getidsettingtype(),
+		'desdescription'=>$lang->getString('config_upload_max_filesize_description')
 	));
 	$uploadMaxSize->save();
 
-	$uploadMimes = new Configuracao(array(
-		'desconfiguracao'=>$lang->getString('config_upload_mimetype'),
+	$uploadMimes = new Setting(array(
+		'dessetting'=>$lang->getString('config_upload_mimetype'),
 		'desvalue'=>json_encode(array(
 			'jpg' => 'image/jpeg',
             'png' => 'image/png',
             'gif' => 'image/gif',
             'pdf' => 'application/pdf'
 		)),
-		'idconfiguracaotype'=>$array->getidconfiguracaotype(),
-		'desdescricao'=>$lang->getString('config_upload_mimetype_description')
+		'idsettingtype'=>$array->geidsettingtype(),
+		'desdescription'=>$lang->getString('config_upload_mimetype_description')
 	));
 	$uploadMimes->save();
 
-	$googleMapKey = new Configuracao(array(
-		'desconfiguracao'=>$lang->getString('config_google_map_key'),
+	$googleMapKey = new Setting(array(
+		'dessetting'=>$lang->getString('config_google_map_key'),
 		'desvalue'=>$lang->getString('google_map_key'),
-		'idconfiguracaotype'=>$texto->getidconfiguracaotype(),
-		'desdescricao'=>$lang->getString('config_google_map_key_description')
+		'idsettingtype'=>$texto->getidsettingtype(),
+		'desdescription'=>$lang->getString('config_google_map_key_description')
 	));
 	$googleMapKey->save();
 
@@ -3160,6 +3162,7 @@ $app->get("/install-admin/sql/configuracoes/inserts", function(){
 
 });
 
+// começar daqui e fazer classe e collection e procedure de configuraçoes
 $app->get("/install-admin/sql/configuracoes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -3297,21 +3300,21 @@ $app->get("/install-admin/sql/urls/list", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/productsarquivos/tables", function(){
+$app->get("/install-admin/sql/productsfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_productsarquivos (
+		CREATE TABLE tb_productsfiles (
 		  idproduct int(11) NOT NULL,
-		  idarquivo int(11) NOT NULL,
+		  idfile int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idproduct,idarquivo),
-		  KEY FK_productsarquivos_arquivos_idx (idarquivo),
-		  CONSTRAINT FK_productsarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT FK_productsarquivos_products FOREIGN KEY (idproduct) REFERENCES tb_products (idproduct) ON DELETE CASCADE ON UPDATE CASCADE
+		  PRIMARY KEY (idproduct,idfile),
+		  KEY FK_productsidfiles_files_idx (idfile),
+		  CONSTRAINT FK_productsfiles_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE CASCADE ON UPDATE CASCADE,
+		  CONSTRAINT FK_productsfiles_products FOREIGN KEY (idproduct) REFERENCES tb_products (idproduct) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
 	");
 

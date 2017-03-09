@@ -1,17 +1,17 @@
 CREATE PROCEDURE sp_carouselsitems_save(
 piditem INT,
 pdesitem VARCHAR(45),
-pdesconteudo TEXT,
+pdescontent TEXT,
 pnrordem VARCHAR(45),
-pidtipo INT,
+pidtype INT,
 pidcarousel INT
 )
 BEGIN
 
     IF piditem = 0 THEN
     
-        INSERT INTO tb_carouselsitems (desitem, desconteudo, nrordem, idtipo, idcarousel)
-        VALUES(pdesitem, pdesconteudo, pnrordem, pidtipo, pidcarousel);
+        INSERT INTO tb_carouselsitems (desitem, descontent, nrordem, idtype, idcarousel)
+        VALUES(pdesitem, pdescontent, pnrordem, pidtype, pidcarousel);
         
         SET piditem = LAST_INSERT_ID();
 
@@ -20,9 +20,9 @@ BEGIN
         UPDATE tb_carouselsitems        
         SET 
             desitem = pdesitem,
-            desconteudo = pdesconteudo,
+            descontent = pdescontent,
             nrordem = pnrordem,
-            idtipo = pidtipo,
+            idtype = pidtype,
             idcarousel = pidcarousel        
         WHERE iditem = piditem;
 

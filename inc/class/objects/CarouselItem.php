@@ -2,7 +2,7 @@
 
 class CarouselItem extends Model {
 
-    public $required = array('iditem', 'desitem', 'nrordem', 'idtipo', 'idcarousel');
+    public $required = array('iditem', 'desitem', 'nrordem', 'idtype', 'idcarousel');
     protected $pk = "iditem";
 
     public function get(){
@@ -21,9 +21,9 @@ class CarouselItem extends Model {
             $this->queryToAttr("CALL sp_carouselsitems_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getiditem(),
                 $this->getdesitem(),
-                $this->getdesconteudo(),
+                $this->getdescontent(),
                 $this->getnrordem(),
-                $this->getidtipo(),
+                $this->getidtype(),
                 $this->getidcarousel()
             ));
 

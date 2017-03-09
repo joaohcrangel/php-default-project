@@ -4,7 +4,7 @@ class CarouselsItems extends Collection {
 
     protected $class = "CarouselItem";
     protected $saveQuery = "sp_carouselsitems_save";
-    protected $saveArgs = array("iditem", "desitem", "desconteudo", "nrordem", "idtipo", "idcarousel");
+    protected $saveArgs = array("iditem", "desitem", "descontent", "nrordem", "idtype", "idcarousel");
     protected $pk = "iditem";
 
     public function get(){}

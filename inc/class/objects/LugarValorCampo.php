@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 class LugarValorCampo extends Model {

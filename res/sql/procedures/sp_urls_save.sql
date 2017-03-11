@@ -1,14 +1,14 @@
 CREATE PROCEDURE sp_urls_save(
 pidurl INT,
 pdesurl VARCHAR(128),
-pdestitulo VARCHAR(64)
+pdestitle VARCHAR(64)
 )
 BEGIN
 
     IF pidurl = 0 THEN
     
-        INSERT INTO tb_urls (desurl, destitulo)
-        VALUES(pdesurl, pdestitulo);
+        INSERT INTO tb_urls (desurl, destitle)
+        VALUES(pdesurl, pdestitle);
         
         SET pidurl = LAST_INSERT_ID();
 
@@ -17,7 +17,7 @@ BEGIN
         UPDATE tb_urls        
         SET 
             desurl = pdesurl,
-            destitulo = pdestitulo        
+            destitle = pdestitle        
         WHERE idurl = pidurl;
 
     END IF;

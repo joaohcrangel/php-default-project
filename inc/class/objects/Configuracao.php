@@ -1,16 +1,16 @@
 <?php
 
-class Configuracao extends Model {
+class Setting extends Model {
 
-    public $required = array('desconfiguracao', 'desvalor', 'idconfiguracaotipo');
-    protected $pk = "idconfiguracao";
+    public $required = array('dessetting', 'desvalue', 'idsettingtype');
+    protected $pk = "idsetting";
 
     public function get(){
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_configuracoes_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_settings_get(".$args[0].");");
 
     }
 
@@ -18,40 +18,40 @@ class Configuracao extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            switch ($this->getidconfiguracaotipo()) {
-                case ConfiguracaoTipo::STRING:
-                $this->setdesvalor((string)$this->getdesvalor());
+            switch ($this->getidsettingtype()) {
+                case Settingtype::STRING:
+                $this->desvalue((string)$this->getdesvalue());
                 break;
-                case ConfiguracaoTipo::INT:
-                $this->setdesvalor((string)$this->getdesvalor());
+                case SettingType::INT:
+                $this->desvalue((string)$this->getdesvalue());
                 break;
-                case ConfiguracaoTipo::FLOAT:
-                $this->setdesvalor((string)$this->getdesvalor());
+                case SettingType::FLOAT:
+                $this->desvalue((string)$this->getdesvalue());
                 break;
-                case ConfiguracaoTipo::BOOL:
-                $this->setdesvalor((string)$this->getdesvalor());
+                case SettingType::BOOL:
+                $this->desvalue((string)$this->getdesvalue());
                 break;
-                case ConfiguracaoTipo::DATETIME:
-                if (gettype($this->getdesvalor()) === 'object') {
-                    $this->setdesvalor((string)$this->getdesvalor()->format('c'));
+                case SettingType::DATETIME:
+                if (gettype($this->getdesvalue()) === 'object') {
+                    $this->desvalue((string)$this->getdesvalue()->format('c'));
                 }
                 break;
-                case ConfiguracaoTipo::ARRAY:
-                if (gettype($this->getdesvalor()) === 'array') {
-                    $this->setdesvalor((string)json_encode($this->getdesvalor()));
+                case SettingType::ARRAY:
+                if (gettype($this->getdesvalue()) === 'array') {
+                    $this->desvalue((string)json_encode($this->getdesvalue()));
                 }
                 break;
             }
 
-            $this->queryToAttr("CALL sp_configuracoes_save(?, ?, ?, ?, ?);", array(
-                $this->getidconfiguracao(),
-                $this->getdesconfiguracao(),
-                $this->getdesvalor(),
-                $this->getdesdescricao(),
-                $this->getidconfiguracaotipo()
+            $this->queryToAttr("CALL sp_settings_save(?, ?, ?, ?, ?);", array(
+                $this->getidsetting(),
+                $this->getdessetting(),
+                $this->getdesvalue(),
+                $this->getdesdescription(),
+                $this->getidsettingtype()
             ));
 
-            return $this->getidconfiguracao();
+            return $this->getidsetting();
 
         }else{
 
@@ -63,8 +63,8 @@ class Configuracao extends Model {
 
     public function remove(){
 
-        $this->proc("sp_configuracoes_remove", array(
-            $this->getidconfiguracao()
+        $this->proc("sp_settings_remove", array(
+            $this->getidsetting()
         ));
 
         return true;
@@ -73,24 +73,24 @@ class Configuracao extends Model {
 
     public function getValue(){
 
-        switch ($this->getidconfiguracaotipo()) {
-            case ConfiguracaoTipo::STRING:
-            return (string)$this->getdesvalor();
+        switch ($this->getsettingstype()) {
+            case SettingType::STRING:
+            return (string)$this->getdesvalue();
             break;
-            case ConfiguracaoTipo::INT:
-            return (int)$this->getdesvalor();
+            case SettingType::INT:
+            return (int)$this->getdesvalue();
             break;
-            case ConfiguracaoTipo::FLOAT:
-            return (float)$this->getdesvalor();
+            case SettingType::FLOAT:
+            return (float)$this->getdesvalue();
             break;
-            case ConfiguracaoTipo::BOOL:
-            return (bool)$this->getdesvalor();
+            case SettingType::BOOL:
+            return (bool)$this->getdesvalue();
             break;
-            case ConfiguracaoTipo::DATETIME:
-            return new DateTime($this->getdesvalor());
+            case SettingType::DATETIME:
+            return new DateTime($this->getdesvalue());
             break;
-            case ConfiguracaoTipo::ARRAY:
-            return json_decode($this->getdesvalor(), true);
+            case SettingType::ARRAY:
+            return json_decode($this->getdesvalue(), true);
             break;
         }
 

@@ -1,20 +1,20 @@
 <?php
 
-class Configuracoes extends Collection {
+class Settings extends Collection {
 
-    protected $class = "Configuracao";
-    protected $saveQuery = "sp_configuracoes_save";
-    protected $saveArgs = array("idconfiguracao", "desconfiguracao", "desvalor", "desdescricao", "idconfiguracaotipo");
-    protected $pk = "idconfiguracao";
+    protected $class = "Setting";
+    protected $saveQuery = "sp_settings_save";
+    protected $saveArgs = array("idsetting", "dessetting", "desvalue", "desdescription", "idsettingtype");
+    protected $pk = "idsetting";
 
     public function get(){}
 
-    public static function listAll():Configuracoes
+    public static function listAll():Settings
     {
 
-    	$configs = new Configuracoes();
+    	$configs = new Settings();
 
-    	$configs->loadFromQuery("CALL sp_configuracoes_list()");
+    	$configs->loadFromQuery("CALL sp_settings_list()");
 
     	return $configs;
 
@@ -27,7 +27,7 @@ class Configuracoes extends Collection {
 
     	foreach ($this->getItens() as $item) {
     		
-    		$names[$item->getdesconfiguracao()] = $item->getValue();
+    		$names[$item->getdessetting()] = $item->getValue();
 
     	}
 
@@ -40,7 +40,7 @@ class Configuracoes extends Collection {
 
     	foreach ($this->getItens() as $item) {
     		
-    		if ($item->getdesconfiguracao() === $name) {
+    		if ($item->getdessetting() === $name) {
 
     			return $item->getValue();
     			

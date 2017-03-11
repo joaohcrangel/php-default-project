@@ -1,16 +1,16 @@
 <?php
 
-class RequestReceipt extends Model {
+class OrderReceipt extends Model {
 
-    public $required = array('idrequest', 'desauthentication');
-    protected $pk = "idrequest";
+    public $required = array('idorder', 'desauthentication');
+    protected $pk = "idorder";
 
     public function get(){
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_requestsreceipts_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_ordersreceipts_get(".$args[0].");");
                 
     }
 
@@ -18,12 +18,12 @@ class RequestReceipt extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_requestsreceipts_save(?, ?);", array(
-                $this->getidrequest(),
+            $this->queryToAttr("CALL sp_ordersreceipts_save(?, ?);", array(
+                $this->getidorder(),
                 $this->getdesauthentication()
             ));
 
-            return $this->getidrequest();
+            return $this->getidorder();
 
         }else{
 
@@ -35,7 +35,7 @@ class RequestReceipt extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_requestsreceipts_remove(".$this->getidrequest().")");
+        $this->execute("CALL sp_ordersreceipts_remove(".$this->getidorder().")");
 
         return true;
         

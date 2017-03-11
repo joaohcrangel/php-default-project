@@ -1,28 +1,28 @@
 <?php
 
-class Requests extends Collection {
+class Orders extends Collection {
 
-    protected $class = "Request";
-    protected $saveQuery = "sp_requests_save";
-    protected $saveArgs = array("idrequest", "idperson", "idformrequest", "idstatus", "dessession", "vltotal", "nrplots");
-    protected $pk = "idrequest";
+    protected $class = "Order";
+    protected $saveQuery = "sp_orders_save";
+    protected $saveArgs = array("idorder", "idperson", "idformrequest", "idstatus", "dessession", "vltotal", "nrplots");
+    protected $pk = "idorder";
     public function get(){}
 
     public static function listAll(){
 
-    	$requests = new Requests();
+    	$orders = new Orders();
 
-    	$requests->loadFromQuery("CALL sp_requests_list();");
+    	$orders->loadFromQuery("CALL sp_orders_list();");
 
-    	return $requests;
+    	return $orders;
 
     }
 
-      public function getByPerson(Person $person):Requests
+      public function getByPerson(Person $person):Orders
       
     {
     
-         $this->loadFromQuery("CALL sp_requestsfromperson_list(?)",array(
+         $this->loadFromQuery("CALL sp_ordersfromperson_list(?)",array(
                $person->getidperson()
                
         ));

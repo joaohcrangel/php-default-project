@@ -2101,7 +2101,7 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 	echo success();
 	
 });
-$app->get("/install-admin/sql/requests/tables", function(){
+$app->get("/install-admin/sql/orders/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
@@ -2126,7 +2126,7 @@ $app->get("/install-admin/sql/requests/tables", function(){
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_requestsstatus(
+		CREATE TABLE tb_ordersstatus(
 			idstatus INT NOT NULL AUTO_INCREMENT,
 			desstatus VARCHAR(128) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
@@ -2134,8 +2134,8 @@ $app->get("/install-admin/sql/requests/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_requests(
-			idrequest INT NOT NULL AUTO_INCREMENT,
+		CREATE TABLE tb_orders(
+			idorder INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
 			idformpayment INT NOT NULL,
 			idstatus INT NOT NULL,
@@ -2143,38 +2143,35 @@ $app->get("/install-admin/sql/requests/tables", function(){
 			vltotal DECIMAL(10,2) NOT NULL,
 			nrplots INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idrequest),
+			CONSTRAINT PRIMARY KEY(idorder),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
 			CONSTRAINT FOREIGN KEY(idformpayment) REFERENCES tb_formspayments(idformpayment),
-			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_requestsstatus(idstatus)
+			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_ordersstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_requestsproducts(
-			idrequest INT NOT NULL,
+		CREATE TABLE tb_ordersproducts(
+			idorder INT NOT NULL,
 			idproduct INT NOT NULL,
 			nrqtd INT NOT NULL,
 			vlprice DECIMAL(10,2) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idrequest, idproduct),
-			CONSTRAINT FOREIGN KEY(idrequest) REFERENCES tb_requests(idrequest),
+			CONSTRAINT PRIMARY KEY (idorder, idproduct),
+			CONSTRAINT FOREIGN KEY(idorder) REFERENCES tb_orders(idorder),
 			CONSTRAINT FOREIGN KEY(idproduct) REFERENCES tb_products(idproduct)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
 	$sql->exec("
-		CREATE TABLE tb_requestsreceipts(
+		CREATE TABLE tb_ordersreceipts(
 			idreceipt INT NOT NULL,
 			desauthentication VARCHAR(256) NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY (idrequest),
-			CONSTRAINT FOREIGN KEY(idrequest) REFERENCES tb_requests(idrequest)
+			CONSTRAINT PRIMARY KEY (idorder),
+			CONSTRAINT FOREIGN KEY(idorder) REFERENCES tb_idorders(idorder)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
-// daqui prá cima traduzir requests ////////////////////////////////
-
 	$sql->exec("
 		CREATE TABLE tb_orderslogs(
 			idlog INT NOT NULL AUTO_INCREMENT,
@@ -3054,7 +3051,7 @@ $app->get("/install-admin/sql/settings/tables", function(){
 		  idsettingtype int(11) NOT NULL AUTO_INCREMENT,
 		  dessettingtype varchar(32) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idconfigurationtype)
+		  PRIMARY KEY (idsettingtype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3067,7 +3064,7 @@ $app->get("/install-admin/sql/settings/tables", function(){
 		  idsettingtype int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idsetting),
-		  KEY FK_configuracoes_settingstypes_idx (idsettingtype),
+		  KEY FK_settings_settingstypes_idx (idsettingtype),
 		  KEY IX_dessetting  (dessetting ),
 		  CONSTRAINT FK_settings_settingstypes FOREIGN KEY (idsettingtype) REFERENCES tb_settingstypes  (idsettingtype ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -3162,98 +3159,97 @@ $app->get("/install-admin/sql/settings/inserts", function(){
 
 });
 
-// começar daqui e fazer classe e collection e procedure de configuraçoes
-$app->get("/install-admin/sql/configuracoes/get", function(){
+$app->get("/install-admin/sql/settings/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_configuracoestypes_get',
-		'sp_configuracoestypes_list',
-		'sp_configuracoes_get',
-		'sp_configuracoes_list'
+		'sp_settingstypes_get',
+		'sp_settingstypes_list',
+		'sp_settings_get',
+		'sp_settings_list'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/configuracoes/save", function(){
+$app->get("/install-admin/sql/settings/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_configuracoestypes_save',
-		'sp_configuracoes_save'
+		'sp_settingstypes_save',
+		'sp_settings_save'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/configuracoes/remove", function(){
+$app->get("/install-admin/sql/settings/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_configuracoestypes_remove',
-		'sp_configuracoes_remove'
+		'sp_settingstypes_remove',
+		'sp_settings_remove'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
 
-$app->get("/install-admin/sql/arquivos/tables", function(){
+$app->get("/install-admin/sql/files/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
 	$sql = new Sql();
 	$sql->exec("
-		CREATE TABLE tb_arquivos (
-		  idarquivo int(11) NOT NULL AUTO_INCREMENT,
-		  desdiretorio varchar(256) NOT NULL,
-		  desarquivo varchar(128) NOT NULL,
-		  desextensao varchar(32) NOT NULL,
+		CREATE TABLE tb_files (
+		  idfile int(11) NOT NULL AUTO_INCREMENT,
+		  desdirectory varchar(256) NOT NULL,
+		  desfile varchar(128) NOT NULL,
+		  desextension varchar(32) NOT NULL,
 		  desalias varchar(128) NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idarquivo)
+		  PRIMARY KEY (idfile)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 
 });
 
-$app->get("/install-admin/sql/arquivos/get", function(){
+$app->get("/install-admin/sql/files/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_arquivos_get'
+		'sp_files_get'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/arquivos/save", function(){
+$app->get("/install-admin/sql/files/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_arquivos_save'
+		'sp_files_save'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/arquivos/remove", function(){
+$app->get("/install-admin/sql/files/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_arquivos_remove'
+		'sp_files_remove'
 	);
 	saveProcedures($procs);
 
 	echo success();
 });
-$app->get("/install-admin/sql/arquivos/list", function(){
+$app->get("/install-admin/sql/files/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_arquivos_list'
+		'sp_files_list'
 	);
 	saveProcedures($procs);
 
@@ -3300,6 +3296,8 @@ $app->get("/install-admin/sql/urls/list", function(){
 	echo success();
 });
 
+// começar daqui
+
 $app->get("/install-admin/sql/productsfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -3322,21 +3320,21 @@ $app->get("/install-admin/sql/productsfiles/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/personsarquivos/tables", function(){
+$app->get("/install-admin/sql/personsfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_personsarquivos (
+		CREATE TABLE tb_personsfiles (
 		  idperson int(11) NOT NULL,
-		  idarquivo int(11) NOT NULL,
+		  idfile int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idperson,idarquivo),
-		  KEY FK_personsarquivos_arquivos_idx (idarquivo),
-		  CONSTRAINT FK_personsarquivos_arquivos FOREIGN KEY (idarquivo) REFERENCES tb_arquivos (idarquivo) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT FK_personsarquivos_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
+		  PRIMARY KEY (idperson,idfile),
+		  KEY FK_personsfiles_files_idx (idfile),
+		  CONSTRAINT FK_personsfiles_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE CASCADE ON UPDATE CASCADE,
+		  CONSTRAINT FK_personsfiles_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3344,12 +3342,12 @@ $app->get("/install-admin/sql/personsarquivos/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/personsarquivos/procs", function(){
+$app->get("/install-admin/sql/personsfiles/procs", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$procs = array(
-		'sp_personsarquivos_save'
+		'sp_personsfiles_save'
 	);
 	saveProcedures($procs);
 
@@ -3383,7 +3381,7 @@ $app->get("/install-admin/sql/urls/tables", function(){
 		CREATE TABLE tb_urls (
 		  idurl int(11) NOT NULL AUTO_INCREMENT,
 		  desurl varchar(128) NOT NULL,
-		  destitulo varchar(64) DEFAULT NULL,
+		  destitle varchar(64) DEFAULT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idurl),
 		  UNIQUE KEY desurl_UNIQUE (desurl)

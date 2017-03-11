@@ -21,7 +21,7 @@ class Url extends Model {
             $this->queryToAttr("CALL sp_urls_save(?, ?, ?);", array(
                 $this->getidurl(),
                 $this->getdesurl(),
-                $this->getdestitulo()
+                $this->getdestitle()
             ));
 
             return $this->getidurl();

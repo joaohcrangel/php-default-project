@@ -2,7 +2,7 @@
 
 class Order extends Model {
 
-    public $required = array('idorder', 'idperson', 'idordermethod', 'idstatus', 'dessession', 'vltotal', 'nrparcels');
+    public $required = array('idorder', 'idperson', 'idformidorder', 'idstatus', 'dessession', 'vltotal', 'nrplots');
     protected $pk = "idorder";
 
     public function get(){
@@ -14,33 +14,31 @@ class Order extends Model {
                 
     }
 
-    public function save():int
-    {
+    public function save(){
 
         if($this->getChanged() && $this->isValid()){
 
             $this->queryToAttr("CALL sp_orders_save(?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidorder(),
                 $this->getidperson(),
-                $this->getidordermethod(),
+                $this->getidformorder(),
                 $this->getidstatus(),
                 $this->getdessession(),
                 $this->getvltotal(),
-                $this->getnrparcels()
+                $this->getnrplots()
             ));
 
             return $this->getidorder();
 
         }else{
 
-            return 0;
+            return false;
 
         }
         
     }
 
-    public function remove():bool
-    {
+    public function remove(){
 
         $this->execute("CALL sp_orders_remove(".$this->getidorder().")");
 
@@ -50,9 +48,9 @@ class Order extends Model {
 
     public function getReceipts(){
 
-        $receipts = new Orders();
+        $receipts = new  Orders();
 
-        $receipts->loadFromQuery("CALL sp_receiptsfromorder_list(?);", array(
+        $receipts->loadFromQuery("CALL sp_receiptsfromorders_list(?);", array(
             $this->getidorder()
         ));
 

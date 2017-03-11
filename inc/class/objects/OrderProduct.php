@@ -1,16 +1,16 @@
 <?php
 
-class RequestProduct extends Model {
+class OrderProduct extends Model {
 
-    public $required = array('idrequest', 'idproduct', 'nrqtd', 'vlprice', 'vltotal');
-    protected $pk = "idrequest";
+    public $required = array('idorder', 'idproduct', 'nrqtd', 'vlprice', 'vltotal');
+    protected $pk = "idorder";
 
     public function get(){
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_requestsproducts_get(".$args[0].", ".$args[1].");");
+        $this->queryToAttr("CALL sp_ordersproducts_get(".$args[0].", ".$args[1].");");
                 
     }
 
@@ -18,8 +18,8 @@ class RequestProduct extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_requestsproducts_save(?, ?, ?, ?, ?);", array(
-                $this->getidrequest(),
+            $this->queryToAttr("CALL sp_ordersproducts_save(?, ?, ?, ?, ?);", array(
+                $this->getidorder(),
                 $this->getidproduct(),
                 $this->getnrqtd(),
                 $this->getvlprice(),
@@ -38,7 +38,7 @@ class RequestProduct extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_requestsproducts_remove(".$this->getidrequest().", ".$this->getidrequest().")");
+        $this->execute("CALL sp_ordersproducts_remove(".$this->getidorder().", ".$this->getidorder().")");
 
         return true;
         

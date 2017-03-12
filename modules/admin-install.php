@@ -288,8 +288,7 @@ $app->get("/install-admin/sql/persons/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-		"sp_persons
-data_save",
+		"sp_personsdata_save",
 		"sp_persons_save",
 		"sp_logstypes_save",
 		"sp_personsvalues_save",
@@ -305,8 +304,7 @@ $app->get("/install-admin/sql/persons/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-		"sp_persons
-data_remove",
+		"sp_personsdata_remove",
 		"sp_persons_remove",
 		"sp_logstypes_remove",
 		"sp_personsvalues_remove",

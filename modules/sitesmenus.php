@@ -2,7 +2,7 @@
 
 $app->get("/sitesmenus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new SiteMenu((int)$idmenu);
 
@@ -12,7 +12,7 @@ $app->get("/sitesmenus/:idmenu", function($idmenu){
 
 $app->delete("/sitesmenus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new SiteMenu((int)$idmenu);
 
@@ -24,7 +24,7 @@ $app->delete("/sitesmenus/:idmenu", function($idmenu){
 
 $app->post("/sitesmenus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new SiteMenu((int)$idmenu);
 
@@ -38,7 +38,7 @@ $app->post("/sitesmenus/:idmenu", function($idmenu){
 
 $app->post("/sitesmenus", function(){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new SiteMenu($_POST);
 

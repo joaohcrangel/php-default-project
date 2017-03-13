@@ -2,7 +2,7 @@
 
 $app->get("/urls/all", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$where = array();
 
@@ -10,8 +10,8 @@ $app->get("/urls/all", function(){
 		array_push($where, "desurl LIKE '%".utf8_decode(get('desurl'))."%'");
 	}
 
-	if(get('destitulo') != ''){
-		array_push($where, "destitulo LIKE '%".utf8_decode(get('destitulo'))."%'");
+	if(get('destitle') != ''){
+		array_push($where, "destitle LIKE '%".utf8_decode(get('destitle'))."%'");
 	}
 
 	if(count($where) > 0){
@@ -48,7 +48,7 @@ $app->get("/urls/all", function(){
 
 $app->post("/urls", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idurl') > 0){
 		$url = new Url((int)post('idurl'));
@@ -66,7 +66,7 @@ $app->post("/urls", function(){
 
 $app->delete("/urls", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$ids = explode(",", post('ids'));
 

@@ -1,11 +1,11 @@
 <?php
 
 // produtos
-$app->get("/panel/produtos/:idproduto", function($idproduto){
+$app->get("/panel/products/:idproduct", function($idproduct){
 
-	$conf = Session::getConfiguracoes();
+	$conf = Session::getconfigurations();
 
-	$produto = new Produto((int)$idproduto);
+	$product = new Product((int)$idproduct);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -13,13 +13,13 @@ $app->get("/panel/produtos/:idproduto", function($idproduto){
 	));
 
 	$page->setTpl("panel/produto", array(
-		"produto"=>$produto->getFields(),
+		"product"=>$product->getFields(),
 		"diretorio"=>$conf->getByName("UPLOAD_DIR")
 	));
 
 });
 
-$app->get("/panel/produto-criar", function(){
+$app->get("/panel/product-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -31,9 +31,9 @@ $app->get("/panel/produto-criar", function(){
 });
 
 // pagamentos
-$app->get("/panel/pagamentos/:idpagamento", function($idpagamento){
+$app->get("/panel/payments/:idpayment", function($idpayment){
 
-	$pagamento = new Pagamento((int)$idpagamento);
+	$payment = new Payment((int)$idpayment);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -41,12 +41,12 @@ $app->get("/panel/pagamentos/:idpagamento", function($idpagamento){
 	));
 
 	$page->setTpl("panel/pagamento", array(
-		"pagamento"=>$pagamento->getFields()
+		"payment"=>$payment->getFields()
 	));
 
 });
 
-$app->get("/panel/pagamento-criar", function(){
+$app->get("/panel/payment-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -57,10 +57,10 @@ $app->get("/panel/pagamento-criar", function(){
 
 });
 
-// Contatos-tipos
-$app->get("/panel/contatos-tipos-salvar/:idcontatotipo", function($idcontatotipo){
+// contatos tipos
+$app->get("/panel/contacts-types-save/:idcontacttype", function($idcontacttype){
 
-	$contato = new ContatoTipo((int)$idcontatotipo);
+	$contact = new ContactType((int)$idcontacttype);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -68,12 +68,12 @@ $app->get("/panel/contatos-tipos-salvar/:idcontatotipo", function($idcontatotipo
 	));
 
 	$page->setTpl("panel/contato-tipo-salvar", array(
-		"contato"=>$contato->getFields()
+		"contact"=>$contact->getFields()
 	));
 
 });
 
-$app->get("/panel/contatos-tipos-criar", function(){
+$app->get("/panel/contacts-types-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -84,10 +84,10 @@ $app->get("/panel/contatos-tipos-criar", function(){
 
 });
 
-// pessoas-tipos
-$app->get("/panel/pessoas-tipos/:idpessoatipo", function($idpessoatipo){
+// pessoas tipos
+$app->get("/panel/persons-types/:idpersontype", function($idpersontype){
 
-	$pessoa = new PessoaTipo((int)$idpessoatipo);
+	$person = new PersonType((int)$idpersontype);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -95,12 +95,12 @@ $app->get("/panel/pessoas-tipos/:idpessoatipo", function($idpessoatipo){
 	));
 
 	$page->setTpl("panel/pessoa-tipo-salvar", array( // nome do arquivo panel, vai no html no plural
-		"pessoa"=>$pessoa->getFields()
+		"person"=>$person->getFields()
 	));
 
 });
 
-$app->get("/panel/pessoas-tipos-criar", function(){
+$app->get("/panel/persons-types-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -112,8 +112,7 @@ $app->get("/panel/pessoas-tipos-criar", function(){
 });
 
 // gateways
-
-$app->get("/panel/gateways-salvar/:idgateway", function($idgateway){
+$app->get("/panel/gateways-save/:idgateway", function($idgateway){
 
 	$gateway = new Gateway((int)$idgateway);
 
@@ -128,7 +127,7 @@ $app->get("/panel/gateways-salvar/:idgateway", function($idgateway){
 
 });
 
-$app->get("/panel/gateways-criar", function(){
+$app->get("/panel/gateways-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -139,10 +138,10 @@ $app->get("/panel/gateways-criar", function(){
 
 });
 
-// pagamentos-status
-$app->get("/panel/pedidos-status/:idstatus", function($idstatus){
+// pedidos-status
+$app->get("/panel/orders-status/:idstatus", function($idstatus){
 
-	$status = new PedidoStatus((int)$idstatus);
+	$status = new OrderStatus((int)$idstatus);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -155,22 +154,21 @@ $app->get("/panel/pedidos-status/:idstatus", function($idstatus){
 
 });
 
-$app->get("/panel/pedidos-status-criar", function(){
+$app->get("/panel/pedidos-status-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pedidos-status-criar");
+	$page->setTpl("panel/orders-status-criar");
 
 });
 
-// pedidosnegociacoestipos
+// orders negotiations types
+$app->get("/panel/ordersnegotiations-types/:idnegociacao", function($idnegociacao){
 
-$app->get("/panel/pedidosnegociacoes-tipos/:idnegociacao", function($idnegociacao){
-
-	$pedido = new PedidoNegociacaoTipo((int)$idnegociacao);
+	$order = new OrderNegotiationType((int)$idnegociacao);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -178,12 +176,12 @@ $app->get("/panel/pedidosnegociacoes-tipos/:idnegociacao", function($idnegociaca
 	));
 
 	$page->setTpl("panel/pedidonegociacao-tipo-salvar", array(
-		"pedido"=>$pedido->getFields()
+		"order"=>$order->getFields()
 	));
 
 });
 
-$app->get("/panel/pedidonegociacao-tipo-criar", function(){
+$app->get("/panel/ordernegotiation-type-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -194,10 +192,10 @@ $app->get("/panel/pedidonegociacao-tipo-criar", function(){
 
 });
 
-// site contatos
-$app->get("/panel/sites-contatos/:idsitecontato", function($idsitecontato){
+// site contacts
+$app->get("/panel/sites-contacts/:idsitecontact", function($idsitecontact){
 
-	$site = new SiteContato((int)$idsitecontato);
+	$site = new SiteContact((int)$idsitecontact);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -205,16 +203,16 @@ $app->get("/panel/sites-contatos/:idsitecontato", function($idsitecontato){
 	));
 
 	$page->setTpl("panel/site-contato", array(
-		"sitecontato"=>$site->getFields()
+		"sitecontact"=>$site->getFields()
 	));
 
 });
 ///////////////////////////////////////////////////////////////
 
 // formas de pagamento
-$app->get("/panel/formas-pagamentos/:idformapagamento", function($idformapagamento){
+$app->get("/panel/forms-payments/:idformpayment", function($idformpayment){
 
-	$forma = new FormaPagamento((int)$idformapagamento);
+	$form = new FormPayment((int)$idformpayment);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -222,12 +220,12 @@ $app->get("/panel/formas-pagamentos/:idformapagamento", function($idformapagamen
 	));
 
 	$page->setTpl("panel/forma-pagamento", array(
-		"formapagamento"=>$forma->getFields()
+		"formpayment"=>$form->getFields()
 	));
 
 });
 
-$app->get("/panel/forma-pagamento-criar", function(){
+$app->get("/panel/form-payment-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -240,9 +238,9 @@ $app->get("/panel/forma-pagamento-criar", function(){
 ///////////////////////////////////////////////////////////
 
 // cartoes de credito
-$app->get("/panel/cartoes/:idcartao", function($idcartao){
+$app->get("/panel/cards/:idcard", function($idcard){
 
-	$cartao = new CartaoCredito((int)$idcartao);
+	$card = new CreditCard((int)$idcard);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -250,12 +248,12 @@ $app->get("/panel/cartoes/:idcartao", function($idcartao){
 	));
 
 	$page->setTpl("panel/cartao", array(
-		"cartao"=>$cartao->getFields()
+		"card"=>$card->getFields()
 	));
 
 });
 
-$app->get("/panel/cartao-criar", function(){
+$app->get("/panel/card-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -267,7 +265,7 @@ $app->get("/panel/cartao-criar", function(){
 });
 
 // permissoes
-$app->get("/panel/permissao-criar", function(){
+$app->get("/panel/permission-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -281,9 +279,9 @@ $app->get("/panel/permissao-criar", function(){
 ///////////////////////////////////////////////////////////
 
 // cupons
-$app->get("/panel/cupons/:idcupom", function($idcupom){
+$app->get("/panel/coupons/:idcoupon", function($idcoupon){
 
-	$cupom = new Cupom((int)$idcupom);
+	$coupon = new coupon((int)$idcoupon);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -291,12 +289,12 @@ $app->get("/panel/cupons/:idcupom", function($idcupom){
 	));
 
 	$page->setTpl("panel/cupom", array(
-		"cupom"=>$cupom->getFields()
+		"coupon"=>$coupon->getFields()
 	));
 
 });
 
-$app->get("/panel/cupom-criar", function(){
+$app->get("/panel/coupon-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -309,9 +307,9 @@ $app->get("/panel/cupom-criar", function(){
 ////////////////////////////////
 //cupons-tipos
 
-$app->get("/panel/cupons-tipos/:idcupomtipo", function($idcupomtipo){
+$app->get("/panel/coupons-types/:idcoupontype", function($idcoupontype){
 
-	$cupom = new CupomTipo((int)$idcupomtipo);
+	$coupon = new CouponType((int)$idcoupontype);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -319,12 +317,12 @@ $app->get("/panel/cupons-tipos/:idcupomtipo", function($idcupomtipo){
 	));
 
 	$page->setTpl("panel/cupons-tipos-salvar", array(
-		"cupom"=>$cupom->getFields()
+		"coupon"=>$coupon->getFields()
 	));
 
 });
 
-$app->get("/panel/cupons-tipos-criar", function(){
+$app->get("/panel/coupons-types-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -336,9 +334,9 @@ $app->get("/panel/cupons-tipos-criar", function(){
 });
 
 // Permissao Salvar
-$app->get("/panel/permissoes/:idpermissao", function($idpermissao){
+$app->get("/panel/permissions/:idpermission", function($idpermission){
 
-	$permissao = new Permissao((int)$idpermissao);
+	$permission = new Permission((int)$idpermission);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -346,17 +344,16 @@ $app->get("/panel/permissoes/:idpermissao", function($idpermissao){
 	));
 
 	$page->setTpl("panel/permissao-salvar", array(
-		"permissao"=>$permissao->getFields()
+		"permission"=>$permission->getFields()
 	));
 
 });
 
 /////////////////////////////////////////
-// produto-tipo salvar
+// product-type salvar
+$app->get("/panel/products-types/:idproducttype", function($idproducttype){
 
-$app->get("/panel/produtos-tipos/:idprodutotipo", function($idprodutotipo){
-
-	$produto = new ProdutoTipo((int)$idprodutotipo);
+	$product = new ProductType((int)$idproducttype);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -364,12 +361,12 @@ $app->get("/panel/produtos-tipos/:idprodutotipo", function($idprodutotipo){
 	));
 
 	$page->setTpl("panel/produto-tipo-salvar", array(
-		"produto"=>$produto->getFields()
+		"product"=>$product->getFields()
 	));
 
 });
 
-$app->get("/panel/produtos-tipos-criar", function(){
+$app->get("/panel/products-types-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -380,11 +377,11 @@ $app->get("/panel/produtos-tipos-criar", function(){
 
 });
 /////////////////////////////////////////
-// Usuario-tipo salvar
+// usuario-tipo salvar
 
-$app->get("/panel/usuarios-tipos/:idusuariotipo", function($idusuariotipo){
+$app->get("/panel/users-types/:idusertype", function($idusertype){
 
-	$usuariotipo = new UsuarioTipo((int)$idusuariotipo);
+	$usertype = new UserType((int)$idusertype);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -392,12 +389,12 @@ $app->get("/panel/usuarios-tipos/:idusuariotipo", function($idusuariotipo){
 	));
 
 	$page->setTpl("panel/usuario-tipo-salvar", array(
-		"usuariotipo"=>$usuariotipo->getFields()
+		"usertype"=>$usertype->getFields()
 	));
 
 });
 
-$app->get("/panel/usuario-tipo-criar", function(){
+$app->get("/panel/user-type-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -408,205 +405,203 @@ $app->get("/panel/usuario-tipo-criar", function(){
 
 });
 
-// Pessoas-valores-campos
+// pessoas-valores-campos
+$app->get("/panel/persons-valuesfields/:idfield", function($idfield){
 
-$app->get("/panel/pessoas-valorescampos/:idcampo", function($idcampo){
-
-	$pessoavalor = new PessoaValorCampo((int)$idcampo);
+	$personvalue = new PersonValueField((int)$idfield);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-valorcampo-salvar", array(
-		"pessoavalor"=>$pessoavalor->getFields()
+	$page->setTpl("panel/pessoa-valor-campo-salvar", array(
+		"personvalue"=>$personvalue->getFields()
 	));
 
 });
 
-$app->get("/panel/pessoas-valorescampos-criar", function(){
+$app->get("/panel/persons-valuesfields-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-valorcampo-criar");
+	$page->setTpl("panel/pessoa-valor-campo-criar");
 
 });
 
-// Configuracoes-tipos
+// configuracoes-tipos
+$app->get("/panel/configurations-types/:idconfiguracaotype", function($idconfiguracaotype){
 
-$app->get("/panel/configuracoes-tipos/:idconfiguracaotipo", function($idconfiguracaotipo){
-
-	$configuracao = new ConfiguracaoTipo((int)$idconfiguracaotipo);
+	$configuracao = new Configuracaotype((int)$idconfiguracaotype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-tipo-salvar", array(
+	$page->setTpl("panel/configuracao-type-salvar", array(
 		"configuracao"=>$configuracao->getFields()
 	));
 
 });
 
-$app->get("/panel/configuracoes-tipos-criar", function(){
+$app->get("/panel/configurations-types-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-tipo-criar");
+	$page->setTpl("panel/configuracao-type-criar");
 
 });
 
 /////////////////////////////////////////
-// Lugares-tipos salvar
+// Lugares-types salvar
 
-$app->get("/panel/lugares-tipos/:idlugartipo", function($idlugartipo){
+$app->get("/panel/lugares-types/:idlugartype", function($idlugartype){
 
-	$lugartipo = new LugarTipo((int)$idlugartipo);
+	$lugartype = new Lugartype((int)$idlugartype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-tipos-salvar", array(
-		"lugartipo"=>$lugartipo->getFields()
+	$page->setTpl("panel/lugares-types-salvar", array(
+		"lugartype"=>$lugartype->getFields()
 	));
 
 });
 
-$app->get("/panel/lugares-tipos-criar", function(){
+$app->get("/panel/lugares-types-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-tipos-criar");
+	$page->setTpl("panel/lugares-types-criar");
 
 });
 
 ////////////////////////////////////////////////////
-// Documentos-tipos
+// Documentos-types
 
-$app->get("/panel/documentos/tipos/:iddocumentotipo", function($iddocumentotipo){
+$app->get("/panel/documentos/types/:iddocumentotype", function($iddocumentotype){
 
-	$documento = new DocumentoTipo((int)$iddocumentotipo);
+	$documento = new Documentotype((int)$iddocumentotype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-salvar", array(
+	$page->setTpl("panel/documento-type-salvar", array(
 		"documento"=>$documento->getFields()
 	));
 
 });
 
-$app->get("/panel/documento-tipo-criar", function(){
+$app->get("/panel/documento-type-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-criar");
+	$page->setTpl("panel/documento-type-criar");
 
 });
 
-// Enderecos-tipos
+// Enderecos-types
 
-$app->get("/panel/enderecos/tipos/:idenderecotipo", function($idenderecotipo){
+$app->get("/panel/enderecos/types/:idenderecotype", function($idenderecotype){
 
-	$endereco = new EnderecoTipo((int)$idenderecotipo);
+	$endereco = new Enderecotype((int)$idenderecotype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-salvar", array(
+	$page->setTpl("panel/endereco-type-salvar", array(
 		"endereco"=>$endereco->getFields()
 	));
 
 });
 
-$app->get("/panel/endereco-tipo-criar", function(){
+$app->get("/panel/endereco-type-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-criar");
+	$page->setTpl("panel/endereco-type-criar");
 
 });
 
-// Historicos-tipos
+// Historicos-types
 
-$app->get("/panel/historicos-tipos/:idhistoricotipo", function($idhistoricotipo){
+$app->get("/panel/historicos-types/:idhistoricotype", function($idhistoricotype){
 
-	$historicotipo = new HistoricoTipo((int)$idhistoricotipo);
+	$historicotype = new Historicotype((int)$idhistoricotype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/historico-tipo-salvar", array(
-		"historicotipo"=>$historicotipo->getFields()
+	$page->setTpl("panel/historico-type-salvar", array(
+		"historicotype"=>$historicotype->getFields()
 	));
 
 });
 
-$app->get("/panel/historico-tipo-criar", function(){
+$app->get("/panel/historico-type-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/historico-tipo-criar");
+	$page->setTpl("panel/historico-type-criar");
 
 });
 ////////////////////////////////////////////////////////////////
 
-// pessoas
-$app->get("/panel/pessoas/:idpessoa", function($idpessoa){
+// persons
+$app->get("/panel/persons/:idperson", function($idperson){
 
-	$pessoa = new Pessoa((int)$idpessoa);
+	$person = new person((int)$idperson);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$contatos = $pessoa->getContatos();
+	$contacts = $person->getcontacts();
 
-	$telefones = $contatos->filterBy(array(
-		"idcontatotipo"=>Contato::TELEFONE
-	), true); // filtrando os contatos que são telefones
+	$telefones = $contacts->filterBy(array(
+		"idcontacttype"=>contact::TELEFONE
+	), true); // filtrando os contacts que são telefones
 
-	$emails = $contatos->filterBy(array(
-		"idcontatotipo"=>Contato::EMAIL
-	), true); // filtrando os contatos que são emails
+	$emails = $contacts->filterBy(array(
+		"idcontacttype"=>contact::EMAIL
+	), true); // filtrando os contacts que são emails
 
-	$documentos = $pessoa->getDocumentos();
+	$documentos = $person->getDocumentos();
 
-	$pessoa->setDocumentos($documentos);
-	$pessoa->setTelefones($telefones);
-	$pessoa->setEmails($emails);
+	$person->setDocumentos($documentos);
+	$person->setTelefones($telefones);
+	$person->setEmails($emails);
 
-	$page->setTpl("panel/pessoa", array(
-		"pessoa"=>$pessoa->getFields()
+	$page->setTpl("panel/person", array(
+		"person"=>$person->getFields()
 	));
 
 });
@@ -619,8 +614,8 @@ $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 
 	$frete = new CarrinhoFrete((int)$idcarrinho);
 
-	$carrinho->setProdutos($carrinho->getProdutos()->getFields());
-	$carrinho->setCupons($carrinho->getCupons()->getFields());
+	$carrinho->setproducts($carrinho->getproducts()->getFields());
+	$carrinho->setcoupons($carrinho->getcoupons()->getFields());
 	$carrinho->setFrete($frete->getFields());
 
 	$page = new Page(array(
@@ -638,7 +633,7 @@ $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 // lugares
 $app->get("/panel/lugares/:idlugar", function($idlugar){
 
-	$config = Session::getConfiguracoes();
+	$config = Session::getconfigurations();
 
 	$lugar = new Lugar((int)$idlugar);
 
@@ -658,14 +653,14 @@ $app->get("/panel/lugares/:idlugar", function($idlugar){
 	$page->setTpl("panel/lugar", array(
 		"lugar"=>$data,
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
-		"enderecosTipos"=>EnderecosTipos::listAll()->getFields()
+		"enderecostypes"=>Enderecostypes::listAll()->getFields()
 	));
 
 });
 
 $app->get("/panel/lugar-criar", function(){
 
-	$config = Session::getConfiguracoes();
+	$config = Session::getconfigurations();
 
 	$page = new Page(array(
 		"header"=>false,
@@ -749,30 +744,30 @@ $app->get("/panel/carousel-criar", function(){
 });
 //////////////////////////////////////////////////////////////////
 
-// carousels items tipos
-$app->get("/panel/carousels-items-tipos/:idtipo", function($idtipo){
+// carousels items types
+$app->get("/panel/carousels-items-types/:idtype", function($idtype){
 
-	$tipo = new CarouselItemTipo((int)$idtipo);
+	$type = new CarouselItemtype((int)$idtype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo-salvar", array(
-		"tipo"=>$tipo->getFields()
+	$page->setTpl("panel/carousel-item-type-salvar", array(
+		"type"=>$type->getFields()
 	));
 
 });
 
-$app->get("/panel/carousel-item-tipo-criar", function(){
+$app->get("/panel/carousel-item-type-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo-criar");
+	$page->setTpl("panel/carousel-item-type-criar");
 
 });
 ////////////////////////////////////////////////////////////////
@@ -861,30 +856,30 @@ $app->get("/panel/cidade-criar", function(){
 });
 ////////////////////////////////////////////////////
 
-// pessoas categorias tipos
-$app->get("/panel/pessoas-categorias-tipos/:idcategoria", function($idcategoria){
+// persons categorias types
+$app->get("/panel/persons-categorias-types/:idcategoria", function($idcategoria){
 
-	$categoria = new PessoaCategoriaTipo((int)$idcategoria);
+	$categoria = new personCategoriatype((int)$idcategoria);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-categoria-tipo", array(
+	$page->setTpl("panel/person-categoria-type", array(
 		"categoria"=>$categoria->getFields()
 	));
 
 });
 
-$app->get("/panel/pessoa-categoria-tipo-criar", function(){
+$app->get("/panel/person-categoria-type-criar", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-categoria-tipo-criar");
+	$page->setTpl("panel/person-categoria-type-criar");
 
 });
 ///////////////////////////////////////////////////////////

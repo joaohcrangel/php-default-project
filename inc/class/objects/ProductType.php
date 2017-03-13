@@ -2,7 +2,7 @@
 
 class ProductType extends Model {
 
-    public $required = array('idproducttype', 'desproducttype');
+    public $required = array('desproducttype');
     protected $pk = "idproducttype";
 
     public function get(){

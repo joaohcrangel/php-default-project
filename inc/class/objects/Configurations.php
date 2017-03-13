@@ -1,20 +1,20 @@
 <?php
 
-class Configuracoes extends Collection {
+class Configurations extends Collection {
 
-    protected $class = "Configuracao";
+    protected $class = "Configuration";
     protected $saveQuery = "sp_settings_save";
     protected $saveArgs = array("idsetting", "dessetting", "desvalue", "desdescription", "idsettingtype");
     protected $pk = "idsetting";
 
     public function get(){}
 
-    public static function listAll():Configuracoes
+    public static function listAll():Configurations
     {
 
-    	$configs = new Configuracoes();
+    	$configs = new Configurations();
 
-    	$configs->loadFromQuery("CALL sp_configurations_list()");
+    	$configs->loadFromQuery("CALL sp_settings_list()");
 
     	return $configs;
 

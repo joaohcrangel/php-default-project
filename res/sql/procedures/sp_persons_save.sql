@@ -23,7 +23,7 @@ BEGIN
     FROM tb_personsdados 
     WHERE idperson = pidperson;
     
-    /* Dados da person */
+    /* Data from person */
     IF pidperson = 0 THEN
     
         INSERT INTO tb_persons (desperson, idpersontype)

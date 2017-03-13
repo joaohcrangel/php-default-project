@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/persons-criar", function(){
 
-   Permissao::checkSession(Permissao::ADMIN, true);
+   Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
     	'header'=>false,
@@ -15,7 +15,7 @@ $app->get("/".DIR_ADMIN."/persons-criar", function(){
 
 $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $person = new Person((int)$idperson);
 
@@ -33,7 +33,7 @@ $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
 $app->get("/".DIR_ADMIN."/persons", function(){
 
-   Permissao::checkSession(Permissao::ADMIN, true);
+   Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(

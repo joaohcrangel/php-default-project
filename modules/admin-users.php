@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $user = new User((int)$iduser);
 
@@ -24,7 +24,7 @@ $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
 $app->get("/".DIR_ADMIN."/users", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$page = new AdminPage(array(
         "header"=>true,

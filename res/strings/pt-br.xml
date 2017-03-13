@@ -100,8 +100,8 @@
 	<string name="permissions_admin">Acesso Administrativo</string>
 	<string name="permissions_client">Acesso Autenticado de Cliente</string>
 
-	<string name="cupom_valor">Valor Fixo</string>
-	<string name="cupom_porcentage">Porcentagem</string>
+	<string name="coupon_value">Valor Fixo</string>
+	<string name="coupon_percentage">Porcentagem</string>
 	<string name="gateway_pagseguro">PagSeguro</string>
 	<string name="gateway_visa">Visa</string>
 	<string name="gateway_mastercard">MasterCard</string>
@@ -130,29 +130,29 @@
 	<string name="gateway_grandcard">GRANDCARD</string>
 	<string name="gateway_sorocred">Sorocred</string>
 
-	<string name="statu_pedido">Aguardando Pedido</string>
-	<string name="statu_analise">Em análise</string>
-	<string name="statu_pago">Pago</string>
-	<string name="statu_disponivel">Disponível</string>
-	<string name="statu_disputa">Em disputa</string>
-	<string name="statu_devolvido">Devolvido</string>
-	<string name="statu_cancelado">Cancelado</string>
+	<string name="statu_order">Aguardando Pedido</string>
+	<string name="statu_analysis">Em análise</string>
+	<string name="statu_paid">Pago</string>
+	<string name="statu_available">Disponível</string>
+	<string name="statu_dispute">Em disputa</string>
+	<string name="statu_returned">Devolvido</string>
+	<string name="statu_canceled">Cancelado</string>
 
-	<string name="lugartipo_bairro">Bairro</string>
-	<string name="lugartipo_cidade">Cidade</string>
-	<string name="lugartipo_estado">Estado</string>
-	<string name="lugartipo_pais">País</string>
-	<string name="lugartipo_empresas">Empresas</string>
+	<string name="placetype_district">Bairro</string>
+	<string name="placetype_city">Cidade</string>
+	<string name="placetype_state">Estado</string>
+	<string name="placetype_country">País</string>
+	<string name="placetype_companies">Empresas</string>
 
-	<string name="lugar_hcode">Hcode</string>
+	<string name="place_hcode">Hcode</string>
 
-	<string name="lugartipo_hcode_endereco">Rua Ademar Saraiva Leão</string>
-	<string name="lugartipo_hcode_numero">234</string>
-	<string name="lugartipo_hcode_bairro">Alvarenga</string>
-	<string name="lugartipo_hcode_cidade">São Bernardo do Campo</string>
-	<string name="lugartipo_hcode_estado">São Paulo</string>
-	<string name="lugartipo_hcode_pais">Brasil</string>
-	<string name="lugartipo_hcode_cep">09853120</string>
+	<string name="placetype_hcode_adress">Rua Ademar Saraiva Leão</string>
+	<string name="placetype_hcode_number">234</string>
+	<string name="placetype_hcode_district">Alvarenga</string>
+	<string name="placetype_hcode_city">São Bernardo do Campo</string>
+	<string name="placetype_hcode_state">São Paulo</string>
+	<string name="placetype_hcode_country">Brasil</string>
+	<string name="placetype_hcode_cep">09853120</string>
 
 	<string name="configtipo_string">STRING</string>
 	<string name="configtipo_int">INT</string>	
@@ -211,8 +211,8 @@
 	<string name="sexo">dessexo</string>
 	<string name="foto">desfoto</string>
 
-	<string name="negociacao_orcemanto">Em orçamento</string>
-	<string name="negociacao_venda">Venda</string>
+	<string name="negotiation_estimate">Em orçamento</string>
+	<string name="negotiation_sale">Venda</string>
 
 	<string name="person_cliente">Cliente</string>
 	<string name="person_fornecedor">Fornecedor</string>

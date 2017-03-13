@@ -17,8 +17,7 @@ BEGIN
 
     ELSE
         
-        UPDATE tb_users        
-        SET 
+        UPDATE tb_users SET 
             idperson = pidperson,
             desuser = pdesuser,
             despassword = pdespassword,

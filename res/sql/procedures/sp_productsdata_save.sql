@@ -39,8 +39,7 @@ BEGIN
                 dtstart IS NULL
             )
         )
-    ORDER BY c.dt
-    register DESC
+    ORDER BY c.dtregister DESC
     LIMIT 1;
 
 END

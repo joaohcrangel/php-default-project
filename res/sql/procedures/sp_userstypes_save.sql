@@ -13,9 +13,8 @@ BEGIN
 
     ELSE
         
-        UPDATE tb_userstypes        
-        SET 
-            desusertype = pdesusertype,
+        UPDATE tb_userstypes SET 
+            desusertype = pdesusertype
         WHERE idusertype = pidusertype;
 
     END IF;

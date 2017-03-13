@@ -1,23 +1,23 @@
 <?php 
 
-$app->get("/".DIR_ADMIN."/sistema/menu", function(){
+$app->get("/".DIR_ADMIN."/system/menu", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/sistema-menu", array(
+    $page->setTpl("/admin/system-menu", array(
         'menuHTML'=>Menu::getAllMenuOL()
     ));
 
 });
 
-$app->delete("/".DIR_ADMIN."/sistema/menu", function(){
+$app->delete("/".DIR_ADMIN."/system/menu", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $menu = new Menu((int)post('idmenu'));
 
@@ -27,13 +27,13 @@ $app->delete("/".DIR_ADMIN."/sistema/menu", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sistema/menus", function(){
+$app->get("/".DIR_ADMIN."/system/menus", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
-    function convertDataTreeview($itens){
+    function convertDataTreeview($Items){
 
-        foreach ($itens as &$item) {
+        foreach ($Items as &$item) {
             
             $data = array(
                 'text'=>$item['desmenu'],
@@ -48,7 +48,7 @@ $app->get("/".DIR_ADMIN."/sistema/menus", function(){
 
         }
 
-        return $itens;
+        return $Items;
 
     }
 
@@ -62,9 +62,9 @@ $app->get("/".DIR_ADMIN."/sistema/menus", function(){
 
 });
 
-$app->post("/".DIR_ADMIN."/sistema/menu", function(){
+$app->post("/".DIR_ADMIN."/system/menu", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if (!post('desmenu')) {
         throw new Exception("Informe o texto do menu.", 400);
@@ -88,7 +88,7 @@ $app->post("/".DIR_ADMIN."/sistema/menu", function(){
 ////////////////////////////////////////////////////////////
 $app->get("/".DIR_ADMIN."/site/menu", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,
@@ -103,7 +103,7 @@ $app->get("/".DIR_ADMIN."/site/menu", function(){
 
 $app->delete("/".DIR_ADMIN."/site/menu", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $menu = new SiteMenu((int)post('idmenu'));
 
@@ -115,11 +115,11 @@ $app->delete("/".DIR_ADMIN."/site/menu", function(){
 
 $app->get("/".DIR_ADMIN."/site/menus", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
-    function convertDataTreeview($itens){
+    function convertDataTreeview($Items){
 
-        foreach ($itens as &$item) {
+        foreach ($Items as &$item) {
             
             $data = array(
                 'text'=>$item['desmenu'],
@@ -134,7 +134,7 @@ $app->get("/".DIR_ADMIN."/site/menus", function(){
 
         }
 
-        return $itens;
+        return $Items;
 
     }
 
@@ -150,7 +150,7 @@ $app->get("/".DIR_ADMIN."/site/menus", function(){
 
 $app->post("/".DIR_ADMIN."/site/menu", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if (!post('desmenu')) {
         throw new Exception("Informe o texto do menu.", 400);

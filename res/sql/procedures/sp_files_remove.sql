@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_files_remove(
-pidfileINT
+pidfile INT
 )
 BEGIN
 

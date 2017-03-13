@@ -2,7 +2,7 @@
 
 class PersonValueField extends Model {
 
-    public $required = array('idfield', 'desfield');
+    public $required = array('desfield');
     protected $pk = "idfield";
 
     public function get(){

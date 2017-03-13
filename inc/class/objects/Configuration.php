@@ -19,7 +19,7 @@ class Configuration extends Model {
         if($this->getChanged() && $this->isValid()){
 
             switch ($this->getidconfigurationtype()) {
-                case Configurationtype::STRING:
+                case ConfigurationType::STRING:
                 $this->desvalue((string)$this->getdesvalue());
                 break;
                 case ConfigurationType::INT:

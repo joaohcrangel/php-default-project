@@ -187,55 +187,6 @@ $app->get("/install-admin/sql/persons/tables", function(){
 	echo success();
 });
 
-
-$app->get('/calcular-frete-:cep', function($cep){
-
-    include_once('inc/calcFrete/frete.php');
-
-    $sql = new Sql();
-
-    $result = $sql->select("CALL sp_carrinhos_get('".session_id()."')");
-
-    $carrinho = $result[0];
-
-    $sql = new Sql();
-
-    $produtos = $sql->select("CALL sp_carrinhoprodutosfrete_list(".$carrinho['id_car'].")");
-
-    $peso = 0;
-    $comprimento = 0; 
-    $altura = 0; 
-    $largura = 0; 
-    $valor = 0;
-
-    foreach ($produtos as $produto) {
-        $peso =+ $produto['peso'];
-        $comprimento =+ $produto['comprimento'];
-        $altura =+ $produto['altura'];
-        $largura =+ $produto['largura'];
-        $valor =+ $produto['preco'];
-    };
-
-    $frete = new Frete(
-        $cepDeorigem = '01418100', 
-        $cepDedestino = trim(str_replace('-', '', $cep)),
-        $peso, 
-        $comprimento, 
-        $altura, 
-        $largura, 
-        $valor
-    );
-
-    echo json_encode(array(
-
-        'valor_frete'=>$frete->getValor()
-
-    ));
-
-    echo var_dump($comprimento);
-
-});
-
 $app->get("/install-admin/sql/persons/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -258,7 +209,7 @@ $app->get("/install-admin/sql/persons/inserts", function(){
 
 	$lang = new Language();
 
-	$persontypeF = new PersonType(array(
+	$personTypeF = new PersonType(array(
 		'despersontype'=>$lang->getString("persons_fisica")
 	));
 	$personTypeF->save();
@@ -653,7 +604,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$lang = new Language();
 
 	//////////////////////////////////////
-	$menuDashboard = new Menu(array(
+	$menuDashboard = new Menu2(array(
 		'nrorder'=>0,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-view-dashboard',
@@ -662,7 +613,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
-	$menuSistema = new Menu(array(
+	$menuSistema = new Menu2(array(
 		'nrorder'=>1,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-code-setting',
@@ -671,7 +622,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSistema->save();
 	//////////////////////////////////////
-	$menuAdmin = new Menu(array(
+	$menuAdmin = new Menu2(array(
 		'nrorder'=>2,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-settings',
@@ -680,7 +631,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
-	$menupersons = new Menu(array(
+	$menupersons = new Menu2(array(
 		'nrorder'=>3,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-accounts',
@@ -689,7 +640,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersons->save();
 	//////////////////////////////////////
-	$menutypes = new Menu(array(
+	$menutypes = new Menu2(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'md-collection-item',
@@ -698,7 +649,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypes->save();
 	//////////////////////////////////////
-	$menuMenu = new Menu(array(
+	$menuMenu = new Menu2(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -707,7 +658,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuMenu->save();
 	//////////////////////////////////////
-	$menuusers = new Menu(array(
+	$menuusers = new Menu2(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -716,7 +667,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuusers->save();
 	//////////////////////////////////////
-	$menuConfigs = new Menu(array(
+	$menuConfigs = new Menu2(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -725,7 +676,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
-	$menuSqlToClass = new Menu(array(
+	$menuSqlToClass = new Menu2(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
@@ -734,7 +685,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
-	$menuTemplate = new Menu(array(
+	$menuTemplate = new Menu2(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
@@ -743,7 +694,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
-	$menuExemplos = new Menu(array(
+	$menuExemplos = new Menu2(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
@@ -752,7 +703,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuExemplos->save();
 	//////////////////////////////////////
-	$menuUpload = new Menu(array(
+	$menuUpload = new Menu2(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuExemplos->getidmenu(),
 		'desicon'=>'',
@@ -761,7 +712,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
-	$menupermissions = new Menu(array(
+	$menupermissions = new Menu2(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -770,7 +721,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupermissions->save();
 	//////////////////////////////////////
-	$menuproducts = new Menu(array(
+	$menuproducts = new Menu2(array(
 		'nrorder'=>4,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-devices',
@@ -779,16 +730,16 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuproducts->save();
 	//////////////////////////////////////
-	$menutypesadresses = new Menu(array(
+	$menutypesaddresses = new Menu2(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/adresses-types',
-		'desmenu'=>$lang->getString('menus_adress')
+		'deshref'=>'/addresses-types',
+		'desmenu'=>$lang->getString('menus_address')
 	));
-	$menutypesadresses->save();
+	$menutypesaddresses->save();
 	//////////////////////////////////////
-	$menutypesusers = new Menu(array(
+	$menutypesusers = new Menu2(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -797,7 +748,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesusers->save();
 	//////////////////////////////////////
-	$menutypesdocuments = new Menu(array(
+	$menutypesdocuments = new Menu2(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -806,7 +757,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesdocuments->save();
 	//////////////////////////////////////
-	$menutypesplaces = new Menu(array(
+	$menutypesplaces = new Menu2(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -815,7 +766,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesplaces->save();
 	//////////////////////////////////////
-	$menutypesCupons = new Menu(array(
+	$menutypesCupons = new Menu2(array(
 		'nrorder'=>4,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -824,7 +775,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesCupons->save();
 	//////////////////////////////////////
-	$menutypesproducts = new Menu(array(
+	$menutypesproducts = new Menu2(array(
 		'nrorder'=>5,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -833,7 +784,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesproducts->save();
 	//////////////////////////////////////
-	$menuordersStatus = new Menu(array(
+	$menuordersStatus = new Menu2(array(
 		'nrorder'=>6,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -842,7 +793,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuordersStatus->save();
 	//////////////////////////////////////
-	$menupersonstypes = new Menu(array(
+	$menupersonstypes = new Menu2(array(
 		'nrorder'=>7,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -851,7 +802,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersonstypes->save();
 	//////////////////////////////////////
-	$menucontactstypes = new Menu(array(
+	$menucontactstypes = new Menu2(array(
 		'nrorder'=>8,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -860,7 +811,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucontactstypes->save();
 	//////////////////////////////////////
-	$menuGateways = new Menu(array(
+	$menuGateways = new Menu2(array(
 		'nrorder'=>9,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -869,7 +820,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
-	$menuHistoricostypes = new Menu(array(
+	$menuHistoricostypes = new Menu2(array(
 		'nrorder'=>10,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -878,7 +829,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuHistoricostypes->save();
 	//////////////////////////////////////
-	$menuFormasorders = new Menu(array(
+	$menuFormasorders = new Menu2(array(
 		'nrorder'=>11,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -887,7 +838,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuFormasorders->save();
 	//////////////////////////////////////
-	$menupersonsvaluesfields = new Menu(array(
+	$menupersonsvaluesfields = new Menu2(array(
 		'nrorder'=>11,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -896,7 +847,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersonsvaluesfields->save();
 	//////////////////////////////////////
-	$menuconfigurationstypes = new Menu(array(
+	$menuconfigurationstypes = new Menu2(array(
 		'nrorder'=>12,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -905,7 +856,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuconfigurationstypes->save();
 	//////////////////////////////////////
-	$menuCarouselsItemstypes = new Menu(array(
+	$menuCarouselsItemstypes = new Menu2(array(
 		'nrorder'=>13,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -914,7 +865,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarouselsItemstypes->save();
 	//////////////////////////////////////
-	$menuordersnegotiationstypes = new Menu(array(
+	$menuordersnegotiationstypes = new Menu2(array(
 		'nrorder'=>13,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -923,7 +874,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuordersnegotiationstypes->save();
 	//////////////////////////////////////
-	$menuorders = new Menu(array(
+	$menuorders = new Menu2(array(
 		"nrorder"=>5,
 		"idmenufather"=>NULL,
 		"desicon"=>'md-money-box',
@@ -932,7 +883,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuorders->save();
 	//////////////////////////////////////
-	$menuCarrinhos = new Menu(array(
+	$menuCarrinhos = new Menu2(array(
 		"nrorder"=>6,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-shopping-cart",
@@ -941,7 +892,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarrinhos->save();
 	//////////////////////////////////////
-	$menuplaces = new Menu(array(
+	$menuplaces = new Menu2(array(
 		"nrorder"=>7,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-city",
@@ -950,7 +901,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuplaces->save();
 	//////////////////////////////////////
-	$menuSite = new Menu(array(
+	$menuSite = new Menu2(array(
 		"nrorder"=>8,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-view-web",
@@ -959,7 +910,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSite->save();
 	//////////////////////////////////////
-	$menuSiteMenu = new Menu(array(
+	$menuSiteMenu = new Menu2(array(
 		"nrorder"=>0,
 		"idmenufather"=>$menuSite->getidmenu(),
 		"desicon"=>"",
@@ -968,7 +919,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteMenu->save();
 	//////////////////////////////////////
-	$menucourses = new Menu(array(
+	$menucourses = new Menu2(array(
 		"nrorder"=>9,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-book",
@@ -977,7 +928,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucourses->save();
 	//////////////////////////////////////
-	$menuCarousels = new Menu(array(
+	$menuCarousels = new Menu2(array(
 		"nrorder"=>1,
 		"idmenufather"=>$menuSite->getidmenu(),
 		"desicon"=>"",
@@ -986,7 +937,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
-	$menupaises = new Menu(array(
+	$menupaises = new Menu2(array(
 		"nrorder"=>5,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -995,7 +946,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupaises->save();
 	//////////////////////////////////////
-	$menustates = new Menu(array(
+	$menustates = new Menu2(array(
 		"nrorder"=>6,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1004,7 +955,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menustates->save();
 	//////////////////////////////////////
-	$menucities = new Menu(array(
+	$menucities = new Menu2(array(
 		"nrorder"=>7,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1013,7 +964,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucities->save();
 	//////////////////////////////////////
-	$menucities = new Menu(array(
+	$menucities = new Menu2(array(
 		"nrorder"=>8,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1022,7 +973,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucities->save();
 	//////////////////////////////////////
-	$menupersonscategoriestypes = new Menu(array(
+	$menupersonscategoriestypes = new Menu2(array(
 		'nrorder'=>14,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -1031,7 +982,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersonscategoriestypes->save();
 	//////////////////////////////////////
-	$menuUrls = new Menu(array(
+	$menuUrls = new Menu2(array(
 		'nrorder'=>10,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-link',
@@ -1115,7 +1066,7 @@ $app->get("/install-admin/sql/contacts/tables", function(){
 		  idcontactsubtype int(11) NOT NULL,
 		  idperson int(11) NOT NULL,
 		  descontact varchar(128) NOT NULL,
-		  inprincipal bit(1) NOT NULL DEFAULT b'0',
+		  inmain bit(1) NOT NULL DEFAULT b'0',
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		  CONSTRAINT PRIMARY KEY (idcontact),
 		  CONSTRAINT FOREIGN KEY FK_contactssubtypes (idcontactsubtype) REFERENCES tb_contactssubtypes(idcontactsubtype),
@@ -1155,49 +1106,49 @@ $app->get("/install-admin/sql/contacts/inserts", function(){
 
 	$telefoneCasa = new ContactSubType(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('home_type')
+		'descontactsubtype'=>$lang->getString('home_type')
 	));
 	$telefoneCasa->save();
 
 	$telefoneTrabalho = new ContactSubType(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('work_type')
+		'descontactsubtype'=>$lang->getString('work_type')
 	));
 	$telefoneTrabalho->save();
 
 	$telefoneCelular = new ContactSubType(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('cell_phone_type')
+		'descontactsubtype'=>$lang->getString('cell_phone_type')
 	));
 	$telefoneCelular->save();
 
 	$telefoneFax = new ContactSubType(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('fax_type')
+		'descontactsubtype'=>$lang->getString('fax_type')
 	));
 	$telefoneFax->save();
 
 	$telefoneOutro = new ContactSubType(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('other_type')
+		'descontactsubtype'=>$lang->getString('other_type')
 	));
 	$telefoneOutro->save();
 
 	$emailpersonl = new ContactSubType(array(
 		'idcontacttype'=>$email->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('personal_type')
+		'descontactsubtype'=>$lang->getString('personal_type')
 	));
 	$emailpersonl->save();
 
 	$emailTrabalho = new ContactSubType(array(
 		'idcontacttype'=>$email->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('work_type')
+		'descontactsubtype'=>$lang->getString('work_type')
 	));
 	$emailTrabalho->save();
 
 	$emailOutro = new ContactSubType(array(
 		'idcontacttype'=>$email->getidcontacttype(),
-		'descontatosubtype'=>$lang->getString('other_type_email')
+		'descontactsubtype'=>$lang->getString('other_type_email')
 	));
 	$emailOutro->save();
 
@@ -1341,7 +1292,7 @@ $app->get("/install-admin/sql/documents/remove", function(){
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/adresses/tables", function(){
+$app->get("/install-admin/sql/addresses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
@@ -1377,18 +1328,18 @@ $app->get("/install-admin/sql/adresses/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_adressestypes (
-		  idadresstype int(11) NOT NULL AUTO_INCREMENT,
-		  desadresstype varchar(64) NOT NULL,
+		CREATE TABLE tb_addressestypes (
+		  idaddresstype int(11) NOT NULL AUTO_INCREMENT,
+		  desaddresstype varchar(64) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idadresstype)
+		  CONSTRAINT PRIMARY KEY (idaddresstype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_adresses (
-		  idadress int(11) NOT NULL AUTO_INCREMENT,
-		  idadresstype int(11) NOT NULL,
-		  desadress varchar(64) NOT NULL,
+		CREATE TABLE tb_addresses (
+		  idaddress int(11) NOT NULL AUTO_INCREMENT,
+		  idaddresstype int(11) NOT NULL,
+		  desaddress varchar(64) NOT NULL,
 		  desnumber varchar(16) NOT NULL,
 		  desdistrict varchar(64) NOT NULL,
 		  descity varchar(64) NOT NULL,
@@ -1396,56 +1347,56 @@ $app->get("/install-admin/sql/adresses/tables", function(){
 		  descountry varchar(32) NOT NULL,
 		  descep char(8) NOT NULL,
 		  descomplement varchar(32) DEFAULT NULL,
-		  inprincipal bit(1) NOT NULL DEFAULT b'0',
+		  inmain bit(1) NOT NULL DEFAULT b'0',
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  CONSTRAINT PRIMARY KEY (idadress),
-		  CONSTRAINT FK_adressestypes FOREIGN KEY (idadresstype) REFERENCES tb_adressestypes(idadresstype)
+		  CONSTRAINT PRIMARY KEY (idaddress),
+		  CONSTRAINT FK_addressestypes FOREIGN KEY (idaddresstype) REFERENCES tb_addressestypes(idaddresstype)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
-$app->get("/install-admin/sql/adresses/triggers", function(){
+$app->get("/install-admin/sql/addresses/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_adresses_AFTER_INSERT",
-		"tg_adresses_AFTER_UPDATE",
-		"tg_adresses_BEFORE_DELETE"
+		"tg_addresses_AFTER_INSERT",
+		"tg_addresses_AFTER_UPDATE",
+		"tg_addresses_BEFORE_DELETE"
 	);
 	// saveTriggers($triggers);
 	echo success();
 });
-$app->get("/install-admin/sql/adresses/inserts", function(){
+$app->get("/install-admin/sql/addresses/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$lang = new Language();
 
-	$residencial = new AdressType(array(
-		'desadresstype'=>$lang->getString('adress_residencial')
+	$residencial = new AddressType(array(
+		'desaddresstype'=>$lang->getString('address_residencial')
 	));
 	$residencial->save();
 
-	$comercial = new AdressType(array(
-		'desadresstype'=>$lang->getString('adress_comercial')
+	$comercial = new AddressType(array(
+		'desaddresstype'=>$lang->getString('address_comercial')
 	));
 	$comercial->save();
 
-	$cobranca = new AdressType(array(
-		'desadresstype'=>$lang->getString('adress_cobranca')
+	$cobranca = new AddressType(array(
+		'desaddresstype'=>$lang->getString('address_cobranca')
 	));
 	$cobranca->save();
 
-	$entrega = new AdressType(array(
-		'desadresstype'=>$lang->getString('adress_entrega')
+	$entrega = new AddressType(array(
+		'desaddresstype'=>$lang->getString('address_entrega')
 	));
 	$entrega->save();
 
 	echo success();
 
 });
-$app->get("/install-admin/sql/adresses/countries/inserts", function(){
+$app->get("/install-admin/sql/addresses/countries/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1458,7 +1409,7 @@ $app->get("/install-admin/sql/adresses/countries/inserts", function(){
 	echo success();
 
 });
-$app->get("/install-admin/sql/adresses/states/inserts", function(){
+$app->get("/install-admin/sql/addresses/states/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1501,7 +1452,7 @@ $app->get("/install-admin/sql/adresses/states/inserts", function(){
 	echo success();
 
 });
-$app->post("/install-admin/sql/adresses/cities/inserts", function(){
+$app->post("/install-admin/sql/addresses/cities/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1524,7 +1475,7 @@ $app->post("/install-admin/sql/adresses/cities/inserts", function(){
 	echo success();
 
 });
-$app->get("/install-admin/sql/adresses/cities/inserts", function(){
+$app->get("/install-admin/sql/addresses/cities/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -1548,12 +1499,12 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/inserts", function(){
 	echo json_encode($results);
 
 });
-$app->get("/install-admin/sql/adresses/get", function(){
+$app->get("/install-admin/sql/addresses/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_adresses_get",
-        "sp_adressestypes_get",
+        "sp_addresses_get",
+        "sp_addressestypes_get",
         "sp_countries_get",
         "sp_states_get",
         "sp_cities_get"
@@ -1561,40 +1512,40 @@ $app->get("/install-admin/sql/adresses/get", function(){
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/adresses/list", function(){
+$app->get("/install-admin/sql/addresses/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-        "sp_adressesfromperson_list",
-        "sp_adressestypes_list",
+        "sp_addressesfromperson_list",
+        "sp_addressestypes_list",
         "sp_countries_list",
         "sp_states_list",
         "sp_cities_list",
-        "sp_adressesfromplace_list"
+        "sp_addressesfromplace_list"
     );
     saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/adresses/save", function(){
+$app->get("/install-admin/sql/addresses/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-       "sp_adresses_save",
-       "sp_adressestypes_save",
+       "sp_addresses_save",
+       "sp_addressestypes_save",
        "sp_countries_save",
        "sp_states_save",
        "sp_cities_save",
-       "sp_personsadresses_save"
+       "sp_personsaddresses_save"
 	);
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/adresses/remove", function(){
+$app->get("/install-admin/sql/addresses/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
-       "sp_adresses_remove",
-       "sp_adressestypes_remove",
+       "sp_addresses_remove",
+       "sp_addressestypes_remove",
        "sp_countries_remove",
        "sp_states_remove",
        "sp_cities_remove"
@@ -1643,20 +1594,20 @@ $app->get("/install-admin/sql/permissions/inserts", function(){
 
 	$lang = new Language();
 	
-	$superuser = new Permissao(array(
+	$superUser = new Permission(array(
 		'despermission'=>$lang->getString('permissions_user')
 	));
-	$superuser->save();
+	$superUser->save();
 
-	$acessoAdmin = new Permissao(array(
+	$accessAdmin = new Permission(array(
 		'despermission'=>$lang->getString('permissions_admin')
 	));
-	$acessoAdmin->save();
+	$accessAdmin->save();
 
-	$acessoClient = new Permissao(array(
+	$accessClient = new Permission(array(
 		'despermission'=>$lang->getString('permissions_client')
 	));
-	$acessoClient->save();
+	$accessClient->save();
 
 	$sql = new Sql();
 
@@ -1755,10 +1706,10 @@ $app->get("/install-admin/sql/personsdata/tables", function(){
 		  inclient BIT NOT NULL DEFAULT b'0',
 		  inprovider BIT NOT NULL DEFAULT b'0',
 		  incollaborator BIT NOT NULL DEFAULT b'0',
-		  idadress int(11) DEFAULT NULL,
-		  idadresstype int(11) DEFAULT NULL,
-		  desadresstype varchar(64) DEFAULT NULL,
-		  desadress varchar(64) DEFAULT NULL, 
+		  idaddress int(11) DEFAULT NULL,
+		  idaddresstype int(11) DEFAULT NULL,
+		  desaddresstype varchar(64) DEFAULT NULL,
+		  desaddress varchar(64) DEFAULT NULL, 
 		  desnumber varchar(16) DEFAULT NULL, 
 		  desdistrict varchar(64) DEFAULT NULL, 
 		  descity varchar(64) DEFAULT NULL, 
@@ -2164,7 +2115,7 @@ $app->get("/install-admin/sql/orders/tables", function(){
 			idformpayment INT NOT NULL AUTO_INCREMENT,
 			idgateway INT NOT NULL,
 			desformpayment VARCHAR(128) NOT NULL,
-			nrplotsmax INT NOT NULL,
+			nrparcelsmax INT NOT NULL,
 			instatus BIT(1),
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idformpayment),
@@ -2183,7 +2134,7 @@ $app->get("/install-admin/sql/orders/tables", function(){
 		CREATE TABLE tb_orders(
 			idorder INT NOT NULL AUTO_INCREMENT,
 			idperson INT NOT NULL,
-			idorder INT NOT NULL,
+			idformpayment INT NOT NULL,
 			idstatus INT NOT NULL,
 			dessession VARCHAR(128) NOT NULL,
 			vltotal DECIMAL(10,2) NOT NULL,
@@ -2191,7 +2142,7 @@ $app->get("/install-admin/sql/orders/tables", function(){
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idorder),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
-			CONSTRAINT FOREIGN KEY(idorder) REFERENCES tb_orders(idorder),
+			CONSTRAINT FOREIGN KEY(idformpayment) REFERENCES tb_formspayments(idformpayment),
 			CONSTRAINT FOREIGN KEY(idstatus) REFERENCES tb_ordersstatus(idstatus)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2261,7 +2212,7 @@ $app->get("/install-admin/sql/orders/inserts", function(){
 	
 	$sql = new Sql();
 	$sql->arrays("
-		INSERT INTO tb_orders (idgateway, desorder, nrparcelsmax, instatus) VALUES
+		INSERT INTO tb_formspayments (idgateway, desformpayment, nrparcelsmax, instatus) VALUES
 		(?, ?, ?, ?),
 		(?, ?, ?, ?),
 		(?, ?, ?, ?),
@@ -2582,12 +2533,12 @@ $app->get("/install-admin/sql/places/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_placesadresses(
+		CREATE TABLE tb_placesaddresses(
 			idplace INT NOT NULL,
-			idadress INT NOT NULL,
+			idaddress INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_places(idplace),
-			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress)
+			CONSTRAINT FOREIGN KEY(idaddress) REFERENCES tb_addresses(idaddress)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
@@ -2619,10 +2570,10 @@ $app->get("/install-admin/sql/places/tables", function(){
 			desplacefather VARCHAR(128) NULL,
 			idplacetype INT NOT NULL,
 			desplacetype  VARCHAR(128) NOT NULL,
-			idadresstype INT NULL,
-			desadresstype VARCHAR(128) NULL,
-			idadress INT NULL,
-			desadress VARCHAR(128) NULL,
+			idaddresstype INT NULL,
+			desaddresstype VARCHAR(128) NULL,
+			idaddress INT NULL,
+			desaddress VARCHAR(128) NULL,
 			desnumber VARCHAR(16) NULL,
 			desdistrict VARCHAR(64) NULL,
 			descity VARCHAR(64) NULL,
@@ -2639,8 +2590,8 @@ $app->get("/install-admin/sql/places/tables", function(){
 			CONSTRAINT FOREIGN KEY(idplace) REFERENCES tb_places(idplace),
 			CONSTRAINT FOREIGN KEY(idplacefather) REFERENCES tb_places(idplace),
 			CONSTRAINT FOREIGN KEY(idplacetype) REFERENCES tb_placestypes(idplacetype),
-			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
-			CONSTRAINT FOREIGN KEY(idadresstype) REFERENCES tb_adressestypes(idadresstype),
+			CONSTRAINT FOREIGN KEY(idaddress) REFERENCES tb_addresses(idaddress),
+			CONSTRAINT FOREIGN KEY(idaddresstype) REFERENCES tb_addressestypes(idaddresstype),
 			CONSTRAINT FOREIGN KEY(idcoordinate) REFERENCES tb_coordinates(idcoordinate)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2660,9 +2611,9 @@ $app->get("/install-admin/sql/places/triggers", function(){
 		'tg_placescoordinates_AFTER_UPDATE',
 		'tg_placescoordinates_BEFORE_DELETE',
 
-		'tg_placesadresses_AFTER_INSERT',
-		'tg_placesadresses_AFTER_UPDATE',
-		'tg_placesadresses_BEFORE_DELETE'
+		'tg_placesaddresses_AFTER_INSERT',
+		'tg_placesaddresses_AFTER_UPDATE',
+		'tg_placesaddresses_BEFORE_DELETE'
 	);
 	saveTriggers($triggers);
 
@@ -2718,7 +2669,7 @@ $app->get("/install-admin/sql/places/save", function(){
 		'sp_placesdata_save',
 		'sp_placescoordinates_add',
 		'sp_placesschedules_save',
-		'sp_placesadresses_add',
+		'sp_placesaddresses_add',
 		'sp_placesfiles_add'
 	);
 	saveProcedures($procs);
@@ -2772,25 +2723,25 @@ $app->get("/install-admin/sql/places/inserts", function(){
 	));
 	$companies->save();
 	
-	$adress = new Adress(array(
-		'idadresstype'=>adresstype::COMERCIAL,
-		'desadress'=>$lang->getString('placetype_hcode_adress'),
+	$address = new Address(array(
+		'idaddresstype'=>AddressType::COMERCIAL,
+		'desaddress'=>$lang->getString('placetype_hcode_address'),
 		'desnumber'=>$lang->getString('placetype_hcode_number'),
 		'desdistrict'=>$lang->getString('placetype_hcode_district'),
 		'descity'=>$lang->getString('placetype_hcode_city'),
 		'desstate'=>$lang->getString('placetype_hcode_state'),
 		'descountry'=>$lang->getString('placetype_hcode_country'),
 		'descep'=>$lang->getString('placetype_hcode_cep'),
-		'inprincipal'=>true
+		'inmain'=>true
 	));
-	$adress->save();
+	$address->save();
 
 	$placeHcode = new Place(array(
 		'desplace'=>$lang->getString('place_hcode'),
 		'idplacetype'=>$companies->getidplacetype()
 	));
 	$placeHcode->save();
-	$placeHcode->setadress($adress);
+	$placeHcode->setaddress($address);
 	
 	echo success();
 	
@@ -2831,11 +2782,11 @@ $app->get("/install-admin/sql/coordinates/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_adressescoordinates(
-			idadress INT NOT NULL,
+		CREATE TABLE tb_addressescoordinates(
+			idaddress INT NOT NULL,
 			idcoordinate INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress),
+			CONSTRAINT FOREIGN KEY(idaddress) REFERENCES tb_addresses(idaddress),
 			CONSTRAINT FOREIGN KEY(idcoordinate) REFERENCES tb_coordinates(idcoordinate)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -3483,19 +3434,19 @@ $app->get("/install-admin/sql/urls/remove", function(){
 
 });
 
-$app->get("/install-admin/sql/personsadresses/tables", function(){
+$app->get("/install-admin/sql/personsaddresses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
 	$sql->exec("
-		CREATE TABLE tb_personsadresses(
+		CREATE TABLE tb_personsaddresses(
 			idperson INT NOT NULL,
-			idadress INT NOT NULL,
+			idaddress INT NOT NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
-			CONSTRAINT FOREIGN KEY(idadress) REFERENCES tb_adresses(idadress)
+			CONSTRAINT FOREIGN KEY(idaddress) REFERENCES tb_addresses(idaddress)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3503,13 +3454,13 @@ $app->get("/install-admin/sql/personsadresses/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/personsadresses/triggers", function(){
+$app->get("/install-admin/sql/personsaddresses/triggers", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$triggers = array(
-		"tg_personsadresses_AFTER_INSERT",
-		"tg_personsadresses_AFTER_UPDATE",
-		"tg_personsadresses_BEFORE_DELETE"
+		"tg_personsaddresses_AFTER_INSERT",
+		"tg_personsaddresses_AFTER_UPDATE",
+		"tg_personsaddresses_BEFORE_DELETE"
 	);
 	saveTriggers($triggers);
 	echo success();

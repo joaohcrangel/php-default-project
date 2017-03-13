@@ -10,7 +10,7 @@ class Place extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_placees_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_places_get(".$args[0].");");
                 
     }
 
@@ -18,7 +18,7 @@ class Place extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_placees_save(?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_places_save(?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidplace(),
                 $this->getidplacefather(),
                 $this->getdesplace(),
@@ -40,7 +40,7 @@ class Place extends Model {
 
     public function remove(){
 
-        $this->exec("sp_placees_remove", array(
+        $this->execute("sp_places_remove", array(
             $this->getidplace()
         ));
 
@@ -53,7 +53,7 @@ class Place extends Model {
 
         $c->save();
 
-        $this->execute("CALL sp_placeescoordinates_add(?, ?);", array(
+        $this->execute("CALL sp_placescoordinates_add(?, ?);", array(
             $this->getidplace(),
             $c->getidcoordinate()
         ));
@@ -67,7 +67,7 @@ class Place extends Model {
 
         $e->save();
 
-        $this->execute("CALL sp_placeesadresses_add(?, ?);", array(
+        $this->execute("CALL sp_placesaddresses_add(?, ?);", array(
             $this->getidplace(),
             $e->getidaddress()
         ));
@@ -83,10 +83,10 @@ class Place extends Model {
 
     }
 
-    public function getAdresses():Adresses
+    public function getaddresses():addresses
     {
 
-        return new Adresses($this);
+        return new addresses($this);
 
     }
 
@@ -100,7 +100,7 @@ class Place extends Model {
     public function removeSchedules()
     {
 
-        return $this->execute("CALL sp_placeesschedulesall_remove(?)", array(
+        return $this->execute("CALL sp_placesschedulesall_remove(?)", array(
             $this->getidplace()
         ));
 
@@ -161,7 +161,7 @@ class Place extends Model {
 
         $file->save();
 
-        $this->execute("CALL sp_placeesfiles_add(?, ?);", array(
+        $this->execute("CALL sp_placesfiles_add(?, ?);", array(
             $this->getidplace(),
             $file->getidfile()
         ));

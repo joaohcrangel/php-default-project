@@ -184,17 +184,17 @@ class Session extends DefaultObject {
 
 	}
 
-	public static function setConfiguracoes(Configuracoes $configs)
+	public static function setConfigurations(Configurations $configs)
 	{
 
 		return Session::setObjectInSession($configs);
 
 	}
 
-	public static function getConfiguracoes():Configuracoes
+	public static function getConfigurations():Configurations
 	{
 
-		return Session::getCollectionFromSession('Configuracoes');
+		return Session::getCollectionFromSession('Configurations');
 
 	}
 	

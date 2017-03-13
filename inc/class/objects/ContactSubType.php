@@ -11,7 +11,7 @@ class ContactSubType extends Model {
     const EMAIL_TRABALHO = 7;
     const EMAIL_OUTRO = 8;
 
-    public $required = array('idcontactsubtype', 'descontactsubtype', 'idcontacttype');
+    public $required = array('descontactsubtype', 'idcontacttype');
     protected $pk = "idcontactsubtype";
 
     public function get(){

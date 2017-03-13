@@ -2,7 +2,7 @@
 
 class ContactType extends Model {
 
-    public $required = array('idcontacttype', 'descontacttype');
+    public $required = array('descontacttype');
     protected $pk = "idcontacttype";
 
     public function get(){

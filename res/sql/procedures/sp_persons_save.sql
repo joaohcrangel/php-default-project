@@ -20,7 +20,7 @@ BEGIN
     DECLARE pidcnpj INT;
 
     SELECT idemail, idphone, idcpf, idrg, idcnpj INTO pidemail, pidphone, pidcpf, pidrg, pidcnpj
-    FROM tb_personsdados 
+    FROM tb_personsdata 
     WHERE idperson = pidperson;
     
     /* Data from person */

@@ -14,7 +14,7 @@
 		<h1>Instalação</h1>
 		<hr>
 		<h2>Banco de Dados</h2>
-		<p>O servidor, usuário e senha devem ser definidos no file <code>inc/consts.php</code></p>
+		<p>O servidor, usuário e senha devem ser definidos no arquivo <code>inc/consts.php</code></p>
 		<button id="btn-installDB" ng-click="install()" class="btn btn-success btn-block">Instalar Banco de Dados</button>
 		<table class="table table-striped table-condensed">
 			<thead>
@@ -111,7 +111,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 
 			rest({
 				$http:$http,
-				url:PATH+"/install-admin/sql/adresses/citys/inserts",
+				url:PATH+"/install-admin/sql/addresses/cities/inserts",
 				method:'POST',
 				data:{
 					json:JSON.stringify(data)
@@ -39328,33 +39328,33 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},
 
 		{
-			url:"/sql/adresses/tables",
+			url:"/sql/addresses/tables",
 			name:"Endereços - Tabelas",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/get",
+			url:"/sql/addresses/get",
 			name:"Endereços - Procedure GET",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/list",
+			url:"/sql/addresses/list",
 			name:"Endereços - Procedure LIST",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/save",
+			url:"/sql/addresses/save",
 			name:"Endereços - Procedure SAVE",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/remove",
+			url:"/sql/addresses/remove",
 			name:"Endereços - Procedure REMOVE",
 			status:"",
 			enabled:true
 		},
 		/*{
-			url:"/sql/adresses/triggers",
+			url:"/sql/addresses/triggers",
 			name:"Endereços - Triggers",
 			status:"",
 			enabled:true
@@ -39611,8 +39611,8 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/personsadresses/tables",
-			name:"Pessoas Endereços - Tables",
+			url:"/sql/personsaddresses/tables",
+			name:"Pessoas Endereços - Tabelas",
 			status:"",
 			enabled:true
 		},
@@ -39799,7 +39799,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			enabled:true
 		},{
 			url:"/sql/urls/tables",
-			name:"URL - Table",
+			name:"URL - Tabela",
 			status:"",
 			enabled:true
 		},{
@@ -39874,18 +39874,18 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/inserts",
+			url:"/sql/addresses/inserts",
 			name:"Endereços - Inserts",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/countries/inserts",
+			url:"/sql/addresses/countries/inserts",
 			name:"Países - Inserts",
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/adresses/states/inserts",
-			name:"states - Inserts",
+			url:"/sql/addresses/states/inserts",
+			name:"Estados - Inserts",
 			status:"",
 			enabled:true
 		},{

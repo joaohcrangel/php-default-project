@@ -4,7 +4,7 @@ class Persons extends Collection {
 
     protected $class = "Person";
     protected $saveQuery = "sp_persons_save";
-    protected $saveArgs = array("idperson", "idpersontype", "desperson", "inremoved");
+    protected $saveArgs = array("idperson", "idpersontype", "desperson", "dtbirth", "dessex", "desphoto", "desemail", "desphone", "descpf", "desrg", "descnpj");
     protected $pk = "idperson";
 
     public function get(){}

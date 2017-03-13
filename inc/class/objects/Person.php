@@ -2,7 +2,7 @@
 
 class Person extends Model {
 
-    public $required = array('idperson', 'idpersontype', 'desperson');
+    public $required = array('idpersontype', 'desperson');
     protected $pk = "idperson";
 
     public function get(){
@@ -19,11 +19,18 @@ class Person extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_persons_save(?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_persons_save(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidperson(),
-                $this->getidpersontype(),
                 $this->getdesperson(),
-                $this->getinremoved()
+                $this->getidpersontype(),                
+                $this->getdtbirth(),
+                $this->getdessex(),
+                $this->getdesphoto(),
+                $this->getdesemail(),
+                $this->getdesphone(),
+                $this->getdescpf(),
+                $this->getdesrg(),
+                $this->getdescnpj()
             ));
 
             return $this->getidperson();

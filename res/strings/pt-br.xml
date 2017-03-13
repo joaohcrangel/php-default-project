@@ -154,12 +154,12 @@
 	<string name="placetype_hcode_country">Brasil</string>
 	<string name="placetype_hcode_cep">09853120</string>
 
-	<string name="configtipo_string">STRING</string>
-	<string name="configtipo_int">INT</string>	
-	<string name="configtipo_float">FLOAT</string>	
-	<string name="configtipo_boolean">BOOL</string>	
-	<string name="configtipo_datetime">DATETIME</string>
-	<string name="configtipo_object">OBJECT</string>
+	<string name="configtype_string">STRING</string>
+	<string name="configtype_int">INT</string>	
+	<string name="configtype_float">FLOAT</string>	
+	<string name="configtype_boolean">BOOL</string>	
+	<string name="configtype_datetime">DATETIME</string>
+	<string name="configtype_object">OBJECT</string>
 
 	<string name="config_admin_name">ADMIN_NAME</string>		
 	<string name="config_admin_name_value">Default Admin</string>

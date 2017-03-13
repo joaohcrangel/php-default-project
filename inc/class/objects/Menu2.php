@@ -2,7 +2,7 @@
 
 class Menu extends Model {
 
-    public $required = array('idmenu', 'desmenu', 'desicon', 'deshref', 'nrorder', 'nrsubmenus');
+    public $required = array('desmenu', 'desicon', 'deshref', 'nrorder', 'nrsubmenus');
     protected $pk = "idmenu";
 
     const SESSION_NAME = "SYSTEM_MENU";

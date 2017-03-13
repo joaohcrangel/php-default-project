@@ -2,7 +2,7 @@
 
 class Permission extends Model {
 
-    public $required = array('idpermission', 'despermission');
+    public $required = array('despermission');
     protected $pk = "idpermission";
 
     const SUPER = 1;

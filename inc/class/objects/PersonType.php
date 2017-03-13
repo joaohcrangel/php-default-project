@@ -5,7 +5,7 @@ class PersonType extends Model {
     const FISICA = 1;
     const JURIDICA = 2;
 
-    public $required = array('idpersontype', 'despersontype');
+    public $required = array('despersontype');
     protected $pk = "idpersontype";
 
     public function get(){

@@ -3,9 +3,9 @@
 class Configurations extends Collection {
 
     protected $class = "Configuration";
-    protected $saveQuery = "sp_settings_save";
-    protected $saveArgs = array("idsetting", "dessetting", "desvalue", "desdescription", "idsettingtype");
-    protected $pk = "idsetting";
+    protected $saveQuery = "sp_configurations_save";
+    protected $saveArgs = array("idconfiguration", "desconfiguration", "desvalue", "desdescription", "idconfigurationtype");
+    protected $pk = "idconfiguration";
 
     public function get(){}
 
@@ -14,7 +14,7 @@ class Configurations extends Collection {
 
     	$configs = new Configurations();
 
-    	$configs->loadFromQuery("CALL sp_settings_list()");
+    	$configs->loadFromQuery("CALL sp_configurations_list()");
 
     	return $configs;
 
@@ -27,7 +27,7 @@ class Configurations extends Collection {
 
     	foreach ($this->getItens() as $item) {
     		
-    		$names[$item->getdessetting()] = $item->getValue();
+    		$names[$item->getdesconfiguration()] = $item->getValue();
 
     	}
 
@@ -40,7 +40,7 @@ class Configurations extends Collection {
 
     	foreach ($this->getItens() as $item) {
     		
-    		if ($item->getdessetting() === $name) {
+    		if ($item->getdesconfiguration() === $name) {
 
     			return $item->getValue();
     			

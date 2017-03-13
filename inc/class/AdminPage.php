@@ -27,15 +27,15 @@ class AdminPage {
 
 		$options['data']['string'] = $this->language->loadString();
 
-		$conf = Session::getConfiguracoes();
+		$conf = Session::getConfigurations();
 
 		if ($conf->getSize() === 0) {
-			$configuracoes = Configuracoes::listAll();
-			Session::setConfiguracoes($configuracoes);
+			$configurations = Configurations::listAll();
+			Session::setConfigurations($configurations);
 		}
 
-		$options['data']['conf'] = Session::getConfiguracoes()->getNames();
-		$options['data']['conf'] = Session::getConfiguracoes()->getNames();
+		$options['data']['conf'] = Session::getConfigurations()->getNames();
+		$options['data']['conf'] = Session::getConfigurations()->getNames();
 
 		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
 		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;

@@ -48,8 +48,7 @@ $app->delete("/settings/:idsetting", function($idsetting){
 	$conf->remove();
 
 	$settings = Settings::listAll();
-	Session::setS
-	ettings($settings);
+	Session::setSettings($settings);
 
 	echo success();
 

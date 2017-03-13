@@ -1,4 +1,5 @@
 <?php 
+
  $app->get("/addressestypes",function(){
 
    $address = AddressesTypes::listAll();
@@ -18,16 +19,16 @@
 
  });
 
-$app->get('/addresses/cep/:nrzipcode', function($nrzipcode){
+$app->get('/addresses/zipcode/:nrzipcode', function($nrzipcode){
 
     Permission::checkSession(Permission::ADMIN);
 
-    $address = Address::getByCEP($nrzipcode);
+    $address = Address::getByZipCode($nrzipcode);
 
     echo success(array(
         'data'=>$address->getFields()
     ));
-
+});
 
  $app->get('/addresses/cities', function(){
 
@@ -117,8 +118,7 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
 
 	echo success();
 
-});
- 
+}); 
 
  $app->post("/".DIR_ADMIN."/addresses", function(){
 
@@ -160,4 +160,4 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
 
  });
 
- ?>
+?>

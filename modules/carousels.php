@@ -2,7 +2,7 @@
 
 $app->get("/carousels/all", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$where = array();
 
@@ -25,18 +25,18 @@ $app->get("/carousels/all", function(){
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
 
-	$paginacao = new Pagination(
+	$pagination = new Pagination(
 		$query,
 		array(),
 		"Carousels",
 		$itemsPerPage
 	);
 
-	$carousels = $paginacao->getPage($pagina);
+	$carousels = $pagination->getPage($pagina);
 
 	echo success(array(
 		"data"=>$carousels->getFields(),
-		"total"=>$paginacao->getTotal(),
+		"total"=>$pagination->getTotal(),
 		"currentPage"=>$pagina,
 		"itemsPerPage"=>$itemsPerPage
 	));
@@ -45,7 +45,7 @@ $app->get("/carousels/all", function(){
 
 $app->get("/carousels/:idcarousel/items", function($idcarousel){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$carousel = new Carousel((int)$idcarousel);
 
@@ -55,7 +55,7 @@ $app->get("/carousels/:idcarousel/items", function($idcarousel){
 
 $app->post("/carousels", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idcarousel') > 0){
 		$carousel = new Carousel((int)post('idcarousel'));
@@ -79,7 +79,7 @@ $app->post("/carousels", function(){
 
 $app->delete("/carousels/:idcarousel", function($idcarousel){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idcarousel){
 		throw new Exception("Carousel não informado", 400);		
@@ -101,7 +101,7 @@ $app->delete("/carousels/:idcarousel", function($idcarousel){
 // carousels items
 $app->post("/carousels-items", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('iditem') > 0){
 		$item = new CarouselItem((int)post('iditem'));
@@ -119,7 +119,7 @@ $app->post("/carousels-items", function(){
 
 $app->delete("/carousels-items/:iditem", function($iditem){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$iditem){
 		throw new Exception("Item não informado", 400);		
@@ -139,17 +139,17 @@ $app->delete("/carousels-items/:iditem", function($iditem){
 ///////////////////////////////////////////////////////////////////////
 
 // carousel items tipos
-$app->get("/carousels-tipos", function(){
+$app->get("/carousels-types", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
 
 	$where = array();
 
-	if(get('destipo')) {
-		array_push($where, "destipo LIKE '%".get('destipo')."%'");
+	if(get('destype')) {
+		array_push($where, "destype LIKE '%".get('destype')."%'");
 	}
 
 	if (count($where) > 0) {
@@ -158,57 +158,57 @@ $app->get("/carousels-tipos", function(){
 		$where = '';
 	}
 
-	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_carouselsitemstipos
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_carouselsitemstypes
 	".$where." limit ?, ?;";
 
-	$paginacao = new Pagination(
+	$pagination = new Pagination(
         $query,
         array(),
-        "CarouselsItemsTipos",
+        "CarouselsItemsTypes",
         $itemsPerPage
     );
 
-	$carouselstipos = $paginacao->getPage($currentPage);
+	$carouselstypes = $pagination->getPage($currentPage);
 
     echo success(array(
-    	"data"=>$carouselstipos->getFields(),
+    	"data"=>$carouselstypes->getFields(),
         "currentPage"=>$currentPage,
         "itemsPerPage"=>$itemsPerPage,
-        "total"=>$paginacao->getTotal(),
+        "total"=>$pagination->getTotal(),
 
     ));
 
 });
 
-$app->post("/carousels-tipos", function(){
+$app->post("/carousels-types", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
-	if(post('idtipo') > 0){
-		$tipo = new CarouselItemTipo((int)post('idtipo'));
+	if(post('idtype') > 0){
+		$type = new CarouselItemType((int)post('idtype'));
 	}else{
-		$tipo = new CarouselItemTipo();
+		$type = new CarouselItemType();
 	}
 
-	$tipo->set($_POST);
+	$type->set($_POST);
 
-	$tipo->save();
+	$type->save();
 
-	echo success(array("data"=>$tipo->getFields()));
+	echo success(array("data"=>$type->getFields()));
 
 });
 
-$app->delete("/carousels-tipos/:idtipo", function($idtipo){
+$app->delete("/carousels-types/:idtype", function($idtype){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
-	if(!(int)$idtipo){
+	if(!(int)$idtype){
 		throw new Exception("Carousel não informado", 400);		
 	}
 
-	$carousel = new CarouselItemTipo((int)$idtipo);
+	$carousel = new CarouselItemType((int)$idtype);
 
-	if(!(int)$carousel->getidtipo() > 0){
+	if(!(int)$carousel->getidtype() > 0){
 		throw new Exception("Carousel não encontrado", 404);		
 	}
 

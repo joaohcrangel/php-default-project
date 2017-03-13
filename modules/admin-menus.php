@@ -1,6 +1,6 @@
 <?php 
 
-$app->get("/".DIR_ADMIN."/sistema/menu", function(){
+$app->get("/".DIR_ADMIN."/system/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -9,13 +9,13 @@ $app->get("/".DIR_ADMIN."/sistema/menu", function(){
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/sistema-menu", array(
+    $page->setTpl("/admin/system-menu", array(
         'menuHTML'=>Menu::getAllMenuOL()
     ));
 
 });
 
-$app->delete("/".DIR_ADMIN."/sistema/menu", function(){
+$app->delete("/".DIR_ADMIN."/system/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -27,13 +27,13 @@ $app->delete("/".DIR_ADMIN."/sistema/menu", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sistema/menus", function(){
+$app->get("/".DIR_ADMIN."/system/menus", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    function convertDataTreeview($itens){
+    function convertDataTreeview($Items){
 
-        foreach ($itens as &$item) {
+        foreach ($Items as &$item) {
             
             $data = array(
                 'text'=>$item['desmenu'],
@@ -48,7 +48,7 @@ $app->get("/".DIR_ADMIN."/sistema/menus", function(){
 
         }
 
-        return $itens;
+        return $Items;
 
     }
 
@@ -62,7 +62,7 @@ $app->get("/".DIR_ADMIN."/sistema/menus", function(){
 
 });
 
-$app->post("/".DIR_ADMIN."/sistema/menu", function(){
+$app->post("/".DIR_ADMIN."/system/menu", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -117,9 +117,9 @@ $app->get("/".DIR_ADMIN."/site/menus", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
-    function convertDataTreeview($itens){
+    function convertDataTreeview($Items){
 
-        foreach ($itens as &$item) {
+        foreach ($Items as &$item) {
             
             $data = array(
                 'text'=>$item['desmenu'],
@@ -134,7 +134,7 @@ $app->get("/".DIR_ADMIN."/site/menus", function(){
 
         }
 
-        return $itens;
+        return $Items;
 
     }
 

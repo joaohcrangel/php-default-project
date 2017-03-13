@@ -1,6 +1,6 @@
 <?php 
 
-$app->get("/".DIR_ADMIN."/sistema/Settings", function(){
+$app->get("/".DIR_ADMIN."/system/settings", function(){
 
     Permissao::checkSession(Permissao::ADMIN, true);
 
@@ -9,7 +9,7 @@ $app->get("/".DIR_ADMIN."/sistema/Settings", function(){
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/sistema-Settings");
+    $page->setTpl("/admin/system-settings");
 
 });
 

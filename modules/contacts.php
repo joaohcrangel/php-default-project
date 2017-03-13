@@ -1,7 +1,7 @@
 <?php
 
-$app->get("/contacts/types", function(){
-
+$app->get("/contacts/", function(){
+    
     Permission::checkSession(Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
@@ -61,7 +61,7 @@ $app->post("/contacts", function(){
 
 });
 
-$app->delete("/contacts/:idcontact", function($idcontact{
+$app->delete("/contacts/:idcontact", function($idcontact){
 
     Permission::checkSession(Permission::ADMIN, true);
 

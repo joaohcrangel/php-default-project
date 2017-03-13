@@ -1,85 +1,85 @@
 <?php 
 
-$app->get("/menus/:idmenu/usuarios", function($idmenu){
+$app->get("/menus/:idmenu/users", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	echo success(array('data'=>Usuarios::listFromMenu($menu)->getFields()));
+	echo success(array('data'=>Users::listFromMenu($menu)->getFields()));
 
 });
 
-$app->get("/menus/:idmenu/permissoes/faltantes", function($idmenu){
+$app->get("/menus/:idmenu/permissions/missing", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	$permissoes = Permissoes::listFromMenu($menu, true);
+	$permissions = Permission::listFromMenu($menu, true);
 
-	echo success(array('data'=>$permissoes->getFields()));
+	echo success(array('data'=>$permissions->getFields()));
 
 });
 
-$app->get("/menus/:idmenu/permissoes", function($idmenu){
+$app->get("/menus/:idmenu/permissions", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	echo success(array('data'=>Permissoes::listFromMenu($menu)->getFields()));
+	echo success(array('data'=>Permission::listFromMenu($menu)->getFields()));
 
 });
 
-$app->post("/menus/:idmenu/permissoes", function($idmenu){
+$app->post("/menus/:idmenu/permissions", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	$permissoes = new Permissoes();
+	$permissions = new permissions();
 
-	foreach (explode(",", post('idpermissao')) as $id) {
-		$permissoes->add(new Permissao(array(
-			'idpermissao'=>(int)$id
+	foreach (explode(",", post('idpermission')) as $id) {
+		$permissions->add(new Permission(array(
+			'idpermission'=>(int)$id
 		)));
 	}
 
-	$permissoes = $menu->addPermissoes($permissoes);
+	$permissions = $menu->addPermissoes($permissions);
 
 	echo success(array(
-		'data'=>$permissoes->getFields()
+		'data'=>$permissions->getFields()
 	));
 
 
 });
 
-$app->delete("/menus/:idmenu/permissoes", function($idmenu){
+$app->delete("/menus/:idmenu/permissions", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	$permissoes = new Permissoes();
+	$permissions = new Permission();
 
-	foreach (explode(",", post('idpermissao')) as $id) {
-		$permissoes->add(new Permissao(array(
-			'idpermissao'=>(int)$id
+	foreach (explode(",", post('idpermission')) as $id) {
+		$permissoes->add(new Permission(array(
+			'idpermission'=>(int)$id
 		)));
 	}
 
-	$menu->removePermissoes($permissoes);
+	$menu->removePermission($permissions);
 
 	echo success();
 
@@ -87,7 +87,7 @@ $app->delete("/menus/:idmenu/permissoes", function($idmenu){
 
 $app->get("/menus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu((int)$idmenu);
 
@@ -97,7 +97,7 @@ $app->get("/menus/:idmenu", function($idmenu){
 
 $app->delete("/menus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu((int)$idmenu);
 
@@ -109,7 +109,7 @@ $app->delete("/menus/:idmenu", function($idmenu){
 
 $app->post("/menus/:idmenu", function($idmenu){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu((int)$idmenu);
 
@@ -123,7 +123,7 @@ $app->post("/menus/:idmenu", function($idmenu){
 
 $app->post("/menus", function(){
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$menu = new Menu($_POST);
 

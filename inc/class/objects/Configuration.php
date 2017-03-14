@@ -23,13 +23,13 @@ class Configuration extends Model {
                 $this->desvalue((string)$this->getdesvalue());
                 break;
                 case ConfigurationType::INT:
-                $this->desvalue((string)$this->getdesvalue());
+                $this->desvalue((int)$this->getdesvalue());
                 break;
                 case ConfigurationType::FLOAT:
-                $this->desvalue((string)$this->getdesvalue());
+                $this->desvalue((float)$this->getdesvalue());
                 break;
                 case ConfigurationType::BOOL:
-                $this->desvalue((string)$this->getdesvalue());
+                $this->desvalue((bool)$this->getdesvalue());
                 break;
                 case ConfigurationType::DATETIME:
                 if (gettype($this->getdesvalue()) === 'object') {
@@ -63,7 +63,7 @@ class Configuration extends Model {
 
     public function remove(){
 
-        $this->proc("sp_configurations_remove", array(
+        $this->execute("sp_configurations_remove", array(
             $this->getidconfiguration()
         ));
 

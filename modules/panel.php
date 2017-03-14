@@ -433,143 +433,139 @@ $app->get("/panel/persons-valuesfields-create", function(){
 });
 
 // configuracoes-tipos
-$app->get("/panel/configurations-types/:idconfiguracaotype", function($idconfiguracaotype){
+$app->get("/panel/configurations-types/:idconfigurationtype", function($idconfigurationtype){
 
-	$configuracao = new Configuracaotype((int)$idconfiguracaotype);
+	$configuration = new ConfigurationType((int)$idconfigurationtype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-type-salvar", array(
-		"configuracao"=>$configuracao->getFields()
+	$page->setTpl("panel/configuracao-tipo-salvar", array(
+		"configuration"=>$configuration->getFields()
 	));
 
 });
 
-$app->get("/panel/configurations-types-criar", function(){
+$app->get("/panel/configurations-types-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-type-criar");
+	$page->setTpl("panel/configuracao-tipo-criar");
 
 });
 
 /////////////////////////////////////////
-// Lugares-types salvar
+// lugares-tipos salvar
+$app->get("/panel/places-types/:idplacetype", function($idplacetype){
 
-$app->get("/panel/lugares-types/:idlugartype", function($idlugartype){
-
-	$lugartype = new Lugartype((int)$idlugartype);
+	$placetype = new PlaceType((int)$idplacetype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-types-salvar", array(
-		"lugartype"=>$lugartype->getFields()
+	$page->setTpl("panel/lugares-tipos-salvar", array(
+		"placetype"=>$placetype->getFields()
 	));
 
 });
 
-$app->get("/panel/lugares-types-criar", function(){
+$app->get("/panel/places-types-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-types-criar");
+	$page->setTpl("panel/lugares-tipos-criar");
 
 });
 
 ////////////////////////////////////////////////////
-// Documentos-types
+// documentos-tipos
+$app->get("/panel/documents/types/:iddocumenttype", function($iddocumenttype){
 
-$app->get("/panel/documentos/types/:iddocumentotype", function($iddocumentotype){
-
-	$documento = new Documentotype((int)$iddocumentotype);
+	$document = new DocumentType((int)$iddocumenttype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-type-salvar", array(
-		"documento"=>$documento->getFields()
+	$page->setTpl("panel/documento-tipo-salvar", array(
+		"document"=>$document->getFields()
 	));
 
 });
 
-$app->get("/panel/documento-type-criar", function(){
+$app->get("/panel/document-type-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-type-criar");
+	$page->setTpl("panel/documento-tipo-criar");
 
 });
 
-// Enderecos-types
+// enderecos-types
+$app->get("/panel/addresses/types/:idaddresstype", function($idaddresstype){
 
-$app->get("/panel/enderecos/types/:idenderecotype", function($idenderecotype){
-
-	$endereco = new Enderecotype((int)$idenderecotype);
-
-	$page = new Page(array(
-		"header"=>false,
-		"footer"=>false
-	));
-
-	$page->setTpl("panel/endereco-type-salvar", array(
-		"endereco"=>$endereco->getFields()
-	));
-
-});
-
-$app->get("/panel/endereco-type-criar", function(){
+	$address = new AddressType((int)$idaddresstype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-type-criar");
-
-});
-
-// Historicos-types
-
-$app->get("/panel/historicos-types/:idhistoricotype", function($idhistoricotype){
-
-	$historicotype = new Historicotype((int)$idhistoricotype);
-
-	$page = new Page(array(
-		"header"=>false,
-		"footer"=>false
-	));
-
-	$page->setTpl("panel/historico-type-salvar", array(
-		"historicotype"=>$historicotype->getFields()
+	$page->setTpl("panel/endereco-tipo-salvar", array(
+		"address"=>$address->getFields()
 	));
 
 });
 
-$app->get("/panel/historico-type-criar", function(){
+$app->get("/panel/address-type-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/historico-type-criar");
+	$page->setTpl("panel/endereco-tipo-criar");
+
+});
+
+// historicos-tipos
+$app->get("/panel/logs-types/:idlogtype", function($idlogtype){
+
+	$logtype = new LogType((int)$idlogtype);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/historico-tipo-salvar", array(
+		"logtype"=>$logtype->getFields()
+	));
+
+});
+
+$app->get("/panel/log-type-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/historico-tipo-criar");
 
 });
 ////////////////////////////////////////////////////////////////
@@ -577,30 +573,30 @@ $app->get("/panel/historico-type-criar", function(){
 // persons
 $app->get("/panel/persons/:idperson", function($idperson){
 
-	$person = new person((int)$idperson);
+	$person = new Person((int)$idperson);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$contacts = $person->getcontacts();
+	$contacts = $person->getContacts();
 
-	$telefones = $contacts->filterBy(array(
-		"idcontacttype"=>contact::TELEFONE
+	$phones = $contacts->filterBy(array(
+		"idcontacttype"=>Contact::TELEFONE
 	), true); // filtrando os contacts que são telefones
 
 	$emails = $contacts->filterBy(array(
-		"idcontacttype"=>contact::EMAIL
+		"idcontacttype"=>Contact::EMAIL
 	), true); // filtrando os contacts que são emails
 
-	$documentos = $person->getDocumentos();
+	$documents = $person->getDocuments();
 
-	$person->setDocumentos($documentos);
-	$person->setTelefones($telefones);
+	$person->setDocuments($documents);
+	$person->setPhones($phones);
 	$person->setEmails($emails);
 
-	$page->setTpl("panel/person", array(
+	$page->setTpl("panel/pessoa", array(
 		"person"=>$person->getFields()
 	));
 
@@ -608,15 +604,15 @@ $app->get("/panel/persons/:idperson", function($idperson){
 
 ///////////////////////////////////////////////////////////
 // carrinhos
-$app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
+$app->get("/panel/carts/:idcart", function($idcart){
 
-	$carrinho = new Carrinho((int)$idcarrinho);
+	$cart = new Cart((int)$idcart);
 
-	$frete = new CarrinhoFrete((int)$idcarrinho);
+	$freight = new CartFreight((int)$idcart);
 
-	$carrinho->setproducts($carrinho->getproducts()->getFields());
-	$carrinho->setcoupons($carrinho->getcoupons()->getFields());
-	$carrinho->setFrete($frete->getFields());
+	$cart->setProducts($cart->getProducts()->getFields());
+	$cart->setCoupons($cart->getCoupons()->getFields());
+	$cart->setFreight($freight->getFields());
 
 	$page = new Page(array(
 		"header"=>false,
@@ -624,43 +620,43 @@ $app->get("/panel/carrinhos/:idcarrinho", function($idcarrinho){
 	));
 
 	$page->setTpl("panel/carrinho", array(
-		"carrinho"=>$carrinho->getFields()
+		"cart"=>$cart->getFields()
 	));
 
 });
 
 ////////////////////////////////////////////////////////////
 // lugares
-$app->get("/panel/lugares/:idlugar", function($idlugar){
+$app->get("/panel/places/:idplace", function($idplace){
 
-	$config = Session::getconfigurations();
+	$config = Session::getConfigurations();
 
-	$lugar = new Lugar((int)$idlugar);
+	$place = new Place((int)$idplace);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$data = $lugar->getFields();
+	$data = $place->getFields();
 
-	$horarios = $lugar->getLugaresHorarios()->getFields();
+	$logs = $place->getPlacesLogs()->getFields();
 
-	if(!count($horarios) > 0) $horarios = Language::getWeekdays();
+	if(!count($logs) > 0) $logs = Language::getWeekdays();
 
-	$data['Horarios'] = $horarios;
+	$data['logs'] = $logs;
 
 	$page->setTpl("panel/lugar", array(
-		"lugar"=>$data,
+		"place"=>$data,
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
-		"enderecostypes"=>Enderecostypes::listAll()->getFields()
+		"addressestypes"=>AddressesTypes::listAll()->getFields()
 	));
 
 });
 
-$app->get("/panel/lugar-criar", function(){
+$app->get("/panel/place-create", function(){
 
-	$config = Session::getconfigurations();
+	$config = Session::getConfigurations();
 
 	$page = new Page(array(
 		"header"=>false,
@@ -673,25 +669,25 @@ $app->get("/panel/lugar-criar", function(){
 
 });
 
-$app->get("/panel/lugar-horarios", function(){
+$app->get("/panel/place-logs", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-horarios", array(
+	$page->setTpl("panel/place-logs", array(
 		"ids"=>$_GET['ids'],
-		"horarios"=>Language::getWeekdays()
+		"logs"=>Language::getWeekdays()
 	));
 
 });
 /////////////////////////////////////////////////////////////
 
 // cursos
-$app->get("/panel/cursos/:idcurso", function($idcurso){
+$app->get("/panel/courses/:idcourse", function($idcourse){
 
-	$curso = new Curso((int)$idcurso);
+	$course = new Course((int)$idcourse);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -699,12 +695,12 @@ $app->get("/panel/cursos/:idcurso", function($idcurso){
 	));
 
 	$page->setTpl("panel/curso", array(
-		"curso"=>$curso->getFields()
+		"course"=>$course->getFields()
 	));
 
 });
 
-$app->get("/panel/curso-criar", function(){
+$app->get("/panel/course-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -732,7 +728,7 @@ $app->get("/panel/carousels/:idcarousel", function($idcarousel){
 
 });
 
-$app->get("/panel/carousel-criar", function(){
+$app->get("/panel/carousel-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -744,38 +740,38 @@ $app->get("/panel/carousel-criar", function(){
 });
 //////////////////////////////////////////////////////////////////
 
-// carousels items types
+// carousels items tipos
 $app->get("/panel/carousels-items-types/:idtype", function($idtype){
 
-	$type = new CarouselItemtype((int)$idtype);
+	$type = new CarouselItemType((int)$idtype);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-type-salvar", array(
+	$page->setTpl("panel/carousel-item-tipo-salvar", array(
 		"type"=>$type->getFields()
 	));
 
 });
 
-$app->get("/panel/carousel-item-type-criar", function(){
+$app->get("/panel/carousel-item-type-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-type-criar");
+	$page->setTpl("panel/carousel-item-tipo-criar");
 
 });
 ////////////////////////////////////////////////////////////////
 
 // paises
-$app->get("/panel/paises/:idpais", function($idpais){
+$app->get("/panel/countries/:idcountry", function($idcountry){
 
-	$pais = new Pais((int)$idpais);
+	$country = new Country((int)$idcountry);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -783,12 +779,12 @@ $app->get("/panel/paises/:idpais", function($idpais){
 	));
 
 	$page->setTpl("panel/pais", array(
-		"pais"=>$pais->getFields()
+		"country"=>$country->getFields()
 	));
 
 });
 
-$app->get("/panel/pais-criar", function(){
+$app->get("/panel/country-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -801,9 +797,9 @@ $app->get("/panel/pais-criar", function(){
 /////////////////////////////////////////////////////
 
 // estados
-$app->get("/panel/estados/:idestado", function($idestado){
+$app->get("/panel/states/:idstate", function($idstate){
 
-	$estado = new Estado((int)$idestado);
+	$state = new State((int)$idstate);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -811,12 +807,12 @@ $app->get("/panel/estados/:idestado", function($idestado){
 	));
 
 	$page->setTpl("panel/estado", array(
-		"estado"=>$estado->getFields()
+		"state"=>$state->getFields()
 	));
 
 });
 
-$app->get("/panel/estado-criar", function(){
+$app->get("/panel/state-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -829,9 +825,9 @@ $app->get("/panel/estado-criar", function(){
 ///////////////////////////////////////////////////////
 
 // cidades
-$app->get("/panel/cidades/:idcidade", function($idcidade){
+$app->get("/panel/cities/:idcity", function($idcity){
 
-	$cidade = new Cidade((int)$idcidade);
+	$city = new City((int)$idcity);
 
 	$page = new Page(array(
 		"header"=>false,
@@ -839,12 +835,12 @@ $app->get("/panel/cidades/:idcidade", function($idcidade){
 	));
 
 	$page->setTpl("panel/cidade", array(
-		"cidade"=>$cidade->getFields()
+		"city"=>$city->getFields()
 	));
 
 });
 
-$app->get("/panel/cidade-criar", function(){
+$app->get("/panel/city-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
@@ -856,30 +852,30 @@ $app->get("/panel/cidade-criar", function(){
 });
 ////////////////////////////////////////////////////
 
-// persons categorias types
-$app->get("/panel/persons-categorias-types/:idcategoria", function($idcategoria){
+// persons categorias tipos
+$app->get("/panel/persons-categories-types/:idcategory", function($idcategory){
 
-	$categoria = new personCategoriatype((int)$idcategoria);
+	$category = new PersonCategoryType((int)$idcategory);
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/person-categoria-type", array(
-		"categoria"=>$categoria->getFields()
+	$page->setTpl("panel/pessoa-categoria-tipo", array(
+		"category"=>$category->getFields()
 	));
 
 });
 
-$app->get("/panel/person-categoria-type-criar", function(){
+$app->get("/panel/person-category-type-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/person-categoria-type-criar");
+	$page->setTpl("panel/pessoa-categoria-tipo-criar");
 
 });
 ///////////////////////////////////////////////////////////
@@ -900,7 +896,7 @@ $app->get("/panel/urls/:idurl", function($idurl){
 
 });
 
-$app->get("/panel/url-criar", function(){
+$app->get("/panel/url-create", function(){
 
 	$page = new Page(array(
 		"header"=>false,

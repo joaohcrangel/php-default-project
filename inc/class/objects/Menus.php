@@ -3,13 +3,14 @@
 class Menus extends Collection {
 
     protected $class = "Menu";
-    protected $saveQuery = "CALL sp_menu_save(?, ?, ?, ?, ?);";
-    protected $saveArgs = array("idmenupai", "idmenu", "desicone", "deshref", "nrordem");
+    protected $saveQuery = "sp_menus_save";
+    protected $saveArgs = array("idmenu", "idmenufather", "desmenu", "desicon", "deshref", "nrorder", "nrsubmenus");
     protected $pk = "idmenu";
 
     public function get(){}
 
-    public static function listAll(){
+    public static function listAll():Menus
+    {
 
     	$menus = new Menus();
 

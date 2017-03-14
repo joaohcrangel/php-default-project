@@ -28,8 +28,8 @@
 	<string name="persons_juridica">Jurídico</string>
 	<string name="persons_nome">Super Usuário (root)</string>
 
-	<string name="products_curso">Curso Udemy</string>
-	<string name="products_camiseta">Camiseta</string>
+	<string name="products_course">Curso Udemy</string>
+	<string name="products_shirt">Camiseta</string>
 
 	<string name="users_admin">Administrativo</string>
 	<string name="users_clientes">Cliente</string>
@@ -49,7 +49,7 @@
 	<string name="menus_examples_upload">Upload de Arquivos</string>
 	<string name="menus_permissions">Permissões</string>	
 	<string name="menus_product">Produtos</string>
-	<string name="menus_adress">Endereços Tipos</string>
+	<string name="menus_address">Endereços Tipos</string>
 	<string name="menus_user_types">Usuário Tipos</string>
 	<string name="menus_document_types">Documentos Tipos</string>
 	<string name="menus_place_types">Lugares Tipos</string>
@@ -91,10 +91,10 @@
 	<string name="work_type">Trabalho</string>
 	<string name="other_type_email">Outro</string>
 
-	<string name="adress_residencial">Residencial</string>
-	<string name="adress_comercial">Comercial</string>
-	<string name="adress_cobranca">Cobrança</string>
-	<string name="adress_entrega">Entrega</string>
+	<string name="address_residencial">Residencial</string>
+	<string name="address_comercial">Comercial</string>
+	<string name="address_cobranca">Cobrança</string>
+	<string name="address_entrega">Entrega</string>
 
 	<string name="permissions_user">Super Usuário</string>
 	<string name="permissions_admin">Acesso Administrativo</string>
@@ -146,7 +146,7 @@
 
 	<string name="place_hcode">Hcode</string>
 
-	<string name="placetype_hcode_adress">Rua Ademar Saraiva Leão</string>
+	<string name="placetype_hcode_address">Rua Ademar Saraiva Leão</string>
 	<string name="placetype_hcode_number">234</string>
 	<string name="placetype_hcode_district">Alvarenga</string>
 	<string name="placetype_hcode_city">São Bernardo do Campo</string>

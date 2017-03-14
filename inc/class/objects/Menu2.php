@@ -1,10 +1,10 @@
 <?php
 
-class Menu extends Model {
+class MenuOld extends Model {
 
-    public $required = array('desmenu', 'desicon', 'deshref', 'nrorder', 'nrsubmenus');
+    public $required = array('nrordem', 'desmenu');
     protected $pk = "idmenu";
-
+    
     const SESSION_NAME = "SYSTEM_MENU";
 
     public function get(){
@@ -16,68 +16,61 @@ class Menu extends Model {
                 
     }
 
-    public function save():int
-    {
+    public function save(){
 
-        if($this->getChanged() && $this->isValid()){
+        if ($this->getChanged() && $this->isValid()) {
 
-            $this->queryToAttr("CALL sp_menus_save(?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_menus_save(?, ?, ?, ?, ?, ?);", array(
+                $this->getidmenupai(),
                 $this->getidmenu(),
-                $this->getidmenufather(),
-                $this->getdesmenu(),
-                $this->getdesicon(),
+                $this->getdesicone(),
                 $this->getdeshref(),
-                $this->getnrorder(),
-                $this->getnrsubmenus()
+                $this->getnrordem(),
+                $this->getdesmenu()
             ));
 
             return $this->getidmenu();
 
-        }else{
+        } else {
 
-            return 0;
+            return false;
 
         }
         
     }
 
-    public function remove():bool
-    {
+    public function remove() {
 
-        $this->execute("sp_menus_remove", array(
-            $this->getidmenu()
-        ));
-
+        $this->execute("CALL sp_menus_remove(".$this->getidmenu().")");
         return true;
         
     }
 
-    public function addPermissions(Permissions $permissions){
+    public function addPermissoes(Permissoes $permissoes){
 
-        $itens = $permissions->getItens();
+        $itens = $permissoes->getItens();
 
-        foreach ($itens as &$permission) {
+        foreach ($itens as &$permissao) {
             
-            $permission->queryToAttr("CALL sp_permissionsmenus_save(?, ?)", array(
-                $permission->getidpermission(),
+            $permissao->queryToAttr("CALL sp_permissoesmenus_save(?, ?)", array(
+                $permissao->getidpermissao(),
                 $this->getidmenu()
             ));
 
         }
 
-        $permissions->setItens($itens);
+        $permissoes->setItens($itens);
 
-        return $permissions;
+        return $permissoes;
 
     }
 
-    public function removePermissions(Permissions $permissions):bool
-    {
+    public function removePermissoes(Permissoes $permissoes){
 
-        foreach ($permissions->getItens() as $permission) {
+        foreach ($permissoes->getItens() as $permissao) {
             
-            $this->proc("sp_permissionsmenus_remove", array(
-                $permission->getidpermission(),
+            $this->proc("sp_permissoesmenus_remove", array(
+                $permissao->getidpermissao(),
                 $this->getidmenu()
             ));
 
@@ -87,17 +80,16 @@ class Menu extends Model {
 
     }
 
-    public static function getMenus(Menu $menuFather, Menus $menusAll):Menus
-    {
+    public static function getMenus(Menu $menuPai, Menus $menusTodos) {
 
-        $roots = $menusAll->filter('idmenufather', $menuFather->getidmenu());
+        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
 
         $subs = new Menus();
 
         foreach ($roots->getItens() as $menu) {
 
             if ($menu->getnrsubmenus() > 0) {
-                $menu->setMenus(Menu::getMenus($menu, $menusAll));
+                $menu->setMenus(Menu::getMenus($menu, $menusTodos));
             }
 
             $subs->add($menu);
@@ -114,15 +106,15 @@ class Menu extends Model {
         return Menu::getMenus($root, $menus);
     }
 
-    public static function getMenuHTML(Menu $menuFather, Menus $menusAll) {
+    public static function getMenuHTML(Menu $menuPai, Menus $menusTodos) {
 
-        $roots = $menusAll->filter('idmenufather', $menuFather->getidmenu());
+        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
 
         $html = '';
 
         if ($roots->getSize() > 0) {
 
-            $html = '<ul class="'.(($menuFather->getidmenu() === 0)?'site-menu':'site-menu-sub').'" '.(($menuFather->getidmenu() === 0)?'data-plugin="menu"':'').'>';
+            $html = '<ul class="'.(($menuPai->getidmenu() === 0)?'site-menu':'site-menu-sub').'" '.(($menuPai->getidmenu() === 0)?'data-plugin="menu"':'').'>';
 
             foreach ($roots->getItens() as $menu) {
 
@@ -135,7 +127,7 @@ class Menu extends Model {
                             <span class="site-menu-title">'.$menu->getdesmenu().'</span>
                             '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'
                         </a>
-                        '.Menu::getMenuHTML($menu, $menusAll).'
+                        '.Menu::getMenuHTML($menu, $menusTodos).'
                     </li>
                 ';
 
@@ -151,9 +143,9 @@ class Menu extends Model {
 
     }
 
-    public static function getMenuOL(Menu $menuFather, Menus $menusAll) {
+    public static function getMenuOL(Menu $menuPai, Menus $menusTodos) {
 
-        $roots = $menusAll->filter('idmenufather', $menuFather->getidmenu());
+        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
 
         $html = '';
         
@@ -170,7 +162,7 @@ class Menu extends Model {
                             <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>
                             <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>
                         </div>
-                        '.Menu::getMenuOL($menu, $menusAll).'
+                        '.Menu::getMenuOL($menu, $menusTodos).'
                     </li>
                 ';
 

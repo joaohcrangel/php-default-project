@@ -383,7 +383,7 @@ $app->get("/install-admin/sql/products/inserts", function(){
 	$courseUdemy->save();
 
 	$camiseta = new ProductType(array(
-		'desproducttype'=>$lang->getString('products_camiseta')
+		'desproducttype'=>$lang->getString('products_shirt')
 	));
 	$camiseta->save();
 
@@ -604,7 +604,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	$lang = new Language();
 
 	//////////////////////////////////////
-	$menuDashboard = new Menu2(array(
+	$menuDashboard = new Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-view-dashboard',
@@ -613,7 +613,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
-	$menuSistema = new Menu2(array(
+	$menuSistema = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-code-setting',
@@ -622,7 +622,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSistema->save();
 	//////////////////////////////////////
-	$menuAdmin = new Menu2(array(
+	$menuAdmin = new Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-settings',
@@ -631,7 +631,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
-	$menupersons = new Menu2(array(
+	$menupersons = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-accounts',
@@ -640,7 +640,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersons->save();
 	//////////////////////////////////////
-	$menutypes = new Menu2(array(
+	$menutypes = new Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'md-collection-item',
@@ -649,7 +649,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypes->save();
 	//////////////////////////////////////
-	$menuMenu = new Menu2(array(
+	$menuMenu = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -658,7 +658,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuMenu->save();
 	//////////////////////////////////////
-	$menuusers = new Menu2(array(
+	$menuusers = new Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -667,7 +667,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuusers->save();
 	//////////////////////////////////////
-	$menuConfigs = new Menu2(array(
+	$menuConfigs = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -676,7 +676,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
-	$menuSqlToClass = new Menu2(array(
+	$menuSqlToClass = new Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
@@ -685,7 +685,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
-	$menuTemplate = new Menu2(array(
+	$menuTemplate = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
@@ -694,7 +694,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
-	$menuExemplos = new Menu2(array(
+	$menuExemplos = new Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuSistema->getidmenu(),
 		'desicon'=>'',
@@ -703,7 +703,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuExemplos->save();
 	//////////////////////////////////////
-	$menuUpload = new Menu2(array(
+	$menuUpload = new Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuExemplos->getidmenu(),
 		'desicon'=>'',
@@ -712,7 +712,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
-	$menupermissions = new Menu2(array(
+	$menupermissions = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -721,7 +721,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupermissions->save();
 	//////////////////////////////////////
-	$menuproducts = new Menu2(array(
+	$menuproducts = new Menu(array(
 		'nrorder'=>4,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-devices',
@@ -730,7 +730,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuproducts->save();
 	//////////////////////////////////////
-	$menutypesaddresses = new Menu2(array(
+	$menutypesaddresses = new Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -739,7 +739,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesaddresses->save();
 	//////////////////////////////////////
-	$menutypesusers = new Menu2(array(
+	$menutypesusers = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -748,7 +748,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesusers->save();
 	//////////////////////////////////////
-	$menutypesdocuments = new Menu2(array(
+	$menutypesdocuments = new Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -757,7 +757,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesdocuments->save();
 	//////////////////////////////////////
-	$menutypesplaces = new Menu2(array(
+	$menutypesplaces = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -766,7 +766,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesplaces->save();
 	//////////////////////////////////////
-	$menutypesCupons = new Menu2(array(
+	$menutypesCupons = new Menu(array(
 		'nrorder'=>4,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -775,7 +775,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesCupons->save();
 	//////////////////////////////////////
-	$menutypesproducts = new Menu2(array(
+	$menutypesproducts = new Menu(array(
 		'nrorder'=>5,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -784,7 +784,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesproducts->save();
 	//////////////////////////////////////
-	$menuordersStatus = new Menu2(array(
+	$menuordersStatus = new Menu(array(
 		'nrorder'=>6,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -793,7 +793,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuordersStatus->save();
 	//////////////////////////////////////
-	$menupersonstypes = new Menu2(array(
+	$menupersonstypes = new Menu(array(
 		'nrorder'=>7,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -802,7 +802,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersonstypes->save();
 	//////////////////////////////////////
-	$menucontactstypes = new Menu2(array(
+	$menucontactstypes = new Menu(array(
 		'nrorder'=>8,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -811,7 +811,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucontactstypes->save();
 	//////////////////////////////////////
-	$menuGateways = new Menu2(array(
+	$menuGateways = new Menu(array(
 		'nrorder'=>9,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -820,7 +820,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
-	$menuHistoricostypes = new Menu2(array(
+	$menuHistoricostypes = new Menu(array(
 		'nrorder'=>10,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -829,7 +829,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuHistoricostypes->save();
 	//////////////////////////////////////
-	$menuFormasorders = new Menu2(array(
+	$menuFormasorders = new Menu(array(
 		'nrorder'=>11,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -838,7 +838,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuFormasorders->save();
 	//////////////////////////////////////
-	$menupersonsvaluesfields = new Menu2(array(
+	$menupersonsvaluesfields = new Menu(array(
 		'nrorder'=>11,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -847,7 +847,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersonsvaluesfields->save();
 	//////////////////////////////////////
-	$menuconfigurationstypes = new Menu2(array(
+	$menuconfigurationstypes = new Menu(array(
 		'nrorder'=>12,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -856,7 +856,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuconfigurationstypes->save();
 	//////////////////////////////////////
-	$menuCarouselsItemstypes = new Menu2(array(
+	$menuCarouselsItemstypes = new Menu(array(
 		'nrorder'=>13,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -865,7 +865,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarouselsItemstypes->save();
 	//////////////////////////////////////
-	$menuordersnegotiationstypes = new Menu2(array(
+	$menuordersnegotiationstypes = new Menu(array(
 		'nrorder'=>13,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -874,7 +874,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuordersnegotiationstypes->save();
 	//////////////////////////////////////
-	$menuorders = new Menu2(array(
+	$menuorders = new Menu(array(
 		"nrorder"=>5,
 		"idmenufather"=>NULL,
 		"desicon"=>'md-money-box',
@@ -883,7 +883,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuorders->save();
 	//////////////////////////////////////
-	$menuCarrinhos = new Menu2(array(
+	$menuCarrinhos = new Menu(array(
 		"nrorder"=>6,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-shopping-cart",
@@ -892,7 +892,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarrinhos->save();
 	//////////////////////////////////////
-	$menuplaces = new Menu2(array(
+	$menuplaces = new Menu(array(
 		"nrorder"=>7,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-city",
@@ -901,7 +901,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuplaces->save();
 	//////////////////////////////////////
-	$menuSite = new Menu2(array(
+	$menuSite = new Menu(array(
 		"nrorder"=>8,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-view-web",
@@ -910,7 +910,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSite->save();
 	//////////////////////////////////////
-	$menuSiteMenu = new Menu2(array(
+	$menuSiteMenu = new Menu(array(
 		"nrorder"=>0,
 		"idmenufather"=>$menuSite->getidmenu(),
 		"desicon"=>"",
@@ -919,7 +919,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteMenu->save();
 	//////////////////////////////////////
-	$menucourses = new Menu2(array(
+	$menucourses = new Menu(array(
 		"nrorder"=>9,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-book",
@@ -928,7 +928,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucourses->save();
 	//////////////////////////////////////
-	$menuCarousels = new Menu2(array(
+	$menuCarousels = new Menu(array(
 		"nrorder"=>1,
 		"idmenufather"=>$menuSite->getidmenu(),
 		"desicon"=>"",
@@ -937,7 +937,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
-	$menupaises = new Menu2(array(
+	$menupaises = new Menu(array(
 		"nrorder"=>5,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -946,7 +946,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupaises->save();
 	//////////////////////////////////////
-	$menustates = new Menu2(array(
+	$menustates = new Menu(array(
 		"nrorder"=>6,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -955,7 +955,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menustates->save();
 	//////////////////////////////////////
-	$menucities = new Menu2(array(
+	$menucities = new Menu(array(
 		"nrorder"=>7,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -964,7 +964,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucities->save();
 	//////////////////////////////////////
-	$menucities = new Menu2(array(
+	$menucities = new Menu(array(
 		"nrorder"=>8,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -973,7 +973,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menucities->save();
 	//////////////////////////////////////
-	$menupersonscategoriestypes = new Menu2(array(
+	$menupersonscategoriestypes = new Menu(array(
 		'nrorder'=>14,
 		'idmenufather'=>$menutypes->getidmenu(),
 		'desicon'=>'',
@@ -982,7 +982,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menupersonscategoriestypes->save();
 	//////////////////////////////////////
-	$menuUrls = new Menu2(array(
+	$menuUrls = new Menu(array(
 		'nrorder'=>10,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-link',
@@ -2283,7 +2283,7 @@ $app->get("/install-admin/sql/orders/inserts", function(){
 
 	$sql->arrays("
 		INSERT INTO tb_ordersnegotiationstypes(desnegotiation)
-		VALUES(?);
+		VALUES(?), (?);
 	", array(
 	    $lang->getString('negotiation_estimate'),
 	 	$lang->getString('negotiation_sale')

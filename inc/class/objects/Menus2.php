@@ -1,16 +1,15 @@
 <?php
 
-class Menus extends Collection {
+class MenusOld extends Collection {
 
     protected $class = "Menu";
-    protected $saveQuery = "sp_menus_save";
-    protected $saveArgs = array("idmenu", "idmenufather", "desmenu", "desicon", "deshref", "nrorder", "nrsubmenus");
+    protected $saveQuery = "CALL sp_menu_save(?, ?, ?, ?, ?);";
+    protected $saveArgs = array("idmenupai", "idmenu", "desicone", "deshref", "nrordem");
     protected $pk = "idmenu";
 
     public function get(){}
 
-    public static function listAll():Menus
-    {
+    public static function listAll(){
 
     	$menus = new Menus();
 

@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -71,19 +71,19 @@ $app->get("/".DIR_ADMIN."/forget", function(){
 
 $app->get("/".DIR_ADMIN."/reset", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
-    $usuario = Session::getUsuario();
+    $user = Session::getUser();
 
-    $usuario->reload();
+    $user->reload();
 
-    $usuario->getPessoa();
+    $user->getPerson();
 
-    Session::setUsuario($usuario);
+    Session::setUser($user);
 
-    $configuracoes = Configuracoes::listAll();
+    $configurations = Configurations::listAll();
 
-    Session::setConfiguracoes($configuracoes);
+    Session::setConfigurations($configurations);
 
     Menu::resetMenuSession();
 
@@ -142,7 +142,7 @@ $app->get("/".DIR_ADMIN."/profile", function(){
 
 $app->get("/".DIR_ADMIN."/settings", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage();
 
@@ -150,24 +150,24 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/perfil", function(){
+$app->get("/".DIR_ADMIN."/profile", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage();
 
-    $usuario = Session::getUsuario();
+    $user = Session::getUser();
 
-    $page->setTpl('/admin/perfil', array(
-        'usuario'=>$usuario->getFields(),
-        'pessoa'=>$usuario->getPessoa()->getFields()
+    $page->setTpl('/admin/profile', array(
+        'user'=>$user->getFields(),
+        'person'=>$user->getPerson()->getFields()
     ));
 
 });
 
 $app->get("/".DIR_ADMIN."/session", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     pre($_SESSION);
 
@@ -187,35 +187,35 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sistema/usuarios", function(){
+$app->get("/".DIR_ADMIN."/system/users", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
-
-    $page = new AdminPage(array(
-        "header"=>true,
-        "footer"=>true
-    ));
-
-    $page->setTpl("/admin/sistema-usuarios");
-
-});
-
-$app->get("/".DIR_ADMIN."/sistema/sql-to-class", function(){
-
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,
         "footer"=>true
     ));
 
-    $page->setTpl("/admin/sistema-sql-to-class");
+    $page->setTpl("/admin/system-users");
 
 });
 
-$app->get("/".DIR_ADMIN."/produtos", function(){
+$app->get("/".DIR_ADMIN."/system/sql-to-class", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $page = new AdminPage(array(
+        "header"=>true,
+        "footer"=>true
+    ));
+
+    $page->setTpl("/admin/system-sql-to-class");
+
+});
+
+$app->get("/".DIR_ADMIN."/products", function(){
+
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -225,11 +225,11 @@ $app->get("/".DIR_ADMIN."/produtos", function(){
         )
     ));
 
-    $page->setTpl("/admin/produtos");
+    $page->setTpl("/admin/products");
 
 });
 
-$app->get("/admin/permissoes", function(){
+$app->get("/admin/permissions", function(){
 
     $permisao = new AdminPage(array(
          'data'=>array(
@@ -239,13 +239,13 @@ $app->get("/admin/permissoes", function(){
         )
     ));
 
-    $permisao->setTpl("/admin/permissoes");
+    $permisao->setTpl("/admin/permissions");
 
 });
 
-$app->get("/".DIR_ADMIN."/produtos-tipos", function(){
+$app->get("/".DIR_ADMIN."/products-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -255,13 +255,13 @@ $app->get("/".DIR_ADMIN."/produtos-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/produtos-tipos");
+    $page->setTpl("/admin/products-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/documentos-tipos", function(){
+$app->get("/".DIR_ADMIN."/documents-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -272,13 +272,13 @@ $app->get("/".DIR_ADMIN."/documentos-tipos", function(){
 
     ));
 
-    $page->setTpl("/admin/documentos-tipos");
+    $page->setTpl("/admin/documents-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
+$app->get("/".DIR_ADMIN."/addresses-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -288,13 +288,13 @@ $app->get("/".DIR_ADMIN."/enderecos-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/enderecos-tipos");
+    $page->setTpl("/admin/addresses-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
+$app->get("/".DIR_ADMIN."/users-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -304,13 +304,13 @@ $app->get("/".DIR_ADMIN."/usuarios-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/usuarios-tipos");
+    $page->setTpl("/admin/users-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/historicos-tipos", function(){
+$app->get("/".DIR_ADMIN."/logs-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -320,13 +320,13 @@ $app->get("/".DIR_ADMIN."/historicos-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/historicos-tipos");
+    $page->setTpl("/admin/logs-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/formas-pagamentos", function(){
+$app->get("/".DIR_ADMIN."/forms-payments", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
    $page = new AdminPage(array(
         'data'=>array(
@@ -335,13 +335,13 @@ $app->get("/".DIR_ADMIN."/formas-pagamentos", function(){
             )
         )
     ));
-    $page->setTpl("/admin/formas-pagamento");
+    $page->setTpl("/admin/forms-payment");
 
 });
 
-$app->get("/".DIR_ADMIN."/lugares-tipos", function(){
+$app->get("/".DIR_ADMIN."/places-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -351,13 +351,13 @@ $app->get("/".DIR_ADMIN."/lugares-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/lugares-tipos");
+    $page->setTpl("/admin/places-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/cupons-tipos", function(){
+$app->get("/".DIR_ADMIN."/coupons-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -367,13 +367,13 @@ $app->get("/".DIR_ADMIN."/cupons-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/cupons-tipos");
+    $page->setTpl("/admin/coupons-types");
 
 });
 
 $app->get("/".DIR_ADMIN."/gateways", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
           'data'=>array(
@@ -387,9 +387,9 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/pedidos-status", function(){
+$app->get("/".DIR_ADMIN."/orders-status", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -399,13 +399,13 @@ $app->get("/".DIR_ADMIN."/pedidos-status", function(){
         )
     ));
 
-    $page->setTpl("/admin/pedidos-status");
+    $page->setTpl("/admin/orders-status");
 
 });
 
-$app->get("/".DIR_ADMIN."/contatos-tipos", function(){
+$app->get("/".DIR_ADMIN."/contacts-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -416,13 +416,13 @@ $app->get("/".DIR_ADMIN."/contatos-tipos", function(){
 
     ));
 
-    $page->setTpl("/admin/contatos-tipos");
+    $page->setTpl("/admin/contacts-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
+$app->get("/".DIR_ADMIN."/persons-valuesfields", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -432,13 +432,13 @@ $app->get("/".DIR_ADMIN."/pessoas-valorescampos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pessoas-valorescampos");
+    $page->setTpl("/admin/persons-valuesfields");
 
 });
 
-$app->get("/".DIR_ADMIN."/pedidosnegociacoestipos", function(){
+$app->get("/".DIR_ADMIN."/ordersnegotiationstypes", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -448,13 +448,13 @@ $app->get("/".DIR_ADMIN."/pedidosnegociacoestipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pedidosnegociacoestipos");
+    $page->setTpl("/admin/ordersnegotiationstypes");
 
 });
 
-$app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
+$app->get("/".DIR_ADMIN."/persons-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -464,23 +464,23 @@ $app->get("/".DIR_ADMIN."/pessoas-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pessoas-tipos");
+    $page->setTpl("/admin/persons-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/formas-pagamento", function(){
+$app->get("/".DIR_ADMIN."/forms-payment", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/formas-pagamento");
+    $page->setTpl("/admin/forms-payment");
 
 });
 
-$app->get("/".DIR_ADMIN."/pedidos", function(){
+$app->get("/".DIR_ADMIN."/orders", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -490,23 +490,23 @@ $app->get("/".DIR_ADMIN."/pedidos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pedidos");
+    $page->setTpl("/admin/orders");
 
 });
 
-$app->get("/".DIR_ADMIN."/fale-conosco", function(){
+$app->get("/".DIR_ADMIN."/site-contacts", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/site-contatos");
+    $page->setTpl("/admin/site-contacts");
 
 });
 
-$app->get("/".DIR_ADMIN."/carrinhos", function(){
+$app->get("/".DIR_ADMIN."/carts", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -516,33 +516,33 @@ $app->get("/".DIR_ADMIN."/carrinhos", function(){
         )
     ));
 
-    $page->setTpl("/admin/carrinhos");
+    $page->setTpl("/admin/carts");
 
 });
 
-$app->get("/".DIR_ADMIN."/cartoes-credito", function(){
+$app->get("/".DIR_ADMIN."/credit-cards", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/cartoes-credito");
+    $page->setTpl("/admin/credit-cards");
 
 });
 
-$app->get("/".DIR_ADMIN."/cupons", function(){
+$app->get("/".DIR_ADMIN."/coupons", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage();
 
-    $page->setTpl("/admin/cupons");
+    $page->setTpl("/admin/coupons");
 
 });
 
-$app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
+$app->get("/".DIR_ADMIN."/configurations-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -553,15 +553,15 @@ $app->get("/".DIR_ADMIN."/configuracoes-tipos", function(){
 
     ));
 
-    $page->setTpl("/admin/configuracoes-tipos");
+    $page->setTpl("/admin/configurations-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/arquivos", function(){
+$app->get("/".DIR_ADMIN."/files", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
-    $conf = Session::getConfiguracoes();
+    $conf = Session::getConfigurations();
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -571,16 +571,16 @@ $app->get("/".DIR_ADMIN."/arquivos", function(){
         )
     ));
 
-    $page->setTpl("/admin/arquivos", array(
+    $page->setTpl("/admin/files", array(
         'diretorio'=>$conf->getByName("UPLOAD_DIR")
     ));
 
 });
 
 
-$app->get("/".DIR_ADMIN."/cursos", function(){
+$app->get("/".DIR_ADMIN."/courses", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -590,13 +590,13 @@ $app->get("/".DIR_ADMIN."/cursos", function(){
         )
     ));
 
-    $page->setTpl("/admin/cursos");
+    $page->setTpl("/admin/courses");
 
 });
 
 $app->get("/".DIR_ADMIN."/carousels", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -610,9 +610,9 @@ $app->get("/".DIR_ADMIN."/carousels", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/carousels-tipos", function(){
+$app->get("/".DIR_ADMIN."/carousels-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
          'data'=>array(
@@ -622,13 +622,13 @@ $app->get("/".DIR_ADMIN."/carousels-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/carousels-tipos");
+    $page->setTpl("/admin/carousels-types");
 
 });
 
-$app->get("/".DIR_ADMIN."/lugares", function(){
+$app->get("/".DIR_ADMIN."/places", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -638,13 +638,13 @@ $app->get("/".DIR_ADMIN."/lugares", function(){
         )
     ));
 
-    $page->setTpl("/admin/lugares");
+    $page->setTpl("/admin/places");
 
 });
 
-$app->get("/".DIR_ADMIN."/paises", function(){
+$app->get("/".DIR_ADMIN."/countries", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -654,13 +654,13 @@ $app->get("/".DIR_ADMIN."/paises", function(){
         )
     ));
 
-    $page->setTpl("/admin/paises");
+    $page->setTpl("/admin/countries");
 
 });
 
-$app->get("/".DIR_ADMIN."/estados", function(){
+$app->get("/".DIR_ADMIN."/states", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -670,13 +670,13 @@ $app->get("/".DIR_ADMIN."/estados", function(){
         )
     ));
 
-    $page->setTpl("/admin/estados");
+    $page->setTpl("/admin/states");
 
 });
 
-$app->get("/".DIR_ADMIN."/cidades", function(){
+$app->get("/".DIR_ADMIN."/cities", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -686,13 +686,13 @@ $app->get("/".DIR_ADMIN."/cidades", function(){
         )
     ));
 
-    $page->setTpl("/admin/cidades");
+    $page->setTpl("/admin/cities");
 
 });
 
-$app->get("/".DIR_ADMIN."/pessoas-categorias-tipos", function(){
+$app->get("/".DIR_ADMIN."/persons-categories-types", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -702,13 +702,13 @@ $app->get("/".DIR_ADMIN."/pessoas-categorias-tipos", function(){
         )
     ));
 
-    $page->setTpl("/admin/pessoas-categorias-tipos");
+    $page->setTpl("/admin/persons-categories-types");
 
 });
 
 $app->get("/".DIR_ADMIN."/urls", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(
@@ -722,9 +722,9 @@ $app->get("/".DIR_ADMIN."/urls", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
+$app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $tables = SQL\Tables::listAll();
 
@@ -734,9 +734,9 @@ $app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables/:tableName", function($tableName){
+$app->get("/".DIR_ADMIN."/system/sql-to-class/tables/:tableName", function($tableName){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $table = SQL\Table::loadFromName($tableName);
 
@@ -750,9 +750,9 @@ $app->get("/".DIR_ADMIN."/sistema/sql-to-class/tables/:tableName", function($tab
 
 });
 
-$app->post("/".DIR_ADMIN."/sistema/sql-to-class/execute", function(){
+$app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if (!post('destabela')) {
         throw new Exception("Informe o nome da tabela.", 400);

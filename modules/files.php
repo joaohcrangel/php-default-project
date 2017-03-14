@@ -56,7 +56,7 @@ $app->post("/files", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $files = Files::upload($_FILES['file']);
+    $files = Files::upload($_FILES['arquivo']);
     
     echo success(array(
         'data'=>$files->getFields()

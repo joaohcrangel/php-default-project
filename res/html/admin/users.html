@@ -1,10 +1,10 @@
-<div ng-controller="listUsuarios">
+<div ng-controller="listusers">
   <div class="page bg-white">
     <div class="page-aside">
       <!-- Contacts Sidebar -->
       <div class="page-aside-inner">
         <div class="panel page-aside-section" data-load-type="round-circle">
-          <a type="button" class="btn btn-outline btn-default" id="btn-list-usuarios" style="padding: 6px 8px;font-size: 16px;line-height: 1em;margin-top: -9px;margin-right: -10px;">Todos os Usuários</a>
+          <a type="button" class="btn btn-outline btn-default" id="btn-list-users" style="padding: 6px 8px;font-size: 16px;line-height: 1em;margin-top: -9px;margin-right: -10px;">Todos os Usuários</a>
         </div>        
       </div>
     </div>
@@ -26,7 +26,7 @@
           <div class="panel-body">
 
             <table class="table tablesaw" data-tablesaw-mode="stack" data-plugin="animateList"
-            data-animate="fade" data-child="tr" id="table-usuarios-list">
+            data-animate="fade" data-child="tr" id="table-users-list">
               <thead>
                 <tr>
                   <th class="cell-60" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">
@@ -40,21 +40,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="usuario in usuarios">
+                <tr ng-repeat="user in users">
                   <td class="cell-60 responsive-hide">
                     <span class="checkbox-custom checkbox-primary checkbox-lg multi-select">
-                      <input type="checkbox" class="contacts-checkbox" id="contacts_{{usuario.idusuario}}" ng-model="usuario.checked" />
-                      <label for="contacts_{{usuario.idusuario}}"></label>
+                      <input type="checkbox" class="contacts-checkbox" id="contacts_{{user.iduser}}" ng-model="user.checked" />
+                      <label for="contacts_{{user.iduser}}"></label>
                     </span>
                   </td>
-                  <td ng-click="abrirCadastro(usuario)" class="cell-300"><span class="tablesaw-cell-content">
+                  <td ng-click="abrirCadastro(user)" class="cell-300"><span class="tablesaw-cell-content">
                     <!-- <a class="avatar" href="javascript:void(0)">
-                      <img class="img-responsive" src="{$path}/res/photos/{{usuario.desfoto}}" alt="Foto">
+                      <img class="img-responsive" src="{$path}/res/photos/{{user.desfoto}}" alt="Foto">
                     </a> -->
-                    {{usuario.despessoa}}
+                    {{user.desperson}}
                     </span>
                   </td>
-                  <td ng-click="abrirCadastro(usuario)">{{usuario.desusuario}}</td>
+                  <td ng-click="abrirCadastro(user)">{{user.desuser}}</td>
                 </tr>
               </tbody>
             </table>
@@ -64,18 +64,18 @@
       </div>
 
       <div class="site-action animation-duration-300">
-        <button type="button" class="btn-raised btn btn-success btn-floating" data-toggle="modal" data-target="#addUsuarioForm" title="Criar Novo Usuário">
+        <button type="button" class="btn-raised btn btn-success btn-floating" data-toggle="modal" data-target="#adduserForm" title="Criar Novo Usuário">
           <i class="front-icon wb-plus animation-scale-up" aria-hidden="true"></i>
           <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
         </button>
         <div class="site-action-buttons" style="top:-70px;">
-          <button ng-click="excluirUsuarios(usuarios)" type="button" class="btn-raised btn btn-danger btn-floating animation-slide-bottom animation-delay-100" title="Excluir Usuário(s)" id="btn-excluir-usuario">
+          <button ng-click="excluirusers(users)" type="button" class="btn-raised btn btn-danger btn-floating animation-slide-bottom animation-delay-100" title="Excluir Usuário(s)" id="btn-excluir-user">
             <i class="icon wb-trash" aria-hidden="true"></i>
           </button>
         </div>
       </div>
 
-      <div class="modal fade modal-success in" id="addUsuarioForm" aria-hidden="true" aria-labelledby="addUsuarioForm" role="dialog" tabindex="-1">
+      <div class="modal fade modal-success in" id="adduserForm" aria-hidden="true" aria-labelledby="adduserForm" role="dialog" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
             <form>
@@ -88,23 +88,23 @@
                   <div class="form-group">
 
                     <div class="form-group form-material">
-                      <input type="hidden" class="form-control hidden" name="idusuario" ng-model="usuarioNew.idusuario" />
+                      <input type="hidden" class="form-control hidden" name="iduser" ng-model="userNew.iduser" />
                     </div>               
 
                     <div class="form-group form-material">
                       <label>Usuário</label>
-                      <input type="text" class="form-control" name="desusuario" ng-model="usuarioNew.desusuario" />
+                      <input type="text" class="form-control" name="desuser" ng-model="userNew.desuser" />
                     </div>
 
                     <div class="form-group form-material">
                       <label>Senha</label>
-                      <input type="password" class="form-control" name="dessenha" ng-model="usuarioNew.dessenha" />
+                      <input type="password" class="form-control" name="dessenha" ng-model="userNew.dessenha" />
                     </div>                    
                   </div>
 
               </div>
               <div class="modal-footer">
-                <button class="btn btn-success btn-block" id="btnUsuarioSave" type="button" ng-click="novoUsuario(usuarioNew)">Salvar Novo Usuario</button>
+                <button class="btn btn-success btn-block" id="btnuserSave" type="button" ng-click="novouser(userNew)">Salvar Novo user</button>
               </div>
             </form>
           </div>
@@ -117,20 +117,20 @@
 
 
 <script>
-  angular.module("qda", []).controller("listUsuarios", function($scope, $http){
+  angular.module("qda", []).controller("listusers", function($scope, $http){
 
-    $scope.usuarios = [];
+    $scope.users = [];
 
-    $scope.loadUsuarios = function(){
+    $scope.loadUsers = function(){
       $.store({
         $http:$http,
         cache:false,
-        url:PATH+"/admin/usuarios/all",
-        success:function(usuarios){
+        url:PATH+"/admin/users/all",
+        success:function(users){
 
-          console.log(usuarios);
+          console.log(users);
 
-          $scope.usuarios = usuarios;
+          $scope.users = users;
 
         },
         failure:function(r){
@@ -142,15 +142,15 @@
 
     };
 
-    $scope.abrirCadastro = function(usuario){
+    $scope.abrirCadastro = function(user){
 
-      window.location.href = PATH+"/admin/usuarios"+usuario.idusuario+"/cadastro";
+      window.location.href = PATH+"/admin/users"+user.iduser+"/cadastro";
 
     };
 
-    $scope.novoUsuario = function(_data){
+    $scope.novouser = function(_data){
 
-      var $btn = $("#btnUsuarioSave");
+      var $btn = $("#btnuserSave");
 
       $btn.btnload("load");
 
@@ -162,26 +162,26 @@
 
         method:"POST",
         $http:$http,
-        url:PATH+"/admin/usuarios",
+        url:PATH+"/admin/users",
         data:data,
         success:function(r){
 
           $btn.btnload("unload");
 
-          $scope.usuario = r.data;
+          $scope.user = r.data;
 
-          $scope.usuarioNew = {};
+          $scope.userNew = {};
 
           $.store({
 
             $http:$http,
             cache:false,
-            url:PATH+"/admin/usuarios/all",
-            success:function(usuarios){
+            url:PATH+"/admin/users/all",
+            success:function(users){
 
               $btn.btnload("unload");
-              $("#addUsuarioForm").modal("hide");
-              $scope.usuarios = usuarios;
+              $("#adduserForm").modal("hide");
+              $scope.users = users;
 
             },
             failure:function(r){
@@ -203,11 +203,11 @@
 
     };
 
-    $scope.excluirUsuarios = function(usuarios){
+    $scope.excluirusers = function(users){
 
       var panel = $("#panel-list");
 
-      var usuariosExcluir = usuarios.filter(function(p){
+      var usersExcluir = users.filter(function(p){
 
         return (p.checked);
 
@@ -215,9 +215,9 @@
 
       var ids = [];
 
-      usuariosExcluir.forEach(function(p){
+      usersExcluir.forEach(function(p){
 
-        ids.push(p.idusuario);
+        ids.push(p.iduser);
 
       });
 
@@ -227,7 +227,7 @@
 
         $http:$http,
         method:"DELETE",
-        url:PATH+"/admin/usuarios",
+        url:PATH+"/admin/users",
         data:{
           ids:ids.toString()
         },
@@ -237,7 +237,7 @@
 
           if(r.success){
 
-            $scope.usuarios = usuarios.filter(function(p){
+            $scope.users = users.filter(function(p){
 
               return (!p.checked);
 
@@ -258,13 +258,13 @@
 
     };
 
-    $("#btn-list-usuarios").on("click", function(){
+    $("#btn-list-users").on("click", function(){
 
-      $scope.loadUsuarios();
+      $scope.loadUsers();
 
     });
 
-    $scope.loadUsuarios();
+    $scope.loadUsers();
 
   });
 </script>

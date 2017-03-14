@@ -19,11 +19,11 @@
 
  });
 
-$app->get('/addresses/zipcode/:nrzipcode', function($nrzipcode){
+$app->get('/addresses/cep/:nrcep', function($nrcep){
 
     Permission::checkSession(Permission::ADMIN);
 
-    $address = Address::getByZipCode($nrzipcode);
+    $address = Address::getByCep($nrcep);
 
     echo success(array(
         'data'=>$address->getFields()
@@ -145,7 +145,7 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
  	Permission::checkSession(Permission::ADMIN, true);
 
  	if(!(int)$idaddress){
- 		throw new Exception("Endereço nãoo informado", 400); 		
+ 		throw new Exception("Endereço não informado", 400); 		
  	}
 
  	$address = new Address((int)$idaddress);

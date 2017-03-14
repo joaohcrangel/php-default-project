@@ -14,7 +14,7 @@ $app->get('/logs-types',function(){
 	}
 
 	if (count($where) > 0) {
-		$where = ' WHERE '.implode(' AD ', $where);
+		$where = ' WHERE '.implode(' AND ', $where);
 	} else {
 		$where = '';
 	}
@@ -72,11 +72,5 @@ $app->delete("/logs-types/:idlogtype", function($idlogtype){
 	echo success();
 
 });
-
-
-
-
-
-
  
 ?>

@@ -75,13 +75,13 @@ $app->delete("/cities", function(){
 	foreach ($ids as $idcity) {
 
 		if(!(int)$idcity){
-			throw new Exception("cidade não encontrado", 400);		
+			throw new Exception("Cidade não informada", 400);		
 		}
 
 		$city = new City((int)$idcity);
 
 		if(!(int)$city->getidcity() > 0){
-			throw new Exception("cidade não encontrado", 404);		
+			throw new Exception("Cidade não encontrada", 404);		
 		}
 
 		$city->remove();

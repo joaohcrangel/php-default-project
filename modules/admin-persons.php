@@ -1,6 +1,6 @@
 <?php 
 
-$app->get("/".DIR_ADMIN."/persons-criar", function(){
+$app->get("/".DIR_ADMIN."/persons-create", function(){
 
    Permission::checkSession(Permission::ADMIN, true);
 

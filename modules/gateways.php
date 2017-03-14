@@ -14,7 +14,7 @@ $app->get("/gateways/all", function(){
     }
 
     if (count($where) > 0) {
-        $where = ' WHERE '.implode(' AD ', $where);
+        $where = ' WHERE '.implode(' AND ', $where);
     } else {
         $where = '';
     }

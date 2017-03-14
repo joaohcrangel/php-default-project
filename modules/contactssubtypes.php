@@ -1,6 +1,6 @@
 <?php 
   $app->get("/contactssubtypes",function(){
-   $contact =  ContactsSubtypes::listAll();
+   $contact =  ContactsSubTypes::listAll();
 
    if ((int)get('idcontacttype') > 0) {
 

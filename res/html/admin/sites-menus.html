@@ -22,23 +22,23 @@
         </div>
     </div>
 </div>
-<script id="tpl-panel-permissoes-li"  type="text/x-handlebars-template">
+<script id="tpl-panel-permissions-li"  type="text/x-handlebars-template">
 <li class="list-group-item">
     <div class="checkbox-custom checkbox-primary">
-        <input type="checkbox" id="inputSchedule-{{idpermissao}}" value="{{idpermissao}}" name="inputCheckboxesSchedule">
-        <label for="inputSchedule-{{idpermissao}}">
+        <input type="checkbox" id="inputSchedule-{{idpermission}}" value="{{idpermission}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-{{idpermission}}">
             <span>
-                {{despermissao}}
+                {{despermission}}
             </span>
         </label>
     </div>
 </li>
 </script>
-<script id="tpl-panel-usuarios-li" type="text/x-handlebars-template">
+<script id="tpl-panel-users-li" type="text/x-handlebars-template">
 <li class="list-group-item">
     <div class="checkbox-custom checkbox-primary">
-        <input type="checkbox" id="inputSchedule-{{idusuario}}" value="{{idusuario}}" name="inputCheckboxesSchedule">
-        <label for="inputSchedule-{{idusuario}}">
+        <input type="checkbox" id="inputSchedule-{{iduser}}" value="{{iduser}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-{{iduser}}">
             <div class="media">
                 <div class="media-left">
                     <a class="avatar" href="javascript:void(0)">
@@ -47,10 +47,10 @@
                 </div>
                 <div class="media-body">
                     <div>
-                        <a class="name" href="javascript:void(0)">{{despessoa}}</a>
+                        <a class="name" href="javascript:void(0)">{{desperson}}</a>
                     </div>
                     <small>
-                        {{despermissao}}
+                        {{despermission}}
                     </small>
                 </div>
             </div>
@@ -67,27 +67,27 @@
   <div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs" id="menu-tabs">
     <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
     	<li class="nav-item" role="presentation">
-            <a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados"
+            <a class="nav-link active" data-toggle="tab" href="#tabMenuData" aria-controls="tabMenuData"
             role="tab">
       <i class="icon md-edit" aria-hidden="true"></i> Editar Menu
     </a>
         </li>
         
         <li class="nav-item" role="presentation">
-            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplPermissoesLi" data-ul-url="{$path}/sitesmenus/{{idmenu}}/permissoes" href="#tabMenuPermissoes" aria-controls="tabMenuPermissoes"
+            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplPermissionsLi" data-ul-url="{$path}/sitesmenus/{{idmenu}}/permissions" href="#tabMenuPermissions" aria-controls="tabMenuPermissions"
             role="tab">
       <i class="icon md-lock" aria-hidden="true"></i> Permissões
     </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplUsuariosLi" data-ul-url="{$path}/sitesmenus/{{idmenu}}/usuarios" href="#tabMenuUsuarios" aria-controls="tabMenuUsuarios"
+            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplUsersLi" data-ul-url="{$path}/sitesmenus/{{idmenu}}/users" href="#tabMenuUsers" aria-controls="tabMenuUsers"
             role="tab">
       <i class="icon md-accounts" aria-hidden="true"></i> Usuários
     </a>
         </li>
     </ul>
     <div class="tab-content p-t-15">
-        <div class="tab-pane active" id="tabMenuDados" role="tabpanel">
+        <div class="tab-pane active" id="tabMenuData" role="tabpanel">
             <div class="panel">
             	<form id="menu-editar">
             		<div class="form-group form-material" data-plugin="formMaterial">
@@ -99,8 +99,8 @@
 	                  <input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação">
 	                </div>
 	                <div class="form-group form-material" data-plugin="formMaterial">
-	                  <label class="form-control-label" for="desicone">Icone</label>
-	                  <input type="text" class="form-control" id="desicone" name="desicone" placeholder="Icone">
+	                  <label class="form-control-label" for="desicon">Icone</label>
+	                  <input type="text" class="form-control" id="desicon" name="desicon" placeholder="Icone">
 	                </div>
 	                <div class="form-group form-material p-b-10">
                       <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
@@ -109,14 +109,14 @@
             	</form>                    
             </div>
         </div>
-        <div class="tab-pane" id="tabMenuUsuarios" role="tabpanel">
+        <div class="tab-pane" id="tabMenuUsers" role="tabpanel">
             <div class="panel">
                 <ul class="list-group list-group-full list-group-dividered">
                     
                 </ul>
             </div>
         </div>
-        <div class="tab-pane" id="tabMenuPermissoes" role="tabpanel">
+        <div class="tab-pane" id="tabMenuPermissions" role="tabpanel">
             <div class="panel">
                 <ul class="list-group list-group-full list-group-dividered">
                     
@@ -145,7 +145,7 @@ init.push(function(){
     function resetMenu(callback){
 
         rest({
-            url:PATH+"/usuarios/menus/reset",
+            url:PATH+"/users/menus/reset",
             success:function(){
 
                 if (typeof callback === 'function') callback();
@@ -182,14 +182,14 @@ init.push(function(){
 
     }
 
-    function saveMenus(menus, idmenupai){
+    function saveMenus(menus, idmenufather){
 
         $.each(menus, function(index, menu){
 
             $('[data-idmenu="'+menu.idmenu+'"]').addClass('isLoading');
 
-            menu.idmenupai = idmenupai;
-            menu.nrordem = index;
+            menu.idmenufather = idmenufather;
+            menu.nrorder = index;
 
             menus_prepare.push(menu);
 
@@ -236,17 +236,17 @@ init.push(function(){
 			}
 
 			var $liParent = $li.closest('li.dd-item');
-			var idmenupai = ($liParent.length > 0)?$liParent.data('idmenu'):0;
-			var nrordem = $liParent.find('ol').find('li').length;
+			var idmenufather = ($liParent.length > 0)?$liParent.data('idmenu'):0;
+			var nrorder = $liParent.find('ol').find('li').length;
 
 			rest({
 				url:PATH+"/sitesmenus",
 				method:'POST',
 				data:{
 					idmenu:0,
-					idmenupai:idmenupai,
+					idmenufather:idmenufather,
 					desmenu:'Novo Menu',
-					nrordem:nrordem
+					nrorder:nrorder
 				},
 				success:function(r){
 
@@ -284,8 +284,8 @@ init.push(function(){
             var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
 
             var tplUl = {
-                tplUsuariosLi:Handlebars.compile($('#tpl-panel-usuarios-li').html()),
-                tplPermissoesLi:Handlebars.compile($('#tpl-panel-permissoes-li').html())
+                tplUsersLi:Handlebars.compile($('#tpl-panel-users-li').html()),
+                tplPermissionsLi:Handlebars.compile($('#tpl-panel-permissions-li').html())
             };
 			
 
@@ -353,39 +353,39 @@ init.push(function(){
 
 					$('#sidePanel').html($html);
 
-                    $html.find('#tabMenuPermissoes').find('.btn-add').on('click', function(){
+                    $html.find('#tabMenuPermissions').find('.btn-add').on('click', function(){
 
                         $("body").selecionar({
                             title:"Selecionar Permissões",
-                            fieldList:'despermissao',
+                            fieldList:'despermission',
                             multiple:true,
                             cache:false,
                             btnText:"Selecionar",
-                            url:PATH+"/sitesmenus/"+$li.data('idmenu')+"/permissoes/faltantes",
-                            selected: function(permissoes){
+                            url:PATH+"/sitesmenus/"+$li.data('idmenu')+"/permissions/missing",
+                            selected: function(permissions){
                                 
-                                var idpermissao = [];
+                                var idpermission = [];
 
-                                $.each(permissoes, function(){
-                                    idpermissao.push(this.idpermissao);
+                                $.each(permissions, function(){
+                                    idpermission.push(this.idpermission);
                                 });
 
-                                if (permissoes.length > 0) {
+                                if (permissions.length > 0) {
 
                                     rest({
-                                        url:PATH+"/sitesmenus/"+$li.data('idmenu')+"/permissoes",
+                                        url:PATH+"/sitesmenus/"+$li.data('idmenu')+"/permissions",
                                         method:'POST',
                                         data:{
-                                            idpermissao:idpermissao.toString()
+                                            idpermission:idpermission.toString()
                                         },
                                         success:function(r){
 
                                             resetMenu(function(){
 
-                                                var $ul = $html.find('#tabMenuPermissoes').find('ul');
+                                                var $ul = $html.find('#tabMenuPermissions').find('ul');
 
-                                                $.each(r.data, function(index, permissao){
-                                                    $ul.append($(tplUl.tplPermissoesLi(permissao)));
+                                                $.each(r.data, function(index, permission){
+                                                    $ul.append($(tplUl.tplPermissionsLi(permission)));
                                                 });  
 
                                             });                                                                                      
@@ -400,26 +400,26 @@ init.push(function(){
 
                     });
 
-                    $html.find('#tabMenuPermissoes').find('.btn-delete').on('click', function(){
+                    $html.find('#tabMenuPermissions').find('.btn-delete').on('click', function(){
 
-                        var idpermissao = [];
+                        var idpermission = [];
                         var $btn = $(this);
 
                         $btn.closest('.panel').find('input:checked').each(function(){
 
-                            idpermissao.push(this.value);
+                            idpermission.push(this.value);
 
                         });
 
-                        if (idpermissao.length > 0) {
+                        if (idpermission.length > 0) {
 
                             $btn.btnload('load');
 
                             rest({
-                                url:PATH+"/sitesmenus/"+$li.data('idmenu')+"/permissoes",
+                                url:PATH+"/sitesmenus/"+$li.data('idmenu')+"/permissions",
                                 method:'DELETE',
                                 data:{
-                                    idpermissao:idpermissao.toString()
+                                    idpermission:idpermission.toString()
                                 },
                                 success:function(r){
 
@@ -460,9 +460,9 @@ init.push(function(){
 
                                     $ul.html('');
 
-                                    $.each(r.data, function(index, usuario){
+                                    $.each(r.data, function(index, user){
 
-                                        $ul.append(tplUl[$tab.data('ul-tpl')](usuario));
+                                        $ul.append(tplUl[$tab.data('ul-tpl')](user));
 
                                     });
 

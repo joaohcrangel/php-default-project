@@ -1,0 +1,364 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
+<style>
+#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+  margin-left: 310px;
+}
+#pessoa-footer {
+  height: 39px;
+}
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);
+}
+</style>
+<div class="page bg-white">
+  <!-- Mailbox Sidebar -->
+  <div class="page-aside">
+    <div class="page-aside-switch">
+      <i class="icon md-chevron-left" aria-hidden="true"></i>
+      <i class="icon md-chevron-right" aria-hidden="true"></i>
+    </div>
+    <div class="page-aside-inner page-aside-scroll">
+      <div data-role="container">
+        <div data-role="content">
+          <section class="page-aside-section p-t-0">
+            <div class="panel-primary panel-line">
+              <div class="panel-heading">
+                <h3 class="panel-title">Filtrar Pessoas</h3>
+              </div>
+              <form id="form-filtros" class="p-x-25">
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label" for="despessoa">Nome</label>
+                  <input type="text" class="form-control" name="despessoa" id="despessoa">
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label" for="desemail">E-mail</label>
+                  <input type="text" class="form-control" name="desemail" id="desemail">
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label" for="descpf">CPF</label>
+                  <input type="text" class="form-control" name="descpf" id="descpf">
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label" for="destelefone">Telefone</label>
+                  <input type="text" class="form-control" name="destelefone" id="destelefone">
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label" for="idpessoatipo">Tipo</label>
+                  <select name="idpessoatipo" id="idpessoatipo" class="form-control"></select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+              </form>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!---page-aside-inner-->
+  </div>
+  <!-- Mailbox Content -->
+  <div class="page-main">
+    <!-- Mailbox Header -->
+    <div class="page-header p-0">
+      <div class="btn-group" id="actions-buttons"></div>
+    </div>
+    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+      <div style="border-bottom: #e0e0e0 1px solid;">
+        <div class="panel panel-bordered overflow-auto" data-auto-height="-291">
+          <table id="lista" class="table table-striped" data-plugin="animateList" data-animate="fade"
+          data-child="tr">
+            <tbody>
+              
+            </tbody>
+          </table>
+        </div>
+        <!-- pagination -->
+      <div id="paginacao"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer id="pessoa-footer" class="site-footer p-0"></footer>
+<script id="tpl-footer" type="text/x-handlebars-template">
+  <div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div>
+</script>
+<script id="tpl-row" type="text/x-handlebars-template">
+  <tr data-url="{$path}/admin/pessoas/{{idpessoa}}" data-toggle="slidePanel">
+    <td class="cell-60">
+      <span class="checkbox-custom checkbox-primary checkbox-lg">
+        <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
+        />
+        <label for="mail_mid_1"></label>
+      </span>
+    </td>
+    <!--
+    <td class="cell-60 responsive-hide">
+      <a class="avatar" href="javascript:void(0)">
+        <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/5.jpg" alt="...">
+      </a>
+    </td>
+    -->
+    <td>
+      <div class="content">
+        <div class="title">{{despessoa}}</div>
+        <div class="abstract">{{desemail}}</div>
+      </div>
+    </td>
+    <td class="cell-30 responsive-hide">
+    </td>
+    <td class="cell-130">
+      <div class="time">{{despessoatipo}}</div>
+    </td>
+  </tr>
+</script>
+<script>
+init.push(function(){
+
+  window.pagina = 1;
+
+  var table = new Table({
+    id:'lista',
+    listeners:{
+      selectionchange:function(checked, input, tr, event){
+
+          $('#btn-pessoa-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
+
+      }
+    }
+  });
+
+  var tpl = {
+    row:Handlebars.compile($("#tpl-row").html()),
+    footer:Handlebars.compile($("#tpl-footer").html())
+  };
+
+  $("[name=idpessoatipo]").combobox({
+    url:PATH+"/pessoas-tipos",
+    displayField:"despessoatipo",
+    valueField:"idpessoatipo",
+    autoComplete:true
+  });
+
+  $("#pessoa-footer").html(tpl.footer({
+    total:0
+  }));
+
+  $("#form-filtros [type=submit]").on("click", function(e){
+
+    e.preventDefault();
+
+    $('.page-aside-switch:visible').trigger('click');
+
+    consultar();
+
+  });
+
+  $("#form-filtros input").on("keyup", function(e){
+
+    if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+
+  });
+
+  function atualizarPagina() {
+    consultar(window.pagina);
+  }
+
+  function consultar(pagina) {
+
+    window.pagina = pagina;
+
+    var panel = System.getPanelApi($('#mailContent .panel'));
+
+    panel.load();
+
+    if (!pagina) pagina = 1;
+    var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
+    data.limite = Math.floor((window.innerHeight-291)/53);
+    data.limite = (data.limite<5)?5:data.limite;
+    rest({
+      url:PATH+"/pessoas",
+      data:data,
+      success:function(r){
+
+        renderPessoas(r.data);
+
+        var $footer = $("#pessoa-footer");
+
+        $footer.html(tpl.footer(r));
+
+        panel.done();
+
+        if (r.total > 0) {
+
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage: r.currentPage,
+            itemsPerPage: r.itensPerPage,
+            onChange: function(a){
+              
+              window.pagina = a;
+              consultar(a);
+
+            }
+          });
+
+          $("#paginacao").show().asPaginator(r.total, config);
+
+        } else {
+
+          $("#paginacao").hide();
+
+        }
+
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+
+  }
+
+  function renderPessoas(lista) {
+
+    var $lista = $("#lista");
+    var $tbody = $lista.find("tbody");
+
+    $tbody.html("");
+
+    if (lista instanceof Array && lista.length) {
+
+      $.each(lista, function(index, pessoa){
+
+        var $tr = $(tpl.row(pessoa));
+
+        $tr.data('pessoa', pessoa);
+
+        $tbody.append($tr);
+
+      });
+
+      System.initSlidePanel($tbody);
+
+      $tbody.find('.selectable-item').on('click', function(e){
+
+        e.stopPropagation();
+        return true;
+
+      });
+
+      table.init();
+
+    }
+
+  }
+
+  function deletePessoa(index, ids, callback, f){
+
+      if (index >= ids.length) {
+        if (typeof callback === 'function') callback();
+      } else {
+
+          rest({
+              url:PATH+"/pessoas/"+ids[index],
+              method:'DELETE',
+              success:function(r){
+
+                  deletePessoa(++index, ids, callback);
+
+              },
+              failure:function(e){
+                f(e);
+              }
+          });
+
+      }
+
+  }
+
+  new ToolBar({
+    id:"actions-buttons",
+    buttons:[{
+      text:"Cadastrar",
+      icon:"md-plus",
+      cls:"btn-success",
+      listeners:{
+        click:function(btn, e){
+          
+          System.openSlidePanel({
+            url:PATH+"/admin/pessoas-criar"
+          });
+
+        }
+      }
+    },{
+      text:"Excluir",
+      id:"btn-pessoa-delete",
+      icon:"md-delete",
+      disabled:true,
+      handler:function(btn, e){
+
+        var selecteds = [];
+        $.each(table.getRowsSelecteds(), function(){
+          selecteds.push($(this).data('pessoa'));
+        });
+
+        if (selecteds.length) {
+
+          System.confirm('Deseja realmente excluir a(s) '+selecteds.length+' pessoa(s)?', function(r, s, f){
+
+            if (r === true) {
+
+              var ids = [];
+
+              $.each(selecteds, function(){
+                ids.push(this.idpessoa);
+              });
+
+              deletePessoa(0, ids, function(){
+
+                atualizarPagina();
+                s();
+
+              }, f);       
+
+            } else {
+
+              f();
+
+            }
+
+          });
+
+        }
+
+      }
+    }]
+  });
+
+  consultar(window.pagina);
+
+  window.atualizarPagina = atualizarPagina;
+  window.consultar = consultar;
+
+});
+</script>

@@ -26,7 +26,7 @@
           <div class="panel-body">
 
             <table class="table tablesaw" data-tablesaw-mode="stack" data-plugin="animateList"
-            data-animate="fade" data-child="tr" id="table-usuarios-list">
+            data-animate="fade" data-child="tr" id="table-users-list">
               <thead>
                 <tr>
                   <th class="cell-60" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">
@@ -43,7 +43,7 @@
                 <tr ng-repeat="user in users">
                   <td class="cell-60 responsive-hide">
                     <span class="checkbox-custom checkbox-primary checkbox-lg multi-select">
-                      <input type="checkbox" class="contacts-checkbox" id="contacts_{{user.iduser}}" ng-model="usuario.checked" />
+                      <input type="checkbox" class="contacts-checkbox" id="contacts_{{user.iduser}}" ng-model="user.checked" />
                       <label for="contacts_{{user.iduser}}"></label>
                     </span>
                   </td>
@@ -51,7 +51,7 @@
                     <!-- <a class="avatar" href="javascript:void(0)">
                       <img class="img-responsive" src="{$path}/res/photos/{{user.desfoto}}" alt="Foto">
                     </a> -->
-                    {{user.despessoa}}
+                    {{user.desperson}}
                     </span>
                   </td>
                   <td ng-click="abrirCadastro(user)">{{user.desuser}}</td>
@@ -69,7 +69,7 @@
           <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
         </button>
         <div class="site-action-buttons" style="top:-70px;">
-          <button ng-click="excluirUsers(users)" type="button" class="btn-raised btn btn-danger btn-floating animation-slide-bottom animation-delay-100" title="Excluir Usuário(s)" id="btn-excluir-usuario">
+          <button ng-click="excluirUsers(users)" type="button" class="btn-raised btn btn-danger btn-floating animation-slide-bottom animation-delay-100" title="Excluir Usuário(s)" id="btn-excluir-user">
             <i class="icon wb-trash" aria-hidden="true"></i>
           </button>
         </div>
@@ -119,16 +119,16 @@
 <script>
   angular.module("qda", []).controller("listUsers", function($scope, $http){
 
-    $scope.usuarios = [];
+    $scope.users = [];
 
     $scope.loadUsers = function(){
       $.store({
         $http:$http,
         cache:false,
         url:PATH+"/admin/users/all",
-        success:function(usuarios){
+        success:function(users){
 
-          console.log(usuarios);
+          console.log(users);
 
           $scope.users = users;
 
@@ -142,7 +142,7 @@
 
     };
 
-    $scope.abrirCadastro = function(usuario){
+    $scope.abrirCadastro = function(user){
 
       window.location.href = PATH+"/admin/users"+user.iduser+"/cadastro";
 
@@ -177,7 +177,7 @@
             $http:$http,
             cache:false,
             url:PATH+"/admin/users/all",
-            success:function(usuarios){
+            success:function(users){
 
               $btn.btnload("unload");
               $("#addUserForm").modal("hide");
@@ -203,11 +203,11 @@
 
     };
 
-    $scope.excluirUsuarios = function(usuarios){
+    $scope.excluirUsers = function(users){
 
       var panel = $("#panel-list");
 
-      var usuariosExcluir = usuarios.filter(function(p){
+      var usersExcluir = users.filter(function(p){
 
         return (p.checked);
 
@@ -215,7 +215,7 @@
 
       var ids = [];
 
-      usuariosExcluir.forEach(function(p){
+      usersExcluir.forEach(function(p){
 
         ids.push(p.iduser);
 

@@ -18,7 +18,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="deslugartipo">
+	                  <input type="text" class="form-control" name="desplacetype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -32,7 +32,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-lugares-tipos" data-auto-height="-179">
+				<div class="panel" id="panel-places-types" data-auto-height="-179">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							
@@ -65,7 +65,7 @@
 	</div>
 	<div class="site-action">
 		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-		data-url="{$path}/panel/lugares-tipos-criar" data-toggle="slidePanel">
+		data-url="{$path}/panel/places-types-create" data-toggle="slidePanel">
 			<i class="front-icon md-plus animation-scale-up" aria-hidden="true">
 			</i>
 			<i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -73,39 +73,39 @@
 		</button>
 	</div>
 </div>
-<script id="tpl-lugares-tipos" type="/x-handlebars-temprate">
-<tr data-idlugartipo="{{idlugartipo}}">
-	<td>{{deslugartipo}}</td>
+<script id="tpl-places-types" type="/x-handlebars-temprate">
+<tr data-idplacetype="{{idplacetype}}">
+	<td>{{desplacetype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/lugares-tipos/{{idlugartipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/places-types/{{idplacetype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-lugartipo icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-placetype icon wb-trash">
       	</button>
 	</td>
 	</tr>
 	</script>
 	<script>
 	init.push(function(){
-	var panel = System.getPanelApi($("#panel-lugares-tipos"));
+	var panel = System.getPanelApi($("#panel-places-types"));
 
-	var $tbody = $("#panel-lugares-tipos tbody");
+	var $tbody = $("#panel-places-types tbody");
 
-	var $tplLugaresTipos = Handlebars.compile($("#tpl-lugares-tipos").html());
+	var $tplPlacesTypes = Handlebars.compile($("#tpl-places-types").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     e.preventDefault();
 
-    loadLugaresTipos();
+    loadPlacesTypes();
     
   });
 
-	function loadLugaresTipos(pagina){
+	function loadPlacesTypes(pagina){
 
 		if(!pagina) pagina =1;
 
 		$(".refresh").on("click", function(){
-			loadLugaresTipos();
+			loadPlacesTypes();
 
 		});
 
@@ -118,7 +118,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/lugares-tipos",
+			url:PATH+"/places-types",
 			data:params,
 			success:function(r){
 
@@ -126,7 +126,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplLugaresTipos(row));
+					$tbody.append($tplPlacesTypes(row));
 
 				});
 
@@ -135,7 +135,7 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadLugaresTipos(page);
+            			loadPlacesTypes(page);
          			}
         		});
 
@@ -147,23 +147,23 @@
 
 				panel.done();
 
-				$(".btn-excluir-lugartipo").on("click", function(e){
+				$(".btn-excluir-placetype").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idlugartipo = $btn.closest("tr").data("idlugartipo");
+					var idplacetype = $btn.closest("tr").data("idplacetype");
 					System.confirm('Deseja remover esse lugar?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/lugares-tipos/"+idlugartipo,
+				          		url: PATH+"/places-types/"+idplacetype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadLugaresTipos();
+				           		 	loadPlacesTypes();
 				            		s();
 
 				          		},
@@ -190,5 +190,5 @@
 		});
 	};
 
-    loadLugaresTipos();
+    loadPlacesTypes();
 });</script>

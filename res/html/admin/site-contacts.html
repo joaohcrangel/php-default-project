@@ -2,7 +2,7 @@
 	<div class="page-content">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-site-contatos">
+				<div class="panel" id="panel-site-contacts">
 					<div class="panel-heading">
 						<h3 class="panel-title">Fale conosco</h3>
 						<div class="panel-actions">
@@ -30,14 +30,14 @@
 	</div>
 
 </div>
-<script id="tpl-site-contato-row" type="text/x-handlebars-template">
-<tr data-idsitecontato="{{idsitecontato}}">
-	<td>{{despessoa}}</td>
-	<td>{{desmensagemabreviada}}</td>
+<script id="tpl-site-contact-row" type="text/x-handlebars-template">
+<tr data-idsitecontact="{{idsitecontact}}">
+	<td>{{desperson}}</td>
+	<td>{{desmessageabbreviated}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/sites-contatos/{{idsitecontato}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/sites-contacts/{{idsitecontact}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-site-contato icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-site-contact icon wb-trash">
       	</button>
 	</td>
 </tr>
@@ -46,22 +46,22 @@
 
 init.push(function(){
 
-	var panel = System.getPanelApi($("#panel-site-contatos"));
+	var panel = System.getPanelApi($("#panel-site-contacts"));
 
-	var $tbody = $("#panel-site-contatos tbody");
+	var $tbody = $("#panel-site-contacts tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-site-contato-row").html());
+	var $tpl = Handlebars.compile($("#tpl-site-contact-row").html());
 
-	function loadSiteContatos(){
+	function loadSiteContacts(){
 
 		$(".refresh").on("click", function(){
-			loadSiteContatos();
+			loadSiteContacts();
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/site-contatos/all",
+			url:PATH+"/site-contacts/all",
 			success:function(r){
 
 				$tbody.html('');
@@ -76,11 +76,11 @@ init.push(function(){
 
 				panel.done();
 
-				$(".btn-excluir-site-contato").on("click", function(e){
+				$(".btn-excluir-site-contact").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idsitecontato = $btn.closest("tr").data("idsitecontato");
+					var idsitecontact = $btn.closest("tr").data("idsitecontact");
 
 					System.confirm('Deseja remover essa mensagem?', function(b){
 				      	if (b) {
@@ -88,12 +88,12 @@ init.push(function(){
 					        System.load();
 
 					        rest({
-					          url: PATH+"/site-contatos/"+idsitecontato,
+					          url: PATH+"/site-contacts/"+idsitecontact,
 					          method:'DELETE',
 					          success: function(r){
 
 					            System.done();
-					            loadSiteContatos();
+					            loadSiteContacts();
 					            System.success("Mensagem excluída com sucesso");
 
 					          },
@@ -117,7 +117,7 @@ init.push(function(){
 
 	};
 
-	loadSiteContatos();
+	loadSiteContacts();
 
 });
 

@@ -13,7 +13,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#estado-footer {
+#state-footer {
   height: 39px;
 }
 .page {
@@ -39,7 +39,7 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
-                  <input type="text" class="form-control" name="desestado">
+                  <input type="text" class="form-control" name="desstate">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -65,12 +65,12 @@
           </table>
         </div>
         <!-- pagination -->
-        <div id="paginacao"></div>
+        <div id="pagination"></div>
       </div>      
     </div>
   </div>
 </div>
-<footer id="estado-footer" class="site-footer p-0"></footer>
+<footer id="state-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -84,7 +84,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idestado="{{idestado}}" data-url="{$path}/panel/estados/{{idestado}}" data-toggle="slidePanel">
+  <tr data-idstate="{{idstate}}" data-url="{$path}/panel/states/{{idstate}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -92,14 +92,14 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{desestado}}</td>
+    <td>{{desstate}}</td>
   </tr>
 </script>
 
 <script>
 init.push(function(){
 
-  var tplEstado = Handlebars.compile($("#tpl-row").html());
+  var tplState = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -107,13 +107,13 @@ init.push(function(){
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#estado-footer");
+  var $footer = $("#state-footer");
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadEstados();
+    loadStates();
 
   });
 
@@ -121,7 +121,7 @@ init.push(function(){
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadEstados(pagina){
+  function loadStates(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -134,7 +134,7 @@ init.push(function(){
     data.limite = (data.limite<5)?5:data.limite;
 
     rest({
-      url:PATH+"/estados/all",
+      url:PATH+"/states/all",
       data:data,
       success:function(r){
 
@@ -144,7 +144,7 @@ init.push(function(){
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplEstado(row));
+            var $tr = $(tplState(row));
 
             $tbody.append($tr);
 
@@ -154,7 +154,7 @@ init.push(function(){
 
               var disabled = (checked.length > 0) ? false : true;
 
-              $("#btn-estado-excluir").prop("disabled", disabled);
+              $("#btn-state-excluir").prop("disabled", disabled);
 
             });
 
@@ -176,11 +176,11 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadEstados(page);
+              loadStates(page);
             }
           });
 
-          $("#paginacao").asPaginator(r.total, config);
+          $("#pagination").asPaginator(r.total, config);
 
           $panel.done();
 
@@ -208,7 +208,7 @@ init.push(function(){
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/estado-criar"
+              url:PATH+"/panel/state-create"
             });
 
           }
@@ -216,7 +216,7 @@ init.push(function(){
       },{
         text:"Excluir",
         icon:"md-delete",
-        id:"btn-estado-excluir",
+        id:"btn-state-excluir",
         cls:"btn-default",
         disabled:true,
         listeners:{
@@ -225,23 +225,23 @@ init.push(function(){
             var ids = [];
 
             $("#lista tr [type=checkbox]:checked").each(function(){              
-              ids.push($(this).closest("tr").data("idestado"));
+              ids.push($(this).closest("tr").data("idstate"));
             });
           
-            System.confirm("Deseja remover os estados?", function(b, s, f){
+            System.confirm("Deseja remover os states?", function(b, s, f){
 
               if(b){
 
                 rest({
-                  url:PATH+"/estados",
+                  url:PATH+"/states",
                   method:"DELETE",
                   data:{
                     ids:ids.toString()
                   },
                   success:function(){
                     System.done();
-                    System.success("Estado(s) excluído com sucesso");
-                    loadEstados();
+                    System.success("state(s) excluído com sucesso");
+                    loadStates();
                   },
                   failure:function(r){
                     System.done();
@@ -260,7 +260,7 @@ init.push(function(){
       }]
   });
 
-  loadEstados();
+  loadStates();
 
 });
 </script>

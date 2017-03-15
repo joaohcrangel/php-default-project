@@ -52,7 +52,6 @@ $app->post('/permissions', function () {
 	echo success(array(
 		'data'=>$permission->getFields()
 	));
-
 });
 
 $app->post('/permissions/:idpermission', function ($idpermission) {

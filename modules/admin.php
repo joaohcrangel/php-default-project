@@ -20,7 +20,7 @@ $app->get("/".DIR_ADMIN."/sessionid", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/", function(){
+$app->get("/".DIR_ADMIN."/arquivos", function(){
 
     header('Location: /'.DIR_ADMIN);
     exit;
@@ -202,7 +202,7 @@ $app->get("/".DIR_ADMIN."/sistema/usuarios", function(){
 
 $app->get("/".DIR_ADMIN."/sistema/sql-to-class", function(){
 
-    // Permissao::checkSession(Permissao::ADMIN, true);
+    Permissao::checkSession(Permissao::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,

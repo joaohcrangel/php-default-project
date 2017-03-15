@@ -50,19 +50,19 @@
 	    <form>
 		    <div class="modal-body">
 		    	<div class="form-group form-material floating" data-plugin="formMaterial">
-                  <select class="form-control" name="idconfiguracaotipo"></select>
+                  <select class="form-control" name="idconfigurationtype"></select>
                   <label class="floating-label">Tipo</label>
                 </div>
 		      	<div class="form-group form-material floating" data-plugin="formMaterial">
-                  <input type="text" class="form-control empty" name="desconfiguracao">
+                  <input type="text" class="form-control empty" name="desconfiguration">
                   <label class="floating-label">Nome</label>
                 </div>
                 <div class="form-group form-material floating" data-plugin="formMaterial">
-                  <input type="text" class="form-control empty" name="desdescricao">
+                  <input type="text" class="form-control empty" name="desdescription">
                   <label class="floating-label">Descrição</label>
                 </div>
                 <div class="form-group form-material floating" data-plugin="formMaterial">
-                  <input type="text" class="form-control empty" name="desvalor">
+                  <input type="text" class="form-control empty" name="desvalue">
                   <label class="floating-label">Valor</label>
                 </div>
 		    </div>
@@ -74,42 +74,42 @@
 	  </div>
 	</div>
 </div>
-<script id="tpl-configuracoes-string" type="text/x-handlebars-template">
+<script id="tpl-configurations-string" type="text/x-handlebars-template">
 <form>
 	<div class="form-group">
-		<input type="text" class="form-control" name="desvalor" autocomplete="off" value="{{desvalor}}">
+		<input type="text" class="form-control" name="desvalue" autocomplete="off" value="{{desvalue}}">
 	</div>
 </form>
 </script>
-<script id="tpl-configuracoes-int" type="text/x-handlebars-template">
+<script id="tpl-configurations-int" type="text/x-handlebars-template">
 <form>
 	<div class="form-group">
-		<input type="number" step="1" class="form-control" name="desvalor" autocomplete="off" value="{{desvalor}}">
+		<input type="number" step="1" class="form-control" name="desvalue" autocomplete="off" value="{{desvalue}}">
 	</div>
 </form>
 </script>
-<script id="tpl-configuracoes-float" type="text/x-handlebars-template">
+<script id="tpl-configurations-float" type="text/x-handlebars-template">
 <form>
 	<div class="form-group">
-		<input  type="number" step="0.1" class="form-control" name="desvalor" autocomplete="off" value="{{desvalor}}">
+		<input  type="number" step="0.1" class="form-control" name="desvalue" autocomplete="off" value="{{desvalue}}">
 	</div>
 </form>
 </script>
-<script id="tpl-configuracoes-bool" type="text/x-handlebars-template">
+<script id="tpl-configurations-bool" type="text/x-handlebars-template">
 <form>
 	<div class="form-group">
-		<input type="checkbox" class="icheckbox-primary" name="desvalor" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue"/>
+		<input type="checkbox" class="icheckbox-primary" name="desvalue" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue"/>
 	</div>
 </form>
 </script>
-<script id="tpl-configuracoes-date" type="text/x-handlebars-template">
+<script id="tpl-configurations-date" type="text/x-handlebars-template">
 <form>
 	<div class="form-group">
-		<input type="date" class="form-control" name="desvalor" value="{{desvalor}}"/>
+		<input type="date" class="form-control" name="desvalue" value="{{desvalue}}"/>
 	</div>
 </form>
 </script>
-<script id="tpl-configuracoes-object" type="text/x-handlebars-template">
+<script id="tpl-configurations-object" type="text/x-handlebars-template">
 <table class="table table-sm">
     <thead>
       <tr>
@@ -123,28 +123,28 @@
     </tbody>
     <tfoot>
     	<tr>
-			<td><input type="text" class="form-control" name="deschave"></td>
-			<td><input type="text" class="form-control" name="desvalor"></td>
+			<td><input type="text" class="form-control" name="deskey"></td>
+			<td><input type="text" class="form-control" name="desvalue"></td>
 			<td class="text-center"><button type="button" class="btn btn-pure btn-success icon md-check waves-effect"></button></td>
 		</tr>
     </tfoot>
   </table>
 </script>
-<script id="tpl-configuracoes-object-item" type="text/x-handlebars-template">
+<script id="tpl-configurations-object-item" type="text/x-handlebars-template">
 <tr>
-	<td><input type="text" class="form-control" name="deschave" value="{{key}}"></td>
-	<td><input type="text" class="form-control" name="desvalor" value="{{value}}"></td>
+	<td><input type="text" class="form-control" name="deskey" value="{{key}}"></td>
+	<td><input type="text" class="form-control" name="desvalue" value="{{value}}"></td>
 	<td class="text-center"><button type="button" class="btn btn-pure btn-danger icon md-delete waves-effect"></button></td>
 </tr>
 </script>
-<script id="tpl-configuracoes-row" type="text/x-handlebars-template">
+<script id="tpl-configurations-row" type="text/x-handlebars-template">
 <tr>
 	<td>
-		<h5 class="m-0" contenteditable="true" name="desconfiguracao">{{desconfiguracao}}</h5>
-		<small contenteditable="true" name="desdescricao">{{desdescricao}}</small>
+		<h5 class="m-0" contenteditable="true" name="desconfiguration">{{desconfiguration}}</h5>
+		<small contenteditable="true" name="desdescription">{{desdescription}}</small>
 	</td>
 	<td class="value"></td>
-	<td>{{desconfiguracaotipo}}</td>
+	<td>{{desconfigurationtype}}</td>
 	<td><button type="button" class="btn btn-delete btn-pure btn-danger icon md-delete waves-effect"></button></td>
 	<td class="desstatus">&nbsp;</td>
 </tr>
@@ -153,41 +153,41 @@
 init.push(function(){
 
 	var tpl = {
-		row:Handlebars.compile($('#tpl-configuracoes-row').html()),
-		"1":Handlebars.compile($('#tpl-configuracoes-string').html()),
-		"2":Handlebars.compile($('#tpl-configuracoes-int').html()),
-		"3":Handlebars.compile($('#tpl-configuracoes-float').html()),
-		"4":Handlebars.compile($('#tpl-configuracoes-bool').html()),
-		"5":Handlebars.compile($('#tpl-configuracoes-date').html()),
-		"6":Handlebars.compile($('#tpl-configuracoes-object').html()),
-		arrayItem:Handlebars.compile($('#tpl-configuracoes-object-item').html())
+		row:Handlebars.compile($('#tpl-configurations-row').html()),
+		"1":Handlebars.compile($('#tpl-configurations-string').html()),
+		"2":Handlebars.compile($('#tpl-configurations-int').html()),
+		"3":Handlebars.compile($('#tpl-configurations-float').html()),
+		"4":Handlebars.compile($('#tpl-configurations-bool').html()),
+		"5":Handlebars.compile($('#tpl-configurations-date').html()),
+		"6":Handlebars.compile($('#tpl-configurations-object').html()),
+		arrayItem:Handlebars.compile($('#tpl-configurations-object-item').html())
 	};
 
-	function saveConf(desvalor, $tr){
+	function saveConf(desvalue, $tr){
 
 		var data = $tr.data('conf');
 
-		switch (data.idconfiguracaotipo) {
+		switch (data.idconfigurationtype) {
 			case 6:
-			var desvalor = {};
+			var desvalue = {};
 			$tr.find('tbody').find('tr').each(function(){
 
 				var _$tr = $(this);
-				var key = _$tr.find('[name=deschave]').val();
-				var value = _$tr.find('[name=desvalor]').val();
+				var key = _$tr.find('[name=deskey]').val();
+				var value = _$tr.find('[name=desvalue]').val();
 
-				desvalor[key] = value;
+				desvalue[key] = value;
 
 			});
-			data.desvalor = JSON.stringify(desvalor);
+			data.desvalue = JSON.stringify(desvalue);
 			break;
 			default:
-			data.desvalor = desvalor;
+			data.desvalue = desvalue;
 			break;
 		}
 
-		data.desconfiguracao = $tr.find('[name=desconfiguracao]').text();
-		data.desdescricao = $tr.find('[name=desdescricao]').text();
+		data.desconfiguration = $tr.find('[name=desconfiguration]').text();
+		data.desdescription = $tr.find('[name=desdescription]').text();
 
 		if (window.timerSave) {
 			clearTimeout(window.timerSave);
@@ -197,7 +197,7 @@ init.push(function(){
 			$tr.addClass('warning').find('.desstatus').html('<i class="icon fa-spin md-refresh-alt"></i>');
 
 			rest({
-				url:PATH+"/configuracoes",
+				url:PATH+"/configurations",
 				data:data,
 				method:'POST',
 				success:function(r){
@@ -245,7 +245,7 @@ init.push(function(){
 	function carregar(callback){
 
 		rest({
-			url:PATH+"/configuracoes",
+			url:PATH+"/configurations",
 			success:function(r){
 
 				var $tbody = $('#table-configs tbody');
@@ -266,12 +266,12 @@ init.push(function(){
 
 					$tr.find('.btn-delete').on('click', function(){
 
-						System.confirm('Deseja excluir a configuração '+conf.desconfiguracao+'?', function(b, s, f){
+						System.confirm('Deseja excluir a configuração '+conf.desconfiguration+'?', function(b, s, f){
 
 							if (b) {
 
 								rest({
-									url:PATH+"/configuracoes/"+conf.idconfiguracao,
+									url:PATH+"/configurations/"+conf.idconfiguration,
 									method:'DELETE',
 									success:function(r){
 										s();
@@ -292,11 +292,11 @@ init.push(function(){
 
 					});
 
-					var $form = $(tpl[conf.idconfiguracaotipo](conf));
+					var $form = $(tpl[conf.idconfigurationtype](conf));
 
-					switch (conf.idconfiguracaotipo) {
+					switch (conf.idconfigurationtype) {
 						case 6:
-						var data = JSON.parse(conf.desvalor);
+						var data = JSON.parse(conf.desvalue);
 
 						for (var name in data) {
 
@@ -327,8 +327,8 @@ init.push(function(){
 							var _conf = $form.closest('tr').data('conf');
 
 							var $trNew = $(tpl.arrayItem({
-								key:_$tr.find('[name=deschave]').val(),
-								value:_$tr.find('[name=desvalor]').val()
+								key:_$tr.find('[name=deskey]').val(),
+								value:_$tr.find('[name=desvalue]').val()
 							}));
 
 							initEvent($trNew);
@@ -337,8 +337,8 @@ init.push(function(){
 
 							saveConf('', $form.closest('tr'));
 
-							_$tr.find('[name=deschave]').val('');
-							_$tr.find('[name=desvalor]').val('');
+							_$tr.find('[name=deskey]').val('');
+							_$tr.find('[name=desvalue]').val('');
 
 						});
 
@@ -386,10 +386,10 @@ init.push(function(){
 
 	$('#btn-refresh').trigger('click');
 
-	$('[name="idconfiguracaotipo"]').combobox({
-		url:PATH+"/configuracoes-tipos",
-		displayField:"desconfiguracaotipo",
-		valueField:"idconfiguracaotipo"
+	$('[name="idconfigurationtype"]').combobox({
+		url:PATH+"/configurations-types",
+		displayField:"desconfigurationtype",
+		valueField:"idconfigurationtype"
 	});
 
 	$('#btn-conf-add').on('click', function(){
@@ -399,7 +399,7 @@ init.push(function(){
 	});
 
 	$('#modal-add form').form({
-		url:PATH+"/configuracoes",
+		url:PATH+"/configurations",
 		success:function(r){
 			System.success('Configuração adicionada!');
 			$('#btn-refresh').trigger('click');

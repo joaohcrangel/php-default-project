@@ -15,20 +15,20 @@
     <div class="panel">
       <div class="panel-body p-t-0">
         <form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="despessoa">Nome</label>
-            <input type="text" class="form-control" id="despessoa" name="despessoa" placeholder="Digite o seu nome">
+            <label class="form-control-label" for="desperson">Nome</label>
+            <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o seu nome">
           </div>
           <div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="desusuario">Usuário</label>
-            <input type="text" class="form-control" id="desusuario" name="desusuario" placeholder="Digite o seu usuário">
+            <label class="form-control-label" for="desuser">Usuário</label>
+            <input type="text" class="form-control" id="desuser" name="desuser" placeholder="Digite o seu usuário">
           </div>
           <div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="idusuariotipo">Tipo</label>
-            <select class="form-control" id="idusuariotipo" name="idusuariotipo"></select>
+            <label class="form-control-label" for="idusertype">type</label>
+            <select class="form-control" id="idusertype" name="idusertype"></select>
           </div>
           <div class="form-group form-material" data-plugin="formMaterial">
-            <input type="checkbox" class="icheckbox-primary" id="inbloqueado" name="inbloqueado" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" />
-            <label for="inbloqueado">Bloqueado</label>
+            <input type="checkbox" class="icheckbox-primary" id="inblocked" name="inblocked" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" />
+            <label for="inblocked">Bloqueado</label>
           </div>
           <div class="form-group form-material">
             <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
@@ -45,8 +45,8 @@
   </a>
   <div class="vertical-align h-100 text-truncate">
     <div class="vertical-align-middle">
-      <div class="font-size-20 m-b-5 text-truncate">{{despessoa}}</div>
-      <div class="font-size-14 text-truncate">@{{desusuario}}</div>
+      <div class="font-size-20 m-b-5 text-truncate">{{desperson}}</div>
+      <div class="font-size-14 text-truncate">@{{desuser}}</div>
     </div>
   </div>
 </div>
@@ -55,33 +55,33 @@
 (function(){
 
   var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
-  var usuario = JSON.parse('{function="json_encode($usuario)"}');
+  var user = JSON.parse('{function="json_encode($user)"}');
 
-  usuario.despessoa = usuario.Pessoa.despessoa;
+  user.desperson = user.person.desperson;
 
-  $('#profile-header').html(tplHeader(usuario));
+  $('#profile-header').html(tplHeader(user));
 
-  $('#profile-form').formLoad(usuario);
+  $('#profile-form').formLoad(user);
 
   $('#profile-form').form({
-    url:PATH+"/usuarios/"+usuario.idusuario,
+    url:PATH+"/users/"+user.iduser,
     resetForm:false,
     success:function(r){
 
-      usuario = r.data;
-      $('#profile-form').formLoad(usuario);
-      $('#profile-header').html(tplHeader(usuario));
-      System.setUsuario(r.data);
+      user = r.data;
+      $('#profile-form').formLoad(user);
+      $('#profile-header').html(tplHeader(user));
+      System.setuser(r.data);
       System.success("Seus dados foram salvos!");
 
     }
   });
 
-  $('#idusuariotipo').combobox({
-    url:PATH+"/usuariostipos",
-    displayField:'desusuariotipo',
-    valueField:'idusuariotipo',
-    value:usuario.idusuariotipo
+  $('#idusertype').combobox({
+    url:PATH+"/userstypes",
+    displayField:'desusertype',
+    valueField:'idusertype',
+    value:user.idusertype
   });
 
 })();

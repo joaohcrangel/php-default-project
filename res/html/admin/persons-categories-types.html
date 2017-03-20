@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#pessoa-categoria-tipo-footer {
+#person-category-type-footer {
   height: 39px;
 }
 .page {
@@ -40,7 +40,7 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
-                  <input type="text" class="form-control" name="descategoria">
+                  <input type="text" class="form-control" name="descategory">
                 </div>                
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -66,12 +66,12 @@
           </table>
         </div>
          <!-- pagination -->
-        <div id="paginacao"></div>
+        <div id="pagination"></div>
       </div>      
     </div>
   </div>
 </div>
-<footer id="pessoa-categoria-tipo-footer" class="site-footer p-0"></footer>
+<footer id="person-category-type-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -85,7 +85,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idpessoa-categoria-tipo="{{idpessoa-categoria-tipo}}" data-url="{$path}/panel/pessoas-categorias-tipos/{{idcategoria}}" data-toggle="slidePanel">
+  <tr data-idperson-category-type="{{idperson-category-type}}" data-url="{$path}/panel/persons-categories-types/{{idcategory}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -93,7 +93,7 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{descategoria}}</td>
+    <td>{{descategory}}</td>
     <td>
       <!-- <button type="button" class="btn btn-primary btn-sm text-uppercase" style="border-radius:0;">Editar</button> -->
       <button type="button" class="btn btn-danger btn-sm text-uppercase" style="border-radius:0;">Remover</button>
@@ -104,7 +104,7 @@
 <script>
 init.push(function(){
 
-  var tplCategoriaTipo = Handlebars.compile($("#tpl-row").html());
+  var tplCategoryType = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -112,15 +112,15 @@ init.push(function(){
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#pessoa-categoria-tipo-footer");
+  var $footer = $("#person-category-type-footer");
 
-  var isPaginacaoCalled;
+  var ispaginationCalled;
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadCategoriasTipos();
+    loadCategoriesTypes();
 
   });
 
@@ -128,7 +128,7 @@ init.push(function(){
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadCategoriasTipos(pagina){
+  function loadCategoriesTypes(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -141,7 +141,7 @@ init.push(function(){
     data.limite = (data.limite<5)?5:data.limite;
 
     rest({
-      url:PATH+"/pessoas-categorias-tipos/all",
+      url:PATH+"/persons-categories-types/all",
       data:data,
       success:function(r){
 
@@ -151,22 +151,22 @@ init.push(function(){
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplCategoriaTipo(row));
+            var $tr = $(tplCategoryType(row));
 
             $tbody.append($tr);
 
             $tr.find(".btn-danger").on("click", function(){
 
-              System.confirm("Deseja realmente remover a categoria "+row.descategoria+"?", function(b, s, f){
+              System.confirm("Deseja realmente remover a category "+row.descategory+"?", function(b, s, f){
 
                 if(b){
 
                   rest({
-                    url:PATH+"/pessoas-categorias-tipos/"+row.idcategoria,
+                    url:PATH+"/persons-categories-types/"+row.idcategory,
                     method:"DELETE",
                     success:function(){
 
-                      s("Categoria removida com sucesso");
+                      s("category removida com sucesso");
                       $tr.remove();
                       System.done();
 
@@ -205,11 +205,11 @@ init.push(function(){
             totalPages:r.totalPages,
             totalItems:r.total,
             onChange:function(page){
-              loadCategoriasTipos(page);
+              loadCategoriesTypes(page);
             }
           });
 
-          $("#paginacao").asPaginator(r.total, config);
+          $("#pagination").asPaginator(r.total, config);
 
           $panel.done();
 
@@ -237,7 +237,7 @@ init.push(function(){
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/pessoa-categoria-tipo-criar"
+              url:PATH+"/panel/person-category-type-criar"
             });
 
           }
@@ -245,7 +245,7 @@ init.push(function(){
       }]
   });
 
-  loadCategoriasTipos();
+  loadCategoriesTypes();
 
 });
 </script>

@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
   margin-left: 310px;
 }
-#pessoa-footer {
+#person-footer {
   height: 39px;
 }
 .page {
@@ -39,8 +39,8 @@
               </div>
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label" for="despessoa">Nome</label>
-                  <input type="text" class="form-control" name="despessoa" id="despessoa">
+                  <label class="form-control-label" for="desperson">Nome</label>
+                  <input type="text" class="form-control" name="desperson" id="desperson">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label" for="desemail">E-mail</label>
@@ -51,12 +51,12 @@
                   <input type="text" class="form-control" name="descpf" id="descpf">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label" for="destelefone">Telefone</label>
-                  <input type="text" class="form-control" name="destelefone" id="destelefone">
+                  <label class="form-control-label" for="desphone">Telefone</label>
+                  <input type="text" class="form-control" name="desphone" id="desphone">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label" for="idpessoatipo">Tipo</label>
-                  <select name="idpessoatipo" id="idpessoatipo" class="form-control"></select>
+                  <label class="form-control-label" for="idpersontype">Tipo</label>
+                  <select name="idpersontype" id="idpersontype" class="form-control"></select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -89,7 +89,7 @@
     </div>
   </div>
 </div>
-<footer id="pessoa-footer" class="site-footer p-0"></footer>
+<footer id="person-footer" class="site-footer p-0"></footer>
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
@@ -101,7 +101,7 @@
   </div>
 </script>
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-url="{$path}/admin/pessoas/{{idpessoa}}" data-toggle="slidePanel">
+  <tr data-url="{$path}/admin/persons/{{idperson}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -118,14 +118,14 @@
     -->
     <td>
       <div class="content">
-        <div class="title">{{despessoa}}</div>
+        <div class="title">{{desperson}}</div>
         <div class="abstract">{{desemail}}</div>
       </div>
     </td>
     <td class="cell-30 responsive-hide">
     </td>
     <td class="cell-130">
-      <div class="time">{{despessoatipo}}</div>
+      <div class="time">{{despersontype}}</div>
     </td>
   </tr>
 </script>
@@ -139,7 +139,7 @@ init.push(function(){
     listeners:{
       selectionchange:function(checked, input, tr, event){
 
-          $('#btn-pessoa-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
+          $('#btn-person-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
 
       }
     }
@@ -150,14 +150,14 @@ init.push(function(){
     footer:Handlebars.compile($("#tpl-footer").html())
   };
 
-  $("[name=idpessoatipo]").combobox({
-    url:PATH+"/pessoas-tipos",
-    displayField:"despessoatipo",
-    valueField:"idpessoatipo",
+  $("[name=idpersontype]").combobox({
+    url:PATH+"/persons-types",
+    displayField:"despersontype",
+    valueField:"idpersontype",
     autoComplete:true
   });
 
-  $("#pessoa-footer").html(tpl.footer({
+  $("#person-footer").html(tpl.footer({
     total:0
   }));
 
@@ -196,13 +196,13 @@ init.push(function(){
     data.limite = Math.floor((window.innerHeight-291)/53);
     data.limite = (data.limite<5)?5:data.limite;
     rest({
-      url:PATH+"/pessoas",
+      url:PATH+"/persons",
       data:data,
       success:function(r){
 
-        renderPessoas(r.data);
+        renderPersons(r.data);
 
-        var $footer = $("#pessoa-footer");
+        var $footer = $("#person-footer");
 
         $footer.html(tpl.footer(r));
 
@@ -238,7 +238,7 @@ init.push(function(){
 
   }
 
-  function renderPessoas(lista) {
+  function renderPersons(lista) {
 
     var $lista = $("#lista");
     var $tbody = $lista.find("tbody");
@@ -247,11 +247,11 @@ init.push(function(){
 
     if (lista instanceof Array && lista.length) {
 
-      $.each(lista, function(index, pessoa){
+      $.each(lista, function(index, person){
 
-        var $tr = $(tpl.row(pessoa));
+        var $tr = $(tpl.row(person));
 
-        $tr.data('pessoa', pessoa);
+        $tr.data('person', person);
 
         $tbody.append($tr);
 
@@ -272,18 +272,18 @@ init.push(function(){
 
   }
 
-  function deletePessoa(index, ids, callback, f){
+  function deletePerson(index, ids, callback, f){
 
       if (index >= ids.length) {
         if (typeof callback === 'function') callback();
       } else {
 
           rest({
-              url:PATH+"/pessoas/"+ids[index],
+              url:PATH+"/persons/"+ids[index],
               method:'DELETE',
               success:function(r){
 
-                  deletePessoa(++index, ids, callback);
+                  deletePerson(++index, ids, callback);
 
               },
               failure:function(e){
@@ -305,36 +305,36 @@ init.push(function(){
         click:function(btn, e){
           
           System.openSlidePanel({
-            url:PATH+"/admin/pessoas-criar"
+            url:PATH+"/admin/persons-create"
           });
 
         }
       }
     },{
       text:"Excluir",
-      id:"btn-pessoa-delete",
+      id:"btn-person-delete",
       icon:"md-delete",
       disabled:true,
       handler:function(btn, e){
 
         var selecteds = [];
         $.each(table.getRowsSelecteds(), function(){
-          selecteds.push($(this).data('pessoa'));
+          selecteds.push($(this).data('person'));
         });
 
         if (selecteds.length) {
 
-          System.confirm('Deseja realmente excluir a(s) '+selecteds.length+' pessoa(s)?', function(r, s, f){
+          System.confirm('Deseja realmente excluir a(s) '+selecteds.length+' person(s)?', function(r, s, f){
 
             if (r === true) {
 
               var ids = [];
 
               $.each(selecteds, function(){
-                ids.push(this.idpessoa);
+                ids.push(this.idperson);
               });
 
-              deletePessoa(0, ids, function(){
+              deletePerson(0, ids, function(){
 
                 atualizarPagina();
                 s();

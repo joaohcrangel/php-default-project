@@ -18,7 +18,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="despermissao">
+	                  <input type="text" class="form-control" name="despermission">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -31,7 +31,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-permissoes" data-auto-height="-179">
+				<div class="panel" id="panel-permissions" data-auto-height="-179">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 						</h3>
@@ -62,7 +62,7 @@
 	</div>
 	<div class="site-action">
 		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-		data-url="{$path}/panel/permissao-criar" data-toggle="slidePanel">
+		data-url="{$path}/panel/permission-create" data-toggle="slidePanel">
 			<i class="front-icon md-plus animation-scale-up" aria-hidden="true">
 			</i>
 			<i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -70,39 +70,39 @@
 		</button>
 	</div>
 </div>
-<script id="tpl-permissao" type="/x-handlebars-temprate"><tr data-idpermissao="{{idpermissao}}">
-	<td>{{despermissao}}</td>
+<script id="tpl-permission" type="/x-handlebars-temprate"><tr data-idpermission="{{idpermission}}">
+	<td>{{despermission}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/permissoes/{{idpermissao}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/permissions/{{idpermission}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-permissao icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-permission icon wb-trash">
       	</button>
 	</td>
 	</tr>
 	</script>
 	<script>
 	init.push(function(){
-	var panel = System.getPanelApi($("#panel-permissoes"));
+	var panel = System.getPanelApi($("#panel-permissions"));
 
-	var $tbody = $("#panel-permissoes tbody");
+	var $tbody = $("#panel-permissions tbody");
 
-	var $tplPermissao = Handlebars.compile($("#tpl-permissao").html());
+	var $tplPermission = Handlebars.compile($("#tpl-permission").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     e.preventDefault();
 
-    loadPermissoes();
+    loadPermissions();
     
   	});
 
 
-	function loadPermissoes(pagina){
+	function loadPermissions(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadPermissoes();
+			loadPermissions();
 
 		});
 
@@ -115,7 +115,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/permissoes",
+			url:PATH+"/permissions",
 			data:params,
 			success:function(r){
 
@@ -123,7 +123,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplPermissao(row));
+					$tbody.append($tplPermission(row));
 
 				});
 
@@ -134,7 +134,7 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadPermissoes(page);
+            			loadPermissions(page);
          			}
         		});
 
@@ -142,23 +142,23 @@
 
 				panel.done();
 
-				$(".btn-excluir-permissao").on("click", function(e){
+				$(".btn-excluir-permission").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idpermissao = $btn.closest("tr").data("idpermissao");
-					System.confirm('Deseja remover essa permissao?', function(b, s, f){
+					var idpermission = $btn.closest("tr").data("idpermission");
+					System.confirm('Deseja remover essa permission?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/permissoes/"+idpermissao,
+				          		url: PATH+"/permissions/"+idpermission,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadPermissoes();
+				           		 	loadPermissions();
 				            		s();
 
 				          		},
@@ -185,5 +185,5 @@
 		});
 	};
 
-    loadPermissoes();
+    loadPermissions();
 });</script>

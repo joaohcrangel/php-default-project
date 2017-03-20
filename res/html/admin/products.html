@@ -38,12 +38,12 @@
 	              	</div>	            
 		            <form id="form-filtros" class="p-x-25">
 		            	<div class="form-group form-material" data-plugin="formMaterial">
-			              	<label for="idprodutotipo" class="form-control-label">Nome</label>
-			                <input type="text" name="desproduto" class="form-control">
+			              	<label for="idproducttype" class="form-control-label">Nome</label>
+			                <input type="text" name="desproduct" class="form-control">
 		              	</div>
 		              	<div class="form-group form-material" data-plugin="formMaterial">
-		              		<label for="idprodutotipo" class="form-control-label">Tipo de Produto</label>
-			                <select name="idprodutotipo" class="form-control" multiple="multiple" data-plugin="select2">
+		              		<label for="idproducttype" class="form-control-label">Tipo de Produto</label>
+			                <select name="idproducttype" class="form-control" multiple="multiple" data-plugin="select2">
 			                	<option selected>--selecione--</option>
 			                </select>
 		              	</div>
@@ -82,13 +82,13 @@
 		          	</table>		          	
 		        </div>
 		        <!-- pagination -->
-  				<div id="paginacao"></div>
+  				<div id="pagination"></div>
 	      	</div>
 	      	
 	    </div>
 	</div>
 </div>
-<footer id="produto-footer" class="site-footer p-0"></footer>
+<footer id="product-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -101,15 +101,15 @@
   </div>
 </script>
 	
-<script id="tpl-produto-row" type="text/x-handlebars-template">
-<tr data-idproduto="{{idproduto}}" data-url="{$path}/panel/produtos/{{idproduto}}" data-toggle="slidePanel">
-	<td>{{desproduto}}</td>
-	<td>{{desprodutotipo}}</td>
-	<td>R$ {{desvlpreco}}</td>
+<script id="tpl-product-row" type="text/x-handlebars-template">
+<tr data-idproduct="{{idproduct}}" data-url="{$path}/panel/products/{{idproduct}}" data-toggle="slidePanel">
+	<td>{{desproduct}}</td>
+	<td>{{desproducttype}}</td>
+	<td>R$ {{desvlprice}}</td>
 	<td>
 		<!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
       	</button> -->
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-product icon wb-trash">
       	</button>
 	</td>
 </tr>
@@ -121,10 +121,10 @@ init.push(function(){
 	var panel = System.getPanelApi($("#mailContent .panel"));
 
 	var $tbody = $("#mailContent .panel tbody");
-	var $select = $("[name=idprodutotipo]");
-	var $footer = $("#produto-footer");
+	var $select = $("[name=idproducttype]");
+	var $footer = $("#product-footer");
 
-	var tpl = Handlebars.compile($("#tpl-produto-row").html());
+	var tpl = Handlebars.compile($("#tpl-product-row").html());
 	var tplFooter = Handlebars.compile($("#tpl-footer").html());	
 
 	$footer.html(tplFooter({
@@ -135,7 +135,7 @@ init.push(function(){
 
 	    e.preventDefault();
 
-	    loadProdutos();
+	    loadProducts();
 
   	});
 
@@ -145,20 +145,20 @@ init.push(function(){
 
   	});
 
-  	$("#form-filtros [name=idprodutotipo]").combobox({
-  		url:PATH+"/produtos/tipos",
-  		displayField:'desprodutotipo',
-  		valueField:'idprodutotipo'
+  	$("#form-filtros [name=idproducttype]").combobox({
+  		url:PATH+"/products/types",
+  		displayField:'desproducttype',
+  		valueField:'idproducttype'
   	}).select2();
 
-	function loadProdutos(pagina){
+	function loadProducts(pagina){
 
 		if(!pagina)	pagina = 1;
 
 		window.pagina = pagina;
 
 		$(".refresh").on("click", function(){
-			loadProdutos();
+			loadProducts();
 		});
 
 		var data = $("#form-filtros").formValues();
@@ -169,7 +169,7 @@ init.push(function(){
 
 		var ids = [];
 
-		$("[name=idprodutotipo] option:selected").each(function(){
+		$("[name=idproducttype] option:selected").each(function(){
 			ids.push($(this).val());
 		});
 
@@ -178,7 +178,7 @@ init.push(function(){
 		panel.load();
 
 		rest({
-			url:PATH+"/produtos/all",
+			url:PATH+"/products/all",
 			data:data,
 			success:function(r){
 
@@ -194,14 +194,14 @@ init.push(function(){
 
 						$tbody.append($tr);
 
-						$tr.find(".btn-excluir-produto").on("click", function(){
+						$tr.find(".btn-excluir-product").on("click", function(){
 
-							System.confirm("Deseja realmente excluir o "+row.desprodutotipo+" "+row.desproduto+"?", function(b, s, f){
+							System.confirm("Deseja realmente excluir o "+row.desproducttype+" "+row.desproduct+"?", function(b, s, f){
 
 								if(b){
 
 									rest({
-										url:PATH+"/produtos/"+row.idproduto,
+										url:PATH+"/products/"+row.idproduct,
 										method:"DELETE",
 										success:function(){
 											System.done();
@@ -240,12 +240,12 @@ init.push(function(){
 						currentPage:r.paginaAtual,
 						itemsPerPage:r.itemsPorPagina,
 						onChange:function(page){
-							loadProdutos(page);
+							loadProducts(page);
 							window.pagina = page;
 						}
 					});
 
-					$("#paginacao").asPaginator(r.total, config);
+					$("#pagination").asPaginator(r.total, config);
 
 				}else{
 					panel.done();
@@ -270,7 +270,7 @@ init.push(function(){
 	        click:function(btn, e){
 	          
 	          System.openSlidePanel({
-	            url:PATH+"/panel/produto-criar"
+	            url:PATH+"/panel/product-create"
 	          });
 
 	        }
@@ -278,9 +278,9 @@ init.push(function(){
 	    }]
 	});
 
-	window.loadProdutos = loadProdutos;
+	window.loadProducts = loadProducts;
 
- 	loadProdutos();
+ 	loadProducts();
 
 });
 

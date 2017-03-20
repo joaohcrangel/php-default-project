@@ -18,7 +18,7 @@
                   <form id="form-filtros" class="p-x-25">
                     <div class="form-group form-material" data-plugin="formMaterial">
                       <label class="form-control-label">Nome</label>
-                      <input type="text" class="form-control" name="desprodutotipo">
+                      <input type="text" class="form-control" name="desproducttype">
                     </div>       
                     <button type="submit" class="btn btn-primary btn-block">Buscar</button>
                   </form>
@@ -32,7 +32,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-produtos-tipos" data-auto-height="-179">
+                <div class="panel" id="panel-products-types" data-auto-height="-179">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             
@@ -59,13 +59,13 @@
                         </tbody>
                     </table> 
                 </div>
-                <div id="paginacao"></div>
+                <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/produtos-tipos-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/products-types-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -73,38 +73,38 @@
         </button>
     </div>
 </div>
-<script id="tpl-produtos-tipos" type="/x-handlebars-temprate"><tr data-idprodutotipo="{{idprodutotipo}}">
-    <td>{{desprodutotipo}}</td>
+<script id="tpl-products-types" type="/x-handlebars-temprate"><tr data-idproducttype="{{idproducttype}}">
+    <td>{{desproducttype}}</td>
     <td>
-        <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/produtos-tipos/{{idprodutotipo}}" data-toggle="slidePanel">
+        <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/products-types/{{idproducttype}}" data-toggle="slidePanel">
         </button>
-        <button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-produto icon wb-trash">
+        <button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-product icon wb-trash">
         </button>
     </td>
     </tr>
     </script>
     <script>
     init.push(function(){
-    var panel = System.getPanelApi($("#panel-produtos-tipos"));
+    var panel = System.getPanelApi($("#panel-products-types"));
 
-    var $tbody = $("#panel-produtos-tipos tbody");
+    var $tbody = $("#panel-products-types tbody");
 
-    var $tplProdutosTipos = Handlebars.compile($("#tpl-produtos-tipos").html());
+    var $tplProductsTypes = Handlebars.compile($("#tpl-products-types").html());
 
     $("#form-filtros [type=submit]").on("click", function(e){
      
-    e.preventDefault();
+        e.preventDefault();
 
-    loadProdutosTipos();
-    
-  });
+        loadProductsTypes();
+        
+      });
 
-    function loadProdutosTipos(pagina){
+    function loadProductsTypes(pagina){
 
        if(!pagina) pagina = 1; 
 
         $(".refresh").on("click", function(){
-            loadProdutosTipos();
+            loadProductsTypes();
 
         });
 
@@ -117,7 +117,7 @@
         panel.load();
 
         rest({
-            url:PATH+"/produtos/tipos",
+            url:PATH+"/products/types",
             data:params,
             success:function(r){
 
@@ -125,7 +125,7 @@
 
                 $.each(r.data, function(index, row){
 
-                    $tbody.append($tplProdutosTipos(row));
+                    $tbody.append($tplProductsTypes(row));
 
                 });
 
@@ -134,33 +134,33 @@
                     currentPage:r.currentPage,
                     itemsPerPage:r.itemsPerPage,
                     onChange:function(page){
-                        loadProdutosTipos(page);
+                        loadProductsTypes(page);
                     }
                 });
 
-                $("#paginacao").asPaginator(r.total, config);
+                $("#pagination").asPaginator(r.total, config);
 
                System.initSlidePanel($tbody);
 
                 panel.done();
 
-                $(".btn-excluir-produto").on("click", function(e){
+                $(".btn-excluir-product").on("click", function(e){
 
                     var $btn = $(this);
 
-                    var idprodutotipo = $btn.closest("tr").data("idprodutotipo");
+                    var idproducttype = $btn.closest("tr").data("idproducttype");
                     System.confirm('Deseja remover esse produto?', function(b, s, f){
                         if (b) {
 
                             System.load();
 
                             rest({
-                                url: PATH+"/produtos-tipos/"+idprodutotipo,
+                                url: PATH+"/products-types/"+idproducttype,
                                  method:'DELETE',
                                 success: function(r){
 
                                     System.done();
-                                    loadProdutosTipos();
+                                    loadProductsTypes();
                                     s();
 
                                 },
@@ -187,5 +187,5 @@
         });
     };
 
-    loadProdutosTipos();
+    loadProductsTypes();
 });</script>

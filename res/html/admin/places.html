@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#lugar-footer {
+#place-footer {
   height: 39px;
 }
 .page {
@@ -39,15 +39,15 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
-                  <input type="text" class="form-control" name="deslugar">
+                  <input type="text" class="form-control" name="desplace">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Endereço</label>
-                  <input type="text" class="form-control" name="desendereco">
+                  <input type="text" class="form-control" name="desaddress">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label">Tipo do lugar</label>
-                  <select name="idlugartipo" class="form-control"></select>
+                  <label class="form-control-label">Tipo do Lugar</label>
+                  <select name="idplacetype" class="form-control"></select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -73,7 +73,7 @@
               <tr>
                 <th>&nbsp;</th>
                 <th>Lugar</th>
-                <th>Endereco</th>
+                <th>Endereço</th>
                 <th>Tipo do Lugar</th>
                 <th>Descrição</th>
                 <th>&nbsp;</th>
@@ -85,12 +85,12 @@
           </table>
         </div>
          <!-- pagination -->
-          <div id="paginacao"></div>
+          <div id="pagination"></div>
       </div>      
     </div>
   </div>
 </div>
-<footer id="lugar-footer" class="site-footer p-0"></footer>
+<footer id="place-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -104,7 +104,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idlugar="{{idlugar}}" data-url="{$path}/panel/lugares/{{idlugar}}" data-toggle="slidePanel">
+  <tr data-idplace="{{idplace}}" data-url="{$path}/panel/places/{{idplace}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -112,12 +112,12 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{deslugar}}</td>
-    <td>{{desendereco}}</td>
-    <td>{{deslugartipo}}</td>
-    <td>{{desconteudo}}</td>
+    <td>{{desplace}}</td>
+    <td>{{desaddress}}</td>
+    <td>{{desplacetype}}</td>
+    <td>{{descontent}}</td>
     <td>
-      <!-- <button class="btn btn-pure btn-default icon md-edit" title="Editar Lugar"></button> -->
+      <!-- <button class="btn btn-pure btn-default icon md-edit" title="Editar place"></button> -->
       <button class="btn btn-pure btn-danger icon md-delete" title="Excluir Lugar"></button>
     </td>
   </tr>
@@ -126,13 +126,13 @@
 <script>
 init.push(function(){
 
-  $("[name=idlugartipo]").combobox({
-    url:PATH+"/lugares-tipos",
-    displayField:"deslugartipo",
-    valueField:"idlugartipo"
+  $("[name=idplacetype]").combobox({
+    url:PATH+"/places-types",
+    displayField:"desplacetype",
+    valueField:"idplacetype"
   });
 
-  var tplLugar = Handlebars.compile($("#tpl-row").html());
+  var tplPlace = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -140,13 +140,13 @@ init.push(function(){
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#lugar-footer");
+  var $footer = $("#place-footer");
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadLugares();
+    loadPlaces();
 
   });
 
@@ -154,7 +154,7 @@ init.push(function(){
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadLugares(pagina){
+  function loadPlaces(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -167,7 +167,7 @@ init.push(function(){
     data.limite = (data.limite<5)?5:data.limite;
 
     rest({
-      url:PATH+"/lugares",
+      url:PATH+"/places",
       data:data,
       success:function(r){
 
@@ -177,18 +177,18 @@ init.push(function(){
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplLugar(row));
+            var $tr = $(tplPlace(row));
 
             $tbody.append($tr);
 
             $tr.find(".btn-danger").on("click", function(){
 
-              System.confirm("Deseja remover o "+row.deslugartipo+" "+row.deslugar+"?", function(b, s, f){
+              System.confirm("Deseja remover o "+row.desplacetype+" "+row.desplace+"?", function(b, s, f){
 
                 if(b){
 
                   rest({
-                    url:PATH+"/lugares/"+row.idlugar,
+                    url:PATH+"/places/"+row.idplace,
                     method:"DELETE",
                     success:function(){
                       System.done();
@@ -215,7 +215,7 @@ init.push(function(){
 
               var disabled = (checked.length > 0) ? false : true;
 
-              $("#btn-lugar-horario").prop("disabled", disabled);
+              $("#btn-place-log").prop("disabled", disabled);
 
             });
 
@@ -237,11 +237,11 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadLugares(page);
+              loadPlaces(page);
             }
           });
 
-          $("#paginacao").asPaginator(r.total, config);
+          $("#pagination").asPaginator(r.total, config);
 
           $panel.done();
 
@@ -269,7 +269,7 @@ init.push(function(){
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/lugar-criar"
+              url:PATH+"/panel/place-create"
             });
 
           }
@@ -277,7 +277,7 @@ init.push(function(){
       },{
         text:"Definir horário",
         icon:"md-time",
-        id:"btn-lugar-horario",
+        id:"btn-place-log",
         cls:"btn-default",
         disabled:true,
         listeners:{
@@ -286,11 +286,11 @@ init.push(function(){
             var ids = [];
 
             $("#lista tr [type=checkbox]:checked").each(function(){              
-              ids.push($(this).closest("tr").data("idlugar"));
+              ids.push($(this).closest("tr").data("idplace"));
             });
           
             System.openSlidePanel({
-              url:PATH+"/panel/lugar-horarios?ids="+ids.toString(),
+              url:PATH+"/panel/place-logs?ids="+ids.toString(),
             });
 
           }
@@ -298,7 +298,7 @@ init.push(function(){
       }]
   });
 
-  loadLugares();
+  loadPlaces();
 
 });
 </script>

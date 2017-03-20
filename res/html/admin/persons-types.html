@@ -18,7 +18,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="despessoatipo">
+	                  <input type="text" class="form-control" name="despersontype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -32,7 +32,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-pessoa-tipo" data-auto-height="-179">
+                <div class="panel" id="panel-person-type" data-auto-height="-179">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             
@@ -56,48 +56,48 @@
                         </tbody>
                     </table> 
                 </div>
-                <div id="paginacao"></div>
+                <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/pessoas-tipos-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/persons-types-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
             </i>
         </button>
     </div>
-</div><script id="tpl-pessoa-tipo" type="/x-handlebars-temprate"><tr data-idpessoatipo="{{idpessoatipo}}">
-	<td>{{despessoatipo}}</td> 
+</div><script id="tpl-person-type" type="/x-handlebars-temprate"><tr data-idpersontype="{{idpersontype}}">
+	<td>{{despersontype}}</td> 
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/pessoas-tipos/{{idpessoatipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/persons-types/{{idpersontype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-pessoa icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-person icon wb-trash">
       	</button>
 	</td>
 </tr></script><script>init.push(function(){
-	var panel = System.getPanelApi($("#panel-pessoa-tipo"));
+	var panel = System.getPanelApi($("#panel-person-type"));
 
-	var $tbody = $("#panel-pessoa-tipo tbody");
+	var $tbody = $("#panel-person-type tbody");
 
-	var $tplPessoaTipo = Handlebars.compile($("#tpl-pessoa-tipo").html());
+	var $tplPersonType = Handlebars.compile($("#tpl-person-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
-    e.preventDefault();
+	    e.preventDefault();
 
-    loadPessoaTipo();
-    
-  });
+	    loadPersonType();
+	    
+	  });
 
-	function loadPessoaTipo(pagina){
+	function loadPersonType(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadPessoaTipo();
+			loadPersonType();
 
 		});
 
@@ -110,7 +110,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/pessoas-tipos",
+			url:PATH+"/persons-types",
 			data:params,
 			success:function(r){
 
@@ -118,7 +118,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplPessoaTipo(row));
+					$tbody.append($tplPersonType(row));
 
 				});
 
@@ -127,34 +127,33 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadPessoaTipo(page);
+            			loadPersonType(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
-
+        		$("#pagination").asPaginator(r.total, config);
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-pessoa").on("click", function(e){
+				$(".btn-excluir-person").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idpessoatipo = $btn.closest("tr").data("idpessoatipo");
-					System.confirm('Deseja remover esse pessoa?', function(b, s, f){
+					var idpersontype = $btn.closest("tr").data("idpersontype");
+					System.confirm('Deseja remover esse tipo de pessoa?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/pessoas-tipos/"+idpessoatipo,
+				          		url: PATH+"/persons-types/"+idpersontype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadPessoaTipo();
+				           		 	loadPersonType();
 				            		s();
 
 				          		},
@@ -181,5 +180,5 @@
 		});
 	};
 
-    loadPessoaTipo();
+    loadPersonType();
 });</script>

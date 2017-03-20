@@ -33,28 +33,28 @@
 		            <form id="form-filtros" class="p-x-25">
 		              <div class="form-group form-material" data-plugin="formMaterial">
 		              	<label class="form-control-label">Nome</label>
-		                <input type="text" class="form-control" name="despessoa">
+		                <input type="text" class="form-control" name="desperson">
 		              </div>
 		              <div class="form-group form-material" data-plugin="formMaterial">
-		              	<label class="form-control-label">Forma de Pedido</label>
-		                <select name="idformapagamento" class="form-control"></select>
+		              	<label class="form-control-label">Forma de Pagamento</label>
+		                <select name="idformpayment" class="form-control"></select>
 		              </div>
 		              <div class="form-group form-material" data-plugin="formMaterial">
 		              	<label class="form-control-label">Status do Pedido</label>
 		                <select name="idstatus" class="form-control"></select>
 		              </div>
-		              <label class="form-control-label"><h4>Data de Pedido</h4></label>
+		              <label class="form-control-label"><h4>Data do Pedido</h4></label>
 		              <div class="form-group form-material" data-plugin="formMaterial">
 		              	<label class="form-control-label">De</label>
-		              	<input type="date" class="form-control" name="dtinicio">
+		              	<input type="date" class="form-control" name="dtstart">
 		              </div>
 		              <div class="form-group form-material" data-plugin="formMaterial">
 		              	<label class="form-control-label">Até</label>
-		              	<input type="date" class="form-control" name="dttermino">
+		              	<input type="date" class="form-control" name="dtend">
 		              </div>
 		              <div class="form-group form-material" data-plugin="formMaterial">
 		              	<label class="form-control-label">ID</label>
-		              	<input type="number" class="form-control" name="idpedido">
+		              	<input type="number" class="form-control" name="idorder">
 		              </div>
 		              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 		            </form>
@@ -88,7 +88,7 @@
     </div>
   </div>
 </div>
-<footer id="pedido-footer" class="site-footer p-0"></footer>
+<footer id="order-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -101,12 +101,12 @@
   </div>
 </script>
 
-<script id="tpl-pedido-row" type="text/x-handlebars-template">
+<script id="tpl-order-row" type="text/x-handlebars-template">
 	<tr>
-		<td>{{despessoa}}</td>
+		<td>{{desperson}}</td>
 		<td>R$ {{vltotal}}</td>
-		<td>{{nrparcelas}}</td>
-		<td>{{desdtcadastro}}</td>
+		<td>{{nrparcels}}</td>
+		<td>{{desdtregister}}</td>
 	</tr>	
 </script>
 
@@ -114,22 +114,22 @@
 
 init.push(function(){
 
-	var $tplPedidos = Handlebars.compile($("#tpl-pedido-row").html());
+	var $tplOrders = Handlebars.compile($("#tpl-order-row").html());
 	var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
-	$("[name=idformapagamento]").combobox({
-		url:PATH+"/formas-pagamentos/all",
-		displayField:"desformapagamento",
-		valueField:"idformapagamento"
+	$("[name=idformpayment]").combobox({
+		url:PATH+"/forms-payments/all",
+		displayField:"desformpayment",
+		valueField:"idformpayment"
 	});
 
 	$("[name=idstatus]").combobox({
-		url:PATH+"/pedidos-status/all",
+		url:PATH+"/orders-status/all",
 		displayField:"desstatus",
 		valueField:"idstatus"
 	});
 
-	$("#pedido-footer").html(tplFooter({
+	$("#order-footer").html(tplFooter({
 	    total:0
   	}));
 
@@ -137,7 +137,7 @@ init.push(function(){
 
     	e.preventDefault();
 
-    	loadPedidos();
+    	loadOrders();
 
   	});
 
@@ -147,13 +147,13 @@ init.push(function(){
 
   	});	
 
-	function loadPedidos(pagina){
+	function loadOrders(pagina){
 
 		if(!pagina)	pagina = 1;
 
-		var $panelPedidos = System.getPanelApi($("#mailContent .panel"));		
+		var $panelorders = System.getPanelApi($("#mailContent .panel"));		
 
-		$panelPedidos.load();
+		$panelorders.load();
 
 		var data = $("#form-filtros").formValues();
 
@@ -162,53 +162,53 @@ init.push(function(){
 		data.limite = (data.limite<5)?5:data.limite;
 
 		rest({
-			url:PATH+"/pedidos",
+			url:PATH+"/orders",
 			data:data,
 			success:function(r){
 
 				if(r.data.length > 0){
 
-					renderPedidos(r.data);
+					renderOrders(r.data);
 
-					$panelPedidos.done();
+					$panelorders.done();
 
 					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
 						skin:"pagination-gap",
 						currentPage:r.currentPage,
 						itemsPerPage:r.itemsPerPage,
 						onChange:function(page){						
-							loadPedidos(page);
+							loadOrders(page);
 						}
 					});
 
 					$("#paginacao").asPaginator(r.total, config);
 
 				}else{
-					$panelPedidos.done();
+					$panelorders.done();
 				}
 
 			},
 			failure:function(r){
-				$panelPedidos.done();
+				$panelorders.done();
 				System.showError(r);
 			}
 		});
 
 	}
 
-	function renderPedidos(pedidos){
+	function renderOrders(orders){
 
 		var $tbody = $("#lista tbody");
-		var $footer = $("#pedido-footer");
+		var $footer = $("#order-footer");
 
 		$tbody.html('');
 
-		$.each(pedidos, function(index, row){
-			$tbody.append($tplPedidos(row));
+		$.each(orders, function(index, row){
+			$tbody.append($tplOrders(row));
 		});
 
 		$footer.html(tplFooter({
-			total:pedidos.length
+			total:orders.length
 		}));
 
 	}

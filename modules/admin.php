@@ -20,7 +20,7 @@ $app->get("/".DIR_ADMIN."/sessionid", function(){
 
 });
 
-$app->get("/".DIR_ADMIN."/", function(){
+$app->get("/".DIR_ADMIN."/arquivos", function(){
 
     header('Location: /'.DIR_ADMIN);
     exit;

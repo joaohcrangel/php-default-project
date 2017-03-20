@@ -47,7 +47,7 @@ class Permissao extends Model {
 
     public static function checkSession($idpermissao, $redirect = false){
 
-        $usuario = Session::getUsuario();
+        $usuario = Session::getUser();
 
         if (!$usuario->isLogged() || !$usuario->hasPermissao(new Permissao(array("idpermissao"=>(int)$idpermissao)))) {
 

@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-permissao-save">
+            <form id="form-permission-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idpermissao">
+                        <input type="hidden" name="idpermission">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="despermissao">
+                        <input type="text" class="form-control" name="despermission">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnPermissaoSave" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnPermissionSave" type="submit">
                         Salvar Nova Permisao
                     </button>
                 </div>
@@ -34,12 +34,12 @@
         </div>
     </div>
 </div>
-<script>var permissao = JSON.parse('{function="json_encode($permissao)"}');
+<script>var permission = JSON.parse('{function="json_encode($permission)"}');
 
-$("#form-permissao-save").form({
-  url:PATH+"/permissoes/"+permissao.idpermissao,
+$("#form-permission-save").form({
+  url:PATH+"/permissions/"+permission.idpermission,
   success:function(){
-    System.success("Permissao criado com sucesso");
+    System.success("Permissão salva com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
 
@@ -49,5 +49,5 @@ $("#form-permissao-save").form({
   }
 });
 
-$("#form-permissao-save").formLoad(permissao);
+$("#form-permission-save").formLoad(permission);
 </script>

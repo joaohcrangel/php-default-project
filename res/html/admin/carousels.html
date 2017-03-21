@@ -75,7 +75,7 @@
       </div>
     </div>
     <!-- pagination -->
-      <div id="paginacao"></div>
+      <div id="pagination"></div>
   </div>
 </div>
 <footer id="carousel-footer" class="site-footer p-0"></footer>
@@ -208,7 +208,7 @@ init.push(function(){
             }
           });
 
-          $("#paginacao").asPaginator(r.total, config);
+          $("#pagination").asPaginator(r.total, config);
 
           $footer.html(tplFooter(r));
 
@@ -238,7 +238,7 @@ init.push(function(){
         click:function(){
 
           System.openSlidePanel({
-            url:PATH+"/panel/carousel-criar"
+            url:PATH+"/panel/carousel-create"
           });
 
         }

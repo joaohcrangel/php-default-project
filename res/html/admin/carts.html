@@ -30,20 +30,20 @@
 			            <form id="form-filtros" class="p-x-25">
 			              	<div class="form-group form-material" data-plugin="formMaterial">
 			              		<label class="form-control-label">Nome</label>
-			                	<input type="text" class="form-control" name="despessoa">
+			                	<input type="text" class="form-control" name="desperson">
 			              	</div>
-			              	<label class="form-control-label"><h4>Data do Carrinho</h4></label>
+			              	<label class="form-control-label"><h4>Data do cart</h4></label>
 		              		<div class="form-group form-material" data-plugin="formMaterial">
 			              		<label class="form-control-label">De</label>
-				              	<input type="date" class="form-control" name="dtinicio">
+				              	<input type="date" class="form-control" name="dtstart">
 			              	</div>
 			              	<div class="form-group form-material" data-plugin="formMaterial">
 			              		<label class="form-control-label">Até</label>
-			              		<input type="date" class="form-control" name="dttermino">
+			              		<input type="date" class="form-control" name="dtend">
 			              	</div>
 			              	<div class="form-group form-material" data-plugin="formMaterial">
 			              		<label class="form-control-label">ID</label>
-			              		<input type="number" class="form-control" name="idcarrinho">
+			              		<input type="number" class="form-control" name="idcart">
 			              	</div>
 			              <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 			            </form>
@@ -72,12 +72,12 @@
 		          	</table>
 		        </div>
 		        <!-- pagination -->
-		      	<div id="paginacao"></div>
+		      	<div id="pagination"></div>
 	      	</div>      
 	    </div>
   	</div>
 </div>
-<footer id="carrinho-footer" class="site-footer p-0"></footer>
+<footer id="cart-footer" class="site-footer p-0"></footer>
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
@@ -86,12 +86,12 @@
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div></script><script id="tpl-carrinho-row" type="text/x-handlebars-template"><tr data-idcarrinho="{{idcarrinho}}">
-	<td>{{despessoa}}</td>
-	<td>{{nrprodutos}}</td>
+  </div></script><script id="tpl-cart-row" type="text/x-handlebars-template"><tr data-idcart="{{idcart}}">
+	<td>{{desperson}}</td>
+	<td>{{nrproducts}}</td>
 	<td>R$ {{vltotal}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/carrinhos/{{idcarrinho}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/carts/{{idcart}}" data-toggle="slidePanel">
       	</button>
       	</button>
 	</td>
@@ -104,17 +104,17 @@ init.push(function(){
 
 	var $tbody = $("#mailContent .panel tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-carrinho-row").html());
+	var $tpl = Handlebars.compile($("#tpl-cart-row").html());
 
 	var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
-	var $footer = $("#carrinho-footer");
+	var $footer = $("#cart-footer");
 
 	$("#form-filtros [type=submit]").on("click", function(e){
 
 		e.preventDefault();
 
-		loadCarrinhos();
+		loadCarts();
 
 	});
 
@@ -128,7 +128,7 @@ init.push(function(){
 		total:0
 	}));
 
-	function loadCarrinhos(pagina){
+	function loadCarts(pagina){
 
 		if(!pagina) pagina = 1;
 
@@ -141,7 +141,7 @@ init.push(function(){
 		data.limite = (data.limite<5)?5:data.limite;
 
 		rest({
-			url:PATH+"/carrinhos/all",
+			url:PATH+"/carts/all",
 			data:data,
 			success:function(r){
 
@@ -162,11 +162,11 @@ init.push(function(){
 						currentPage:r.currentPage,
 						itemsPerPage:r.itemsPerPage,
 						onChange:function(page){
-							loadCarrinhos(page);
+							loadCarts(page);
 						}
 					});
 
-					$("#paginacao").asPaginator(r.total, config);
+					$("#pagination").asPaginator(r.total, config);
 
 					System.initSlidePanel($tbody);
 

@@ -8,16 +8,16 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo país</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">create novo país</h5></h4>
   </div>  
 </header>
 <div class="slidePanel-inner m-t-40">
 
-	<form id="form-pais-criar">
+	<form id="form-country-create">
 
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">Nome do País</label>
-			<input type="text" class="form-control" name="despais">
+			<input type="text" class="form-control" name="descountry">
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -30,12 +30,12 @@
 
 <script>
 	
-var form = $("#form-pais-criar");
+var form = $("#form-country-create");
 
 form.form({
-	url:PATH+"/paises",
+	url:PATH+"/countries",
 	params:{
-		idpais:0
+		idcountry:0
 	},
 	success:function(){
 		System.success("País criado com sucesso");

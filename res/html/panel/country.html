@@ -6,18 +6,18 @@
         </button>
     </div>
     <h4 class="stage-name">
-        <h5 class="taskboard-stage-title text-uppercase">Dados de {$pais.despais}</h5>
+        <h5 class="taskboard-stage-title text-uppercase">Dados de {$country.descountry}</h5>
     </h4>
 </div>
 </header>
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pais">
+            <form id="form-country">
                 <div class="form-group">
                     <div class="form-group form-material">
                         <label>Nome</label>
-                        <input type="text" class="form-control" name="despais">
+                        <input type="text" class="form-control" name="descountry">
                     </div>
                     <button class="btn btn-block btn-primary" type="submit">Salvar</button>
                 </div>
@@ -27,14 +27,14 @@
 </div>
 <script>
 
-var pais = JSON.parse('{function="json_encode($pais)"}');
+var country = JSON.parse('{function="json_encode($country)"}');
 
-$("#form-pais").formLoad(pais);
+$("#form-country").formLoad(country);
 
-$("#form-pais").form({
-  url:PATH+"/paises",
+$("#form-country").form({
+  url:PATH+"/countries",
   params:{
-    idpais:pais.idpais
+    idcountry:country.idcountry
   },
   success:function(){
     System.success("País salvo com sucesso");

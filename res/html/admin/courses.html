@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#curso-footer {
+#course-footer {
   height: 39px;
 }
 .page {
@@ -39,8 +39,8 @@
               </div>
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
-                  <label class="form-control-label" for="descurso">Nome</label>
-                  <input type="text" class="form-control" name="descurso" id="descurso">
+                  <label class="form-control-label" for="descourse">Nome</label>
+                  <input type="text" class="form-control" name="descourse" id="descourse">
                 </div>                
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -77,16 +77,16 @@
       </div>
     </div>
      <!-- pagination -->
-      <div id="paginacao"></div>
+      <div id="pagination"></div>
   </div>
 </div>
-<footer id="curso-footer" class="site-footer p-0"></footer>
+<footer id="course-footer" class="site-footer p-0"></footer>
 
-<script id="tpl-curso-row" type="text/x-handlebars-template">
-  <tr data-url="{$path}/panel/cursos/{{idcurso}}" data-toggle="slidePanel">
-    <td>{{descurso}}</td>
-    <td>{{destitulo}}</td>
-    <td>{{vlcargahoraria}}h</td>
+<script id="tpl-course-row" type="text/x-handlebars-template">
+  <tr data-url="{$path}/panel/courses/{{idcourse}}" data-toggle="slidePanel">
+    <td>{{descourse}}</td>
+    <td>{{destitle}}</td>
+    <td>{{vlworkload}}h</td>
     <td>
       <!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
       </button> -->
@@ -111,14 +111,14 @@
   
 init.push(function(){
 
-  var tpl = Handlebars.compile($("#tpl-curso-row").html());
+  var tpl = Handlebars.compile($("#tpl-course-row").html());
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
   var $tbody = $("#lista tbody");
 
   var $panel = System.getPanelApi($("#mailContent .panel"));
 
-  $("#curso-footer").html(tplFooter({
+  $("#course-footer").html(tplFooter({
     total:0
   }));
 
@@ -126,7 +126,7 @@ init.push(function(){
 
     e.preventDefault();
 
-    loadCursos();
+    loadCourses();
 
   });
 
@@ -136,7 +136,7 @@ init.push(function(){
 
   });
 
-  function loadCursos(pagina){
+  function loadCourses(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -149,7 +149,7 @@ init.push(function(){
     $panel.load();
 
     rest({
-      url:PATH+"/cursos",
+      url:PATH+"/courses",
       data:data,
       success:function(r){
 
@@ -165,17 +165,17 @@ init.push(function(){
 
             $tr.find(".btn-danger").on("click", function(){
 
-              System.confirm("Deseja remover o curso "+row.descurso+"?", function(b, s, f){
+              System.confirm("Deseja remover o course "+row.descourse+"?", function(b, s, f){
 
                 if(b){
 
                   rest({
-                    url:PATH+"/cursos/"+row.idcurso,
+                    url:PATH+"/courses/"+row.idcourse,
                     method:"DELETE",
                     success:function(){
 
                       System.done();
-                      s("Curso removido com sucesso");
+                      s("course removido com sucesso");
                       $tr.remove();
 
                     },
@@ -195,7 +195,7 @@ init.push(function(){
 
           });
 
-          var $footer = $("#curso-footer");
+          var $footer = $("#course-footer");
 
           $footer.html(tplFooter(r));
 
@@ -213,11 +213,11 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadCursos(page);
+              loadCourses(page);
             }
           });
 
-          $("#paginacao").asPaginator(r.total, config);
+          $("#pagination").asPaginator(r.total, config);
 
           $panel.done();
 
@@ -245,7 +245,7 @@ init.push(function(){
         click:function(){
 
           System.openSlidePanel({
-            url:PATH+"/panel/curso-criar"
+            url:PATH+"/panel/course-create"
           });
 
         }
@@ -253,7 +253,7 @@ init.push(function(){
     }]
   });
 
-  loadCursos();
+  loadCourses();
 
 });
 

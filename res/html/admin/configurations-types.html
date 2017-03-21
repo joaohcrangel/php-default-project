@@ -14,12 +14,12 @@
 	          <section class="page-aside-section p-t-0">
 	            <div class="panel-primary panel-line">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Filtrar Configurações </h3>
+	                <h3 class="panel-title">Filtrar Configurações</h3>
 	              </div>
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="desconfiguracaotipo">
+	                  <input type="text" class="form-control" name="desconfigurationtype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -33,7 +33,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-configuracao-tipo" data-auto-height="-179">
+                <div class="panel" id="panel-configuration-type" data-auto-height="-179">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                            
@@ -60,13 +60,13 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="paginacao"></div>
+                <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/configuracoes-tipos-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/configurations-types-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -74,39 +74,39 @@
         </button>
     </div>
 </div>
-<script id="tpl-configuracao-tipo" type="/x-handlebars-temprate">
-<tr data-idconfiguracaotipo="{{idconfiguracaotipo}}">
-	<td>{{desconfiguracaotipo}}</td>
+<script id="tpl-configuration-type" type="/x-handlebars-temprate">
+<tr data-idconfigurationtype="{{idconfigurationtype}}">
+	<td>{{desconfigurationtype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/configuracoes-tipos/{{idconfiguracaotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/configurations-types/{{idconfigurationtype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-configuracao icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-configuration icon wb-trash">
       	</button>
 	</td>
 	</tr>
 	</script>
 	<script>
 	init.push(function(){
-	var panel = System.getPanelApi($("#panel-configuracao-tipo"));
+	var panel = System.getPanelApi($("#panel-configuration-type"));
 
-	var $tbody = $("#panel-configuracao-tipo tbody");
+	var $tbody = $("#panel-configuration-type tbody");
 
-	var $tplConfiguracaoTipo = Handlebars.compile($("#tpl-configuracao-tipo").html());
+	var $tplConfigurationType = Handlebars.compile($("#tpl-configuration-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     e.preventDefault();
 
-    loadConfiguracaoTipo();
+    loadConfigurationType();
     
   });
 
-	function loadConfiguracaoTipo(pagina){
+	function loadConfigurationType(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadConfiguracaoTipo();
+			loadConfigurationType();
 		});
 
 		var params = $("#form-filtros").formValues();
@@ -118,7 +118,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/configuracoes-tipos",
+			url:PATH+"/configurations-types",
 			data:params,
 			success:function(r){
 
@@ -126,7 +126,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplConfiguracaoTipo(row));
+					$tbody.append($tplConfigurationType(row));
 
 				});
 
@@ -135,34 +135,34 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadConfiguracaoTipo(page);
+            			loadConfigurationType(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-configuracao").on("click", function(e){
+				$(".btn-excluir-configuration").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idconfiguracaotipo = $btn.closest("tr").data("idconfiguracaotipo");
+					var idconfigurationtype = $btn.closest("tr").data("idconfigurationtype");
 					System.confirm('Deseja remover essa Configuracão?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/configuracoes-tipos/"+idconfiguracaotipo,
+				          		url: PATH+"/configurations-types/"+idconfigurationtype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadConfiguracaoTipo();
+				           		 	loadConfigurationType();
 				            		s();
 
 				          		},
@@ -189,6 +189,6 @@
 		});
 	};
 
-    loadConfiguracaoTipo();
+    loadConfigurationType();
 });
 </script>

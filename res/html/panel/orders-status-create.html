@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Criar novo Estatus
+                Criar novo Status
             </h5>
         </h4>
     </div>
@@ -17,7 +17,7 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pedidos-status-save">
+            <form id="form-orders-status-save">
                 <div class="form-group">
                     <div class="form-group form-material">
                         <input type="hidden" name="idstatus">
@@ -26,7 +26,7 @@
                         </label>
                         <input type="text" class="form-control" name="desstatus">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnpedidos-status-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnorders-status-Save" type="submit">
                         Salvar Novo Status
                     </button>
                 </div>
@@ -35,8 +35,8 @@
     </div>
 </div>
 <script>
-$("#form-pedidos-status-save").form({
-    url: PATH + "/pedidos-status",
+$("#form-orders-status-save").form({
+    url: PATH + "/orders-status",
     success: function() {
         System.success("Status criado com sucesso");
         $(".slidePanel-close").trigger("click");

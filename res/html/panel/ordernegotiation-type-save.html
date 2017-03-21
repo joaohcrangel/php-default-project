@@ -16,16 +16,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pedido-tipo">
+            <form id="form-order-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idnegociacao">
+                        <input type="hidden" name="idnegotiation">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desnegociacao">
+                        <input type="text" class="form-control" name="desnegotiation">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnpedido-tipo" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnorder-type" type="submit">
                         Salvar Negociações Tipos
                     </button>
                 </div>
@@ -33,12 +33,12 @@
         </div>
     </div>
 </div>
-<script>var pedidoTipo = JSON.parse('{function="json_encode($pedido)"}');
+<script>var orderType = JSON.parse('{function="json_encode($order)"}');
 
-$("#form-pedido-tipo").form({
-  url:PATH+"/pedidosnegociacoestipos",
+$("#form-order-type").form({
+  url:PATH+"/ordersnegotiationstypes",
   params:{
-    idnegociacao:pedidoTipo.idnegociacao
+    idnegotiation:orderType.idnegotiation
   },
   success:function(){
     System.success("Pedido criado com sucesso");
@@ -51,5 +51,5 @@ $("#form-pedido-tipo").form({
   }
 });
 
-$("#form-pedido-tipo").formLoad(pedidoTipo);
+$("#form-order-type").formLoad(orderType);
 </script>

@@ -15,16 +15,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pedido-tipo">
+            <form id="form-order-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idnegociacao">
+                        <input type="hidden" name="idnegotiation">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desnegociacao">
+                        <input type="text" class="form-control" name="desnegotiation">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn pedido-tipo"
+                    <button class="btn btn-block btn-primary" id="btn order-type"
                     type="submit">
                         Salvar Novas Negociações Tipos
                     </button>
@@ -34,8 +34,8 @@
     </div>
 </div>
 <script>
-$("#form-pedido-tipo").form({
-  url:PATH+"/pedidosnegociacoestipos",
+$("#form-order-type").form({
+  url:PATH+"/ordersnegotiationstypes",
   success:function(){
     System.success("Pedido criado com sucesso");
     $(".slidePanel-close").trigger("click");

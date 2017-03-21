@@ -95,7 +95,6 @@ class DefaultObject {
 				}
 
 			}else{
-
 	        	if($this) return call_user_func_array(array($this,$name),$args);
 
 			}

@@ -3107,7 +3107,7 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 		'desvalue'=>$lang->getString('config_admin_name_value'),
 		'idconfigurationtype'=>$texto->getidconfigurationtype(),
 		'desdescription'=>$lang->getString('config_admin_name_description')
-	));	
+	));
 	$adminName->save();
 
 	$uploadDir = new Configuration(array(

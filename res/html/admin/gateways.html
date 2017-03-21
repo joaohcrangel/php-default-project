@@ -57,13 +57,13 @@
 
                     </table> 
                 </div>
-                <div id="paginacao"></div>
+                <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/gateways-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/gateways-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -135,7 +135,7 @@
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 				System.initSlidePanel($tbody);
 

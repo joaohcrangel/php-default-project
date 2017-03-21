@@ -1,11 +1,11 @@
 {include="panel-header"}
-<div id="sitecontato-{$sitecontato.idsitecontato}">
+<div id="sitecontact-{$sitecontact.idsitecontact}">
 
   <header class="slidePanel-header">
     <div class="slidePanel-actions" aria-label="actions" role="group">
       <button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button>
     </div>
-    <h1>Mensagem enviada por {$sitecontato.despessoa}({$sitecontato.desusuario})</h1>
+    <h1>Mensagem enviada por {$sitecontact.desperson}({$sitecontact.desuser})</h1>
   </header>
   
     <div class="slidePanel-inner">        
@@ -13,21 +13,21 @@
         <div class="mail-header">    
           <div class="mail-header-right">
             <span class="time">
-              {$sitecontato.desdtcadastro}
+              {$sitecontact.desdtregister}
             </span>
           </div>
         </div>
         <div class="mail-content">
-          {$sitecontato.desmensagem}
+          {$sitecontact.desmessage}
         </div>
       </section>
     </div>
 
-    <!-- <form asutocomplete="off" id="form-sitecontato" class="slidePanel-form">
+    <!-- <form asutocomplete="off" id="form-sitecontact" class="slidePanel-form">
     	<div class="form-group form-material">
-        <input type="hidden" name="idsitecontato" value="{$sitecontato.idsitecontato}">
-        <label class="control-label" for="desmensagem">Mensagem</label>
-        <input type="text" class="form-control" name="desmensagem" value="{$sitecontato.desmensagem}">
+        <input type="hidden" name="idsitecontact" value="{$sitecontact.idsitecontact}">
+        <label class="control-label" for="desmessage">message</label>
+        <input type="text" class="form-control" name="desmessage" value="{$sitecontact.desmessage}">
   		</div>
     </form> -->
 

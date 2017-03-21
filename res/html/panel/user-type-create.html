@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Criar novo Usuario
+                Criar novo Tipo
             </h5>
         </h4>
     </div>
@@ -17,17 +17,17 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-usuario-tipo-save">
+            <form id="form-user-type-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idusuariotipo">
+                        <input type="hidden" name="idusertype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desusuariotipo">
+                        <input type="text" class="form-control" name="desusertype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn usuario-tipo-Save" type="submit">
-                        Salvar Novo Usuario
+                    <button class="btn btn-block btn-primary" id="btn user-type-Save" type="submit">
+                        Salvar Novo Tipo
                     </button>
                 </div>
             </form>
@@ -35,13 +35,12 @@
     </div>
 </div>
 <script>
-$("#form-usuario-tipo-save").form({
-    url: PATH + "/usuarios-tipos",
+$("#form-user-type-save").form({
+    url: PATH + "/users-types",
     success: function() {
-        System.success("Usuario criado com sucesso");
+        System.success("Tipo criado com sucesso");
         $(".slidePanel-close").trigger("click");
         $(".refresh").trigger("click");
-
     },
     failure: function(r) {
         System.showError(r);

@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Criar novo Produto
+                Criar novo Tipo
             </h5>
         </h4>
     </div>
@@ -17,17 +17,17 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-produto-tipo-save">
+            <form id="form-product-type-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idprodutotipo">
+                        <input type="hidden" name="idproducttype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desprodutotipo">
+                        <input type="text" class="form-control" name="desproducttype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn Produto-Tipo-Save" type="submit">
-                        Salvar Novo Produto
+                    <button class="btn btn-block btn-primary" id="btn product-type-Save" type="submit">
+                        Salvar Novo Tipo
                     </button>
                 </div>
             </form>
@@ -35,13 +35,12 @@
     </div>
 </div>
 <script>
-$("#form-produto-tipo-save").form({
-    url: PATH + "/produtos-tipos",
+$("#form-product-type-save").form({
+    url: PATH + "/products-types",
     success: function() {
-        System.success("Produtos criado com sucesso");
+        System.success("Tipo salvo com sucesso");
         $(".slidePanel-close").trigger("click");
         $(".refresh").trigger("click");
-
     },
     failure: function(r) {
         System.showError(r);

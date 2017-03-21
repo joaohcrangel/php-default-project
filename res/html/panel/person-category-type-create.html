@@ -8,16 +8,16 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button> 
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Adicionar nova categoria</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Adicionar nova Categoria</h5></h4>
   </div>  
 </header>
 <div class="slidePanel-inner m-t-40">
 	
-	<form id="form-categoria">
+	<form id="form-category">
 	
 		<div class="form-group form-material" data-plugin="formMaterial">			
 			<label class="form-control-label">Nome</label>
-			<input type="text" name="descategoria" class="form-control">
+			<input type="text" name="descategory" class="form-control">
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -31,12 +31,12 @@
 
 <script>
 
-var form = $("#form-categoria");
+var form = $("#form-category");
 
 form.form({
-	url:PATH+"/pessoas-categorias-tipos",
+	url:PATH+"/persons-categories-types",
 	params:{
-		idcategoria:0
+		idcategory:0
 	},
 	success:function(){
 		System.success("Categoria salva com sucesso");

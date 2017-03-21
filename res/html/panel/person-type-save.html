@@ -16,16 +16,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pessoa-tipo">
+            <form id="form-person-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idpessoatipo">
+                        <input type="hidden" name="idpersontype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="despessoatipo">
+                        <input type="text" class="form-control" name="despersontype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnpessoa-tipo" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnperson-type" type="submit">
                         Salvar Nova Pessoa
                     </button>
                 </div>
@@ -33,23 +33,22 @@
         </div>
     </div>
     </div>
-    <script>var pessoaTipo = JSON.parse('{function="json_encode($pessoa)"}');
+<script>var persontype = JSON.parse('{function="json_encode($person)"}');
 
-$("#form-pessoa-tipo").form({
-  url:PATH+"/pessoas-tipos",
+$("#form-person-type").form({
+  url:PATH+"/persons-types",
   params:{
-    idpessoatipo:pessoaTipo.idpessoatipo
+    idpersontype:persontype.idpersontype
   },
   success:function(){
-    System.success("Pessoa criado com sucesso");
+    System.success("Tipo criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
-
   },
   failure:function(r){
     System.showError(r);
   }
 });
 
-$("#form-pessoa-tipo").formLoad(pessoaTipo);
+$("#form-person-type").formLoad(persontype);
 </script>

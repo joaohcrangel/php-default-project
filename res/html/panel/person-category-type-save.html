@@ -8,23 +8,23 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">     
       <!-- <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button> -->
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados da categoria {$categoria.descategoria}</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados da categoria {$category.descategory}</h5></h4>
   </div>  
 </header>
 <div class="slidePanel-inner m-0 p-0">
 
 	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
-	    <div class="panel-heading panel-heading-tab" id="tabs-categoria-tipo" style="border-radius: 0;">	      
+	    <div class="panel-heading panel-heading-tab" id="tabs-category-type" style="border-radius: 0;">	      
 	    </div>
 
 	    <div class="panel-body p-t-20">
       		<div class="tab-content">
-	        	<div class="tab-pane active" id="tab-categoria" role="tabpanel">
-					<form id="form-categoria">
+	        	<div class="tab-pane active" id="tab-category" role="tabpanel">
+					<form id="form-category">
 	
 						<div class="form-group form-material" data-plugin="formMaterial">		
 							<label class="form-control-label">Nome</label>
-							<input type="text" name="descategoria" class="form-control">
+							<input type="text" name="descategory" class="form-control">
 						</div>
 
 						<div class="form-group form-material" data-plugin="formMaterial">
@@ -34,7 +34,7 @@
 
 					</form>
 	        	</div>
-	        	<!-- fim da tab de dados do categoria -->
+	        	<!-- fim da tab de dados do category -->
 
 			</div>
 		</div>
@@ -45,17 +45,17 @@
 
 <script>
 
-var categoria = JSON.parse('{function="json_encode($categoria)"}');
+var category = JSON.parse('{function="json_encode($category)"}');
 
-var form = $("#form-categoria");
+var form = $("#form-category");
 
-form.formLoad(categoria);
+form.formLoad(category);
 
 form.form({
-	url:PATH+"/pessoas-categorias-tipos",
+	url:PATH+"/persons-categories-types",
 	resetForm:false,
 	params:{
-		idcategoria:categoria.idcategoria
+		idcategory:category.idcategory
 	},
 	success:function(){
 		System.success("Categoria salva com sucesso");
@@ -68,10 +68,10 @@ form.form({
 });
 
 new Tab({
-	id:"tabs-categoria-tipo",
+	id:"tabs-category-type",
 	items:[{
 		title:"Dados",
-		id:"tab-categoria"
+		id:"tab-category"
 	}]
 })
 

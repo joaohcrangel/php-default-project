@@ -16,27 +16,27 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pessoa-tipo">
+            <form id="form-person-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idpessoatipo">
+                        <input type="hidden" name="idpersontype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="despessoatipo">
+                        <input type="text" class="form-control" name="despersontype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn pessoa-Tipo-Save" type="submit">
-                        Salvar Nova pessoa
+                    <button class="btn btn-block btn-primary" id="btn person-type-Save" type="submit">
+                        Salvar Nova Pessoa
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<script>$("#form-pessoa-tipo").form({
-  url:PATH+"/pessoas-tipos",
+<script>$("#form-person-type").form({
+  url:PATH+"/persons-types",
   success:function(){
-    System.success("pessoa criado com sucesso");
+    System.success("Tipo criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
 

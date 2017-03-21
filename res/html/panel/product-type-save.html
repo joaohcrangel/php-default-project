@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-produto-tipo-save">
+            <form id="form-product-type-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idprodutotipo">
+                        <input type="hidden" name="idproducttype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desprodutotipo">
+                        <input type="text" class="form-control" name="desproducttype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnProduto-tipo-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnproduct-type-Save" type="submit">
                         Salvar Novo Produto
                     </button>
                 </div>
@@ -34,15 +34,15 @@
         </div>
     </div>
 </div>
-<script>var produtoTipo = JSON.parse('{function="json_encode($produto)"}');
+<script>var productType = JSON.parse('{function="json_encode($product)"}');
 
-$("#form-produto-tipo-save").form({
-  url:PATH+"/produtos-tipos",
+$("#form-product-type-save").form({
+  url:PATH+"/products-types",
   params:{
-    idprodutotipo:produtoTipo.idprodutotipo
+    idproducttype:productType.idproducttype
   },
   success:function(){
-    System.success("Produto criado com sucesso");
+    System.success("Tipo criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
 
@@ -52,7 +52,7 @@ $("#form-produto-tipo-save").form({
   }
 });
 
-$("#form-produto-tipo-save").formLoad(produtoTipo);
+$("#form-product-type-save").formLoad(productType);
 
 </script>
 

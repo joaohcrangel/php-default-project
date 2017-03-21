@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Editar Pessoa Valor campo
+                Editar Pessoa Valor Campo
             </h5>
         </h4>
     </div>
@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pessoa-valor">
+            <form id="form-person-value">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idcampo">
+                        <input type="hidden" name="idfield">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="descampo">
+                        <input type="text" class="form-control" name="desfield">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnpessoa-valor" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnperson-value" type="submit">
                         Salvar Pessoa Valor Campo
                     </button>
                 </div>
@@ -35,20 +35,19 @@
     </div>
 </div>
 <script>
-var pessoaValor = JSON.parse('{function="json_encode($pessoavalor)"}');
+var personValue = JSON.parse('{function="json_encode($personvalue)"}');
 
-$("#form-pessoa-valor").formLoad(pessoaValor);
+$("#form-person-value").formLoad(personValue);
 
-$("#form-pessoa-valor").form({
-  url:PATH+"/pessoas-valorescampos",
+$("#form-person-value").form({
+  url:PATH+"/persons-valueesfields",
   params:{
-    idcampo:pessoaValor.idcampo
+    idfield:personValue.idfield
   },
   success:function(){
     System.success("Pessoa Campo criado com sucesso");
     $(".slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
-
   },
   failure:function(r){
     System.showError(r);

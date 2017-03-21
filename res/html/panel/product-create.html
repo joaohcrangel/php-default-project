@@ -8,21 +8,21 @@
 </header>
 
 <div class="slidePanel-inner m-t-40">
-	<form id="form-produto-save" class="slidePanel-form">	
+	<form id="form-product-save" class="slidePanel-form">	
 		<div class="form-group">
 		  	<div class="form-group form-material" data-plugin="formMaterial">
 			    <label>Produto</label>
-			    <input type="text" class="form-control" name="desproduto">
+			    <input type="text" class="form-control" name="desproduct">
 		  	</div>
 		  	<div class="form-group form-material" data-plugin="formMaterial">
 			    <label>Tipo de Produto</label>
-			    <select name="idprodutotipo" class="form-control"></select>
+			    <select name="idproducttype" class="form-control"></select>
 		  	</div>
 		  	<div class="form-group form-material" data-plugin="formMaterial">	  	
 			    <label>Valor</label>
-			    <input type="text" class="form-control" name="vlpreco">
+			    <input type="text" class="form-control" name="vlprice">
 		  	</div>
-		  	<button class="btn btn-block btn-primary" id="btnProdutoSave" type="submit">Salvar Novo Produto</button>
+		  	<button class="btn btn-block btn-primary" id="btnProductSave" type="submit">Salvar Novo Produto</button>
 		</div>
 	</form>
 
@@ -30,32 +30,32 @@
 
 <script>
 
-	$("#form-produto-save [name=idprodutotipo]").combobox({
-		url:PATH+"/produtos/tipos",
-		displayField:"desprodutotipo",
-		valueField:"idprodutotipo"
+	$("#form-product-save [name=idproducttype]").combobox({
+		url:PATH+"/products/types",
+		displayField:"desproducttype",
+		valueField:"idproducttype"
 	});
 
-	var form = $("#form-produto-save");
+	var form = $("#form-product-save");
 
   	form.form({
-  		url:PATH+"/produtos",
+  		url:PATH+"/products",
   		params:{
-  			idproduto:0,
-  			idpreco:0,
-  			inremovido:0
+  			idproduct:0,
+  			idprice:0,
+  			inremoved:0
   		},
   		success:function(){
 
-  			form.find("button#btnProdutoSave").btnload("unload");
+  			form.find("button#btnProductSave").btnload("unload");
   			System.success("Produto criado com sucesso");
   			$(".slidePanel-close").trigger("click");
   			$(".refresh").trigger("click");
-  			loadProdutos();
+  			loadProducts();
 
   		},
   		failure:function(r){
-  			form.find("button#btnProdutoSave").btnload("unload");
+  			form.find("button#btnProductSave").btnload("unload");
   			System.showError(r);
   		}
   	});

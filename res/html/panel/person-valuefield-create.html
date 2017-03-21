@@ -9,7 +9,7 @@
         </div>
         <h4 class="stage-name">
             <h5 class="taskboard-stage-title text-uppercase">
-                Criar Pessoa Valor campo
+                Criar Pessoa Valor Campo
             </h5>
         </h4>
     </div>
@@ -17,17 +17,17 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pessoa-valor">
+            <form id="form-person-value">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idcampo">
+                        <input type="hidden" name="idfield">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="descampo">
+                        <input type="text" class="form-control" name="desfield">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn pessoa-valor" type="submit">
-                        Salvar Pessoa Valor campo
+                    <button class="btn btn-block btn-primary" id="btn person-value" type="submit">
+                        Salvar Pessoa Valor Campo
                     </button>
                 </div>
             </form>
@@ -35,13 +35,12 @@
     </div>
 </div>
 <script>
-$("#form-pessoa-valor").form({
-    url: PATH + "/pessoas-valorescampos",
+$("#form-person-value").form({
+    url: PATH + "/persons-valuesfields",
     success: function() {
-        System.success("Valores criado com sucesso");
+        System.success("Valores criados com sucesso");
         $(".slidePanel-close").trigger("click");
         $(".refresh").trigger("click");
-
     },
     failure: function(r) {
         System.showError(r);

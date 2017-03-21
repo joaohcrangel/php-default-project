@@ -17,17 +17,17 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-lugares-tipos-save">
+            <form id="form-places-types-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idlugartipo">
+                        <input type="hidden" name="idplacetype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="deslugartipo">
+                        <input type="text" class="form-control" name="desplacetype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnlugares-tipos-Save" type="submit">
-                        Salvar Novo Lugar
+                    <button class="btn btn-block btn-primary" id="btnplaces-types-Save" type="submit">
+                        Salvar Novo Tipo
                     </button>
                 </div>
             </form>
@@ -35,13 +35,12 @@
     </div>
 </div>
 <script>
-$("#form-lugares-tipos-save").form({
-    url: PATH + "/lugares-tipos",
+$("#form-places-types-save").form({
+    url: PATH + "/places-types",
     success: function() {
-        System.success("Lugar criado com sucesso");
+        System.success("Tipo criado com sucesso");
         $(".slidePanel-close").trigger("click");
         $(".refresh").trigger("click");
-
     },
     failure: function(r) {
         System.showError(r);

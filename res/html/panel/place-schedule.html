@@ -17,7 +17,7 @@
 	<table class="table table-stripped table-hover">
 		<thead>
 			<tr>
-				<th><input id="horariosTodos" type="checkbox"></th>
+				<th><input id="schedulesAll" type="checkbox"></th>
 				<th>Dia</th>
 				<th>Hora de Abertura</th>
 				<th>Hora de Fechamento</th>
@@ -25,12 +25,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			{loop="horarios"}
+			{loop="schedules"}
 				<tr data-nrdia="{$value.nrweekday}">
 					<td><input type="checkbox"></td>
 					<td>{$value.desweekday}</td>
-					<td><input type="time" class="form-control" name="hrabre" disabled="disabled"></td>
-					<td><input type="time" class="form-control" name="hrfecha" disabled="disabled"></td>
+					<td><input type="time" class="form-control" name="hropen" disabled="disabled"></td>
+					<td><input type="time" class="form-control" name="hrclose" disabled="disabled"></td>
 					<td><button class="btn btn-default" disabled="disabled">Padrão</button></td>
 				</tr>
 			{/loop}
@@ -38,7 +38,7 @@
 	</table>
 
 	<div class="form-group form-material" data-plugin="formMaterial">
-		<button type="button" class="btn btn-primary btn-horarios-salvar">Salvar</button>
+		<button type="button" class="btn btn-primary btn-schedules-save">Salvar</button>
 	</div>
 
 </div>
@@ -68,52 +68,52 @@ $(".slidePanel-inner table tr").each(function(){
 
 		var $tbody = $(".slidePanel-inner table tbody");
 
-		var hrabre = $tr.find("[name=hrabre]").val();
-		var hrfecha = $tr.find("[name=hrfecha]").val();
+		var hropen = $tr.find("[name=hropen]").val();
+		var hrclose = $tr.find("[name=hrclose]").val();
 
-		$tbody.find("tr [name=hrabre]:enabled").val(hrabre);
-		$tbody.find("tr [name=hrfecha]:enabled").val(hrfecha);
+		$tbody.find("tr [name=hropen]:enabled").val(hropen);
+		$tbody.find("tr [name=hrclose]:enabled").val(hrclose);
 
 	});
 
 });
 	
-$(".slidePanel-inner table #horariosTodos").on("change", function(){
+$(".slidePanel-inner table #schedulesAll").on("change", function(){
 
 	$('.slidePanel-inner table tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
 
 });
 
-$(".btn-horarios-salvar").on("click", function(){
+$(".btn-schedules-save").on("click", function(){
 
 	var $btn = $(this);
 
 	$btn.btnload("load");
 
 	var nrdia = [];
-	var hrabre = [];
-	var hrfecha = [];
+	var hropen = [];
+	var hrclose = [];
 
 	$(".slidePanel-inner table tbody tr").each(function(){
 
 		if($(this).find(":checkbox").prop("checked")){
 
 			nrdia.push($(this).data("nrdia"));
-			hrabre.push($(this).find("[name=hrabre]").val());
-			hrfecha.push($(this).find("[name=hrfecha]").val());
+			hropen.push($(this).find("[name=hropen]").val());
+			hrclose.push($(this).find("[name=hrclose]").val());
 
 		}
 
 	});
 
 	rest({
-		url:PATH+"/lugares-horarios",
+		url:PATH+"/places-schedules",
 		method:"POST",
 		data:{
 			ids:ids.toString(),
 			nrdia:nrdia.toString(),
-			hrabre:hrabre.toString(),
-			hrfecha:hrfecha.toString()
+			hropen:hropen.toString(),
+			hrclose:hrclose.toString()
 		},
 		success:function(){
 			System.success("Horários definidos com sucesso");

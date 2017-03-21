@@ -17,7 +17,7 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-pedidos-status-save">
+            <form id="form-orders-status-save">
                 <div class="form-group">
                     <div class="form-group form-material">
                         <input type="hidden" name="idstatus">
@@ -26,7 +26,7 @@
                         </label>
                         <input type="text" class="form-control" name="desstatus">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnpedidos-status-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btnorders-status-Save" type="submit">
                         Salvar Novo Status
                     </button>
                 </div>
@@ -35,12 +35,12 @@
     </div>
 </div>
 <script>
-var PedidosStatus = JSON.parse('{function="json_encode($status)"}');
+var ordersStatus = JSON.parse('{function="json_encode($status)"}');
 
-$("#form-pedidos-status-save").formLoad(PedidosStatus);
+$("#form-orders-status-save").formLoad(ordersStatus);
 
-$("#form-pedidos-status-save").form({
-  url:PATH+"/pedidos-status",
+$("#form-orders-status-save").form({
+  url:PATH+"/orders-status",
   params:{
     idstatus:status.idstatus
   },

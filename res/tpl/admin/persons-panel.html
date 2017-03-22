@@ -1,0 +1,1136 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><style>@media (max-width: 768px) {
+    .p-xs-25 {
+      padding: 25px!important;
+    }
+  }</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-pessoa" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button id="btn-close-slidepanel" type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$pessoa.despessoa}</h5></h4></div></header><div class="slidePanel-inner p-0"><section class="slidePanel-inner-section p-0 m-0"><div class="card card-inverse m-b-0"></div><div class="row"><div class="p-0 m-0"><div class="nav-tabs-vertical col-md-4 p-r-0" data-plugin="tabs"><ul class="nav nav-tabs p-0 m-0" style="width: 100%" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#pessoaTab" aria-controls="pessoaTab" role="tab" aria-expanded="true">Cadastro</a><li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#siteContatosTab" aria-controls="siteContatosTab" role="tab" aria-expanded="false">Fale Conosco</a><li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#cartoesTab" aria-controls="cartoesTab" role="tab" aria-expanded="false">Cartões de Crédito</a><li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#carrinhosTab" aria-controls="carrinhosTab" role="tab" aria-expanded="false">Carrinhos</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usuariosTab" aria-controls="usuariosTab" role="tab" aria-expanded="false">Usuários</a><li class="nav-item"><a class="nav-link" data-toggle="tab" href="#pagamentosTab" aria-controls="pagamentosTab" role="tab" aria-expanded="false">Pagamentos</a></ul></div><div class="m-0 m-t-10 col-md-8 p-0"><div class="tab-content"><div class="tab-pane active" id="pessoaTab" role="tabpanel" aria-expanded="true"><form id="pessoa-form" class="p-15"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="despessoa">Nome</label><input type="text" class="form-control" id="despessoa" name="despessoa" value="{$pessoa.despessoa}"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idpessoatipo">Tipo da Pessoa</label><select class="form-control" name="idpessoatipo" id="idpessoatipo" value="{$pessoa.idpessoatipo}"></select></div><label class="form-control-label"><h4>Telefones</h4></label><div id="panel-telefones" class="panel m-0 p-0"></div><label class="form-control-label"><h5>Adicionar novo telefone</h5></label><div class="row-fluid telefone-add"><div class="form-group form-material col-md-4 p-l-0" data-plugin="formMaterial"><div class="input-group"><div class="form-control-wrap"><select name="idcontatosubtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-8"><div class="input-group"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Telefone"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><label class="form-control-label"><h4>Emails</h4></label><div class="panel m-0 p-0" id="panel-emails"></div><label class="form-control-label"><h5>Adicionar novo email</h5></label><div class="row-fluid email-add"><div class="form-group form-material col-md-4 p-l-0" data-plugin="formMaterial"><div class="input-group"><div class="form-control-wrap"><select name="idcontatosubtipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-8"><div class="input-group"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Email"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><label class="form-control-label"><h4>Documentos</h4></label><div class="panel m-0 p-0" id="panel-documentos"></div><label class="form-control-label"><h5>Adicionar novo documento</h5></label><div class="row-fluid documento-add"><div class="form-group form-material col-md-4 p-l-0" data-plugin="formMaterial"><div class="input-group"><div class="form-control-wrap"><select name="iddocumentotipo" class="form-control"></select></div></div></div><div class="form-group form-material col-md-8"><div class="input-group"><div class="form-control-wrap"><input type="text" class="form-control" placeholder="Documento"></div><span class="input-group-btn"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect btn-salvar-pessoa">Salvar</button></div></form></div><div class="tab-pane panel panel-site-contatos" id="siteContatosTab" role="tabpanel" aria-expanded="false"><div class="panel-header"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" aria-hidden="true"></a></div></div><table class="table-site-contatos table table-hover table-striped"><thead><tr><th>Mensagem<th>Data<th>&nbsp;<tbody></table><div id="paginacao-site-contatos" class="p-15"></div></div><div class="tab-pane panel panel-cartoes" id="cartoesTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" aria-hidden="true"></a> <a class="panel-action icon md-plus cartao-add btn btn-pure btn-success" title="Adicionar novo cartão" aria-hidden="true"></a></div><table class="table-contatos table table-hover table-striped"><thead><tr><th>Nome do titular<th>Data de Validade<th>Número<th>&nbsp;<tbody></table></div><div class="tab-pane panel panel-carrinhos" id="carrinhosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" aria-hidden="true"></a></div><table class="table-contatos table table-hover table-striped"><thead><tr><th>Número de Produtos<th>Valor Total<tbody></table><div id="paginacao-carrinhos"></div></div><div class="tab-pane panel panel-usuarios" id="usuariosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" aria-hidden="true"></a> <a class="panel-action icon md-plus usuario-add btn btn-pure btn-success" title="Adicionar novo usuário" aria-hidden="true"></a></div><table class="table-usuarios table table-hover table-striped"><thead><tr><th>Usuário<th>Tipo do Usuário<th>&nbsp;<tbody></table></div><div class="tab-pane panel panel-pagamentos" id="pagamentosTab" role="tabpanel" aria-expanded="false"><div class="panel-actions"><a class="panel-action icon md-refresh-alt refresh" aria-hidden="true"></a></div><table class="table-pagamentos table table-hover table-striped"><thead><tr><th>Forma de Pagamento<th>Status<th>Valor do Pagamento<th>Número de parcelas<tbody></table><div id="paginacao-pagamentos"></div></div></div></div></div></div></section></div><div class="modal fade" id="modalCartao" tabindex="-1" role="dialog" aria-labelledby="modalCartaoLabel" data-backdrop="false"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Criar cartão de crédito para {$pessoa.despessoa}</h4></div><form id="form-pessoa-cartao-add"><div class="modal-body"><div class="form-group form-material" data-plugin="formMaterial"><div class="input-group"><input type="hidden" name="idcartao"><label class="form-control-label">Nome do Titular</label><input type="text" class="form-control" name="desnome"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Número do Cartão</label><input type="text" class="form-control" name="desnumero"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Data de Validade</label><input type="date" class="form-control" name="dtvalidade"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Número de CDS</label><input type="number" class="form-control" name="nrcds"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" class="btn btn-primary">Salvar</button></div></form></div></div></div><div class="modal fade" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="modalUsuarioLabel" data-backdrop="false"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Criar usuário para {$pessoa.despessoa}</h4></div><form id="form-pessoa-usuario-add"><div class="modal-body"><div class="form-group form-material" data-plugin="formMaterial"><div class="input-group"><input type="hidden" name="idusuario"><label class="form-control-label">Usuário</label><input type="text" class="form-control" name="desusuario"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Senha</label><input type="password" class="form-control" name="dessenha"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Tipo do Usuário</label><select name="idusuariotipo" class="form-control"></select></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" class="btn btn-primary">Salvar</button></div></form></div></div></div><div class="modal fade" id="modalUsuarioSenha" tabindex="-1" role="dialog" aria-labelledby="modalUsuarioSenhaLabel" data-backdrop="false"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Trocar a senha</h4></div><form id="form-pessoa-usuario-senha"><div class="modal-body"><div class="form-group form-material" data-plugin="formMaterial"><div class="input-group"><label class="form-control-label">Senha atual</label><input type="password" class="form-control" name="dessenhaatual" placeholder="Digite sua senha atual"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Nova Senha</label><input type="password" class="form-control" name="dessenhanova" placeholder="Digite a nova senha"></div></div><div class="form-group form-material"><div class="input-group"><label class="form-control-label">Confirme a nova senha</label><input type="password" class="form-control" name="dessenhaconfirme"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button> <button type="submit" class="btn btn-primary">Salvar</button></div></form></div></div></div><script id="tpl-telefone-pessoa" type="text/x-handlebars-template"><div class="row">    
+    <div class="form-group form-material col-md-5" data-plugin="formMaterial">
+      <select class="form-control" name="idcontatosubtipo" value="{{idcontatosubtipo}}"></select>
+    </div>
+    <div class="form-group form-material col-md-5" data-plugin="formMaterial">
+      <input type="text" class="form-control" id="descontato" name="descontato" placeholder="Adicionar novo telefone" value="{{descontato}}">
+    </div>
+    <div class="form-group form-material col-md-2" data-plugin="formMaterial">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-info btn-outline input-search-close icon wb-check" style="padding:10px"></button>
+        <button type="button" class="btn btn-danger btn-outline input-search-close icon wb-close" style="padding:10px"></button>
+      </span>
+    </div>
+  </div></script><script id="tpl-email-pessoa" type="text/x-handlebars-template"><div class="row">
+    <div class="form-group form-material col-md-5" data-plugin="formMaterial">
+      <select class="form-control" name="idcontatosubtipo" value="{{idcontatosubtipo}}"></select>
+    </div>
+    <div class="form-group form-material col-md-5" data-plugin="formMaterial">
+      <input type="text" class="form-control" id="descontato" name="descontato" value="{{descontato}}" placeholder="Adicionar novo email">
+    </div>
+    <div class="form-group form-material col-md-2" data-plugin="formMaterial">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-info btn-outline input-search-close icon wb-check" style="padding:10px"></button>
+        <button type="button" class="btn btn-danger btn-outline input-search-close icon wb-close" style="padding:10px"></button>
+      </span>
+    </div>
+  </div></script><script id="tpl-documento-pessoa" type="text/x-handlebars-template"><div class="row">
+    <div class="form-group form-material col-md-5" data-plugin="formMaterial">
+      <select class="form-control" name="iddocumentotipo" value="{{iddocumentotipo}}"></select>
+    </div>
+    <div class="form-group form-material col-md-5" data-plugin="formMaterial">
+      <input type="text" class="form-control" id="desdocumento" name="desdocumento" value="{{desdocumento}}" placeholder="Adicionar novo documento">
+    </div>
+    <div class="form-group form-material col-md-2" data-plugin="formMaterial">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-info btn-outline input-search-close icon wb-check" style="padding:10px"></button>
+        <button type="button" class="btn btn-danger btn-outline input-search-close icon wb-close" style="padding:10px"></button>
+      </span>
+    </div>
+  </div></script><script id="tpl-cartao-pessoa" type="text/x-handlebars-template"><tr data-idcartao="{{idcartao}}">
+    <td>{{desnome}}</td>
+    <td>{{dtvalidade}}</td>
+    <td>{{desnumero}}</td>
+    <td><button class="btn btn-pure btn-danger icon md-delete"></button></td>
+  </tr></script><script id="tpl-site-contato-pessoa" type="text/x-handlebars-template"><tr data-idsitecontato="{{idsitecontato}}">
+    <td>{{desmensagem}}</td>
+    <td>{{desdtcadastro}}</td>
+    <td class="p-0">
+      <button type="button" class="btn btn-pure btn-default icon md-eye waves-effect"></button>
+      <button type="button" class="btn btn-pure btn-danger icon md-delete waves-effect"></button>
+    </td>
+  </tr></script><script id="tpl-carrinho-pessoa" type="text/x-handlebars-template"><tr data-idcarrinho="{{idcarrinho}}">
+    <td>{{nrprodutos}}</td>
+    <td>{{vltotal}}</td>
+  </tr></script><script id="tpl-usuario-pessoa" type="text/x-handlebars-template"><tr>
+    <td>{{desusuario}}</td>
+    <td><select name="idusuariotipo" class="form-control" value="{{idusuariotipo}}"></select></td>
+    <td>
+      <button class="btn btn-pure btn-danger icon md-delete"></button>
+      <button class="btn btn-pure btn-default icon md-lock" title="Trocar senha"></button>
+    </td>
+  </tr></script><script id="tpl-pagamento-pessoa" type="text/x-handlebars-template"><tr>
+    <td>{{desformapagamento}}</td>
+    <td>{{desstatus}}</td>
+    <td>{{vltotal}}</td>
+    <td>{{nrparcelas}}</td>
+  </tr></script><script>(function(){
+
+    var pessoa = JSON.parse('{function="json_encode($pessoa)"}');
+
+    var tplTelefones = Handlebars.compile($("#tpl-telefone-pessoa").html());
+    var tplEmails = Handlebars.compile($("#tpl-email-pessoa").html());    
+    var tplDocumentos = Handlebars.compile($("#tpl-documento-pessoa").html());
+
+    $panelTelefones = $("#panel-telefones");
+    $panelEmails = $("#panel-emails");    
+    $panelDocumentos = $("#panel-documentos");
+
+    function renderTelefones(telefones){
+
+      $panelTelefones.html('');
+
+      $.each(telefones, function(index, row){
+
+        var $input = $(tplTelefones(row));
+
+        $panelTelefones.append($input);
+
+        $input.find("[name=idcontatosubtipo]").combobox({
+          url:PATH+"/contatossubtipos?idcontatotipo=2",
+          displayField:"descontatosubtipo",
+          valueField:"idcontatosubtipo",
+          value:row.idcontatosubtipo
+        }).on("change", function(){
+
+          var $select = $(this);
+
+          $select.prop("disabled", true);
+
+          rest({
+            url:PATH+"/contatos",
+            method:"POST",
+            data:{
+              idcontato:row.idcontato,
+              idcontatotipo:row.idcontatotipo,
+              idcontatosubtipo:$input.find("[name=idcontatosubtipo]").val(),
+              idpessoa:pessoa.idpessoa,
+              inprincipal:Number(row.inprincipal),
+              descontato:$input.find("input").val()
+            },
+            success:function(r){
+              $select.prop("disabled", false);
+            },
+            failure:function(r){
+              $select.prop("disabled", false);
+              System.showError(r);
+            }
+          });
+
+        });
+
+        $input.find(".btn-info").on("click", function(){
+
+          var $btn = $(this);
+
+          $btn.btnload("load");
+
+          rest({
+            url:PATH+"/contatos",
+            method:"POST",
+            data:{
+              idcontato:row.idcontato,
+              idcontatotipo:row.idcontatotipo,
+              idcontatosubtipo:$input.find("[name=idcontatosubtipo]").val(),
+              idpessoa:pessoa.idpessoa,
+              inprincipal:row.inprincipal,
+              descontato:$input.find("input").val()
+            },
+            success:function(r){
+              $btn.btnload("unload");
+              loadContatos();           
+            },
+            failure:function(r){
+              $btn.btnload("unload");
+              System.showError(r);
+            }
+          });
+
+        });
+
+        $input.find(".btn-danger").on("click", function(){
+
+          System.confirm("Deseja remover o telefone "+row.descontato+"?", function(b, s, f){
+
+            if(b){
+
+              rest({
+                url:PATH+"/contatos/"+row.idcontato,
+                method:"DELETE",
+                success:function(){
+
+                  var tels = [];
+
+                  $.each(pessoa.Telefones, function(index, telefone){
+                    if(telefone.idcontato != row.idcontato){
+                      tels.push(telefone);
+                    }
+                  });
+
+                  pessoa.Telefones = tels;
+
+                  $input.remove();
+
+                  System.done();
+
+                },
+                failure:function(r){
+                  System.done();
+                  System.showError(r);
+                }
+              });
+
+            }else{
+              f();
+            }
+
+          });
+
+        });
+
+      });      
+
+    }
+
+    function renderEmails(emails){
+
+      $panelEmails.html('');
+
+      $.each(emails, function(index, row){
+
+        var $tpl = $(tplEmails(row));
+
+        $panelEmails.append($tpl);
+
+        $tpl.find("[name=idcontatosubtipo]").combobox({
+          url:PATH+"/contatossubtipos?idcontatotipo=1",
+          displayField:"descontatosubtipo",
+          valueField:"idcontatosubtipo",
+          value:row.idcontatosubtipo
+        }).on("change", function(){
+
+          var $select = $(this);
+
+          $select.prop("disabled", true);
+
+          rest({
+            url:PATH+"/contatos",
+            method:"POST",
+            data:{
+              idpessoa:pessoa.idpessoa,
+              idcontato:row.idcontato,
+              idcontatotipo:row.idcontatotipo,
+              idcontatosubtipo:$select.val(),
+              inprincipal:row.inprincipal,
+              descontato:$tpl.find("input").val()
+            },
+            success:function(){
+              $select.prop("disabled", false);
+              loadContatos();
+            },
+            failure:function(r){
+              $select.prop("disabled", false);
+              System.showError(r);
+            }
+          });
+
+        });
+
+        $tpl.find(".btn-info").on("click", function(){
+
+          $btn = $(this);
+
+          $btn.btnload("load");
+
+          rest({
+            url:PATH+"/contatos",
+            method:"POST",
+            data:{
+              idpessoa:pessoa.idpessoa,
+              idcontato:row.idcontato,
+              idcontatotipo:row.idcontatotipo,
+              idcontatosubtipo:$tpl.find("[name=idcontatosubtipo]").val(),
+              descontato:$tpl.find("input").val(),
+              inprincipal:Number(row.inprincipal)
+            },
+            success:function(){
+              $btn.btnload("unload");
+              loadContatos();
+            },
+            failure:function(r){
+              $btn.btnload("unload");
+              System.showError(r);
+            }
+          });
+
+        });
+
+        $tpl.find(".btn-danger").on("click", function(){
+
+          System.confirm("Deseja remover o email "+row.descontato+"?", function(b, s, f){
+
+            if(b){
+
+              rest({
+                url:PATH+"/contatos/"+row.idcontato,
+                method:"DELETE",
+                success:function(){
+
+                  var emails = [];
+
+                  $.each(pessoa.Emails, function(index,email){
+                    if(email.idcontato != row.idcontato){
+                      emails.push(email);
+                    }
+                  });
+
+                  pessoa.Emails = emails;
+
+                  $tpl.remove();
+
+                  System.done();
+
+                },
+                failure:function(r){
+                  System.done();
+                  System.showError(r);
+                }
+              });
+
+            }else{
+              f();
+            }
+
+          });
+
+        });
+
+      });      
+
+    }
+
+    function renderDocumentos(documentos){
+
+      $panelDocumentos.html('');
+
+      $.each(documentos, function(index, row){
+
+        var $input = $(tplDocumentos(row));
+
+        $panelDocumentos.append($input);
+
+        $input.find("[name=iddocumentotipo]").combobox({
+          url:PATH+"/documentos/tipos",
+          displayField:"desdocumentotipo",
+          valueField:"iddocumentotipo",
+          value:row.iddocumentotipo
+        }).on("change", function(){
+
+          $select = $(this);
+
+          $select.prop("disabled", true);
+
+          rest({
+            url:PATH+"/documentos",
+            method:"POST",
+            data:{
+              idpessoa:pessoa.idpessoa,
+              iddocumento:row.iddocumento,
+              iddocumentotipo:$select.val(),
+              desdocumento:$input.find("input").val()
+            },
+            success:function(){
+              $select.prop("disabled", false);
+            },
+            failure:function(r){
+              $select.prop("disabled", false);
+              System.showError(r);
+            }
+          });
+
+        });
+
+        $input.find(".btn-info").on("click", function(){
+
+          var $btn = $(this);
+
+          $btn.btnload("load");
+
+          rest({
+            url:PATH+"/documentos",
+            method:"POST",
+            data:{
+              idpessoa:pessoa.idpessoa,
+              iddocumento:row.iddocumento,
+              iddocumentotipo:$input.find("[name=iddocumentotipo]").val(),
+              desdocumento:$input.find("input").val()
+            },
+            success:function(r){
+              $btn.btnload("unload");
+            },
+            failure:function(r){
+              $btn.btnload("unload");
+              System.showError(r);
+            }
+          });
+
+        });
+
+        $input.find(".btn-danger").on("click", function(){
+
+          System.confirm("Deseja remover o "+row.desdocumentotipo+" "+row.desdocumento+"?", function(b, s, f){
+
+            if(b){
+
+              rest({
+                url:PATH+"/documentos/"+row.iddocumento,
+                method:"DELETE",
+                success:function(){
+
+                  var documentos = [];
+
+                  $.each(pessoa.Documentos, function(index, documento){
+                    if(documento.iddocumento != row.iddocumento){
+                      documentos.push(documento);
+                    }
+                  });
+
+                  pessoa.Documentos = documentos;
+
+                  $input.remove();
+
+                  s();
+
+                  System.done();
+
+                },
+                failure:function(r){
+                  System.done();
+                  System.showError(r);
+                }
+              });
+
+            }else{
+              f();
+            }
+
+          });
+
+        });
+
+      });
+
+    }
+
+    // adicionar telefone
+    $(".telefone-add [name=idcontatosubtipo]").combobox({
+      url:PATH+"/contatossubtipos?idcontatotipo=2",
+      displayField:"descontatosubtipo",
+      valueField:"idcontatosubtipo",
+      emptyText:"Tipo"
+    });
+
+    $(".telefone-add button").on("click", function(){
+
+      var $form = $(".telefone-add");
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/contatos",
+        method:"POST",
+        data:{
+          idcontato:0,
+          idpessoa:pessoa.idpessoa,
+          idcontatotipo:2,
+          idcontatosubtipo:$form.find("[name=idcontatosubtipo]").val(),
+          descontato:$form.find("input[type='text']").val(),
+          inprincipal:0
+        },
+        success:function(r){
+          $form.find("input, select").val('');
+          $btn.btnload("unload");
+          loadContatos();
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
+
+    $(".telefone-add").find('input').on('keyup', function(event){
+      if (event.keyCode === 13) $(".telefone-add").find('.btn-success').trigger('click');
+    });
+
+    // adicionar email
+    $(".email-add [name=idcontatosubtipo]").combobox({
+      url:PATH+"/contatossubtipos?idcontatotipo=1",
+      displayField:"descontatosubtipo",
+      valueField:"idcontatosubtipo",
+      emptyText:"Tipo"
+    });
+
+    $(".email-add button").on("click", function(){
+
+      var $form = $(".email-add");
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/contatos",
+        method:"POST",
+        data:{
+          idpessoa:pessoa.idpessoa,
+          idcontato:0,
+          idcontatotipo:1,
+          idcontatosubtipo:$form.find("[name=idcontatosubtipo]").val(),
+          descontato:$form.find("input").val(),
+          inprincipal:0
+        },
+        success:function(r){
+          $form.find("select, input").val('');
+          $btn.btnload("unload");
+          loadContatos();
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
+
+    $(".email-add").find('input').on('keyup', function(event){
+      if (event.keyCode === 13) $(".email-add").find('.btn-success').trigger('click');
+    });
+
+    // adicionar documentos
+    $(".documento-add [name=iddocumentotipo]").combobox({
+      url:PATH+"/documentos/tipos",
+      displayField:"desdocumentotipo",
+      valueField:"iddocumentotipo",
+      emptyText:"Tipo"
+    });
+
+    $(".documento-add button").on("click", function(){
+
+      var $form = $(".documento-add");
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/documentos",
+        method:"POST",
+        data:{
+          idpessoa:pessoa.idpessoa,
+          iddocumento:0,
+          iddocumentotipo:$form.find("[name=iddocumentotipo]").val(),
+          desdocumento:$form.find("input").val()
+        },
+        success:function(r){
+          $form.find("select, input").val('');
+          $btn.btnload("unload");
+          
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
+
+    $(".documento-add").find("input").on("keyup", function(event){
+      if(event.keyCode === 13) $(".documento-add").find(".btn-success").trigger("click");
+    });
+
+    // salvar pessoa
+    $("#pessoa-form").form({
+      url:PATH+"/pessoas",
+      resetForm:false,
+      params:{
+        idpessoa:pessoa.idpessoa
+      },
+      success:function(r){
+        atualizarPagina();
+        System.success("Pessoa salva com sucesso");
+      }
+    });
+
+    // functions do painel
+    var isSiteLogged = false;
+    var isCartaoLogged = false;
+    var isCarrinhoLogged = false;
+    var isUsuarioLogged = false;
+    var isPagamentoLogged = false;
+
+    $("[name=idpessoatipo]").combobox({
+      url:PATH+"/pessoas-tipos",
+      displayField:"despessoatipo",
+      valueField:"idpessoatipo",
+      value:pessoa.idpessoatipo
+    });
+
+    $(".tab-pane .panel-actions").css("position", "relative");
+
+    $(".tab-pane .panel-actions .icon").css({
+      "position":"initial",
+      "float":"right"
+    });
+
+    // funções dos cartoes da pessoa
+    $("a.nav-link[href='#cartoesTab']").on("shown.bs.tab", function(){
+      loadCartoes();
+    });
+
+    $(".cartao-add").on("click", function(){
+
+      $("#modalCartao").modal("show");
+
+      $("#form-pessoa-cartao-add").form({
+        url:PATH+"/cartoes",
+        params:{
+          idpessoa:pessoa.idpessoa
+        },
+        success:function(){
+          System.success("Cartão criado com sucesso");
+          $("#modalCartao").modal("hide");
+          $("#cartoesTab .refresh").trigger("click");
+        }
+      });
+
+    });
+
+    function loadCartoes(){
+
+      if(isCartaoLogged === false){
+
+        $("#cartoesTab .refresh").on("click", function(){
+
+          isCartaoLogged = false;
+
+          loadCartoes();
+         
+        });
+
+        var $panelCartoes = System.getPanelApi($(".panel-cartoes"));
+
+        $panelCartoes.load();
+
+        var $tbody = $("#cartoesTab tbody");        
+
+        var tplCartoes = Handlebars.compile($("#tpl-cartao-pessoa").html());
+
+        rest({
+          url:PATH+"/pessoas/"+pessoa.idpessoa+"/cartoes",
+          success:function(r){
+
+            $tbody.html('');
+
+            $.each(r.data, function(index, row){
+
+              var $tr = $(tplCartoes(row));
+
+              $tbody.append($tr);
+
+              $tr.find(".btn-danger").on("click", function(){
+
+                System.confirm("Deseja realmente remover este cartão?", function(b, s, f){
+
+                  if(b){
+
+                    rest({
+                      url:PATH+"/cartoes/"+row.idcartao,
+                      method:"DELETE",
+                      success:function(){
+                        System.done();
+                        $(".panel-cartoes .refresh").trigger("click");
+                        s();                        
+                      },
+                      failure:function(r){
+                        System.done();
+                        System.showError(r);
+                      }
+                    });
+
+                  }else{
+                    f();
+                  }
+
+                });
+
+              });
+
+            });
+
+            $panelCartoes.load();
+            $panelCartoes.done();
+
+            isCartaoLogged = true;
+
+          },
+          failure:function(r){
+            $panelCartoes.done();
+            System.showError(r);
+          }
+        });        
+
+      }
+
+    }
+
+    // funções dos fale conosco da pessoa
+    $("a.nav-link[href='#siteContatosTab']").on("shown.bs.tab", function(){
+      loadSites();
+    });   
+
+    function loadSites(pagina){
+
+      if(!pagina) pagina = 1;
+
+      if(isSiteLogged === false){
+
+        $("#siteContatosTab .refresh").on("click", function(){
+
+          isSiteLogged = false;
+
+          loadSites();
+
+        });
+
+        var $tbody = $("#siteContatosTab tbody");        
+
+        $tplSites = Handlebars.compile($("#tpl-site-contato-pessoa").html());
+
+        $panelSite = System.getPanelApi($(".panel-site-contatos"));
+
+        $panelSite.load();
+
+        rest({
+          url:PATH+"/pessoas/"+pessoa.idpessoa+"/fale-conosco",
+          data:{
+            pagina:pagina,
+            limite:5
+          },
+          success:function(r){
+
+            $tbody.html('');
+
+            $.each(r.data, function(index, row){
+              $tbody.append($tplSites(row));
+            });
+
+            $panelSite.done();
+
+            if (r.data.length > 0) {
+
+              var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+                skin:'pagination-gap',
+                currentPage:r.currentPage,
+                itemsPerPage:r.itemsPerPage,
+                onChange:function(page){
+                  loadSites(page);
+                }
+              });
+
+              $("#paginacao-site-contatos").show().asPaginator(r.total, config);
+
+            } else {
+
+              $("#paginacao-site-contatos").hide();
+
+            }
+
+          },
+          failure:function(r){
+            $panelSite.done();
+            System.showError(r);
+          }
+        });
+
+        isSiteLogged = true;
+
+      }
+
+    }
+
+    // funções dos carrinhos da pessoa
+    $("a.nav-link[href='#carrinhosTab']").on("shown.bs.tab", function(){
+      loadCarrinhos();
+    });
+
+    function loadCarrinhos(pagina){
+
+      if(!pagina) pagina = 1;
+
+      if(isCarrinhoLogged === false){
+
+        $("#carrinhosTab .refresh").on("click", function(){
+
+          isCarrinhoLogged = false;
+
+          loadCarrinhos();
+
+        });
+
+        var $tbody = $("#carrinhosTab tbody");        
+
+        var $tplCarrinhos = Handlebars.compile($("#tpl-carrinho-pessoa").html());
+
+        $panelCarrinhos = System.getPanelApi($(".panel-carrinhos"));
+
+        $panelCarrinhos.load();
+
+        rest({
+          url:PATH+"/pessoas/"+pessoa.idpessoa+"/carrinhos",
+          data:{
+            pagina:pagina,
+            limite:5
+          },
+          success:function(r){
+
+            $tbody.html('');
+
+            $.each(r.data, function(index, row){
+              $tbody.append($tplCarrinhos(row));
+            });
+
+            $panelCarrinhos.done();
+
+            var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+              skin:'pagination-gap',
+              currentPage:r.currentPage,
+              itemsPerPage:r.itemsPerPage,
+              onChange:function(page){
+                loadCarrinhos(page);
+              }
+            });
+
+            $("#paginacao-carrinhos").asPaginator(r.total, config);
+
+          },
+          failure:function(r){
+            $panelCarrinhos.done();
+            System.showError(r);
+          }
+        });        
+
+        isCarrinhoLogged = true;
+
+      }
+
+    }
+
+    // funções do usuario da pessoa
+    $("a.nav-link[href='#usuariosTab']").on("shown.bs.tab", function(){
+      loadUsuarios();
+    });
+
+    $(".usuario-add").on("click", function(){
+
+      var $modal = $("#modalUsuario");
+
+      $modal.modal("show");
+
+      $modal.find("[name=idusuariotipo]").combobox({
+        url:PATH+"/usuariostipos",
+        displayField:"desusuariotipo",
+        valueField:"idusuariotipo"
+      });
+
+      $modal.find("form").form({
+        url:PATH+"/usuarios",
+        params:{
+          idpessoa:pessoa.idpessoa,
+          inbloqueado:0
+        },
+        success:function(){
+          System.success("Usuário criado com sucesso");
+          $modal.modal('hide');
+          $(".panel-usuarios .panel-actions .refresh").trigger("click");
+        }
+      });
+
+    });
+
+    function loadUsuarios(){
+
+      if(isUsuarioLogged == false){
+
+        $(".panel-usuarios .panel-actions .refresh").on("click", function(){
+
+          isUsuarioLogged = false;
+
+          loadUsuarios();
+
+        });
+        
+        var $tbody = $("#usuariosTab tbody");        
+
+        var tplUsuarios = Handlebars.compile($("#tpl-usuario-pessoa").html());
+
+        var $panelUsuarios = System.getPanelApi($(".panel-usuarios"));
+
+        $panelUsuarios.load();
+
+        rest({
+          url:PATH+"/pessoas/"+pessoa.idpessoa+"/usuarios",
+          success:function(r){
+
+            $tbody.html('');
+
+            $.each(r.data, function(index, row){
+
+              var $input = $(tplUsuarios(row));
+
+              $tbody.append($input);
+
+              $input.find("[name=idusuariotipo]").combobox({
+                url:PATH+"/usuariostipos",
+                displayField:"desusuariotipo",
+                valueField:"idusuariotipo",
+                value:row.idusuariotipo
+              }).on("change", function(){
+
+                var $select = $(this);
+
+                $select.prop("disabled", true);
+
+                rest({
+                  url:PATH+"/usuarios",
+                  method:"POST",
+                  data:{
+                    idusuario:row.idusuario,
+                    idusuariotipo:$select.val(),
+                    idpessoa:pessoa.idpessoa,
+                    desusuario:row.desusuario,
+                    dessenha:row.dessenha,
+                    inbloqueado:row.inbloqueado
+                  },
+                  success:function(){
+                    $select.prop("disabled", false);
+                  },
+                  failure:function(r){
+                    $select.prop("disabled", false);
+                    System.showError(r);
+                  }
+                });
+
+              });
+
+              $input.find(".md-delete").on("click", function(){
+
+                System.confirm("Deseja realmente remover "+row.desusuario+"?", function(b, s, f){
+
+                  if(b){
+
+                    rest({
+                      url:PATH+"/usuarios/"+row.idusuario,
+                      method:"DELETE",
+                      success:function(r){
+                        System.done();
+                        s();
+                        $(".panel-usuarios .panel-actions .refresh").trigger("click");
+                      },
+                      failure:function(r){
+                        System.done();
+                        f(r);
+                      }
+                    });
+
+                  }else{
+                    f();
+                  }
+
+                });
+
+              });
+
+              $input.find(".md-lock").on("click", function(){
+
+                var $modal = $("#modalUsuarioSenha");
+
+                $modal.modal("show");
+
+                $modal.find("form").form({
+                  url:PATH+"/usuarios/"+row.idusuario+"/senha",
+                  success:function(){
+                    System.success();
+                    $modal.modal("hide");
+                    $(".panel-usuarios .panel-actions .refresh").trigger("click");
+                  }
+                });
+
+              });
+
+            });
+
+            $panelUsuarios.done();
+
+            isUsuarioLogged = true;
+
+          },
+          failure:function(r){
+            $panelUsuarios.done();
+            System.showError(r);
+          }
+        });
+
+      }
+
+    }
+
+    // funções de pagamentos da pessoa
+    $("a.nav-link[href='#pagamentosTab']").on("shown.bs.tab", function(){
+      loadPagamentos();
+    });
+
+    function loadPagamentos(pagina){
+
+      if(!pagina) pagina = 1;
+
+      if(isPagamentoLogged == false){
+
+        $(".panel-pagamentos .panel-actions .refresh").on("click", function(){
+
+          isPagamentoLogged = false;
+
+          loadPagamentos();
+
+        });
+
+        var $tbody = $(".panel-pagamentos tbody");
+
+        var $panelPagamentos = System.getPanelApi($(".panel-pagamentos"));
+
+        var tplPagamentos = Handlebars.compile($("#tpl-pagamento-pessoa").html());
+
+        $panelPagamentos.load();
+
+        rest({
+          url:PATH+"/pessoas/"+pessoa.idpessoa+"/pagamentos",
+          data:{
+            pagina:pagina,
+            limite:5
+          },
+          success:function(r){
+
+            $tbody.html('');
+
+            $.each(r.data, function(index, row){
+
+              var $input = $(tplPagamentos(row));
+
+              $tbody.append($input);
+
+            });
+
+            $panelPagamentos.done();
+
+            var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+              skin:'pagination-gap',
+              currentPage:r.currentPage,
+              itemsPerPage:r.itemsPerPage,
+              onChange:function(page){
+                loadPagamentos(page);
+              }
+            });
+
+            $("#paginacao-pagamentos").asPaginator(r.total, config);
+
+          },
+          failure:function(r){
+            $panelPagamentos.done();
+            System.showError(r);
+          }
+        });
+
+      }
+
+    }
+
+    function loadContatos(callback){
+
+      $panelTelefones.html('<i class="icon fa fa-refresh fa-spin"></i> Carregando Telefones...');
+      $panelEmails.html('<i class="icon fa fa-refresh fa-spin"></i> Carregando E-mails...');
+
+      rest({
+        url:PATH+"/pessoas/"+pessoa.idpessoa+"/contatos",
+        success:function(r){
+
+          var telefones = [];
+          var emails = [];
+
+          $.each(r.data, function(index, contato){
+
+            switch (contato.idcontatotipo) {
+              case 1:
+              emails.push(contato);
+              break;
+              case 2:
+              telefones.push(contato);
+              break; 
+            }
+
+          });
+
+          renderEmails(emails);
+          renderTelefones(telefones);
+
+          if (typeof callback === 'function') callback(r);
+
+        },
+        failure:function(e){
+          $panelTelefones.html('');
+          $panelEmails.html('');
+          System.showError(e);
+          if (typeof callback === 'function') callback(e);
+        }
+      });
+
+    }
+
+    loadContatos();
+
+    $("#btn-delete-pessoa").on("click", function(){
+
+      System.confirm("Deseja realmente excluir o cadastro de "+pessoa.despessoa+" definitivamente? Todos os dados associados serão excluídos.", function(r, s, f){
+
+        if (r) {
+
+          rest({
+            url:PATH+"/pessoas/"+pessoa.idpessoa,
+            method:"DELETE",
+            success:function(){
+              s();
+              $("#btn-close-slidepanel").trigger("click");
+            },
+            failure:function(e){
+              System.showError(e);
+              f(e.error);
+            }
+          });
+
+        } else {
+
+          f();
+
+        }
+
+      });
+
+    });
+
+})();</script>

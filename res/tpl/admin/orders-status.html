@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Pedidos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="desstatus"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-orders-status" data-auto-height="-179"><div class="panel-heading"><h3 class="panel-title"></h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>orders<th>&nbsp;<tbody></table></div><div id="paginacao"></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/orders-status-create" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-orders-status" type="/x-handlebars-temprate"><tr data-idstatus="{{idstatus}}">
+	<td>{{desstatus}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/orders-status/{{idstatus}}" data-toggle="slidePanel"></button>
+		<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-status icon wb-trash">
+      	</button>
+	</td>
+	</tr></script><script>init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-orders-status"));
+
+	var $tbody = $("#panel-orders-status tbody");
+
+	var $tplOrdersStatus = Handlebars.compile($("#tpl-orders-status").html());
+
+	$("#form-filtros [type=submit]").on("click", function(e){
+     
+    e.preventDefault();
+
+    loadOrdersStatus();
+    
+  });
+
+	function loadOrdersStatus(pagina){
+
+		if(!pagina) pagina = 1;
+
+		$(".refresh").on("click", function(){
+			loadOrdersStatus();
+
+		});
+
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params.limite = Math.floor((window.innerHeight-179)/53);
+		params.limite = (params.limite>5)?5:params.limite;
+
+		panel.load();
+
+		panel.load();
+
+		rest({
+			url:PATH+"/orders-status/all",
+			data:params,
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplOrdersStatus(row));
+
+				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadOrdersStatus(page);
+         			}
+        		});
+
+        		$("#paginacao").asPaginator(r.total, config);
+
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-status").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idstatus = $btn.closest("tr").data("idstatus");
+					System.confirm('Deseja remover esse pedido?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/orders-status/"+idstatus,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadOrdersStatus();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+
+    loadOrdersStatus();
+});</script>

@@ -3110,8 +3110,6 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 		'idconfigurationtype'=>$texto->getidconfigurationtype(),
 		'desdescription'=>$lang->getString('config_admin_name_description')
 	));
-	// var_dump($adminName);
-	// exit;
 	$adminName->save();
 
 	$uploadDir = new Configuration(array(

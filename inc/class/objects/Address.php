@@ -105,8 +105,8 @@ class Address extends Model {
 
         $address = new Address(array(
             'desaddress'=>$data['logradouro'],
-            'descomplement'=>$data['complement'],
-            'desdistrict'=>$data['district'],
+            'descomplement'=>$data['complemento'],
+            'desdistrict'=>$data['bairro'],
             'descity'=>$data['localidade'],
             'desstate'=>$state->getdesstate(),
             'desuf'=>$state->getdesuf(),

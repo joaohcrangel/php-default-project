@@ -28,7 +28,7 @@ class City extends Model {
 
         $city->queryToAttr("
             SELECT * 
-            FROM tb_citys a
+            FROM tb_cities a
             INNER JOIN tb_states b USING(idstate)
             INNER JOIN tb_countries c USING(idcountry)
             WHERE ".implode(' AND ', $where)."

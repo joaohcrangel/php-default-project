@@ -5,7 +5,7 @@ $app->get("/documents/cpf/:nrcpf", function($nrcpf){
     Permission::checkSession(Permission::ADMIN, true);
 
     echo success(array("data"=>array(
-        'incpf'=>Document::validaCPF($nrcpf)
+        'incpf'=>Document::CPFValidate($nrcpf)
     )));
 
 });

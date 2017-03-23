@@ -9,7 +9,7 @@ $app->get("/".DIR_ADMIN."/persons-create", function(){
         'footer'=>false
     ));
 
-    $page->setTpl('/admin/persons-criar');
+    $page->setTpl('/admin/persons-create');
 
 });
 
@@ -26,7 +26,7 @@ $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
     $page->setTpl('/admin/persons-panel-new',  array(
         'person'=>$person->getFields(),
-        'addressTypes'=>AddressTypes::listAll()->getFields()
+        'addressesTypes'=>AddressesTypes::listAll()->getFields()
     ));
 
 });

@@ -35,7 +35,6 @@ class AdminPage {
 		}
 
 		$options['data']['conf'] = Session::getConfigurations()->getNames();
-		$options['data']['conf'] = Session::getConfigurations()->getNames();
 
 		if(isset($_SESSION)) $options['data']['session'] = $_SESSION;
 		if(isset($_SERVER)) $options['data']['server'] = $_SERVER;

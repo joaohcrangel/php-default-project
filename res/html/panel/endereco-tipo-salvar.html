@@ -16,16 +16,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-endereco-tipo-save">
+            <form id="form-address-type-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idenderecotipo">
+                        <input type="hidden" name="idaddresstype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desenderecotipo">
+                        <input type="text" class="form-control" name="desaddresstype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnendereco-tipo-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btn address-type-Save" type="submit">
                         Salvar Novo Endereço
                     </button>
                 </div>
@@ -33,12 +33,13 @@
         </div>
     </div>
 </div>
-<script>var enderecoTipo = JSON.parse('{function="json_encode($endereco)"}');
+<script>
+var addressType = JSON.parse('{function="json_encode($address)"}');
 
-$("#form-endereco-tipo-save").form({
-  url:PATH+"/enderecos-tipos",
+$("#form-address-type-save").form({
+  url:PATH+"/addresses-types",
   params:{
-    idenderecotipo:enderecoTipo.idenderecotipo
+    idaddresstype:addressType.idaddresstype
   },
   success:function(){
     System.success("Endereco criado com sucesso");
@@ -51,5 +52,5 @@ $("#form-endereco-tipo-save").form({
   }
 });
 
-$("#form-endereco-tipo-save").formLoad(enderecoTipo);
+$("#form-address-type-save").formLoad(addressType);
 </script>

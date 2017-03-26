@@ -10,24 +10,24 @@
 
 <div class="slidePanel-inner m-t-40">
 	
-	<form id="form-cartao-save" class="slidePanel-form">	
+	<form id="form-card-save" class="slidePanel-form">	
 		<div class="form-group">
 
 			<div class="form-group form-material">
 			    <label>Número do cartão</label>
-			    <input type="text" class="form-control" name="desnumero">
+			    <input type="text" class="form-control" name="desnumber">
 		  	</div>		
 		  	<div class="form-group form-material">
-		  		<input type="hidden" name="idcartao">
+		  		<input type="hidden" name="idcard">
 			    <label>Nome</label>
-			    <input type="text" class="form-control" name="desnome">
+			    <input type="text" class="form-control" name="desname">
 		  	</div>
 			<div class="form-group form-material" data-plugin="formMaterial">
 			    <label>Data de Validade</label>
-			    <input type="date" class="form-control" name="dtvalidade">
+			    <input type="date" class="form-control" name="dtvalidity">
 		  	</div>	
 		  	<div class="form-group form-material" data-plugin="formMaterial">
-		  		<button class="btn btn-block btn-primary" id="btnCartaoSave" type="submit">Salvar Novo Cartão</button>
+		  		<button class="btn btn-block btn-primary" id="btnCardSave" type="submit">Salvar Novo Cartão</button>
 		  	</div>
 		</div>
 	</form>
@@ -36,20 +36,20 @@
 
 <script>
 
-	var form = $("#form-cartao-save");
+	var form = $("#form-card-save");
 
   	form.form({
-  		url:PATH+"/cartoes",
+  		url:PATH+"/cards",
   		success:function(){
 
-  			form.find("button#btnCartaoSave").btnload("unload");
+  			form.find("button#btnCardSave").btnload("unload");
   			System.success("Cartão criado com sucesso");
   			$(".slidePanel-close").trigger("click");
   			$(".refresh").trigger("click");
 
   		},
   		failure:function(r){
-  			form.find("button#btnCartaoSave").btnload("unload");
+  			form.find("button#btnCardSave").btnload("unload");
   			System.showError(r);
   		}
   	});

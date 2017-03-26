@@ -13,16 +13,16 @@
 </header>
 <div class="slidePanel-inner m-t-40">
 	
-	<form id="form-cidade">
+	<form id="form-city">
 	
 		<div class="form-group form-material" data-plugin="formMaterial">			
 			<label class="form-control-label">Nome</label>
-			<input type="text" name="descidade" class="form-control">
+			<input type="text" name="descity" class="form-control">
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">Estado</label>
-			<select name="idestado" class="form-control"></select>
+			<select name="idstate" class="form-control"></select>
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -36,18 +36,18 @@
 
 <script>
 
-var form = $("#form-cidade");
+var form = $("#form-city");
 	
-$("#form-cidade [name=idestado]").combobox({
-	url:PATH+"/estados",
-	displayField:"desestado",
-	valueField:"idestado"
+$("#form-city [name=idstate]").combobox({
+	url:PATH+"/states",
+	displayField:"desstate",
+	valueField:"idstate"
 });
 
 form.form({
-	url:PATH+"/cidades",
+	url:PATH+"/citys",
 	params:{
-		idcidade:0
+		idcity:0
 	},
 	success:function(){
 		System.success("Cidade salva com sucesso");

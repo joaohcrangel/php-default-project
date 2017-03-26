@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-configuracao-tipo">
+            <form id="form-setting-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idconfiguracaotipo">
+                        <input type="hidden" name="idsettingtype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desconfiguracaotipo">
+                        <input type="text" class="form-control" name="dessettingtype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnconfiguracao-tipo" type="submit">
+                    <button class="btn btn-block btn-primary" id="btn setting-type" type="submit">
                         Salvar Nova Configuracões Tipos
                     </button>
                 </div>
@@ -35,13 +35,13 @@
     </div>
 </div>
 <script>
-var configuracaoTipo = JSON.parse('{function="json_encode($configuracao)"}');
-$("#form-configuracao-tipo").formLoad(configuracaoTipo);
+var settingType = JSON.parse('{function="json_encode($setting)"}');
+$("#form-setting-type").formLoad(settingType);
 
-$("#form-configuracao-tipo").form({
-  url:PATH+"/configuracoes-tipos",
+$("#form-setting-type").form({
+  url:PATH+"/settings-types",
   params:{
-    idconfiguracaotipo:configuracaoTipo.idconfiguracaotipo
+    idsettingtype:settingType.idsettingtype
   },
   success:function(){
     System.success("Configuracão criado com sucesso");
@@ -53,8 +53,5 @@ $("#form-configuracao-tipo").form({
     System.showError(r);
   }
 });
-
-
-
 
 </script>

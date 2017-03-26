@@ -4,16 +4,16 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Forma de Pagamento {$formapagamento.desformapagamento}</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Forma de Pagamento {$formpayment.desformpayment}</h5></h4>
   </div>  
 </header>
 
 <div class="slidePanel-inner m-t-40">
-  <form asutocomplete="off" id="form-forma-pagamento" class="slidePanel-form">
+  <form asutocomplete="off" id="form-form-payment" class="slidePanel-form">
   	<div class="form-group form-material">
-      <input type="hidden" name="idformapagamento" value="{$formapagamento.idformapagamento}">
-      <label class="control-label" for="desformapagamento">Forma de Pagamento</label>
-      <input type="text" class="form-control" name="desformapagamento">
+      <input type="hidden" name="idformpayment" value="{$formpayment.idformpayment}">
+      <label class="control-label" for="desformpayment">Forma de Pagamento</label>
+      <input type="text" class="form-control" name="desformpayment">
 		</div>
 	  <div class="form-group form-material">	        
       <label class="control-label" for="idgateway">Gateway de Pagamento</label>
@@ -27,31 +27,31 @@
       <input type="checkbox" class="icheckbox-primary" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" name="instatus" value="1" />
       <label class="control-label" for="instatus">Status</label>
     </div>
-    <button type="submit" class="btn btn-block btn-primary" id="btn-forma-pagamento-salvar">Salvar</button>
+    <button type="submit" class="btn btn-block btn-primary" id="btn-form-payment-salvar">Salvar</button>
   </form>
 </div>
 
 <script>
 
-var formapagamento = JSON.parse('{function="json_encode($formapagamento)"}');
+var formpayment = JSON.parse('{function="json_encode($formpayment)"}');
 
 $("#idgateway").combobox({
 	url:PATH+"/gateways/all",
 	displayField:"desgateway",
 	valueField:"idgateway",
-	value:formapagamento.idgateway
+	value:formpayment.idgateway
 });
   
-var form = $("#form-forma-pagamento");
+var form = $("#form-form-payment");
 
-form.formLoad(formapagamento);
+form.formLoad(formpayment);
 
 form.form({
   resetForm:false,
-  url:PATH+"/formas-pagamentos",
+  url:PATH+"/forms-payments",
   success:function(){
 
-    form.find("button#btn-forma-pagamento-salvar").btnload("unload");
+    form.find("button#btn-form-payment-salvar").btnload("unload");
     System.success("Forma de Pagamento salva com sucesso");
     $("button.slidePanel-close").trigger("click");
     $(".refresh").trigger("click");
@@ -59,7 +59,7 @@ form.form({
   },
   failure:function(r){
 
-    form.find("button#btn-forma-pagamento-salvar").btnload("unload");
+    form.find("button#btn-form-payment-salvar").btnload("unload");
     System.showError(r);
 
   }

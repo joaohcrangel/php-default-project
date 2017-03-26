@@ -1,0 +1,127 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+    margin-left: 310px;
+}
+.page {
+  height: calc(100% - 90px);
+  min-height: calc(100% - 90px);
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Pedidos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="despessoa"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Forma de Pedido</label><select name="idformapagamento" class="form-control"></select></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Status do Pedido</label><select name="idstatus" class="form-control"></select></div><label class="form-control-label"><h4>Data de Pedido</h4></label><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">De</label><input type="date" class="form-control" name="dtinicio"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Até</label><input type="date" class="form-control" name="dttermino"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">ID</label><input type="number" class="form-control" name="idpedido"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><th>Pessoa<th>Valor<th>Número de Parcelas<th>Data do Pedido<tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="pedido-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{total}} Resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div></script><script id="tpl-pedido-row" type="text/x-handlebars-template"><tr>
+		<td>{{despessoa}}</td>
+		<td>R$ {{vltotal}}</td>
+		<td>{{nrparcelas}}</td>
+		<td>{{desdtcadastro}}</td>
+	</tr></script><script>init.push(function(){
+
+	var $tplPedidos = Handlebars.compile($("#tpl-pedido-row").html());
+	var tplFooter = Handlebars.compile($("#tpl-footer").html());
+
+	$("[name=idformapagamento]").combobox({
+		url:PATH+"/formas-pagamentos/all",
+		displayField:"desformapagamento",
+		valueField:"idformapagamento"
+	});
+
+	$("[name=idstatus]").combobox({
+		url:PATH+"/pedidos-status/all",
+		displayField:"desstatus",
+		valueField:"idstatus"
+	});
+
+	$("#pedido-footer").html(tplFooter({
+	    total:0
+  	}));
+
+  	$("#form-filtros [type=submit]").on("click", function(e){
+
+    	e.preventDefault();
+
+    	loadPedidos();
+
+  	});
+
+  	$("#form-filtros input").on("keyup", function(e){
+
+    	if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+
+  	});	
+
+	function loadPedidos(pagina){
+
+		if(!pagina)	pagina = 1;
+
+		var $panelPedidos = System.getPanelApi($("#mailContent .panel"));		
+
+		$panelPedidos.load();
+
+		var data = $("#form-filtros").formValues();
+
+		data.pagina = pagina;
+		data.limite = Math.floor((window.innerHeight-291)/53);
+		data.limite = (data.limite<5)?5:data.limite;
+
+		rest({
+			url:PATH+"/pedidos",
+			data:data,
+			success:function(r){
+
+				if(r.data.length > 0){
+
+					renderPedidos(r.data);
+
+					$panelPedidos.done();
+
+					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+						skin:"pagination-gap",
+						currentPage:r.currentPage,
+						itemsPerPage:r.itemsPerPage,
+						onChange:function(page){						
+							loadPedidos(page);
+						}
+					});
+
+					$("#paginacao").asPaginator(r.total, config);
+
+				}else{
+					$panelPedidos.done();
+				}
+
+			},
+			failure:function(r){
+				$panelPedidos.done();
+				System.showError(r);
+			}
+		});
+
+	}
+
+	function renderPedidos(pedidos){
+
+		var $tbody = $("#lista tbody");
+		var $footer = $("#pedido-footer");
+
+		$tbody.html('');
+
+		$.each(pedidos, function(index, row){
+			$tbody.append($tplPedidos(row));
+		});
+
+		$footer.html(tplFooter({
+			total:pedidos.length
+		}));
+
+	}
+
+});</script>

@@ -1,0 +1,90 @@
+<div class="page"><div class="page-content"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-cupons"><div class="panel-heading"><h3 class="panel-title">Cupons</h3><div class="panel-actions"><a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><div><table class="table table-hover table-striped"><thead><tr><th>Cupom<th>Tipo do cupom<th>Código<th>Desconto<th>Quantidade<th>Data de início<th>Data de término<th>&nbsp;<tbody></table></div></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/cupom-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-cupom-row" type="text/x-handlebars-template"><tr data-idcupom="{{idcupom}}">
+	<td>{{descupom}}</td>
+	<td>{{descupomtipo}}</td>
+	<td>{{descodigo}}</td>
+	<td>{{nrdesconto}}</td>
+	<td>{{nrqtd}}</td>
+	<td>{{dtinicio}}</td>
+	<td>{{dttermino}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/cupons/{{idcupom}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-cupom icon wb-trash">
+      	</button>
+	</td>
+</tr></script><script>init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-cupons"));
+
+	var $tbody = $("#panel-cupons tbody");
+
+	var $tpl = Handlebars.compile($("#tpl-cupom-row").html());
+
+	function loadCupons(){
+
+		$(".refresh").on("click", function(){
+			loadCupons();
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/cupons/all",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tpl(row));
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-cupom").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idcupom = $btn.closest("tr").data("idcupom");
+
+					System.confirm('Deseja remover o cupom?', function(b){
+				      	if (b) {
+
+					        System.load();
+
+					        rest({
+					          url: PATH+"/cupons/"+idcupom,
+					          method:'DELETE',
+					          success: function(r){
+
+					            System.done();
+					            loadCupons();
+					            System.success("cupom excluído com sucesso");
+
+					          },
+					          failure: function(e){
+					            System.done();
+					            System.showError(e);
+					          }
+					        });
+
+				      	}
+				    });
+
+				});
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+
+	};
+
+	loadCupons();
+
+});</script>

@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Formas de Pagamentos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome do Cartão</label><input type="text" class="form-control" name="desformapagamento"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Parcelas</label><input type="text" class="form-control" name="nrparcelasmax"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Gateway</label><select name="idgateway" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-formas" data-auto-height="-179"><a class="hidden refresh"></a><div class="panel-heading"><h3 class="panel-title"></h3><div class="panel-actions"><a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Forma de Pagamento<th>Gateway<th>Parcelas<th>&nbsp;<tbody></table></div><div id="paginacao"></div></div></div></div><div class="site-action animation-duration-300"><button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/forma-pagamento-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-forma-pagamento-row" type="text/x-handlebars-template"><tr data-idformapagamento="{{idformapagamento}}">
+	<td>{{desformapagamento}}</td>
+	<td>{{desgateway}}</td>
+	<td>{{nrparcelasmax}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/formas-pagamentos/{{idformapagamento}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-forma-pagamento icon wb-trash">
+      	</button>
+	</td>
+</tr></script><script>init.push(function(){
+
+	$("[name=idgateway]").combobox({
+    url:PATH+"/gateways/all",
+    displayField:"desgateway",
+    valueField:"idgateway"
+  });
+
+	var panel = System.getPanelApi($("#panel-formas"));
+
+	var $tbody = $("#panel-formas tbody");
+
+	var $tpl = Handlebars.compile($("#tpl-forma-pagamento-row").html());
+
+	$("#form-filtros [type=submit]").on("click", function(e){
+     
+    e.preventDefault();
+
+    loadFormas();
+    
+  });
+
+	function loadFormas(pagina){
+
+		if(!pagina) pagina = 1;
+
+		$(".refresh").on("click", function(){
+			loadFormas();
+		});
+
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params.limite = Math.floor((window.innerHeight-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
+
+		panel.load();
+
+		rest({
+			url:PATH+"/formas-pagamentos/all",
+			data:params,
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tpl(row));
+
+				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadFormas(page);
+         			}
+        		});
+
+        		$("#paginacao").asPaginator(r.total, config);
+
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-forma-pagamento").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idformapagamento = $btn.closest("tr").data("idformapagamento");
+
+					System.confirm('Deseja remover a forma de pagamento?', function(b){
+				      	if (b) {
+
+					        System.load();
+
+					        rest({
+					          url: PATH+"/formas-pagamentos/"+idformapagamento,
+					          method:'DELETE',
+					          success: function(r){
+
+					            System.done();
+					            loadFormas();
+					            System.success("Forma de pagamento excluída com sucesso");
+
+					          },
+					          failure: function(e){
+					            System.done();
+					            System.showError(e);
+					          }
+					        });
+
+				      	}
+				    });
+
+				});
+
+			
+			},
+
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+
+	};
+
+	loadFormas();
+
+});</script>

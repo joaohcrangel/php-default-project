@@ -2,7 +2,7 @@
 
 class SiteMenu extends Model {
 
-    public $required = array('desmenu', 'nrorder', 'desicon', 'deshref');
+    public $required = array('desmenu', 'nrorder');
     protected $pk = "idmenu";
 
     const SESSION_NAME = "SITE_MENU";
@@ -19,6 +19,8 @@ class SiteMenu extends Model {
     public function save(){
 
         if($this->getChanged() && $this->isValid()){
+
+            if (!$this->getdeshref()) $this->setdeshref("#");
 
             $this->queryToAttr("CALL sp_sitesmenus_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidmenufather(),

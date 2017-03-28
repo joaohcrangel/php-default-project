@@ -585,7 +585,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
 		  idmenufather int(11) DEFAULT NULL,
 		  desmenu varchar(128) NOT NULL,
-		  desicon varchar(64) NOT NULL,
+		  desicon varchar(64) NULL,
 		  deshref varchar(64) NOT NULL,
 		  nrorder int(11) NOT NULL,
 		  nrsubmenus int(11) DEFAULT '0' NOT NULL,

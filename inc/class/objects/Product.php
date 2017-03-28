@@ -50,67 +50,67 @@ class Product extends Model {
 
     public function getCarts(){
 
-        $carts = new Produtos();
+        $carts = new Products();
 
-        $carts->loadFromQuery("CALL sp_cartsfromproduto_list(?);", array(
-            $this->getidproduto()
+        $carts->loadFromQuery("CALL sp_cartsfromproduct_list(?);", array(
+            $this->getidproduct()
         ));
 
         return $carts;
 
     }
 
-    public function getPedidos(){
+    public function getOrders(){
 
-        $pagamentos = new Produtos();
+        $pagamentos = new Products();
 
-        $pagamentos->loadFromQuery("CALL sp_pagamentosfromproduto_list(?);", array(
-            $this->getidproduto()
+        $pagamentos->loadFromQuery("CALL sp_pagamentosfromproduct_list(?);", array(
+            $this->getidproduct()
         ));
 
         return $pagamentos;
 
     }
 
-    public function getProdutosPrecos(){
+    public function getProductsPrices(){
 
-        $precos = new ProdutosPrecos();
+        $prices = new ProductsPrices();
 
-        $precos->loadFromQuery("CALL sp_precosfromproduto_list(?);", array(
-            $this->getidproduto()
+        $prices->loadFromQuery("CALL sp_pricesfromproduct_list(?);", array(
+            $this->getidproduct()
         ));
 
-        return $precos;
+        return $prices;
 
     }
 
-    public function getArquivos():Arquivos
+    public function getFiles():Files
     {
 
-        $arquivos = new Arquivos();
+        $files = new Files();
 
-        $arquivos->loadFromQuery("
+        $files->loadFromQuery("
             SELECT * 
-            FROM tb_arquivos a
-            INNER JOIN tb_produtosarquivos b ON a.idarquivo = b.idarquivo
-            WHERE b.idproduto = ?
+            FROM tb_files a
+            INNER JOIN tb_productsfiles b ON a.idfile = b.idfile
+            WHERE b.idproduct = ?
         ", array(
-            $this->getidproduto()
+            $this->getidproduct()
         ));
 
-        return $arquivos;
+        return $files;
 
     }
 
-    public function addArquivo(Arquivo $arquivo):bool
+    public function addFile(File $file):bool
     {
 
         $this->execute("
-            INSERT INTO tb_produtosarquivos (idproduto, idarquivo)
+            INSERT INTO tb_productsfiles (idproduct, idfile)
             VALUES(?, ?);
         ", array(
-            $this->getidproduto(),
-            $arquivo->getidarquivo()
+            $this->getidproduct(),
+            $file->getidfile()
         ));
 
         return true;

@@ -4,7 +4,7 @@ class Courses extends Collection {
 
     protected $class = "Course";
     protected $saveQuery = "sp_courses_save";
-    protected $saveArgs = array("idcourse", "descourse", "destitle", "vlhours", "nrclassrooms", "nrexercise", "desdescription", "inremoved");
+    protected $saveArgs = array("idcourse", "descourse", "destitle", "vlworkload", "nrlessons", "nrexercises", "desdescription", "inremoved");
     protected $pk = "idcourse";
 
     public function get(){}

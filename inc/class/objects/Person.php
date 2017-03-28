@@ -231,7 +231,7 @@ class Person extends Model {
             $data[$field] = $this->{'get'.$field}();
         }
 
-        return new address($data);
+        return new Address($data);
 
     }
 
@@ -290,6 +290,7 @@ class Person extends Model {
         $this->getPhotoURL();
 
         $address = $this->getAddress();
+
         $address->setdesaddressresumido($address->getToString(Address::SUMMARY));
 
         if ($this->getdescpf()) {

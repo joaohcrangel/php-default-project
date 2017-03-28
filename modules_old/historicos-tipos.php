@@ -59,7 +59,7 @@ $app->post("/historicos-tipos", function(){
 
 $app->delete("/historicos-tipos/:idhistoricotipo", function($idhistoricotipo){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idhistoricotipo > 0){
 		throw new Exception("Tipo de historico não informado.", 400);		

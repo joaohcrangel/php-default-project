@@ -5,8 +5,6 @@ $app->post("/users/login", function(){
 	$user = User::login(strtolower(post('username')), post('password'));
 
 	$user->getPerson();
-	// var_dump($user);
-	// exit;
 
 	Session::setUser($user, (isset($_POST['remember'])));
 
@@ -300,8 +298,6 @@ $app->post("/users", function(){
  *
  */
 $app->get('/users/logout', function () {
-
-	Permission::checkSession(Permission::ADMIN);
 
 	unsetLocalCookie(COOKIE_KEY);
 

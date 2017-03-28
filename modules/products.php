@@ -37,7 +37,7 @@ $app->get("/products/all", function(){
     $pagination = new Pagination(
         $query,
         array(),
-        "Produtos",
+        "Products",
         $itemsPorPagina
     );
 
@@ -227,7 +227,7 @@ $app->get("/products/types", function(){
     $pagination = new Pagination(
         $query,
         array(),
-        "ProdutosTypes",
+        "ProductsTypes",
         $itemsPerPage
     );
 

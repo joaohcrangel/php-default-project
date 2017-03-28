@@ -2,7 +2,7 @@
 
 $app->get("/cidades/all", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$where = array();
 
@@ -50,7 +50,7 @@ $app->get("/cidades/all", function(){
 
 $app->post("/cidades", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idcidade') > 0){
 		$cidade = new cidade((int)post('idcidade'));
@@ -68,7 +68,7 @@ $app->post("/cidades", function(){
 
 $app->delete("/cidades", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -94,7 +94,7 @@ $app->delete("/cidades", function(){
 
 $app->delete("/cidades/:idcidade", function($idcidade){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idcidade){
 		throw new Exception("cidade não encontrado", 400);		

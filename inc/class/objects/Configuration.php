@@ -18,30 +18,37 @@ class Configuration extends Model {
     {
 
         if($this->getChanged() && $this->isValid()){
-
+            
             switch ($this->getidconfigurationtype()) {
+                
                 case ConfigurationType::STRING:
                 $this->setdesvalue((string)$this->getdesvalue());
                 break;
+
                 case ConfigurationType::INT:
                 $this->setdesvalue((int)$this->getdesvalue());
                 break;
+
                 case ConfigurationType::FLOAT:
                 $this->setdesvalue((float)$this->getdesvalue());
                 break;
+
                 case ConfigurationType::BOOL:
                 $this->setdesvalue((bool)$this->getdesvalue());
                 break;
+
                 case ConfigurationType::DATETIME:
                 if (gettype($this->getdesvalue()) === 'object') {
                     $this->setdesvalue((string)$this->getdesvalue()->format('c'));
                 }
                 break;
+
                 case ConfigurationType::ARRAY:
                 if (gettype($this->getdesvalue()) === 'array') {
                     $this->setdesvalue((string)json_encode($this->getdesvalue()));
                 }
                 break;
+
             }
 
             // var_dump($this);

@@ -2,7 +2,7 @@
 
 $app->get("/configuracoes", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $configuracoes = Configuracoes::listAll();
 
@@ -14,7 +14,7 @@ $app->get("/configuracoes", function(){
 
 $app->post("/configuracoes", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if ((int)post('idconfiguracao') > 0) {
 		$conf = new Configuracao((int)post('idconfiguracao'));
@@ -37,7 +37,7 @@ $app->post("/configuracoes", function(){
 
 $app->delete("/configuracoes/:idconfiguracao", function($idconfiguracao){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if (!(int)$idconfiguracao > 0) {
 		throw new Exception("O ID não foi informado.");		

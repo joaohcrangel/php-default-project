@@ -42,7 +42,7 @@ $app->get('/configuracoes-tipos',function(){
 
 $app->post("/configuracoes-tipos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idconfiguracaotipo') > 0){
 		$configuracao = new ConfiguracaoTipo((int)post('idconfiguracaotipo'));
@@ -59,7 +59,7 @@ $app->post("/configuracoes-tipos", function(){
 
 $app->delete("/configuracoes-tipos/:idconfiguracaotipo", function($idconfiguracaotipo){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idconfiguracaotipo > 0){
 		throw new Exception("Configuracao de Campos não informado.", 400);		

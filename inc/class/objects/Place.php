@@ -85,10 +85,10 @@ class Place extends Model {
 
     }
 
-    public function getaddresses():addresses
+    public function getAddresses():Addresses
     {
 
-        return new addresses($this);
+        return new Addresses($this);
 
     }
 

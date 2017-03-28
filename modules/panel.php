@@ -640,7 +640,7 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$data = $place->getFields();
 
-	$logs = $place->getPlacesLogs()->getFields();
+	$logs = $place->getPlacesSchedules()->getFields();
 
 	if(!count($logs) > 0) $logs = Language::getWeekdays();
 

@@ -42,7 +42,7 @@ class AddressType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_addressestypes_remove", array(
+        $this->proc("sp_addressestypes_remove", array(
             $this->getidaddresstype()
         ));
 

@@ -379,7 +379,7 @@ $app->get("/panel/products-types-create", function(){
 /////////////////////////////////////////
 // usuario-tipo salvar
 
-$app->get("/panel/users-types/:idusertype", function($idusertype){
+$app->get("/panel/users/types/:idusertype", function($idusertype){
 
 	$usertype = new UserType((int)$idusertype);
 
@@ -388,7 +388,7 @@ $app->get("/panel/users-types/:idusertype", function($idusertype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/usuario-tipo-salvar", array(
+	$page->setTpl("panel/usuario/tipo-salvar", array(
 		"usertype"=>$usertype->getFields()
 	));
 

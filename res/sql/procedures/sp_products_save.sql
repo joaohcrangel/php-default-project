@@ -29,7 +29,7 @@ BEGIN
     IF pvlprice > 0 THEN
 		
 		SELECT CASE WHEN vlprice IS NULL THEN 0 ELSE vlprice END INTO pvlpricecurrent
-        FROM tb_productsdatas
+        FROM tb_productsdata
         WHERE idproduct = pidproduct;
         
         IF pvlpricecurrent <> pvlprice THEN

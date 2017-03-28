@@ -96,9 +96,7 @@ $app->get("/products/:idproduct/prices", function($idproduct){
                 new DateTime($row['isodtinicio']),
                 new DateTime($row['isodttermino'])
             );
-        }
-
-        
+        }        
         
     }
 
@@ -162,17 +160,11 @@ $app->post("/products/:idproduct/files", function($idproduct){
         'idproduct'=>(int)$idproduct
     ));
 
-    $file = $_FILES['file'];
+    $files = Files::upload($_FILES['arquivo']);
 
-    $file = File::upload(
-        $file['name'],
-        $file['type'],
-        $file['tmp_name'],
-        $file['error'],
-        $file['size']
-    );
-
-    $product->addFile($file);
+    foreach($files->getItens() as $file){
+        $product->addFile($file);
+    }
     
     echo success(array(
         'data'=>$file->getFields()

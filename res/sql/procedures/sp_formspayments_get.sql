@@ -1,9 +1,8 @@
-CREATE PROCEDURE sp_formspayments_get(
+CREATE PROCEDURE sp_formspayments(
 pidformpayment INT
 )
 BEGIN
-	
-	SELECT * FROM tb_formspayments a INNER JOIN tb_gateways USING(idgateway)
-    WHERE a.idformpayment = pidformpayment;
-
+ SELECT *    
+    FROM tb_formspayment    
+    WHERE idformpayment = pidformpayment;
 END

@@ -139,10 +139,57 @@ function loadFiles(page){
 
 					var checked = $("#tab-product-photos ul [type=checkbox]:checked");
 
-					var disabled = (checked.length > 0): false ? true;
+					var disabled = (checked.length > 0) ? false : true;
 
 					$("#btn-product-files-remove").prop("disabled", disabled);
 
+				});
+
+			});
+
+			$("#btn-product-files-upload").on("click", function(){
+
+				$.upload({
+			      multiple:true,
+			      url:PATH+"/products/"+product.idproduct+"/files",
+			      accept:"*",
+			      modalInfo:true,
+			      success:function(r){
+			       	loadFiles();
+			      },
+			      failure:function(e){
+			        System.showError(e);
+			      }
+			    });
+
+			});
+
+			$("#btn-product-files-remove").on("click", function(){
+
+				var $btn = $(this);
+
+				$btn.btnload("load");
+
+				var ids = [];
+
+				$("#tab-product-photos ul [type=checkbox]:checked").each(function(){
+					ids.push($(this).data("idfile"));
+				});
+
+				rest({
+					url:PATH+"/files",
+					method:"DELETE",
+					data:{
+						ids:ids.toString()
+					},
+					success:function(){
+						$btn.btnload("unload");
+						loadFiles();
+					},
+					failure:function(r){
+						$btn.btnload("unload");
+						System.showError(r);
+					}
 				});
 
 			});
@@ -300,6 +347,7 @@ form.form({
     form.find("button#btn-product-salvar").btnload("unload");
     System.success("Produto salvo com sucesso");
     $("#form-filtros [type=submit]").trigger("click");
+    $(".slidePanel-close").trigger("click");
 
   },
   failure:function(r){

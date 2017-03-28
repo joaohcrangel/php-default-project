@@ -51,9 +51,6 @@ class Configuration extends Model {
 
             }
 
-            // var_dump($this);
-            // exit;
-
             $this->queryToAttr("CALL sp_configurations_save(?, ?, ?, ?, ?);", array(
                 $this->getidconfiguration(),
                 $this->getdesconfiguration(),
@@ -85,7 +82,7 @@ class Configuration extends Model {
 
     public function getValue(){
 
-        switch ($this->getconfigurationstype()) {
+        switch ($this->getidconfigurationtype()) {
             case ConfigurationType::STRING:
             return (string)$this->getdesvalue();
             break;

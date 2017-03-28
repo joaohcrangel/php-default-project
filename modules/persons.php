@@ -42,19 +42,24 @@ $app->get("/persons",function(){
 	$params = array();
 	foreach ($_GET as $key => $value) {
 		
-		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
+		if (get($key) && !in_array($key, array('pagina', 'limite', 'desperson'))) {
 			array_push($where, $key." = ?");
 			array_push($params, get($key));
 		}
 
 	}
+
+	if (get("desperson")) {
+		array_push($where, "desperson LIKE ?");
+		array_push($params, "%".get("desperson")."%");
+	}
+
 	if (count($where) > 0) {
 		$where = "WHERE ".implode(" AND ", $where);
 	} else {
 		$where = "";
 	}
-	var_dump($params);
-	exit;
+
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
 	$itensPorPagina = (int)get('limite');//Itens por página
@@ -365,10 +370,10 @@ $app->get("/persons/:idperson/carts", function($idperson){
 });
 
 // enderecos
-$app->get("/persons/:idperson/addresss", function($idperson){
+$app->get("/persons/:idperson/addresses", function($idperson){
 	Permission::checkSession(Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
-	echo success(array("data"=>$person->getAddresss()->getFields()));
+	echo success(array("data"=>$person->getAddresses()->getFields()));
 });
 
 // usuarios

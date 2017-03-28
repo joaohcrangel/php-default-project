@@ -10,7 +10,7 @@ class PlaceSchedule extends Model {
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
-        $this->queryToAttr("CALL sp_placeesschedules_get(".$args[0].");");
+        $this->queryToAttr("CALL sp_placesschedules_get(".$args[0].");");
                 
     }
 
@@ -18,7 +18,7 @@ class PlaceSchedule extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_placeesschedules_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_placesschedules_save(?, ?, ?, ?, ?);", array(
                 $this->getidschedule(),
                 $this->getidplace(),
                 $this->getnrday(),
@@ -38,7 +38,7 @@ class PlaceSchedule extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_placeesschedules_remove(".$this->getidhorario().")");
+        $this->execute("CALL sp_placesschedules_remove(".$this->getidhorario().")");
 
         return true;
         

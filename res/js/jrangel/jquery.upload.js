@@ -149,7 +149,7 @@
               if (typeof o.selectfiles === 'function') o.selectfiles(files);
               
               $.store({
-	        	url:PATH+"/arquivos-upload_max_filesize",
+	        	url:PATH+"/files-upload_max_filesize",
 	        	success:function(data){
 
 	        		o.fileSizeMax = parseInt(data);

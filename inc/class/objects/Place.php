@@ -118,32 +118,32 @@ class Place extends Model {
         $schedulesAll = Language::getWeekdays();
 
         foreach ($itens as &$item) {
-            $item->setidplace($this->getidlugar());
+            $item->setidplace($this->getidplace());
         }
 
-        $faltaDias = array();
+        $missingDays = array();
 
         foreach ($schedulesAll as $h) {
 
             $has = false;
 
-            foreach ($itens as $schedules) {
+            foreach ($itens as $schedule) {
 
-                if ($schedules->getnrday() == $h['nrweekday']) {
+                if ($schedule->getnrday() == $h['nrweekday']) {
                     $has = true;
                 }
 
             }
 
             if (!$has) {
-                array_push($lackDays, $h['nrweekday']);
+                array_push($missingDays, $h['nrweekday']);
             }
 
         }
 
         $schedules->setItens($itens);
 
-        foreach ($lackDays as $dia) {
+        foreach ($missingDays as $day) {
             $schedules->add(new PlaceSchedule(array(
                 'nrday'=>$day,
                 'idplace'=>$this->getidplace(),
@@ -151,6 +151,9 @@ class Place extends Model {
                 'hrclose'=>'00:00:00'
             )));
         }
+
+        // var_dump($schedules);
+        // exit;
 
         $schedules->save();
 

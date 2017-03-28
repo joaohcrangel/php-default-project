@@ -219,7 +219,7 @@ $app->get("/panel/forms-payments/:idformpayment", function($idformpayment){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/forma-pagamento", array(
+	$page->setTpl("panel/form-payment", array(
 		"formpayment"=>$form->getFields()
 	));
 
@@ -232,7 +232,7 @@ $app->get("/panel/form-payment-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/forma-pagamento-criar");
+	$page->setTpl("panel/form-payment-create");
 
 });
 ///////////////////////////////////////////////////////////
@@ -443,7 +443,7 @@ $app->get("/panel/configurations-types/:idconfigurationtype", function($idconfig
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-tipo-salvar", array(
+	$page->setTpl("panel/configuration-type-save", array(
 		"configuration"=>$configuration->getFields()
 	));
 
@@ -456,7 +456,7 @@ $app->get("/panel/configurations-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-tipo-criar");
+	$page->setTpl("panel/configuration-type-create");
 
 });
 
@@ -553,7 +553,7 @@ $app->get("/panel/logs-types/:idlogtype", function($idlogtype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/historico-tipo-salvar", array(
+	$page->setTpl("panel/log-type-save", array(
 		"logtype"=>$logtype->getFields()
 	));
 
@@ -566,7 +566,7 @@ $app->get("/panel/log-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/historico-tipo-criar");
+	$page->setTpl("panel/log-type-create");
 
 });
 ////////////////////////////////////////////////////////////////

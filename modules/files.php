@@ -93,8 +93,9 @@ $app->delete("/files", function(){
     foreach ($ids as $idfile) {
 
         $file = new File(array(
-            'idfile'=>(int)$idfile
+            "idfile"=>$idfile
         ));
+
         $file->remove();
 
     }

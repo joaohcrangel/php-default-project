@@ -48,11 +48,11 @@ class File extends Model {
             $uploadDir .= $this->getdesdirectory();
         }
 
-        if (!$this->getidfile() > 0) {
+        if (!(int)$this->getidfile() > 0) {
             throw new Exception("Informe o ID do arquivo.");
         }
 
-        if ($this->getidfile() > 0 && (!$this->getdesfile() | !$this->getdesextension())) {
+        if ($this->getidfile() > 0 && (!$this->getdesfile() || !$this->getdesextension())) {
             $this->reload();
         }
 
@@ -66,7 +66,7 @@ class File extends Model {
 
         if ($deleted) {
 
-            $this->execute("sp_files_remove", array(
+            $this->proc("sp_files_remove", array(
                 $this->getidfile()
             ));
 

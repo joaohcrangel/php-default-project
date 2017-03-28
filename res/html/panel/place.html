@@ -1046,6 +1046,8 @@ var placePanel = (function(data, selectorContainer, opts){
 					ids.push($(this).data("idfile"));
 				});
 
+				console.log(ids);
+
 				rest({
 					url:PATH+"/files",
 					data:{

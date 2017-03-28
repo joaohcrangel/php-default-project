@@ -75,9 +75,6 @@ $app->get("/places/:idplace/adresses", function($idplace){
 
 $app->get("/places/:idplace/files", function($idplace){
 
-	// pre($_GET);
-	// exit;
-
 	Permission::checkSession(Permission::ADMIN, true);
 
 	$place = new Place((int)$idplace);
@@ -123,7 +120,7 @@ $app->get("/places/:idplace/files", function($idplace){
 
 });
 
-$app->post("/pleces", function(){
+$app->post("/places", function(){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
@@ -137,7 +134,7 @@ $app->post("/pleces", function(){
 
 		foreach (array(
 			'idaddresstype',
-			'deszipcode',
+			'descep',
 			'desaddress',
 			'desnumber',
 			'descomplement',
@@ -179,15 +176,18 @@ $app->post("/pleces", function(){
 		$place = new Place();
 	}
 
+	// var_dump($place);
+	// exit;
+
 	foreach ($_POST as $key => $value) {
 		$place->{'set'.$key}($value);
 	}
 
-	if(count($address->getFields())) $place->setaddress($address);
-
 	if(post('idplacefather') == '' || (int)$place->idplacefather() == 0) $place->setidplacefather(NULL);
 
 	$place->save();
+
+	if(count($address->getFields())) $place->setAddress($address);
 
 	if(isset($_POST['vllatitude']) && isset($_POST['vllongitude'])){
 
@@ -202,6 +202,8 @@ $app->post("/pleces", function(){
 			$c->setvllatitude((float)post('vllatitude'));
 			$c->setvllongitude((float)post('vllongitude'));
 			$c->setnrzoom((float)post('nrzoom'));
+
+			$c->save();
 
 			$place->setCoordinate($c);
 

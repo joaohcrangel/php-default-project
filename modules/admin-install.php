@@ -3197,7 +3197,7 @@ $app->get("/install-admin/sql/files/tables", function(){
 	$sql->exec("
 		CREATE TABLE tb_files (
 		  idfile int(11) NOT NULL AUTO_INCREMENT,
-		  desdiretorio varchar(256) NOT NULL,
+		  desdirectory varchar(256) NOT NULL,
 		  desfile varchar(128) NOT NULL,
 		  desextension varchar(32) NOT NULL,
 		  desalias varchar(128) NULL,

@@ -85,7 +85,7 @@ class Configuration extends Model {
 
     public function getValue(){
 
-        switch ($this->getconfigurationstype()) {
+        switch ($this->getidconfigurationtype()) {
             case ConfigurationType::STRING:
             return (string)$this->getdesvalue();
             break;

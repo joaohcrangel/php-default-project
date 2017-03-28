@@ -1,5 +1,6 @@
 <?php
-class file extends Model {
+
+class File extends Model {
 
     public $required = array('desdirectory', 'desfile', 'desextension', 'desalias');
     protected $pk = "idfile";
@@ -47,11 +48,11 @@ class file extends Model {
             $uploadDir .= $this->getdesdirectory();
         }
 
-        if (!$this->getidfile() > 0) {
+        if (!(int)$this->getidfile() > 0) {
             throw new Exception("Informe o ID do arquivo.");
         }
 
-        if ($this->getidfile() > 0 && (!$this->getdesfile() | !$this->getdesextension())) {
+        if ($this->getidfile() > 0 && (!$this->getdesfile() || !$this->getdesextension())) {
             $this->reload();
         }
 
@@ -65,7 +66,7 @@ class file extends Model {
 
         if ($deleted) {
 
-            $this->execute("sp_files_remove", array(
+            $this->proc("sp_files_remove", array(
                 $this->getidfile()
             ));
 

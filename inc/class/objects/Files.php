@@ -5,7 +5,7 @@ class Files extends Collection {
     protected $class = "file";
     protected $saveQuery = "sp_files_save";
     protected $saveArgs = array("idfile", "desdirectory", "desfile", "desextension", "desname");
-    protected $pk = "idarquivo";
+    protected $pk = "idfile";
 
     public function get(){}
 
@@ -50,7 +50,7 @@ class Files extends Collection {
 
         }
 
-        $files = new Files();
+        $file = new Files();
 
         foreach ($filesPost as $f) {
 
@@ -64,7 +64,7 @@ class Files extends Collection {
 
         }
 
-        return $files;
+        return $file;
 
     }
 

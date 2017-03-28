@@ -26,8 +26,8 @@ $app->get("/places", function(){
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS a.*, b.desaddress, c.desplacetype FROM tb_places a
-			INNER JOIN tb_placesaddresses b1 ON a.idplace = b1.idplace
-			INNER JOIN tb_addresses b ON b1.idaddress = b.idaddress
+			LEFT JOIN tb_placesaddresses b1 ON a.idplace = b1.idplace
+			LEFT JOIN tb_addresses b ON b1.idaddress = b.idaddress
 		    INNER JOIN tb_placestypes c ON a.idplacetype = c.idplacetype
 		".$where." ORDER BY a.desplace LIMIT ?, ?;
 	";
@@ -63,20 +63,17 @@ $app->get("/places/:idplace", function($idplace){
 
 });
 
-$app->get("/places/:idplace/adresses", function($idplace){
+$app->get("/places/:idplace/addresses", function($idplace){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
 	$place = new Place((int)$idplace);
 
-	echo success(array("data"=>$place->getAdresses()->getFields()));
+	echo success(array("data"=>$place->getAddresses()->getFields()));
 
 });
 
 $app->get("/places/:idplace/files", function($idplace){
-
-	// pre($_GET);
-	// exit;
 
 	Permission::checkSession(Permission::ADMIN, true);
 
@@ -123,7 +120,7 @@ $app->get("/places/:idplace/files", function($idplace){
 
 });
 
-$app->post("/pleces", function(){
+$app->post("/places", function(){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
@@ -137,7 +134,7 @@ $app->post("/pleces", function(){
 
 		foreach (array(
 			'idaddresstype',
-			'deszipcode',
+			'descep',
 			'desaddress',
 			'desnumber',
 			'descomplement',
@@ -179,15 +176,18 @@ $app->post("/pleces", function(){
 		$place = new Place();
 	}
 
+	// var_dump($place);
+	// exit;
+
 	foreach ($_POST as $key => $value) {
 		$place->{'set'.$key}($value);
 	}
 
-	if(count($address->getFields())) $place->setaddress($address);
-
 	if(post('idplacefather') == '' || (int)$place->idplacefather() == 0) $place->setidplacefather(NULL);
 
 	$place->save();
+
+	if(count($address->getFields())) $place->setAddress($address);
 
 	if(isset($_POST['vllatitude']) && isset($_POST['vllongitude'])){
 
@@ -203,6 +203,8 @@ $app->post("/pleces", function(){
 			$c->setvllongitude((float)post('vllongitude'));
 			$c->setnrzoom((float)post('nrzoom'));
 
+			$c->save();
+
 			$place->setCoordinate($c);
 
 		}
@@ -213,7 +215,7 @@ $app->post("/pleces", function(){
 
 });
 
-$app->post("/placees/:idplace/coordinates", function($idplace){
+$app->post("/places/:idplace/coordinates", function($idplace){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
@@ -239,16 +241,19 @@ $app->post("/places/:idplace/files", function($idplace){
 
 	$place = new Place((int)$idplace);
 
-	$files = Files::upload($_FILES['file']);
-
-	pre($files->getItens());
-	exit;
+	$files = Files::upload($_FILES['arquivo']);
 
 	foreach($files->getItens() as $file){
 		$place->addFile($file);
 	}
 
 	echo success(array("data"=>$files->getFields()));
+
+});
+
+$app->post("/places/:idplace/addresses/:idaddress", function($idplace, $idaddress){
+
+	Permission::checkSession(Permission::ADMIN, true);
 
 });
 
@@ -365,7 +370,7 @@ $app->post("/places-schedules", function(){
 
 	foreach ($ids as $idplace) {
 		
-		$place = new Place((int)$idlplace);
+		$place = new Place((int)$idplace);
 	
 		$schedules = new PlacesSchedules();
 
@@ -376,7 +381,7 @@ $app->post("/places-schedules", function(){
 		for($i = 0; $i < count($nrday); $i++){
 
 			$schedules->add(new PlaceSchedule(array(
-				'nrday'=>$nrdia[$i],
+				'nrday'=>$nrday[$i],
 				'hropen'=>$hropen[$i],
 				'hrclose'=>$hrclose[$i]
 			)));

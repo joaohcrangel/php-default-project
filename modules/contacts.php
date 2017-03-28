@@ -82,6 +82,48 @@ $app->delete("/contacts/:idcontact", function($idcontact){
 });
 
 // contatos- tipos
+
+$app->get("/contacts/types", function(){
+    
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $currentPage = (int)get("pagina");
+    $itemsPerPage = (int)get("limite");
+
+    $where = array();
+
+    if(get('descontacttype')) {
+        array_push($where, "descontacttype LIKE '%".get('descontacttype')."%'");
+    }
+
+    if (count($where) > 0) {
+        $where = ' WHERE '.implode(' AND ', $where);
+    } else {
+        $where = '';
+    }
+
+    $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_contactstypes
+    ".$where." limit ?, ?;";
+
+    $pagination = new Pagination(
+        $query,
+        array(),
+        "ContactsTypes",
+        $itemsPerPage
+    );
+
+    $contactstypes = $pagination->getPage($currentPage);
+
+    echo success(array(
+        "data"=>$contactstypes->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$pagination->getTotal(),
+
+    ));
+
+});
+
 $app->post("/contacts-types", function(){
 
     Permission::checkSession(Permission::ADMIN, true);

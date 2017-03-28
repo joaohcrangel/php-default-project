@@ -56,7 +56,7 @@ class Address extends Model {
     public function remove():bool
     {
 
-        $this->exec("sp_addresses_remove", array(
+        $this->proc("sp_addresses_remove", array(
             $this->getidaddress()
         ));
 

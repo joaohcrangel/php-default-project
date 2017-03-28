@@ -3,7 +3,7 @@
 class PlacesSchedules extends Collection {
 
     protected $class = "PlaceSchedule";
-    protected $saveQuery = "sp_placeesschedules_save";
+    protected $saveQuery = "sp_placesschedules_save";
     protected $saveArgs = array("idschedule", "idplace", "nrday", "hropen", "hrclose");
     protected $pk = "idschedule";
 
@@ -12,8 +12,8 @@ class PlacesSchedules extends Collection {
     public function getByPlace(Place $place):PlacesSchedules
     {
 
-        $this->loadFromQuery("CALL sp_placeesschedules_list(?)", array(
-            $lugar->getidplace()
+        $this->loadFromQuery("CALL sp_placesschedules_list(?)", array(
+            $place->getidplace()
         ));
 
         $schedulesAll = Language::getWeekdays();

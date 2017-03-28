@@ -29,6 +29,8 @@ class SiteMenu extends Model {
                 $this->getdesmenu()
             ));
 
+            SiteMenu::updateFile();
+
             return $this->getidmenu();
 
         }else{
@@ -45,8 +47,19 @@ class SiteMenu extends Model {
             $this->getidmenu()
         ));
 
+        SiteMenu::updateFile();
+
         return true;
         
+    }
+
+    public static function updateFile()
+    {
+
+        $file = fopen(PATH."/res/tpl/header-menu.html", "w+");
+        fwrite($file, SiteMenu::getAllMenuHTML());
+        fclose($file);
+
     }
 
     public static function getMenus(SiteMenu $menuPai, SitesMenus $menusTodos) {
@@ -158,7 +171,6 @@ class SiteMenu extends Model {
     }
 
     public static function getMenuSession(){
-        $_SESSION[SiteMenu::SESSION_NAME] = SiteMenu::getAllMenuHTML();
         if (!isset($_SESSION[SiteMenu::SESSION_NAME])) {
             $_SESSION[SiteMenu::SESSION_NAME] = SiteMenu::getAllMenuHTML();
         }

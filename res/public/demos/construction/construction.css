@@ -1,0 +1,238 @@
+/* ----------------------------------------------------------------
+	CSS Specific to the Construction Demo
+
+	Some of the CSS Codes have been modified from the Original
+	style.css File to match the Styling of this Demo
+
+	Version: 4.2
+-----------------------------------------------------------------*/
+
+
+#top-bar { background-color: #FFF; }
+
+.top-links li > a {
+	font-weight: 400;
+	font-size: 12px;
+}
+
+.top-links ul ul a { font-size: 11px; }
+
+.header-extras li {
+	margin-left: 30px;
+	padding-left: 30px;
+	border-left: 1px solid #EEE;
+}
+
+.header-extras li:first-child {
+	margin-left: 0;
+	padding-left: 0;
+	border-left: 0;
+}
+
+.header-extras li i {
+	margin-top: 0 !important;
+	font-size: 36px !important;
+}
+
+.header-extras li .he-text {
+	padding-left: 15px;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 16px;
+	color: #888;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.header-extras li .he-text span {
+	font-weight: 600;
+	text-transform: none;
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: 0;
+}
+
+#header { background-color: #F9F9F9; }
+
+#header-wrap { background-color: #FFF; }
+
+
+.device-sm #primary-menu i.icon-angle-down,
+.device-xs #primary-menu i.icon-angle-down,
+.device-xxs #primary-menu i.icon-angle-down { display: none !important; }
+
+
+.lowercase { text-transform: lowercase !important; }
+
+
+.slider-caption {
+	background-color: rgba(255,255,255,0.9);
+	border-radius: 2px;
+	left: -25px;
+	padding: 40px;
+	max-width: 450px;
+}
+
+.slider-caption h2 {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+.slider-caption p {
+	margin-bottom: 0;
+	font-size: 18px;
+}
+
+
+.slider-caption.slider-caption-right {
+	left: auto;
+	right: -25px;
+}
+
+.dark .slider-caption { background-color: rgba(0,0,0,0.75) }
+
+.testi-meta span { color: rgba(255,255,255,0.65); }
+
+.iconlist.iconlist-large { font-size: 17px !important; }
+
+.iconlist.iconlist-large li { margin: 8px 0 !important; }
+
+.iconlist.iconlist-large li i { top: 0; }
+
+.testi-content p {
+	font-style: normal;
+	font-family: 'Source Sans Pro', sans-serif !important;
+	font-weight: 300;
+	font-size: 30px;
+	letter-spacing: 1px;
+	line-height: 1.6 !important;
+	margin-bottom: 40px;
+}
+
+.footer-big-contacts {
+	color: #333;
+	font-size: 24px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.footer-big-contacts span {
+	display: block;
+	font-size: 11px;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: #888;
+	letter-spacing: 2px;
+}
+
+.dark .footer-big-contacts { color: rgba(255,255,255,0.8); }
+
+
+.team-title span {
+	font-size: 13px;
+	font-weight: normal;
+	font-style: normal;
+	margin-top: 2px;
+}
+
+.small-thumbs .entry-title h2 a {
+	text-transform: none;
+	letter-spacing: 0;
+	font-size: 22px;
+	line-height: 25px;
+	font-weight: 600;
+	-webkit-transition: color .6s ease;
+	-o-transition: color .6s ease;
+	transition: color .6s ease;
+}
+
+.pager li > a, .pager li > span { color: #666; }
+
+/* ----------------------------------------------------------------------------
+	Services Grid
+---------------------------------------------------------------------------- */
+
+.grid-border [class^=col-] {
+	margin: -1px 0 0 -1px;
+	padding: 30px;
+	border: 1px solid #EEE;
+}
+
+.grid-border [class^=col-]:hover {
+	background-color: rgba(241,128,82,0.1);
+	border-color: #F18052;
+	z-index: 1;
+}
+
+
+/* ----------------------------------------------------------------------------
+	Helper CSS Classes
+---------------------------------------------------------------------------- */
+
+.font-body { font-family: 'Roboto', sans-serif !important; }
+
+.font-primary { font-family: 'Source Sans Pro', sans-serif !important; }
+
+.t300 { font-weight: 300 !important; }
+
+.t400 { font-weight: 400 !important; }
+
+.t500 { font-weight: 500 !important; }
+
+.t600 { font-weight: 600 !important; }
+
+.t700 { font-weight: 700 !important; }
+
+.ls1 { letter-spacing: 1px !important; }
+
+.ls2 { letter-spacing: 2px !important; }
+
+.ls3 { letter-spacing: 3px !important; }
+
+.ls4 { letter-spacing: 4px !important; }
+
+.ls5 { letter-spacing: 5px !important; }
+
+.noheight { height: 0 !important; }
+
+.nolineheight { line-height: 0 !important; }
+
+
+/* ----------------------------------------------------------------
+	CSS Specific to the Construction Demo - RTL Support
+-----------------------------------------------------------------*/
+
+.rtl .header-extras li {
+	margin-right: 30px;
+	margin-left: 0;
+	padding-right: 30px;
+	padding-left: 0;
+	border-right: 1px solid #EEE;
+	border-left: 0;
+}
+
+.rtl .header-extras li:first-child {
+	margin-right: 0;
+	padding-right: 0;
+	border-right: 0;
+}
+
+.rtl .header-extras li .he-text {
+	padding-right: 15px;
+	padding-left: 0;
+}
+
+.rtl .slider-caption {
+	right: -25px;
+	left: auto;
+}
+
+.rtl .slider-caption.slider-caption-right {
+	right: auto;
+	left: -25px;
+}
+
+/* Services Grid
+---------------------------------------------------------------------------- */
+
+.rtl .grid-border [class^=col-] { margin: -1px 0 0 -1px; }

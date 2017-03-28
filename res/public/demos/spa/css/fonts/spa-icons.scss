@@ -1,0 +1,239 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 19/02/2016 14:45
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-3-flowers:before { content: "\f100"; }
+.flaticon-acupuncture-needles:before { content: "\f101"; }
+.flaticon-aromatherapy-lotion-bottle-with-liquid-inside:before { content: "\f102"; }
+.flaticon-aromatherapy-tool-with-a-burning-candle-heating-fragrance-oil:before { content: "\f103"; }
+.flaticon-bamboo-plants-of-spa:before { content: "\f104"; }
+.flaticon-bath-of-immersion:before { content: "\f105"; }
+.flaticon-body-spa-and-massage:before { content: "\f106"; }
+.flaticon-bottle-of-glass-with-massage-oil-of-aromatherapy-for-spa:before { content: "\f107"; }
+.flaticon-brochure:before { content: "\f108"; }
+.flaticon-broom:before { content: "\f109"; }
+.flaticon-candle:before { content: "\f10a"; }
+.flaticon-candle-burning-flame:before { content: "\f10b"; }
+.flaticon-choosing-spa-treatments-option-by-cost:before { content: "\f10c"; }
+.flaticon-circular-line-with-word-age-in-the-center:before { content: "\f10d"; }
+.flaticon-cocktail-glass-side-view-with-fruit-slice-on-the-border:before { content: "\f10e"; }
+.flaticon-couple-of-half-oranges:before { content: "\f10f"; }
+.flaticon-cup-with-a-flower:before { content: "\f110"; }
+.flaticon-deck-chair-and-umbrella-for-the-sun:before { content: "\f111"; }
+.flaticon-drop-of-blood:before { content: "\f112"; }
+.flaticon-dropper:before { content: "\f113"; }
+.flaticon-essential-oil-drop-for-spa-massage-falling-on-an-open-hand:before { content: "\f114"; }
+.flaticon-essential-oil-drops-in-bathtub-for-relaxation-bath:before { content: "\f115"; }
+.flaticon-facial-mask-with-flower-in-spa:before { content: "\f116"; }
+.flaticon-facial-treatment-from-a-spa:before { content: "\f117"; }
+.flaticon-fan:before { content: "\f118"; }
+.flaticon-feet-couple-in-spa:before { content: "\f119"; }
+.flaticon-feet-with-flowers:before { content: "\f11a"; }
+.flaticon-female-bikini-and-male-short-for-spa:before { content: "\f11b"; }
+.flaticon-fern-plant-on-vase:before { content: "\f11c"; }
+.flaticon-fireplace:before { content: "\f11d"; }
+.flaticon-fish:before { content: "\f11e"; }
+.flaticon-flowers-floating-on-a-liquid-inside-a-bowl:before { content: "\f11f"; }
+.flaticon-flowers-on-human-feet:before { content: "\f120"; }
+.flaticon-fragrance-bottle-of-citric-fruit:before { content: "\f121"; }
+.flaticon-glass-with-juice:before { content: "\f122"; }
+.flaticon-hair-cut-tool:before { content: "\f123"; }
+.flaticon-hair-medicine-and-comb:before { content: "\f124"; }
+.flaticon-hair-spa:before { content: "\f125"; }
+.flaticon-hand-and-leaf-silhouettes:before { content: "\f126"; }
+.flaticon-hand-of-black-human:before { content: "\f127"; }
+.flaticon-hand-with-an-spiral-symbol:before { content: "\f128"; }
+.flaticon-herbs-leaves-for-natural-spa-treatment:before { content: "\f129"; }
+.flaticon-human-with-towel-wrapped-around-body:before { content: "\f12a"; }
+.flaticon-incense-stick-on-a-base:before { content: "\f12b"; }
+.flaticon-incense-sticks:before { content: "\f12c"; }
+.flaticon-lemonade-on-glass-with-lemon-slice:before { content: "\f12d"; }
+.flaticon-liquid-soap-bottle:before { content: "\f12e"; }
+.flaticon-logo-for-spa:before { content: "\f12f"; }
+.flaticon-logo-for-spa-and-relax:before { content: "\f130"; }
+.flaticon-male-and-female-symbol:before { content: "\f131"; }
+.flaticon-man-lying-on-a-deck-chair-of-a-spa:before { content: "\f132"; }
+.flaticon-man-sitting-in-sauna:before { content: "\f133"; }
+.flaticon-mask-for-relaxation:before { content: "\f134"; }
+.flaticon-massage-and-spa:before { content: "\f135"; }
+.flaticon-massages-ring-for-spa:before { content: "\f136"; }
+.flaticon-massages-tool:before { content: "\f137"; }
+.flaticon-mineral-stones:before { content: "\f138"; }
+.flaticon-mortar-with-flowers:before { content: "\f139"; }
+.flaticon-nail-polish-bottle:before { content: "\f13a"; }
+.flaticon-natural-spa:before { content: "\f13b"; }
+.flaticon-nautilus-shell-of-sea-life-to-hear-the-sea-sound-for-relaxation:before { content: "\f13c"; }
+.flaticon-overcoat:before { content: "\f13d"; }
+.flaticon-perfume-spray-spherical-bottle:before { content: "\f13e"; }
+.flaticon-person-in-spa-sauna:before { content: "\f13f"; }
+.flaticon-person-silhouette-in-meditation-posture-in-spa:before { content: "\f140"; }
+.flaticon-plant-for-a-spa:before { content: "\f141"; }
+.flaticon-positive-charges:before { content: "\f142"; }
+.flaticon-sale-sticker:before { content: "\f143"; }
+.flaticon-sandals-for-spa:before { content: "\f144"; }
+.flaticon-scented-candle:before { content: "\f145"; }
+.flaticon-scented-candle-symbol:before { content: "\f146"; }
+.flaticon-scented-cologne-or-perfume:before { content: "\f147"; }
+.flaticon-shower:before { content: "\f148"; }
+.flaticon-spa:before { content: "\f149"; }
+.flaticon-spa-and-fitness-symbol:before { content: "\f14a"; }
+.flaticon-spa-and-relax:before { content: "\f14b"; }
+.flaticon-spa-bed:before { content: "\f14c"; }
+.flaticon-spa-bed-1:before { content: "\f14d"; }
+.flaticon-spa-building:before { content: "\f14e"; }
+.flaticon-spa-candles-variant:before { content: "\f14f"; }
+.flaticon-spa-discount:before { content: "\f150"; }
+.flaticon-spa-facial-treatment-with-mask-and-massages:before { content: "\f151"; }
+.flaticon-spa-ointment:before { content: "\f152"; }
+.flaticon-spa-ointment-with-flower:before { content: "\f153"; }
+.flaticon-spa-pan-for-aromatherapy:before { content: "\f154"; }
+.flaticon-spa-relax-symbol:before { content: "\f155"; }
+.flaticon-spa-wooden-bowl-with-water:before { content: "\f156"; }
+.flaticon-star-of-sea-fivepointed-shape:before { content: "\f157"; }
+.flaticon-swimming-pool:before { content: "\f158"; }
+.flaticon-tea-bag:before { content: "\f159"; }
+.flaticon-tea-cup-with-flower:before { content: "\f15a"; }
+.flaticon-tea-in-a-teapot:before { content: "\f15b"; }
+.flaticon-thermostat:before { content: "\f15c"; }
+.flaticon-thread-symbol:before { content: "\f15d"; }
+.flaticon-towel:before { content: "\f15e"; }
+.flaticon-tree-twigs-with-leaf:before { content: "\f15f"; }
+.flaticon-walkway-and-a-plant:before { content: "\f160"; }
+.flaticon-water-inside-the-pitcher:before { content: "\f161"; }
+.flaticon-wind-chimes-variant-for-spa:before { content: "\f162"; }
+.flaticon-woman-head-silhouette-with-a-flower-in-a-spa:before { content: "\f163"; }
+    
+    $font-Flaticon-3-flowers: "\f100";
+    $font-Flaticon-acupuncture-needles: "\f101";
+    $font-Flaticon-aromatherapy-lotion-bottle-with-liquid-inside: "\f102";
+    $font-Flaticon-aromatherapy-tool-with-a-burning-candle-heating-fragrance-oil: "\f103";
+    $font-Flaticon-bamboo-plants-of-spa: "\f104";
+    $font-Flaticon-bath-of-immersion: "\f105";
+    $font-Flaticon-body-spa-and-massage: "\f106";
+    $font-Flaticon-bottle-of-glass-with-massage-oil-of-aromatherapy-for-spa: "\f107";
+    $font-Flaticon-brochure: "\f108";
+    $font-Flaticon-broom: "\f109";
+    $font-Flaticon-candle: "\f10a";
+    $font-Flaticon-candle-burning-flame: "\f10b";
+    $font-Flaticon-choosing-spa-treatments-option-by-cost: "\f10c";
+    $font-Flaticon-circular-line-with-word-age-in-the-center: "\f10d";
+    $font-Flaticon-cocktail-glass-side-view-with-fruit-slice-on-the-border: "\f10e";
+    $font-Flaticon-couple-of-half-oranges: "\f10f";
+    $font-Flaticon-cup-with-a-flower: "\f110";
+    $font-Flaticon-deck-chair-and-umbrella-for-the-sun: "\f111";
+    $font-Flaticon-drop-of-blood: "\f112";
+    $font-Flaticon-dropper: "\f113";
+    $font-Flaticon-essential-oil-drop-for-spa-massage-falling-on-an-open-hand: "\f114";
+    $font-Flaticon-essential-oil-drops-in-bathtub-for-relaxation-bath: "\f115";
+    $font-Flaticon-facial-mask-with-flower-in-spa: "\f116";
+    $font-Flaticon-facial-treatment-from-a-spa: "\f117";
+    $font-Flaticon-fan: "\f118";
+    $font-Flaticon-feet-couple-in-spa: "\f119";
+    $font-Flaticon-feet-with-flowers: "\f11a";
+    $font-Flaticon-female-bikini-and-male-short-for-spa: "\f11b";
+    $font-Flaticon-fern-plant-on-vase: "\f11c";
+    $font-Flaticon-fireplace: "\f11d";
+    $font-Flaticon-fish: "\f11e";
+    $font-Flaticon-flowers-floating-on-a-liquid-inside-a-bowl: "\f11f";
+    $font-Flaticon-flowers-on-human-feet: "\f120";
+    $font-Flaticon-fragrance-bottle-of-citric-fruit: "\f121";
+    $font-Flaticon-glass-with-juice: "\f122";
+    $font-Flaticon-hair-cut-tool: "\f123";
+    $font-Flaticon-hair-medicine-and-comb: "\f124";
+    $font-Flaticon-hair-spa: "\f125";
+    $font-Flaticon-hand-and-leaf-silhouettes: "\f126";
+    $font-Flaticon-hand-of-black-human: "\f127";
+    $font-Flaticon-hand-with-an-spiral-symbol: "\f128";
+    $font-Flaticon-herbs-leaves-for-natural-spa-treatment: "\f129";
+    $font-Flaticon-human-with-towel-wrapped-around-body: "\f12a";
+    $font-Flaticon-incense-stick-on-a-base: "\f12b";
+    $font-Flaticon-incense-sticks: "\f12c";
+    $font-Flaticon-lemonade-on-glass-with-lemon-slice: "\f12d";
+    $font-Flaticon-liquid-soap-bottle: "\f12e";
+    $font-Flaticon-logo-for-spa: "\f12f";
+    $font-Flaticon-logo-for-spa-and-relax: "\f130";
+    $font-Flaticon-male-and-female-symbol: "\f131";
+    $font-Flaticon-man-lying-on-a-deck-chair-of-a-spa: "\f132";
+    $font-Flaticon-man-sitting-in-sauna: "\f133";
+    $font-Flaticon-mask-for-relaxation: "\f134";
+    $font-Flaticon-massage-and-spa: "\f135";
+    $font-Flaticon-massages-ring-for-spa: "\f136";
+    $font-Flaticon-massages-tool: "\f137";
+    $font-Flaticon-mineral-stones: "\f138";
+    $font-Flaticon-mortar-with-flowers: "\f139";
+    $font-Flaticon-nail-polish-bottle: "\f13a";
+    $font-Flaticon-natural-spa: "\f13b";
+    $font-Flaticon-nautilus-shell-of-sea-life-to-hear-the-sea-sound-for-relaxation: "\f13c";
+    $font-Flaticon-overcoat: "\f13d";
+    $font-Flaticon-perfume-spray-spherical-bottle: "\f13e";
+    $font-Flaticon-person-in-spa-sauna: "\f13f";
+    $font-Flaticon-person-silhouette-in-meditation-posture-in-spa: "\f140";
+    $font-Flaticon-plant-for-a-spa: "\f141";
+    $font-Flaticon-positive-charges: "\f142";
+    $font-Flaticon-sale-sticker: "\f143";
+    $font-Flaticon-sandals-for-spa: "\f144";
+    $font-Flaticon-scented-candle: "\f145";
+    $font-Flaticon-scented-candle-symbol: "\f146";
+    $font-Flaticon-scented-cologne-or-perfume: "\f147";
+    $font-Flaticon-shower: "\f148";
+    $font-Flaticon-spa: "\f149";
+    $font-Flaticon-spa-and-fitness-symbol: "\f14a";
+    $font-Flaticon-spa-and-relax: "\f14b";
+    $font-Flaticon-spa-bed: "\f14c";
+    $font-Flaticon-spa-bed-1: "\f14d";
+    $font-Flaticon-spa-building: "\f14e";
+    $font-Flaticon-spa-candles-variant: "\f14f";
+    $font-Flaticon-spa-discount: "\f150";
+    $font-Flaticon-spa-facial-treatment-with-mask-and-massages: "\f151";
+    $font-Flaticon-spa-ointment: "\f152";
+    $font-Flaticon-spa-ointment-with-flower: "\f153";
+    $font-Flaticon-spa-pan-for-aromatherapy: "\f154";
+    $font-Flaticon-spa-relax-symbol: "\f155";
+    $font-Flaticon-spa-wooden-bowl-with-water: "\f156";
+    $font-Flaticon-star-of-sea-fivepointed-shape: "\f157";
+    $font-Flaticon-swimming-pool: "\f158";
+    $font-Flaticon-tea-bag: "\f159";
+    $font-Flaticon-tea-cup-with-flower: "\f15a";
+    $font-Flaticon-tea-in-a-teapot: "\f15b";
+    $font-Flaticon-thermostat: "\f15c";
+    $font-Flaticon-thread-symbol: "\f15d";
+    $font-Flaticon-towel: "\f15e";
+    $font-Flaticon-tree-twigs-with-leaf: "\f15f";
+    $font-Flaticon-walkway-and-a-plant: "\f160";
+    $font-Flaticon-water-inside-the-pitcher: "\f161";
+    $font-Flaticon-wind-chimes-variant-for-spa: "\f162";
+    $font-Flaticon-woman-head-silhouette-with-a-flower-in-a-spa: "\f163";

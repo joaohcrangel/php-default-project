@@ -1,0 +1,143 @@
+/* ----------------------------------------------------------------
+	CSS Specific to the Coffee Demo
+
+	Some of the CSS Codes have been modified from the Original
+	style.css File to match the Styling of this Demo
+
+	Version: 1.0
+-----------------------------------------------------------------*/
+
+#header-wrap { background: transparent; }
+
+.dark #wrapper,
+.dark #content,
+.dark .section.dark,
+.dark .css3-spinner { background-color: #000 }
+
+@media (min-width: 992px) {
+	.dark #page-menu.dots-menu nav li a { background-color: rgba(255,255,255,0.5) }
+	.dark #page-menu.dots-menu nav li:hover a { background-color: rgba(255,255,255,0.9) }
+}
+
+.heading-block h3 {
+	text-transform: none;
+	font-size: 42px;
+	letter-spacing: 2px;
+	font-weight: 400;
+}
+
+.before-heading {
+	text-transform: uppercase;
+	font-style: normal;
+	letter-spacing: 6px;
+	font-size: 14px;
+}
+
+.dark .section.dark p { color: #BBB; }
+
+.dark .section.dark p.text-muted { color: #666; }
+
+a.gallery-img {
+	overflow: visible;
+	width: 70%;
+}
+
+a.gallery-img.fleft { margin-top: -60px; }
+
+.fslider p {
+	font-family: 'Droid Serif', Serif;
+	font-style: italic;
+	font-weight: 400;
+	font-size: 18px;
+	letter-spacing: 1px;
+}
+
+.flex-control-nav {
+	top: auto;
+	bottom: 14px;
+	right: 20px;
+}
+
+.dark .fslider p { color: #BBB !important; }
+
+.food-menu:not(:first-child) { margin-top: 20px; }
+
+.menu-list span {
+	font-family: 'Nothing you could do';
+	letter-spacing: 2px;
+	font-size: 18px;
+	color: #444;
+}
+
+.dark .menu-list span { color: #DDD; }
+
+.menu-list h5 {
+	color: #AAA;
+	font-family: 'Raleway', sans-serif;
+	letter-spacing: 2px;
+	font-weight: 300;
+	font-size: 17px;
+}
+
+.dark .menu-list h5 { color: #777; }
+
+.menu-price h3 {
+	padding-top: 8px;
+	font-size: 22px;
+	letter-spacing: 1px;
+	font-family: 'source Sans Pro';
+}
+
+.form-control:not(.not-dark):active,
+.form-control:not(.not-dark):focus,
+.sm-form-control:not(.not-dark):active,
+.sm-form-control:not(.not-dark):focus,
+.form-control:not(.not-dark),
+.sm-form-control:not(.not-dark) {
+	margin-bottom: 10px;
+	border-radius: 2px !important;
+}
+
+.dark .form-control:not(.not-dark):active,
+.dark .form-control:not(.not-dark):focus,
+.dark .sm-form-control:not(.not-dark):active,
+.dark .sm-form-control:not(.not-dark):focus,
+.dark .form-control:not(.not-dark),
+.dark .sm-form-control:not(.not-dark) {
+	background-color: #222;
+	border: 1px solid #111;
+}
+
+.dark .form-control:active,
+.dark .form-control:focus {
+	border-color: #999;
+	box-shadow: none;
+	background-color: #FFF;
+}
+
+.button {
+	font-weight: 300 !important;
+	font-size: 14px !important;
+}
+
+.button.button-black {
+	background-color:  #333 !important;
+	border: 0;
+}
+.button:hover.button-black { color: #CCC !important; }
+
+.css3-spinner > div {
+	margin-top: -32px;
+	margin-left: -32px;
+	width: 62px;
+	height: 62px;
+	-webkit-animation: none;
+	animation: none;
+}
+
+@media (max-width: 991px) {
+#header.dark.transparent-header {
+    background-color: #000 !important;
+}
+
+#page-menu { display: none; }

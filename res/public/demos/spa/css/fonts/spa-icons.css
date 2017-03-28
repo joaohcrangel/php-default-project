@@ -1,0 +1,130 @@
+	/*
+		Flaticon icon font: Flaticon
+		Creation date: 19/02/2016 14:45
+		*/
+
+@font-face {
+	font-family: "spa";
+	src: url("./spa-icons.eot");
+	src: url("./spa-icons.eot?#iefix") format("embedded-opentype"),
+	url("./spa-icons.woff") format("woff"),
+	url("./spa-icons.ttf") format("truetype"),
+	url("./spa-icons.svg#spa") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	@font-face {
+		font-family: "spa";
+		src: url("./spa-icons.svg#spa") format("svg");
+	}
+}
+
+[class^="spa-"] {
+	position: relative;
+	top: 1px;
+	font-family: 'spa';
+	font-style: normal;
+}
+
+.spa-flowers:before { content: "\f100"; }
+.spa-needles:before { content: "\f101"; }
+.spa-lotion:before { content: "\f102"; }
+.spa-stool:before { content: "\f103"; }
+.spa-bamboo:before { content: "\f104"; }
+.spa-bath:before { content: "\f105"; }
+.spa-body:before { content: "\f106"; }
+.spa-massage-oil:before { content: "\f107"; }
+.spa-brochure:before { content: "\f108"; }
+.spa-broom:before { content: "\f109"; }
+.spa-candle:before { content: "\f10a"; }
+.spa-candle1:before { content: "\f10b"; }
+.spa-cost:before { content: "\f10c"; }
+.spa-age:before { content: "\f10d"; }
+.spa-cocktail:before { content: "\f10e"; }
+.spa-oranges:before { content: "\f10f"; }
+.spa-cup-flower:before { content: "\f110"; }
+.spa-chair:before { content: "\f111"; }
+.spa-drop:before { content: "\f112"; }
+.spa-dropper:before { content: "\f113"; }
+.spa-oil-drop-hand:before { content: "\f114"; }
+.spa-oil-drops-bathtub:before { content: "\f115"; }
+.spa-facial:before { content: "\f116"; }
+.spa-facial2:before { content: "\f117"; }
+.spa-fan:before { content: "\f118"; }
+.spa-feet:before { content: "\f119"; }
+.spa-feet2:before { content: "\f11a"; }
+.spa-bikini:before { content: "\f11b"; }
+.spa-plant:before { content: "\f11c"; }
+.spa-fireplace:before { content: "\f11d"; }
+.spa-fish:before { content: "\f11e"; }
+.spa-flowers-bowl:before { content: "\f11f"; }
+.spa-flowers-feet:before { content: "\f120"; }
+.spa-fragrance-bottle:before { content: "\f121"; }
+.spa-juice:before { content: "\f122"; }
+.spa-hair-cut:before { content: "\f123"; }
+.spa-comb:before { content: "\f124"; }
+.spa-hair-spa:before { content: "\f125"; }
+.spa-hand2:before { content: "\f126"; }
+.spa-hand3:before { content: "\f127"; }
+.spa-hand4:before { content: "\f128"; }
+.spa-leaves:before { content: "\f129"; }
+.spa-towel-wrapped:before { content: "\f12a"; }
+.spa-stick:before { content: "\f12b"; }
+.spa-sticks:before { content: "\f12c"; }
+.spa-lemon-glass:before { content: "\f12d"; }
+.spa-soap-bottle:before { content: "\f12e"; }
+.spa-logo-spa:before { content: "\f12f"; }
+.spa-logo-spa-relax:before { content: "\f130"; }
+.spa-male-and-female:before { content: "\f131"; }
+.spa-deck-chair:before { content: "\f132"; }
+.spa-sauna:before { content: "\f133"; }
+.spa-relaxation:before { content: "\f134"; }
+.spa-massage:before { content: "\f135"; }
+.spa-massages-ring:before { content: "\f136"; }
+.spa-massages-tool:before { content: "\f137"; }
+.spa-mineral-stones:before { content: "\f138"; }
+.spa-mortar:before { content: "\f139"; }
+.spa-nail-polish:before { content: "\f13a"; }
+.spa-natural-spa:before { content: "\f13b"; }
+.spa-shell:before { content: "\f13c"; }
+.spa-overcoat:before { content: "\f13d"; }
+.spa-perfum:before { content: "\f13e"; }
+.spa-sauna2:before { content: "\f13f"; }
+.spa-meditation:before { content: "\f140"; }
+.spa-plant3:before { content: "\f141"; }
+.spa-positive:before { content: "\f142"; }
+.spa-sale1:before { content: "\f143"; }
+.spa-sandals:before { content: "\f144"; }
+.spa-candle:before { content: "\f145"; }
+.spa-candle2:before { content: "\f146"; }
+.spa-perfume3:before { content: "\f147"; }
+.spa-shower:before { content: "\f148"; }
+.spa-spa:before { content: "\f149"; }
+.spa-fitness:before { content: "\f14a"; }
+.spa-relax:before { content: "\f14b"; }
+.spa-bed:before { content: "\f14c"; }
+.spa-bed2:before { content: "\f14d"; }
+.spa-building:before { content: "\f14e"; }
+.spa-candles:before { content: "\f14f"; }
+.spa-discount:before { content: "\f150"; }
+.spa-facial3:before { content: "\f151"; }
+.spa-ointment:before { content: "\f152"; }
+.spa-ointment2:before { content: "\f153"; }
+.spa-pan:before { content: "\f154"; }
+.spa-relax5:before { content: "\f155"; }
+.spa-bowl:before { content: "\f156"; }
+.spa-star:before { content: "\f157"; }
+.spa-swimming-pool:before { content: "\f158"; }
+.spa-tea-bag:before { content: "\f159"; }
+.spa-tea-cup:before { content: "\f15a"; }
+.spa-tea:before { content: "\f15b"; }
+.spa-thermostat:before { content: "\f15c"; }
+.spa-thread:before { content: "\f15d"; }
+.spa-towel:before { content: "\f15e"; }
+.spa-leaf2:before { content: "\f15f"; }
+.spa-walkway:before { content: "\f160"; }
+.spa-pitcher:before { content: "\f161"; }
+.spa-wind:before { content: "\f162"; }
+.spa-woman:before { content: "\f163"; }

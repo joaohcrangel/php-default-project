@@ -1,0 +1,140 @@
+/* ----------------------------------------------------------------
+	CSS Specific to the Spa Demo
+
+	Some of the CSS Codes have been modified from the Original
+	style.css File to match the Styling of this Demo
+
+	Version: 1.0
+-----------------------------------------------------------------*/
+
+
+.service-wrap {
+	position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 55px;
+    margin: 0 0 30px;
+}
+
+.service-header {
+	position: relative;
+	margin: 0 0 3px;
+}
+
+.service-name {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+	padding-right: 10px;
+}
+
+.service-name a {
+	font-size: 26px;
+	font-weight: 700;
+	color: #333;
+	letter-spacing: 2px;
+	font-family: 'cookie', cursive;
+}
+
+.service-dots {
+	display: table-cell;
+	width: 98%;
+}
+
+.separator-dots {
+	display: block;
+	width: 100%;
+	border-bottom: 1px dashed #78c9d1;
+}
+
+.service-price {
+	display: table-cell;
+	width: 1%;
+	padding-left: 10px;
+	font-size: 26px;
+	font-weight: 700;
+	font-family: 'cookie', cursive;
+}
+
+p.service-desc {
+	font-size: 15px;
+	color: #777;
+}
+
+.heading-block h3 {
+	text-transform: none;
+	font-size: 38px;
+	font-family: 'Cookie';
+}
+
+.heading-block:after {
+	width: auto;
+	height: 14px;
+	background-image: url('images/others/divider.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	border-top: none;
+}
+
+.heading-block.center:after { background-position: center center; }
+.heading-block.tright:after { background-position: right center; }
+
+.button.button-full {
+	font-family: 'Playfair Display';
+	font-style: italic;
+	letter-spacing: 1px;
+	font-size: 30px;
+	padding: 40px 0;
+}
+
+ul.tab-nav:not(.tab-nav-lg) li {
+	float: none;
+	display: inline-block;
+	margin-left: 25px;
+}
+
+.feature-box h3 span.subtitle {
+	font-size: 22px;
+	color: #888;
+	font-weight: normal;
+}
+
+form label { margin-bottom: 5px; }
+
+.sm-form-control {
+	background-color: #F5F5F5;
+	border-color: transparent;
+	padding: 9px 14px;
+}
+
+.form-control.error,
+.sm-form-control.error { border: 2px solid #E42C3E; }
+
+.css3-spinner > div { top: 54%; }
+
+.css3-spinner { background-color: #78c9d1 }
+
+.css3-spinner:after {
+	content: '';
+	position: absolute;
+	background-image: url('images/others/loader.png');
+	background-repeat: no-repeat;
+	top: 50%;
+	left: 50%;
+	width: 46px;
+	height: 98px;
+	margin-left: -23px;
+	margin-top: -90px;
+	background-position: center center;
+	z-index: 99999999;
+}
+
+@media (max-width: 991px) {
+	.service-wrap {
+		padding: 0;
+		margin: 0 0 10px;
+	}
+	.accordion.accordion-bg .acc_content {
+		padding: 10px 0 15px 5px;
+	}
+}

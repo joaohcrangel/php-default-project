@@ -4,7 +4,7 @@ class SitesMenus extends Collection {
 
     protected $class = "SiteMenu";
     protected $saveQuery = "sp_sitesmenus_save";
-    protected $saveArgs = array("idmenu", "idmenupai", "desmenu", "desicone", "deshref", "nrordem");
+    protected $saveArgs = array("idmenu", "idmenufather", "desmenu", "desicon", "deshref", "nrorder");
     protected $pk = "idmenu";
 
     public function get(){}

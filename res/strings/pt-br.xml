@@ -217,5 +217,8 @@
 	<string name="person_cliente">Cliente</string>
 	<string name="person_fornecedor">Fornecedor</string>
 	<string name="person_colaborador">Colaborador</string>
+
+	<string name="sitesmenus_home">Home</string>
+	<string name="sitesmenus_contact">Contato</string>
 	
 </resources>

@@ -596,6 +596,35 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	");
 	echo success();
 });
+$app->get("/install-admin/sql/sitesmenus/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$lang = new Language();
+
+	$menuHome = new SiteMenu(array(
+		'nrorder'=>0,
+		'idmenufather'=>NULL,
+		'desicon'=>'',
+		'deshref'=>'/',
+		'desmenu'=>$lang->getString('sitesmenus_home')
+	));
+	$menuHome->save();
+
+	$menuContato = new SiteMenu(array(
+		'nrorder'=>0,
+		'idmenufather'=>NULL,
+		'desicon'=>'',
+		'deshref'=>'/contato',
+		'desmenu'=>$lang->getString('sitesmenus_contact')
+	));
+	$menuContato->save();
+
+	echo success();
+
+
+});
 $app->get("/install-admin/sql/menus/inserts", function(){
 
 	set_time_limit(0);

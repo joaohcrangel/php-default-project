@@ -2,7 +2,7 @@
 
 class SiteMenu extends Model {
 
-    public $required = array('desmenu', 'nrordem', 'desicone', 'deshref', 'nrsubmenus');
+    public $required = array('desmenu', 'nrorder', 'desicon', 'deshref');
     protected $pk = "idmenu";
 
     const SESSION_NAME = "SITE_MENU";
@@ -21,11 +21,11 @@ class SiteMenu extends Model {
         if($this->getChanged() && $this->isValid()){
 
             $this->queryToAttr("CALL sp_sitesmenus_save(?, ?, ?, ?, ?, ?);", array(
-                $this->getidmenupai(),
+                $this->getidmenufather(),
                 $this->getidmenu(),
-                $this->getdesicone(),
+                $this->getdesicon(),
                 $this->getdeshref(),
-                $this->getnrordem(),
+                $this->getnrorder(),
                 $this->getdesmenu()
             ));
 
@@ -51,7 +51,7 @@ class SiteMenu extends Model {
 
     public static function getMenus(SiteMenu $menuPai, SitesMenus $menusTodos) {
 
-        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
+        $roots = $menusTodos->filter('idmenufather', $menuPai->getidmenu());
 
         $subs = new SitesMenus();
 
@@ -77,24 +77,22 @@ class SiteMenu extends Model {
 
     public static function getMenuHTML(SiteMenu $menuPai, SitesMenus $menusTodos) {
 
-        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
+        $roots = $menusTodos->filter('idmenufather', $menuPai->getidmenu());
 
         $html = '';
 
         if ($roots->getSize() > 0) {
 
-            $html = '<ul class="'.(($menuPai->getidmenu() === 0)?'site-menu':'site-menu-sub').'" '.(($menuPai->getidmenu() === 0)?'data-plugin="menu"':'').'>';
+            $html = '<ul>';
 
             foreach ($roots->getItens() as $menu) {
 
-                $href = ($menu->getdeshref())?'/'.DIR_ADMIN.$menu->getdeshref():'javascript:void(0)';
+                $href = ($menu->getdeshref())?$menu->getdeshref():'javascript:void(0)';
 
                 $html .= '
-                    <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenus() > 0)?'has-sub':'').'">
-                        <a '.(($menu->getdeshref() !== '')?'class="animsition-link"':'').' title="'.$menu->getdesmenu().'" href="'.$href.'" data-slug="layout">
-                            <i class="site-menu-icon '.$menu->getdesicone().'" aria-hidden="true"></i>
-                            <span class="site-menu-title">'.$menu->getdesmenu().'</span>
-                            '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'
+                    <li>
+                        <a title="'.$menu->getdesmenu().'" href="'.$href.'">
+                            <div>'.$menu->getdesmenu().'</div>
                         </a>
                         '.SiteMenu::getMenuHTML($menu, $menusTodos).'
                     </li>
@@ -114,7 +112,7 @@ class SiteMenu extends Model {
 
     public static function getMenuOL(SiteMenu $menuPai, SitesMenus $menusTodos) {
 
-        $roots = $menusTodos->filter('idmenupai', $menuPai->getidmenu());
+        $roots = $menusTodos->filter('idmenufather', $menuPai->getidmenu());
 
         $html = '';
         
@@ -160,6 +158,7 @@ class SiteMenu extends Model {
     }
 
     public static function getMenuSession(){
+        $_SESSION[SiteMenu::SESSION_NAME] = SiteMenu::getAllMenuHTML();
         if (!isset($_SESSION[SiteMenu::SESSION_NAME])) {
             $_SESSION[SiteMenu::SESSION_NAME] = SiteMenu::getAllMenuHTML();
         }

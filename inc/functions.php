@@ -431,6 +431,11 @@ function echoMenuHTML(){
     echo Menu::getMenuSession();
 }
 }
+if(!function_exists('echoSiteMenuHTML')){
+function echoSiteMenuHTML(){
+    echo SiteMenu::getMenuSession();
+}
+}
 if(!function_exists('isLogged')){
 function isLogged(){
 	$user = Session::getUser();

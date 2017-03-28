@@ -85,7 +85,7 @@ class User extends Model {
 
         $sql = new Sql();
 
-        $data = $sql->execute("sp_userslogin_get", array(
+        $data = $sql->query("CALL sp_userslogin_get(?)", array(
             $desuser
         ));
 

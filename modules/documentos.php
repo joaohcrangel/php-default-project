@@ -2,7 +2,7 @@
 
 $app->get("/documentos/cpf/:nrcpf", function($nrcpf){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     echo success(array("data"=>array(
         'incpf'=>Documento::validaCPF($nrcpf)
@@ -12,7 +12,7 @@ $app->get("/documentos/cpf/:nrcpf", function($nrcpf){
 
 $app->post("/documentos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(post('iddocumento') > 0){
         $documento = new Documento((int)post('iddocumento'));
@@ -32,7 +32,7 @@ $app->post("/documentos", function(){
 
 $app->delete("/documentos/:iddocumento", function($iddocumento){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(!(int)$iddocumento){
         throw new Exception("Documento não informado", 400);        
@@ -53,7 +53,7 @@ $app->delete("/documentos/:iddocumento", function($iddocumento){
 
 $app->get("/documentos/tipos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -93,7 +93,7 @@ $app->get("/documentos/tipos", function(){
 
 $app->post('/documentos-tipos', function () {
 
-    Permissao::checkSession(Permissao::ADMIN);
+    Permission::checkSession(Permission::ADMIN);
 
     $documentotipo = new DocumentoTipo($_POST);
 
@@ -107,7 +107,7 @@ $app->post('/documentos-tipos', function () {
 
 $app->delete('/documentos-tipos/:iddocumentotipo', function ($iddocumentotipo) {
 
-    Permissao::checkSession(Permissao::ADMIN);
+    Permission::checkSession(Permission::ADMIN);
 
     $documentotipo = new DocumentoTipo((int)$iddocumentotipo);
 

@@ -77,7 +77,7 @@ class Session extends DefaultObject {
 			}
 		}
 
-		$user = Session::getObjectFromSession('user');
+		$user = Session::getObjectFromSession('User');
 
 		if ($user !== NULL && !$user->getiduser() > 0) {
 

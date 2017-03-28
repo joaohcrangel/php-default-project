@@ -2,7 +2,7 @@
 
 $app->get("/cursos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$where = array();
 
@@ -45,7 +45,7 @@ $app->get("/cursos", function(){
 
 $app->get("/cursos/:idcurso/secoes", function($idcurso){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$curso = new Curso((int)$idcurso);
 
@@ -58,7 +58,7 @@ $app->get("/cursos/:idcurso/secoes", function($idcurso){
 
 $app->get("/cursos/:idcurso/html", function($idcurso){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$curso = new Curso((int)$idcurso);
 
@@ -70,7 +70,7 @@ $app->get("/cursos/:idcurso/html", function($idcurso){
 
 $app->post("/cursos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idcurso') > 0){
 		$curso = new Curso((int)post('idcurso'));
@@ -90,7 +90,7 @@ $app->post("/cursos", function(){
 
 $app->delete("/cursos/:idcurso", function($idcurso){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idcurso){
 		throw new Exception("Curso não informado", 400);		
@@ -112,7 +112,7 @@ $app->delete("/cursos/:idcurso", function($idcurso){
 // cursos secoes
 $app->get("/cursos-secoes/:idsecao/curriculos", function($idsecao){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$secao = new CursoSecao((int)$idsecao);
 
@@ -122,7 +122,7 @@ $app->get("/cursos-secoes/:idsecao/curriculos", function($idsecao){
 
 $app->post("/cursos-secoes", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idsecao') > 0){
 		$secao = new CursoSecao((int)post('idsecao'));
@@ -140,7 +140,7 @@ $app->post("/cursos-secoes", function(){
 
 $app->delete("/cursos-secoes/:idsecao", function($idsecao){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idsecao){
 		throw new Exception("Seção não informada", 400);		
@@ -162,7 +162,7 @@ $app->delete("/cursos-secoes/:idsecao", function($idsecao){
 // cursos curriculos
 $app->post("/cursos-curriculos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idcurriculo') > 0){
 		$curriculo = new CursoCurriculo((int)post('idcurriculo'));
@@ -180,7 +180,7 @@ $app->post("/cursos-curriculos", function(){
 
 $app->delete("/cursos-curriculos/:idcurriculo", function($idcurriculo){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idcurriculo){
 		throw new Exception("Currículo não informado", 400);		

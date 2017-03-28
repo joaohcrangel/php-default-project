@@ -10,7 +10,7 @@
 
  $app->get("/enderecos/:idendereco", function($idendereco){
 
-    Permissao::checkSession(Permissao::ADMIN);
+    Permission::checkSession(Permission::ADMIN);
 
     $endereco = new Endereco((int)$idendereco);
 
@@ -20,7 +20,7 @@
 
 $app->get('/enderecos/cep/:nrcep', function($nrcep){
 
-    Permissao::checkSession(Permissao::ADMIN);
+    Permission::checkSession(Permission::ADMIN);
 
     $endereco = Endereco::getByCEP($nrcep);
 
@@ -32,7 +32,7 @@ $app->get('/enderecos/cep/:nrcep', function($nrcep){
 
  $app->get('/enderecos/cidades', function(){
 
-    Permissao::checkSession(Permissao::ADMIN);
+    Permission::checkSession(Permission::ADMIN);
 
     $cidades = new Cidades();
 
@@ -53,7 +53,7 @@ $app->get('/enderecos/cep/:nrcep', function($nrcep){
 
  $app->get('/enderecos/tipos', function () {
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -96,7 +96,7 @@ $app->get('/enderecos/cep/:nrcep', function($nrcep){
 
  $app->post('/enderecos-tipos', function () {
 
-    Permissao::checkSession(Permissao::ADMIN);
+    Permission::checkSession(Permission::ADMIN);
 
     $enderecotipo = new EnderecoTipo($_POST);
 
@@ -110,7 +110,7 @@ $app->get('/enderecos/cep/:nrcep', function($nrcep){
 
 $app->delete('/enderecos-tipos/:idenderecotipo', function ($idenderecotipo) {
 
-	Permissao::checkSession(Permissao::ADMIN);
+	Permission::checkSession(Permission::ADMIN);
 
 	$enderecotipo = new EnderecoTipo((int)$idenderecotipo);
 
@@ -123,7 +123,7 @@ $app->delete('/enderecos-tipos/:idenderecotipo', function ($idenderecotipo) {
 
  $app->post("/".DIR_ADMIN."/enderecos", function(){
 
- 	Permissao::checkSession(Permissao::ADMIN, true);
+ 	Permission::checkSession(Permission::ADMIN, true);
 
  	if(post('idendereco') > 0){
  		$endereco = new Endereco((int)post('idendereco'));
@@ -143,7 +143,7 @@ $app->delete('/enderecos-tipos/:idenderecotipo', function ($idenderecotipo) {
 
  $app->delete("/".DIR_ADMIN."/enderecos/:idendereco", function($idendereco){
 
- 	Permissao::checkSession(Permissao::ADMIN, true);
+ 	Permission::checkSession(Permission::ADMIN, true);
 
  	if(!(int)$idendereco){
  		throw new Exception("Endereço nãoo informado", 400); 		

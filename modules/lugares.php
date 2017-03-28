@@ -2,7 +2,7 @@
 
 $app->get("/lugares", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$where = array();
 
@@ -55,7 +55,7 @@ $app->get("/lugares", function(){
 
 $app->get("/lugares/:idlugar", function($idlugar){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$lugar = new Lugar((int)$idlugar);
 
@@ -65,7 +65,7 @@ $app->get("/lugares/:idlugar", function($idlugar){
 
 $app->get("/lugares/:idlugar/enderecos", function($idlugar){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$lugar = new Lugar((int)$idlugar);
 
@@ -78,7 +78,7 @@ $app->get("/lugares/:idlugar/arquivos", function($idlugar){
 	// pre($_GET);
 	// exit;
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$lugar = new Lugar((int)$idlugar);
 
@@ -125,7 +125,7 @@ $app->get("/lugares/:idlugar/arquivos", function($idlugar){
 
 $app->post("/lugares", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(isset($_POST['idendereco'])){
 
@@ -215,7 +215,7 @@ $app->post("/lugares", function(){
 
 $app->post("/lugares/:idlugar/coordenadas", function($idlugar){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$lugar = new Lugar((int)$idlugar);
 
@@ -235,7 +235,7 @@ $app->post("/lugares/:idlugar/coordenadas", function($idlugar){
 
 $app->post("/lugares/:idlugar/arquivos", function($idlugar){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$lugar = new Lugar((int)$idlugar);
 
@@ -254,7 +254,7 @@ $app->post("/lugares/:idlugar/arquivos", function($idlugar){
 
 $app->delete("/lugares/:idlugar", function($idlugar){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idlugar){
 		throw new Exception("Lugar não informado", 400);		
@@ -277,7 +277,7 @@ $app->delete("/lugares/:idlugar", function($idlugar){
 
 $app->get("/lugares-tipos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -316,7 +316,7 @@ $app->get("/lugares-tipos", function(){
 
 $app->post("/lugares-tipos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idlugartipo') > 0){
 		$lugartipo = new LugarTipo((int)post('idlugartipo'));
@@ -336,7 +336,7 @@ $app->post("/lugares-tipos", function(){
 
 $app->delete("/lugares-tipos/:idlugartipo", function($idlugartipo){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idlugartipo){
 		throw new Exception("Tipo de lugar não informado", 400);	
@@ -359,7 +359,7 @@ $app->delete("/lugares-tipos/:idlugartipo", function($idlugartipo){
 
 $app->post("/lugares-horarios", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 

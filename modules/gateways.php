@@ -2,7 +2,7 @@
 
 $app->get("/gateways/all", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -43,7 +43,7 @@ $app->get("/gateways/all", function(){
 
 $app->post("/gateways", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(post('idgateway') > 0){
         $gateway = new Gateway((int)post('idgateway'));
@@ -63,7 +63,7 @@ $app->post("/gateways", function(){
 
 $app->delete("/gateways/:idgateway", function($idgateway){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(!(int)$idgateway){
         throw new Exception("Gateway não informado", 400);        

@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/exemplos/upload", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         'data'=>array(

@@ -2,7 +2,7 @@
 
 $app->get("/cupons/all", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	echo success(array("data"=>Cupons::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/cupons/all", function(){
 
 $app->post("/cupons", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if((int)post("idcupom") > 0){
 		$cupom = new Cupom((int)post("idcupom"));
@@ -28,7 +28,7 @@ $app->post("/cupons", function(){
 
 $app->delete("/cupons/:idcupom", function($idcupom){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!(int)$idcupom){
 		throw new Exception("Cupom não informado", 400);		
@@ -50,7 +50,7 @@ $app->delete("/cupons/:idcupom", function($idcupom){
 // cupons tipos
 $app->get("/cupons/tipos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -93,7 +93,7 @@ $app->get("/cupons/tipos", function(){
 
 $app->post("/cupons-tipos", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if((int)post('idcupomtipo') > 0){
 		$cupom = new CupomTipo((int)post('idcupomtipo'));
@@ -111,7 +111,7 @@ $app->post("/cupons-tipos", function(){
 
 $app->delete("/cupons-tipos/:idcupomtipo", function($idcupomtipo){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(!($idcupomtipo)){
 		throw new Exception("Tipo de cupom não informado", 400);		

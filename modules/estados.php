@@ -2,7 +2,7 @@
 
 $app->get("/estados", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	echo success(array("data"=>Estados::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/estados", function(){
 
 $app->get("/estados/all", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$where = array();
 
@@ -53,7 +53,7 @@ $app->get("/estados/all", function(){
 
 $app->post("/estados", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idestado') > 0){
 		$estado = new Estado((int)post('idestado'));
@@ -71,7 +71,7 @@ $app->post("/estados", function(){
 
 $app->delete("/estados", function(){
 
-	Permissao::checkSession(Permissao::ADMIN, true);
+	Permission::checkSession(Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 

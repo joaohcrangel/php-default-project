@@ -433,7 +433,7 @@ function echoMenuHTML(){
 }
 if(!function_exists('isLogged')){
 function isLogged(){
-	$usuario = Session::getUsuario();
+	$usuario = Session::getUser();
 	return $usuario->isLogged();
 }
 }

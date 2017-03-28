@@ -2,7 +2,7 @@
 
 $app->get("/contatos/tipos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -43,7 +43,7 @@ $app->get("/contatos/tipos", function(){
 
 $app->post("/contatos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(post('idcontato') > 0){
         $contato = new Contato((int)post('idcontato'));
@@ -63,7 +63,7 @@ $app->post("/contatos", function(){
 
 $app->delete("/contatos/:idcontato", function($idcontato){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(!(int)$idcontato){
         throw new Exception("Contato não informado", 400);        
@@ -84,7 +84,7 @@ $app->delete("/contatos/:idcontato", function($idcontato){
 // contatos- tipos
 $app->post("/contatos-tipos", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(post('idcontatotipo') > 0){
         $contato = new ContatoTipo((int)post('idcontatotipo'));
@@ -104,7 +104,7 @@ $app->post("/contatos-tipos", function(){
 
 $app->delete("/contatos-tipos/:idcontato", function($idcontatotipo){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     if(!(int)$idcontatotipo){
         throw new Exception("Contato não informado", 400);        

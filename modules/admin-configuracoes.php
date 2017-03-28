@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/sistema/Settings", function(){
 
-    Permissao::checkSession(Permissao::ADMIN, true);
+    Permission::checkSession(Permission::ADMIN, true);
 
     $page = new AdminPage(array(
         "header"=>true,

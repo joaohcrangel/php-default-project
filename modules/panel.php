@@ -26,7 +26,7 @@ $app->get("/panel/product-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/produto-criar");
+	$page->setTpl("panel/produto-create");
 
 });
 
@@ -53,7 +53,7 @@ $app->get("/panel/payment-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pagamento-criar");
+	$page->setTpl("panel/pagamento-create");
 
 });
 
@@ -80,7 +80,7 @@ $app->get("/panel/contacts-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/contato-tipo-criar");
+	$page->setTpl("panel/contato-tipo-create");
 
 });
 
@@ -107,7 +107,7 @@ $app->get("/panel/persons-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-tipo-criar");
+	$page->setTpl("panel/pessoa-tipo-create");
 
 });
 
@@ -134,7 +134,7 @@ $app->get("/panel/gateways-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/gateways-criar");
+	$page->setTpl("panel/gateways-create");
 
 });
 
@@ -161,7 +161,7 @@ $app->get("/panel/pedidos-status-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/orders-status-criar");
+	$page->setTpl("panel/orders-status-create");
 
 });
 
@@ -188,7 +188,7 @@ $app->get("/panel/ordernegotiation-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pedidonegociacao-tipo-criar");
+	$page->setTpl("panel/pedidonegociacao-tipo-create");
 
 });
 
@@ -232,7 +232,7 @@ $app->get("/panel/form-payment-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/forma-pagamento-criar");
+	$page->setTpl("panel/forma-pagamento-create");
 
 });
 ///////////////////////////////////////////////////////////
@@ -260,7 +260,7 @@ $app->get("/panel/card-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/cartao-criar");
+	$page->setTpl("panel/cartao-create");
 
 });
 
@@ -272,7 +272,7 @@ $app->get("/panel/permission-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/permissao-criar");
+	$page->setTpl("panel/permissao-create");
 
 });
 
@@ -301,7 +301,7 @@ $app->get("/panel/coupon-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/cupom-criar");
+	$page->setTpl("panel/cupom-create");
 
 });
 ////////////////////////////////
@@ -329,7 +329,7 @@ $app->get("/panel/coupons-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/cupons-tipos-criar");
+	$page->setTpl("panel/cupons-tipos-create");
 
 });
 
@@ -373,13 +373,13 @@ $app->get("/panel/products-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/produto-tipo-criar");
+	$page->setTpl("panel/produto-tipo-create");
 
 });
 /////////////////////////////////////////
 // usuario-tipo salvar
 
-$app->get("/panel/users-types/:idusertype", function($idusertype){
+$app->get("/panel/users/types/:idusertype", function($idusertype){
 
 	$usertype = new UserType((int)$idusertype);
 
@@ -388,7 +388,7 @@ $app->get("/panel/users-types/:idusertype", function($idusertype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/usuario-tipo-salvar", array(
+	$page->setTpl("panel/usuario/tipo-salvar", array(
 		"usertype"=>$usertype->getFields()
 	));
 
@@ -401,7 +401,7 @@ $app->get("/panel/user-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/usuario-tipo-criar");
+	$page->setTpl("panel/usuario-tipo-create");
 
 });
 
@@ -428,7 +428,7 @@ $app->get("/panel/persons-valuesfields-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-valor-campo-criar");
+	$page->setTpl("panel/pessoa-valor-campo-create");
 
 });
 
@@ -455,12 +455,12 @@ $app->get("/panel/configurations-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/configuracao-tipo-criar");
+	$page->setTpl("panel/configuracao-tipo-create");
 
 });
 
 /////////////////////////////////////////
-// lugares-tipos salvar
+// placees-tipos salvar
 $app->get("/panel/places-types/:idplacetype", function($idplacetype){
 
 	$placetype = new PlaceType((int)$idplacetype);
@@ -470,7 +470,7 @@ $app->get("/panel/places-types/:idplacetype", function($idplacetype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-tipos-salvar", array(
+	$page->setTpl("panel/placees-tipos-salvar", array(
 		"placetype"=>$placetype->getFields()
 	));
 
@@ -483,7 +483,7 @@ $app->get("/panel/places-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-tipos-criar");
+	$page->setTpl("panel/placees-tipos-create");
 
 });
 
@@ -511,7 +511,7 @@ $app->get("/panel/document-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-criar");
+	$page->setTpl("panel/documento-tipo-create");
 
 });
 
@@ -538,7 +538,7 @@ $app->get("/panel/address-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-criar");
+	$page->setTpl("panel/endereco-tipo-create");
 
 });
 
@@ -565,7 +565,7 @@ $app->get("/panel/log-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/historico-tipo-criar");
+	$page->setTpl("panel/historico-tipo-create");
 
 });
 ////////////////////////////////////////////////////////////////
@@ -626,7 +626,7 @@ $app->get("/panel/carts/:idcart", function($idcart){
 });
 
 ////////////////////////////////////////////////////////////
-// lugares
+// placees
 $app->get("/panel/places/:idplace", function($idplace){
 
 	$config = Session::getConfigurations();
@@ -646,7 +646,7 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$data['logs'] = $logs;
 
-	$page->setTpl("panel/lugar", array(
+	$page->setTpl("panel/place", array(
 		"place"=>$data,
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
 		"addressestypes"=>AddressesTypes::listAll()->getFields()
@@ -663,7 +663,7 @@ $app->get("/panel/place-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-criar", array(
+	$page->setTpl("panel/place-create", array(
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
 	));
 
@@ -684,7 +684,7 @@ $app->get("/panel/place-logs", function(){
 });
 /////////////////////////////////////////////////////////////
 
-// cursos
+// courses
 $app->get("/panel/courses/:idcourse", function($idcourse){
 
 	$course = new Course((int)$idcourse);
@@ -694,7 +694,7 @@ $app->get("/panel/courses/:idcourse", function($idcourse){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/curso", array(
+	$page->setTpl("panel/course", array(
 		"course"=>$course->getFields()
 	));
 
@@ -707,7 +707,7 @@ $app->get("/panel/course-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/curso-criar");
+	$page->setTpl("panel/course-create");
 
 });
 //////////////////////////////////////////////////////////////////////
@@ -735,7 +735,7 @@ $app->get("/panel/carousel-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-criar");
+	$page->setTpl("panel/carousel-create");
 
 });
 //////////////////////////////////////////////////////////////////
@@ -763,7 +763,7 @@ $app->get("/panel/carousel-item-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo-criar");
+	$page->setTpl("panel/carousel-item-tipo-create");
 
 });
 ////////////////////////////////////////////////////////////////
@@ -791,7 +791,7 @@ $app->get("/panel/country-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pais-criar");
+	$page->setTpl("panel/pais-create");
 
 });
 /////////////////////////////////////////////////////
@@ -819,7 +819,7 @@ $app->get("/panel/state-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/estado-criar");
+	$page->setTpl("panel/estado-create");
 
 });
 ///////////////////////////////////////////////////////
@@ -847,7 +847,7 @@ $app->get("/panel/city-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/cidade-criar");
+	$page->setTpl("panel/cidade-create");
 
 });
 ////////////////////////////////////////////////////
@@ -875,7 +875,7 @@ $app->get("/panel/person-category-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-categoria-tipo-criar");
+	$page->setTpl("panel/pessoa-categoria-tipo-create");
 
 });
 ///////////////////////////////////////////////////////////
@@ -903,7 +903,7 @@ $app->get("/panel/url-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/url-criar");
+	$page->setTpl("panel/url-create");
 
 });
 

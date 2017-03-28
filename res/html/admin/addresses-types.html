@@ -33,7 +33,7 @@
 
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-endereco-tipo" data-auto-height="-179">
+                <div class="panel" id="panel-address-type" data-auto-height="-179">
                     <div class="panel-heading">
             		    <h3 class="panel-title"></h3>
                         <div class="panel-actions">
@@ -61,7 +61,7 @@
     </div>
     <div class="site-action animation-duration-300">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/endereco-tipo-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/address-type-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -69,10 +69,10 @@
         </button>
     </div>
 </div>
-<script id="tpl-endereco-tipo" type="/x-handlebars-temprate"><tr data-idaddresstype="{{idaddresstype}}">
+<script id="tpl-address-type" type="/x-handlebars-temprate"><tr data-idaddresstype="{{idaddresstype}}">
 	<td>{{desaddresstype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/enderecos/tipos/{{idaddresstype}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/addresses/types/{{idaddresstype}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-endereco icon wb-trash">
       	</button>
@@ -81,26 +81,26 @@
 </script>
 <script>
 init.push(function(){
-	var panel = System.getPanelApi($("#panel-endereco-tipo"));
+	var panel = System.getPanelApi($("#panel-address-type"));
 
-	var $tbody = $("#panel-endereco-tipo tbody");
+	var $tbody = $("#panel-address-type tbody");
 
-	var $tplEnderecoTipo = Handlebars.compile($("#tpl-endereco-tipo").html());
+	var $tplAddressType = Handlebars.compile($("#tpl-address-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      console.log("ok");
     e.preventDefault();
 
-    loadEnderecoTipo();
+    loadAddressType();
     
   });
 
-	function loadEnderecoTipo(pagina){
+	function loadAddressType(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadEnderecoTipo();
+			loadAddressType();
 
 		});
 
@@ -113,7 +113,7 @@ init.push(function(){
 		panel.load();
 
 		rest({
-			url:PATH+"/addresses/types",
+			url:PATH+"/addresses-types",
 			data:params,
 			success:function(r){
 
@@ -121,7 +121,7 @@ init.push(function(){
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplEnderecoTipo(row));
+					$tbody.append($tplAddressType(row));
 
 				});
 
@@ -130,7 +130,7 @@ init.push(function(){
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadEnderecoTipo(page);
+            			loadAddressType(page);
          			}
         		});
 
@@ -144,19 +144,19 @@ init.push(function(){
 
 					var $btn = $(this);
 
-					var idenderecotipo = $btn.closest("tr").data("idenderecotipo");
+					var idaddresstype = $btn.closest("tr").data("idaddresstype");
 					System.confirm('Deseja remover esse endereco?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/addresses-types/"+idenderecotipo,
+				          		url: PATH+"/addresses-types/"+idaddresstype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadEnderecoTipo();
+				           		 	loadAddressType();
 				            		s();
 
 				          		},
@@ -183,6 +183,6 @@ init.push(function(){
 		});
 	};
 
-    loadEnderecoTipo();
+    loadAddressType();
 });
 </script>

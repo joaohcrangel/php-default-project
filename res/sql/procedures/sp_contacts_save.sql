@@ -3,14 +3,14 @@ pidcontact INT,
 pidcontactsubtype INT,
 pidperson INT,
 pdescontact VARCHAR(128),
-pinprincipal BIT
+pinmain BIT
 )
 BEGIN
 
     IF pidcontact = 0 THEN
     
-        INSERT INTO tb_contacts (idcontactsubtype, idperson, descontact, inprincipal)
-        VALUES(pidcontactsubtype, pidperson, pdescontact, pinprincipal);
+        INSERT INTO tb_contacts (idcontactsubtype, idperson, descontact, inmain)
+        VALUES(pidcontactsubtype, pidperson, pdescontact, pinmain);
         
         SET pidcontact = LAST_INSERT_ID();
 
@@ -21,7 +21,7 @@ BEGIN
             idcontactsubtype = pidcontactsubtype,
             idperson = pidperson,
             descontact = pdescontact,
-            inprincipal = pinprincipal
+            inmain = pinmain
         WHERE idcontact = pidcontact;
 
     END IF;

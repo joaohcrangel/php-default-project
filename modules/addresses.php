@@ -51,7 +51,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
  });
 
- $app->get('/addresses/types', function () {
+ $app->get('/addresses-types', function () {
 
 	Permission::checkSession(Permission::ADMIN);
 

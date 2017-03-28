@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-setting-type">
+            <form id="form-configuration-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idsettingtype">
+                        <input type="hidden" name="idconfigurationtype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="dessettingtype">
+                        <input type="text" class="form-control" name="desconfigurationtype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn setting-type" type="submit">
+                    <button class="btn btn-block btn-primary" id="btn configuration-type" type="submit">
                         Salvar Nova Configuracões Tipos
                     </button>
                 </div>
@@ -35,13 +35,13 @@
     </div>
 </div>
 <script>
-var settingType = JSON.parse('{function="json_encode($setting)"}');
-$("#form-setting-type").formLoad(settingType);
+var configurationType = JSON.parse('{function="json_encode($configuration)"}');
+$("#form-configuration-type").formLoad(configurationType);
 
-$("#form-setting-type").form({
-  url:PATH+"/settings-types",
+$("#form-configuration-type").form({
+  url:PATH+"/configurations-types",
   params:{
-    idsettingtype:settingType.idsettingtype
+    idconfigurationtype:configurationType.idconfigurationtype
   },
   success:function(){
     System.success("Configuracão criado com sucesso");

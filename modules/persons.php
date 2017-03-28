@@ -46,12 +46,15 @@ $app->get("/persons",function(){
 			array_push($where, $key." = ?");
 			array_push($params, get($key));
 		}
+
 	}
 	if (count($where) > 0) {
 		$where = "WHERE ".implode(" AND ", $where);
 	} else {
 		$where = "";
 	}
+	var_dump($params);
+	exit;
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
 	$itensPorPagina = (int)get('limite');//Itens por página

@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo Contato</h5></h4></div></header><div class="slidePanel-inner"><div class="panel"><div class="panel-body p-x-0"><form id="form-contact-type-save"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idcontacttype"><label>Nome</label><input type="text" class="form-control" name="descontacttype"></div><button class="btn btn-block btn-primary" id="btn contact-Type-Save" type="submit">Salvar Novo Contato</button></div></form></div></div></div><script>$("#form-contact-type-save").form({
+  url:PATH+"/contacts-types",
+  success:function(){
+    System.success("Contato criado com sucesso");
+    $(".slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+    System.showError(r);
+  }
+});</script>

@@ -26,17 +26,17 @@
           <section class="page-aside-section p-t-0">
             <div class="panel-primary panel-line">
               <div class="panel-heading">
-                <h3 class="panel-title">Filtrar Arquivo</h3>
+                <h3 class="panel-title">Filtrar Arquivos</h3>
               </div>
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome do Arquivo</label>
-                  <input type="text" class="form-control" name="desarquivo">
+                  <input type="text" class="form-control" name="desfile">
                 </div>
   
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Tipo do Arquivo</label>
-                  <select name="desextensao" class="form-control">
+                  <select name="desextension" class="form-control">
                     <option value=""> -- SELECIONE -- </option>
                     <option value="gif">Imagem GIF</option>
                     <option value="jpg">Imagem JPG</option>
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div class="page-main"  id="arquivo-page">
+  <div class="page-main"  id="file-page">
       <div class="page-header p-0" >
         <div class="btn-group" id="actions-buttons"></div>
       </div>
@@ -73,7 +73,7 @@
         </div>
         <!-- Media -->
 
-          <div id="tab-arquivo-fotos" data-auto-height="-360">
+          <div id="tab-file-fotos" data-auto-height="-360">
             <div  class="media-list is-grid" data-plugin="animateList" data-animate="fade"
             data-child="li">
               <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5"
@@ -82,11 +82,11 @@
             </div>
           </div>
       </div>
-      <div id="paginacao"></div>
+      <div id="pagination"></div>
   </div>
 </div>
 
-<script id="tpl-arquivo-page" type="text/x-handlebars-template">
+<script id="tpl-file-page" type="text/x-handlebars-template">
 <li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
   <div class="media-item">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
@@ -105,19 +105,19 @@
 <script>
 init.push(function(){
 
-  var panel = System.getPanelApi($('#arquivo-page'));
+  var panel = System.getPanelApi($('#file-page'));
 
-  var $tplArquivoPage = Handlebars.compile($('#tpl-arquivo-page').html());
+  var $tplFilePage = Handlebars.compile($('#tpl-file-page').html());
 
   $("#form-filtros [type=submit]").on("click", function(e){
   
     e.preventDefault();
 
-    carregarArquivos();
+    carregarFiles();
     
   });
 
-  function carregarArquivos(pagina){
+  function carregarFiles(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -129,19 +129,19 @@ init.push(function(){
     data.limite = (data.limite<5)?5:data.limite;
 
     rest({
-      url:PATH+"/arquivos",
+      url:PATH+"/files",
       data:data,
       success:function(r){
 
-        $("#tab-arquivo-fotos ul").html('');
+        $("#tab-file-fotos ul").html('');
 
-        $.each(r.data, function(index, arquivo){
+        $.each(r.data, function(index, file){
 
-          var $li = $($tplArquivoPage(arquivo));
+          var $li = $($tplFilePage(file));
 
-          $li.data('arquivo', arquivo);
+          $li.data('file', file);
 
-          $("#tab-arquivo-fotos ul").append($li);
+          $("#tab-file-fotos ul").append($li);
 
         });
 
@@ -152,15 +152,15 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              carregarArquivos(page);
+              carregarFiles(page);
             }
           });
 
-          $("#paginacao").show().asPaginator(r.total, config);
+          $("#pagination").show().asPaginator(r.total, config);
 
         } else {
 
-          $("#paginacao").hide();
+          $("#pagination").hide();
 
         }
 
@@ -172,7 +172,7 @@ init.push(function(){
 
   }
 
-  carregarArquivos();
+  carregarFiles();
   
   $("#arrangement-list").on("click", function(){
     
@@ -192,12 +192,12 @@ init.push(function(){
   var btnAddClick = function(){
     $.upload({
       multiple:true,
-      url:PATH+"/arquivos",
+      url:PATH+"/files",
       accept:"*",
       modalInfo:true,
       success:function(r){
         console.log('upload', r);
-        carregarArquivos();
+        carregarFiles();
       },
       failure:function(e){
         System.showError(e);
@@ -250,28 +250,28 @@ init.push(function(){
 
           var ids = [];
 
-          $("#tab-arquivo-fotos ul li input:checked").each(function(){
+          $("#tab-file-fotos ul li input:checked").each(function(){
 
             var $li = $(this).closest("li");
 
-            var arquivo = $li.data('arquivo');
+            var file = $li.data('file');
         
-            ids.push(arquivo.idarquivo);
+            ids.push(file.idfile);
 
           });
 
           rest({
-            url:PATH+"/arquivos",
+            url:PATH+"/files",
             method:"DELETE",
             data:{
               ids:ids.toString()
             },
             success:function(){
 
-              $("#tab-arquivo-fotos ul li input:checked").each(function(){
+              $("#tab-file-fotos ul li input:checked").each(function(){
                 $(this).closest("li").remove();
               });
-              carregarArquivos();
+              carregarFiles();
 
             }
           });

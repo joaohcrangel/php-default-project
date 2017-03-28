@@ -2,9 +2,9 @@
 	<div class="page-content">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-cupons">
+				<div class="panel" id="panel-coupons">
 					<div class="panel-heading">
-						<h3 class="panel-title">Cupons</h3>
+						<h3 class="panel-title">coupons</h3>
 						<div class="panel-actions">
 			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
 			            </div>
@@ -14,7 +14,7 @@
 			              	<thead>
 				                <tr>
 				                  <th>Cupom</th>
-				                  <th>Tipo do cupom</th>
+				                  <th>Tipo do Cupom</th>
 				                  <th>Código</th>
 				                  <th>Desconto</th>
 				                  <th>Quantidade</th>
@@ -33,26 +33,26 @@
 	</div>
 
     <div class="site-action">
-		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/cupom-criar" data-toggle="slidePanel">
+		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/coupon-create" data-toggle="slidePanel">
 		  <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
 		  <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
 		</button>
 	</div>
 
 </div>
-<script id="tpl-cupom-row" type="text/x-handlebars-template">
-<tr data-idcupom="{{idcupom}}">
-	<td>{{descupom}}</td>
-	<td>{{descupomtipo}}</td>
-	<td>{{descodigo}}</td>
-	<td>{{nrdesconto}}</td>
+<script id="tpl-coupon-row" type="text/x-handlebars-template">
+<tr data-idcoupon="{{idcoupon}}">
+	<td>{{descoupon}}</td>
+	<td>{{descoupontype}}</td>
+	<td>{{descode}}</td>
+	<td>{{nrdiscount}}</td>
 	<td>{{nrqtd}}</td>
-	<td>{{dtinicio}}</td>
-	<td>{{dttermino}}</td>
+	<td>{{dtstart}}</td>
+	<td>{{dtend}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/cupons/{{idcupom}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/coupons/{{idcoupon}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-cupom icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-coupon icon wb-trash">
       	</button>
 	</td>
 </tr>
@@ -61,22 +61,22 @@
 
 init.push(function(){
 
-	var panel = System.getPanelApi($("#panel-cupons"));
+	var panel = System.getPanelApi($("#panel-coupons"));
 
-	var $tbody = $("#panel-cupons tbody");
+	var $tbody = $("#panel-coupons tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-cupom-row").html());
+	var $tpl = Handlebars.compile($("#tpl-coupon-row").html());
 
-	function loadCupons(){
+	function loadCoupons(){
 
 		$(".refresh").on("click", function(){
-			loadCupons();
+			loadCoupons();
 		});
 
 		panel.load();
 
 		rest({
-			url:PATH+"/cupons/all",
+			url:PATH+"/coupons/all",
 			success:function(r){
 
 				$tbody.html('');
@@ -91,25 +91,25 @@ init.push(function(){
 
 				panel.done();
 
-				$(".btn-excluir-cupom").on("click", function(e){
+				$(".btn-excluir-coupon").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idcupom = $btn.closest("tr").data("idcupom");
+					var idcoupon = $btn.closest("tr").data("idcoupon");
 
-					System.confirm('Deseja remover o cupom?', function(b){
+					System.confirm('Deseja remover o coupon?', function(b){
 				      	if (b) {
 
 					        System.load();
 
 					        rest({
-					          url: PATH+"/cupons/"+idcupom,
+					          url: PATH+"/coupons/"+idcoupon,
 					          method:'DELETE',
 					          success: function(r){
 
 					            System.done();
-					            loadCupons();
-					            System.success("cupom excluído com sucesso");
+					            loadCoupons();
+					            System.success("Cupom excluído com sucesso");
 
 					          },
 					          failure: function(e){
@@ -132,7 +132,7 @@ init.push(function(){
 
 	};
 
-	loadCupons();
+	loadCoupons();
 
 });
 

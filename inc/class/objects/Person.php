@@ -102,10 +102,10 @@ class Person extends Model {
 
     }
 
-    public function getAdresses():Adresses
+    public function getAddresses():Addresses
     {
 
-        return new Adresses($this);  
+        return new Addresses($this);  
 
     }
 
@@ -173,24 +173,24 @@ class Person extends Model {
 
     }
 
-    public function addAdress(Adress $adress):Adress
+    public function addAddress(Address $address):Address
     {
 
-        $adress->setidperson($this->getidperson());
+        $address->setidperson($this->getidperson());
 
-        $this->execute("CALL sp_personsadresses_save(?, ?)", array(
-            $adress->getidperson(),
-            $adress->getidadress()
+        $this->execute("CALL sp_personsaddresses_save(?, ?)", array(
+            $address->getidperson(),
+            $address->getidaddress()
         ));
 
-        return $adress;
+        return $address;
 
     }
 
     public function getPhotoURL():string
     {
 
-        $configs = Session::getConfiguracoes();
+        $configs = Session::getConfigurations();
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
         $filename = $uploadDir.$this->getdesphoto();
@@ -218,20 +218,20 @@ class Person extends Model {
         }
 
     }
-    public function getAdress():Adress
+    public function getAddress():Address
     {
 
         $data = array();
 
         foreach (array(
-            'idadresstype', 'idadress', 'desadress',
+            'idaddresstype', 'idaddress', 'desaddress',
             'desnumber', 'desdistrict', 'descity', 'desstate',
-            'descountry', 'descep', 'inmain', 'desadresstype'
+            'descountry', 'descep', 'inmain', 'desaddresstype'
         ) as $field) {
             $data[$field] = $this->{'get'.$field}();
         }
 
-        return new Adress($data);
+        return new address($data);
 
     }
 
@@ -289,8 +289,8 @@ class Person extends Model {
 
         $this->getPhotoURL();
 
-        $endereco = $this->getEndereco();
-        $endereco->setdesenderecoresumido($endereco->getToString(Endereco::SUMMARY));
+        $address = $this->getAddress();
+        $address->setdesaddressresumido($address->getToString(Address::SUMMARY));
 
         if ($this->getdescpf()) {
             $cpf = $this->getDocument(DocumentType::CPF);
@@ -310,7 +310,7 @@ class Person extends Model {
 
         $data['cpf'] = $cpf->getFields();
         $data['cnpj'] = $cnpj->getFields();
-        $data['endereco'] = $endereco->getFields();
+        $data['address'] = $address->getFields();
 
         return $data;
 

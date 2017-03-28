@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#pais-footer {
+#country-footer {
   height: 39px;
 }
 .page {
@@ -39,7 +39,7 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
-                  <input type="text" class="form-control" name="despais">
+                  <input type="text" class="form-control" name="descountry">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -72,7 +72,7 @@
     </div>
   </div>
 </div>
-<footer id="pais-footer" class="site-footer p-0"></footer>
+<footer id="country-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -86,7 +86,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idpais="{{idpais}}" data-url="{$path}/panel/paises/{{idpais}}" data-toggle="slidePanel">
+  <tr data-idcountry="{{idcountry}}" data-url="{$path}/panel/countries/{{idcountry}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -94,7 +94,7 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{despais}}</td>
+    <td>{{descountry}}</td>
     <td>
       <!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
       </button> -->
@@ -105,7 +105,7 @@
 <script>
 init.push(function(){
 
-  var tplPais = Handlebars.compile($("#tpl-row").html());
+  var tplCountry = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -113,13 +113,13 @@ init.push(function(){
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#pais-footer");
+  var $footer = $("#country-footer");
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadPaises();
+    loadCountries();
 
   });
 
@@ -127,7 +127,7 @@ init.push(function(){
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadPaises(pagina){
+  function loadCountries(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -140,7 +140,7 @@ init.push(function(){
     data.limite = (data.limite>5)?5:data.limite;
 
     rest({
-      url:PATH+"/paises",
+      url:PATH+"/countries",
       data:data,
       success:function(r){
 
@@ -150,7 +150,7 @@ init.push(function(){
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplPais(row));
+            var $tr = $(tplCountry(row));
 
             $tbody.append($tr);
 
@@ -160,7 +160,7 @@ init.push(function(){
 
               var disabled = (checked.length > 0) ? false : true;
 
-              $("#btn-pais-excluir").prop("disabled", disabled);
+              $("#btn-country-excluir").prop("disabled", disabled);
 
             });
 
@@ -182,7 +182,7 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadPaises(page);
+              loadCountries(page);
             }
           });
 
@@ -214,7 +214,7 @@ init.push(function(){
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/pais-criar"
+              url:PATH+"/panel/country-create"
             });
 
           }
@@ -222,7 +222,7 @@ init.push(function(){
       },{
         text:"Excluir",
         icon:"md-delete",
-        id:"btn-pais-excluir",
+        id:"btn-country-excluir",
         cls:"btn-default",
         disabled:true,
         listeners:{
@@ -231,15 +231,15 @@ init.push(function(){
             var ids = [];
 
             $("#lista tr [type=checkbox]:checked").each(function(){              
-              ids.push($(this).closest("tr").data("idpais"));
+              ids.push($(this).closest("tr").data("idcountry"));
             });
           
-            System.confirm("Deseja remover os paises?", function(b, s, f){
+            System.confirm("Deseja remover os countries?", function(b, s, f){
 
               if(b){
 
                 rest({
-                  url:PATH+"/paises",
+                  url:PATH+"/countries",
                   method:"DELETE",
                   data:{
                     ids:ids.toString()
@@ -247,7 +247,7 @@ init.push(function(){
                   success:function(){
                     System.done();
                     System.success("País(es) excluído com sucesso");
-                    loadPaises();
+                    loadCountries();
                   },
                   failure:function(r){
                     System.done();
@@ -266,7 +266,7 @@ init.push(function(){
       }]
   });
 
-  loadPaises();
+  loadCountries();
 
 });
 </script>

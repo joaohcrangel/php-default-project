@@ -16,11 +16,11 @@ BEGIN
 
     ELSE
         
-        UPDATE tb_configurations        
+        UPDATE tb_configurations
         SET 
-            desconfiguracao = pdesconfiguracao,
+            desconfiguration = pdesconfiguration,
             desvalue = pdesvalue,
-            idconfigurationtype  = pidconfigurationtype ,
+            idconfigurationtype  = pidconfigurationtype,
             desdescription = pdesdescription   
         WHERE idconfiguration  = pidconfiguration ;
 

@@ -14,34 +14,38 @@ class Configuration extends Model {
 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
             switch ($this->getidconfigurationtype()) {
                 case ConfigurationType::STRING:
-                $this->desvalue((string)$this->getdesvalue());
+                $this->setdesvalue((string)$this->getdesvalue());
                 break;
                 case ConfigurationType::INT:
-                $this->desvalue((int)$this->getdesvalue());
+                $this->setdesvalue((int)$this->getdesvalue());
                 break;
                 case ConfigurationType::FLOAT:
-                $this->desvalue((float)$this->getdesvalue());
+                $this->setdesvalue((float)$this->getdesvalue());
                 break;
                 case ConfigurationType::BOOL:
-                $this->desvalue((bool)$this->getdesvalue());
+                $this->setdesvalue((bool)$this->getdesvalue());
                 break;
                 case ConfigurationType::DATETIME:
                 if (gettype($this->getdesvalue()) === 'object') {
-                    $this->desvalue((string)$this->getdesvalue()->format('c'));
+                    $this->setdesvalue((string)$this->getdesvalue()->format('c'));
                 }
                 break;
                 case ConfigurationType::ARRAY:
                 if (gettype($this->getdesvalue()) === 'array') {
-                    $this->desvalue((string)json_encode($this->getdesvalue()));
+                    $this->setdesvalue((string)json_encode($this->getdesvalue()));
                 }
                 break;
             }
+
+            // var_dump($this);
+            // exit;
 
             $this->queryToAttr("CALL sp_configurations_save(?, ?, ?, ?, ?);", array(
                 $this->getidconfiguration(),
@@ -55,13 +59,14 @@ class Configuration extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->execute("sp_configurations_remove", array(
             $this->getidconfiguration()

@@ -21,7 +21,8 @@ class ConfigurationType extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -34,15 +35,16 @@ class ConfigurationType extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->proc("sp_configurationstypes_remove", array(
+        $this->exec("sp_configurationstypes_remove", array(
             $this->getidconfigurationtype()
         ));
 

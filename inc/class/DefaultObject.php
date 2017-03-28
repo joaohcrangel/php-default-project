@@ -22,7 +22,7 @@ class DefaultObject {
 
 		}else{
 
-			//Crindo Getters e Setters automaticamento
+			//Criando Getters e Setters automaticamente
 			if(!method_exists($this, $name) && strlen($name)>3 && in_array(substr($name,0,3), array('get', 'set'))){
 
 				if(substr($name,0,3) == 'get'){

@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Carrinho</h5></h4></div></header><div class="slidePanel-inner panel m-t-40"><div class="row"><div class="col-sm-4"><h4>Pessoa</h4><p>{$cart.desperson}</div><div class="col-sm-4"><h4>Valor total(líquido)</h4><p>R$ {$cart.vltotal}</div><div class="col-sm-4">ca<h4>Valor total(bruto)</h4><p>R$ {$cart.vltotalbruto}</div></div><label class="form-control-label"><h4>Produtos</h4></label><div class="panel panel-products"><table class="table table-striped table-hover"><thead><tr><th>Produto<th>Tipo do Produto<th>Valor do Produto<th>Data de remoção<tbody></table></div><label class="form-control-label"><h4>Cupom usado</h4></label><div class="panel panel-cupons"><table class="table table-striped table-hover"><thead><tr><th>Cupom<th>Tipo do Cupom<th>Desconto<th>Código do cupom<tbody></table></div><label class="form-control-label"><h4>Frete usado</h4></label><div class="panel panel-frete"><table class="table table-striped table-hover"><thead><tr><th>CEP<th>Valor do Frete<tbody></table></div></div><script id="tpl-row" type="text/x-handlebars-compile"><tr>
+		<td>{{desproduct}}</td>
+		<td>{{desproducttype}}</td>
+		<td>R$ {{vlprice}}</td>
+		<td>{{dtremoved}}</td>
+	</tr></script><script id="tpl-coupon-row" type="text/x-handlebars-compile"><tr>
+		<td>{{descoupon}}</td>
+		<td>{{descoupontype}}</td>
+		<td>{{nrdescontent}}</td>
+		<td>{{descode}}</td>
+	</tr></script><script id="tpl-freight-row" type="text/x-handlebars-compile"><tr>
+		<td>{{descep}}</td>
+		<td>{{vlfreight}}</td>		
+	</tr></script><script>(function(){
+	
+	var cart = JSON.parse('{function="json_encode($cart)"}');
+
+	var $panel = System.getPanelApi($(".slidePanel-inner"));
+
+	var $tbodyProducts = $(".panel-products tbody");
+	var $tbodyCoupons = $(".panel-coupons tbody");
+	var $tbodyFreight = $(".panel-freight tbody");
+
+	var tpl = Handlebars.compile($("#tpl-row").html());
+	var tplCoupons = Handlebars.compile($("#tpl-coupon-row").html());
+	var tplFreight = Handlebars.compile($("#tpl-freight-row").html());
+
+	function load(){
+
+		$panel.load();
+
+		$tbodyProducts.html('');
+
+		$.each(cart.Products, function(index, row){
+
+			var $tr = $(tpl(row));
+
+			$tbodyProducts.append($tr);
+
+			if(row.dtremoved != null){
+				$tr.css("color", "#f44336");
+			}
+
+		});
+
+		$tbodyCoupons.html('');
+
+		$.each(cart.Coupons, function(index, row){
+
+			var $tr = $(tplCoupons(row));
+
+			$tbodyCoupons.append($tr);
+
+		});
+
+		$tbodyFreight.html('');
+
+		var $trFreight = $(tplFreight(cart.Freight));
+
+		$tbodyFreight.append($trFreight);
+
+		$panel.done();
+
+	}
+
+	load();
+
+})();</script>

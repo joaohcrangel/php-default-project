@@ -5,11 +5,11 @@ Config.set('assets', '{$path}/res/theme/assets/');
 <script>
 app.controller('footer', function($scope, $http){
 	{if="isLogged()"}
-	$scope.Usuario = JSON.parse('{function="Session::getUsuario()->toJSON()"}');
-	$scope.Pessoa = JSON.parse('{function="Session::getPessoa()->toJSON()"}');
+	$scope.User = JSON.parse('{function="Session::getUser()->toJSON()"}');
+	$scope.Person = JSON.parse('{function="Session::getPerson()->toJSON()"}');
 	{else}
-	$scope.Usuario = {};
-	$scope.Pessoa = {};
+	$scope.User = {};
+	$scope.Person = {};
 	{/if}
 });
 /*try{

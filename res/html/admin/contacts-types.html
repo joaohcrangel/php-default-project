@@ -20,7 +20,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="descontatotipo">
+	                  <input type="text" class="form-control" name="descontacttype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -34,7 +34,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-contato-tipo" data-auto-height="-179">
+                <div class="panel" id="panel-contact-type" data-auto-height="-179">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             
@@ -58,13 +58,13 @@
                         </tbody>
                     </table>
                 </div>
-                 <div id="paginacao"></div>
+                 <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/contatos-tipos-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/contacts-types-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -72,38 +72,38 @@
         </button>
     </div>
 </div>
-<script id="tpl-contato-tipo" type="/x-handlebars-temprate">
-<tr data-idcontatotipo="{{idcontatotipo}}">
-	<td>{{descontatotipo}}</td>
+<script id="tpl-contact-type" type="/x-handlebars-temprate">
+<tr data-idcontacttype="{{idcontacttype}}">
+	<td>{{descontacttype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/contatos-tipos-salvar/{{idcontatotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/contacts-types-salvar/{{idcontacttype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-contato icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-contact icon wb-trash">
       	</button>
 	</td>
 </tr>
 </script>
 <script>init.push(function(){
-	var panel = System.getPanelApi($("#panel-contato-tipo"));
+	var panel = System.getPanelApi($("#panel-contact-type"));
 
-	var $tbody = $("#panel-contato-tipo tbody");
+	var $tbody = $("#panel-contact-type tbody");
 
-	var $tplContatoTipo = Handlebars.compile($("#tpl-contato-tipo").html());
+	var $tplContactType = Handlebars.compile($("#tpl-contact-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
 
 	e.preventDefault();
 
-    loadContatoTipo();
+    loadContactType();
 
 	});
 
-	function loadContatoTipo(pagina){
+	function loadContactType(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadContatoTipo();
+			loadContactType();
 
 		});
 
@@ -118,7 +118,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/contatos/tipos",
+			url:PATH+"/contacts/types",
 			data:params,
 			success:function(r){
 
@@ -126,7 +126,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplContatoTipo(row));
+					$tbody.append($tplContactType(row));
 
 				});
 
@@ -135,33 +135,33 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadContatoTipo(page);
+            			loadContactType(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);				
+        		$("#pagination").asPaginator(r.total, config);				
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-contato").on("click", function(e){
+				$(".btn-excluir-contact").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idcontatotipo = $btn.closest("tr").data("idcontatotipo");
-					System.confirm('Deseja remover esse contato?', function(b, s, f){
+					var idcontacttype = $btn.closest("tr").data("idcontacttype");
+					System.confirm('Deseja remover esse contact?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/contatos-tipos/"+idcontatotipo,
+				          		url: PATH+"/contacts-types/"+idcontacttype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadContatoTipo();
+				           		 	loadContactType();
 				            		s();
 
 				          		},
@@ -188,5 +188,5 @@
 		});
 	};
 
-    loadContatoTipo();
+    loadContactType();
 });</script>

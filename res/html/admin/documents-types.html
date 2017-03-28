@@ -19,7 +19,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="desdocumentotipo">
+	                  <input type="text" class="form-control" name="desdocumenttype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -33,7 +33,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div data-auto-height="-179" class="panel" id="panel-documento-tipo">
+				<div data-auto-height="-179" class="panel" id="panel-document-type">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							
@@ -53,21 +53,21 @@
 							</tbody>
 						</table>
 					</div>
-					<div id="paginacao"></div>
+					<div id="pagination"></div>
 				</div>
 			</div>
 		</div>
 		<div class="site-action">
-			<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/documento-tipo-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button>
+			<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/document-type-create" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button>
 		</div>
 	</div>
-	<script id="tpl-documento-tipo" type="/x-handlebars-temprate">
-	<tr data-iddocumentotipo="{{iddocumentotipo}}">
-		<td>{{desdocumentotipo}}</td>
+	<script id="tpl-document-type" type="/x-handlebars-temprate">
+	<tr data-iddocumenttype="{{iddocumenttype}}">
+		<td>{{desdocumenttype}}</td>
 		<td>
-			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/documentos/tipos/{{iddocumentotipo}}" data-toggle="slidePanel">
+			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/documents/types/{{iddocumenttype}}" data-toggle="slidePanel">
 	      	</button>
-	      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-documento icon wb-trash">
+	      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-document icon wb-trash">
 	      	</button>
 		</td>
 		</tr>
@@ -75,26 +75,26 @@
 	<script>
 	init.push(function(){
 		
-		var panel = System.getPanelApi($("#panel-documento-tipo"));
+		var panel = System.getPanelApi($("#panel-document-type"));
 
-		var $tbody = $("#panel-documento-tipo tbody");
+		var $tbody = $("#panel-document-type tbody");
 
-		var $tplDocumentoTipo = Handlebars.compile($("#tpl-documento-tipo").html());
+		var $tplDocumentType = Handlebars.compile($("#tpl-document-type").html());
 
 		$("#form-filtros [type=submit]").on("click", function(e){
         
 		e.preventDefault();
 
-		loadDocumentoTipo();
+		loadDocumentType();
 		    
 		 });
 
-		function loadDocumentoTipo(pagina){
+		function loadDocumentType(pagina){
 
 			if(!pagina) pagina = 1;
 
 			$(".refresh").on("click", function(){
-				loadDocumentoTipo();
+				loadDocumentType();
 
 		});
 
@@ -107,7 +107,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/documentos/tipos",
+			url:PATH+"/documents/types",
 			data:params,
 			success:function(r){
 
@@ -115,7 +115,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplDocumentoTipo(row));
+					$tbody.append($tplDocumentType(row));
 
 				});
 
@@ -124,33 +124,33 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadDocumentoTipo(page);
+            			loadDocumentType(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-documento").on("click", function(e){
+				$(".btn-excluir-document").on("click", function(e){
 
 					var $btn = $(this);
 
-					var iddocumentotipo = $btn.closest("tr").data("iddocumentotipo");
-					System.confirm('Deseja remover esse documento?', function(b, s, f){
+					var iddocumenttype = $btn.closest("tr").data("iddocumenttype");
+					System.confirm('Deseja remover esse document?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/documentos-tipos/"+iddocumentotipo,
+				          		url: PATH+"/documents-types/"+iddocumenttype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadDocumentoTipo();
+				           		 	loadDocumentType();
 				            		s();
 
 				          		},
@@ -177,6 +177,6 @@
 		});
 	};
 
-    loadDocumentoTipo();
+    loadDocumentType();
 });
 </script>

@@ -19,7 +19,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="descupomtipo">
+	                  <input type="text" class="form-control" name="descoupontype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -33,7 +33,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-cupons-tipos" data-auto-height="-179">
+				<div class="panel" id="panel-coupons-types" data-auto-height="-179">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 						
@@ -60,13 +60,13 @@
 						</tbody>
 					</table>
 				</div>
-				<div id="paginacao"></div>
+				<div id="pagination"></div>
 			</div>
 		</div>
 	</div>
 	<div class="site-action">
 		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-		data-url="{$path}/panel/cupons-tipos-criar" data-toggle="slidePanel">
+		data-url="{$path}/panel/coupons-types-create" data-toggle="slidePanel">
 			<i class="front-icon md-plus animation-scale-up" aria-hidden="true">
 			</i>
 			<i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -74,39 +74,39 @@
 		</button>
 	</div>
 </div>
-<script id="tpl-cupons-tipos" type="/x-handlebars-temprate">
-<tr data-idcupomtipo="{{idcupomtipo}}">
-	<td>{{descupomtipo}}</td>
+<script id="tpl-coupons-types" type="/x-handlebars-temprate">
+<tr data-idcoupontype="{{idcoupontype}}">
+	<td>{{descoupontype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/cupons-tipos/{{idcupomtipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/coupons-types/{{idcoupontype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-cupom icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-coupon icon wb-trash">
       	</button>
 	</td>
 	</tr>
 	</script>
 	<script>
 	init.push(function(){
-	var panel = System.getPanelApi($("#panel-cupons-tipos"));
+	var panel = System.getPanelApi($("#panel-coupons-types"));
 
-	var $tbody = $("#panel-cupons-tipos tbody");
+	var $tbody = $("#panel-coupons-types tbody");
 
-	var $tplCuponsTipos = Handlebars.compile($("#tpl-cupons-tipos").html());
+	var $tplCouponsTypes = Handlebars.compile($("#tpl-coupons-types").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     e.preventDefault();
 
-    loadCuponsTipos();
+    loadCouponsTypes();
     
   	});
 
-	function loadCuponsTipos(pagina){
+	function loadCouponsTypes(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadCuponsTipos();
+			loadCouponsTypes();
 
 		});
 
@@ -119,7 +119,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/cupons/tipos",
+			url:PATH+"/coupons/types",
 			data:params,
 			success:function(r){
 
@@ -127,7 +127,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplCuponsTipos(row));
+					$tbody.append($tplCouponsTypes(row));
 
 				});
 
@@ -136,33 +136,33 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadCuponsTipos(page);
+            			loadCouponsTypes(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-cupom").on("click", function(e){
+				$(".btn-excluir-coupon").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idcupomtipo = $btn.closest("tr").data("idcupomtipo");
-					System.confirm('Deseja remover esse Cupom ?', function(b, s, f){
+					var idcoupontype = $btn.closest("tr").data("idcoupontype");
+					System.confirm('Deseja remover esse coupon ?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/cupons-tipos/"+idcupomtipo,
+				          		url: PATH+"/coupons-types/"+idcoupontype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadCuponsTipos();
+				           		 	loadCouponsTypes();
 				            		s();
 
 				          		},
@@ -189,5 +189,5 @@
 		});
 	};
 
-    loadCuponsTipos();
+    loadCouponsTypes();
 });</script>

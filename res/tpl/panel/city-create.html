@@ -1,0 +1,24 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Adicionar nova cidade</h5></h4></div></header><div class="slidePanel-inner m-t-40"><form id="form-city"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descity" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Estado</label><select name="idstate" class="form-control"></select></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button> <button type="button" class="btn btn-default waves-effect slidePanel-close">Fechar</button></div></form></div><script>var form = $("#form-city");
+	
+$("#form-city [name=idstate]").combobox({
+	url:PATH+"/states",
+	displayField:"desstate",
+	valueField:"idstate"
+});
+
+form.form({
+	url:PATH+"/citys",
+	params:{
+		idcity:0
+	},
+	success:function(){
+		System.success("Cidade salva com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});</script>

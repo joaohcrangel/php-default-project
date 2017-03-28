@@ -1,8 +1,8 @@
 <div class="page">
 	<div class="page-header">
-        <h1 class="page-title">Upload de Arquivos</h1>
+        <h1 class="page-title">Upload de files</h1>
         <p class="page-description">
-          Exemplo de envio de arquivos para o sistema.
+          Exemplo de envio de files para o sistema.
         </p>
     </div>
 	<div class="page-content">
@@ -21,7 +21,7 @@
 			                    <span class="input-group-btn">
 			                      <span class="btn btn-success btn-file">
 			                        <i class="icon md-upload" aria-hidden="true"></i>
-			                        <input type="file" name="arquivo" multiple="">
+			                        <input type="file" name="file" multiple="">
 			                      </span>
 			                    </span>
 			                  </div>
@@ -41,7 +41,7 @@
 			            </div>
 			            <div class="panel-body">
 			            					
-							<input type="file" id="input-file-now" name="arquivo" data-plugin="dropify" data-default-file="" />
+							<input type="file" id="input-file-now" name="file" data-plugin="dropify" data-default-file="" />
 			                
 			            </div>
 			            <div class="panel-footer">
@@ -57,10 +57,10 @@
 		            <div class="panel-body">
 		            	<div class="row-fluid">
 		            		<div class="col-md-6">
-		            			<input type="file" name="desarquivo" class="form-control" />
+		            			<input type="file" name="desfile" class="form-control" />
 		            		</div>
 		            		<div class="col-md-6">
-		            			<div id="arquivo-3"></div>
+		            			<div id="file-3"></div>
 		            		</div>
 		            	</div>
 		            </div>
@@ -77,7 +77,7 @@
 		            			<input type="url" name="desurl" class="form-control" value="https://assetsnffrgf-a.akamaihd.net/assets/m/502017712/univ/art/502017712_univ_pnr_lg.jpg" />
 		            		</div>
 		            		<div class="col-md-6">
-		            			<div id="arquivo-4"></div>
+		            			<div id="file-4"></div>
 		            		</div>
 			            </div>
 			            <div class="panel-footer">
@@ -102,7 +102,7 @@ init.push(function(){
 
 			if (['jpg', 'gif', 'png'].indexOf(r.data.desextensao) > -1) {
 
-				$('#arquivo-3').html('<img src="'+r.data.desurl+'" style="width:100%;">');
+				$('#file-3').html('<img src="'+r.data.desurl+'" style="width:100%;">');
 
 			}
 
@@ -120,7 +120,7 @@ init.push(function(){
 
 			if (['jpg', 'gif', 'png'].indexOf(r.data.desextensao) > -1) {
 
-				$('#arquivo-4').html('<img src="'+r.data.desurl+'" style="width:100%;">');
+				$('#file-4').html('<img src="'+r.data.desurl+'" style="width:100%;">');
 
 			}
 

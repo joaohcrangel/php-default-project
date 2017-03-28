@@ -12,16 +12,16 @@
 	          <section class="page-aside-section p-t-0">
 	            <div class="panel-primary panel-line">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Formas de Pagamentos</h3>
+	                <h3 class="panel-title">Formas de payments</h3>
 	              </div>
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome do Cartão</label>
-	                  <input type="text" class="form-control" name="desformapagamento">
+	                  <input type="text" class="form-control" name="desformpayment">
 	                </div>
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label"> Parcelas</label>
-	                  <input type="text" class="form-control" name="nrparcelasmax">
+	                  <input type="text" class="form-control" name="nrparcelsmax">
 	                </div>
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Gateway</label>
@@ -40,7 +40,7 @@
 
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-formas" data-auto-height="-179">
+				<div class="panel" id="panel-forms" data-auto-height="-179">
 					<a class="hidden refresh"></a>
 					<div class="panel-heading">
 						<h3 class="panel-title"></h3>
@@ -52,7 +52,7 @@
 					<table class="table table-hover table-striped">
 		              	<thead>
 			                <tr>
-			                  <th>Forma de Pagamento</th>
+			                  <th>Forma de payment</th>
 			                  <th>Gateway</th>
 			                  <th>Parcelas</th>
 			                  <th>&nbsp;</th>
@@ -63,28 +63,28 @@
 		              	</tbody>
 		            </table> 
 				</div>
-				<div id="paginacao"></div> 
+				<div id="pagination"></div> 
 			</div>
 		</div>
 	</div>
 
 	<div class="site-action animation-duration-300">
-      <button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/forma-pagamento-criar" data-toggle="slidePanel">
+      <button type="button" class="btn-raised btn btn-success btn-floating" data-url="{$path}/panel/form-payment-criar" data-toggle="slidePanel">
         <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
         <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
       </button>
     </div>
 
 </div>
-<script id="tpl-forma-pagamento-row" type="text/x-handlebars-template">
-<tr data-idformapagamento="{{idformapagamento}}">
-	<td>{{desformapagamento}}</td>
+<script id="tpl-form-payment-row" type="text/x-handlebars-template">
+<tr data-idformpayment="{{idformpayment}}">
+	<td>{{desformpayment}}</td>
 	<td>{{desgateway}}</td>
-	<td>{{nrparcelasmax}}</td>
+	<td>{{nrparcelsmax}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/formas-pagamentos/{{idformapagamento}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/forms-payments/{{idformpayment}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-forma-pagamento icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-form-payment icon wb-trash">
       	</button>
 	</td>
 </tr>
@@ -99,26 +99,26 @@ init.push(function(){
     valueField:"idgateway"
   });
 
-	var panel = System.getPanelApi($("#panel-formas"));
+	var panel = System.getPanelApi($("#panel-forms"));
 
-	var $tbody = $("#panel-formas tbody");
+	var $tbody = $("#panel-forms tbody");
 
-	var $tpl = Handlebars.compile($("#tpl-forma-pagamento-row").html());
+	var $tpl = Handlebars.compile($("#tpl-form-payment-row").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     e.preventDefault();
 
-    loadFormas();
+    loadForms();
     
   });
 
-	function loadFormas(pagina){
+	function loadForms(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadFormas();
+			loadForms();
 		});
 
 		var params = $("#form-filtros").formValues();
@@ -130,7 +130,7 @@ init.push(function(){
 		panel.load();
 
 		rest({
-			url:PATH+"/formas-pagamentos/all",
+			url:PATH+"/forms-payments/all",
 			data:params,
 			success:function(r){
 
@@ -147,22 +147,22 @@ init.push(function(){
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadFormas(page);
+            			loadForms(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-forma-pagamento").on("click", function(e){
+				$(".btn-excluir-form-payment").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idformapagamento = $btn.closest("tr").data("idformapagamento");
+					var idformpayment = $btn.closest("tr").data("idformpayment");
 
 					System.confirm('Deseja remover a forma de pagamento?', function(b){
 				      	if (b) {
@@ -170,12 +170,12 @@ init.push(function(){
 					        System.load();
 
 					        rest({
-					          url: PATH+"/formas-pagamentos/"+idformapagamento,
+					          url: PATH+"/forms-payments/"+idformpayment,
 					          method:'DELETE',
 					          success: function(r){
 
 					            System.done();
-					            loadFormas();
+					            loadForms();
 					            System.success("Forma de pagamento excluída com sucesso");
 
 					          },
@@ -201,7 +201,7 @@ init.push(function(){
 
 	};
 
-	loadFormas();
+	loadForms();
 
 });
 

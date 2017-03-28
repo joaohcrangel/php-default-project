@@ -1,0 +1,40 @@
+{include="panel-header"}
+<div id="sitecontact-{$sitecontact.idsitecontact}">
+
+  <header class="slidePanel-header">
+    <div class="slidePanel-actions" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button>
+    </div>
+    <h1>Mensagem enviada por {$sitecontact.desperson}({$sitecontact.desuser})</h1>
+  </header>
+  
+    <div class="slidePanel-inner">        
+      <section class="slidePanel-inner-section">
+        <div class="mail-header">    
+          <div class="mail-header-right">
+            <span class="time">
+              {$sitecontact.desdtregister}
+            </span>
+          </div>
+        </div>
+        <div class="mail-content">
+          {$sitecontact.desmessage}
+        </div>
+      </section>
+    </div>
+
+    <!-- <form asutocomplete="off" id="form-sitecontact" class="slidePanel-form">
+    	<div class="form-group form-material">
+        <input type="hidden" name="idsitecontact" value="{$sitecontact.idsitecontact}">
+        <label class="control-label" for="desmessage">message</label>
+        <input type="text" class="form-control" name="desmessage" value="{$sitecontact.desmessage}">
+  		</div>
+    </form> -->
+
+</div>
+
+<script>
+
+
+
+</script>

@@ -3071,7 +3071,6 @@ $app->get("/install-admin/sql/configurations/tables", function(){
 $app->get("/install-admin/sql/configurations/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	ini_set('memory_limit', 512);
 
 	$lang = new Language();
 
@@ -3110,7 +3109,7 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 		'desvalue'=>$lang->getString('config_admin_name_value'),
 		'idconfigurationtype'=>$texto->getidconfigurationtype(),
 		'desdescription'=>$lang->getString('config_admin_name_description')
-	));	
+	));
 	$adminName->save();
 
 	$uploadDir = new Configuration(array(

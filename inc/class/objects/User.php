@@ -85,15 +85,18 @@ class User extends Model {
 
         $sql = new Sql();
 
-        $data = $sql->execute("sp_userslogin_get", array(
+        $data = $sql->proc("sp_userslogin_get", array(
             $desuser
         ));
+
+        // var_dump($data);
+        // exit;
 
         if (!isset($data[0]) || !(int)$data[0]['iduser'] > 0) {
             throw new Exception("Usuário e/ou senha incorretos.", 403);
         }
 
-        $user = new user($data[0]);
+        $user = new User($data[0]);
 
         if (!$user->checkPassword($despassword)) {
             throw new Exception("Usuário e/ou senha incorretos.", 403);

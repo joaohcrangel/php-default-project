@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Editar Produto</h5></h4></div></header><div class="slidePanel-inner"><div class="panel"><div class="panel-body p-x-0"><form id="form-product-type-save"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idproducttype"><label>Nome</label><input type="text" class="form-control" name="desproducttype"></div><button class="btn btn-block btn-primary" id="btnproduct-type-Save" type="submit">Salvar Novo Produto</button></div></form></div></div></div><script>var productType = JSON.parse('{function="json_encode($product)"}');
+
+$("#form-product-type-save").form({
+  url:PATH+"/products-types",
+  params:{
+    idproducttype:productType.idproducttype
+  },
+  success:function(){
+    System.success("Tipo criado com sucesso");
+    $(".slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+    System.showError(r);
+  }
+});
+
+$("#form-product-type-save").formLoad(productType);</script>

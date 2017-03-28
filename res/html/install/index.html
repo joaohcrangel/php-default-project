@@ -2,8 +2,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>Instalação</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="{$path}/res/theme/assets/vendor/angular/angular.min.js"></script>
+	<link rel="stylesheet" href="{$path}/res/theme/material/global/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{$path}/res/theme/material/global/vendor/alertify/alertify.min.css">
 	<script>
     window.PATH = '{$path}';
@@ -135,7 +135,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 
 	$scope.insertsCities = function(callback){
 
-		var cities = 9[{
+		var cities = [{
     "idcity": 1,
     "descity": "Afonso Cl\u00e1udio",
     "idstate": 8,
@@ -39903,7 +39903,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			url:"/sql/coupons/inserts",
 			name:"Cupons - Inserts",
 			status:"",
-			enabled:true
+			enabled:true		
 		},{
 			url:"/sql/configurations/inserts",
 			name:"Configurações - Inserts",

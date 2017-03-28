@@ -1,0 +1,53 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}
+	.checkbox-custom{
+		display: initial;
+		margin-left: 10px;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo carousel</h5></h4></div></header><div class="slidePanel-inner m-t-40"><form id="form-carousel-create"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descarousel" class="form-control"></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-6"><label class="form-control-label">Número de Itens</label><input type="number" name="nritems" class="form-control"></div><div class="col-md-6"><label class="form-control-label">Número de Stage Padding</label><input type="number" name="nrstagepadding" class="form-control"></div></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-3"><label class="form-control-label">Loop</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inloop" name="inloop"><label for="inloop"></label></span></div><div class="col-md-3"><label class="form-control-label">Nav</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="innav" name="innav"><label for="innav"></label></span></div><div class="col-md-3"><label class="form-control-label">Centro</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="incenter" name="incenter"><label for="incenter"></label></span></div><div class="col-md-3"><label class="form-control-label">Auto Width</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inautowidth" name="inautowidth"><label for="inautowidth"></label></span></div></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-3"><label class="form-control-label">Vídeo</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="invideo" name="invideo"><label for="invideo"></label></span></div><div class="col-md-3"><label class="form-control-label">Lazy Load</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inlazyload" name="inlazyload"><label for="inlazyload"></label></span></div><div class="col-md-3"><label class="form-control-label">Dots</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="indots" name="indots"><label for="indots"></label></span></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect carousel-create">Salvar</button></div></form></div><script>var $form = $("#form-carousel-create");
+
+$form.find("[type=checkbox]").on("change", function(){
+
+	var disabled = $(this).prop("checked");
+
+	$(this).prop("checked", disabled);
+
+});
+
+$form.find("[type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	rest({
+		url:PATH+"/carousels",
+		method:"POST",
+		data:{
+			idcarousel:0,
+			descarousel:$form.find("[name=descarousel]").val(),
+			nritems:$form.find("[name=nritems]").val(),
+			nrstagepadding:$form.find("[name=nrstagepadding]").val(),
+			inloop:$form.find("[name=inloop]").prop("checked"),
+			innav:$form.find("[name=innav]").prop("checked"),
+			incenter:$form.find("[name=incenter]").prop("checked"),
+			inautowidth:$form.find("[name=inautowidth]").prop("checked"),
+			invideo:$form.find("[name=invideo]").prop("checked"),
+			inlazyload:$form.find("[name=inlazyload]").prop("checked"),
+			indots:$form.find("[name=indots]").prop("checked")
+		},
+		success:function(){
+			System.success("Carousel criado com sucesso");
+			$btn.btnload("unload");
+			$(".slidePanel-close").trigger("click");
+			$("#form-filtros [type=submit]").trigger("click");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});</script>

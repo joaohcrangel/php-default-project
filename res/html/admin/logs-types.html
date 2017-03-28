@@ -19,7 +19,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="deshistoricotipo">
+	                  <input type="text" class="form-control" name="deslogtype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -33,7 +33,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-historico-tipo" data-auto-height="-179">
+                <div class="panel" id="panel-log-type" data-auto-height="-179">
                     <div class="panel-heading">
                         <h3 class="panel-title">
 
@@ -57,13 +57,13 @@
                             </tbody>
                     </table>
                 </div>
-                <div id="paginacao"></div>
+                <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/historico-tipo-criar" data-toggle="slidePanel">
+        data-url="{$path}/panel/log-type-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -71,39 +71,39 @@
         </button>
     </div>
 </div>
-<script id="tpl-historico-tipo" type="/x-handlebars-temprate">
-<tr data-idhistoricotipo="{{idhistoricotipo}}">
-	<td>{{deshistoricotipo}}</td>
+<script id="tpl-log-type" type="/x-handlebars-temprate">
+<tr data-idlogtype="{{idlogtype}}">
+	<td>{{deslogtype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/historicos-tipos/{{idhistoricotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/logs-types/{{idlogtype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-historicotipo icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-logtype icon wb-trash">
       	</button>
 	</td>
 </tr>
 </script>
 <script>init.push(function(){
-	var panel = System.getPanelApi($("#panel-historico-tipo"));
+	var panel = System.getPanelApi($("#panel-log-type"));
 
-	var $tbody = $("#panel-historico-tipo tbody");
+	var $tbody = $("#panel-log-type tbody");
 
-	var $tplHistoricoTipo = Handlebars.compile($("#tpl-historico-tipo").html());
+	var $tplLogType = Handlebars.compile($("#tpl-log-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     e.preventDefault();
 
-    loadHistoricoTipo();
+    loadLogType();
     
   });
 
 
-	function loadHistoricoTipo(pagina){
+	function loadLogType(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadHistoricoTipo();
+			loadLogType();
 
 		});
 
@@ -117,7 +117,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/historicos-tipos",
+			url:PATH+"/logs-types",
 			data:params,
 			success:function(r){
 
@@ -125,7 +125,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplHistoricoTipo(row));
+					$tbody.append($tplLogType(row));
 
 				});
 
@@ -134,34 +134,34 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadUsuarioTipo(page);
+            			loadUsuariotype(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-historicotipo").on("click", function(e){
+				$(".btn-excluir-logtype").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idhistoricotipo = $btn.closest("tr").data("idhistoricotipo");
-					System.confirm('Deseja remover esse historico?', function(b, s, f){
+					var idlogtype = $btn.closest("tr").data("idlogtype");
+					System.confirm('Deseja remover esse log?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/historicos-tipos/"+idhistoricotipo,
+				          		url: PATH+"/logs-types/"+idlogtype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadHistoricoTipo();
+				           		 	loadLogType();
 				            		s();
 
 				          		},
@@ -188,6 +188,6 @@
 		});
 	};
 
-    loadHistoricoTipo();
+    loadLogType();
 });
 </script>

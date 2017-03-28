@@ -19,7 +19,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="destipo">
+	                  <input type="text" class="form-control" name="destype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -33,7 +33,7 @@
 	<div class="page-main">
 		<div class="row-fluid">
 			<div class="col-sm-12">
-				<div class="panel" id="panel-carousel-tipo" data-auto-height="-179">
+				<div class="panel" id="panel-carousel-type" data-auto-height="-179">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							
@@ -45,7 +45,7 @@
 						<table class="table table-hover table-striped">
 							<thead>
 								<tr>
-									<th>Carousels Items Tipos </th>
+									<th>Carousels Items types </th>
 									<th>&nbsp;</th>
 								</tr>
 							</thead>
@@ -54,19 +54,19 @@
 							</tbody>
 						</table>
 					</div>
-					<div id="paginacao"></div>
+					<div id="pagination"></div>
 				</div>
 			</div>
 		</div>
 		<div class="site-action">
-			<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/carousel-item-tipo-criar" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button>
+			<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/carousel-item-type-create" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button>
 		</div>
 	</div>
-	<script id="tpl-carousel-tipo" type="/x-handlebars-temprate">
-	<tr data-idtipo="{{idtipo}}">
-		<td>{{destipo}}</td>
+	<script id="tpl-carousel-type" type="/x-handlebars-temprate">
+	<tr data-idtype="{{idtype}}">
+		<td>{{destype}}</td>
 		<td>
-			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/carousels-items-tipos/{{idtipo}}" data-toggle="slidePanel">
+			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/carousels-items-types/{{idtype}}" data-toggle="slidePanel">
 	      	</button>
 	      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-carousel icon wb-trash">
 	      	</button>
@@ -76,28 +76,28 @@
 	<script>
 	init.push(function(){
 		
-		var panel = System.getPanelApi($("#panel-carousel-tipo"));
+		var panel = System.getPanelApi($("#panel-carousel-type"));
 
-		var $tbody = $("#panel-carousel-tipo tbody");
+		var $tbody = $("#panel-carousel-type tbody");
 
-		var $tplCarouselTipo = Handlebars.compile($("#tpl-carousel-tipo").html());
+		var $tplCarouselType = Handlebars.compile($("#tpl-carousel-type").html());
 
 
 	$("#form-filtros [type=submit]").on("click", function(e){
      
     	e.preventDefault();
 
-    	loadCarouselTipo();
+    	loadCarouselType();
     
   	});
 
 
-		function loadCarouselTipo(pagina){
+		function loadCarouselType(pagina){
 
 			if(!pagina) pagina = 1;
 
 			$(".refresh").on("click", function(){
-				loadCarouselTipo();
+				loadCarouselType();
 
 		});
 
@@ -110,7 +110,7 @@
 		panel.load();
 
 		rest({
-			url:PATH+"/carousels-tipos",
+			url:PATH+"/carousels-types",
 			data:params,
 			success:function(r){
 
@@ -118,7 +118,7 @@
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplCarouselTipo(row));
+					$tbody.append($tplCarouselType(row));
 
 				});
 
@@ -127,11 +127,11 @@
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadCarouselTipo(page);
+            			loadCarouselType(page);
          			}
         		});
 
-        		$("#paginacao").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);
 
 				System.initSlidePanel($tbody);
 
@@ -141,19 +141,19 @@
 
 					var $btn = $(this);
 
-					var idtipo = $btn.closest("tr").data("idtipo");
-					System.confirm('Deseja remover esse Carousel Tipo?', function(b, s, f){
+					var idtype = $btn.closest("tr").data("idtype");
+					System.confirm('Deseja remover esse Carousel tipo?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/carousels-tipos/"+idtipo,
+				          		url: PATH+"/carousels-types/"+idtype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadCarouselTipo();
+				           		 	loadCarouselType();
 				            		s();
 
 				          		},
@@ -180,6 +180,6 @@
 		});
 	};
 
-    loadCarouselTipo();
+    loadCarouselType();
 });
 </script>

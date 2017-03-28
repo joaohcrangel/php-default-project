@@ -433,8 +433,8 @@ function echoMenuHTML(){
 }
 if(!function_exists('isLogged')){
 function isLogged(){
-	$usuario = Session::getUsuario();
-	return $usuario->isLogged();
+	$user = Session::getUser();
+	return $user->isLogged();
 }
 }
 function file_upload_max_size() {

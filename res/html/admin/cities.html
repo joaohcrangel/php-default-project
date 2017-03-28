@@ -14,7 +14,7 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#cidade-footer {
+#city-footer {
   height: 39px;
 }
 .page {
@@ -39,11 +39,11 @@
               <form id="form-filtros" class="p-x-25">
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
-                  <input type="text" class="form-control" name="descidade">
+                  <input type="text" class="form-control" name="descity">
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Estado</label>
-                  <select name="idestado" class="form-control"></select>
+                  <select name="idstate" class="form-control"></select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
@@ -68,12 +68,12 @@
             <tbody></tbody>
           </table>
         </div>
-        <div id="paginacao"></div>
+        <div id="pagination"></div>
       </div>      
     </div>
   </div>
 </div>
-<footer id="cidade-footer" class="site-footer p-0"></footer>
+<footer id="city-footer" class="site-footer p-0"></footer>
 
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -87,7 +87,7 @@
 </script>
 
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-idcidade="{{idcidade}}" data-url="{$path}/panel/cidades/{{idcidade}}" data-toggle="slidePanel">
+  <tr data-idcity="{{idcity}}" data-url="{$path}/panel/cities/{{idcity}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -95,8 +95,8 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{descidade}}</td>
-    <td>{{desestado}}</td>
+    <td>{{descity}}</td>
+    <td>{{desstate}}</td>
     <td>
       <!-- <button type="button" class="btn btn-primary btn-sm text-uppercase" style="border-radius:0;">Editar</button> -->
       <button type="button" class="btn btn-danger btn-sm text-uppercase" style="border-radius:0;">Remover</button>
@@ -107,7 +107,7 @@
 <script>
 init.push(function(){
 
-  var tplCidade = Handlebars.compile($("#tpl-row").html());
+  var tplCity = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -115,19 +115,19 @@ init.push(function(){
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#cidade-footer");
+  var $footer = $("#city-footer");
 
-  $("#form-filtros [name=idestado]").combobox({
-    url:PATH+"/estados",
-    displayField:"desestado",
-    valueField:"idestado"
+  $("#form-filtros [name=idstate]").combobox({
+    url:PATH+"/states",
+    displayField:"desstate",
+    valueField:"idstate"
   });
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadCidades();
+    loadCities();
 
   });
 
@@ -135,7 +135,7 @@ init.push(function(){
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadCidades(pagina){
+  function loadCities(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -148,7 +148,7 @@ init.push(function(){
     data.limite = (data.limite<5)?5:data.limite;
 
     rest({
-      url:PATH+"/cidades/all",
+      url:PATH+"/cities/all",
       data:data,
       success:function(r){
 
@@ -158,18 +158,18 @@ init.push(function(){
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplCidade(row));
+            var $tr = $(tplCity(row));
 
             $tbody.append($tr);
 
             $tr.find(".btn-danger").on("click", function(){
 
-              System.confirm("Deseja realmente remover "+row.descidade+"?", function(b, s, f){
+              System.confirm("Deseja realmente remover "+row.descity+"?", function(b, s, f){
 
                 if(b){
 
                   rest({
-                    url:PATH+"/cidades/"+row.idcidade,
+                    url:PATH+"/cities/"+row.idcity,
                     method:"DELETE",
                     success:function(){
 
@@ -210,13 +210,13 @@ init.push(function(){
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadCidades(page);
+              loadCities(page);
             }
           });
 
           console.log(config);
 
-          $("#paginacao").asPaginator(r.total, config);
+          $("#pagination").asPaginator(r.total, config);
 
           $panel.done();
 
@@ -244,7 +244,7 @@ init.push(function(){
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/cidade-criar"
+              url:PATH+"/panel/city-create"
             });
 
           }
@@ -252,7 +252,7 @@ init.push(function(){
       }]
   });
 
-  loadCidades();
+  loadCities();
 
 });
 </script>

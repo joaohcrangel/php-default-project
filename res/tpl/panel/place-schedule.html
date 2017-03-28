@@ -1,0 +1,84 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Definir horários para esses lugares</h5></h4></div></header><div class="slidePanel-inner"><table class="table table-stripped table-hover"><thead><tr><th><input id="schedulesAll" type="checkbox"><th>Dia<th>Hora de Abertura<th>Hora de Fechamento<th>&nbsp;<tbody>{loop="schedules"}<tr data-nrdia="{$value.nrweekday}"><td><input type="checkbox"><td>{$value.desweekday}<td><input type="time" class="form-control" name="hropen" disabled="disabled"><td><input type="time" class="form-control" name="hrclose" disabled="disabled"><td><button class="btn btn-default" disabled="disabled">Padrão</button></tr>{/loop}</table><div class="form-group form-material" data-plugin="formMaterial"><button type="button" class="btn btn-primary btn-schedules-save">Salvar</button></div></div><script>var ids = JSON.parse('{function="json_encode($ids)"}');
+
+$(".slidePanel-inner table tr").each(function(){
+
+	var $tr = $(this);
+
+	$tr.find("[type=checkbox]").on("change", function(){
+
+		var disabled = !$(this).prop("checked");
+
+		$tr.find("input:not(:checkbox)").attr("disabled", disabled);
+		$tr.find("button").attr("disabled", disabled);
+
+		if(disabled){
+    		$tr.find("input:not(:checkbox)").val("");
+    	}
+
+	});
+
+	$tr.find(".btn-default").on("click", function(){
+
+		var $tbody = $(".slidePanel-inner table tbody");
+
+		var hropen = $tr.find("[name=hropen]").val();
+		var hrclose = $tr.find("[name=hrclose]").val();
+
+		$tbody.find("tr [name=hropen]:enabled").val(hropen);
+		$tbody.find("tr [name=hrclose]:enabled").val(hrclose);
+
+	});
+
+});
+	
+$(".slidePanel-inner table #schedulesAll").on("change", function(){
+
+	$('.slidePanel-inner table tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+});
+
+$(".btn-schedules-save").on("click", function(){
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	var nrdia = [];
+	var hropen = [];
+	var hrclose = [];
+
+	$(".slidePanel-inner table tbody tr").each(function(){
+
+		if($(this).find(":checkbox").prop("checked")){
+
+			nrdia.push($(this).data("nrdia"));
+			hropen.push($(this).find("[name=hropen]").val());
+			hrclose.push($(this).find("[name=hrclose]").val());
+
+		}
+
+	});
+
+	rest({
+		url:PATH+"/places-schedules",
+		method:"POST",
+		data:{
+			ids:ids.toString(),
+			nrdia:nrdia.toString(),
+			hropen:hropen.toString(),
+			hrclose:hrclose.toString()
+		},
+		success:function(){
+			System.success("Horários definidos com sucesso");
+			$btn.btnload("unload");
+			$(".slidePanel-close").trigger("click");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});</script>

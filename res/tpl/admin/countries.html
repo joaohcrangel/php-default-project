@@ -12,19 +12,19 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
     margin-left: 310px;
 }
-#pais-footer {
+#country-footer {
   height: 39px;
 }
 .page {
   height: calc(100% - 83px);
-  min-height: calc(100% - 83px);}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar países</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="despais"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table m-t-20" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-307"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="pais-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+  min-height: calc(100% - 83px);}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar países</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="descountry"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table m-t-20" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-307"><table id="lista" class="table" data-plugin="animateList" data-animate="fade" data-child="tr"><tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="country-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
       <div>{{data.length}} de {{total}} resultado(s)</div>
     </div>
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idpais="{{idpais}}" data-url="{$path}/panel/paises/{{idpais}}" data-toggle="slidePanel">
+  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-idcountry="{{idcountry}}" data-url="{$path}/panel/countries/{{idcountry}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -32,14 +32,14 @@
         <label for="mail_mid_1"></label>
       </span>
     </td>
-    <td>{{despais}}</td>
+    <td>{{descountry}}</td>
     <td>
       <!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
       </button> -->
     </td>
   </tr></script><script>init.push(function(){
 
-  var tplPais = Handlebars.compile($("#tpl-row").html());
+  var tplCountry = Handlebars.compile($("#tpl-row").html());
 
   var tplFooter = Handlebars.compile($("#tpl-footer").html());
 
@@ -47,13 +47,13 @@
 
   var $tbody = $("#mailContent .panel tbody");
 
-  var $footer = $("#pais-footer");
+  var $footer = $("#country-footer");
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
     e.preventDefault();
 
-    loadPaises();
+    loadCountries();
 
   });
 
@@ -61,7 +61,7 @@
     if(e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
   });
 
-  function loadPaises(pagina){
+  function loadCountries(pagina){
 
     if(!pagina) pagina = 1;
 
@@ -74,7 +74,7 @@
     data.limite = (data.limite>5)?5:data.limite;
 
     rest({
-      url:PATH+"/paises",
+      url:PATH+"/countries",
       data:data,
       success:function(r){
 
@@ -84,7 +84,7 @@
 
           $.each(r.data, function(index, row){
 
-            var $tr = $(tplPais(row));
+            var $tr = $(tplCountry(row));
 
             $tbody.append($tr);
 
@@ -94,7 +94,7 @@
 
               var disabled = (checked.length > 0) ? false : true;
 
-              $("#btn-pais-excluir").prop("disabled", disabled);
+              $("#btn-country-excluir").prop("disabled", disabled);
 
             });
 
@@ -116,7 +116,7 @@
             currentPage:r.currentPage,
             itemsPerPage:r.itemsPerPage,
             onChange:function(page){
-              loadPaises(page);
+              loadCountries(page);
             }
           });
 
@@ -148,7 +148,7 @@
           click:function(btn, e){
             
             System.openSlidePanel({
-              url:PATH+"/panel/pais-criar"
+              url:PATH+"/panel/country-create"
             });
 
           }
@@ -156,7 +156,7 @@
       },{
         text:"Excluir",
         icon:"md-delete",
-        id:"btn-pais-excluir",
+        id:"btn-country-excluir",
         cls:"btn-default",
         disabled:true,
         listeners:{
@@ -165,15 +165,15 @@
             var ids = [];
 
             $("#lista tr [type=checkbox]:checked").each(function(){              
-              ids.push($(this).closest("tr").data("idpais"));
+              ids.push($(this).closest("tr").data("idcountry"));
             });
           
-            System.confirm("Deseja remover os paises?", function(b, s, f){
+            System.confirm("Deseja remover os countries?", function(b, s, f){
 
               if(b){
 
                 rest({
-                  url:PATH+"/paises",
+                  url:PATH+"/countries",
                   method:"DELETE",
                   data:{
                     ids:ids.toString()
@@ -181,7 +181,7 @@
                   success:function(){
                     System.done();
                     System.success("País(es) excluído com sucesso");
-                    loadPaises();
+                    loadCountries();
                   },
                   failure:function(r){
                     System.done();
@@ -200,6 +200,6 @@
       }]
   });
 
-  loadPaises();
+  loadCountries();
 
 });</script>

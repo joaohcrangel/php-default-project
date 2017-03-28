@@ -1,3 +1,4 @@
+
 <?php 
 
 $app->get("/".DIR_ADMIN."/sistema/Settings", function(){

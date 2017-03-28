@@ -1,0 +1,184 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+    margin-left: 310px;
+}
+#course-footer {
+  height: 39px;
+}
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Cursos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="descourse">Nome</label><input type="text" class="form-control" name="descourse" id="descourse"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table table-striped" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>Curso<th>Título<th>Carga Horária<th>&nbsp;<tbody></table></div></div></div><div id="pagination"></div></div></div><footer id="course-footer" class="site-footer p-0"></footer><script id="tpl-course-row" type="text/x-handlebars-template"><tr data-url="{$path}/panel/courses/{{idcourse}}" data-toggle="slidePanel">
+    <td>{{descourse}}</td>
+    <td>{{destitle}}</td>
+    <td>{{vlworkload}}h</td>
+    <td>
+      <!-- <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil">
+      </button> -->
+      <button type="button" class="btn btn-pure btn-danger btn-xs icon wb-trash">
+      </button>
+    </td>
+  </tr></script><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div></script><script>init.push(function(){
+
+  var tpl = Handlebars.compile($("#tpl-course-row").html());
+  var tplFooter = Handlebars.compile($("#tpl-footer").html());
+
+  var $tbody = $("#lista tbody");
+
+  var $panel = System.getPanelApi($("#mailContent .panel"));
+
+  $("#course-footer").html(tplFooter({
+    total:0
+  }));
+
+  $("#form-filtros [type=submit]").on("click", function(e){
+
+    e.preventDefault();
+
+    loadCourses();
+
+  });
+
+  $("#form-filtros input").on("keyup", function(e){
+
+    if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+
+  });
+
+  function loadCourses(pagina){
+
+    if(!pagina) pagina = 1;
+
+    var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
+    data.limite = Math.floor((window.innerHeight-291)/53);
+    data.limite = (data.limite<5)?5:data.limite;
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/courses",
+      data:data,
+      success:function(r){
+
+        if(r.data.length > 0){
+
+          $tbody.html('');
+
+          $.each(r.data, function(index, row){
+
+            var $tr = $(tpl(row));
+
+            $tbody.append($tr);
+
+            $tr.find(".btn-danger").on("click", function(){
+
+              System.confirm("Deseja remover o course "+row.descourse+"?", function(b, s, f){
+
+                if(b){
+
+                  rest({
+                    url:PATH+"/courses/"+row.idcourse,
+                    method:"DELETE",
+                    success:function(){
+
+                      System.done();
+                      s("course removido com sucesso");
+                      $tr.remove();
+
+                    },
+                    failure:function(r){
+                      System.showError(r);
+                      System.done();
+                    }
+                  });
+
+                }else{
+                  f();
+                }
+
+              })
+
+            });
+
+          });
+
+          var $footer = $("#course-footer");
+
+          $footer.html(tplFooter(r));
+
+          System.initSlidePanel($tbody);
+
+          $tbody.find('.selectable-item').on('click', function(e){
+
+            e.stopPropagation();
+            return true;
+
+          });
+
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'paginator-gap',
+            currentPage:r.currentPage,
+            itemsPerPage:r.itemsPerPage,
+            onChange:function(page){
+              loadCourses(page);
+            }
+          });
+
+          $("#pagination").asPaginator(r.total, config);
+
+          $panel.done();
+
+        }else{
+          $tbody.html('');
+          $panel.done();
+        }
+
+      },
+      failure:function(r){        
+        System.showError(r);
+        $panel.done();
+      }
+    });
+
+  }
+
+  new ToolBar({
+    id:"actions-buttons",
+    buttons:[{
+      text:"Cadastrar",
+      icon:"md-plus",
+      cls:"btn-success",
+      listeners:{
+        click:function(){
+
+          System.openSlidePanel({
+            url:PATH+"/panel/course-create"
+          });
+
+        }
+      }
+    }]
+  });
+
+  loadCourses();
+
+});</script>

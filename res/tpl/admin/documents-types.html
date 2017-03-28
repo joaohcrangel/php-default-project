@@ -1,0 +1,114 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Documentos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="desdocumenttype"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="row-fluid"><div class="col-sm-12"><div data-auto-height="-179" class="panel" id="panel-document-type"><div class="panel-heading"><h3 class="panel-title"></h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Documentos<th>&nbsp;<tbody></table></div><div id="pagination"></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/document-type-create" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-document-type" type="/x-handlebars-temprate"><tr data-iddocumenttype="{{iddocumenttype}}">
+		<td>{{desdocumenttype}}</td>
+		<td>
+			<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/documents/types/{{iddocumenttype}}" data-toggle="slidePanel">
+	      	</button>
+	      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-document icon wb-trash">
+	      	</button>
+		</td>
+		</tr></script><script>init.push(function(){
+		
+		var panel = System.getPanelApi($("#panel-document-type"));
+
+		var $tbody = $("#panel-document-type tbody");
+
+		var $tplDocumentType = Handlebars.compile($("#tpl-document-type").html());
+
+		$("#form-filtros [type=submit]").on("click", function(e){
+        
+		e.preventDefault();
+
+		loadDocumentType();
+		    
+		 });
+
+		function loadDocumentType(pagina){
+
+			if(!pagina) pagina = 1;
+
+			$(".refresh").on("click", function(){
+				loadDocumentType();
+
+		});
+
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params. limite = Math.floor((window.innerHeight-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
+
+		panel.load();
+
+		rest({
+			url:PATH+"/documents/types",
+			data:params,
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplDocumentType(row));
+
+				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadDocumentType(page);
+         			}
+        		});
+
+        		$("#pagination").asPaginator(r.total, config);
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-document").on("click", function(e){
+
+					var $btn = $(this);
+
+					var iddocumenttype = $btn.closest("tr").data("iddocumenttype");
+					System.confirm('Deseja remover esse document?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/documents-types/"+iddocumenttype,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadDocumentType();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+
+    loadDocumentType();
+});</script>

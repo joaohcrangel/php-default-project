@@ -1,0 +1,272 @@
+<div class="page"><div class="page-content p-0"><div class="row-fluid"><div class="col-sm-4 p-0"><div class="panel m-b-0" id="panel-users"><div class="panel-heading"><h3 class="panel-title">Usuários</h3><div class="form-group p-x-25"><div class="input-group" id="pesquisar"><input type="text" class="form-control" name="" placeholder="Filtrar..."> <span class="input-group-btn"><button type="button" class="btn btn-primary waves-effect"><i class="icon md-search" aria-hidden="true"></i></button></span></div></div></div><ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-162"></ul></div></div><div class="col-sm-8"><div class="p-y-15"><div class="row-fluid"><div class="col-sm-6 p-0" id="panel-permission-container"></div><div class="col-sm-6 p-0" id="panel-menu-container"></div></div></div></div></div></div></div><div class="modal fade modal-success" id="modal-permissions-add" aria-labelledby="exampleModalSuccess" aria-hidden="true" role="dialog" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">Nova Permissão</h4></div><form><div class="modal-body"><div class="form-group form-material" data-plugin="formMaterial"><input type="text" class="form-control" name="despermission" placeholder="Nome da Permissão"></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-success">Salvar</button></div></form></div></div></div><script id="tpl-user-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25 curso-pointer" data-iduser="{{iduser}}">
+	<div class="media">
+	  <div class="media-left">
+	    <div class="avatar">
+	      <img class="img-fluid" src="{$path}/res/theme/material/global/portraits/1.jpg" alt="...">
+	    </div>
+	  </div>
+	  <div class="media-body">
+	    <h4 class="media-heading">{{desperson}}</h4>
+	    <small>@{{desuser}}</small>
+	  </div>
+	  <div class="media-right">
+	    <button type="button" class="btn btn-pure btn-dark icon md-edit waves-effect" data-toggle="slidePanel" data-url="{$pathAdmin}/users/{{iduser}}"></button>
+	  </div>
+	</div>
+</li></script><script id="tpl-permission-row" type="text/x-handlebars-template"><li class="list-group-item p-x-25">
+    <div class="checkbox-custom checkbox-primary">
+        <input type="checkbox" id="inputSchedule-1" {{checked}} value="{{idpermission}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-1">
+            <span>{{despermission}}</span>
+        </label>
+    </div>
+</li></script><script id="tpl-panel-permission" type="text/x-handlebars-template"><div class="panel m-b-0" id="panel-permission">
+	<div class="panel-heading">
+		<h3 class="panel-title">Permissões</h3>
+		<div class="panel-actions panel-actions-keep">
+            <button type="button" class="panel-action icon md-refresh-alt btn btn-pure btn-refresh"></button>
+            <button type="button" id="btn-modal-add" class="panel-action icon md-plus btn btn-pure btn-plus"></button>
+        </div>
+    </div>
+	<ul class="list-group list-group-full list-group-dividered overflow-auto" data-auto-height="-121"></ul>
+</div></script><script id="tpl-panel-menu" type="text/x-handlebars-template"><div class="panel m-b-0" id="panel-menu">
+	<div class="panel-heading">
+		<h3 class="panel-title">Menu Final</h3>
+		<div class="panel-actions panel-actions-keep">
+            <button type="button" class="panel-action icon md-refresh-alt btn btn-pure btn-refresh"></button>
+        </div>
+    </div>
+	<div class="panel-body overflow-auto" data-auto-height="-121">
+		<div id="jstreeExample_4"></div>
+	</div>
+</div></script><script>init.push(function(){
+
+	var tpl = {
+		userRow:Handlebars.compile($('#tpl-user-row').html()),
+		permissionRow:Handlebars.compile($('#tpl-permission-row').html()),
+		panelMenu:Handlebars.compile($('#tpl-panel-menu').html()),
+		panelPermission:Handlebars.compile($('#tpl-panel-permission').html())
+	};
+
+	var panelUsers = System.getPanelApi($('#panel-users'));
+	var panelPermissions = System.getPanelApi($('#panel-permission'));
+	var panelMenus = System.getPanelApi($('#panel-menu'));
+
+	var $pesquisarInput = $("#pesquisar input");
+    var $pesquisarButton = $("#pesquisar button");
+
+	var $ulusers = $('#panel-users ul');
+
+	function loadPermissions(iduser){
+
+		var $panelPermissions = $(tpl.panelPermission({}));
+
+		$('#panel-permission-container').html($panelPermissions);
+
+		System.initAutoHeight($('#panel-permission-container'));
+
+		var panel = System.getPanelApi($panelPermissions);
+
+		$panelPermissions.find('.btn-refresh').on('click', function(){
+			loadPermissions(iduser);
+		});
+
+		$panelPermissions.find("#btn-modal-add").on("click", function(){
+
+	    	$("#modal-permissions-add").modal("show");
+
+	    });
+
+		panel.load();
+
+		rest({
+			url:PATH+"/permissions",
+			success:function(rPermissions){
+
+				rest({
+					url:PATH+"/users/"+iduser+"/permissions",
+					success:function(rPermissionsUser){
+
+						$panelPermissions.find('ul').html('');
+
+						$.each(rPermissions.data, function(index1, row1){
+
+							row1.checked = '';
+							$.each(rPermissionsUser.data, function(index2, row2){
+								if (row1.idpermission === row2.idpermission) row1.checked = 'checked';
+							});
+
+							var $permissionRow = $(tpl.permissionRow(row1));
+
+							$panelPermissions.find('ul').append($permissionRow);
+
+							$permissionRow.find('input').on('change', function(){
+
+								var $input = $(this);
+								var value = $input.val();
+								var method = ($input.prop('checked'))?'POST':'DELETE';
+
+								rest({
+									url:PATH+"/users/"+iduser+"/permissions",
+									method:method,
+									data:{
+										idpermission:value
+									},
+									success:function(rSetpermission){
+										loadPermissionsMenu(iduser);
+									},
+									failure:function(e){
+										System.showError(e);
+									}
+								});
+
+							});
+
+							$permissionRow.on('click', function(e){
+								if (e.target.tagName !== 'INPUT') {
+									$(this).find('input').prop('checked', !$(this).find('input').prop('checked'));
+									e.stopPropagation();
+									e.preventDefault();
+									return false;
+								}								
+							});
+
+						});
+
+						panel.done();
+						loadPermissionsMenu(iduser);
+
+					}
+				});
+
+			}
+		});		
+
+	}
+
+	function setTreeMenu(menus, parent){
+
+		var newMenus = [];
+
+		$.each(menus, function(index, m){
+
+			if (m.idmenupai === parent) {
+
+				m.text = m.desmenu;
+				m.state = {
+					opened: true
+				};
+
+				var childrens = setTreeMenu(menus, m.idmenu);
+
+				if (childrens.length) m.children = childrens;
+
+				newMenus.push(m);
+			}
+
+		});
+
+		return newMenus;
+
+	}
+
+	function loadPermissionsMenu(iduser){
+
+		var $panelMenu = $(tpl.panelMenu({}));
+
+		$('#panel-menu-container').html($panelMenu);
+
+		var panel = System.getPanelApi($panelMenu);
+
+		panel.load();
+
+		rest({
+			url:PATH+"/users/"+iduser+"/menus",
+			success:function(r){
+
+				var menus = setTreeMenu(r.data, 0);
+
+				$('#jstreeExample_4').jstree({
+			      'core': {
+			        'data': menus
+			      }
+			    });
+
+				panel.done();
+
+			}
+		});
+
+		System.initAutoHeight($('#panel-menu-container'));
+
+	}
+
+	function loadUsers(q){
+
+		if (!q) q = '';
+
+		panelUsers.load();
+		$pesquisarButton.btnload('load');
+
+		rest({
+			url:PATH+"/users",
+			data:{
+				desperson:q
+			},
+			success:function(r){
+
+				$ulusers.html('');
+
+				$.each(r.data, function(index, row){
+					var $row = $(tpl.userRow(row));
+					$ulusers.append($row);
+				});
+
+				panelUsers.done();
+				$pesquisarButton.btnload('unload');
+
+				System.initSlidePanel($ulusers);
+
+				$ulusers.find('li').on('click', function(e){
+
+					if (e.target.tagName !== 'BUTTON') {
+						loadPermissions($(this).data('iduser'));
+
+					}
+
+				});
+
+			},
+			failure:function(e){
+				panelUsers.done();
+				$pesquisarButton.btnload('unload');
+				System.showError(e);
+			}
+		});
+
+	}
+
+	loadUsers();
+
+    $pesquisarInput.on('keyup', function(e){
+    	if (e.keyCode === 13) {
+    		$pesquisarButton.trigger('click');	
+    	}
+    });
+
+    $pesquisarButton.on('click', function(){
+    	loadUsers($pesquisarInput.val());
+    });
+
+    $("#modal-permissions-add form").form({
+    	url:PATH+"/permissions",
+    	success:function(r){
+    		$("#modal-permissions-add").modal("hide");
+    		$("#panel-permission .btn-refresh").trigger("click");
+    	},
+    	failure:function(e){
+    		System.showError(e);
+    	}
+    });
+
+});</script>

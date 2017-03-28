@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner p-0" ng-controller="profile">
+  <section class="slidePanel-inner-section p-0">
+    <div class="card card-inverse m-b-0" id="profile-header">
+      
+    </div>
+    <div class="panel">
+      <div class="panel-body p-t-0">
+        <form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial">
+            <label class="form-control-label" for="desperson">Nome</label>
+            <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o seu nome">
+          </div>
+          <div class="form-group form-material" data-plugin="formMaterial">
+            <label class="form-control-label" for="desuser">Usuário</label>
+            <input type="text" class="form-control" id="desuser" name="desuser" placeholder="Digite o seu usuário">
+          </div>
+          <div class="form-group form-material" data-plugin="formMaterial">
+            <label class="form-control-label" for="idusertype">type</label>
+            <select class="form-control" id="idusertype" name="idusertype"></select>
+          </div>
+          <div class="form-group form-material" data-plugin="formMaterial">
+            <input type="checkbox" class="icheckbox-primary" id="inblocked" name="inblocked" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" />
+            <label for="inblocked">Bloqueado</label>
+          </div>
+          <div class="form-group form-material">
+            <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+<script id="tpl-profile-header" type="text/x-handlebars-template">
+<div class="card-block p-30">
+  <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
+    <img src="{$path}/res/theme/material/global/portraits/11.jpg" alt="">
+  </a>
+  <div class="vertical-align h-100 text-truncate">
+    <div class="vertical-align-middle">
+      <div class="font-size-20 m-b-5 text-truncate">{{desperson}}</div>
+      <div class="font-size-14 text-truncate">@{{desuser}}</div>
+    </div>
+  </div>
+</div>
+</script>
+<script>
+(function(){
+
+  var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
+  var user = JSON.parse('{function="json_encode($user)"}');
+
+  user.desperson = user.person.desperson;
+
+  $('#profile-header').html(tplHeader(user));
+
+  $('#profile-form').formLoad(user);
+
+  $('#profile-form').form({
+    url:PATH+"/users/"+user.iduser,
+    resetForm:false,
+    success:function(r){
+
+      user = r.data;
+      $('#profile-form').formLoad(user);
+      $('#profile-header').html(tplHeader(user));
+      System.setuser(r.data);
+      System.success("Seus dados foram salvos!");
+
+    }
+  });
+
+  $('#idusertype').combobox({
+    url:PATH+"/userstypes",
+    displayField:'desusertype',
+    valueField:'idusertype',
+    value:user.idusertype
+  });
+
+})();
+</script>

@@ -1456,6 +1456,7 @@ $app->post("/install-admin/sql/addresses/cities/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
 
 	$data = json_decode(post('json'), true);
 
@@ -1479,6 +1480,7 @@ $app->get("/install-admin/sql/addresses/cities/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
 
 	$sql = new Sql();
 	

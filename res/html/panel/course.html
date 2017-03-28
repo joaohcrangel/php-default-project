@@ -1,0 +1,463 @@
+<style>
+	.slidePanel-inner{
+		overflow: overlay;
+	}
+</style>
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$course.descourse}</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0">
+    
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+
+	    <div class="panel-heading panel-heading-tab" id="tabs-course" style="border-radius: 0;">
+	    </div>
+
+        <div class="panel-body p-t-20">
+          	<div class="tab-content">
+	            <div class="tab-pane active" id="courseTab" role="tabpanel" aria-expanded="true">
+					<form id="form-course">
+						<input type="hidden" name="inremovido">
+
+						<div class="row">
+
+							<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+								<label class="form-control-label">Curso</label>
+								<input type="text" name="descourse" class="form-control">
+							</div>
+
+							<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+								<label class="form-control-label">Título</label>
+								<input type="text" name="destitle" class="form-control">
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="form-group form-material col-md-4" data-plugin="formMaterial">
+								<label class="form-control-label">Carga Horária</label>
+								<input type="number" name="vlcargahoraria" class="form-control">
+							</div>
+
+							<div class="form-group form-material col-md-4" data-plugin="formMaterial">
+								<label class="form-control-label">Número de Aulas</label>
+								<input type="number" name="nraulas" class="form-control">
+							</div>
+
+							<div class="form-group form-material col-md-4" data-plugin="formMaterial">
+								<label class="form-control-label">Número de Exercícios</label>
+								<input type="number" name="nrexercicios" class="form-control">
+							</div>
+
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Descrição</label>
+							<div id="summernote"></div>
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+						</div>
+					</form>
+	            </div>
+				<!-- terminando os dados do curso -->
+
+				<!-- iniciando as seções do curso -->
+	            <div class="tab-pane" id="secoesTab" role="tabpanel" aria-expanded="true">
+
+	            	<button type="button" class="btn btn-success btn-criar-secao">Criar Seção</button>
+
+					<div id="secoes" class="panel m-t-20">
+						
+						<table class="table table-stripped table-hover">
+							
+						</table>
+
+					</div>
+
+	            </div>
+	        </div>
+        </div>
+
+	</div>
+
+ </div>
+
+ <div class="modal fade" id="modalSecaoCriar" data-backdrop="false"  tabindex="-1" role="dialog">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	      	<div class="modal-header">		        
+		        <h4 class="modal-title">Criar seção</h4>
+	      	</div>
+	      	<form>
+		      	<div class="modal-body">
+
+		      		<div class="row">
+		        		
+			        	<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+			        		<label class="form-control-label">Nome</label>
+							<input type="text" name="dessecao" class="form-control">
+			        	</div>
+
+			        	<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+			        		<label class="form-control-label">Ordem</label>
+							<input type="number" name="nrordem" class="form-control">
+			        	</div>
+
+			        </div>
+
+		      	</div>
+		      	<div class="modal-footer">
+			        <div class="form-group form-material" data-plugin="formMaterial">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+			    		<button type="submit" class="btn btn-primary">Salvar</button>
+			    	</div>
+			    </div>
+
+			</form>
+      
+   		</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalCurriculoCriar" data-backdrop="false"  tabindex="-1" role="dialog">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	      	<div class="modal-header">
+		        <h4 class="modal-title">Criar currículo</h4>
+	      	</div>
+	      	<form>
+		      	<div class="modal-body">
+
+		      		<div class="row">
+		        		
+			        	<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+			        		<label class="form-control-label">Nome</label>
+							<input type="text" name="descurriculo" class="form-control">
+			        	</div>
+
+			        	<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+			        		<label class="form-control-label">Ordem</label>
+							<input type="number" name="nrordem" class="form-control">
+			        	</div>
+
+			        </div>
+
+		        	<div class="form-group form-material" data-plugin="formMaterial">
+		        		<label class="form-control-label">Descrição</label>
+						<div id="summernote-curriculo"></div>
+		        	</div>
+
+		      	</div>
+		      	<div class="modal-footer">
+			        <div class="form-group form-material" data-plugin="formMaterial">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+			    		<button type="submit" id="btn-curriculo-salvar" class="btn btn-primary">Salvar</button>
+			    	</div>
+			    </div>
+
+			</form>
+      
+   		</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <script id="tpl-curso-secao-curriculo" type="text/x-handlebars-template">
+ 	<tr>
+		<td>&nbsp;</td>
+		<td><input type="text" name="descurriculo" class="form-control" value="{{descurriculo}}"></td>
+		<td><button type="button" class="btn btn-success btn-outline input-search-close icon md-check curriculo-salvar" style="padding:10px"></button>
+        <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button></td>
+	</tr>
+ </script>
+
+ <script id="tpl-curso-secao" type="text/x-handlebars-template">
+ 	<tbody class="table-section" data-plugin="tableSection">
+	 	<tr>
+			<td><i class="table-section-arrow"></i></td>
+			<td>{{dessecao}}</td>
+			<td>
+				<button type="button" class="btn btn-pure btn-success icon md-plus curriculo-criar" title="Adicionar currículo" style="padding:10px"></button>
+				<button type="button" class="btn btn-danger btn-outline input-search-close icon md-delete secao-remove" style="padding:10px"></button>
+			</td>
+		</tr>
+	</tbody>
+ </script>
+
+ <script>
+
+ var curso = JSON.parse('{function="json_encode($curso)"}');
+
+ var tpl = {
+ 	cursoSecao:Handlebars.compile($("#tpl-curso-secao").html()),
+ 	cursoCurriculo:Handlebars.compile($("#tpl-curso-secao-curriculo").html())
+ };
+
+ var $panelSecoes = System.getPanelApi($("#secoes"));
+
+ var isSecoesLogged = false;
+
+ function loadSecoes(){
+
+ 	if(isSecoesLogged === false){
+
+ 		var $panel = $("#secoes table");				 	 		
+
+	 	$panelSecoes.load();
+
+	 	rest({
+	 		url:PATH+"/cursos/"+curso.idcurso+"/secoes",
+	 		success:function(r){
+
+	 			$panel.html('');	 			
+
+	 			$.each(r.dataSecoes, function(index, secao){
+
+					var $row = $(tpl.cursoSecao(secao));
+
+					$panel.append($row);
+
+					$row.after("<tbody></tbody>");
+
+					if(r.dataCurriculos.length > 0){						
+
+						$.each(r.dataCurriculos, function(index, curriculo){
+
+							if(secao.idsecao == curriculo.idsecao){		 					
+
+								var $tr = $(tpl.cursoCurriculo(curriculo));							
+								$row.next('tbody').append($tr);
+
+								$tr.find(".curriculo-salvar").on("click", function(){
+
+									var $btn = $(this);
+
+									$btn.btnload("load");
+
+									rest({
+										url:PATH+"/cursos-curriculos",
+										method:"POST",
+										data:{
+											idcurriculo:curriculo.idcurriculo,
+											descurriculo:$tr.find("[name=descurriculo]").val(),
+											desdescricao:curriculo.desdescricao.toString(),
+											idsecao:curriculo.idsecao,
+											nrordem:curriculo.nrordem
+										},
+										success:function(){
+											$btn.btnload("unload");
+										},
+										failure:function(r){
+											System.showError(r);
+										}
+									});
+
+								});
+
+				 				$tr.find(".btn-danger").on("click", function(){
+
+				 					var $btn = $(this);
+
+				 					$btn.btnload("load");
+
+				 					rest({
+				 						url:PATH+"/cursos-curriculos/"+curriculo.idcurriculo,
+				 						method:"DELETE",
+				 						success:function(){
+				 							$btn.btnload("unload");
+				 							$tr.remove();
+				 						},
+				 						failure:function(r){
+				 							System.showError(r);
+				 							$btn.btnload("unload");
+				 						}
+				 					});
+
+				 				});
+
+							}
+
+						});
+
+					}
+
+					$row.find(".curriculo-criar").on("click", function(){
+
+						$("#summernote-curriculo").summernote({
+							height:100
+						});
+
+						var $modalCurriculo = $("#modalCurriculoCriar");
+
+						$modalCurriculo.modal("show").on("shown.bs.modal", function(){
+							$modalCurriculo.find("[name=descurriculo]").focus();
+						});
+
+						var $btn = $modalCurriculo.find("[type=submit]");
+
+						$modalCurriculo.find("form").form({					
+							url:PATH+"/cursos-curriculos",
+							params:{
+								idcurriculo:0,
+								idsecao:secao.idsecao
+							},
+							beforeParams: function() {
+
+						        return {
+						            desdescricao: $('#summernote-curriculo').next('.note-editor').find('.note-editable').html()
+						        };
+
+						    },					
+							success:function(){						
+								$btn.text("Salvar");
+								$('#summernote-curriculo').next('.note-editor').find('.note-editable').html('');
+								$modalCurriculo.modal("hide");
+								isSecoesLogged = false;
+								loadSecoes();
+							}
+
+						});
+
+					});
+
+					$row.find(".secao-remove").on("click", function(){
+
+						var $btn = $(this);
+
+						$btn.btnload("load");
+
+						rest({
+							url:PATH+"/cursos-secoes/"+secao.idsecao,
+							method:"DELETE",
+							success:function(){
+								$btn.btnload("unload");								
+								$row.next('tbody').remove();								
+								$row.remove();
+							},
+							failure:function(r){
+								System.showError(r);
+								$btn.btnload("unload");
+							}
+						});
+
+					});
+
+	 			});
+
+	 			$(".btn-criar-secao").on("click", function(){
+
+ 					var $modal = $("#modalSecaoCriar");
+
+ 					$modal.modal('show');
+
+ 					$modal.find("form").form({
+ 						url:PATH+"/cursos-secoes",
+ 						params:{
+ 							idsecao:0,
+ 							idcurso:curso.idcurso
+ 						},
+ 						success:function(r){
+ 							$modal.find("[type=submit]").text("Salvar");
+ 							$modal.modal("hide");
+ 							isSecoesLogged = false;
+ 							loadSecoes();
+ 						}
+ 					});
+
+ 				});
+
+	 			$panelSecoes.done();
+
+	 			isSecoesLogged = true;
+
+	 		},
+	 		failure:function(r){
+	 			System.showError(r);
+	 			$panelSecoes.done();
+	 		}
+	 	});
+
+	}
+
+ }
+
+ function getHTML(idcurso){
+
+ 	rest({
+ 		url:PATH+"/cursos/"+idcurso+"/html",
+ 		success:function(r){
+
+ 			var $summernote = $("#summernote");
+ 			$summernote.html(r.data);
+ 			$summernote.summernote({
+ 				height:200
+ 			});
+
+ 		}
+ 	})
+
+ }
+
+ getHTML(curso.idcurso);
+
+ new Tab({
+ 	id:"tabs-curso",
+ 	items:[{
+ 		title:"Dados",
+ 		id:"cursoTab"
+ 	},
+ 	{
+ 		title:"Seções",
+ 		id:"secoesTab"
+ 	}],
+ 	listeners:{
+ 		tabchange:function(object, event){
+
+ 			switch(event.tabContent.id){
+
+ 				case "secoesTab":
+ 				loadSecoes();
+
+ 				break;
+
+ 			}
+
+ 		}
+ 	}
+ });
+
+ var form = $("#form-curso");
+
+ form.formLoad(curso);
+
+ form.form({
+ 	url:PATH+"/cursos",
+ 	resetForm:false,
+ 	params:{
+ 		idcurso:curso.idcurso
+ 	},
+	beforeParams: function() {
+
+        return {
+            desdescricao: $('#summernote').next('.note-editor').find('.note-editable').html()
+        };
+
+    },
+ 	success:function(){
+ 		System.success("Curso salvo com sucesso");
+ 		$(".slidePanel-close").trigger("click");
+ 		$("#form-filtros [type=submit]").trigger("click");
+ 	},
+ 	failure:function(r){
+ 		System.showError(r);
+ 	}
+ });
+
+ </script>

@@ -1,0 +1,135 @@
+<div class="page">
+	<div class="page-header">
+        <h1 class="page-title">Upload de files</h1>
+        <p class="page-description">
+          Exemplo de envio de files para o sistema.
+        </p>
+    </div>
+	<div class="page-content">
+		<div class="row">
+			<div class="col-md-12">
+				<form id="form-exemplo-1" method="post" action="{$path}/admin/exemplos/upload-form-exemplo-2" enctype="multipart/form-data">
+					<div class="panel panel-primary panel-line">
+						<div class="panel-heading">
+			            	<h3 class="panel-title">Form</h3>
+			            </div>
+			            <div class="panel-body">
+			            					
+							<div class="form-group">
+			                  <div class="input-group input-group-file" data-plugin="inputGroupFile">
+			                    <input type="text" class="form-control" readonly="">
+			                    <span class="input-group-btn">
+			                      <span class="btn btn-success btn-file">
+			                        <i class="icon md-upload" aria-hidden="true"></i>
+			                        <input type="file" name="file" multiple="">
+			                      </span>
+			                    </span>
+			                  </div>
+			                </div>
+			                
+			            </div>
+			            <div class="panel-footer">
+			            	<button type="submit" class="btn btn-primary pul-xs-right">Enviar</button>
+			            </div>
+					</div>	
+				</form>
+
+				<form id="form-exemplo-2" method="post" action="{$path}/admin/exemplos/upload-form-exemplo-2" enctype="multipart/form-data">
+					<div class="panel panel-primary panel-line">
+						<div class="panel-heading">
+			            	<h3 class="panel-title">Plugin Dropify</h3>
+			            </div>
+			            <div class="panel-body">
+			            					
+							<input type="file" id="input-file-now" name="file" data-plugin="dropify" data-default-file="" />
+			                
+			            </div>
+			            <div class="panel-footer">
+			            	<button type="submit" class="btn btn-primary pul-xs-right">Enviar</button>
+			            </div>
+					</div>	
+				</form>
+				
+				<div class="panel panel-primary panel-line" id="form-exemplo-3">
+					<div class="panel-heading">
+		            	<h3 class="panel-title">JRangel Upload</h3>
+		            </div>
+		            <div class="panel-body">
+		            	<div class="row-fluid">
+		            		<div class="col-md-6">
+		            			<input type="file" name="desfile" class="form-control" />
+		            		</div>
+		            		<div class="col-md-6">
+		            			<div id="file-3"></div>
+		            		</div>
+		            	</div>
+		            </div>
+
+				</div>			
+
+				<form id="form-exemplo-4">
+					<div class="panel panel-primary panel-line">
+						<div class="panel-heading">
+			            	<h3 class="panel-title">Download de Link</h3>
+			            </div>
+			            <div class="panel-body">
+							<div class="col-md-6">
+		            			<input type="url" name="desurl" class="form-control" value="https://assetsnffrgf-a.akamaihd.net/assets/m/502017712/univ/art/502017712_univ_pnr_lg.jpg" />
+		            		</div>
+		            		<div class="col-md-6">
+		            			<div id="file-4"></div>
+		            		</div>
+			            </div>
+			            <div class="panel-footer">
+			            	<button type="submit" class="btn btn-primary pul-xs-right">Enviar</button>
+			            </div>
+					</div>	
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+init.push(function(){
+
+	$('#form-exemplo-3 input[type=file]').upload({
+		url:PATH+"/admin/exemplos/upload-form-exemplo-3",
+		success:function(r){
+			console.info('SUCCESS Exemplo 3');
+			console.log(r);
+
+			if (['jpg', 'gif', 'png'].indexOf(r.data.desextensao) > -1) {
+
+				$('#file-3').html('<img src="'+r.data.desurl+'" style="width:100%;">');
+
+			}
+
+		},
+		failure:function(e){
+			System.showError(e);
+		}
+	});
+
+	$('#form-exemplo-4').form({
+		url:PATH+"/admin/exemplos/upload-form-exemplo-4",
+		success:function(r){
+			console.info('SUCCESS Exemplo 4');
+			console.log(r);
+
+			if (['jpg', 'gif', 'png'].indexOf(r.data.desextensao) > -1) {
+
+				$('#file-4').html('<img src="'+r.data.desurl+'" style="width:100%;">');
+
+			}
+
+		},
+		failure:function(e){
+			System.showError(e);
+		}
+	});
+
+});
+
+</script>

@@ -1,0 +1,18 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Adicionar nova Categoria</h5></h4></div></header><div class="slidePanel-inner m-t-40"><form id="form-category"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descategory" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button> <button type="button" class="btn btn-default waves-effect slidePanel-close">Cancelar</button></div></form></div><script>var form = $("#form-category");
+
+form.form({
+	url:PATH+"/persons-categories-types",
+	params:{
+		idcategory:0
+	},
+	success:function(){
+		System.success("Categoria salva com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});</script>

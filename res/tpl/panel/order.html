@@ -1,0 +1,36 @@
+{include="panel-header"}<div id="order-{$order.idorder}"><header class="slidePanel-header"><div class="slidePanel-actions" aria-label="actions" role="group"><button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button></div><h1>Pagamento de {$order.desperson}</h1></header><div class="slidePanel-inner"><form asutocomplete="off" id="form-order" class="slidePanel-form"><div class="form-group form-material"><input type="hidden" name="idorder" value="{$order.idorder}"></div><div class="form-group form-material"><label class="control-label" for="idformpayment">Forma de Pagamento</label><select name="idformpayment" class="form-control" id="idformpayment" value="{$order.idformpayment}"></select></div><div class="form-group form-material"><label class="control-label" for="idstatus">Status</label><select name="idstatus" class="form-control" id="idstatus" value="{$order.idstatus}"></select></div><div class="form-group form-material"><label class="control-label" for="vltotal">Valor</label><input type="number" class="form-control" name="vltotal" id="vltotal" value="{$order.vltotal}"></div><div class="form-group form-material"><label class="control-label" for="nrparcels">Número de parcelas</label><input type="number" class="form-control" name="nrparcels" id="nrparcels" value="{$order.nrparcels}"></div><button type="submit" class="btn btn-block btn-primary" id="btn-order-salvar">Salvar</button></form></div></div><script>var order = JSON.parse('{function="json_encode($order)"}');
+
+$("[name=idformpayment]").combobox({
+	url:PATH+"/forms-payments/all",
+	displayField:"desformpayment",
+	valueField:"idformpayment",
+	value:order.idformpayment
+});
+
+$("[name=idstatus]").combobox({
+  url:PATH+"/orders-status/all",
+  displayField:"desstatus",
+  valueField:"idstatus",
+  value:order.idstatus
+});
+  
+var form = $("#form-order");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/orders",
+  success:function(){
+
+    form.find("button#btn-order-salvar").btnload("unload");
+    System.success("Pagamento salvo com sucesso");
+    $("button.slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-order-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});</script>

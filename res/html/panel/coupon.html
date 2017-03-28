@@ -1,0 +1,80 @@
+{include="panel-header"}
+<div id="coupon-{$coupon.idcoupon}">
+
+  <header class="slidePanel-header">
+    <div class="slidePanel-actions" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button>
+    </div>
+    <h1>Cupom {$coupon.descoupon}</h1>
+  </header>
+
+  <div class="slidePanel-inner">
+    <form asutocomplete="off" id="form-coupon" class="slidePanel-form">
+    	<div class="form-group form-material">
+        <input type="hidden" name="idcoupon" value="{$coupon.idcoupon}">
+        <label class="control-label" for="descoupon">cupom</label>
+        <input type="text" class="form-control" name="descoupon" value="{$coupon.descoupon}">
+  		</div>
+  		<div class="form-group form-material">	        
+        <label class="control-label" for="idcoupontype">Tipo do cupom</label>
+        <select name="idcoupontype" class="form-control" id="idcoupontype" value="{$coupon.idcoupontype}"></select>
+      </div>
+      <div class="form-group form-material">
+        <label>Desconto</label>
+        <input type="number" class="form-control" name="nrdiscount" value="{$coupon.nrdiscount}">
+      </div>
+      <div class="form-group form-material">
+        <label>Código</label>
+        <input type="text" class="form-control" name="descode" value="{$coupon.descode}">
+      </div>
+      <div class="form-group form-material">
+        <label>Quantidade</label>
+        <input type="text" class="form-control" name="nrqtd" value="{$coupon.nrqtd}">
+      </div>
+      <div class="form-group form-material">
+        <label>Início da Validade</label>
+        <input type="text" class="form-control" name="dtstart" value="{$coupon.dtstart}">
+      </div>
+      <div class="form-group form-material">
+        <label>Término da Validade</label>
+        <input type="text" class="form-control" name="dtend" value="{$coupon.dtend}">
+      </div>
+      <button type="submit" class="btn btn-block btn-primary" id="btn-coupon-salvar">Salvar</button>
+    </form>
+  </div>
+
+</div>
+
+<script>
+
+var cupom = JSON.parse('{function="json_encode($coupon)"}');
+
+$("[name=idcoupontype]").combobox({
+	url:PATH+"/coupons/types",
+	displayField:"descoupotype",
+	valueField:"idcoupontype",
+	value:coupon.idcoupontype
+});
+  
+var form = $("#form-coupon");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/coupons",
+  success:function(){
+
+    form.find("button#btn-coupon-salvar").btnload("unload");
+    System.success("Cupom salvo com sucesso");
+    $("button.slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-coupon-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});
+
+</script>

@@ -1,0 +1,85 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo lugar</h5></h4></div></header><div class="slidePanel-inner"><form id="form-lugar"><input type="hidden" name="vllatitude"> <input type="hidden" name="vllongitude"> <input type="hidden" name="nrzoom"> <input type="hidden" name="idlugarpai"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="row"><div class="form-group col-xs-12 col-md-8"><label class="form-control-label">Lugar</label><input type="text" class="form-control" name="deslugar"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label">Tipo do Lugar</label><select name="idlugartipo" class="form-control"></select></div></div><div class="panel panel-primary panel-line p-b-0 m-0 m-t-20"><div class="panel-heading"><h3 class="panel-title p-l-0">Endereço</h3></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desendereco">Endereço</label><input type="text" class="form-control" id="desendereco" name="desendereco"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumero">Número</label><input type="text" class="form-control" id="desnumero" name="desnumero"></div></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplemento">Complemento</label><input type="text" class="form-control" id="descomplemento" name="descomplemento"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desbairro">Bairro</label><input type="text" class="form-control" id="desbairro" name="desbairro"></div><div class="form-group col-xs-12 col-md-5"><label class="form-control-label" for="descidade">Cidade</label><input type="text" class="form-control" id="descidade" name="descidade"> <input type="hidden" name="desuf"></div></div></div><div id="mapa" style="width:100%; height:400px" class="m-b-10"></div><div class="form-group"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></div></div></form></div><script>var position = {
+	lat: -8.361126490598373,
+	lng: -55.705590349999966
+};
+
+function initMap(){
+
+	var map = new google.maps.Map(document.getElementById("mapa"), {
+		center:{lat: position.lat, lng: position.lng},
+		zoom:4
+	});
+
+	var marker = new google.maps.Marker({
+		position:position,
+		map:map,
+		draggable:true
+	});
+
+	marker.setMap(map);
+
+	function setForm(){
+
+		$("[name=vllatitude]").val(marker.getPosition().lat());
+		$("[name=vllongitude]").val(marker.getPosition().lng());
+		$("[name=nrzoom]").val(map.getZoom());
+
+	}
+
+	google.maps.event.addListener(marker, 'dragend', function(){
+		setForm();
+	});
+
+	google.maps.event.addListener(map, "rightclick", function(e){
+    	marker.setPosition(e.latLng);
+    	setForm();
+	});
+
+}
+
+var form = $("#form-lugar");
+	
+$("[name=idlugartipo]").combobox({
+	url:PATH+"/lugares-tipos",
+	displayField:"deslugartipo",
+	valueField:"idlugartipo"
+});
+
+form.form({
+	url:PATH+"/lugares",
+	params:{
+		idlugar:0,
+		idendereco:0,
+		idenderecotipo:2
+	},
+	resetForm:false,
+	success:function(){
+		System.success("Lugar salvo com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});
+
+$(form).find('[name=descidade]').combobox({
+	url:PATH+"/enderecos/cidades",
+	autoComplete:true,
+	displayField:'descidade',
+	displayFieldRight:'desuf',
+	valueField:'idcidade',
+	submitValue:true,
+	hiddenName:'idcidade'
+});
+
+$(form).find('[name=descep]').formValueCheck({
+    url:PATH+"/enderecos/cep",
+    success:function(r){
+      form.formLoad(r);
+      $(form).find('[name=descidade]').trigger('change');
+      $(form).find('[name=desnumero]').trigger('focus');
+    }
+  });</script><script async defer="defer" src="https://maps.googleapis.com/maps/api/js?key={$mapKey}&callback=initMap"></script>

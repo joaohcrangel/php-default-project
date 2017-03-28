@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Forma de Pagamento {$formpayment.desformpayment}</h5></h4>
+  </div>  
+</header>
+
+<div class="slidePanel-inner m-t-40">
+  <form asutocomplete="off" id="form-form-payment" class="slidePanel-form">
+  	<div class="form-group form-material">
+      <input type="hidden" name="idformpayment" value="{$formpayment.idformpayment}">
+      <label class="control-label" for="desformpayment">Forma de Pagamento</label>
+      <input type="text" class="form-control" name="desformpayment">
+		</div>
+	  <div class="form-group form-material">	        
+      <label class="control-label" for="idgateway">Gateway de Pagamento</label>
+      <select name="idgateway" class="form-control" id="idgateway"></select>
+    </div>
+    <div class="form-group form-material">
+      <label class="control-label" for="nrparcelasmax">Número máximo de parcelas</label>
+      <input type="number" class="form-control" name="nrparcelasmax" />
+    </div>
+    <div class="form-group form-material">
+      <input type="checkbox" class="icheckbox-primary" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue" name="instatus" value="1" />
+      <label class="control-label" for="instatus">Status</label>
+    </div>
+    <button type="submit" class="btn btn-block btn-primary" id="btn-form-payment-salvar">Salvar</button>
+  </form>
+</div>
+
+<script>
+
+var formpayment = JSON.parse('{function="json_encode($formpayment)"}');
+
+$("#idgateway").combobox({
+	url:PATH+"/gateways/all",
+	displayField:"desgateway",
+	valueField:"idgateway",
+	value:formpayment.idgateway
+});
+  
+var form = $("#form-form-payment");
+
+form.formLoad(formpayment);
+
+form.form({
+  resetForm:false,
+  url:PATH+"/forms-payments",
+  success:function(){
+
+    form.find("button#btn-form-payment-salvar").btnload("unload");
+    System.success("Forma de Pagamento salva com sucesso");
+    $("button.slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-form-payment-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});
+
+</script>

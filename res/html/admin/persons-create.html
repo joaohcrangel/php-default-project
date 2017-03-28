@@ -1,0 +1,190 @@
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">CADASTRAR CLIENTE</h5></h4>
+  </div>  
+</header>
+<form autocomplete="off" id="form-person-register">
+  <div class="slidePanel-inner p-0" ng-controller="profile">
+    <section class="slidePanel-inner-section">
+        <div class="panel m-0" style="box-shadow:none">
+          <div class="panel-body p-y-0 p-t-20">
+            
+            <div class="row">
+              <div class="form-group col-xs-12 col-md-8">
+                <label class="form-control-label" for="desperson">Nome do cliente <span class="red-900">*</span></label>
+                <input type="text" class="form-control" id="desperson" name="desperson">
+              </div>
+              <div class="form-group col-xs-12 col-md-4">
+                <label class="form-control-label" for="idpersontype">Tipo</label>
+                <select class="form-control" id="idpersontype" name="idpersontype"></select>
+              </div>
+            </div>
+            
+            <div id="cadastro-person-fisica">
+              <div class="row">
+                
+                <div class="form-group col-xs-12 col-md-4">
+                  <label class="form-control-label" for="descpf">CPF</label>
+                  <input type="text" class="form-control" id="descpf" name="descpf">
+                </div>
+                <div class="form-group col-xs-12 col-md-4">
+                  <label class="form-control-label" for="desrg">RG</label>
+                  <input type="text" class="form-control" id="desrg" name="desrg">
+                </div>
+                <div class="form-group col-xs-12 col-md-4">
+                  <label class="form-control-label" for="dtbirth">Data de nascimento</label>
+                  <input type="date" class="form-control" id="dtbirth" name="dtbirth">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-12 col-md-6">
+                  <label class="form-control-label" for="desemail">Email</label>
+                  <input type="email" class="form-control" id="desemail" name="desemail">
+                </div>
+                <div class="form-group col-xs-12 col-md-3">
+                  <label class="form-control-label" for="desphonecomercial">Telefone comercial</label>
+                  <input type="tel" class="form-control" id="desphonecomercial" name="desphonecomercial">
+                </div>
+                <div class="form-group col-xs-12 col-md-3">
+                  <label class="form-control-label" for="descellphone">Telefone celular</label>
+                  <input type="tel" class="form-control" id="descellphone" name="descellphone">
+                </div>
+              </div>
+            </div>
+
+            <div id="cadastro-person-juridica" class="hide">
+              
+            </div>
+
+            <div id="cadastro-address">
+              <div class="panel panel-primary panel-line p-b-0 m-0">
+                <div class="panel-heading">
+                  <h3 class="panel-title p-l-0">Endereço do Cliente</h3>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-xs-12 col-md-3">
+                    <label class="form-control-label" for="descep">CEP</label>
+                    <input type="text" class="form-control" id="descep" name="descep">
+                  </div>
+                  <div class="form-group col-xs-12 col-md-6">
+                    <label class="form-control-label" for="desaddress">Endereço</label>
+                    <input type="text" class="form-control" id="desaddress" name="desaddress">
+                  </div>
+                  <div class="form-group col-xs-12 col-md-3">
+                    <label class="form-control-label" for="desnumber">Número</label>
+                    <input type="text" class="form-control" id="desnumber" name="desnumber">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12 col-md-3">
+                    <label class="form-control-label" for="descomplement">Complemento</label>
+                    <input type="text" class="form-control" id="descomplement" name="descomplement">
+                  </div>
+                  <div class="form-group col-xs-12 col-md-4">
+                    <label class="form-control-label" for="desdistrict">Bairro</label>
+                    <input type="text" class="form-control" id="desdistrict" name="desdistrict">
+                  </div>
+                  <div class="form-group col-xs-12 col-md-5">
+                    <label class="form-control-label" for="descity">Cidade</label>
+                    <input type="text" class="form-control" id="descity" name="descity">
+                    <input type="hidden" name="desuf">
+                  </div>
+                </div>
+                
+              </div>
+              
+            </div>
+
+          </div>
+        </div>
+      
+    </section>
+  </div>
+  <div class="slidePanel-footer p-20">
+    
+    <button type="submit" class="btn btn-block btn-primary">Cadastrar</button>
+    
+  </div>
+</form>
+<script>
+
+  $("#form-person-register [name=idpersontype]").combobox({
+    url:PATH+"/persons-types",
+    displayField:"despersontype",
+    valueField:"idpersontype",
+    value:1
+  });
+
+  $("#form-person-register").form({
+    url:PATH+"/persons",
+    success:function(r){
+
+      atualizarPagina();
+      $('.slidePanel-close').trigger('click');
+
+    }
+  });
+
+  $("#form-person-register").find('input').on('change', function(){
+    if ($(this).val().length) {
+      $(this).removeClass('empty');
+    } else {
+      $(this).addClass('empty');
+    }
+  });
+
+  $('#form-person-register [name=descity]').combobox({
+    url:PATH+"/addresses/citys",
+    autoComplete:true,
+    displayField:'descity',
+    displayFieldRight:'desuf',
+    valueField:'idcity',
+    submitValue:true,
+    hiddenName:'idcity'
+  });
+
+  $('#form-person-register [name=descpf]').on('change keyup', function(e){
+
+    if (!$(this).val()) {
+
+      var $formGroup = $('#form-person-register [name=descpf]').closest('.form-group');
+      $formGroup.removeClass('has-success has-danger');
+
+    }
+
+  }).formValueCheck({
+    url:PATH+"/documents/cpf",
+    icon:'md-check',
+    minLengthSubmit:11,
+    success:function(r){
+      
+      var $formGroup = $('#form-person-register [name=descpf]').closest('.form-group');
+      $formGroup.removeClass('has-success has-danger');
+
+      if (r.incpf) {
+
+        $formGroup.addClass('has-success');
+
+      } else {
+
+        $formGroup.addClass('has-danger');
+
+      }
+
+    }
+  });
+
+  $('#form-person-register [name=descep]').formValueCheck({
+    url:PATH+"/addresses/cep",
+    success:function(r){
+      $('#form-person-register').formLoad(r);
+      $('#form-person-register [name=descity]').trigger('change');
+      $('#form-person-register [name=desnumber]').trigger('focus');
+    }
+  });
+
+</script>

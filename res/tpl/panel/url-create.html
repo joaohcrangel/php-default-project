@@ -1,0 +1,19 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar nova URL</h5></h4></div></header><div class="slidePanel-inner m-t-40"><form id="form-url-criar"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">URL</label><input type="text" class="form-control" name="desurl"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Título</label><input type="text" class="form-control" name="destitle"></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div><script>var form = $("#form-url-criar");
+
+form.form({
+	url:PATH+"/urls",
+	params:{
+		idurl:0
+	},
+	resetForm:false,
+	success:function(){
+		System.success("URL criada com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});</script>

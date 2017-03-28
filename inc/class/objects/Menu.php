@@ -131,7 +131,7 @@ class Menu extends Model {
                 $html .= '
                     <li data-idmenu="'.$menu->getidmenu().'" class="site-menu-item '.(($menu->getnrsubmenus() > 0)?'has-sub':'').'">
                         <a '.(($menu->getdeshref() !== '')?'class="animsition-link"':'').' title="'.$menu->getdesmenu().'" href="'.$href.'" data-slug="layout">
-                            <i class="site-menu-icon '.$menu->getdesicone().'" aria-hidden="true"></i>
+                            <i class="site-menu-icon '.$menu->getdesicon().'" aria-hidden="true"></i>
                             <span class="site-menu-title">'.$menu->getdesmenu().'</span>
                             '.(($menu->getnrsubmenus() > 0)?'<span class="site-menu-arrow"></span>':'').'
                         </a>
@@ -166,7 +166,7 @@ class Menu extends Model {
                 $html .= '
                     <li data-idmenu="'.$menu->getidmenu().'" data-desmenu="'.$menu->getdesmenu().'" class="dd-item dd-item-alt">
                         <div class="dd-handle"></div>
-                        <div class="dd-content"><span><i class="icon '.$menu->getdesicone().'"></i> '.$menu->getdesmenu().' </span>
+                        <div class="dd-content"><span><i class="icon '.$menu->getdesicon().'"></i> '.$menu->getdesmenu().' </span>
                             <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>
                             <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>
                         </div>

@@ -1,0 +1,54 @@
+{include="panel-header"}
+<header class="slidePanel-header">	
+	<div class="slidePanel-actions" aria-label="actions" role="group">
+	  <button type="button" class="btn btn-pure btn-inverse slidePanel-close actions-top icon wb-close" aria-hidden="true"></button>
+	</div>
+	<h1>Criar novo pedido</h1>
+</header>
+
+<div class="slidePanel-inner">
+	
+	<form id="form-order-save" class="slidePanel-form">	
+		<div class="form-group">
+		  	<div class="form-group form-material">
+		  		<input type="hidden" name="idorder">
+			    <label>Pedido</label>
+			    <input type="text" class="form-control" name="desorder">
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Tipo de pedido</label>
+			    <select name="idordertype" class="form-control"></select>
+		  	</div>		  	
+		  	<button class="btn btn-block btn-primary" id="btnOrderSave" type="submit">Salvar Novo pedido</button>
+		</div>
+	</form>
+
+</div>
+
+<script>
+
+	$("[name=idordertype]").combobox({
+		url:PATH+"/orders/types",
+		displayField:"desordertype",
+		valueField:"idordertype"
+	});
+
+	var form = $("#form-order-save");
+
+  	form.form({
+  		url:PATH+"/orders",
+  		success:function(){
+
+  			form.find("button#btnOrderSave").btnload("unload");
+  			System.success("Pedido criado com sucesso");
+  			$(".slidePanel-close").trigger("click");
+  			$(".refresh").trigger("click");
+
+  		},
+  		failure:function(r){
+  			form.find("button#btnOrderSave").btnload("unload");
+  			System.showError(r);
+  		}
+  	});
+
+</script>

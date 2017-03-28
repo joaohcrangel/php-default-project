@@ -1,0 +1,129 @@
+<div class="page">
+	<div class="page-content">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<div class="panel" id="panel-cards">
+					<div class="panel-heading">
+						<h3 class="panel-title">Cartões de Crédito</h3>
+						<div class="panel-actions">
+			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
+			            </div>
+					</div>
+
+					<table class="table table-hover table-striped">
+		              	<thead>
+			                <tr>
+			                  <th>Pessoa</th>
+			                  <th>Data de Validade</th>
+			                  <th>Número</th>
+			                  <th>&nbsp;</th>
+			                </tr>
+		              	</thead>
+		              	<tbody>
+
+			                
+
+		              	</tbody>
+		            </table>
+			           
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="site-action animation-duration-300">
+      <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/card-create" data-toggle="slidePanel">
+        <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
+        <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
+      </button>
+    </div>
+</div>
+<script id="tpl-card-row" type="text/x-handlebars-template"><tr data-idcard="{{idcard}}">
+	<td>{{desname}}</td>
+	<td>{{desdtvalidity}}</td>
+	<td>{{desnumber}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/cards/{{idcard}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-card icon wb-trash">
+      	</button>
+	</td>
+</tr>
+</script>
+<script>init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-cards"));
+
+	var $tbody = $("#panel-cards tbody");
+
+	var $tpl = Handlebars.compile($("#tpl-card-row").html());
+
+	function loadCards(){
+
+		$(".refresh").on("click", function(){
+			loadCards();
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/cards/all",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tpl(row));
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-card").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idcard = $btn.closest("tr").data("idcard");
+
+					System.confirm('Deseja remover o cartão?', function(b){
+				      	if (b) {
+
+					        System.load();
+
+					        rest({
+					          url: PATH+"/cards/"+idcard,
+					          method:'DELETE',
+					          success: function(r){
+
+					            System.done();
+					            loadCards();
+					            System.success("Cartão excluído com sucesso");
+
+					          },
+					          failure: function(e){
+					            System.done();
+					            System.showError(e);
+					          }
+					        });
+
+				      	}
+				    });
+
+				});
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+
+	};
+
+	loadCards();
+
+});
+</script>

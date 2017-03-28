@@ -1,0 +1,139 @@
+<div class="page">
+	<div class="page-content">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<div class="panel" id="panel-coupons">
+					<div class="panel-heading">
+						<h3 class="panel-title">coupons</h3>
+						<div class="panel-actions">
+			              <a class="panel-action refresh" data-toggle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a>
+			            </div>
+					</div>
+					<div>
+						<table class="table table-hover table-striped">
+			              	<thead>
+				                <tr>
+				                  <th>Cupom</th>
+				                  <th>Tipo do Cupom</th>
+				                  <th>Código</th>
+				                  <th>Desconto</th>
+				                  <th>Quantidade</th>
+				                  <th>Data de início</th>
+				                  <th>Data de término</th>
+				                  <th>&nbsp;</th>
+				                </tr>
+			              	</thead>
+			              	<tbody>
+			              	</tbody>
+			            </table>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="site-action">
+		<button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/coupon-create" data-toggle="slidePanel">
+		  <i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i>
+		  <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i>
+		</button>
+	</div>
+
+</div>
+<script id="tpl-coupon-row" type="text/x-handlebars-template">
+<tr data-idcoupon="{{idcoupon}}">
+	<td>{{descoupon}}</td>
+	<td>{{descoupontype}}</td>
+	<td>{{descode}}</td>
+	<td>{{nrdiscount}}</td>
+	<td>{{nrqtd}}</td>
+	<td>{{dtstart}}</td>
+	<td>{{dtend}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/coupons/{{idcoupon}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-coupon icon wb-trash">
+      	</button>
+	</td>
+</tr>
+</script>
+<script>
+
+init.push(function(){
+
+	var panel = System.getPanelApi($("#panel-coupons"));
+
+	var $tbody = $("#panel-coupons tbody");
+
+	var $tpl = Handlebars.compile($("#tpl-coupon-row").html());
+
+	function loadCoupons(){
+
+		$(".refresh").on("click", function(){
+			loadCoupons();
+		});
+
+		panel.load();
+
+		rest({
+			url:PATH+"/coupons/all",
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tpl(row));
+
+				});
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-coupon").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idcoupon = $btn.closest("tr").data("idcoupon");
+
+					System.confirm('Deseja remover o coupon?', function(b){
+				      	if (b) {
+
+					        System.load();
+
+					        rest({
+					          url: PATH+"/coupons/"+idcoupon,
+					          method:'DELETE',
+					          success: function(r){
+
+					            System.done();
+					            loadCoupons();
+					            System.success("Cupom excluído com sucesso");
+
+					          },
+					          failure: function(e){
+					            System.done();
+					            System.showError(e);
+					          }
+					        });
+
+				      	}
+				    });
+
+				});
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+
+	};
+
+	loadCoupons();
+
+});
+
+</script>

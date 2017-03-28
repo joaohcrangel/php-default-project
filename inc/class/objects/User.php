@@ -93,7 +93,7 @@ class User extends Model {
             throw new Exception("Usuário e/ou senha incorretos.", 403);
         }
 
-        $user = new user($data[0]);
+        $user = new User($data[0]);
 
         if (!$user->checkPassword($despassword)) {
             throw new Exception("Usuário e/ou senha incorretos.", 403);

@@ -14,7 +14,8 @@ class Configuration extends Model {
 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
             
@@ -50,6 +51,9 @@ class Configuration extends Model {
 
             }
 
+            // var_dump($this);
+            // exit;
+
             $this->queryToAttr("CALL sp_configurations_save(?, ?, ?, ?, ?);", array(
                 $this->getidconfiguration(),
                 $this->getdesconfiguration(),
@@ -62,13 +66,14 @@ class Configuration extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->execute("sp_configurations_remove", array(
             $this->getidconfiguration()

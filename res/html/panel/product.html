@@ -1,0 +1,423 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css">
+<style>
+.info-wrap .title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+}
+.image-wrap {
+	display: table-cell;
+    vertical-align: middle;
+}
+</style>
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$product.desproduct}</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0 app-media">
+	
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="product-tabs" data-plugin="tabs">
+	    <div class="panel-heading panel-heading-tab" id="tabs-product" style="border-radius: 0;">
+	    </div>
+	    <div class="panel-body p-t-20">
+	      <div class="tab-content">
+	        <div class="tab-pane active" id="tab-product" role="tabpanel">
+	          <form asutocomplete="off" id="form-product" class="slidePanel-form">
+			  	<div class="form-group form-material" data-plugin="formMaterial">
+			      <label class="form-control-label" for="desproduct">Produto</label>
+			      <input type="text" class="form-control" name="desproduct">
+					</div>
+					<div class="form-group form-material" data-plugin="formMaterial">
+			      <label class="form-control-label" for="idproducttype">Tipo do Produto</label>
+			      <select name="idproducttype" class="form-control" id="idproducttype"></select>
+			    </div>
+			    <div class="form-group form-material" data-plugin="formMaterial">
+			    	<label class="form-control-label" for="idproducttype">Preço</label>
+			    	<div class="input-group">
+	                    <span class="input-group-addon">R$</span>
+	                    <input type="number"  name="vlprice" class="form-control" step="0.01" min="0.01" pattern="[0-9]+([\,][0-9]+)?">
+	                </div>			      
+			    </div>
+			    <button type="submit" class="btn btn-block btn-primary" id="btn-product-salvar">Salvar</button>
+			  </form>
+	        </div>
+	        <div class="tab-pane" id="tab-product-price" role="tabpanel">
+	        	<div class="panel">
+		            <div class="panel-heading">
+		              <div class="panel-actions panel-actions-keep">
+		                <a id="btn-action-refresh" class="panel-action" href="#" aria-expanded="false" role="button"><i class="icon md-refresh" aria-hidden="true"></i></a>
+		              </div>
+		            </div>
+		            <div id="product-price-chart" style="width:100%; height: 250px;"></div>
+		            <table class="table table-hover">
+		              <thead>
+		                <tr>
+		                  <th>De</th>
+		                  <th>Até</th>
+		                  <th>Duração</th>
+		                  <th>Preço</th>
+		                  <th>&nbsp;</th>
+		                </tr>
+		              </thead>
+		              <tbody>
+		                
+		              </tbody>
+		            </table>
+		        </div>
+	          	
+	        </div>
+	        <div class="tab-pane" id="tab-product-photos" role="tabpanel">
+
+				<div class="panel">
+        			<div class="panel-heading">
+        				<div class="m-10 btn-group btn-group-flat">
+							<button id="btn-product-files-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button>
+							<button id="btn-product-files-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button>
+						</div>
+					</div>
+					<div class="panel-body p-b-0">
+						<ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul>
+					</div>
+					<div class="panel-footer">
+						<div id="pagination-files"></div>
+					</div>
+				</div>
+
+				<!-- <div class="panel">
+		            <div class="panel-heading">
+		              <div class="btn-group" aria-label="Basic example" role="group">
+	                    <button type="button" id="adicionar" class="btn btn-icon btn-success waves-effect">
+	                    	<i class="icon md-upload"  aria-hidden="true"></i> Adicionar</button>
+	                  </div>
+		              <div class="panel-actions panel-actions-keep">
+		                <a id="btn-action-refresh-photos" class="panel-action" href="#" aria-expanded="false" role="button"><i class="icon md-refresh" aria-hidden="true"></i></a>
+		              </div>
+		            </div>
+		            <div class="media-list p-0 m-t-20 is-grid">
+						<ul class="blocks blocks-100 blocks-xxl-4 blocks-xl-4 blocks-lg-4 blocks-md-4 blocks-sm-4" data-plugin="animateList" data-child=">li"></ul>
+			        </div>
+			    </div> -->
+	        </div>
+	      </div>
+	    </div>
+    </div>
+
+</div>
+<script id="tpl-product-file" type="text/x-handlebars-template">
+<li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" data-idfile="{{idfile}}" id="media_1" />
+      <label for="media_1"></label>
+    </div>
+    <div class="image-wrap">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
+    </div>
+    <div class="info-wrap">
+      <div class="title">{{desalias}}</div>
+    </div>
+  </div>
+</li>
+</script>
+<script id="tpl-product-price-row" type="text/x-handlebars-template">
+<tr>
+  <td>{{desdtstart}}</td>
+  <td>{{desdtend}}</td>
+  <td>{{desduration}}</td>
+  <td class="real">{{desvlprice}}</td>
+  <td>&nbsp;</td>
+</tr>
+</script>
+<script>
+
+var tpl = {
+	row:Handlebars.compile($('#tpl-product-price-row').html()),
+	photo:Handlebars.compile($('#tpl-product-file').html())
+};
+
+var product = JSON.parse('{function="json_encode($product)"}');
+
+var loadPrices = function loadPrices(callback) {
+
+	var panel = System.getPanelApi($('#product-tabs'));
+
+	panel.load();
+
+	rest({
+		url:PATH+"/products/"+product.idproduct+"/prices",
+		success:function(r){
+
+			if (typeof callback === 'function') callback(r.data);
+
+			panel.done();
+		},
+		failure:function(e){
+			System.showError(e);
+			panel.done();
+		}
+	});
+
+}
+
+var scoreChart = function scoreChart(element, labels, data) {
+
+	var scoreChart = new Chartist.Line(element, {
+		labels: labels,
+		series: [{
+		  name: 'series-1',
+		  data: data
+		}]
+		}, {
+		lineSmooth: Chartist.Interpolation.simple({
+		  divisor: 100
+		}),
+		fullWidth: true,
+		chartPadding: {
+		  right: 25
+		},
+		series: {
+		  'series-1': {
+		    showArea: false
+		  },
+		  'series-2': {
+		    showArea: false
+		  }
+		},
+		axisX: {
+		  showGrid: false
+		},
+		axisY: {
+		  scaleMinSpace: 40
+		},
+		//plugins: [Chartist.plugins.tooltip()],
+		low: 0,
+		width: $('#tab-product-price').width(),
+		height: 250
+	});
+
+	scoreChart.on('draw', function (data) {
+		if (data.type === 'point') {
+		  var parent = new Chartist.Svg(data.element._node.parentNode);
+		  parent.elem('line', {
+		    x1: data.x,
+		    y1: data.y,
+		    x2: data.x + 0.01,
+		    y2: data.y,
+		    class: 'ct-point-content'
+		  });
+		}
+	});
+
+}
+
+function loadFiles(page){
+
+	if(!page) page = 1;
+
+	var $panel = System.getPanelApi($("#tab-product-photos .panel"));
+
+	var $ul = $("#tab-product-photos ul");
+
+	var data = {
+		pagina:page
+	};
+
+	data.limit = Math.floor((window.innerHeight-373)/116);
+  	data.limit *= Math.floor($('#tab-product-photos').find('.blocks').width()/123);
+  	data.limit = (data.limit<5)?5:data.limit;
+
+	$panel.load();
+
+	rest({
+		url:PATH+"/products/"+product.idproduct+"/files",
+		data:data,
+		success:function(r){
+
+			$ul.html('');
+
+			$.each(r.data, function(index, row){
+
+				var $li = $(tpl.photo(row));
+
+				$ul.append($li);
+
+				$li.find("[type=checkbox]").on("change", function(){
+
+					var checked = $("#tab-product-photos ul [type=checkbox]:checked");
+
+					var disabled = (checked.length > 0): false ? true;
+
+					$("#btn-product-files-remove").prop("disabled", disabled);
+
+				});
+
+			});
+
+			if(r.total > 0){
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+					skin:'pagination-gap',
+					currentPage:r.currentPage,
+					itemsPerPage:r.itemsPerPage,
+					onChange:function(page){
+						loadFiles(page);
+					}
+				});
+
+				$("#pagination-files").show().asPaginator(r.total, config);
+
+			}else{
+				$("#pagination-files").hide();
+			}
+
+			$panel.done();
+
+		},
+		failure:function(r){
+			$panel.done();
+			System.showError(r);
+		}
+	})
+
+}
+
+// $('#product-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+// 	switch ($($(e.target).attr('href')).attr('id')) {
+
+// 		case 'tab-product-price':
+// 		$('#tab-product-price #btn-action-refresh').trigger('click');		
+// 		break;
+
+// 		case 'tab-product-photos':
+// 		loadFiles()
+// 		break;
+
+// 	}
+// });
+
+$("#btn-action-refresh-photos").on('click', function(){
+
+	rest({
+		url:PATH+"/products/"+product.idproduct+"/files",
+		success:function(r){
+
+			$("#tab-product-photos ul").html('');
+
+			$.each(r.data, function(index, file){
+
+				var $li = $(tpl.photo(file));
+				$("#tab-product-photos ul").append($li);
+
+			});
+
+		},
+		failure:function(e){
+			System.showError(e);
+		}
+	});
+
+});
+
+$('#tab-product-price #btn-action-refresh').on('click', function(){
+
+	var $btn = $(this);
+
+	$btn.btnload('load');
+
+	loadPrices(function(prices){
+
+		var data = [];
+		var labels = [];
+		var $tbody = $('#tab-product-price table tbody');
+
+		$tbody.html('');
+
+		$.each(prices, function(index, price){
+
+			data.push(price.vlprice);
+			labels.push(price.desdtstart);
+
+			var $tr = $(tpl.row(price));
+
+			$tbody.append($tr);
+
+		});
+
+		scoreChart('#product-price-chart', labels, data);
+
+		$btn.btnload('unload');
+
+	});
+
+});
+
+new Tab({
+	id:"tabs-product",
+	items:[{
+		title:"Produto",
+		id:"tab-product"
+	},{
+		title:"Histórico de Preços",
+		id:"tab-product-price"
+	},{
+		title:"Fotos",
+		id:"tab-product-photos"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch (event.tabContent.id) {
+
+				case 'tab-product-price':
+				$('#tab-product-price #btn-action-refresh').trigger('click');				
+				break;
+
+				case 'tab-product-photos':
+				loadFiles();
+				break;
+
+			}
+
+		}
+	}
+});
+
+$("#form-product").formLoad(product);
+
+$("#form-product [name=idproducttype]").combobox({
+	url:PATH+"/products/types",
+	displayField:"desproducttype",
+	valueField:"idproducttype",
+	value:product.idproducttype
+});
+  
+var form = $("#form-product");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/products",
+  params:{
+    idproduct:product.idproduct,
+    idprice:product.idprice,
+    inremoved:Number(product.inremoved)
+  },
+  success:function(){
+
+    form.find("button#btn-product-salvar").btnload("unload");
+    System.success("Produto salvo com sucesso");
+    $("#form-filtros [type=submit]").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-product-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});
+
+</script>

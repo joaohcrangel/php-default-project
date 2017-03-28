@@ -1,0 +1,95 @@
+<style>
+	.slidePanel{
+		overflow: overlay;
+	}
+</style>
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$state.desstate}</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0">
+
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+	    <div class="panel-heading panel-heading-tab" id="tabs-state" style="border-radius: 0;">	      
+	    </div>
+
+	    <div class="panel-body p-t-20">
+      		<div class="tab-content">
+	        	<div class="tab-pane active" id="tab-state" role="tabpanel">
+					<form id="form-state">
+	
+						<div class="form-group form-material" data-plugin="formMaterial">		
+							<label class="form-control-label">Nome</label>
+							<input type="text" name="desstate" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">UF</label>
+							<input type="text" name="desuf" class="form-control">
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">País</label>
+							<select name="idcountry" class="form-control"></select>
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+						</div>
+
+					</form>
+	        	</div>
+	        	<!-- fim da tab de dados do estado -->
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+
+var state = JSON.parse('{function="json_encode($state)"}');
+
+var form = $("#form-state");
+
+form.formLoad(state);
+
+$("[name=idcountry]").combobox({
+	url:PATH+"/countries/all",
+	displayField:"descountry",
+	valueField:"idcountry",
+	value:state.idcountry
+});
+
+form.form({
+	url:PATH+"/states",
+	resetForm:false,
+	params:{
+		idstate:state.idstate
+	},
+	success:function(){
+		System.success("Estado salvo com sucesso");
+		$(".slidePanel-close").trigger("click");
+		$("#form-filtros [type=submit]").trigger("click");
+	},
+	failure:function(r){
+		System.showError(r);
+	}
+});
+
+new Tab({
+	id:"tabs-state",
+	items:[{
+		title:"Dados",
+		id:"tab-state"
+	}]
+})
+
+</script>

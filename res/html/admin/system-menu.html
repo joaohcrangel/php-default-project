@@ -1,0 +1,488 @@
+<div class="page">
+    <div class="page-content">
+        <div class="row-fluid">
+            <div class="col-sm-6">
+                <div class="example-wrap">
+                    <h4 class="example-title">
+                        Menu do Sistema
+                    </h4>
+                    <div class="example">
+                        <div class="dd" data-plugin="nestable" id="manager-menu">
+                            {$menuHTML}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+            	<div class="example-wrap" id="sidePanel">
+
+            	</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="tpl-panel-permissions-li"  type="text/x-handlebars-template">
+<li class="list-group-item">
+    <div class="checkbox-custom checkbox-primary">
+        <input type="checkbox" id="inputSchedule-{{idpermission}}" value="{{idpermission}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-{{idpermission}}">
+            <span>
+                {{despermission}}
+            </span>
+        </label>
+    </div>
+</li>
+</script>
+<script id="tpl-panel-users-li" type="text/x-handlebars-template">
+<li class="list-group-item">
+    <div class="checkbox-custom checkbox-primary">
+        <input type="checkbox" id="inputSchedule-{{iduser}}" value="{{iduser}}" name="inputCheckboxesSchedule">
+        <label for="inputSchedule-{{iduser}}">
+            <div class="media">
+                <div class="media-left">
+                    <a class="avatar" href="javascript:void(0)">
+                        <img src="{$path}/res/theme/material/global/portraits/9.jpg" alt="">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div>
+                        <a class="name" href="javascript:void(0)">{{desperson}}</a>
+                    </div>
+                    <small>
+                        {{despermission}}
+                    </small>
+                </div>
+            </div>
+        </label>
+    </div>
+</li>
+</script>
+<script id="tpl-panel-load" type="text/x-handlebars-template">
+<div class="example-loading example-well h-300 vertical-align text-xs-center">
+  <div class="loader vertical-align-middle loader-circle"></div>
+</div>
+</script>
+<script id="tpl-panel-edit" type="text/x-handlebars-template">
+  <div class="nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs" id="menu-tabs">
+    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+    	<li class="nav-item" role="presentation">
+            <a class="nav-link active" data-toggle="tab" href="#tabMenuDados" aria-controls="tabMenuDados"
+            role="tab">
+      <i class="icon md-edit" aria-hidden="true"></i> Editar Menu
+    </a>
+        </li>
+        
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplPermissionsLi" data-ul-url="{$path}/menus/{{idmenu}}/permissions" href="#tabMenuPermissions" aria-controls="tabMenuPermissions"
+            role="tab">
+      <i class="icon md-lock" aria-hidden="true"></i> Permissões
+    </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-toggle="tab" data-ul-tpl="tplUsersLi" data-ul-url="{$path}/menus/{{idmenu}}/users" href="#tabMenuUsers" aria-controls="tabMenuUsers"
+            role="tab">
+      <i class="icon md-accounts" aria-hidden="true"></i> Usuários
+    </a>
+        </li>
+    </ul>
+    <div class="tab-content p-t-15">
+        <div class="tab-pane active" id="tabMenuDados" role="tabpanel">
+            <div class="panel">
+            	<form id="menu-editar">
+            		<div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="desmenu">Texto</label>
+	                  <input type="text" class="form-control" id="desmenu" name="desmenu" placeholder="Texto do menu">
+	                </div>
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="deshref">Href/Link</label>
+	                  <input type="text" class="form-control" id="deshref" name="deshref" placeholder="Link ou ação">
+	                </div>
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label" for="desicon">Icone</label>
+	                  <input type="text" class="form-control" id="desicon" name="desicon" placeholder="Icon">
+	                </div>
+	                <div class="form-group form-material p-b-10">
+                      <button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+                      <button type="button" class="btn btn-icon btn-delete btn-danger waves-effect pull-xs-right"><i class="icon md-delete" aria-hidden="true"></i></button>
+                    </div>
+            	</form>                    
+            </div>
+        </div>
+        <div class="tab-pane" id="tabMenuUsers" role="tabpanel">
+            <div class="panel">
+                <ul class="list-group list-group-full list-group-dividered">
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane" id="tabMenuPermissions" role="tabpanel">
+            <div class="panel">
+                <ul class="list-group list-group-full list-group-dividered">
+                    
+                </ul>
+                <div class="panel-footer p-10">
+                    <button type="button" class="btn btn-success btn-add waves-effect">
+                        <i class="icon md-plus" aria-hidden="true">
+                        </i>
+                        Adicionar
+                    </button>
+                    <button type="button" class="btn btn-danger btn-delete waves-effect pull-xs-right">
+                        <i class="icon md-close" aria-hidden="true">
+                        </i>
+                        Remover
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script>
+var menus_prepare = [];
+init.push(function(){
+
+    function resetMenu(callback){
+
+        rest({
+            url:PATH+"/users/menus/reset",
+            success:function(){
+
+                if (typeof callback === 'function') callback();
+
+            }
+        });
+
+    }
+
+    function saveMenu(index, menus, callback) {
+
+        if (index >= menus.length) {
+            resetMenu(callback);
+        } else {
+
+            var menu = menus[index];
+
+            rest({
+                url:PATH+"/menus/"+menu.idmenu,
+                method:'POST',
+                data:menu,
+                success:function(r){
+                    saveMenu(++index, menus, callback);
+                    $('[data-idmenu="'+menu.idmenu+'"]').removeClass('isLoading');
+                },
+                failure:function(e){
+                    saveMenu(++index, menus, callback);
+                    System.showError(e);
+                    $('[data-idmenu="'+menu.idmenu+'"]').removeClass('isLoading');
+                }
+            });
+
+        }
+
+    }
+
+    function saveMenus(menus, idmenufather){
+
+        $.each(menus, function(index, menu){
+
+            $('[data-idmenu="'+menu.idmenu+'"]').addClass('isLoading');
+
+            menu.idmenufather = idmenufather;
+            menu.nrorder = index;
+
+            menus_prepare.push(menu);
+
+            if (menu.children && menu.children.length > 0) saveMenus(menu.children, menu.idmenu);
+
+        });
+
+        return menus_prepare;
+
+    }
+
+	$('#manager-menu').on('change', function(e){
+
+		var list   = e.length ? e : $(e.target),
+            output = list.data('output');
+
+        menus_prepare = [];
+
+        System.load();
+
+        saveMenu(0, saveMenus(list.nestable('serialize'), 0), function(){
+
+            System.done();
+
+        });
+
+	});
+
+	function addEvents(_$li) {
+
+		_$li.find('.btn-add').on("click", function(e){
+
+			var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
+
+			$('#sidePanel').html(tplLoad({}));
+
+			var $li = $(e.target).closest('li');
+
+			var $ol =  $li.find('ol:first');
+
+			if (!$ol.length) {
+				$ol = $('<ol class="dd-list"></ol>');
+				$li.append($ol);
+			}
+
+			var $liParent = $li.closest('li.dd-item');
+			var idmenufather = ($liParent.length > 0)?$liParent.data('idmenu'):0;
+			var nrorder = $liParent.find('ol').find('li').length;
+
+			rest({
+				url:PATH+"/menus",
+				method:'POST',
+				data:{
+					idmenu:0,
+					idmenufather:idmenufather,
+					desmenu:'Novo Menu',
+					nrorder:nrorder
+				},
+				success:function(r){
+
+                    resetMenu(function(){
+
+                        var $liNew = $(
+                            '<li data-idmenu="'+r.data.idmenu+'" data-desmenu="'+r.data.desmenu+'" class="dd-item dd-item-alt">'+
+                                '<div class="dd-handle"></div>'+
+                                '<div class="dd-content"><span>'+r.data.desmenu+'</span>'+
+                                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>'+
+                                    '<button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>'+
+                                '</div>'+
+                            '</li>'
+                        );
+
+                        $ol.append($liNew);
+
+                        addEvents($liNew);
+
+                        $('#manager-menu').trigger('change');
+
+                        $liNew.find('.btn-edit').trigger('click');
+
+                    });
+
+				}
+			});
+
+		});
+
+		_$li.find('.btn-edit').on("click", function(e){
+
+			var $li = $(e.target).closest('li');
+			var tpl = Handlebars.compile($('#tpl-panel-edit').html());
+            var tplLoad = Handlebars.compile($('#tpl-panel-load').html());
+
+            var tplUl = {
+                tplUsersLi:Handlebars.compile($('#tpl-panel-users-li').html()),
+                tplPermissionsLi:Handlebars.compile($('#tpl-panel-permissions-li').html())
+            };
+			
+
+			$('#sidePanel').html(tplLoad({}));
+
+			rest({
+				url:PATH+"/menus/"+$li.data('idmenu'),
+				success:function(r){
+
+					var $html = $(tpl(r.data));
+
+					$html.find('#menu-editar').formLoad(r.data);
+
+					$html.find('#menu-editar').form({
+						url:PATH+"/menus/"+r.data.idmenu,
+						resetForm:false,
+						success:function(r){
+
+                            resetMenu(function(){
+
+                                $('#manager-menu li[data-idmenu="'+r.data.idmenu+'"]').data({
+                                    idmenu:r.data.idmenu,
+                                    desmenu:r.data.desmenu
+                                }).find('span').html(r.data.desmenu);
+
+                            });							
+
+						}
+					});
+
+					$html.find('#menu-editar').find('.btn-delete').on('click', function(){
+
+						var $btn = $(this);
+
+						System.confirm('Deseja excluir o menu '+$li.data('desmenu')+'?', function(confirm, s, f){
+
+							if (confirm) {
+
+								$btn.btnload('load');
+
+								rest({
+									url:PATH+"/menus/"+$li.data('idmenu'),
+									method:'DELETE',
+									success:function(r){
+
+										$('#manager-menu li[data-idmenu="'+$li.data('idmenu')+'"]').remove();
+										$('#sidePanel').html('');
+										s();
+
+									},
+									failure:function(r){
+
+										System.showError(r);
+										$btn.btnload('unload');
+										f();
+
+									}
+								});
+
+							}
+
+						});
+
+					});
+
+					$('#sidePanel').html($html);
+
+                    $html.find('#tabMenuPermissions').find('.btn-add').on('click', function(){
+
+                        $("body").selecionar({
+                            title:"Selecionar Permissões",
+                            fieldList:'despermission',
+                            multiple:true,
+                            cache:false,
+                            btnText:"Selecionar",
+                            url:PATH+"/menus/"+$li.data('idmenu')+"/permissions/faltantes",
+                            selected: function(permissions){
+                                
+                                var idpermission = [];
+
+                                $.each(permissions, function(){
+                                    idpermission.push(this.idpermission);
+                                });
+
+                                if (permissions.length > 0) {
+
+                                    rest({
+                                        url:PATH+"/menus/"+$li.data('idmenu')+"/permissions",
+                                        method:'POST',
+                                        data:{
+                                            idpermission:idpermission.toString()
+                                        },
+                                        success:function(r){
+
+                                            resetMenu(function(){
+
+                                                var $ul = $html.find('#tabMenuPermissions').find('ul');
+
+                                                $.each(r.data, function(index, permission){
+                                                    $ul.append($(tplUl.tplPermissionsLi(permission)));
+                                                });  
+
+                                            });                                                                                      
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+                        });
+
+                    });
+
+                    $html.find('#tabMenuPermissions').find('.btn-delete').on('click', function(){
+
+                        var idpermission = [];
+                        var $btn = $(this);
+
+                        $btn.closest('.panel').find('input:checked').each(function(){
+
+                            idpermission.push(this.value);
+
+                        });
+
+                        if (idpermission.length > 0) {
+
+                            $btn.btnload('load');
+
+                            rest({
+                                url:PATH+"/menus/"+$li.data('idmenu')+"/permissions",
+                                method:'DELETE',
+                                data:{
+                                    idpermission:idpermission.toString()
+                                },
+                                success:function(r){
+
+                                    resetMenu(function(){
+
+                                        $btn.closest('.panel').find('input:checked').each(function(){
+                                            $(this).closest('li').remove();
+                                        });
+
+                                        $btn.btnload('unload');
+
+                                    });                                    
+
+                                },
+                                failure:function(e){
+
+                                    System.showError(e);
+                                    $btn.btnload('unload');
+
+                                }
+                            });
+
+                        }
+
+                    });
+
+                    $html.find('a[data-toggle="tab"]').on('click', function (e) {
+                        
+                        var $tab = $(this), $panel = $($tab.attr('href')), $ul = $panel.find('ul');
+
+                        if (!$tab.data('loaded'+$tab.data('ul-url'))) {
+
+                            rest({
+                                url:$tab.data('ul-url'),
+                                success:function(r){
+
+                                    $tab.data('loaded'+$tab.data('ul-url'), true);
+
+                                    $ul.html('');
+
+                                    $.each(r.data, function(index, user){
+
+                                        $ul.append(tplUl[$tab.data('ul-tpl')](user));
+
+                                    });
+
+                                }
+                            });
+
+                        }
+
+                    });
+
+				}
+			});
+
+		});
+
+	}
+
+	$('#manager-menu li').each(function(){
+		addEvents($(this));
+	});
+
+});
+</script>

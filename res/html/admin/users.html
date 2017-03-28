@@ -69,12 +69,11 @@
           <i class="back-icon wb-close animation-scale-up" aria-hidden="true"></i>
         </button>
         <div class="site-action-buttons" style="top:-70px;">
-          <button ng-click="excluirUsers(users)" type="button" class="btn-raised btn btn-danger btn-floating animation-slide-bottom animation-delay-100" title="Excluir Usuário(s)" id="btn-excluir-user">
+          <button ng-click="excluirUsers(users)" type="button" class="btn-raised btn btn-danger btn-floating animation-slide-bottom animation-delay-100" title="Excluir Usuário(s)" id="btn-excluir-usuario">
             <i class="icon wb-trash" aria-hidden="true"></i>
           </button>
         </div>
       </div>
-
       <div class="modal fade modal-success in" id="addUserForm" aria-hidden="true" aria-labelledby="addUserForm" role="dialog" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -180,7 +179,8 @@
             success:function(users){
 
               $btn.btnload("unload");
-              $("#addUserForm").modal("hide");
+              $("#adduserForm").modal("hide");
+
               $scope.users = users;
 
             },
@@ -203,7 +203,7 @@
 
     };
 
-    $scope.excluirUsers = function(users){
+    $scope.excluirusers = function(users){
 
       var panel = $("#panel-list");
 

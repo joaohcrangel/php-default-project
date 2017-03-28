@@ -290,7 +290,8 @@ class Person extends Model {
         $this->getPhotoURL();
 
         $address = $this->getAddress();
-        $address->setdesenderecoresumido($address->getToString(Endereco::SUMMARY));
+
+        $address->setdesaddressresumido($address->getToString(Address::SUMMARY));
 
         if ($this->getdescpf()) {
             $cpf = $this->getDocument(DocumentType::CPF);

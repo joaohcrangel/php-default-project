@@ -1,0 +1,201 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css"><style>#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Arquivos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome do Arquivo</label><input type="text" class="form-control" name="desfile"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Tipo do Arquivo</label><select name="desextension" class="form-control"><option value="">-- SELECIONE --<option value="gif">Imagem GIF<option value="jpg">Imagem JPG<option value="png">Imagem PNG<option value="pdf">Documento PDF</select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main" id="file-page"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mediaContent" class="page-content page-content-table" data-plugin="asSelectable"><div id="btn-excluir" class="page-content-actions p-10"><div id="arrangement-grid" class="pull-xs-left"></div><div class="actions-inner"><div class="checkbox-custom checkbox-primary checkbox-lg p-t-0"><input type="checkbox" id="media_all" class="selectable-all"><label for="media_all"></label></div></div></div><div id="tab-file-fotos" data-auto-height="-360"><div class="media-list is-grid" data-plugin="animateList" data-animate="fade" data-child="li"><ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul></div></div></div><div id="pagination"></div></div></div><script id="tpl-file-page" type="text/x-handlebars-template"><li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" id="media_1" />
+      <label for="media_1"></label>
+    </div>
+    <div class="image-wrap">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
+    </div>
+    <div class="info-wrap">
+      <div class="title">{{desalias}}</div>
+    </div>
+  </div>
+</li></script><script>init.push(function(){
+
+  var panel = System.getPanelApi($('#file-page'));
+
+  var $tplFilePage = Handlebars.compile($('#tpl-file-page').html());
+
+  $("#form-filtros [type=submit]").on("click", function(e){
+  
+    e.preventDefault();
+
+    carregarFiles();
+    
+  });
+
+  function carregarFiles(pagina){
+
+    if(!pagina) pagina = 1;
+
+    var data = $("#form-filtros").formValues();
+
+    data.pagina = pagina;
+    data.limite = Math.floor((window.innerHeight-360)/126);
+    data.limite *= Math.floor($('.media-list').width()/126);
+    data.limite = (data.limite<5)?5:data.limite;
+
+    rest({
+      url:PATH+"/files",
+      data:data,
+      success:function(r){
+
+        $("#tab-file-fotos ul").html('');
+
+        $.each(r.data, function(index, file){
+
+          var $li = $($tplFilePage(file));
+
+          $li.data('file', file);
+
+          $("#tab-file-fotos ul").append($li);
+
+        });
+
+        if (r.total > 0) {
+
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage:r.currentPage,
+            itemsPerPage:r.itemsPerPage,
+            onChange:function(page){
+              carregarFiles(page);
+            }
+          });
+
+          $("#pagination").show().asPaginator(r.total, config);
+
+        } else {
+
+          $("#pagination").hide();
+
+        }
+
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+
+  }
+
+  carregarFiles();
+  
+  $("#arrangement-list").on("click", function(){
+    
+    $(this).addClass('active');
+    $("#arrangement-grid").removeClass('active');
+    $(".media-list").addClass('is-list').removeClass('is-grid');
+  });
+
+  $("#arrangement-grid").on("click", function(){
+    
+    $(this).addClass('active');
+    $("#arrangement-list").removeClass('active');
+    $(".media-list").addClass('is-grid').removeClass('is-list');
+    
+  });
+
+  var btnAddClick = function(){
+    $.upload({
+      multiple:true,
+      url:PATH+"/files",
+      accept:"*",
+      modalInfo:true,
+      success:function(r){
+        console.log('upload', r);
+        carregarFiles();
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+  };
+
+  var btnAddListneres = {
+    click:btnAddClick
+  };
+
+  new ToolBar({
+      id:"actions-buttons",
+      buttons:[{
+        text:"Adicionar",
+        icon:"md-upload",
+        cls:"btn-success",
+        listeners:btnAddListneres
+      },{
+        text:"Lista",
+        cls:"default",
+        icon:"md-view-list",
+        listeners:{
+          click:function(){
+
+            $(this).addClass('active');
+            $("#arrangement-grid").removeClass('active');
+            $(".media-list").addClass('is-list').removeClass('is-grid');
+
+          }
+        }
+      },{
+        text:"Grade",
+        cls:"default",
+        icon:"md-view-module",
+        listeners:{
+          click:function(){
+
+            $(this).addClass('active');
+            $("#arrangement-list").removeClass('active');
+            $(".media-list").addClass('is-grid').removeClass('is-list');
+
+          }
+        }
+      },{
+        text:"Excluir",
+        icon:"md-delete",
+        cls:"btn-danger",
+        handler:function(){
+
+          var ids = [];
+
+          $("#tab-file-fotos ul li input:checked").each(function(){
+
+            var $li = $(this).closest("li");
+
+            var file = $li.data('file');
+        
+            ids.push(file.idfile);
+
+          });
+
+          rest({
+            url:PATH+"/files",
+            method:"DELETE",
+            data:{
+              ids:ids.toString()
+            },
+            success:function(){
+
+              $("#tab-file-fotos ul li input:checked").each(function(){
+                $(this).closest("li").remove();
+              });
+              carregarFiles();
+
+            }
+          });
+        }
+      }]
+  });
+
+});</script>

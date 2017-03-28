@@ -99,7 +99,7 @@ class Session extends DefaultObject {
 
 	}
 	
-	public static function setUser(\User $user, $inCookie = false):User
+	public static function setUser(User $user, $inCookie = false):User
 	{
 
 		if ($inCookie === true) {

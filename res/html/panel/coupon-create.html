@@ -1,0 +1,76 @@
+{include="panel-header"}
+<header class="slidePanel-header">
+	<div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+		<div class="slidePanel-actions" aria-label="actions" role="group">
+		  <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+		</div>
+		<h1>Criar novo cupom</h1>
+	</div>
+</header>
+
+<div class="slidePanel-inner">
+	
+	<form id="form-cupom-save" class="slidePanel-form">	
+		<div class="form-group">
+		  	<div class="form-group form-material">
+		  		<input type="hidden" name="idcoupon">
+			    <label>Cupom</label>
+			    <input type="text" class="form-control" name="descoupon">
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Tipo do cupom</label>
+			    <select name="idcoupontype" class="form-control"></select>
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Desconto</label>
+			    <input type="number" class="form-control" name="nrdiscount">
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Código</label>
+			    <input type="text" class="form-control" name="descode">
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Quantidade</label>
+			    <input type="text" class="form-control" name="nrqtd">
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Início da Validade</label>
+			    <input type="text" class="form-control" name="dtstart">
+		  	</div>
+		  	<div class="form-group form-material">
+			    <label>Término da Validade</label>
+			    <input type="text" class="form-control" name="dtend">
+		  	</div>		  	
+		  	<button class="btn btn-block btn-primary" id="btnCouponSave" type="submit">Salvar Novo Cupom</button>
+		</div>
+	</form>
+
+</div>
+
+<script>
+
+	$("[name=idcoupontype]").combobox({
+		url:PATH+"/coupons/types",
+		displayField:"descoupontype",
+		valueField:"idcoupontype"
+	});
+
+	var form = $("#form-coupon-save");
+
+  	form.form({
+  		url:PATH+"/coupons",
+  		success:function(){
+
+  			form.find("button#btnCouponSave").btnload("unload");
+  			System.success("Cupom criado com sucesso");
+  			$(".slidePanel-close").trigger("click");
+  			$(".refresh").trigger("click");
+
+  		},
+  		failure:function(r){
+  			form.find("button#btnCouponSave").btnload("unload");
+  			System.showError(r);
+  		}
+  	});
+
+</script>

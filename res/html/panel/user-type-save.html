@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+    <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+        <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions"
+        role="group">
+            <button type="button" class="btn btn-pure slidePanel-close icon md-close"
+            aria-hidden="true">
+            </button>
+        </div>
+        <h4 class="stage-name">
+            <h5 class="taskboard-stage-title text-uppercase">
+                Editar Tipo
+            </h5>
+        </h4>
+    </div>
+</header>
+<div class="slidePanel-inner">
+    <div class="panel">
+        <div class="panel-body p-x-0">
+            <form id="form-user-type-save">
+                <div class="form-group">
+                    <div class="form-group form-material">
+                        <input type="hidden" name="idusertype">
+                        <label>
+                            Nome
+                        </label>
+                        <input type="text" class="form-control" name="desusertype">
+                    </div>
+                    <button class="btn btn-block btn-primary" id="btnuser-type-Save" type="submit">
+                        Salvar Tipo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+var userType = JSON.parse('{function="json_encode($usertype)"}');
+
+$("#form-user-type-save").formLoad(userType);
+
+$("#form-user-type-save").form({
+  url:PATH+"/users-types",
+  params:{
+    idusertype:userType.idusertype
+  },
+  success:function(){
+    System.success("Tipo salvo com sucesso");
+    $(".slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+  },
+  failure:function(r){
+    System.showError(r);
+  }
+});
+
+
+</script>

@@ -883,14 +883,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuorders->save();
 	//////////////////////////////////////
-	$menuCarrinhos = new Menu(array(
+	$menuCarts = new Menu(array(
 		"nrorder"=>6,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-shopping-cart",
-		"deshref"=>"/carrinhos",
+		"deshref"=>"/carts",
 		"desmenu"=>$lang->getString('menus_carts')
 	));
-	$menuCarrinhos->save();
+	$menuCarts->save();
 	//////////////////////////////////////
 	$menuplaces = new Menu(array(
 		"nrorder"=>7,

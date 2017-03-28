@@ -619,7 +619,7 @@ $app->get("/panel/carts/:idcart", function($idcart){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carrinho", array(
+	$page->setTpl("panel/cart", array(
 		"cart"=>$cart->getFields()
 	));
 

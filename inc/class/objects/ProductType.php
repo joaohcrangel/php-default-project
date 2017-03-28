@@ -37,7 +37,7 @@ class ProductType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_productstypes_remove", array(
+        $this->proc("sp_productstypes_remove", array(
             $this->getidproducttype()
         ));
 

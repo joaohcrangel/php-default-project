@@ -23,10 +23,9 @@ class DocumentType extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_documentstypes_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_documentstypes_save(?, ?);", array(
                 $this->getiddocumenttype(),
-                $this->getdesdocumenttype(),
-                $this->getdtregister()
+                $this->getdesdocumenttype()
             ));
 
             return $this->getiddocumenttype();
@@ -42,7 +41,7 @@ class DocumentType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_documentstypes_remove", array(
+        $this->proc("sp_documentstypes_remove", array(
             $this->getiddocumenttype()
         ));
 

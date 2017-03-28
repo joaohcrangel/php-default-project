@@ -1,5 +1,6 @@
 <?php
-class file extends Model {
+
+class File extends Model {
 
     public $required = array('desdirectory', 'desfile', 'desextension', 'desalias');
     protected $pk = "idfile";
@@ -40,18 +41,18 @@ class file extends Model {
     public function remove():bool
     {
 
-        $configs = Session::getSettings();
+        $configs = Session::getConfigurations();
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
         if ($this->getdesdirectory()) {
             $uploadDir .= $this->getdesdirectory();
         }
 
-        if (!$this->getidfile() > 0) {
+        if (!(int)$this->getidfile() > 0) {
             throw new Exception("Informe o ID do arquivo.");
         }
 
-        if ($this->getidfile() > 0 && (!$this->getdesfile() | !$this->getdesextension())) {
+        if ($this->getidfile() > 0 && (!$this->getdesfile() || !$this->getdesextension())) {
             $this->reload();
         }
 
@@ -65,7 +66,7 @@ class file extends Model {
 
         if ($deleted) {
 
-            $this->execute("sp_files_remove", array(
+            $this->proc("sp_files_remove", array(
                 $this->getidfile()
             ));
 
@@ -91,7 +92,7 @@ class file extends Model {
     public function getdesurl():string
     {
 
-        $configs = Session::getSettings();
+        $configs = Session::getConfigurations();
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
         if ($this->getdesdirectory()) {
@@ -121,7 +122,7 @@ class file extends Model {
             throw new RuntimeException('O arquivo excedeu o tamanho máximo de '.ini_get('upload_max_filesize').'.');
         }
 
-        $configs = Session::getSettings();
+        $configs = Session::getConfigurations();
         $mimes = $configs->getByName('UPLOAD_MIME_TYPE');
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
@@ -184,7 +185,7 @@ class file extends Model {
 
         $desname = uniqid();
 
-        $configs = Session::getSettings();
+        $configs = Session::getConfigurations();
         $mimes = $configs->getByName('UPLOAD_MIME_TYPE');
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 

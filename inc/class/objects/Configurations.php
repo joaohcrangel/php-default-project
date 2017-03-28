@@ -42,7 +42,7 @@ class Configurations extends Collection {
     		
     		if ($item->getdesconfiguration() === $name) {
 
-    			return $item->getdesvalue();
+    			return $item->getValue();
     			
     			break;
 

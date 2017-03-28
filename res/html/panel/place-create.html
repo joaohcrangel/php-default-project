@@ -8,18 +8,18 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
     	<button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo lugar</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo place</h5></h4>
   </div>  
 </header>
-<div class="slidePanel-inner">
+<div class="slidePanel-inner m-0 p-0">
 
-	<form id="form-lugar">
+	<form id="form-place">
 
 		<input type="hidden" name="vllatitude">
 		<input type="hidden" name="vllongitude">
 		<input type="hidden" name="nrzoom">
 
-		<input type="hidden" name="idlugarpai">
+		<input type="hidden" name="idplacepai">
 
 		<div class="panel m-0" style="box-shadow:none">
 
@@ -29,12 +29,12 @@
 
 					<div class="form-group col-xs-12 col-md-8">
 						<label class="form-control-label">Lugar</label>
-						<input type="text" class="form-control" name="deslugar">
+						<input type="text" class="form-control" name="desplace">
 					</div>
 
 					<div class="form-group col-xs-12 col-md-4">
-						<label class="form-control-label">Tipo do Lugar</label>
-						<select name="idlugartipo" class="form-control"></select>
+						<label class="form-control-label">Tipo do lugar</label>
+						<select name="idplacetype" class="form-control"></select>
 					</div>
 
 				</div>
@@ -51,26 +51,26 @@
 	                        <input type="text" class="form-control" id="descep" name="descep">
                       	</div>
                       	<div class="form-group col-xs-12 col-md-6">
-	                        <label class="form-control-label" for="desendereco">Endereço</label>
-	                        <input type="text" class="form-control" id="desendereco" name="desendereco">
+	                        <label class="form-control-label" for="desaddress">Endereço</label>
+	                        <input type="text" class="form-control" id="desaddress" name="desaddress">
 	                    </div>
 	                    <div class="form-group col-xs-12 col-md-3">
-	                        <label class="form-control-label" for="desnumero">Número</label>
-	                        <input type="text" class="form-control" id="desnumero" name="desnumero">
+	                        <label class="form-control-label" for="desnumber">Número</label>
+	                        <input type="text" class="form-control" id="desnumber" name="desnumber">
 	                    </div>
                     </div>
 	                <div class="row">
 	                    <div class="form-group col-xs-12 col-md-3">
-	                        <label class="form-control-label" for="descomplemento">Complemento</label>
-	                        <input type="text" class="form-control" id="descomplemento" name="descomplemento">
+	                        <label class="form-control-label" for="descomplement">Complemento</label>
+	                        <input type="text" class="form-control" id="descomplement" name="descomplement">
 	                    </div>
 	                    <div class="form-group col-xs-12 col-md-4">
-	                        <label class="form-control-label" for="desbairro">Bairro</label>
-	                        <input type="text" class="form-control" id="desbairro" name="desbairro">
+	                        <label class="form-control-label" for="desdistrict">Bairro</label>
+	                        <input type="text" class="form-control" id="desdistrict" name="desdistrict">
 	                    </div>
 	                    <div class="form-group col-xs-12 col-md-5">
-	                        <label class="form-control-label" for="descidade">Cidade</label>
-	                        <input type="text" class="form-control" id="descidade" name="descidade">
+	                        <label class="form-control-label" for="descity">Cidade</label>
+	                        <input type="text" class="form-control" id="descity" name="descity">
 	                        <input type="hidden" name="desuf">
 	                    </div>
 
@@ -132,24 +132,24 @@ function initMap(){
 
 }
 
-var form = $("#form-lugar");
+var form = $("#form-place");
 	
-$("[name=idlugartipo]").combobox({
-	url:PATH+"/lugares-tipos",
-	displayField:"deslugartipo",
-	valueField:"idlugartipo"
+$("[name=idplacetype]").combobox({
+	url:PATH+"/places-types",
+	displayField:"desplacetype",
+	valueField:"idplacetype"
 });
 
 form.form({
-	url:PATH+"/lugares",
+	url:PATH+"/places",
 	params:{
-		idlugar:0,
-		idendereco:0,
-		idenderecotipo:2
+		idplace:0,
+		idaddress:0,
+		idaddresstype:2
 	},
 	resetForm:false,
 	success:function(){
-		System.success("Lugar salvo com sucesso");
+		System.success("Lugar criado com sucesso");
 		$(".slidePanel-close").trigger("click");
 		$("#form-filtros [type=submit]").trigger("click");
 	},
@@ -158,22 +158,22 @@ form.form({
 	}
 });
 
-$(form).find('[name=descidade]').combobox({
-	url:PATH+"/enderecos/cidades",
+$(form).find('[name=descity]').combobox({
+	url:PATH+"/addresses/cities",
 	autoComplete:true,
-	displayField:'descidade',
+	displayField:'descity',
 	displayFieldRight:'desuf',
-	valueField:'idcidade',
+	valueField:'idcity',
 	submitValue:true,
-	hiddenName:'idcidade'
+	hiddenName:'idcity'
 });
 
 $(form).find('[name=descep]').formValueCheck({
-    url:PATH+"/enderecos/cep",
+    url:PATH+"/addresses/cep",
     success:function(r){
       form.formLoad(r);
-      $(form).find('[name=descidade]').trigger('change');
-      $(form).find('[name=desnumero]').trigger('focus');
+      $(form).find('[name=descity]').trigger('change');
+      $(form).find('[name=desnumber]').trigger('focus');
     }
   });
 

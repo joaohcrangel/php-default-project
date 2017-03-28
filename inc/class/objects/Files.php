@@ -5,7 +5,7 @@ class Files extends Collection {
     protected $class = "file";
     protected $saveQuery = "sp_files_save";
     protected $saveArgs = array("idfile", "desdirectory", "desfile", "desextension", "desname");
-    protected $pk = "idarquivo";
+    protected $pk = "idfile";
 
     public function get(){}
 
@@ -45,11 +45,11 @@ class Files extends Collection {
             ));
         }
 
-        $files = new Files();
+        $file = new Files();
 
         foreach ($files as $f) {
             
-            $arquivos->add(Files::upload(
+            $file->add(File::upload(
                 $f['name'],
                 $f['type'],
                 $f['tmp_name'],
@@ -59,7 +59,7 @@ class Files extends Collection {
 
         }
 
-        return $files;
+        return $file;
 
     }
 

@@ -27,7 +27,7 @@ class Configurations extends Collection {
 
     	foreach ($this->getItens() as $item) {
     		
-    		$names[$item->getdesconfiguration()] = $item->getValue();
+    		$names[$item->getdesconfiguration()] = $item->getdesvalue();
 
     	}
 
@@ -42,7 +42,7 @@ class Configurations extends Collection {
     		
     		if ($item->getdesconfiguration() === $name) {
 
-    			return $item->getValue();
+    			return $item->getdesvalue();
     			
     			break;
 

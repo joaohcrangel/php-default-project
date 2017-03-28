@@ -24,7 +24,7 @@ class Product extends Model {
                 $this->getidproducttype(),
                 $this->getdesproduct(),
                 $this->getinremoved(),
-                $this->getdtregister()
+                $this->getvlprice()
             ));
 
             return $this->getidproduct();
@@ -40,7 +40,7 @@ class Product extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_products_remove", array(
+        $this->proc("sp_products_remove", array(
             $this->getidproduct()
         ));
 

@@ -12,7 +12,7 @@ $app->get("/panel/products/:idproduct", function($idproduct){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/produto", array(
+	$page->setTpl("panel/product", array(
 		"product"=>$product->getFields(),
 		"diretorio"=>$conf->getByName("UPLOAD_DIR")
 	));
@@ -26,7 +26,7 @@ $app->get("/panel/product-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/produto-create");
+	$page->setTpl("panel/product-create");
 
 });
 
@@ -360,7 +360,7 @@ $app->get("/panel/products-types/:idproducttype", function($idproducttype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/produto-tipo-salvar", array(
+	$page->setTpl("panel/product-tipo-salvar", array(
 		"product"=>$product->getFields()
 	));
 
@@ -373,7 +373,7 @@ $app->get("/panel/products-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/produto-tipo-create");
+	$page->setTpl("panel/product-tipo-create");
 
 });
 /////////////////////////////////////////

@@ -40,7 +40,7 @@ class PersonType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_personstypes_remove", array(
+        $this->proc("sp_personstypes_remove", array(
             $this->getidpersontype()
         ));
 

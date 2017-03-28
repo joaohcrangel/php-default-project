@@ -117,13 +117,13 @@ $app->delete("/coupons-types/:idcoupontype", function($idcoupontype){
 		throw new Exception("Tipo de cupom não informado", 400);		
 	}
 
-	$type = new CouponType((int)$idcoupontype);
+	$coupon = new CouponType((int)$idcoupontype);
 
-	if(!(int)$type->getcoupontype() > 0){
+	if(!(int)$coupon->getidcoupontype() > 0){
 		throw new Exception("Tipo de cupom não encontrado", 404);		
 	}
 
-	$type->remove();
+	$coupon->remove();
 
 	echo success();
 

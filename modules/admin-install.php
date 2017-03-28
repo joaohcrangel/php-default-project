@@ -2649,12 +2649,12 @@ $app->get("/install-admin/sql/places/get", function(){
 	
 });
 
-$app->get("/install-admin/sql/lugaresvalorescampo/get", function(){
+$app->get("/install-admin/sql/placesvaluesfield/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		
-		'sp_lugaresvalorescampo_get'
+		'sp_placesvaluesfield_get'
 	);
 	saveProcedures($procs);
 	

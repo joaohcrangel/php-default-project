@@ -40,7 +40,7 @@ class UserType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_userstypes_remove", array(
+        $this->proc("sp_userstypes_remove", array(
             $this->getidusertype()
         ));
 

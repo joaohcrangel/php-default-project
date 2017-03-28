@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-cupons-tipos">
+            <form id="form-coupons-types">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idcupomtipo">
+                        <input type="hidden" name="idcoupontype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="descupomtipo">
+                        <input type="text" class="form-control" name="descoupontype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn produtos-tipos" type="submit">
+                    <button class="btn btn-block btn-primary" id="btn product-types" type="submit">
                         Salvar Novo Cupom
                     </button>
                 </div>
@@ -35,8 +35,8 @@
     </div>
 </div>
 <script>
-$("#form-cupons-tipos").form({
-    url: PATH + "/cupons-tipos",
+$("#form-coupons-types").form({
+    url: PATH + "/coupons-types",
     success: function() {
         System.success("Cupom criado com sucesso");
         $(".slidePanel-close").trigger("click");

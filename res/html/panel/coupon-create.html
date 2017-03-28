@@ -13,21 +13,21 @@
 	<form id="form-cupom-save" class="slidePanel-form">	
 		<div class="form-group">
 		  	<div class="form-group form-material">
-		  		<input type="hidden" name="idcupom">
+		  		<input type="hidden" name="idcoupon">
 			    <label>Cupom</label>
-			    <input type="text" class="form-control" name="descupom">
+			    <input type="text" class="form-control" name="descoupon">
 		  	</div>
 		  	<div class="form-group form-material">
 			    <label>Tipo do cupom</label>
-			    <select name="idcupomtipo" class="form-control"></select>
+			    <select name="idcoupontype" class="form-control"></select>
 		  	</div>
 		  	<div class="form-group form-material">
 			    <label>Desconto</label>
-			    <input type="number" class="form-control" name="nrdesconto">
+			    <input type="number" class="form-control" name="nrdiscount">
 		  	</div>
 		  	<div class="form-group form-material">
 			    <label>Código</label>
-			    <input type="text" class="form-control" name="descodigo">
+			    <input type="text" class="form-control" name="descode">
 		  	</div>
 		  	<div class="form-group form-material">
 			    <label>Quantidade</label>
@@ -35,13 +35,13 @@
 		  	</div>
 		  	<div class="form-group form-material">
 			    <label>Início da Validade</label>
-			    <input type="text" class="form-control" name="dtinicio">
+			    <input type="text" class="form-control" name="dtstart">
 		  	</div>
 		  	<div class="form-group form-material">
 			    <label>Término da Validade</label>
-			    <input type="text" class="form-control" name="dttermino">
+			    <input type="text" class="form-control" name="dtend">
 		  	</div>		  	
-		  	<button class="btn btn-block btn-primary" id="btnCupomSave" type="submit">Salvar Novo Cupom</button>
+		  	<button class="btn btn-block btn-primary" id="btnCouponSave" type="submit">Salvar Novo Cupom</button>
 		</div>
 	</form>
 
@@ -49,26 +49,26 @@
 
 <script>
 
-	$("[name=idcupomtipo]").combobox({
-		url:PATH+"/cupons/tipos",
-		displayField:"descupomtipo",
-		valueField:"idcupomtipo"
+	$("[name=idcoupontype]").combobox({
+		url:PATH+"/coupons/types",
+		displayField:"descoupontype",
+		valueField:"idcoupontype"
 	});
 
-	var form = $("#form-cupom-save");
+	var form = $("#form-coupon-save");
 
   	form.form({
-  		url:PATH+"/cupons",
+  		url:PATH+"/coupons",
   		success:function(){
 
-  			form.find("button#btnCupomSave").btnload("unload");
+  			form.find("button#btnCouponSave").btnload("unload");
   			System.success("Cupom criado com sucesso");
   			$(".slidePanel-close").trigger("click");
   			$(".refresh").trigger("click");
 
   		},
   		failure:function(r){
-  			form.find("button#btnCupomSave").btnload("unload");
+  			form.find("button#btnCouponSave").btnload("unload");
   			System.showError(r);
   		}
   	});

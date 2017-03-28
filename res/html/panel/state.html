@@ -9,23 +9,23 @@
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
-    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$estado.desestado}</h5></h4>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$state.desstate}</h5></h4>
   </div>  
 </header>
 <div class="slidePanel-inner m-0 p-0">
 
 	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
-	    <div class="panel-heading panel-heading-tab" id="tabs-estado" style="border-radius: 0;">	      
+	    <div class="panel-heading panel-heading-tab" id="tabs-state" style="border-radius: 0;">	      
 	    </div>
 
 	    <div class="panel-body p-t-20">
       		<div class="tab-content">
-	        	<div class="tab-pane active" id="tab-estado" role="tabpanel">
-					<form id="form-estado">
+	        	<div class="tab-pane active" id="tab-state" role="tabpanel">
+					<form id="form-state">
 	
 						<div class="form-group form-material" data-plugin="formMaterial">		
 							<label class="form-control-label">Nome</label>
-							<input type="text" name="desestado" class="form-control">
+							<input type="text" name="desstate" class="form-control">
 						</div>
 
 						<div class="form-group form-material" data-plugin="formMaterial">
@@ -35,7 +35,7 @@
 
 						<div class="form-group form-material" data-plugin="formMaterial">
 							<label class="form-control-label">País</label>
-							<select name="idpais" class="form-control"></select>
+							<select name="idcountry" class="form-control"></select>
 						</div>
 
 						<div class="form-group form-material" data-plugin="formMaterial">
@@ -55,24 +55,24 @@
 
 <script>
 
-var estado = JSON.parse('{function="json_encode($estado)"}');
+var state = JSON.parse('{function="json_encode($state)"}');
 
-var form = $("#form-estado");
+var form = $("#form-state");
 
-form.formLoad(estado);
+form.formLoad(state);
 
-$("[name=idpais]").combobox({
-	url:PATH+"/paises/all",
-	displayField:"despais",
-	valueField:"idpais",
-	value:estado.idpais
+$("[name=idcountry]").combobox({
+	url:PATH+"/countries/all",
+	displayField:"descountry",
+	valueField:"idcountry",
+	value:state.idcountry
 });
 
 form.form({
-	url:PATH+"/estados",
+	url:PATH+"/states",
 	resetForm:false,
 	params:{
-		idestado:estado.idestado
+		idstate:state.idstate
 	},
 	success:function(){
 		System.success("Estado salvo com sucesso");
@@ -85,10 +85,10 @@ form.form({
 });
 
 new Tab({
-	id:"tabs-estado",
+	id:"tabs-state",
 	items:[{
 		title:"Dados",
-		id:"tab-estado"
+		id:"tab-state"
 	}]
 })
 

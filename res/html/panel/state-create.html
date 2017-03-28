@@ -13,11 +13,11 @@
 </header>
 <div class="slidePanel-inner m-t-40">
 	
-	<form id="form-estado">
+	<form id="form-state">
 	
 		<div class="form-group form-material" data-plugin="formMaterial">			
 			<label class="form-control-label">Nome</label>
-			<input type="text" name="desestado" class="form-control">
+			<input type="text" name="desstate" class="form-control">
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -27,7 +27,7 @@
 
 		<div class="form-group form-material" data-plugin="formMaterial">
 			<label class="form-control-label">País</label>
-			<select name="idpais" class="form-control"></select>
+			<select name="idcountry" class="form-control"></select>
 		</div>
 
 		<div class="form-group form-material" data-plugin="formMaterial">
@@ -40,18 +40,18 @@
 
 <script>
 
-var form = $("#form-estado");
+var form = $("#form-state");
 	
-$("[name=idpais]").combobox({
-	url:PATH+"/paises/all",
-	displayField:"despais",
-	valueField:"idpais"
+$("[name=idcountry]").combobox({
+	url:PATH+"/countries/all",
+	displayField:"descountry",
+	valueField:"idcountry"
 });
 
 form.form({
-	url:PATH+"/estados",
+	url:PATH+"/states",
 	params:{
-		idestado:0
+		idcountry:0
 	},
 	success:function(){
 		System.success("Estado salvo com sucesso");

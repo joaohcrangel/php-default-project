@@ -16,16 +16,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-contato-tipo-save">
+            <form id="form-contact-type-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idcontatotipo">
+                        <input type="hidden" name="idcontacttype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="descontatotipo">
+                        <input type="text" class="form-control" name="descontacttype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btn contato-Tipo-Save"
+                    <button class="btn btn-block btn-primary" id="btn contact-Type-Save"
                     type="submit">
                         Salvar Novo Contato
                     </button>
@@ -35,8 +35,8 @@
     </div>
 </div>
 <script>
-$("#form-contato-tipo-save").form({
-  url:PATH+"/contatos-tipos",
+$("#form-contact-type-save").form({
+  url:PATH+"/contacts-types",
   success:function(){
     System.success("Contato criado com sucesso");
     $(".slidePanel-close").trigger("click");

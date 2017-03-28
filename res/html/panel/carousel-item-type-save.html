@@ -10,17 +10,17 @@
 <div class="slidePanel-inner">
     <div class="panel">
       <div class="panel-body p-x-0">
-            <form id="form-carousel-tipo" >
+            <form id="form-carousel-type" >
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idtipo">
+                        <input type="hidden" name="idtype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="destipo">
+                        <input type="text" class="form-control" name="destype">
                     </div>
 
-                    <button class="btn btn-block btn-primary" id="btncarousel-tipo" type="submit">
+                    <button class="btn btn-block btn-primary" id="btncarousel-type" type="submit">
                         Salvar Novo Carousels Items Tipos
                     </button>
                 </div>
@@ -31,12 +31,12 @@
 </div>
 <script>
 
-var carouselTipo = JSON.parse('{function="json_encode($tipo)"}');
+var carouselTipo = JSON.parse('{function="json_encode($type)"}');
 
-$("#form-carousel-tipo").form({
-  url:PATH+"/carousels-tipos",
+$("#form-carousel-type").form({
+  url:PATH+"/carousels-types",
   params:{
-    idtipo:carouselTipo.idtipo
+    idtype:carouselType.idtype
   },
   success:function(){
     System.success("Carousel criado com sucesso");
@@ -49,6 +49,6 @@ $("#form-carousel-tipo").form({
   }
 });
 
-$("#form-carousel-tipo").formLoad(carouselTipo);
+$("#form-carousel-type").formLoad(carouselType);
 
 </script>

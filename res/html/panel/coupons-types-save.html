@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-cupons-tipos">
+            <form id="form-coupons-types">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idcupomtipo">
+                        <input type="hidden" name="idcoupontype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="descupomtipo">
+                        <input type="text" class="form-control" name="descoupontype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btncupons-tipos" type="submit">
+                    <button class="btn btn-block btn-primary" id="btncoupons-types" type="submit">
                         Salvar Novo Cupom
                     </button>
                 </div>
@@ -35,12 +35,12 @@
     </div>
 </div>
 <script> 
-var cupomTipo = JSON.parse('{function="json_encode($cupom)"}');
+var couponType = JSON.parse('{function="json_encode($coupon)"}');
 
-$("#form-cupons-tipos").form({
+$("#form-coupons-types").form({
   url:PATH+"/cupons-tipos",
   params:{
-    idcupomtipo:cupomTipo.idcupomtipo
+    idcoupontype:couponType.idcoupontype
   },
   success:function(){
     System.success("Cupom criado com sucesso");
@@ -53,6 +53,6 @@ $("#form-cupons-tipos").form({
   }
 });
 
-$("#form-cupons-tipos").formLoad(cupomTipo);
+$("#form-coupons-types").formLoad(couponType);
 
 </script>

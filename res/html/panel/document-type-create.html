@@ -10,17 +10,17 @@
 <div class="slidePanel-inner">
     <div class="panel">
       <div class="panel-body p-x-0">
-            <form id="form-documento-tipo-save" >
+            <form id="form-document-type-save" >
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="iddocumentotipo">
+                        <input type="hidden" name="iddocumenttype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="desdocumentotipo">
+                        <input type="text" class="form-control" name="desdocumenttype">
                     </div>
 
-                    <button class="btn btn-block btn-primary" id="btn documento-Tipo-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btn document-Type-Save" type="submit">
                         Salvar Novo Documento
                     </button>
                 </div>
@@ -30,8 +30,8 @@
     </div>
 </div>
 <script>
-$("#form-documento-tipo-save").form({
-  url:PATH+"/documentos-tipos",
+$("#form-document-type-save").form({
+  url:PATH+"/documents-types",
   success:function(){
     System.success("Documento criado com sucesso");
     $(".slidePanel-close").trigger("click");

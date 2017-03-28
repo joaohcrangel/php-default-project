@@ -17,16 +17,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-historico-tipo">
+            <form id="form-logs-type">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idhistoricotipo">
+                        <input type="hidden" name="idlogtype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="deshistoricotipo">
+                        <input type="text" class="form-control" name="deslogtype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btnhistorico-tipo"
+                    <button class="btn btn-block btn-primary" id="btn log-type"
                     type="submit">
                         Salvar Novo Histórico
                     </button>
@@ -36,8 +36,8 @@
     </div>
 </div>
 <script>
-$("#form-historico-tipo").form({
-  url:PATH+"/historicos-tipos",
+$("#form-log-type").form({
+  url:PATH+"/logs-types",
   success:function(){
     System.success("Historico criado com sucesso");
     $(".slidePanel-close").trigger("click");

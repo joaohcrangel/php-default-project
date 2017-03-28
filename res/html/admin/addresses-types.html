@@ -18,7 +18,7 @@
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome do Endereço</label>
-	                  <input type="text" class="form-control" name="desenderecotipo">
+	                  <input type="text" class="form-control" name="desaddresstype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -69,10 +69,10 @@
         </button>
     </div>
 </div>
-<script id="tpl-endereco-tipo" type="/x-handlebars-temprate"><tr data-idenderecotipo="{{idenderecotipo}}">
-	<td>{{desenderecotipo}}</td>
+<script id="tpl-endereco-tipo" type="/x-handlebars-temprate"><tr data-idaddresstype="{{idaddresstype}}">
+	<td>{{desaddresstype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/enderecos/tipos/{{idenderecotipo}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/enderecos/tipos/{{idaddresstype}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-endereco icon wb-trash">
       	</button>
@@ -113,7 +113,7 @@ init.push(function(){
 		panel.load();
 
 		rest({
-			url:PATH+"/enderecos/tipos",
+			url:PATH+"/addresses/types",
 			data:params,
 			success:function(r){
 
@@ -151,7 +151,7 @@ init.push(function(){
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/enderecos-tipos/"+idenderecotipo,
+				          		url: PATH+"/addresses-types/"+idenderecotipo,
 				         		 method:'DELETE',
 				          		success: function(r){
 

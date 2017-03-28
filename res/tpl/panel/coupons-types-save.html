@@ -1,9 +1,9 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Editar Cupom</h5></h4></div></header><div class="slidePanel-inner"><div class="panel"><div class="panel-body p-x-0"><form id="form-cupons-tipos"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idcupomtipo"><label>Nome</label><input type="text" class="form-control" name="descupomtipo"></div><button class="btn btn-block btn-primary" id="btncupons-tipos" type="submit">Salvar Novo Cupom</button></div></form></div></div></div><script>var cupomTipo = JSON.parse('{function="json_encode($cupom)"}');
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Editar Cupom</h5></h4></div></header><div class="slidePanel-inner"><div class="panel"><div class="panel-body p-x-0"><form id="form-coupons-types"><div class="form-group"><div class="form-group form-material"><input type="hidden" name="idcoupontype"><label>Nome</label><input type="text" class="form-control" name="descoupontype"></div><button class="btn btn-block btn-primary" id="btncoupons-types" type="submit">Salvar Novo Cupom</button></div></form></div></div></div><script>var couponType = JSON.parse('{function="json_encode($coupon)"}');
 
-$("#form-cupons-tipos").form({
+$("#form-coupons-types").form({
   url:PATH+"/cupons-tipos",
   params:{
-    idcupomtipo:cupomTipo.idcupomtipo
+    idcoupontype:couponType.idcoupontype
   },
   success:function(){
     System.success("Cupom criado com sucesso");
@@ -16,4 +16,4 @@ $("#form-cupons-tipos").form({
   }
 });
 
-$("#form-cupons-tipos").formLoad(cupomTipo);</script>
+$("#form-coupons-types").formLoad(couponType);</script>

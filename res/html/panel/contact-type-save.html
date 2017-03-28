@@ -15,16 +15,16 @@
 <div class="slidePanel-inner">
     <div class="panel">
         <div class="panel-body p-x-0">
-            <form id="form-contato-tipo-save">
+            <form id="form-contact-type-save">
                 <div class="form-group">
                     <div class="form-group form-material">
-                        <input type="hidden" name="idcontatotipo">
+                        <input type="hidden" name="idcontacttype">
                         <label>
                             Nome
                         </label>
-                        <input type="text" class="form-control" name="descontatotipo">
+                        <input type="text" class="form-control" name="descontacttype">
                     </div>
-                    <button class="btn btn-block btn-primary" id="btncontato-tipo-Save" type="submit">
+                    <button class="btn btn-block btn-primary" id="btn contact-type-Save" type="submit">
                         Salvar Novo Contato
                     </button>
                 </div>
@@ -32,12 +32,13 @@
         </div>
     </div>
 </div>
-<script>var contatoTipo = JSON.parse('{function="json_encode($contato)"}');
+<script>
+var contactType = JSON.parse('{function="json_encode($contact)"}');
 
-$("#form-contato-tipo-save").form({
+$("#form-contact-type-save").form({
   url:PATH+"/contatos-tipos",
   params:{
-    idcontatotipo:contatoTipo.idcontatotipo
+    idcontacttype:contactType.idcontacttype
   },
   success:function(){
     System.success("Contato criado com sucesso");
@@ -50,5 +51,5 @@ $("#form-contato-tipo-save").form({
   }
 });
 
-$("#form-contato-tipo-save").formLoad(contatoTipo);
+$("#form-contact-type-save").formLoad(contactType);
 </script>

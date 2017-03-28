@@ -12,22 +12,22 @@
 	<div class="row">
 		<div class="col-sm-4">
 			<h4>Pessoa</h4>
-			<p>{$carrinho.despessoa}</p>
+			<p>{$cart.desperson}</p>
 		</div>
 
 		<div class="col-sm-4">
 			<h4>Valor total(líquido)</h4>
-			<p>R$ {$carrinho.vltotal}</p>
+			<p>R$ {$cart.vltotal}</p>
 		</div>
 
-		<div class="col-sm-4">
+		<div class="col-sm-4">ca
 			<h4>Valor total(bruto)</h4>
-			<p>R$ {$carrinho.vltotalbruto}</p>
+			<p>R$ {$cart.vltotalbruto}</p>
 		</div>
 	</div>
 
 	<label class="form-control-label"><h4>Produtos</h4></label>
-	<div class="panel panel-produtos">
+	<div class="panel panel-products">
 		<table class="table table-striped table-hover">		
 			<thead>
 				<tr>
@@ -79,26 +79,26 @@
 
 <script id="tpl-row" type="text/x-handlebars-compile">
 	<tr>
-		<td>{{desproduto}}</td>
-		<td>{{desprodutotipo}}</td>
-		<td>R$ {{vlpreco}}</td>
-		<td>{{dtremovido}}</td>
+		<td>{{desproduct}}</td>
+		<td>{{desproducttype}}</td>
+		<td>R$ {{vlprice}}</td>
+		<td>{{dtremoved}}</td>
 	</tr>
 </script>
 
-<script id="tpl-cupom-row" type="text/x-handlebars-compile">
+<script id="tpl-coupon-row" type="text/x-handlebars-compile">
 	<tr>
-		<td>{{descupom}}</td>
-		<td>{{descupomtipo}}</td>
-		<td>{{nrdesconto}}</td>
-		<td>{{descodigo}}</td>
+		<td>{{descoupon}}</td>
+		<td>{{descoupontype}}</td>
+		<td>{{nrdescontent}}</td>
+		<td>{{descode}}</td>
 	</tr>
 </script>
 
-<script id="tpl-frete-row" type="text/x-handlebars-compile">
+<script id="tpl-freight-row" type="text/x-handlebars-compile">
 	<tr>
 		<td>{{descep}}</td>
-		<td>{{vlfrete}}</td>		
+		<td>{{vlfreight}}</td>		
 	</tr>
 </script>
 
@@ -106,51 +106,51 @@
 
 (function(){
 	
-	var carrinho = JSON.parse('{function="json_encode($carrinho)"}');
+	var cart = JSON.parse('{function="json_encode($cart)"}');
 
 	var $panel = System.getPanelApi($(".slidePanel-inner"));
 
-	var $tbodyProdutos = $(".panel-produtos tbody");
-	var $tbodyCupons = $(".panel-cupons tbody");
-	var $tbodyFrete = $(".panel-frete tbody");
+	var $tbodyProducts = $(".panel-products tbody");
+	var $tbodyCoupons = $(".panel-coupons tbody");
+	var $tbodyFreight = $(".panel-freight tbody");
 
 	var tpl = Handlebars.compile($("#tpl-row").html());
-	var tplCupons = Handlebars.compile($("#tpl-cupom-row").html());
-	var tplFrete = Handlebars.compile($("#tpl-frete-row").html());
+	var tplCoupons = Handlebars.compile($("#tpl-coupon-row").html());
+	var tplFreight = Handlebars.compile($("#tpl-freight-row").html());
 
 	function load(){
 
 		$panel.load();
 
-		$tbodyProdutos.html('');
+		$tbodyProducts.html('');
 
-		$.each(carrinho.Produtos, function(index, row){
+		$.each(cart.Products, function(index, row){
 
 			var $tr = $(tpl(row));
 
-			$tbodyProdutos.append($tr);
+			$tbodyProducts.append($tr);
 
-			if(row.dtremovido != null){
+			if(row.dtremoved != null){
 				$tr.css("color", "#f44336");
 			}
 
 		});
 
-		$tbodyCupons.html('');
+		$tbodyCoupons.html('');
 
-		$.each(carrinho.Cupons, function(index, row){
+		$.each(cart.Coupons, function(index, row){
 
-			var $tr = $(tplCupons(row));
+			var $tr = $(tplCoupons(row));
 
-			$tbodyCupons.append($tr);
+			$tbodyCoupons.append($tr);
 
 		});
 
-		$tbodyFrete.html('');
+		$tbodyFreight.html('');
 
-		var $trFrete = $(tplFrete(carrinho.Frete));
+		var $trFreight = $(tplFreight(cart.Freight));
 
-		$tbodyFrete.append($trFrete);
+		$tbodyFreight.append($trFreight);
 
 		$panel.done();
 

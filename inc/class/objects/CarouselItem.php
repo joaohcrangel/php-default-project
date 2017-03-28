@@ -2,7 +2,7 @@
 
 class CarouselItem extends Model {
 
-    public $required = array('iditem', 'desitem', 'nrordem', 'idtype', 'idcarousel');
+    public $required = array('iditem', 'desitem', 'nrorder', 'idtype', 'idcarousel');
     protected $pk = "iditem";
 
     public function get(){
@@ -22,7 +22,7 @@ class CarouselItem extends Model {
                 $this->getiditem(),
                 $this->getdesitem(),
                 $this->getdescontent(),
-                $this->getnrordem(),
+                $this->getnrorder(),
                 $this->getidtype(),
                 $this->getidcarousel()
             ));

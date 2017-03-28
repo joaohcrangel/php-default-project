@@ -2839,7 +2839,7 @@ $app->get("/install-admin/sql/courses/tables", function(){
 		  descourse varchar(64) NOT NULL,
 		  destitle varchar(256) DEFAULT NULL,
 		  vlworkload decimal(10,2) NOT NULL DEFAULT '0.00',
-		  nraulas int(11) NOT NULL DEFAULT '0',
+		  nrlessons int(11) NOT NULL DEFAULT '0',
 		  nrexercises int(11) NOT NULL DEFAULT '0',
 		  desdescription varchar(10240) DEFAULT NULL,
 		  inremoved bit(1) NOT NULL DEFAULT b'0',

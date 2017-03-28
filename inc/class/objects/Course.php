@@ -2,7 +2,7 @@
 
 class Course extends Model {
 
-    public $required = array('idcourse', 'descourse', 'vlhours', 'nrclassrooms', 'nrexercise ', 'inremoved');
+    public $required = array('idcourse', 'descourse', 'vlworkload', 'nrlessons', 'nrexercises', 'inremoved');
     protected $pk = "idcourse";
 
     public function get(){
@@ -22,9 +22,9 @@ class Course extends Model {
                 $this->getidcourse(),
                 $this->getdescourse(),
                 $this->getdestitle(),
-                $this->getvlhours(),
-                $this->getnrclassrooms(),
-                $this->getnrexercise(),
+                $this->getvlworkload(),
+                $this->getnrlessons(),
+                $this->getnrexercises(),
                 $this->getdesdescription(),
                 $this->getinremoved()
             ));

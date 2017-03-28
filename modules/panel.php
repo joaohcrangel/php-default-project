@@ -460,7 +460,7 @@ $app->get("/panel/configurations-types-create", function(){
 });
 
 /////////////////////////////////////////
-// lugares-tipos salvar
+// placees-tipos salvar
 $app->get("/panel/places-types/:idplacetype", function($idplacetype){
 
 	$placetype = new PlaceType((int)$idplacetype);
@@ -470,7 +470,7 @@ $app->get("/panel/places-types/:idplacetype", function($idplacetype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-tipos-salvar", array(
+	$page->setTpl("panel/placees-tipos-salvar", array(
 		"placetype"=>$placetype->getFields()
 	));
 
@@ -483,7 +483,7 @@ $app->get("/panel/places-types-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugares-tipos-create");
+	$page->setTpl("panel/placees-tipos-create");
 
 });
 
@@ -626,7 +626,7 @@ $app->get("/panel/carts/:idcart", function($idcart){
 });
 
 ////////////////////////////////////////////////////////////
-// lugares
+// placees
 $app->get("/panel/places/:idplace", function($idplace){
 
 	$config = Session::getConfigurations();
@@ -646,7 +646,7 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$data['logs'] = $logs;
 
-	$page->setTpl("panel/lugar", array(
+	$page->setTpl("panel/place", array(
 		"place"=>$data,
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
 		"addressestypes"=>AddressesTypes::listAll()->getFields()
@@ -663,7 +663,7 @@ $app->get("/panel/place-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-create", array(
+	$page->setTpl("panel/place-create", array(
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
 	));
 

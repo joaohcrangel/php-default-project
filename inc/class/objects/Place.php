@@ -14,7 +14,8 @@ class Place extends Model {
                 
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -32,15 +33,16 @@ class Place extends Model {
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
-        $this->execute("sp_places_remove", array(
+        $this->proc("sp_places_remove", array(
             $this->getidplace()
         ));
 

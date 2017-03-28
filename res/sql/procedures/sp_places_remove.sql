@@ -15,6 +15,12 @@ BEGIN
         
 	END IF;
 
+	IF EXISTS(SELECT * FROM tb_placesaddresses WHERE idplace = pidplace) THEN
+
+		DELETE FROM tb_placesaddresses WHERE idplace = pidplace;
+
+	END IF;
+
 	DELETE FROM tb_places WHERE idplace = pidplace;
 
 END

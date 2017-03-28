@@ -684,7 +684,7 @@ $app->get("/panel/place-logs", function(){
 });
 /////////////////////////////////////////////////////////////
 
-// cursos
+// courses
 $app->get("/panel/courses/:idcourse", function($idcourse){
 
 	$course = new Course((int)$idcourse);
@@ -694,7 +694,7 @@ $app->get("/panel/courses/:idcourse", function($idcourse){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/curso", array(
+	$page->setTpl("panel/course", array(
 		"course"=>$course->getFields()
 	));
 
@@ -707,7 +707,7 @@ $app->get("/panel/course-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/curso-create");
+	$page->setTpl("panel/course-create");
 
 });
 //////////////////////////////////////////////////////////////////////

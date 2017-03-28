@@ -640,11 +640,11 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$data = $place->getFields();
 
-	$logs = $place->getPlacesSchedules()->getFields();
+	$schedules = $place->getPlacesSchedules()->getFields();
 
-	if(!count($logs) > 0) $logs = Language::getWeekdays();
+	if(!count($schedules) > 0) $schedules = Language::getWeekdays();
 
-	$data['logs'] = $logs;
+	$data['Schedules'] = $schedules;
 
 	$page->setTpl("panel/place", array(
 		"place"=>$data,

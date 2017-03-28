@@ -1,6 +1,6 @@
 <style>.slidePanel{
 		overflow: overlay;
-	}</style><div id="place-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-place" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$place.desplace}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="place-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-place" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane" id="tab-place-edit" role="tabpanel"><form id="form-place-edit"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" class="form-control" name="desplace"></div><div class="form-group col-xs-12 col-md-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idplacetype" class="form-control"></select></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></div></div></form></div><div class="tab-pane active" id="tab-place" role="tabpanel"><button id="btn-place-edit" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> edit</button><div class="card"></div></div><div class="tab-pane" id="tab-place-mapa" role="tabpanel"><input type="hidden" name="vllatitude"> <input type="hidden" name="vllongitude"> <input type="hidden" name="nrzoom"><div id="mapa" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-place-schedules" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="schedulesAll"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-Schedules">Salvar</button></div></div><div class="tab-pane panel" id="tab-address-edit" role="tabpanel"><div class="panel-body"><div class="panel-heading" style="height:  30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-address-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><form id="form-addresses"></form></div></div><div class="tab-pane" id="tab-place-addresses" role="tabpanel"><div class="panel"><div class="panel-body panel-primary panel-line p-b-0 m-0"><div class="btn-group open"><button type="button" class="btn btn-success pull-xs-left waves-effect btn-address-add" id="dropdownaddress" data-toggle="dropdown" aria-expanded="true"><i class="icon md-plus" aria-hidden="true"></i> adicionar</button><div class="dropdown-menu" aria-labelledby="dropdownaddress" role="menu">{loop="addressestypes"} <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idaddresstype="{$value.idaddresstype}">{$value.desaddresstype}</a> {/loop}</div></div><table class="table table-stripped table-hover m-t-15"><tbody></table></div></div></div><div class="tab-pane" id="tab-place-address-add" role="tabpanel"><div class="panel" id="address-add"><div class="panel-body panel-primary panel-line p-b-0 m-0"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-address-add-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><form><div class="row"><div class="form-group col-xs-12 col-md-3"><input type="hidden" name="idaddress"> <input type="hidden" name="idaddresstype"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desaddress">Endereço</label><input type="text" class="form-control" id="desaddress" name="desaddress"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumber">Número</label><input type="text" class="form-control" id="desnumber" name="desnumber"></div></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplement">Complemento</label><input type="text" class="form-control" id="descomplement" name="descomplement"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desdistrict">Bairro</label><input type="text" class="form-control" id="desdistrict" name="desdistrict"></div><div class="form-group col-xs-12 col-md-5"><label class="form-control-label" for="descity">Cidade</label><input type="text" class="form-control" id="descity" name="descity"> <input type="hidden" name="desuf"></div><div class="input-group"><span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></form></div></div></div><div class="tab-pane" id="tab-place-files" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="m-10 btn-group btn-group-flat"><button id="btn-place-files-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button> <button id="btn-place-files-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button></div></div><div class="panel-body p-b-0"><ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul></div><div class="panel-footer"><div id="pagination-files"></div></div></div></div></div></div></div></div></div>{noparse}<script id="tpl-place-home-card" type="text/x-handlebars-template"><div class="card-header bg-white p-30 clearfix">
+	}</style><div id="place-panel"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button id="btn-delete-place" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button> <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$place.desplace}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="place-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-place" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane" id="tab-place-edit" role="tabpanel"><form id="form-place-edit"><div class="panel m-0" style="box-shadow:none"><div class="panel-body p-y-0 p-t-20"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px"></a> <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><div class="row"><div class="form-group col-xs-12 col-md-8" data-plugin="formMaterial"><label class="form-control-label">Lugar</label><input type="text" class="form-control" name="desplace"></div><div class="form-group col-xs-12 col-md-4" data-plugin="formMaterial"><label class="form-control-label">Tipo do Lugar</label><select name="idplacetype" class="form-control"></select></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></div></div></form></div><div class="tab-pane active" id="tab-place" role="tabpanel"><button id="btn-place-edit" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> edit</button><div class="card"></div></div><div class="tab-pane" id="tab-place-map" role="tabpanel"><input type="hidden" name="vllatitude"> <input type="hidden" name="vllongitude"> <input type="hidden" name="nrzoom"><div id="map" style="width:100%;height:400px"></div><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button></div></div><div class="tab-pane panel" id="tab-place-schedules" role="tabpanel"><table class="table table-stripped table-hover"><thead><tr><th><input type="checkbox" id="schedulesAll"><th>Dia<th>Horário de Abertura<th>Horário de Fechamento<th><tbody></table><div class="form-group form-material m-t-15" data-plugin="formMaterial"><button type="button" class="btn btn-primary waves-effect btn-salvar-Schedules">Salvar</button></div></div><div class="tab-pane panel" id="tab-address-edit" role="tabpanel"><div class="panel-body"><div class="panel-heading" style="height:  30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-address-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><form id="form-addresses"></form></div></div><div class="tab-pane" id="tab-place-addresses" role="tabpanel"><div class="panel"><div class="panel-body panel-primary panel-line p-b-0 m-0"><div class="btn-group open"><button type="button" class="btn btn-success pull-xs-left waves-effect btn-address-add" id="dropdownaddress" data-toggle="dropdown" aria-expanded="true"><i class="icon md-plus" aria-hidden="true"></i> adicionar</button><div class="dropdown-menu" aria-labelledby="dropdownaddress" role="menu">{loop="addressestypes"} <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idaddresstype="{$value.idaddresstype}">{$value.desaddresstype}</a> {/loop}</div></div><table class="table table-stripped table-hover m-t-15"><tbody></table></div></div></div><div class="tab-pane" id="tab-place-address-add" role="tabpanel"><div class="panel" id="address-add"><div class="panel-body panel-primary panel-line p-b-0 m-0"><div class="panel-heading" style="height: 30px"><div class="panel-actions panel-actions-keep"><a id="btn-actions-address-add-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px"></a></div></div><form><div class="row"><div class="form-group col-xs-12 col-md-3"><input type="hidden" name="idaddress"> <input type="hidden" name="idaddresstype"><label class="form-control-label" for="descep">CEP</label><input type="text" class="form-control" id="descep" name="descep"></div><div class="form-group col-xs-12 col-md-6"><label class="form-control-label" for="desaddress">Endereço</label><input type="text" class="form-control" id="desaddress" name="desaddress"></div><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="desnumber">Número</label><input type="text" class="form-control" id="desnumber" name="desnumber"></div></div><div class="row"><div class="form-group col-xs-12 col-md-3"><label class="form-control-label" for="descomplement">Complemento</label><input type="text" class="form-control" id="descomplement" name="descomplement"></div><div class="form-group col-xs-12 col-md-4"><label class="form-control-label" for="desdistrict">Bairro</label><input type="text" class="form-control" id="desdistrict" name="desdistrict"></div><div class="form-group col-xs-12 col-md-5"><label class="form-control-label" for="descity">Cidade</label><input type="text" class="form-control" id="descity" name="descity"> <input type="hidden" name="desuf"></div><div class="input-group"><span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom"><button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button></span></div></div></form></div></div></div><div class="tab-pane" id="tab-place-files" role="tabpanel"><div class="panel"><div class="panel-heading"><div class="m-10 btn-group btn-group-flat"><button id="btn-place-files-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button> <button id="btn-place-files-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button></div></div><div class="panel-body p-b-0"><ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul></div><div class="panel-footer"><div id="pagination-files"></div></div></div></div></div></div></div></div></div>{noparse}<script id="tpl-place-home-card" type="text/x-handlebars-template"><div class="card-header bg-white p-30 clearfix">
   <div class="pull-xs-left">
     <div class="font-size-20 m-b-15">{{desplace}}</div>
     {{#if desaddress}}
@@ -9,7 +9,7 @@
     </p>
     {{/if}}
   </div>
-</div></script>{/noparse}<script id="tpl-place-horario" type="text/x-handlebars-template"><tr data-nrday="{{nrweekday}}">
+</div></script>{/noparse}<script id="tpl-place-schedule" type="text/x-handlebars-template"><tr data-nrday="{{nrweekday}}">
 		<td><input type="checkbox"></td>
 		<td>{{desweekday}}</td>
 		<td><input type="time" name="hropen" class="form-control" value="{{hropen}}" disabled="disabled"></td>
@@ -310,7 +310,7 @@
 		zoom = t.getData().nrzoom;
 	}
 
-	var map = new google.maps.Map(document.getElementById("mapa"), {
+	var map = new google.maps.Map(document.getElementById("map"), {
 		center:{lat: position.lat, lng: position.lng},
 		zoom:zoom
 	});
@@ -323,14 +323,14 @@
 
 	marker.setMap(map);
 
-	t.$el.find("#tab-place-mapa [name=vllatitude]").val(position.lat);
-	t.$el.find("#tab-place-mapa [name=vllongitude]").val(position.lng);
-	t.$el.find("#tab-place-mapa [name=nrzoom]").val(zoom);
+	t.$el.find("#tab-place-map [name=vllatitude]").val(position.lat);
+	t.$el.find("#tab-place-map [name=vllongitude]").val(position.lng);
+	t.$el.find("#tab-place-map [name=nrzoom]").val(zoom);
 
 	function setForm(){
-		t.$el.find("#tab-place-mapa [name=vllatitude]").val(marker.getPosition().lat());
-		t.$el.find("#tab-place-mapa [name=vllongitude]").val(marker.getPosition().lng());
-		t.$el.find("#tab-place-mapa [name=nrzoom]").val(map.getZoom());
+		t.$el.find("#tab-place-map [name=vllatitude]").val(marker.getPosition().lat());
+		t.$el.find("#tab-place-map [name=vllongitude]").val(marker.getPosition().lng());
+		t.$el.find("#tab-place-map [name=nrzoom]").val(map.getZoom());
 	}
 
 	google.maps.event.addListener(marker, 'dragend', function(){
@@ -358,7 +358,7 @@
 
 		$tbody.html('');
 
-		var tplSchedules = t.getTpl("tpl-place-horario");
+		var tplSchedules = t.getTpl("tpl-place-schedule");
 
 		$.each(t.getData().Schedules, function(index, row){
 
@@ -422,7 +422,7 @@
 			});
 
 			rest({
-				url:PATH+"/places-Schedules",
+				url:PATH+"/places-schedules",
 				method:"POST",
 				data:{
 					ids:place.idplace.toString(),
@@ -822,7 +822,7 @@
 			id:"tab-place"
 		},{
 			title:"Mapa",
-			id:"tab-place-mapa"
+			id:"tab-place-map"
 		},{
 			title:"Horários",
 			id:"tab-place-schedules"
@@ -842,7 +842,7 @@
 					t.initSchedules();
 					break;
 
-					case "tab-place-mapa":
+					case "tab-place-map":
 					t.initMap();
 					break;
 
@@ -929,20 +929,20 @@
 
     });
 
-    t.$el.on("click", "#tab-place-mapa .btn-salvar", function(){
+    t.$el.on("click", "#tab-place-map .btn-salvar", function(){
 
 		var $btn = $(this);
 
 		$btn.btnload("load");
 
 		rest({
-			url:PATH+"/places/"+place.idplace+"/coordenadas",
+			url:PATH+"/places/"+place.idplace+"/coordinates",
 			method:"POST",
 			data:{
-				idcoordenada:place.idcoordenada,
-				vllatitude:t.$el.find("#tab-place-mapa [name=vllatitude]").val(),
-				vllongitude:t.$el.find("#tab-place-mapa [name=vllongitude]").val(),
-				nrzoom:t.$el.find("#tab-place-mapa [name=nrzoom]").val()
+				idcoordinate:place.idcoordinate,
+				vllatitude:t.$el.find("#tab-place-map [name=vllatitude]").val(),
+				vllongitude:t.$el.find("#tab-place-map [name=vllongitude]").val(),
+				nrzoom:t.$el.find("#tab-place-map [name=nrzoom]").val()
 			},
 			success:function(){
 				$btn.btnload("unload");

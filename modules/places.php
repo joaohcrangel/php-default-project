@@ -215,7 +215,7 @@ $app->post("/places", function(){
 
 });
 
-$app->post("/placees/:idplace/coordinates", function($idplace){
+$app->post("/places/:idplace/coordinates", function($idplace){
 
 	Permission::checkSession(Permission::ADMIN, true);
 

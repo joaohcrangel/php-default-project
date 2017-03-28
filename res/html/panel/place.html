@@ -70,21 +70,21 @@
 		        	</div>
 		        	<!-- fim da tab de dados do place -->
 
-		        	<!-- inicio da tab do mapa -->
-		        	<div class="tab-pane" id="tab-place-mapa" role="tabpanel">
+		        	<!-- inicio da tab do map -->
+		        	<div class="tab-pane" id="tab-place-map" role="tabpanel">
 
 		        		<input type="hidden" name="vllatitude">
 		        		<input type="hidden" name="vllongitude">
 		        		<input type="hidden" name="nrzoom">
 
-						<div id="mapa" style="width:100%;height:400px"></div>
+						<div id="map" style="width:100%;height:400px"></div>
 
 						<div class="form-group form-material m-t-15" data-plugin="formMaterial">
 							<button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button>
 						</div>
 
 		        	</div>
-		        	<!-- fim da tab do mapa -->
+		        	<!-- fim da tab do map -->
 
 		        	<!-- inicio da tab de horários -->
 		        	<div class="tab-pane panel" id="tab-place-schedules" role="tabpanel">
@@ -267,7 +267,7 @@
 </script>
 {/noparse}
 
-<script id="tpl-place-horario" type="text/x-handlebars-template">
+<script id="tpl-place-schedule" type="text/x-handlebars-template">
 	<tr data-nrday="{{nrweekday}}">
 		<td><input type="checkbox"></td>
 		<td>{{desweekday}}</td>
@@ -586,7 +586,7 @@ var placePanel = (function(data, selectorContainer, opts){
 		zoom = t.getData().nrzoom;
 	}
 
-	var map = new google.maps.Map(document.getElementById("mapa"), {
+	var map = new google.maps.Map(document.getElementById("map"), {
 		center:{lat: position.lat, lng: position.lng},
 		zoom:zoom
 	});
@@ -599,14 +599,14 @@ var placePanel = (function(data, selectorContainer, opts){
 
 	marker.setMap(map);
 
-	t.$el.find("#tab-place-mapa [name=vllatitude]").val(position.lat);
-	t.$el.find("#tab-place-mapa [name=vllongitude]").val(position.lng);
-	t.$el.find("#tab-place-mapa [name=nrzoom]").val(zoom);
+	t.$el.find("#tab-place-map [name=vllatitude]").val(position.lat);
+	t.$el.find("#tab-place-map [name=vllongitude]").val(position.lng);
+	t.$el.find("#tab-place-map [name=nrzoom]").val(zoom);
 
 	function setForm(){
-		t.$el.find("#tab-place-mapa [name=vllatitude]").val(marker.getPosition().lat());
-		t.$el.find("#tab-place-mapa [name=vllongitude]").val(marker.getPosition().lng());
-		t.$el.find("#tab-place-mapa [name=nrzoom]").val(map.getZoom());
+		t.$el.find("#tab-place-map [name=vllatitude]").val(marker.getPosition().lat());
+		t.$el.find("#tab-place-map [name=vllongitude]").val(marker.getPosition().lng());
+		t.$el.find("#tab-place-map [name=nrzoom]").val(map.getZoom());
 	}
 
 	google.maps.event.addListener(marker, 'dragend', function(){
@@ -634,7 +634,7 @@ var placePanel = (function(data, selectorContainer, opts){
 
 		$tbody.html('');
 
-		var tplSchedules = t.getTpl("tpl-place-horario");
+		var tplSchedules = t.getTpl("tpl-place-schedule");
 
 		$.each(t.getData().Schedules, function(index, row){
 
@@ -698,7 +698,7 @@ var placePanel = (function(data, selectorContainer, opts){
 			});
 
 			rest({
-				url:PATH+"/places-Schedules",
+				url:PATH+"/places-schedules",
 				method:"POST",
 				data:{
 					ids:place.idplace.toString(),
@@ -1098,7 +1098,7 @@ var placePanel = (function(data, selectorContainer, opts){
 			id:"tab-place"
 		},{
 			title:"Mapa",
-			id:"tab-place-mapa"
+			id:"tab-place-map"
 		},{
 			title:"Horários",
 			id:"tab-place-schedules"
@@ -1118,7 +1118,7 @@ var placePanel = (function(data, selectorContainer, opts){
 					t.initSchedules();
 					break;
 
-					case "tab-place-mapa":
+					case "tab-place-map":
 					t.initMap();
 					break;
 
@@ -1205,20 +1205,20 @@ var placePanel = (function(data, selectorContainer, opts){
 
     });
 
-    t.$el.on("click", "#tab-place-mapa .btn-salvar", function(){
+    t.$el.on("click", "#tab-place-map .btn-salvar", function(){
 
 		var $btn = $(this);
 
 		$btn.btnload("load");
 
 		rest({
-			url:PATH+"/places/"+place.idplace+"/coordenadas",
+			url:PATH+"/places/"+place.idplace+"/coordinates",
 			method:"POST",
 			data:{
-				idcoordenada:place.idcoordenada,
-				vllatitude:t.$el.find("#tab-place-mapa [name=vllatitude]").val(),
-				vllongitude:t.$el.find("#tab-place-mapa [name=vllongitude]").val(),
-				nrzoom:t.$el.find("#tab-place-mapa [name=nrzoom]").val()
+				idcoordinate:place.idcoordinate,
+				vllatitude:t.$el.find("#tab-place-map [name=vllatitude]").val(),
+				vllongitude:t.$el.find("#tab-place-map [name=vllongitude]").val(),
+				nrzoom:t.$el.find("#tab-place-map [name=nrzoom]").val()
 			},
 			success:function(){
 				$btn.btnload("unload");

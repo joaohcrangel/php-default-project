@@ -83,7 +83,7 @@
           	</table>
         </div>
         	<!-- pagination -->
-      		<div id="paginacao"></div>
+      		<div id="pagination"></div>
       </div>      
     </div>
   </div>
@@ -151,9 +151,9 @@ init.push(function(){
 
 		if(!pagina)	pagina = 1;
 
-		var $panelorders = System.getPanelApi($("#mailContent .panel"));		
+		var $panelOrders = System.getPanelApi($("#mailContent .panel"));		
 
-		$panelorders.load();
+		$panelOrders.load();
 
 		var data = $("#form-filtros").formValues();
 
@@ -166,11 +166,11 @@ init.push(function(){
 			data:data,
 			success:function(r){
 
+				$panelOrders.done();
+
 				if(r.data.length > 0){
 
 					renderOrders(r.data);
-
-					$panelorders.done();
 
 					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
 						skin:"pagination-gap",
@@ -181,15 +181,16 @@ init.push(function(){
 						}
 					});
 
-					$("#paginacao").asPaginator(r.total, config);
+					$("#pagination").show().asPaginator(r.total, config);
 
 				}else{
-					$panelorders.done();
+					$("#lista tbody").html('');
+					$("#pagination").hide();					
 				}
 
 			},
 			failure:function(r){
-				$panelorders.done();
+				$panelOrders.done();
 				System.showError(r);
 			}
 		});

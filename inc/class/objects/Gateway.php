@@ -35,7 +35,9 @@ class Gateway extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_gateways_remove(".$this->getidgateway().")");
+        $this->proc("sp_gateways_remove", array(
+            $this->getidgateway()
+        ));
 
         return true;
         

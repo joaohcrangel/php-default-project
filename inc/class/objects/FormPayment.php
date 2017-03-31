@@ -38,7 +38,9 @@ class FormPayment extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_formspayments_remove(".$this->getidformpayment().")");
+        $this->proc("sp_formspayments_remove", array(
+            $this->getidformpayment()
+        ));
 
         return true;
         

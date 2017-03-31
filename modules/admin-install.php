@@ -937,14 +937,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
-	$menupaises = new Menu(array(
+	$menuCountries = new Menu(array(
 		"nrorder"=>5,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
-		"deshref"=>"/paises",
+		"deshref"=>"/countries",
 		"desmenu"=>$lang->getString('menus_countries')
 	));
-	$menupaises->save();
+	$menuCountries->save();
 	//////////////////////////////////////
 	$menustates = new Menu(array(
 		"nrorder"=>6,

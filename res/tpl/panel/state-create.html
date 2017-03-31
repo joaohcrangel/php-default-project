@@ -10,9 +10,6 @@ $("[name=idcountry]").combobox({
 
 form.form({
 	url:PATH+"/states",
-	params:{
-		idcountry:0
-	},
 	success:function(){
 		System.success("Estado salvo com sucesso");
 		$(".slidePanel-close").trigger("click");

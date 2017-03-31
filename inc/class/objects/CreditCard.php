@@ -41,7 +41,9 @@ class CreditCard extends Model {
     public function remove():bool
     {
         
-        $this->execute("CALL sp_creditscards_remove(".$this->getidcard().")");
+        $this->proc("sp_creditscards_remove", array(
+            $this->getidcard()
+        ));
 
         return true;
         

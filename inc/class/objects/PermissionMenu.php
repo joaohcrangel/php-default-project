@@ -37,7 +37,7 @@ class PermissionMenu extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_permissionsmenus_remove", array(
+        $this->proc("sp_permissionsmenus_remove", array(
             $this->getidpermission()
         ));
 

@@ -40,7 +40,9 @@ class Order extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_orders_remove(".$this->getidorder().")");
+        $this->proc("sp_orders_remove", array(
+            $this->getidorder()
+        ));
 
         return true;
         

@@ -4,7 +4,7 @@ $app->get("/countries/all", function(){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
-	echo success(array("data"=>Paises::listAll()->getFields()));
+	echo success(array("data"=>Countries::listAll()->getFields()));
 
 });
 
@@ -36,7 +36,7 @@ $app->get("/countries", function(){
 	$pagination = new Pagination(
 		$query,
 		array(),
-		"Paises",
+		"Countries",
 		$itemsPerPage
 	);
 

@@ -2,7 +2,7 @@
 
 class State extends Model {
 
-    public $required = array('idstate', 'desstate', 'desuf', 'idcountry');
+    public $required = array('desstate', 'desuf', 'idcountry');
     protected $pk = "idstate";
 
     public function get(){
@@ -57,7 +57,7 @@ class State extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_states_remove", array(
+        $this->proc("sp_states_remove", array(
             $this->getidstate()
         ));
 

@@ -63,7 +63,7 @@ class City extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_cities_remove", array(
+        $this->proc("sp_cities_remove", array(
             $this->getidcity()
         ));
 

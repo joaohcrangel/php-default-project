@@ -56,9 +56,9 @@ $app->post("/states", function(){
 	Permission::checkSession(Permission::ADMIN, true);
 
 	if(post('idstate') > 0){
-		$state = new States((int)post('idstate'));
+		$state = new State((int)post('idstate'));
 	}else{
-		$state = new States();
+		$state = new State();
 	}
 
 	$state->set($_POST);

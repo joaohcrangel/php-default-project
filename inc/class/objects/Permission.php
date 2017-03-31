@@ -41,7 +41,7 @@ class Permission extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_permissions_remove", array(
+        $this->proc("sp_permissions_remove", array(
             $this->getidpermission()
         ));
 

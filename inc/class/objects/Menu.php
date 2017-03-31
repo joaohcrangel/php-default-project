@@ -44,7 +44,7 @@ class Menu extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_menus_remove", array(
+        $this->proc("sp_menus_remove", array(
             $this->getidmenu()
         ));
 

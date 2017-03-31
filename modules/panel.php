@@ -807,7 +807,7 @@ $app->get("/panel/states/:idstate", function($idstate){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/estado", array(
+	$page->setTpl("panel/state", array(
 		"state"=>$state->getFields()
 	));
 
@@ -820,7 +820,7 @@ $app->get("/panel/state-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/estado-criar");
+	$page->setTpl("panel/state-create");
 
 });
 ///////////////////////////////////////////////////////

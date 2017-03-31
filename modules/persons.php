@@ -44,11 +44,12 @@ $app->get("/persons",function(){
 		
 		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
 			if($key == "desperson"){
-				array_push($where, $key." LIKE %?%");	
+				array_push($where, $key." LIKE ?");	
+				array_push($params, get("'%".$key."%'"));
 			}else{
 				array_push($where, $key." = ?");
+				array_push($params, get($key));
 			}			
-			array_push($params, get($key));
 		}
 
 	}

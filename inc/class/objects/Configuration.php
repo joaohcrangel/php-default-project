@@ -75,7 +75,7 @@ class Configuration extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_configurations_remove", array(
+        $this->proc("sp_configurations_remove", array(
             $this->getidconfiguration()
         ));
 

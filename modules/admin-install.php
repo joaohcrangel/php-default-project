@@ -613,14 +613,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
-	$menuSistema = new Menu(array(
+	$menuSystem = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-code-setting',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_system')
 	));
-	$menuSistema->save();
+	$menuSystem->save();
 	//////////////////////////////////////
 	$menuAdmin = new Menu(array(
 		'nrorder'=>2,
@@ -653,7 +653,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>1,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/menu',
+		'deshref'=>'/system/menu',
 		'desmenu'=>$lang->getString('menus_menu')
 	));
 	$menuMenu->save();
@@ -662,7 +662,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>2,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/users',
+		'deshref'=>'/system/users',
 		'desmenu'=>$lang->getString('menus_user')
 	));
 	$menuusers->save();
@@ -671,23 +671,23 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/configurations',
+		'deshref'=>'/system/configurations',
 		'desmenu'=>$lang->getString('menus_config')
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
 	$menuSqlToClass = new Menu(array(
 		'nrorder'=>0,
-		'idmenufather'=>$menuSistema->getidmenu(),
+		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/sql-to-class',
+		'deshref'=>'/system/sql-to-class',
 		'desmenu'=>$lang->getString('menus_sql_to_class')
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
 	$menuTemplate = new Menu(array(
 		'nrorder'=>1,
-		'idmenufather'=>$menuSistema->getidmenu(),
+		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/../res/theme/material/base/html/index.html',
 		'desmenu'=>$lang->getString('menus_template')
@@ -696,7 +696,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuExemplos = new Menu(array(
 		'nrorder'=>2,
-		'idmenufather'=>$menuSistema->getidmenu(),
+		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_examples')

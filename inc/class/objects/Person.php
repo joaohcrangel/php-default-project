@@ -264,23 +264,23 @@ class Person extends Model {
 
     }
 
-    public function addArquivo(Arquivo $arquivo){
+    public function addFile(File $file){
 
-        $arquivo->setidperson($this->getidperson());
+        $file->setidperson($this->getidperson());
 
-        $this->execute("CALL sp_personsarquivos_save(?, ?)", array(
-            $arquivo->getidperson(),
-            $arquivo->getidarquivo()
+        $this->execute("CALL sp_personsfiles_save(?, ?)", array(
+            $file->getidperson(),
+            $file->getidfile()
         ));
 
-        return $arquivo;
+        return $file;
 
     }
 
-    public function setPhoto(Arquivo $foto){
+    public function setPhoto(File $photo){
 
-        $this->addArquivo($foto);
-        $this->setdesfoto($foto->getdesarquivo().'.'.$foto->getdesextensao());
+        $this->addFile($photo);
+        $this->setdesphoto($photo->getdesfile().'.'.$photo->getdesextensao());
         $this->save();
 
     }

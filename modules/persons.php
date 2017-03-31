@@ -43,7 +43,11 @@ $app->get("/persons",function(){
 	foreach ($_GET as $key => $value) {
 		
 		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
-			array_push($where, $key." = ?");
+			if($key == "desperson"){
+				array_push($where, $key." LIKE %?%");	
+			}else{
+				array_push($where, $key." = ?");
+			}			
 			array_push($params, get($key));
 		}
 
@@ -53,8 +57,6 @@ $app->get("/persons",function(){
 	} else {
 		$where = "";
 	}
-	var_dump($params);
-	exit;
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
 	$itensPorPagina = (int)get('limite');//Itens por página
@@ -109,9 +111,9 @@ $app->get("/persons-post", function(){
 
 $app->post("/persons/:idperson/photo", function($idperson){
 
-	$file = $_FILES['file'];
+	$file = $_FILES['arquivo'];
 
-	$file = file::upload(
+	$file = File::upload(
 		$file['name'],
 		$file['type'],
 		$file['tmp_name'],
@@ -365,10 +367,10 @@ $app->get("/persons/:idperson/carts", function($idperson){
 });
 
 // enderecos
-$app->get("/persons/:idperson/addresss", function($idperson){
+$app->get("/persons/:idperson/addresses", function($idperson){
 	Permission::checkSession(Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
-	echo success(array("data"=>$person->getAddresss()->getFields()));
+	echo success(array("data"=>$person->getAddresses()->getFields()));
 });
 
 // usuarios

@@ -39165,15 +39165,12 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Removendo Uploads",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/functions",
 			name:"Funções do MySQL",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/persons/tables",
 			name:"Pessoas - Tabelas",
 			status:"",
@@ -39203,9 +39200,36 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pessoas - Triggers",
 			status:"",
 			enabled:true
-		},
+		},{
+           url:"/sql/formspayments/tables",
+            name:"Formas Pagamentos - Tabelas",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/formspayments/get",
+            name:"Formas Pagamentos - Procedure GET",
+            status:"",
+            enabled:true
 
-		{
+        },{
+            url:"/sql/formspayments/list",
+            name:"Formas Pagamentos - Procedure LIST",
+            status:"",
+            enabled:true
+
+        },{
+            url:"/sql/formspayments/save",
+            name:"Formas Pagamentos - Procedure SAVE",
+            status:"",
+            enabled:true
+
+        },{
+            url:"/sql/formspayments/remove",
+            name:"Formas Pagamentos - Procedure REMOVE",
+            status:"",
+            enabled:true
+
+        },{
 			url:"/sql/users/tables",
 			name:"Usuários - Tabelas",
 			status:"",
@@ -39235,9 +39259,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Usuários - Triggers",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/menus/tables",
 			name:"Menus - Tabelas",
 			status:"",
@@ -39262,9 +39284,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Menus - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/contacts/tables",
 			name:"Contatos - Tabelas",
 			status:"",
@@ -39294,9 +39314,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Contatos - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/documents/tables",
 			name:"Documentos - Tabelas",
 			status:"",
@@ -39386,9 +39404,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Permissões - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/products/tables",
 			name:"Produtos - Tabelas",
 			status:"",
@@ -39428,9 +39444,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Produtos - Inserts",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/coupons/tables",
 			name:"Cupons - Tabelas",
 			status:"",
@@ -39455,9 +39469,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Cupons - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/carts/tables",
 			name:"Carrinhos - Tabelas",
 			status:"",
@@ -39487,9 +39499,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Carrinhos - Triggers",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/creditcards/tables",
 			name:"Cartões de Crédito - Tabelas",
 			status:"",
@@ -39514,9 +39524,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Cartões de Crédito - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/orders/tables",
 			name:"Pedidos - Tabelas",
 			status:"",
@@ -39541,23 +39549,22 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pedidos - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
+            url:"/sql/formspayments/inserts",
+            name:"Formas Pagamentos - Inserts",
+            status:"",
+            enabled:true
+        },{
 			url:"/sql/gateways/inserts",
 			name:"Gateways - Inserts",
 			status:"",
 			enabled:true
-		},
-		
-		{
+		},{
 			url:"/sql/orders/inserts",
 			name:"Pedidos - Inserts",
 			status:"",
 			enabled:true
-		},
-		
-		{
+		},{
 			url:"/sql/gateways/get",
 			name:"Gateways - Procedure GET",
 			status:"",
@@ -39577,9 +39584,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Gateways - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/sitescontacts/tables",
 			name:"Site contatos - Tabelas",
 			status:"",
@@ -39604,9 +39609,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Site contatos - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/personsdata/tables",
 			name:"Pessoas Dados - Tabelas",
 			status:"",
@@ -39616,8 +39619,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Pessoas Endereços - Tabelas",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/coordinates/tables",
 			name:"Coordenadas - Tabelas",
 			status:"",
@@ -39637,9 +39639,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Coordenadas - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/places/tables",
 			name:"Lugares - Tabelas",
 			status:"",
@@ -39669,9 +39669,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Lugares - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/courses/tables",
 			name:"Cursos - Tabelas",
 			status:"",
@@ -39696,9 +39694,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Cursos - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/carousels/tables",
 			name:"Carousel - Tabelas",
 			status:"",
@@ -39723,34 +39719,27 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Carousel - Procedure REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/configurations/tables",
 			name:"Configurações - Tabelas",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/configurations/get",
 			name:"Configurações - GET",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/configurations/save",
 			name:"Configurações - SAVE",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/configurations/remove",
 			name:"Configurações - REMOVE",
 			status:"",
 			enabled:true
-		},
-
-		{
+		},{
 			url:"/sql/files/tables",
 			name:"Arquivos - Tabelas",
 			status:"",
@@ -39775,20 +39764,17 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Arquivos - REMOVE",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/productsfiles/tables",
 			name:"Produtos Arquivos - Tabela",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/placesfiles/tables",
 			name:"Lugares Arquivos - Tabela",
 			status:"",
 			enabled:true
-		},
-		{
+		},{
 			url:"/sql/personsfiles/tables",
 			name:"Pessoas Arquivos - Tabela",
 			status:"",

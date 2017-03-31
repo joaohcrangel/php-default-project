@@ -86,7 +86,7 @@ $app->delete("/forms-payments/:idformpayment", function($idformpayment){
 
     $payment = new FormPayment((int)$idformpayment);
 
-    if(!(int)$payment->getidformapayment() > 0){
+    if(!(int)$payment->getidformpayment() > 0){
         throw new Exception("Forma de pagamento não encontrado", 404); 
     }
 

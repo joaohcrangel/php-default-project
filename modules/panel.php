@@ -175,7 +175,7 @@ $app->get("/panel/ordersnegotiations-types/:idnegociacao", function($idnegociaca
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pedidonegociacao-tipo-salvar", array(
+	$page->setTpl("panel/ordernegotiation-type-save", array(
 		"order"=>$order->getFields()
 	));
 
@@ -188,7 +188,7 @@ $app->get("/panel/ordernegotiation-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pedidonegociacao-tipo-criar");
+	$page->setTpl("panel/ordernegotiation-type-create");
 
 });
 
@@ -272,7 +272,7 @@ $app->get("/panel/permission-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/permissao-criar");
+	$page->setTpl("panel/permission-create");
 
 });
 
@@ -343,7 +343,7 @@ $app->get("/panel/permissions/:idpermission", function($idpermission){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/permissao-salvar", array(
+	$page->setTpl("panel/permission-save", array(
 		"permission"=>$permission->getFields()
 	));
 
@@ -416,7 +416,7 @@ $app->get("/panel/persons-valuesfields/:idfield", function($idfield){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/person-value-field-save", array(
+	$page->setTpl("panel/person-valuefield-save", array(
 		"personvalue"=>$personvalue->getFields()
 	));
 
@@ -429,7 +429,7 @@ $app->get("/panel/persons-valuesfields-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/person-value-field-create");
+	$page->setTpl("panel/person-valuefield-create");
 
 });
 
@@ -751,7 +751,7 @@ $app->get("/panel/carousels-items-types/:idtype", function($idtype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo-salvar", array(
+	$page->setTpl("panel/carousel-item-type-save", array(
 		"type"=>$type->getFields()
 	));
 
@@ -764,7 +764,7 @@ $app->get("/panel/carousel-item-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/carousel-item-tipo-criar");
+	$page->setTpl("panel/carousel-item-type-create");
 
 });
 ////////////////////////////////////////////////////////////////
@@ -863,7 +863,7 @@ $app->get("/panel/persons-categories-types/:idcategory", function($idcategory){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-categoria-tipo", array(
+	$page->setTpl("panel/person-category-type-save", array(
 		"category"=>$category->getFields()
 	));
 
@@ -876,7 +876,7 @@ $app->get("/panel/person-category-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pessoa-categoria-tipo-criar");
+	$page->setTpl("panel/person-category-type-create");
 
 });
 ///////////////////////////////////////////////////////////

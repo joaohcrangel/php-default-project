@@ -2206,6 +2206,7 @@ $app->get("/install-admin/sql/orders/tables", function(){
 	echo success();
 	
 });
+
 $app->get("/install-admin/sql/orders/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2312,6 +2313,70 @@ $app->get("/install-admin/sql/orders/list", function(){
 	echo success();
 	
 });
+$app->get("/install-admin/sql/formspayments/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_list'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/formspayments/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_get'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/formspayments/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_save'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/formspayments/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_remove'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/formspayments/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_formspayments");
+
+	echo json_encode($results);
+
+});
+
 
 $app->get("/install-admin/sql/ordersnegotiationstypes/list", function(){
 	set_time_limit(0);

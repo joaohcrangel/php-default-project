@@ -1,6 +1,6 @@
 <?php
 
-class OrderNegotiationsTypes extends Collection {
+class OrdersNegotiationsTypes extends Collection {
 
     protected $class = "OrderNegotiationType";
     protected $saveQuery = "sp_ordersnegotiationstypes_save";

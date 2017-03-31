@@ -37,7 +37,7 @@ class PersonValueField extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_personsvaluesfields_remove", array(
+        $this->proc("sp_personsvaluesfields_remove", array(
             $this->getidfield()
         ));
 

@@ -44,7 +44,7 @@ class Contact extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_contacts_remove", array(
+        $this->proc("sp_contacts_remove", array(
             $this->getidcontact()
         ));
 

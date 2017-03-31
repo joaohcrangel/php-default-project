@@ -37,7 +37,7 @@ class Country extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_countries_remove", array(
+        $this->proc("sp_countries_remove", array(
             $this->getidcountry()
         ));
 

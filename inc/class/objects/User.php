@@ -46,7 +46,7 @@ class User extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_users_remove", array(
+        $this->proc("sp_users_remove", array(
             $this->getiduser()
         ));
 

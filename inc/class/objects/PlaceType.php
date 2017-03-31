@@ -35,7 +35,9 @@ class PlaceType extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_placestypes_remove(".$this->getidplacetype().")");
+        $this->proc("sp_placestypes_remove", array(
+            $this->getidplacetype()
+        ));
 
         return true;
         

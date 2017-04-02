@@ -21,7 +21,8 @@ if(!isset($args[0])) throw new Exception($this->pk." não informado");
         
     }
 
-    public function save(){
+    public function save():int
+    {
 
         if($this->getChanged() && $this->isValid()){
 
@@ -33,13 +34,14 @@ if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
         }else{
 
-            return false;
+            return 0;
 
         }
         
     }
 
-    public function remove(){
+    public function remove():bool
+    {
 
         $this->proc("{$sp_remove}", array(
             $this->get{$primarykey[0]}()

@@ -3468,5 +3468,93 @@ $app->get("/install-admin/sql/personsaddresses/triggers", function(){
 	echo success();
 });
 
+$app->get("/install-admin/sql/blogs/tables", function(){
+
+	$sql = new Sql();
+
+	$sql->exec("
+		CREATE TABLE tb_blogauthors (
+		  idauthor int(11) NOT NULL AUTO_INCREMENT,
+		  iduser int(11) NOT NULL,
+		  desauthor varchar(32) NOT NULL,
+		  desresume varchar(512) NOT NULL,
+		  idphoto int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idauthor`),
+		  CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser),
+		  CONSTRAINT FOREIGN KEY(idphoto) REFERENCES tb_files(idfile)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogcategories (
+		  idcategory int(11) NOT NULL AUTO_INCREMENT,
+		  descategory varchar(64) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idcategory`)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogposts (
+		  idpost int(11) NOT NULL AUTO_INCREMENT,
+		  destitle varchar(128) NOT NULL,
+		  idurl int(11) NOT NULL,
+		  descontentshort varchar(256) NOT NULL,
+		  descontent text NOT NULL,
+		  idauthor int(11) NOT NULL,
+		  dtupdated datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idpost`),
+		  CONSTRAINT FOREIGN KEY(idurl) REFERENCES tb_urls(idurl),
+		  CONSTRAINT FOREIGN KEY(idauthor) REFERENCES tb_blogauthors(idauthor)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogcomments (
+		  idcomment int(11) NOT NULL AUTO_INCREMENT,
+		  idcommentfather int(11) NOT NULL,
+		  idpost int(11) NOT NULL,
+		  idperson int(11) NOT NULL,
+		  descomment text NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idcomment`),
+		  CONSTRAINT FOREIGN KEY(idcommentfather) REFERENCES tb_blogcomments(idcomment),
+		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
+		  CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogpostscategories (
+		  idpost int(11) NOT NULL,
+		  idcategory int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
+		  CONSTRAINT FOREIGN KEY(idcategory) REFERENCES tb_blogcategories(idcategory)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogtags (
+		  idtag int(11) NOT NULL AUTO_INCREMENT,
+		  destag varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (`idtag`)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogpoststags (
+		  idpost int(11) NOT NULL,
+		  idtag int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
+		  CONSTRAINT FOREIGN KEY(idtag) REFERENCES tb_blogtags(idtag)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");	
+
+});
 
 ?>

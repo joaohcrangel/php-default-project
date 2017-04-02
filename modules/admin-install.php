@@ -3569,7 +3569,8 @@ $app->get("/install-admin/sql/blog/get", function(){
 		'sp_blogauthors_get',
 		'sp_blogcategories_get',
 		'sp_blogcomments_get',
-		'sp_blogposts_get'
+		'sp_blogposts_get',
+		'sp_blogtags_get'
 	);
 
 	saveProcedures($procs);
@@ -3586,7 +3587,8 @@ $app->get("/install-admin/sql/blog/save", function(){
 		'sp_blogauthors_save',
 		'sp_blogcategories_save',
 		'sp_blogcomments_save',
-		'sp_blogposts_save'
+		'sp_blogposts_save',
+		'sp_blogtags_save'
 	);
 
 	saveProcedures($procs);
@@ -3603,7 +3605,8 @@ $app->get("/install-admin/sql/blog/remove", function(){
 		'sp_blogauthors_remove',
 		'sp_blogcategories_remove',
 		'sp_blogcomments_remove',
-		'sp_blogposts_remove'
+		'sp_blogposts_remove',
+		'sp_blogtags_remove'
 	);
 
 	saveProcedures($procs);
@@ -3620,7 +3623,8 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_blogauthors_list',
 		'sp_blogcategories_list',
 		'sp_blogcomments_list',
-		'sp_blogposts_list'
+		'sp_blogposts_list',
+		'sp_blogtags_list'
 	);
 
 	saveProcedures($procs);

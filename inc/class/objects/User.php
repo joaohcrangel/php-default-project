@@ -207,7 +207,7 @@ class User extends Model {
             INNER JOIN tb_permissionsmenus b ON a.idmenu = b.idmenu
             INNER JOIN tb_permissionsusers c ON b.idpermission = c.idpermission
             WHERE c.iduser = ?
-            ORDER BY a.nrordem;
+            ORDER BY a.nrorder;
         ", array(
             $this->getiduser()
         ));

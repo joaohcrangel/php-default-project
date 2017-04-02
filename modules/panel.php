@@ -779,7 +779,7 @@ $app->get("/panel/countries/:idcountry", function($idcountry){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pais", array(
+	$page->setTpl("panel/country", array(
 		"country"=>$country->getFields()
 	));
 
@@ -792,7 +792,7 @@ $app->get("/panel/country-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/pais-criar");
+	$page->setTpl("panel/country-create");
 
 });
 /////////////////////////////////////////////////////

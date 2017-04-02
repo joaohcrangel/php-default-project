@@ -1,0 +1,14 @@
+tr.success {
+	color: #fff !important;
+    background-color: #4caf50 !important;
+}
+
+tr.warning {
+	color: #fff !important;
+    background-color: #f2a654 !important;
+}
+
+tr.danger {
+	color: #fff !important;
+    background-color: #f96868 !important;
+}

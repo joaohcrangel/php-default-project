@@ -39844,7 +39844,35 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"PedidosNegociacoesTipos - REMOVE",
 			status:"",
 			enabled:true
-		},{
+		},
+        {
+            url:"/sql/blog/tables",
+            name:"Blog - Tabelas",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/blog/get",
+            name:"Blog - GET",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/blog/save",
+            name:"Blog - SAVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/blog/remove",
+            name:"Blog - REMOVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/blog/list",
+            name:"Blog - LIST",
+            status:"",
+            enabled:true
+        },
+
+        {
 			url:"/sql/ordersnegotiationstypes/inserts",
 			name:"PedidosNegociacoesTipos - Inserts",
 			status:"",

@@ -835,7 +835,7 @@ $app->get("/panel/cities/:idcity", function($idcity){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/cidade", array(
+	$page->setTpl("panel/city", array(
 		"city"=>$city->getFields()
 	));
 
@@ -848,7 +848,7 @@ $app->get("/panel/city-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/cidade-criar");
+	$page->setTpl("panel/city-create");
 
 });
 ////////////////////////////////////////////////////

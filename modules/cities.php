@@ -22,7 +22,7 @@ $app->get("/cities/all", function(){
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS *
-		FROM tb_states INNER JOIN tb_states USING(idstate)
+		FROM tb_cities INNER JOIN tb_states USING(idstate)
 		".$where."
 		LIMIT ?, ?;
 	";

@@ -9,8 +9,8 @@ $app->get("/files", function(){
 
     $where = array();
 
-    if (get('desafile')) {
-        array_push($where, "desalias LIKE '%".get('desafile')."%'");
+    if (get('desfile')) {
+        array_push($where, "desalias LIKE '%".get('desfile')."%'");
     }
 
     if (get('desextension')) {

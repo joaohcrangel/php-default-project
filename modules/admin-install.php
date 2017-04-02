@@ -3468,7 +3468,9 @@ $app->get("/install-admin/sql/personsaddresses/triggers", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/blogs/tables", function(){
+$app->get("/install-admin/sql/blog/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
 
 	$sql = new Sql();
 
@@ -3553,7 +3555,77 @@ $app->get("/install-admin/sql/blogs/tables", function(){
 		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
 		  CONSTRAINT FOREIGN KEY(idtag) REFERENCES tb_blogtags(idtag)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");	
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_get',
+		'sp_blogcategories_get',
+		'sp_blogcomments_get',
+		'sp_blogposts_get'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_save',
+		'sp_blogcategories_save',
+		'sp_blogcomments_save',
+		'sp_blogposts_save'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_remove',
+		'sp_blogcategories_remove',
+		'sp_blogcomments_remove',
+		'sp_blogposts_remove'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_list',
+		'sp_blogcategories_list',
+		'sp_blogcomments_list',
+		'sp_blogposts_list'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
 
 });
 

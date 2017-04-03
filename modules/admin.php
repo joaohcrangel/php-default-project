@@ -722,6 +722,38 @@ $app->get("/".DIR_ADMIN."/urls", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/blog/posts", function(){
+
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $page = new Page(array(
+        "data"=>array(
+            "body"=>array(
+                "class"=>"page-aside-fixed page-aside-left"
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/blog-posts");
+
+});
+
+$app->get("/".DIR_ADMIN."/blog/posts/new", function(){
+
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $page = new Page(array(
+        "data"=>array(
+            "body"=>array(
+                "class"=>"page-aside-fixed page-aside-left"
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/blog-posts");
+
+});
+
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
     Permission::checkSession(Permission::ADMIN, true);

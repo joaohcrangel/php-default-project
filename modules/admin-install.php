@@ -990,7 +990,61 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'desmenu'=>$lang->getString('menus_urls')
 	));
 	$menuUrls->save();
-	//////////////////////////////////////	
+	//////////////////////////////////////
+	$menuSiteBlog = new Menu(array(
+		'nrorder'=>2,
+		'idmenufather'=>$menuSite->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'',
+		'desmenu'=>$lang->getString('menus_blog')
+	));
+	$menuSiteBlog->save();
+	//////////////////////////////////////
+	$menuSiteBlogPrincipal = new Menu(array(
+		'nrorder'=>0,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/posts',
+		'desmenu'=>$lang->getString('menus_blog_principal')
+	));
+	$menuSiteBlogPrincipal->save();
+	//////////////////////////////////////
+	$menuSiteBlogPost = new Menu(array(
+		'nrorder'=>1,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/post/new',
+		'desmenu'=>$lang->getString('menus_blog_post_new')
+	));
+	$menuSiteBlogPost->save();
+	//////////////////////////////////////
+	$menuSiteBlogCategories = new Menu(array(
+		'nrorder'=>2,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/categories',
+		'desmenu'=>$lang->getString('menus_blog_categories')
+	));
+	$menuSiteBlogCategories->save();
+	//////////////////////////////////////
+	$menuSiteBlogTags = new Menu(array(
+		'nrorder'=>3,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/categories',
+		'desmenu'=>$lang->getString('menus_blog_categories')
+	));
+	$menuSiteBlogTags->save();
+	//////////////////////////////////////
+	$menuSiteBlogComments = new Menu(array(
+		'nrorder'=>4,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/comments',
+		'desmenu'=>$lang->getString('menus_blog_comments')
+	));
+	$menuSiteBlogComments->save();
+	//////////////////////////////////////
 	
 	echo success();
 });

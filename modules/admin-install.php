@@ -596,6 +596,183 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	");
 	echo success();
 });
+
+$app->get("/install-admin/sql/transactions/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$sql = new Sql();
+
+	$sql->exec("
+	CREATE TABLE tb_transactionstypes (
+		  idtransactiontype int(11) NOT NULL AUTO_INCREMENT,
+		  destransactiontype varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idtransactiontype)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_transactions (
+			idtransaction int(11) NOT NULL AUTO_INCREMENT,
+			destransaction varchar(256) NOT NULL,
+			idtransactiontype int(11) NOT NULL,
+			vltotal decimal(10,2) NOT NULL,
+			dtpayment date NOT NULL,
+			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (idtransaction),
+			KEY fk_transactions_transactionstypes_id (idtransactiontype),
+			CONSTRAINT fk_transactions_transactionstypes FOREIGN KEY (idtransactiontype) REFERENCES tb_transactionstypes (idtransactiontype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/tb_userslogs/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$sql = new Sql();
+	$sql->exec("
+	CREATE TABLE tb_userslogstypes (
+			idlogtype int(11) NOT NULL AUTO_INCREMENT,
+  			deslogtype varchar(32) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlogtype)
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_tb_userslogs (
+			idlog int(11) NOT NULL AUTO_INCREMENT,
+  			iduser int(11) NOT NULL,
+  			idlogtype int(11) NOT NULL,
+  			deslog varchar(256) NOT NULL,
+  			desip varchar(64) NOT NULL,
+  			dessession varchar(64) NOT NULL,
+  			desuseragent varchar(128) NOT NULL,
+  			despath varchar(256) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlog),
+  			KEY fk_userslogs_users_idx (iduser),
+  			KEY fk_userslogs_userslogstypes_idx (idlogtype),
+ 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_addressestypes (idaddresstype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/transactions/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_transactions_get",
+       "sp_transactionstypes_get"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/transactions/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+        "sp_transactions_list",
+        "sp_transactionstypes_list"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/transactions/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_transactions_remove",
+       "sp_transactionstypes_remove"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/transactions/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		"sp_transactions_save",
+		"sp_transactionstypes_save"
+	);
+	saveProcedures($procs);
+	echo success();
+});
+
+$app->get("/install-admin/sql/userslogs/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_userslogs_get",
+       "sp_userslogstypes_get"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/userslogs/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+        "sp_userslogs_list",
+        "sp_userslogstypes_list"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/userslogs/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_userslogs_remove",
+       "sp_userslogstypes_remove"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/userslogs/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		"sp_userslogs_save",
+		"sp_userslogstypes_save"
+	);
+	saveProcedures($procs);
+	echo success();
+});
+
+$app->get("/install-admin/sql/transactions/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_transactions");
+
+	echo json_encode($results);
+
+});
+$app->get("/install-admin/sql/userslogs/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_userslogs");
+
+	echo json_encode($results);
+
+});
+
+
 $app->get("/install-admin/sql/menus/inserts", function(){
 
 	set_time_limit(0);
@@ -2167,7 +2344,7 @@ $app->get("/install-admin/sql/orders/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_formspayments(
+			CREATE TABLE tb_formspayments(
 			idformpayment INT NOT NULL AUTO_INCREMENT,
 			idgateway INT NOT NULL,
 			desformpayment VARCHAR(128) NOT NULL,
@@ -2260,6 +2437,8 @@ $app->get("/install-admin/sql/orders/tables", function(){
 	echo success();
 	
 });
+
+
 $app->get("/install-admin/sql/orders/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2366,6 +2545,92 @@ $app->get("/install-admin/sql/orders/list", function(){
 	echo success();
 	
 });
+/*
+$app->get("/install-admin/sql/formspayments/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);	
+	$sql = new Sql();
+	$sql->exec("
+			CREATE TABLE tb_formspayments(
+			idformpayment INT NOT NULL AUTO_INCREMENT,
+			idgateway INT NOT NULL,
+			desformpayment VARCHAR(128) NOT NULL,
+			nrparcelsmax INT NOT NULL,
+			instatus BIT(1),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idformpayment),
+			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
+*/
+
+$app->get("/install-admin/sql/formspayments/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_list'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/formspayments/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_get'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/formspayments/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_save'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/formspayments/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_remove'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/formspayments/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_formspayments");
+
+	echo json_encode($results);
+
+});
+
 
 $app->get("/install-admin/sql/ordersnegotiationstypes/list", function(){
 	set_time_limit(0);

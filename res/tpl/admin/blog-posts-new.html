@@ -101,7 +101,7 @@
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
 
-    console.log(window.idcover);
+    if(window.idcover != undefined) data.idcover = window.idcover;
 
     rest({
       url:PATH+"/blog-posts",

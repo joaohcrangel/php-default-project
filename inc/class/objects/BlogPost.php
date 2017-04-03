@@ -2,7 +2,7 @@
 
 class BlogPost extends Model {
 
-    public $required = array('destitle', 'idurl', 'descontentshort', 'descontent', 'idauthor');
+    public $required = array('destitle', 'idurl', 'descontentshort', 'descontent', 'idauthor', 'intrash');
     protected $pk = "idpost";
 
     public function get(){
@@ -19,13 +19,16 @@ class BlogPost extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_blogposts_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_blogposts_save(?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidpost(),
                 $this->getdestitle(),
                 $this->getidurl(),
                 $this->getdescontentshort(),
                 $this->getdescontent(),
-                $this->getidauthor()
+                $this->getidauthor(),
+                $this->getdtpublished(),
+                $this->getintrash(),
+                $this->getidcover()
             ));
 
             return $this->getidpost();

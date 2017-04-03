@@ -194,4 +194,11 @@ $app->delete("/blog-posts", function(){
 
 });
 
+// blog comments
+$app->get("/blog-comments", function(){
+
+	
+
+});
+
 ?>

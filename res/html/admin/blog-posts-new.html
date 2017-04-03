@@ -171,9 +171,9 @@ init.push(function(){
       multiple:true,
       accept:"*",
       modalInfo:true,
-      success:function(){
+      success:function(r){
 
-        System.success();
+        window.idcover = r.data[0].idfile;
 
       }
     });
@@ -211,6 +211,8 @@ init.push(function(){
     data.idsCategories = idsCategories.toString();
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
+
+    if(window.idcover != undefined) data.idcover = window.idcover;
 
     rest({
       url:PATH+"/blog-posts",

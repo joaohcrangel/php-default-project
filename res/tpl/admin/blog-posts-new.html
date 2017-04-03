@@ -60,9 +60,9 @@
       multiple:true,
       accept:"*",
       modalInfo:true,
-      success:function(){
+      success:function(r){
 
-        System.success();
+        window.idcover = r.data[0].idfile;
 
       }
     });
@@ -100,6 +100,8 @@
     data.idsCategories = idsCategories.toString();
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
+
+    console.log(window.idcover);
 
     rest({
       url:PATH+"/blog-posts",

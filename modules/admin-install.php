@@ -1009,14 +1009,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogPrincipal->save();
 	//////////////////////////////////////
-	$menuSiteBlogPost = new Menu(array(
+	$menuSiteBlogPostNew = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/blog/post/new',
+		'deshref'=>'/blog/posts/new',
 		'desmenu'=>$lang->getString('menus_blog_post_new')
 	));
-	$menuSiteBlogPost->save();
+	$menuSiteBlogPostNew->save();
 	//////////////////////////////////////
 	$menuSiteBlogCategories = new Menu(array(
 		'nrorder'=>2,
@@ -1031,8 +1031,8 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>3,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/blog/categories',
-		'desmenu'=>$lang->getString('menus_blog_categories')
+		'deshref'=>'/blog/tags',
+		'desmenu'=>$lang->getString('menus_blog_tags')
 	));
 	$menuSiteBlogTags->save();
 	//////////////////////////////////////

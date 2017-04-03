@@ -2,7 +2,7 @@
 
 class BlogComment extends Model {
 
-    public $required = array('idpost', 'idperson', 'descomment', 'idcommentfather');
+    public $required = array('idpost', 'idperson', 'descomment', 'inapproved', 'idcommentfather');
     protected $pk = "idcomment";
 
     public function get(){
@@ -19,19 +19,20 @@ class BlogComment extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_blogcomments_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_blogcomments_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidcomment(),
                 $this->getidcommentfather(),
                 $this->getidpost(),
                 $this->getidperson(),
-                $this->getdescomment()
+                $this->getdescomment(),
+                $this->getinapproved()
             ));
 
             return $this->getidcomment();
 
         }else{
 
-            return false;
+            return 0;
 
         }
         

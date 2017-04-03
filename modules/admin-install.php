@@ -3578,6 +3578,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  idpost int(11) NOT NULL,
 		  idperson int(11) NOT NULL,
 		  descomment text NOT NULL,
+		  inapproved bit NOT NULL DEFAULT b'0',
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcomment),
 		  CONSTRAINT FOREIGN KEY(idcommentfather) REFERENCES tb_blogcomments(idcomment),

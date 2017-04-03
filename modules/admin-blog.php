@@ -4,7 +4,7 @@ $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $page = new Page(array(
+    $page = new AdminPage(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -20,7 +20,7 @@ $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $page = new Page(array(
+    $page = new AdminPage(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -36,7 +36,7 @@ $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $page = new Page(array(
+    $page = new AdminPage(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -52,7 +52,7 @@ $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $page = new Page(array(
+    $page = new AdminPage(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -68,7 +68,7 @@ $app->get("/".DIR_ADMIN."/blog/comments", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $page = new Page(array(
+    $page = new AdminPage(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"

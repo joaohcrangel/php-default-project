@@ -136,7 +136,14 @@ $app->get("/".DIR_ADMIN."/profile", function(){
         )
     ));
 
-    $page->setTpl('profile');
+    $user = Session::getUser();
+    $user->reload();
+    $user->setPerson(null);
+    $user->getPerson();
+
+    $page->setTpl('profile', array(
+        "user"=>$user->getFields()
+    ));
 
 });
 

@@ -11,7 +11,13 @@
 </div></script><script>(function(){
 
   var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
-  var user = System.getUser();
+  try{
+    var user = JSON.parse('{function="json_encode($user)"}');
+    user.desperson = user.Person.desperson;
+  }catch(e){
+    var user = {};
+  }
+  
 
   $('#profile-header').html(tplHeader(user));
 
@@ -25,7 +31,7 @@
       user = r.data;
       $('#profile-form').formLoad(user);
       $('#profile-header').html(tplHeader(user));
-      System.setuser(r.data);
+      System.setUser(r.data);
       System.success("Seus dados foram salvos!");
 
     }

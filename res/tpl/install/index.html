@@ -39152,11 +39152,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-           url:"/sql/formspayments/tables",
-            name:"Formas Pagamentos - Tabelas",
-            status:"",
-            enabled:true
-        },{
             url:"/sql/formspayments/get",
             name:"Formas Pagamentos - Procedure GET",
             status:"",
@@ -39782,6 +39777,31 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+            url:"/sql/transactions/tables",
+            name:"Transações - Tabelas",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/transactions/get",
+            name:"Transações - GET",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/transactions/list",
+            name:"Transações - LIST",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/transactions/save",
+            name:"Transações - SAVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/transactions/remove",
+            name:"Transações - REMOVE",
+            status:"",
+            enabled:true
+        },{
 			url:"/sql/ordersnegotiationstypes/inserts",
 			name:"PedidosNegociacoesTipos - Inserts",
 			status:"",
@@ -39846,7 +39866,12 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Configurações - Inserts",
 			status:"",
 			enabled:true
-		}
+		},{
+            url:"/sql/transactions/inserts",
+            name:"Transações - Inserts",
+            status:"",
+            enabled:true
+        }
 	];
 
 });</script>

@@ -23,7 +23,7 @@ $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
     $page = new AdminPage(array(
         "data"=>array(
             "body"=>array(
-                "class"=>"page-aside-fixed page-aside-left"
+                "class"=>"page-aside-fixed page-aside-right"
             )
         )
     ));

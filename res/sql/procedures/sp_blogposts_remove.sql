@@ -14,6 +14,7 @@ BEGIN
 		DELETE FROM tb_blogpoststags WHERE idpost = pidpost;
 
 	END IF;
+	
 
     DELETE FROM tb_blogposts 
     WHERE idpost = pidpost;

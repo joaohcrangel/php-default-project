@@ -197,7 +197,94 @@ $app->delete("/blog-posts", function(){
 // blog comments
 $app->get("/blog-comments", function(){
 
-	
+	Permission::checkSession(Permission::ADMIN, true);
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
+
+	$where = array();
+
+	if(get("despost") != ""){
+		array_push($where, "b.despost LIKE '%".utf8_encode(get("despost"))."%'");
+	}
+
+	if(get("desperson") != ""){
+		array_push($where, "c.desperson LIKE '%".utf8_encode(get("desperson"))."%'");
+	}
+
+	if(count($where) > 0){
+		$where = " WHERE ".implode(" AND ", $where)."";
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogcomments a
+			INNER JOIN tb_posts b ON a.idpost = b.idpost
+			INNER JOIN tb_persons c ON a.idperson = c.idperson
+		".$where." LIMIT ?, ?;
+	";
+
+
+	$pagination = new Pagination(
+		$query,
+		array(),
+		"BlogComments",
+		$itemsPerPage
+	);
+
+	$comments = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$comments->getFields(),
+		"total"=>$pagination->getTotal(),
+		"currentPage"=>$page,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
+$app->post("/blog-comments", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if((int)post("idcomment") > 0){
+		$comment = new BlogComment((int)post("idcomment"));
+	}else{
+		$comment = new BlogComment();
+	}
+
+	$comment->set($_POST);
+
+	$comment->save();
+
+	echo success(array("data"=>$comment->getFields()));
+
+});
+
+$app->delete("/blog-comments", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	$ids = explode(",", post("ids"));
+
+	foreach ($ids as $idcomment) {
+			
+		if(!(int)$idcomment){
+			throw new Exception("Comentário não informado", 400);			
+		}
+
+		$comment = new BlogComment((int)$idcomment);
+
+		if(!(int)$comment->getidcomment() > 0){
+			throw new Exception("Comentário não encontrado", 404);			
+		}
+
+		$comment->remove();
+
+	}
+
+	echo success();
 
 });
 

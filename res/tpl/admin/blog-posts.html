@@ -12,20 +12,20 @@
 .site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
   margin-left: 310px;
 }
-#person-footer {
+#post-footer {
   height: 39px;
 }
 .page {
   height: calc(100% - 83px);
   min-height: calc(100% - 83px);
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Pessoas</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desperson">Nome</label><input type="text" class="form-control" name="desperson" id="desperson"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desemail">E-mail</label><input type="text" class="form-control" name="desemail" id="desemail"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="descpf">CPF</label><input type="text" class="form-control" name="descpf" id="descpf"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desphone">Telefone</label><input type="text" class="form-control" name="desphone" id="desphone"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idpersontype">Tipo</label><select name="idpersontype" id="idpersontype" class="form-control"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table table-striped" data-plugin="animateList" data-animate="fade" data-child="tr"><tbody></table></div><div id="paginacao"></div></div></div></div></div><footer id="person-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Posts</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desauthor">Autor</label><input type="text" class="form-control" name="desauthor" id="desauthor"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="destitle">Título</label><input type="text" class="form-control" name="destitle" id="destitle"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="dtpublished">Data de Publicação</label><input type="date" class="form-control" name="dtpublished" id="dtpublished"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idcategory">Categoria</label><select name="idcategory" class="form-control" multiple="multiple" data-plugin="select2"></select></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idtag">Tag</label><select name="idtag" class="form-control" multiple="multiple" data-plugin="select2"></select></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="list" class="table table-striped" data-plugin="animateList" data-animate="fade" data-child="tr"><thead><tr><th>&nbsp;<th>Título<th>Autor<th>Data de Publicação<tbody></table></div><div id="pagination"></div></div></div></div></div><footer id="post-footer" class="site-footer p-0"></footer><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
     <div class="pull-left">
       <div>{{data.length}} de {{total}} resultado(s)</div>
     </div>
     <div class="pull-right">
       <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
     </div>
-  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-url="{$path}/admin/persons/{{idperson}}" data-toggle="slidePanel">
+  </div></script><script id="tpl-row" type="text/x-handlebars-template"><tr data-url="{$path}/admin/blog/posts/{{idpost}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
@@ -41,26 +41,24 @@
     </td>
     -->
     <td>
-      <div class="content">
-        <div class="title">{{desperson}}</div>
-        <div class="abstract">{{desemail}}</div>
-      </div>
+      {{destitle}}
     </td>
-    <td class="cell-30 responsive-hide">
+    <td>
+      {{desauthor}}
     </td>
-    <td class="cell-130">
-      <div class="time">{{despersontype}}</div>
+    <td>
+      <div class="time">{{desdtpublished}}</div>
     </td>
   </tr></script><script>init.push(function(){
 
-  window.pagina = 1;
+  window.page = 1;
 
   var table = new Table({
-    id:'lista',
+    id:'list',
     listeners:{
       selectionchange:function(checked, input, tr, event){
 
-          $('#btn-person-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
+          $('#btn-post-delete').data('api').setDisabled((table.getRowsSelecteds().length === 0));
 
       }
     }
@@ -71,14 +69,7 @@
     footer:Handlebars.compile($("#tpl-footer").html())
   };
 
-  $("[name=idpersontype]").combobox({
-    url:PATH+"/persons-types",
-    displayField:"despersontype",
-    valueField:"idpersontype",
-    autoComplete:true
-  });
-
-  $("#person-footer").html(tpl.footer({
+  $("#post-footer").html(tpl.footer({
     total:0
   }));
 
@@ -88,7 +79,7 @@
 
     $('.page-aside-switch:visible').trigger('click');
 
-    consultar();
+    loadPosts();
 
   });
 
@@ -98,32 +89,53 @@
 
   });
 
-  function atualizarPagina() {
-    consultar(window.pagina);
-  }
+  $("[name=idcategory]").combobox({
+    url:PATH+"/blog-categories/all",
+    displayField:"descategory",
+    valueField:"idcategory"
+  }).select2();
 
-  function consultar(pagina) {
+  $("[name=idtag]").combobox({
+    url:PATH+"/blog-tags/all",
+    displayField:"destag",
+    valueField:"idtag"
+  }).select2();
 
-    window.pagina = pagina;
+  function loadPosts(page) {
+
+    window.page = page;
 
     var panel = System.getPanelApi($('#mailContent .panel'));
 
     panel.load();
 
-    if (!pagina) pagina = 1;
+    if (!page) page = 1;
     var data = $("#form-filtros").formValues();
 
-    data.pagina = pagina;
-    data.limite = Math.floor((window.innerHeight-291)/53);
-    data.limite = (data.limite<5)?5:data.limite;
+    data.page = page;
+    data.limit = Math.floor((window.innerHeight-291)/53);
+    data.limit = (data.limit<5)?5:data.limit;
+
+    var idsCategories = [];
+    $("[name=idcategory] option:selected").each(function(){
+      idsCategories.push($(this).val());
+    });
+    data.idsCategories = idsCategories.toString();
+
+    var idsTags = [];
+    $("[name=idtag] option:selected").each(function(){
+      idsTags.push($(this).val());
+    });
+    data.idsTags = idsTags.toString();
+
     rest({
-      url:PATH+"/persons",
+      url:PATH+"/blog-posts",
       data:data,
       success:function(r){
 
-        renderPersons(r.data);
+        renderPosts(r.data);
 
-        var $footer = $("#person-footer");
+        var $footer = $("#post-footer");
 
         $footer.html(tpl.footer(r));
 
@@ -136,18 +148,17 @@
             currentPage: r.currentPage,
             itemsPerPage: r.itensPerPage,
             onChange: function(a){
-              
-              window.pagina = a;
-              consultar(a);
+
+              loadPosts(a);
 
             }
           });
 
-          $("#paginacao").show().asPaginator(r.total, config);
+          $("#pagination").show().asPaginator(r.total, config);
 
         } else {
 
-          $("#paginacao").hide();
+          $("#pagination").hide();
 
         }
 
@@ -159,20 +170,20 @@
 
   }
 
-  function renderPersons(lista) {
+  function renderPosts(list) {
 
-    var $lista = $("#lista");
-    var $tbody = $lista.find("tbody");
+    var $list = $("#list");
+    var $tbody = $list.find("tbody");
 
     $tbody.html("");
 
-    if (lista instanceof Array && lista.length) {
+    if (list instanceof Array && list.length) {
 
-      $.each(lista, function(index, person){
+      $.each(list, function(index, post){
 
-        var $tr = $(tpl.row(person));
+        var $tr = $(tpl.row(post));
 
-        $tr.data('person', person);
+        $tr.data('post', post);
 
         $tbody.append($tr);
 
@@ -193,74 +204,47 @@
 
   }
 
-  function deletePerson(index, ids, callback, f){
-
-      if (index >= ids.length) {
-        if (typeof callback === 'function') callback();
-      } else {
-
-          rest({
-              url:PATH+"/persons/"+ids[index],
-              method:'DELETE',
-              success:function(r){
-
-                  deletePerson(++index, ids, callback);
-
-              },
-              failure:function(e){
-                f(e);
-              }
-          });
-
-      }
-
-  }
-
   new ToolBar({
     id:"actions-buttons",
     buttons:[{
-      text:"Cadastrar",
-      icon:"md-plus",
-      cls:"btn-success",
-      listeners:{
-        click:function(btn, e){
-          
-          System.openSlidePanel({
-            url:PATH+"/admin/persons-create"
-          });
-
-        }
-      }
-    },{
       text:"Excluir",
-      id:"btn-person-delete",
+      id:"btn-post-delete",
       icon:"md-delete",
       disabled:true,
       handler:function(btn, e){
 
         var selecteds = [];
         $.each(table.getRowsSelecteds(), function(){
-          selecteds.push($(this).data('person'));
+          selecteds.push($(this).data('post'));
         });
 
         if (selecteds.length) {
 
-          System.confirm('Deseja realmente excluir a(s) '+selecteds.length+' person(s)?', function(r, s, f){
+          System.confirm('Deseja realmente excluir o(s) '+selecteds.length+' post(s)?', function(r, s, f){
 
             if (r === true) {
 
               var ids = [];
 
               $.each(selecteds, function(){
-                ids.push(this.idperson);
+                ids.push(this.idpost);
               });
 
-              deletePerson(0, ids, function(){
-
-                atualizarPagina();
-                s();
-
-              }, f);       
+              rest({
+                url:PATH+"/blog-posts",
+                method:"DELETE",
+                data:{
+                  ids:ids.toString()
+                },
+                success:function(){
+                  s();
+                  loadPosts();
+                },
+                failure:function(r){
+                  System.done();
+                  f(r);
+                }
+              });
 
             } else {
 
@@ -276,9 +260,8 @@
     }]
   });
 
-  consultar(window.pagina);
+  loadPosts(window.page);
 
-  window.atualizarPagina = atualizarPagina;
-  window.consultar = consultar;
+  window.loadPosts = loadPosts;
 
 });</script>

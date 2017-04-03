@@ -9,6 +9,17 @@ class BlogCategories extends Collection {
 
     public function get(){}
 
+    public static function listAll():BlogCategories
+    {
+
+    	$categories = new BlogCategories();
+
+    	$categories->loadFromQuery("CALL sp_blogcategories_list();");
+
+    	return $categories;
+
+    }
+
 }
 
 ?>

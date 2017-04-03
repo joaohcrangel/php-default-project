@@ -9,6 +9,17 @@ class BlogTags extends Collection {
 
     public function get(){}
 
+    public static function listAll():BlogTags
+    {
+
+    	$tags = new BlogTags();
+
+    	$tags->loadFromQuery("CALL sp_blogtags_list();");
+
+    	return $tags;
+
+    }
+
 }
 
 ?>

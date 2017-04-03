@@ -107,14 +107,14 @@ $app->get("/blog-posts", function(){
 	}
 
 	if(get("dtpublished") != ""){
-		array_push($where, "a.dtpublished = ".get("dtpublished")."");
+		array_push($where, "a.dtpublished = '".get("dtpublished")."'");
 	}
 
-	if(get("idcategory")){
+	if(get("idsCategories")){
 		array_push($where, "c.idcategory IN(".get("idcategory").")");
 	}
 
-	if(get("idtag")){
+	if(get("idsTags")){
 		array_push($where, "d.idtag IN(".get("idtag").")");
 	}
 
@@ -125,12 +125,15 @@ $app->get("/blog-posts", function(){
 	}
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogposts a
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor FROM tb_blogposts a
 			INNER JOIN tb_blogauthors b ON a.idauthor = b.idauthor
 			LEFT JOIN tb_blogpostscategories c ON a.idpost = c.idpost
 			LEFT JOIN tb_blogpoststags d ON a.idpost = d.idpost
-		".$where." LIMIT ?, ?;
+		".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
+
+	// pre($query);
+	// exit;
 
 	$pagination = new Pagination(
 		$query,
@@ -285,6 +288,24 @@ $app->delete("/blog-comments", function(){
 	}
 
 	echo success();
+
+});
+
+// blog categories
+$app->get("/blog-categories/all", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	echo success(array("data"=>BlogCategories::listAll()->getFields()));
+
+});
+
+// blog tags
+$app->get("/blog-tags/all", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	echo success(array("data"=>BlogTags::listAll()->getFields()));
 
 });
 

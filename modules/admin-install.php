@@ -3482,7 +3482,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  desresume varchar(512) NOT NULL,
 		  idphoto int(11) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idauthor`),
+		  PRIMARY KEY (idauthor),
 		  CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser),
 		  CONSTRAINT FOREIGN KEY(idphoto) REFERENCES tb_files(idfile)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
@@ -3493,7 +3493,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  idcategory int(11) NOT NULL AUTO_INCREMENT,
 		  descategory varchar(64) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idcategory`)
+		  PRIMARY KEY (idcategory)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3505,11 +3505,15 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  descontentshort varchar(256) NOT NULL,
 		  descontent text NOT NULL,
 		  idauthor int(11) NOT NULL,
+		  dtpublished datetime NULL,
+		  intrash bit NOT NULL DEFAULT b'0',
+		  idcover int(11) NULL,
 		  dtupdated datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idpost`),
+		  PRIMARY KEY (idpost),
 		  CONSTRAINT FOREIGN KEY(idurl) REFERENCES tb_urls(idurl),
-		  CONSTRAINT FOREIGN KEY(idauthor) REFERENCES tb_blogauthors(idauthor)
+		  CONSTRAINT FOREIGN KEY(idauthor) REFERENCES tb_blogauthors(idauthor),
+		  CONSTRAINT FOREIGN KEY(idcover) REFERENCES tb_files(idfile)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
@@ -3521,7 +3525,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  idperson int(11) NOT NULL,
 		  descomment text NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idcomment`),
+		  PRIMARY KEY (idcomment),
 		  CONSTRAINT FOREIGN KEY(idcommentfather) REFERENCES tb_blogcomments(idcomment),
 		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
 		  CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
@@ -3543,7 +3547,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  idtag int(11) NOT NULL AUTO_INCREMENT,
 		  destag varchar(32) NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (`idtag`)
+		  PRIMARY KEY (idtag)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 

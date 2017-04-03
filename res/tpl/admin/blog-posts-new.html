@@ -55,6 +55,10 @@
 
   $(".btn-save").on("click", function(){
 
+    var $btn = $(this);
+
+    $btn.btnload("load");
+
     var destitle = $("[name=destitle]").val();
 
     var data = $("#form-post").formValues();
@@ -81,7 +85,19 @@
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
 
-    console.log(data);
+    rest({
+      url:PATH+"/blog-posts",
+      method:"POST",
+      data:data,
+      success:function(){
+        $btn.btnload("unload");
+        System.success();
+      },
+      failure:function(r){
+        $btn.btnload("unload");
+        System.showError(r);
+      }
+    });
 
   });
 

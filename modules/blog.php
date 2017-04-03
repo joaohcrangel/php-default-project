@@ -160,6 +160,31 @@ $app->post("/blog-posts", function(){
 		$post = new BlogPost();
 	}
 
+	$user = Session::getUser();
+
+	$sql = new Sql();
+
+	$data = $sql->query("
+		SELECT * FROM tb_blogauthors WHERE iduser = ?
+	", array(
+		$user->getiduser()
+	));
+
+	var_dump($data);
+	exit;
+
+	if(post("desurl")){
+
+		$url = new Url(array(
+			"desurl"=>post("desurl")
+		));
+
+		$url->save();
+
+		$_POST['idurl'] = $url->getidurl();
+
+	}
+
 	$post->set($_POST);
 
 	$post->save();

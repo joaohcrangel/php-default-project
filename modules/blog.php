@@ -132,9 +132,6 @@ $app->get("/blog-posts", function(){
 		".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
 
-	// pre($query);
-	// exit;
-
 	$pagination = new Pagination(
 		$query,
 		array(),

@@ -53,6 +53,22 @@
 
   });
 
+  $(".btn-add-cover").on("click", function(){
+
+    $.upload({
+      url:PATH+"/files",
+      multiple:true,
+      accept:"*",
+      modalInfo:true,
+      success:function(){
+
+        System.success();
+
+      }
+    });
+
+  });
+
   $(".btn-save").on("click", function(){
 
     var $btn = $(this);

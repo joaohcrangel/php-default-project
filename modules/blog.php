@@ -170,8 +170,22 @@ $app->post("/blog-posts", function(){
 		$user->getiduser()
 	));
 
-	var_dump($data);
-	exit;
+	if(count($data[0]) > 0){
+		$_POST['idauthor'] = $data[0]['idauthor'];
+	}else{
+
+		$person = $user->getPerson();
+
+		$author = new BlogAuthor(array(
+			"iduser"=>$user->getiduser(),
+			"desauthor"=>$person->getdesperson()
+		));
+
+		$author->save();
+
+		$_POST['idauthor'] = $author->getidauthor();
+
+	}
 
 	if(post("desurl")){
 

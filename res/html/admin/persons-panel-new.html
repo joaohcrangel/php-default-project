@@ -171,6 +171,7 @@
                 <div class="panel-heading">
                   <div class="m-10 btn-group btn-group-flat">
                     <button id="btn-person-files-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button>
+                    <button id="btn-person-files-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button>
                   </div>
                   <div class="panel-actions">
                     <a id="btn-person-files-reload" class="panel-action icon md-refresh-alt" aria-hidden="true"></a>
@@ -213,11 +214,11 @@
                 <div class="panel-body panel-primary panel-line p-b-0 m-0">
 
                   <div class="btn-group open">
-                    <button type="button" class="btn btn-success pull-xs-left waves-effect btn-address-add" id="dropdownaddress" data-toggle="dropdown" aria-expanded="true">
+                    <button type="button" class="btn btn-success pull-xs-left waves-effect btn-address-add" id="dropdownAddress" data-toggle="dropdown" aria-expanded="true">
                       <i class="icon md-plus" aria-hidden="true"></i> adicionar
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownaddress" role="menu">
-                      {loop="addressestypes"}
+                    <div class="dropdown-menu" aria-labelledby="dropdownAddress" role="menu">
+                      {loop="addressesTypes"}
                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idaddresstype="{$value.idaddresstype}">{$value.desaddresstype}</a>
                       {/loop}
                     </div>
@@ -351,7 +352,7 @@
 <li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
   <div class="media-item">
     <div class="checkbox-custom checkbox-primary checkbox-lg">
-      <input type="checkbox" class="selectable-item" id="media_1" />
+      <input type="checkbox" class="selectable-item" id="media_1" data-idfile="{{idfile}}" />
       <label for="media_1"></label>
     </div>
     <div class="image-wrap">
@@ -945,11 +946,11 @@ var personPanel = (function(data, selectorContainer, opts){
 
             case 'tab-person-orders':
             t.$el.find('[name=idnegotiation]').combobox({
-              url:'/orders/negiciacoestypes',
+              url:'/orders/negotiationstypes',
               displayField:'desnegotiation',
               valueField:'idnegotiation'
             });
-            t.loadTableVendas();
+            t.loadTableSales();
             break;
 
             case 'tab-person-sitecontact':
@@ -1038,7 +1039,7 @@ var personPanel = (function(data, selectorContainer, opts){
 
     panel.load();
 
-    loadDefault(PATH+"/persons/"+t.getIdperson()+"/fale-conosco?page="+page+"&limit="+limit, false, function(data, result){
+    loadDefault(PATH+"/persons/"+t.getIdperson()+"/site-contact?page="+page+"&limit="+limit, false, function(data, result){
 
       $list.html('');
 
@@ -1046,7 +1047,7 @@ var personPanel = (function(data, selectorContainer, opts){
 
         var $item = $(t.getTpl('tpl-person-sitecontact-row')(row));
 
-        if (!row.inresposta) $item.addClass('chat-left');
+        if (!row.inanswer) $item.addClass('chat-left');
 
         $list.append($item);
 
@@ -1088,9 +1089,49 @@ var personPanel = (function(data, selectorContainer, opts){
 
       $.each(data, function(index, row){
 
-        var $item = t.getTpl('tpl-person-file')(row);
+        var $item = $(t.getTpl('tpl-person-file')(row));
 
         $list.append($item);
+
+        $item.find(".selectable-item").on("change", function(){
+
+          var selected = $("#tab-person-files [type=checkbox]:checked");
+
+          var disabled = (selected.length > 0) ? false : true;
+
+          $("#btn-person-files-remove").prop("disabled", disabled);
+
+        });
+
+      });
+
+      $("#btn-person-files-remove").on("click", function(){
+
+        var $btn = $(this);
+
+        $btn.btnload("load");
+
+        var ids = [];
+
+        $("#tab-person-files [type=checkbox]:checked").each(function(){
+          ids.push($(this).data("idfile"));
+        });
+
+        rest({
+          url:PATH+"/files",
+          method:"DELETE",
+          data:{
+            ids:ids.toString()
+          },
+          success:function(){
+            $btn.btnload("unload");
+            t.loadFiles(1);
+          },
+          failure:function(r){
+            $btn.btnload("unload");
+            System.showError(r);
+          }
+        });
 
       });
 
@@ -1107,9 +1148,9 @@ var personPanel = (function(data, selectorContainer, opts){
 
   };
 
-  t.loadTableVendas = function(page, callback){
+  t.loadTableSales = function(page, callback){
 
-    var id = 'person-vendas';
+    var id = 'person-sales';
     var limit = t.limit;
     var $panel = $('#tab-person-orders > .panel');
     var panel = System.getPanelApi($panel);
@@ -1172,7 +1213,7 @@ var personPanel = (function(data, selectorContainer, opts){
 
       $btn.btnload('load');
 
-      t.loadTableVendas(1, function(){
+      t.loadTableSales(1, function(){
 
         $btn.btnload('unload');
 

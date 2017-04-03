@@ -37,7 +37,7 @@ class PersonCategoryType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_personscategoriestypes_remove", array(
+        $this->proc("sp_personscategoriestypes_remove", array(
             $this->getidcategory()
         ));
 

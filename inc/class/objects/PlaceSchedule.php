@@ -38,7 +38,9 @@ class PlaceSchedule extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_placesschedules_remove(".$this->getidhorario().")");
+        $this->proc("sp_placesschedules_remove", array(
+            $this->getidhorario()
+        ));
 
         return true;
         

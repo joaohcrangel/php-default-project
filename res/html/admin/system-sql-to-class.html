@@ -106,7 +106,7 @@ app.controller('sql-to-class', function($scope, $http){
 
 		rest({
 			$http:$http,
-			url:PATH+"/admin/sistema/sql-to-class/tables",
+			url:PATH+"/admin/system/sql-to-class/tables",
 			success:function(r){
 
 				if (panel) panel.done();
@@ -127,7 +127,7 @@ app.controller('sql-to-class', function($scope, $http){
 
 		rest({
 			$http:$http,
-			url:PATH+"/admin/sistema/sql-to-class/tables/"+Table.Name,
+			url:PATH+"/admin/system/sql-to-class/tables/"+Table.Name,
 			success:function(r){
 
 				$scope.form = r.data;
@@ -160,7 +160,7 @@ app.controller('sql-to-class', function($scope, $http){
 		rest({
 			method:'POST',
 			$http:$http,
-			url:PATH+"/admin/sistema/sql-to-class/execute",
+			url:PATH+"/admin/system/sql-to-class/execute",
 			data:$scope.form,
 			success:function(r){
 
@@ -202,7 +202,7 @@ app.controller('sql-to-class', function($scope, $http){
 
 		$form.attr({
 			'target':target,
-			'action':PATH+"/admin/sistema/sql-to-class/execute",
+			'action':PATH+"/admin/system/sql-to-class/execute",
 			'method':'POST'
 		});
 

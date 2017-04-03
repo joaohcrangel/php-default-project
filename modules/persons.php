@@ -42,9 +42,14 @@ $app->get("/persons",function(){
 	$params = array();
 	foreach ($_GET as $key => $value) {
 		
-		if (get($key) && !in_array($key, array('pagina', 'limite', 'desperson'))) {
-			array_push($where, $key." = ?");
-			array_push($params, get($key));
+		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
+			if($key == "desperson"){
+				array_push($where, $key." LIKE ?");	
+				array_push($params, get("'%".$key."%'"));
+			}else{
+				array_push($where, $key." = ?");
+				array_push($params, get($key));
+			}			
 		}
 
 	}
@@ -114,9 +119,9 @@ $app->get("/persons-post", function(){
 
 $app->post("/persons/:idperson/photo", function($idperson){
 
-	$file = $_FILES['file'];
+	$file = $_FILES['arquivo'];
 
-	$file = file::upload(
+	$file = File::upload(
 		$file['name'],
 		$file['type'],
 		$file['tmp_name'],

@@ -2,7 +2,7 @@
 
 class FormPayment extends Model {
 
-    public $required = array('idformpayment', 'idgateway', 'desformpayment', 'nrplotsmax');
+    public $required = array('idformpayment', 'idgateway', 'desformpayment', 'nrparcelsmax');
     protected $pk = "idformpayment";
 
     public function get(){
@@ -22,7 +22,7 @@ class FormPayment extends Model {
                 $this->getidformpayment(),
                 $this->getidgateway(),
                 $this->getdesformpayment(),
-                $this->getnrplotsmax(),
+                $this->getnrparcelsmax(),
                 $this->getinstatus()
             ));
 
@@ -38,7 +38,9 @@ class FormPayment extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_formspayments_remove(".$this->getidformpayment().")");
+        $this->proc("sp_formspayments_remove", array(
+            $this->getidformpayment()
+        ));
 
         return true;
         

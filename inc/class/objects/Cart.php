@@ -41,7 +41,9 @@ class Cart extends Model {
     public function remove():bool
     {
 
-        $this->execute("CALL sp_carts_remove(".$this->getidcart().")");
+        $this->proc("sp_carts_remove", array(
+            $this->getidcart()
+        ));
 
         return true;
         

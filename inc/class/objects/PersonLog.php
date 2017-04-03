@@ -39,7 +39,7 @@ class PersonLog extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_personslogs_remove", array(
+        $this->proc("sp_personslogs_remove", array(
             $this->getidpersonlog()
         ));
 

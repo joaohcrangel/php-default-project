@@ -48,7 +48,7 @@ class ContactSubType extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_contactssubtypes_remove", array(
+        $this->proc("sp_contactssubtypes_remove", array(
             $this->getidcontactsubtype()
         ));
 

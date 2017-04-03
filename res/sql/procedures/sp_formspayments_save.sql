@@ -2,15 +2,15 @@ CREATE PROCEDURE sp_formspayments_save(
 pidformpayment INT,
 pidgateway INT,
 pdesformpayment VARCHAR(128),
-pnrplotsmax INT,
+pnrparcelsmax INT,
 pinstatus BIT
 )
 BEGIN
 	
 	IF pidformpayment = 0 THEN
     
-		INSERT INTO tb_formspayments(idgateway, desformspayments, nrplotsmax, instatus)
-        VALUES(pidgateway, pdesformspayments, pnrplotsmax, pinstatus);
+		INSERT INTO tb_formspayments(idgateway, desformpayment, nrparcelsmax, instatus)
+        VALUES(pidgateway, pdesformpayment, pnrparcelsmax, pinstatus);
         
         SET pidformpayment = LAST_INSERT_ID();
         
@@ -19,12 +19,12 @@ BEGIN
 		UPDATE tb_formspayments SET
 			idgateway = pidgateway,
             desformpayment = pdesformpayment,
-            nrplotsmax = pnrplotsmax,
+            nrparcelsmax = pnrparcelsmax,
             instatus = pinstatus
 		WHERE idformpayment = pidformpayment;
         
 	END IF;
     
-    CALL sp_formspayments_get(pidformspayments);
+    CALL sp_formspayments_get(pidformpayment);
 
 END

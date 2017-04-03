@@ -35,7 +35,9 @@ class OrderReceipt extends Model {
 
     public function remove(){
 
-        $this->execute("CALL sp_ordersreceipts_remove(".$this->getidorder().")");
+        $this->proc("sp_ordersreceipts_remove", array(
+            $this->getidorder()
+        ));
 
         return true;
         

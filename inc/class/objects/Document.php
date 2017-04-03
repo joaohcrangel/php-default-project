@@ -39,7 +39,7 @@ class Document extends Model {
     public function remove():bool
     {
 
-        $this->execute("sp_documents_remove", array(
+        $this->proc("sp_documents_remove", array(
             $this->getiddocument()
         ));
 

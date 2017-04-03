@@ -1,8 +1,8 @@
-CREATE PROCEDURE sp_formspayments(
+CREATE PROCEDURE sp_formspayments_get(
 pidformpayment INT
 )
 BEGIN
  SELECT *    
-    FROM tb_formspayment    
+    FROM tb_formspayments    
     WHERE idformpayment = pidformpayment;
 END

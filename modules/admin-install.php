@@ -625,6 +625,182 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 
 
 });
+
+$app->get("/install-admin/sql/transactions/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$sql = new Sql();
+
+	$sql->exec("
+	CREATE TABLE tb_transactionstypes (
+		  idtransactiontype int(11) NOT NULL AUTO_INCREMENT,
+		  destransactiontype varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT PRIMARY KEY (idtransactiontype)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_transactions (
+			idtransaction int(11) NOT NULL AUTO_INCREMENT,
+			destransaction varchar(256) NOT NULL,
+			idtransactiontype int(11) NOT NULL,
+			vltotal decimal(10,2) NOT NULL,
+			dtpayment date NOT NULL,
+			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (idtransaction),
+			KEY fk_transactions_transactionstypes_id (idtransactiontype),
+			CONSTRAINT fk_transactions_transactionstypes FOREIGN KEY (idtransactiontype) REFERENCES tb_transactionstypes (idtransactiontype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/tb_userslogs/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$sql = new Sql();
+	$sql->exec("
+	CREATE TABLE tb_userslogstypes (
+			idlogtype int(11) NOT NULL AUTO_INCREMENT,
+  			deslogtype varchar(32) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlogtype)
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_tb_userslogs (
+			idlog int(11) NOT NULL AUTO_INCREMENT,
+  			iduser int(11) NOT NULL,
+  			idlogtype int(11) NOT NULL,
+  			deslog varchar(256) NOT NULL,
+  			desip varchar(64) NOT NULL,
+  			dessession varchar(64) NOT NULL,
+  			desuseragent varchar(128) NOT NULL,
+  			despath varchar(256) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlog),
+  			KEY fk_userslogs_users_idx (iduser),
+  			KEY fk_userslogs_userslogstypes_idx (idlogtype),
+ 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_addressestypes (idaddresstype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
+
+$app->get("/install-admin/sql/transactions/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_transactions_get",
+       "sp_transactionstypes_get"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/transactions/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+        "sp_transactions_list",
+        "sp_transactionstypes_list"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/transactions/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_transactions_remove",
+       "sp_transactionstypes_remove"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/transactions/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		"sp_transactions_save",
+		"sp_transactionstypes_save"
+	);
+	saveProcedures($procs);
+	echo success();
+});
+
+$app->get("/install-admin/sql/userslogs/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_userslogs_get",
+       "sp_userslogstypes_get"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/userslogs/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+        "sp_userslogs_list",
+        "sp_userslogstypes_list"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/userslogs/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$names = array(
+       "sp_userslogs_remove",
+       "sp_userslogstypes_remove"
+	);
+	saveProcedures($names);
+	echo success();
+});
+$app->get("/install-admin/sql/userslogs/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		"sp_userslogs_save",
+		"sp_userslogstypes_save"
+	);
+	saveProcedures($procs);
+	echo success();
+});
+
+$app->get("/install-admin/sql/transactions/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_transactions");
+
+	echo json_encode($results);
+
+});
+$app->get("/install-admin/sql/userslogs/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_userslogs");
+
+	echo json_encode($results);
+
+});
+
 $app->get("/install-admin/sql/menus/inserts", function(){
 
 	set_time_limit(0);
@@ -642,14 +818,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
-	$menuSistema = new Menu(array(
+	$menuSystem = new Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-code-setting',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_system')
 	));
-	$menuSistema->save();
+	$menuSystem->save();
 	//////////////////////////////////////
 	$menuAdmin = new Menu(array(
 		'nrorder'=>2,
@@ -682,7 +858,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>1,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/menu',
+		'deshref'=>'/system/menu',
 		'desmenu'=>$lang->getString('menus_menu')
 	));
 	$menuMenu->save();
@@ -691,7 +867,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>2,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/users',
+		'deshref'=>'/system/users',
 		'desmenu'=>$lang->getString('menus_user')
 	));
 	$menuusers->save();
@@ -700,23 +876,23 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/configurations',
+		'deshref'=>'/system/configurations',
 		'desmenu'=>$lang->getString('menus_config')
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
 	$menuSqlToClass = new Menu(array(
 		'nrorder'=>0,
-		'idmenufather'=>$menuSistema->getidmenu(),
+		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
-		'deshref'=>'/sistema/sql-to-class',
+		'deshref'=>'/system/sql-to-class',
 		'desmenu'=>$lang->getString('menus_sql_to_class')
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
 	$menuTemplate = new Menu(array(
 		'nrorder'=>1,
-		'idmenufather'=>$menuSistema->getidmenu(),
+		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/../res/theme/material/base/html/index.html',
 		'desmenu'=>$lang->getString('menus_template')
@@ -725,7 +901,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuExemplos = new Menu(array(
 		'nrorder'=>2,
-		'idmenufather'=>$menuSistema->getidmenu(),
+		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_examples')
@@ -966,14 +1142,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
-	$menupaises = new Menu(array(
+	$menuCountries = new Menu(array(
 		"nrorder"=>5,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
-		"deshref"=>"/paises",
+		"deshref"=>"/countries",
 		"desmenu"=>$lang->getString('menus_countries')
 	));
-	$menupaises->save();
+	$menuCountries->save();
 	//////////////////////////////////////
 	$menustates = new Menu(array(
 		"nrorder"=>6,
@@ -1019,7 +1195,61 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'desmenu'=>$lang->getString('menus_urls')
 	));
 	$menuUrls->save();
-	//////////////////////////////////////	
+	//////////////////////////////////////
+	$menuSiteBlog = new Menu(array(
+		'nrorder'=>2,
+		'idmenufather'=>$menuSite->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'',
+		'desmenu'=>$lang->getString('menus_blog')
+	));
+	$menuSiteBlog->save();
+	//////////////////////////////////////
+	$menuSiteBlogPrincipal = new Menu(array(
+		'nrorder'=>0,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/posts',
+		'desmenu'=>$lang->getString('menus_blog_principal')
+	));
+	$menuSiteBlogPrincipal->save();
+	//////////////////////////////////////
+	$menuSiteBlogPostNew = new Menu(array(
+		'nrorder'=>1,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/posts/new',
+		'desmenu'=>$lang->getString('menus_blog_post_new')
+	));
+	$menuSiteBlogPostNew->save();
+	//////////////////////////////////////
+	$menuSiteBlogCategories = new Menu(array(
+		'nrorder'=>2,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/categories',
+		'desmenu'=>$lang->getString('menus_blog_categories')
+	));
+	$menuSiteBlogCategories->save();
+	//////////////////////////////////////
+	$menuSiteBlogTags = new Menu(array(
+		'nrorder'=>3,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/tags',
+		'desmenu'=>$lang->getString('menus_blog_tags')
+	));
+	$menuSiteBlogTags->save();
+	//////////////////////////////////////
+	$menuSiteBlogComments = new Menu(array(
+		'nrorder'=>4,
+		'idmenufather'=>$menuSiteBlog->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/blog/comments',
+		'desmenu'=>$lang->getString('menus_blog_comments')
+	));
+	$menuSiteBlogComments->save();
+	//////////////////////////////////////
 	
 	echo success();
 });
@@ -2142,7 +2372,7 @@ $app->get("/install-admin/sql/orders/tables", function(){
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_formspayments(
+			CREATE TABLE tb_formspayments(
 			idformpayment INT NOT NULL AUTO_INCREMENT,
 			idgateway INT NOT NULL,
 			desformpayment VARCHAR(128) NOT NULL,
@@ -2235,6 +2465,8 @@ $app->get("/install-admin/sql/orders/tables", function(){
 	echo success();
 	
 });
+
+
 $app->get("/install-admin/sql/orders/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2341,6 +2573,92 @@ $app->get("/install-admin/sql/orders/list", function(){
 	echo success();
 	
 });
+/*
+$app->get("/install-admin/sql/formspayments/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);	
+	$sql = new Sql();
+	$sql->exec("
+			CREATE TABLE tb_formspayments(
+			idformpayment INT NOT NULL AUTO_INCREMENT,
+			idgateway INT NOT NULL,
+			desformpayment VARCHAR(128) NOT NULL,
+			nrparcelsmax INT NOT NULL,
+			instatus BIT(1),
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT PRIMARY KEY(idformpayment),
+			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
+		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+});
+*/
+
+$app->get("/install-admin/sql/formspayments/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_list'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/formspayments/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_get'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/formspayments/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_save'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+
+$app->get("/install-admin/sql/formspayments/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		
+		'sp_formspayments_remove'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/formspayments/inserts", function(){
+
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', 512);
+
+	$sql = new Sql();
+	
+	$results = $sql->arrays("SELECT * FROM tb_formspayments");
+
+	echo json_encode($results);
+
+});
+
 
 $app->get("/install-admin/sql/ordersnegotiationstypes/list", function(){
 	set_time_limit(0);
@@ -3497,5 +3815,174 @@ $app->get("/install-admin/sql/personsaddresses/triggers", function(){
 	echo success();
 });
 
+$app->get("/install-admin/sql/blog/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$sql = new Sql();
+
+	$sql->exec("
+		CREATE TABLE tb_blogauthors (
+		  idauthor int(11) NOT NULL AUTO_INCREMENT,
+		  iduser int(11) NOT NULL,
+		  desauthor varchar(32) NOT NULL,
+		  desresume varchar(512) NOT NULL,
+		  idphoto int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idauthor),
+		  CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser),
+		  CONSTRAINT FOREIGN KEY(idphoto) REFERENCES tb_files(idfile)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogcategories (
+		  idcategory int(11) NOT NULL AUTO_INCREMENT,
+		  descategory varchar(64) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcategory)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogposts (
+		  idpost int(11) NOT NULL AUTO_INCREMENT,
+		  destitle varchar(128) NOT NULL,
+		  idurl int(11) NOT NULL,
+		  descontentshort varchar(256) NOT NULL,
+		  descontent text NOT NULL,
+		  idauthor int(11) NOT NULL,
+		  dtpublished datetime NULL,
+		  intrash bit NOT NULL DEFAULT b'0',
+		  idcover int(11) NULL,
+		  dtupdated datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idpost),
+		  CONSTRAINT FOREIGN KEY(idurl) REFERENCES tb_urls(idurl),
+		  CONSTRAINT FOREIGN KEY(idauthor) REFERENCES tb_blogauthors(idauthor),
+		  CONSTRAINT FOREIGN KEY(idcover) REFERENCES tb_files(idfile)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogcomments (
+		  idcomment int(11) NOT NULL AUTO_INCREMENT,
+		  idcommentfather int(11) NOT NULL,
+		  idpost int(11) NOT NULL,
+		  idperson int(11) NOT NULL,
+		  descomment text NOT NULL,
+		  inapproved bit NOT NULL DEFAULT b'0',
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idcomment),
+		  CONSTRAINT FOREIGN KEY(idcommentfather) REFERENCES tb_blogcomments(idcomment),
+		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
+		  CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogpostscategories (
+		  idpost int(11) NOT NULL,
+		  idcategory int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
+		  CONSTRAINT FOREIGN KEY(idcategory) REFERENCES tb_blogcategories(idcategory)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogtags (
+		  idtag int(11) NOT NULL AUTO_INCREMENT,
+		  destag varchar(32) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idtag)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_blogpoststags (
+		  idpost int(11) NOT NULL,
+		  idtag int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  CONSTRAINT FOREIGN KEY(idpost) REFERENCES tb_blogposts(idpost),
+		  CONSTRAINT FOREIGN KEY(idtag) REFERENCES tb_blogtags(idtag)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_get',
+		'sp_blogcategories_get',
+		'sp_blogcomments_get',
+		'sp_blogposts_get',
+		'sp_blogtags_get'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_save',
+		'sp_blogcategories_save',
+		'sp_blogcomments_save',
+		'sp_blogposts_save',
+		'sp_blogtags_save'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_remove',
+		'sp_blogcategories_remove',
+		'sp_blogcomments_remove',
+		'sp_blogposts_remove',
+		'sp_blogtags_remove'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/blog/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_blogauthors_list',
+		'sp_blogcategories_list',
+		'sp_blogcomments_list',
+		'sp_blogposts_list',
+		'sp_blogtags_list'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
 
 ?>

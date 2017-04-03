@@ -73,7 +73,7 @@
 <tr data-idnegotiation="{{idnegotiation}}">
 	<td>{{desnegotiation}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/ordersnegociacoes-types/{{idnegotiation}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/ordersnegotiations-types/{{idnegotiation}}" data-toggle="slidePanel">
       	</button>
       	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-order icon wb-trash">
       	</button>
@@ -114,7 +114,7 @@ init.push(function(){
 		panel.load();
 
 		rest({
-			url:PATH+"/ordersnegociacoestypes",
+			url:PATH+"/ordersnegotiationstypes",
 			data:params,
 			success:function(r){
 
@@ -152,7 +152,7 @@ init.push(function(){
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/ordersnegociacoestypes/"+idnegotiation,
+				          		url: PATH+"/ordersnegotiationstypes/"+idnegotiation,
 				         		 method:'DELETE',
 				          		success: function(r){
 

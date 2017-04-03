@@ -2,7 +2,7 @@
 
 class Url extends Model {
 
-    public $required = array('idurl', 'desurl');
+    public $required = array('desurl');
     protected $pk = "idurl";
 
     public function get(){

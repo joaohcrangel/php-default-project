@@ -228,7 +228,7 @@ init.push(function(){
               ids.push($(this).closest("tr").data("idstate"));
             });
           
-            System.confirm("Deseja remover os states?", function(b, s, f){
+            System.confirm("Deseja remover os estados?", function(b, s, f){
 
               if(b){
 
@@ -240,7 +240,7 @@ init.push(function(){
                   },
                   success:function(){
                     System.done();
-                    System.success("state(s) excluído com sucesso");
+                    System.success("Estado(s) excluído com sucesso");
                     loadStates();
                   },
                   failure:function(r){

@@ -3,8 +3,8 @@ pidpost INT
 )
 BEGIN
 
-    SELECT *    
-    FROM tb_blogposts    
+    SELECT a.*, b.desurl FROM tb_blogposts a
+    	INNER JOIN tb_urls b ON a.idurl = b.idurl
     WHERE idpost = pidpost;
 
 END

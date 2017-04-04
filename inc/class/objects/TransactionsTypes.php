@@ -9,6 +9,15 @@ class TransactionsTypes extends Collection {
 
     public function get(){}
 
+    public static function listAll():TransactionsTypes
+    {
+    	$transaction = new TransactionsTypes();
+
+    	$transaction->loadFromQuery("Call sp_transactionstypes_list()");
+
+    	return $transaction;
+    }
+
 }
 
 ?>

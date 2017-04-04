@@ -77,6 +77,8 @@
 	<string name="menus_cities">Cidades</string>
 	<string name="menus_files">Arquivos</string>
 	<string name="menus_persons_categories_types">Categorias de Pessoas</string>
+	<string name="menus_userslogs_types">Histórico de Usuário</string>
+	<string name="menus_transactions_types">Transações tipos</string>
 	<string name="menus_urls">URLs</string>
 	<string name="menus_blog">Blog</string>
 	<string name="menus_blog_principal">Principal</string>

@@ -52,6 +52,62 @@ class BlogPost extends Model {
         
     }
 
+    public function getTags():BlogTags
+    {
+        return new BlogTags($this);
+    }
+
+    public function getCategories():BlogCategories
+    {
+        return new BlogCategories($this);
+    }
+
+    public function removeTags():bool
+    {
+
+        $this->execute("CALL sp_blogpoststags_remove(?);", array(
+            $this->getidpost()
+        ));
+
+        return true;
+
+    }
+
+    public function addTag(BlogTag $tag):BlogTag
+    {
+
+        $this->execute("CALL sp_blogpoststags_save(?, ?);", array(
+            $this->getidpost(),
+            $tag->getidtag()
+        ));
+
+        return $tag;
+
+    }
+
+    public function removeCategories():bool
+    {
+
+        $this->execute("CALL sp_blogpostscategories_remove(?);", array(
+            $this->getidpost()
+        ));
+
+        return true;
+
+    }
+
+    public function addCategory(BlogCategory $category):BlogCategory
+    {
+
+        $this->execute("CALL sp_blogpostscategories_save(?, ?);", array(
+            $this->getidpost(),
+            $category->getidcategory()
+        ));
+
+        return $category;
+
+    }
+
 }
 
 ?>

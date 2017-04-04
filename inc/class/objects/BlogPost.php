@@ -2,7 +2,7 @@
 
 class BlogPost extends Model {
 
-    public $required = array('destitle', 'idurl', 'descontentshort', 'descontent', 'idauthor', 'intrash');
+    public $required = array('destitle', 'idurl', 'descontentshort', 'descontent', 'idauthor');
     protected $pk = "idpost";
 
     public function get(){

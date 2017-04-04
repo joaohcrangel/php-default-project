@@ -189,6 +189,16 @@ $app->post("/blog-posts", function(){
 
 	if(post("desurl")){
 
+		$sql = new Sql();
+
+		$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?", array(
+			post("desurl")
+		));
+
+		if(count($urls) > 0){
+			throw new Exception("A URL informada já existe", 400);			
+		}
+
 		$url = new Url(array(
 			"desurl"=>post("desurl")
 		));
@@ -202,6 +212,8 @@ $app->post("/blog-posts", function(){
 	if(post("descontentshort") == ""){
 		$_POST['descontentshort'] = substr(post("descontent"), 0, 256);
 	}
+
+	$_POST['intrash'] = (isset($_POST['intrash']) && $_POST['intrash'] === '1') ? true : false;
 
 	$post->set($_POST);
 

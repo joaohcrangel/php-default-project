@@ -234,7 +234,7 @@ init.push(function(){
 
     if(window.idcover != undefined) data.idcover = window.idcover;
 
-    if(inpublished != undefined) data.inpublished = inpublished;
+    if(inpublished != undefined) data.dtpublished = date.getFullYear()+"-"+(date.getMonth() + 1)+"-"+date.getDay();
 
     rest({
       url:PATH+"/blog-posts",

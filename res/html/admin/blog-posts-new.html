@@ -47,14 +47,28 @@
                   <input type="date" id="dtpublished" name="dtpublished" class="form-control">
                 </div>
                 <div class="tags panel">
-                  <h5>Tags</h5>
-                  <ul class="p-10 ul-tags" style="list-style:none;">                  
-                  </ul>
+                  <div class="panel-heading">
+                    <h5 class="panel-title">Tags</h5>
+                    <div class="panel-actions">
+                      <a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <ul class="p-10 ul-tags" style="list-style:none;">                  
+                    </ul>
+                  </div>
                 </div>
                 <div class="categories panel">
-                  <h5>Categorias</h5>
-                  <ul class="p-10 ul-categories" style="list-style:none;">                  
-                  </ul>
+                  <div class="panel-heading">
+                    <h5 class="panel-title">Categorias</h5>
+                    <div class="panel-actions">
+                      <a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <ul class="p-10 ul-categories" style="list-style:none;">                  
+                    </ul>
+                  </div>
                 </div>
               </form>
               <button type="submit" class="btn btn-primary btn-block btn-save">Salvar</button>
@@ -89,6 +103,30 @@
         
   </div>
 </div>
+<div class="modal fade" id="modalTagAdd" tabindex="-1" role="dialog" data-backdrop="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Adicionar Nova Tag</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form-tag-add">
+          
+          <div class="form-group form-material" data-plugin="formMaterial">
+            <label for="destag" class="form-control-label">Nome</label>
+            <input type="text" name="destag" id="destag" class="form-control">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-save">Salvar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- <footer id="person-footer" class="site-footer p-0"></footer>
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">

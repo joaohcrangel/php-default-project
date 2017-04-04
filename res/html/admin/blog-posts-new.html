@@ -18,8 +18,9 @@
   height: 39px;
 }
 .page {
-  height: calc(100% - 83px);
-  min-height: calc(100% - 83px);
+  height: calc(100% - 44px);
+  min-height: calc(100% - 44px);
+  overflow: overlay;
 }
 </style>
 <div class="page bg-white">
@@ -76,13 +77,16 @@
       <label for="desurl" class="m-t-10">URL</label>
       <input type="text" id="desurl" name="desurl" class="form-control">
 
-      <label for="descontentshort">Resumo desta postagem</label>
+    </div>
+
+    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+      <h4>Resumo desta postagem</h4>
       <textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea>
 
       <h3>Escreva a postagem</h3>
       <div id="summernote"></div>
-      
     </div>
+        
   </div>
 </div>
 <!-- <footer id="person-footer" class="site-footer p-0"></footer>

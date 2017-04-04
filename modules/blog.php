@@ -419,6 +419,24 @@ $app->get("/blog-categories/all", function(){
 
 });
 
+$app->post("/blog-categories", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(post("idcategory") > 0){
+		$category = new BlogCategory((int)post("idcategory"));
+	}else{
+		$category = new BlogCategory();
+	}
+
+	$category->set($_POST);
+
+	$category->save();
+
+	echo success(array("data"=>$category->getFields()));
+
+});
+
 // blog tags
 $app->get("/blog-tags/all", function(){
 

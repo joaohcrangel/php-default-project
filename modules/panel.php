@@ -543,6 +543,60 @@ $app->get("/panel/address-type-create", function(){
 
 });
 
+// userslogs-tipos
+$app->get("/panel/userslogs-types/:idlogtype", function($idlogtype){
+
+	$logs = new UserLogType((int)$idlogtype);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/userslog-type-save", array(
+		"logs"=>$logs->getFields()
+	));
+
+});
+
+$app->get("/panel/userslog-type-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/userslog-type-create");
+
+});
+
+// transaçoes-tipos
+$app->get("/panel/transactions-types/:idtransactiontype", function($idtransactiontype){
+
+	$transaction = new TransactionType((int)$idtransactiontype);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/transaction-type-save", array(
+		"transaction"=>$transaction->getFields()
+	));
+
+});
+
+$app->get("/panel/transaction-type-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/transaction-type-create");
+
+});
+
 // historicos-tipos
 $app->get("/panel/logs-types/:idlogtype", function($idlogtype){
 

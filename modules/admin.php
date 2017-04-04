@@ -324,6 +324,37 @@ $app->get("/".DIR_ADMIN."/logs-types", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/userslogs-types", function(){
+
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/userslogs-types");
+
+});
+
+$app->get("/".DIR_ADMIN."/transactions-types", function(){
+    
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $page = new AdminPage(array(
+         'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/transactions-types");
+});
+
 $app->get("/".DIR_ADMIN."/forms-payments", function(){
 
     Permission::checkSession(Permission::ADMIN, true);

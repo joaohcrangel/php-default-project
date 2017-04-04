@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+    <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+        <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions"
+        role="group">
+            <button type="button" class="btn btn-pure slidePanel-close icon md-close"
+            aria-hidden="true">
+            </button>
+        </div>
+        <h4 class="stage-name">
+            <h5 class="taskboard-stage-title text-uppercase">
+                Editar Histórico
+            </h5>
+        </h4>
+    </div>
+</header>
+<div class="slidePanel-inner">
+    <div class="panel">
+        <div class="panel-body p-x-0">
+            <form id="form-userlog-type-save">
+                <div class="form-group">
+                    <div class="form-group form-material">
+                        <input type="hidden" name="idlogtype">
+                        <label>
+                            Nome
+                        </label>
+                        <input type="text" class="form-control" name="deslogtype">
+                    </div>
+                    <button class="btn btn-block btn-primary" id="btnuserlog-type-Save" type="submit">
+                        Salvar Histórico
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+var userLogType = JSON.parse('{function="json_encode($logs)"}');
+
+$("#form-userlog-type-save").formLoad(userLogType);
+
+$("#form-userlog-type-save").form({
+  url:PATH+"/userslogs-types",
+  params:{
+    idlogtype:userLogType.idlogtype
+  },
+  success:function(){
+    System.success("Histórico salvo com sucesso");
+    $(".slidePanel-close").trigger("click");
+    $(".refresh").trigger("click");
+  },
+  failure:function(r){
+    System.showError(r);
+  }
+});
+
+
+</script>

@@ -233,7 +233,30 @@ function loadCategories(){
 
 					});
 
-				});
+					$li.find("[type=checkbox]").on("change", function(){
+
+						var ids = [];
+
+						$("#tab-post-categories li [type=checkbox]:checked").each(function(){
+
+							ids.push($(this).closest("li").data("idcategory"));
+
+						});
+
+						rest({
+							url:PATH+"/blog-posts/"+post.idpost+"/categories",
+							method:"POST",
+							data:{
+								ids:ids.toString()
+							},
+							failure:function(r){
+								System.showError(r);
+							}
+						});
+
+					});
+
+				});				
 
 				$panel.done();
 

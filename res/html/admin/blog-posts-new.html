@@ -69,14 +69,19 @@
   <div class="page-main p-15">
     <!-- Mailbox Header -->
     <div class="page-header p-15">
+
       <h1 class="m-0">Nova Postagem</h1>
       <input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título">
+
       <label for="desurl" class="m-t-10">URL</label>
       <input type="text" id="desurl" name="desurl" class="form-control">
-    </div>
-    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+
+      <label for="descontentshort">Resumo desta postagem</label>
+      <textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea>
+
       <h3>Escreva a postagem</h3>
       <div id="summernote"></div>
+      
     </div>
   </div>
 </div>

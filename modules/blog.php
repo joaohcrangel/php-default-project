@@ -207,6 +207,50 @@ $app->post("/blog-posts", function(){
 
 });
 
+$app->post("/blog-posts/:idpost/tags", function($idpost){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	$ids = explode(",", post("ids"));
+
+	$post = new BlogPost((int)$idpost);
+
+	$post->removeTags();
+
+	foreach($ids as $idtag){
+
+		$tag = new BlogTag((int)$idtag);
+
+		$post->addTag($tag);
+
+	}
+
+	echo success(array("data"=>$post->getFields()));
+
+});
+
+$app->post("/blog-posts/:idpost/categories", function($idpost){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	$ids = explode(",", post("ids"));
+
+	$post = new BlogPost((int)$idpost);
+
+	$post->removeCategories();
+
+	foreach($ids as $idcategory){
+
+		$category = new BlogCategory((int)$idcategory);
+
+		$post->addCategory($category);
+
+	}
+
+	echo success(array("data"=>$post->getFields()));
+
+});
+
 $app->delete("/blog-posts", function(){
 
 	Permission::checkSession(Permission::ADMIN, true);

@@ -18,7 +18,7 @@
 .page {
   height: calc(100% - 83px);
   min-height: calc(100% - 83px);
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line p-20"><form id="form-post"><div class="panel-heading"><h4 class="panel-title">Propriedades da postagem</h4></div><button type="button" class="btn btn-success btn-add-cover">Adicionar capa</button><div class="published panel"><h5>Data de publicação</h5><label for="dtpublished">Escolha uma data</label><input type="date" id="dtpublished" name="dtpublished" class="form-control"></div><div class="tags panel"><h5>Tags</h5><ul class="p-10 ul-tags" style="list-style:none"></ul></div><div class="categories panel"><h5>Categorias</h5><ul class="p-10 ul-categories" style="list-style:none"></ul></div></form><button type="submit" class="btn btn-primary btn-block btn-save">Salvar</button> <button type="submit" class="btn btn-primary btn-block btn-publish">Publicar agora</button></div></section></div></div></div></div><div class="page-main p-15"><div class="page-header p-15"><h1 class="m-0">Nova Postagem</h1><input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título"><label for="desurl" class="m-t-10">URL</label><input type="text" id="desurl" name="desurl" class="form-control"></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><h3>Escreva a postagem</h3><div id="summernote"></div></div></div></div><script id="tpl-tag" type="text/x-handlebars-template"><li data-idtag="{{idtag}}">
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line p-20"><form id="form-post"><input type="hidden" name="idpost"><div class="panel-heading"><h4 class="panel-title">Propriedades da postagem</h4></div><button type="button" class="btn btn-success btn-add-cover">Adicionar capa</button><div class="published panel"><h5>Data de publicação</h5><label for="dtpublished">Escolha uma data</label><input type="date" id="dtpublished" name="dtpublished" class="form-control"></div><div class="tags panel"><h5>Tags</h5><ul class="p-10 ul-tags" style="list-style:none"></ul></div><div class="categories panel"><h5>Categorias</h5><ul class="p-10 ul-categories" style="list-style:none"></ul></div></form><button type="submit" class="btn btn-primary btn-block btn-save">Salvar</button> <button type="submit" class="btn btn-primary btn-block btn-publish">Publicar agora</button></div></section></div></div></div></div><div class="page-main p-15"><div class="page-header p-15"><h1 class="m-0">Nova Postagem</h1><input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título"><label for="desurl" class="m-t-10">URL</label><input type="text" id="desurl" name="desurl" class="form-control"><label for="descontentshort">Resumo desta postagem</label><textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea><h3>Escreva a postagem</h3><div id="summernote"></div></div></div></div><script id="tpl-tag" type="text/x-handlebars-template"><li data-idtag="{{idtag}}">
     <span class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
       />
@@ -45,9 +45,23 @@
 
   var defaultUrl = "/blog/"+date.getFullYear()+"/"+date.getMonth()+"/";
 
+  function stringReplace(str){
+
+    str = str.replace(/[áâã]/g,"a");
+    str = str.replace(/[óô]/g,"o");
+    str = str.replace(/[éê]/g,"e");
+    str = str.replace(/[í]/g,"i");
+    str = str.replace(/[ç]/g,"c");
+    str = str.replace(/[?.]/g,"");
+
+    return str;
+
+  }
+
   $("[name=destitle]").on("change", function(){
 
-    var destitle = $(this).val();
+    var destitle = stringReplace($(this).val().replace(/ /g, "-").toLowerCase());
+    console.log(destitle);
 
     $("[name=desurl]").val(defaultUrl+destitle);
 
@@ -69,11 +83,7 @@
 
   });
 
-  $(".btn-save").on("click", function(){
-
-    var $btn = $(this);
-
-    $btn.btnload("load");
+  function save($btn, inpublished, success = function(){}, failure = function(){}){
 
     var destitle = $("[name=destitle]").val();
 
@@ -103,19 +113,46 @@
 
     if(window.idcover != undefined) data.idcover = window.idcover;
 
+    if(inpublished != undefined) data.inpublished = inpublished;
+
     rest({
       url:PATH+"/blog-posts",
       method:"POST",
       data:data,
-      success:function(){
+      success:function(r){
+        console.log(r.data.idpost);
+        console.log(r.data[0].idpost);
+        $("[name=idpost]").val(r.data.idpost);
         $btn.btnload("unload");
         System.success();
+        if(typeof success == 'function') success();
       },
       failure:function(r){
         $btn.btnload("unload");
         System.showError(r);
+        if(typeof failure == 'function') failure();
       }
     });
+
+  }
+
+  $(".btn-save").on("click", function(){
+
+    var $btn = $(this);
+
+    $btn.btnload("load");
+
+    save($btn);
+
+  });
+
+  $(".btn-publish").on("click", function(){
+
+    var $btn = $(this);
+
+    $btn.btnload("unload");
+
+    save($btn, 1);
 
   });
 

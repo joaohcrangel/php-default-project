@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label" for="idtag">Tag</label>
-                  <select name="idtag" class="form-control" multiple="multiple" data-plugin="select2">                    
+                  <select name="idtag" id="idtag" class="form-control" multiple="multiple" data-plugin="select2">                    
                   </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
@@ -110,7 +110,7 @@
   </div>
 </script>
 <script id="tpl-row" type="text/x-handlebars-template">
-  <tr data-url="{$path}/admin/blog/posts/{{idpost}}" data-toggle="slidePanel">
+  <tr data-url="{$path}/panel/blog-posts/{{idpost}}" data-toggle="slidePanel">
     <td class="cell-60">
       <span class="checkbox-custom checkbox-primary checkbox-lg">
         <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"

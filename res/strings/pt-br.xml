@@ -225,5 +225,8 @@
 	<string name="person_cliente">Cliente</string>
 	<string name="person_fornecedor">Fornecedor</string>
 	<string name="person_colaborador">Colaborador</string>
+
+	<string name="transaction_debito">Débito</string>
+	<string name="transaction_credito">Crédito</string>
 	
 </resources>

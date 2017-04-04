@@ -597,7 +597,7 @@ $app->get("/install-admin/sql/menus/tables", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/transactions/tables", function(){
+$app->get("/install-admin/sql/transactionstypes/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
@@ -610,7 +610,7 @@ $app->get("/install-admin/sql/transactions/tables", function(){
 		  CONSTRAINT PRIMARY KEY (idtransactiontype)
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
+	
 	$sql->exec("
 		CREATE TABLE tb_transactions (
 			idtransaction int(11) NOT NULL AUTO_INCREMENT,
@@ -624,7 +624,7 @@ $app->get("/install-admin/sql/transactions/tables", function(){
 			CONSTRAINT fk_transactions_transactionstypes FOREIGN KEY (idtransactiontype) REFERENCES tb_transactionstypes (idtransactiontype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
+	
 	echo success();
 });
 
@@ -663,7 +663,7 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/transactions/get", function(){
+$app->get("/install-admin/sql/transactionstypes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
@@ -673,7 +673,7 @@ $app->get("/install-admin/sql/transactions/get", function(){
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/transactions/list", function(){
+$app->get("/install-admin/sql/transactionstypes/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
@@ -683,7 +683,7 @@ $app->get("/install-admin/sql/transactions/list", function(){
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/transactions/remove", function(){
+$app->get("/install-admin/sql/transactionstypes/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$names = array(
@@ -693,7 +693,7 @@ $app->get("/install-admin/sql/transactions/remove", function(){
 	saveProcedures($names);
 	echo success();
 });
-$app->get("/install-admin/sql/transactions/save", function(){
+$app->get("/install-admin/sql/transactionstypes/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
@@ -745,17 +745,27 @@ $app->get("/install-admin/sql/userslogs/save", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/transactions/inserts", function(){
+$app->get("/install-admin/sql/transactionstypes/inserts", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	ini_set('memory_limit', 512);
 
-	$sql = new Sql();
-	
-	$results = $sql->arrays("SELECT * FROM tb_transactions");
+	$lang = new Language();
 
-	echo json_encode($results);
+	$typeDebito = new TransactionType(array(
+		'destransactiontype'=>$lang->getString("transaction_debito")
+	));
+
+	$typeDebito->save();
+
+	$lang = new Language();
+
+	$typeCredito = new TransactionType(array(
+		'destransactiontype'=>$lang->getString("transaction_credito")
+	));
+
+	$typeCredito->save();
 
 	echo success();
 
@@ -769,8 +779,6 @@ $app->get("/install-admin/sql/userslogs/inserts", function(){
 	$sql = new Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_userslogs");
-
-	echo json_encode($results);
 
 	echo success();
 
@@ -812,23 +820,23 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
-	$menupersons = new Menu(array(
+	$menuPersons = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-accounts',
 		'deshref'=>'/persons',
 		'desmenu'=>$lang->getString('menus_person')
 	));
-	$menupersons->save();
+	$menuPersons->save();
 	//////////////////////////////////////
-	$menutypes = new Menu(array(
+	$menuTypes = new Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'md-collection-item',
 		'deshref'=>'',
 		'desmenu'=>$lang->getString('menus_type')
 	));
-	$menutypes->save();
+	$menuTypes->save();
 	//////////////////////////////////////
 	$menuMenu = new Menu(array(
 		'nrorder'=>1,
@@ -839,14 +847,14 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuMenu->save();
 	//////////////////////////////////////
-	$menuusers = new Menu(array(
+	$menuUsers = new Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/system/users',
 		'desmenu'=>$lang->getString('menus_user')
 	));
-	$menuusers->save();
+	$menuUsers->save();
 	//////////////////////////////////////
 	$menuConfigs = new Menu(array(
 		'nrorder'=>3,
@@ -893,99 +901,99 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
-	$menupermissions = new Menu(array(
+	$menuPermissions = new Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/permissions',
 		'desmenu'=>$lang->getString('menus_permissions')
 	));
-	$menupermissions->save();
+	$menuPermissions->save();
 	//////////////////////////////////////
-	$menuproducts = new Menu(array(
+	$menuProducts = new Menu(array(
 		'nrorder'=>4,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-devices',
 		'deshref'=>'/products',
 		'desmenu'=>$lang->getString('menus_product')
 	));
-	$menuproducts->save();
+	$menuProducts->save();
 	//////////////////////////////////////
 	$menutypesaddresses = new Menu(array(
 		'nrorder'=>0,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/addresses-types',
 		'desmenu'=>$lang->getString('menus_address')
 	));
 	$menutypesaddresses->save();
 	//////////////////////////////////////
-	$menutypesusers = new Menu(array(
+	$menuTypesUsers = new Menu(array(
 		'nrorder'=>1,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/users-types',
 		'desmenu'=>$lang->getString('menus_user_types')
 	));
-	$menutypesusers->save();
+	$menuTypesUsers->save();
 	//////////////////////////////////////
-	$menutypesdocuments = new Menu(array(
+	$menuTypesDocuments = new Menu(array(
 		'nrorder'=>2,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/documents-types',
 		'desmenu'=>$lang->getString('menus_document_types')
 	));
-	$menutypesdocuments->save();
+	$menuTypesDocuments->save();
 	//////////////////////////////////////
-	$menutypesplaces = new Menu(array(
+	$menuTypesPlaces = new Menu(array(
 		'nrorder'=>3,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/places-types',
 		'desmenu'=>$lang->getString('menus_place_types')
 	));
-	$menutypesplaces->save();
+	$menuTypesPlaces->save();
 	//////////////////////////////////////
-	$menutypesCupons = new Menu(array(
+	$menuTypesCupons = new Menu(array(
 		'nrorder'=>4,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/cupons-types',
 		'desmenu'=>$lang->getString('menus_coupon_types')
 	));
-	$menutypesCupons->save();
+	$menuTypesCupons->save();
 	//////////////////////////////////////
-	$menutypesproducts = new Menu(array(
+	$menuTypesProducts = new Menu(array(
 		'nrorder'=>5,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/products-types',
 		'desmenu'=>$lang->getString('menus_product_types')
 	));
-	$menutypesproducts->save();
+	$menuTypesProducts->save();
 	//////////////////////////////////////
-	$menuordersStatus = new Menu(array(
+	$menuOrdersStatus = new Menu(array(
 		'nrorder'=>6,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/orders-status',
 		'desmenu'=>$lang->getString('menus_order_status')
 	));
-	$menuordersStatus->save();
+	$menuOrdersStatus->save();
 	//////////////////////////////////////
-	$menupersonstypes = new Menu(array(
+	$menuPersonsTypes = new Menu(array(
 		'nrorder'=>7,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/persons-types',
 		'desmenu'=>$lang->getString('menus_person_types')
 	));
-	$menupersonstypes->save();
+	$menuPersonsTypes->save();
 	//////////////////////////////////////
 	$menuContactsTypes = new Menu(array(
 		'nrorder'=>8,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/contacts-types',
 		'desmenu'=>$lang->getString('menus_contact_types')
@@ -994,34 +1002,34 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuGateways = new Menu(array(
 		'nrorder'=>9,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/gateways',
 		'desmenu'=>$lang->getString('menus_gateways')
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
-	$menuHistoricostypes = new Menu(array(
+	$menuHistoricosTypes = new Menu(array(
 		'nrorder'=>10,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/logs-types',
 		'desmenu'=>$lang->getString('menus_log_types')
 	));
-	$menuHistoricostypes->save();
+	$menuHistoricosTypes->save();
 	//////////////////////////////////////
-	$menuFormasorders = new Menu(array(
+	$menuFormasOrders = new Menu(array(
 		'nrorder'=>11,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/formas-pagamentos',
 		'desmenu'=>$lang->getString('menus_order_methods')
 	));
-	$menuFormasorders->save();
+	$menuFormasOrders->save();
 	//////////////////////////////////////
 	$menuPersonsValuesFields = new Menu(array(
 		'nrorder'=>11,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/persons-valuesfields',
 		'desmenu'=>$lang->getString('menus_person_values')
@@ -1030,25 +1038,25 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuConfigurationsTypes = new Menu(array(
 		'nrorder'=>12,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/configurations-types',
 		'desmenu'=>$lang->getString('menus_config_types')
 	));
 	$menuConfigurationsTypes->save();
 	//////////////////////////////////////
-	$menuCarouselsItemstypes = new Menu(array(
+	$menuCarouselsItemsTypes = new Menu(array(
 		'nrorder'=>13,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/carousels-types',
 		'desmenu'=>$lang->getString('menus_carousel_types')
 	));
-	$menuCarouselsItemstypes->save();
+	$menuCarouselsItemsTypes->save();
 	//////////////////////////////////////
 	$menuOrdersNegotiationsTypes = new Menu(array(
 		'nrorder'=>13,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/ordersnegotiationstypes',
 		'desmenu'=>$lang->getString('menus_negotiation_types')
@@ -1156,7 +1164,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuPersonsCategoriesTypes = new Menu(array(
 		'nrorder'=>14,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/persons-categories-types',
 		'desmenu'=>$lang->getString('menus_persons_categories_types')
@@ -1165,7 +1173,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuUsersLogsTypes = new Menu(array(
 		'nrorder'=>15,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/userslogs-types',
 		'desmenu'=>$lang->getString('menus_userslogs_types')
@@ -1174,7 +1182,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	//////////////////////////////////////
 	$menuTransactiosTypes = new Menu(array(
 		'nrorder'=>16,
-		'idmenufather'=>$menutypes->getidmenu(),
+		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
 		'deshref'=>'/transactions-types',
 		'desmenu'=>$lang->getString('menus_transactions_types')
@@ -1750,8 +1758,6 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/inserts", function(){
 	$sql = new Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_ordersnegotiationstypes");
-
-	//echo json_encode($results);
 
 	echo success();
 
@@ -2651,7 +2657,7 @@ $app->get("/install-admin/sql/formspayments/inserts", function(){
 	
 	$results = $sql->arrays("SELECT * FROM tb_formspayments");
 
-	echo json_encode($results);
+	//echo json_encode($results);
 
 	echo success();
 

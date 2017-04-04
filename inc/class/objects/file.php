@@ -156,7 +156,7 @@ class File extends Model {
         }
 
         $file = new File(array(
-            'desdirectory'=>$subdir,
+            'desdirectory'=>$uploadDir,
             'desfile'=>$desname,
             'desextension'=>$ext,
             'desalias'=>$name

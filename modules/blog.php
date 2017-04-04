@@ -170,7 +170,7 @@ $app->post("/blog-posts", function(){
 		$user->getiduser()
 	));
 
-	if(count($data[0]) > 0){
+	if(count($data) > 0){
 		$_POST['idauthor'] = $data[0]['idauthor'];
 	}else{
 
@@ -189,15 +189,54 @@ $app->post("/blog-posts", function(){
 
 	if(post("desurl")){
 
-		$url = new Url(array(
-			"desurl"=>post("desurl")
-		));
+		$sql = new Sql();
+
+		if(post("idurl") > 0){
+
+			$url = new Url((int)post("idurl"));
+
+			$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?;", array(
+				post("desurl")
+			));
+
+			if(count($urls) > 0){
+				$urls2 = $sql->query("SELECT * FROM tb_urls WHERE desurl = ? AND idurl = ?;", array(
+					post("desurl"),
+					post("idurl")
+				));
+
+				if(!count($urls2) > 0){
+					throw new Exception("Essa URL já existe", 400);					
+				}
+			}
+
+		}else{
+
+			$url = new Url(array(
+				"desurl"=>post("desurl")
+			));
+
+			$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?", array(
+				post("desurl")
+			));
+
+			if(count($urls) > 0){
+				throw new Exception("A URL informada já existe", 400);			
+			}
+
+		}	
 
 		$url->save();
 
 		$_POST['idurl'] = $url->getidurl();
 
 	}
+
+	if(post("descontentshort") == ""){
+		$_POST['descontentshort'] = strip_tags(substr(post("descontent"), 0, 256));
+	}
+
+	$_POST['intrash'] = (isset($_POST['intrash']) && $_POST['intrash'] === '1') ? true : false;
 
 	$post->set($_POST);
 
@@ -380,12 +419,48 @@ $app->get("/blog-categories/all", function(){
 
 });
 
+$app->post("/blog-categories", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(post("idcategory") > 0){
+		$category = new BlogCategory((int)post("idcategory"));
+	}else{
+		$category = new BlogCategory();
+	}
+
+	$category->set($_POST);
+
+	$category->save();
+
+	echo success(array("data"=>$category->getFields()));
+
+});
+
 // blog tags
 $app->get("/blog-tags/all", function(){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
 	echo success(array("data"=>BlogTags::listAll()->getFields()));
+
+});
+
+$app->post("/blog-tags", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(post("idtag") > 0){
+		$tag = new BlogTag((int)post("idtag"));
+	}else{
+		$tag = new BlogTag();
+	}
+
+	$tag->set($_POST);
+
+	$tag->save();
+
+	echo success(array("data"=>$tag->getFields()));
 
 });
 

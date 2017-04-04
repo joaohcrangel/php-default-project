@@ -3830,8 +3830,8 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  idauthor int(11) NOT NULL AUTO_INCREMENT,
 		  iduser int(11) NOT NULL,
 		  desauthor varchar(32) NOT NULL,
-		  desresume varchar(512) NOT NULL,
-		  idphoto int(11) NOT NULL,
+		  desresume varchar(512) NULL,
+		  idphoto int(11) NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idauthor),
 		  CONSTRAINT FOREIGN KEY(iduser) REFERENCES tb_users(iduser),
@@ -3965,7 +3965,7 @@ $app->get("/install-admin/sql/blog/remove", function(){
 		'sp_blogcomments_remove',
 		'sp_blogposts_remove',
 		'sp_blogtags_remove',
-		'sp_blogspoststags_remove',
+		'sp_blogpoststags_remove',
 		'sp_blogpostscategories_remove'
 	);
 

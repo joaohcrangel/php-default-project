@@ -2,7 +2,7 @@
 
 class BlogAuthor extends Model {
 
-    public $required = array('iduser', 'desauthor', 'desresume', 'idphoto');
+    public $required = array('iduser', 'desauthor');
     protected $pk = "idauthor";
 
     public function get(){

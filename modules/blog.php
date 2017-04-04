@@ -210,7 +210,7 @@ $app->post("/blog-posts", function(){
 	}
 
 	if(post("descontentshort") == ""){
-		$_POST['descontentshort'] = substr(post("descontent"), 0, 256);
+		$_POST['descontentshort'] = strip_tags(substr(post("descontent"), 0, 256));
 	}
 
 	$_POST['intrash'] = (isset($_POST['intrash']) && $_POST['intrash'] === '1') ? true : false;

@@ -1,6 +1,6 @@
 <?php
 
-class UserslogType extends Model {
+class UserLogType extends Model {
 
     public $required = array('idlogtype', 'deslogtype');
     protected $pk = "idlogtype";

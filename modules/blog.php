@@ -191,17 +191,40 @@ $app->post("/blog-posts", function(){
 
 		$sql = new Sql();
 
-		$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?", array(
-			post("desurl")
-		));
+		if(post("idurl") > 0){
 
-		if(count($urls) > 0){
-			throw new Exception("A URL informada já existe", 400);			
-		}
+			$url = new Url((int)post("idurl"));
 
-		$url = new Url(array(
-			"desurl"=>post("desurl")
-		));
+			$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?;", array(
+				post("desurl")
+			));
+
+			if(count($urls) > 0){
+				$urls2 = $sql->query("SELECT * FROM tb_urls WHERE desurl = ? AND idurl = ?;", array(
+					post("desurl"),
+					post("idurl")
+				));
+
+				if(!count($urls2) > 0){
+					throw new Exception("Essa URL já existe", 400);					
+				}
+			}
+
+		}else{
+
+			$url = new Url(array(
+				"desurl"=>post("desurl")
+			));
+
+			$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?", array(
+				post("desurl")
+			));
+
+			if(count($urls) > 0){
+				throw new Exception("A URL informada já existe", 400);			
+			}
+
+		}	
 
 		$url->save();
 

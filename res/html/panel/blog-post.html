@@ -28,7 +28,7 @@
 	        <div class="tab-pane active" id="tab-post" role="tabpanel">
 	          <form asutocomplete="off" id="form-post" class="slidePanel-form">
 			  	<div class="form-group form-material" data-plugin="formMaterial">
-			      <label class="form-control-label" for="despost">Título</label>
+			      <label class="form-control-label" for="destitle">Título</label>
 			      <input type="text" class="form-control" name="destitle">
 				</div>
 				<div class="form-group form-material" data-plugin="formMaterial">
@@ -43,6 +43,7 @@
                     <div class="row-fluid">
                         <div class="col-xs-6">
                             <h4>Capa</h4>
+                            <input type="hidden" name="idcover">
                             <button type="button" id="btn-cover" class="btn btn-primary">Alterar Capa</button>
                         </div>
                         <div class="col-xs-6">
@@ -126,6 +127,25 @@ var tpl = {
 var post = JSON.parse('{function="json_encode($post)"}');
 
 if(post.despath) $("#img-cover").attr('src', PATH + post.despath);
+
+$("#btn-cover").on("click", function(){
+
+	$.upload({
+      url:PATH+"/files",
+      multiple:true,
+      accept:"*",
+      modalInfo:true,
+      success:function(r){
+
+      	var data = r.data[0];
+
+        $("[name=idcover]").val(data.idfile);
+        $("#img-cover").attr('src', PATH + data.desdirectory + data.desfile +"."+ data.desextension);
+
+      }
+    });
+
+});
 
 console.log(post);
 
@@ -314,7 +334,9 @@ form.form({
   resetForm:false,
   url:PATH+"/blog-posts",
   params:{
-    idpost:post.idpost
+    idpost:post.idpost,
+    idurl:post.idurl,
+    idauthor:post.idauthor
   },
   success:function(){
 

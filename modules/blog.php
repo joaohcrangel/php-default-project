@@ -199,6 +199,10 @@ $app->post("/blog-posts", function(){
 
 	}
 
+	if(post("descontentshort") == ""){
+		$_POST['descontentshort'] = substr(post("descontent"), 0, 256);
+	}
+
 	$post->set($_POST);
 
 	$post->save();

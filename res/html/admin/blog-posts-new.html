@@ -182,7 +182,6 @@ init.push(function(){
   $("[name=destitle]").on("change", function(){
 
     var destitle = stringReplace($(this).val().replace(/ /g, "-").toLowerCase());
-    console.log(destitle);
 
     $("[name=desurl]").val(defaultUrl+destitle);
 
@@ -231,6 +230,7 @@ init.push(function(){
     data.idsCategories = idsCategories.toString();
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
+    data.descontentshort = $("[name=descontentshort]").val();
 
     if(window.idcover != undefined) data.idcover = window.idcover;
 

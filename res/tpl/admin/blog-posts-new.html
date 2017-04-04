@@ -45,11 +45,22 @@
 
   var defaultUrl = "/blog/"+date.getFullYear()+"/"+date.getMonth()+"/";
 
+  function stringReplace(str){
+
+    str = str.replace(/[áâã]/g,"a");
+    str = str.replace(/[óô]/g,"o");
+    str = str.replace(/[éê]/g,"e");
+    str = str.replace(/[í]/g,"i");
+    str = str.replace(/[ç]/g,"c");
+    str = str.replace(/[?.]/g,"");
+
+    return str;
+
+  }
+
   $("[name=destitle]").on("change", function(){
 
-    var destitle = $(this).val();
-
-    destitle.replace(" ", "-");
+    var destitle = stringReplace($(this).val().replace(/ /g, "-").toLowerCase());
     console.log(destitle);
 
     $("[name=desurl]").val(defaultUrl+destitle);

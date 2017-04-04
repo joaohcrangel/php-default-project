@@ -3912,7 +3912,9 @@ $app->get("/install-admin/sql/blog/save", function(){
 		'sp_blogcategories_save',
 		'sp_blogcomments_save',
 		'sp_blogposts_save',
-		'sp_blogtags_save'
+		'sp_blogtags_save',
+		'sp_blogpoststags_save',
+		'sp_blogpostscategories_save'
 	);
 
 	saveProcedures($procs);
@@ -3930,7 +3932,9 @@ $app->get("/install-admin/sql/blog/remove", function(){
 		'sp_blogcategories_remove',
 		'sp_blogcomments_remove',
 		'sp_blogposts_remove',
-		'sp_blogtags_remove'
+		'sp_blogtags_remove',
+		'sp_blogspoststags_remove',
+		'sp_blogpostscategories_remove'
 	);
 
 	saveProcedures($procs);

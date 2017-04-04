@@ -20,7 +20,7 @@ class BlogTags extends Collection {
 
     }
 
-    public function getByPost(BlogPost $post):BlogTags
+    public function getByBlogPost(BlogPost $post):BlogTags
     {
 
         $this->loadFromQuery("CALL sp_tagsfrompost_list(?);", array(

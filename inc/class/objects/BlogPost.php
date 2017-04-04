@@ -52,6 +52,16 @@ class BlogPost extends Model {
         
     }
 
+    public function getTags():BlogTags
+    {
+        return new BlogTags($this);
+    }
+
+    public function getCategories():BlogCategories
+    {
+        return new BlogCategories($this);
+    }
+
 }
 
 ?>

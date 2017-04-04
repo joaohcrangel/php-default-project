@@ -20,6 +20,17 @@ class BlogTags extends Collection {
 
     }
 
+    public function getByPost(BlogPost $post):BlogTags
+    {
+
+        $this->loadFromQuery("CALL sp_tagsfrompost_list(?);", array(
+            $post->getidpost()
+        ));
+
+        return $this;
+
+    }
+
 }
 
 ?>

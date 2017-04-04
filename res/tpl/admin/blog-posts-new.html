@@ -49,6 +49,9 @@
 
     var destitle = $(this).val();
 
+    destitle.replace(" ", "-");
+    console.log(destitle);
+
     $("[name=desurl]").val(defaultUrl+destitle);
 
   });
@@ -106,11 +109,15 @@
       method:"POST",
       data:data,
       success:function(r){
+        console.log(r.data.idpost);
+        console.log(r.data[0].idpost);
         $("[name=idpost]").val(r.data.idpost);
+        $btn.btnload("unload");
         System.success();
         if(typeof success == 'function') success();
       },
       failure:function(r){
+        $btn.btnload("unload");
         System.showError(r);
         if(typeof failure == 'function') failure();
       }

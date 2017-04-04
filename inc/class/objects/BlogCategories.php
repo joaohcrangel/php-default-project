@@ -20,6 +20,17 @@ class BlogCategories extends Collection {
 
     }
 
+    public function getByPost(BlogPost $post):BlogCategories
+    {
+
+        $this->loadFromQuery("CALL sp_categoriesfrompost_list(?);", array(
+            $post->getidpost()
+        ));
+
+        return $this;
+
+    }
+
 }
 
 ?>

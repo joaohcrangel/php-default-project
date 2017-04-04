@@ -3948,7 +3948,9 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_blogcategories_list',
 		'sp_blogcomments_list',
 		'sp_blogposts_list',
-		'sp_blogtags_list'
+		'sp_blogtags_list',
+		'sp_tagsfrompost_list',
+		'sp_categoriesfrompost_list'
 	);
 
 	saveProcedures($procs);

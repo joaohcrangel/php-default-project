@@ -908,4 +908,23 @@ $app->get("/panel/url-create", function(){
 
 });
 
+// blog
+$app->get("/panel/blog-posts/:idpost", function($idpost){
+
+	$post = new BlogPost((int)$idpost);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$post->setTags($post->getTags());
+	$post->setCategories($post->getCategories());
+
+	$page->setTpl("panel/blog-post", array(
+		"post"=>$post->getFields()
+	));
+
+});
+
 ?>

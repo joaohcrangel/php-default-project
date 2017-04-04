@@ -19,7 +19,7 @@
   height: calc(100% - 44px);
   min-height: calc(100% - 44px);
   overflow: overlay;
-}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line p-20"><form id="form-post"><input type="hidden" name="idpost"><div class="panel-heading"><h4 class="panel-title">Propriedades da postagem</h4></div><button type="button" class="btn btn-success btn-add-cover">Adicionar capa</button><div class="published panel"><h5>Data de publicação</h5><label for="dtpublished">Escolha uma data</label><input type="date" id="dtpublished" name="dtpublished" class="form-control"></div><div class="tags panel"><div class="panel-heading"><h5 class="panel-title">Tags</h5><div class="panel-actions"><a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a></div></div><div class="panel-body"><ul class="p-10 ul-tags" style="list-style:none"></ul></div></div><div class="categories panel"><div class="panel-heading"><h5 class="panel-title">Categorias</h5><div class="panel-actions"><a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a></div></div><div class="panel-body"><ul class="p-10 ul-categories" style="list-style:none"></ul></div></div></form><button type="submit" class="btn btn-primary btn-block btn-save">Salvar</button> <button type="submit" class="btn btn-primary btn-block btn-publish">Publicar agora</button></div></section></div></div></div></div><div class="page-main p-15"><div class="page-header p-15"><h1 class="m-0">Nova Postagem</h1><input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título"><label for="desurl" class="m-t-10">URL</label><input type="text" id="desurl" name="desurl" class="form-control"></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><h4>Resumo desta postagem</h4><textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea><h3>Escreva a postagem</h3><div id="summernote"></div></div></div></div><script id="tpl-tag" type="text/x-handlebars-template"><li data-idtag="{{idtag}}">
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line p-20"><form id="form-post"><input type="hidden" name="idpost"><div class="panel-heading"><h4 class="panel-title">Propriedades da postagem</h4></div><button type="button" class="btn btn-success btn-add-cover">Adicionar capa</button><div class="published panel"><h5>Data de publicação</h5><label for="dtpublished">Escolha uma data</label><input type="date" id="dtpublished" name="dtpublished" class="form-control"></div><div class="tags panel"><div class="panel-heading"><h5 class="panel-title">Tags</h5><div class="panel-actions"><a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a></div></div><div class="panel-body"><ul class="p-10 ul-tags" style="list-style:none"></ul></div></div><div class="categories panel"><div class="panel-heading"><h5 class="panel-title">Categorias</h5><div class="panel-actions"><a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a></div></div><div class="panel-body"><ul class="p-10 ul-categories" style="list-style:none"></ul></div></div></form><button type="submit" class="btn btn-primary btn-block btn-save">Salvar</button> <button type="submit" class="btn btn-primary btn-block btn-publish">Publicar agora</button></div></section></div></div></div></div><div class="page-main p-15"><div class="page-header p-15"><h1 class="m-0">Nova Postagem</h1><input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título"><label for="desurl" class="m-t-10">URL</label><input type="text" id="desurl" name="desurl" class="form-control"></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><h4>Resumo desta postagem</h4><textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea><h3>Escreva a postagem</h3><div id="summernote"></div></div></div></div><div class="modal fade" id="modalTagAdd" tabindex="-1" role="dialog" data-backdrop="false"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Adicionar Nova Tag</h4></div><div class="modal-body"><form id="form-tag-add"><div class="form-group form-material" data-plugin="formMaterial"><label for="destag" class="form-control-label">Nome</label><input type="text" name="destag" id="destag" class="form-control"></div></form></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary btn-save-tag">Salvar</button></div></div></div></div><script id="tpl-tag" type="text/x-handlebars-template"><li data-idtag="{{idtag}}">
     <span class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
       />
@@ -152,6 +152,42 @@
     $btn.btnload("unload");
 
     save($btn, 1);
+
+  });
+
+  $(".tags .md-plus").on("click", function(){
+
+    var $modal = $("#modalTagAdd");
+
+    $modal.modal("show");
+
+    $modal.find(".btn-save-tag").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/blog-tags",
+        method:"POST",
+        data:{
+          destag:$modal.find("[name=destag]").val()
+        },
+        success:function(){
+
+          $modal.find(".btn-save-tag").btnload("unload");
+          $modal.find("[type=text]").val('');
+          $modal.modal("hide");
+          loadTags(false);
+
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
 
   });
 

@@ -122,7 +122,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary btn-save">Salvar</button>
+        <button type="button" class="btn btn-primary btn-save-tag">Salvar</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -310,6 +310,42 @@ init.push(function(){
     $btn.btnload("unload");
 
     save($btn, 1);
+
+  });
+
+  $(".tags .md-plus").on("click", function(){
+
+    var $modal = $("#modalTagAdd");
+
+    $modal.modal("show");
+
+    $modal.find(".btn-save-tag").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/blog-tags",
+        method:"POST",
+        data:{
+          destag:$modal.find("[name=destag]").val()
+        },
+        success:function(){
+
+          $modal.find(".btn-save-tag").btnload("unload");
+          $modal.find("[type=text]").val('');
+          $modal.modal("hide");
+          loadTags(false);
+
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
 
   });
 

@@ -428,4 +428,22 @@ $app->get("/blog-tags/all", function(){
 
 });
 
+$app->post("/blog-tags", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(post("idtag") > 0){
+		$tag = new BlogTag((int)post("idtag"));
+	}else{
+		$tag = new BlogTag();
+	}
+
+	$tag->set($_POST);
+
+	$tag->save();
+
+	echo success(array("data"=>$tag->getFields()));
+
+});
+
 ?>

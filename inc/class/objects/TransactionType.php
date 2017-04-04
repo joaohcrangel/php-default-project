@@ -1,9 +1,8 @@
-
 <?php
 
 class TransactionType extends Model {
 
-    public $required = array('idtransactiontype', 'destransactiontype');
+    public $required = array('destransactiontype');
     protected $pk = "idtransactiontype";
 
     public function get(){

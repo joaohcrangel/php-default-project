@@ -18,8 +18,9 @@
   height: 39px;
 }
 .page {
-  height: calc(100% - 83px);
-  min-height: calc(100% - 83px);
+  height: calc(100% - 44px);
+  min-height: calc(100% - 44px);
+  overflow: overlay;
 }
 </style>
 <div class="page bg-white">
@@ -46,14 +47,28 @@
                   <input type="date" id="dtpublished" name="dtpublished" class="form-control">
                 </div>
                 <div class="tags panel">
-                  <h5>Tags</h5>
-                  <ul class="p-10 ul-tags" style="list-style:none;">                  
-                  </ul>
+                  <div class="panel-heading">
+                    <h5 class="panel-title">Tags</h5>
+                    <div class="panel-actions">
+                      <a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <ul class="p-10 ul-tags" style="list-style:none;">                  
+                    </ul>
+                  </div>
                 </div>
                 <div class="categories panel">
-                  <h5>Categorias</h5>
-                  <ul class="p-10 ul-categories" style="list-style:none;">                  
-                  </ul>
+                  <div class="panel-heading">
+                    <h5 class="panel-title">Categorias</h5>
+                    <div class="panel-actions">
+                      <a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a>
+                    </div>
+                  </div>
+                  <div class="panel-body">
+                    <ul class="p-10 ul-categories" style="list-style:none;">                  
+                    </ul>
+                  </div>
                 </div>
               </form>
               <button type="submit" class="btn btn-primary btn-block btn-save">Salvar</button>
@@ -76,15 +91,69 @@
       <label for="desurl" class="m-t-10">URL</label>
       <input type="text" id="desurl" name="desurl" class="form-control">
 
-      <label for="descontentshort">Resumo desta postagem</label>
+    </div>
+
+    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+      <h4>Resumo desta postagem</h4>
       <textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea>
 
       <h3>Escreva a postagem</h3>
       <div id="summernote"></div>
-      
     </div>
+        
   </div>
 </div>
+
+<div class="modal fade" id="modalTagAdd" tabindex="-1" role="dialog" data-backdrop="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Adicionar Nova Tag</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form-tag-add">
+          
+          <div class="form-group form-material" data-plugin="formMaterial">
+            <label for="destag" class="form-control-label">Nome</label>
+            <input type="text" name="destag" id="destag" class="form-control">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-save-tag">Salvar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalCategoryAdd" tabindex="-1" role="dialog" data-backdrop="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Adicionar Nova Categoria</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form-category-add">
+          
+          <div class="form-group form-material" data-plugin="formMaterial">
+            <label for="descategory" class="form-control-label">Nome</label>
+            <input type="text" name="descategory" id="descategory" class="form-control">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-save-category">Salvar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- <footer id="person-footer" class="site-footer p-0"></footer>
 <script id="tpl-footer" type="text/x-handlebars-template">
   <div style="padding: 0px 30px; line-height: 36px;">
@@ -178,7 +247,6 @@ init.push(function(){
   $("[name=destitle]").on("change", function(){
 
     var destitle = stringReplace($(this).val().replace(/ /g, "-").toLowerCase());
-    console.log(destitle);
 
     $("[name=desurl]").val(defaultUrl+destitle);
 
@@ -227,18 +295,17 @@ init.push(function(){
     data.idsCategories = idsCategories.toString();
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
+    data.descontentshort = $("[name=descontentshort]").val();
 
     if(window.idcover != undefined) data.idcover = window.idcover;
 
-    if(inpublished != undefined) data.inpublished = inpublished;
+    if(inpublished != undefined) data.dtpublished = date.getFullYear()+"-"+(date.getMonth() + 1)+"-"+date.getDay();
 
     rest({
       url:PATH+"/blog-posts",
       method:"POST",
       data:data,
       success:function(r){
-        console.log(r.data.idpost);
-        console.log(r.data[0].idpost);
         $("[name=idpost]").val(r.data.idpost);
         $btn.btnload("unload");
         System.success();
@@ -270,6 +337,78 @@ init.push(function(){
     $btn.btnload("unload");
 
     save($btn, 1);
+
+  });
+
+  $(".tags .md-plus").on("click", function(){
+
+    var $modal = $("#modalTagAdd");
+
+    $modal.modal("show");
+
+    $modal.find(".btn-save-tag").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/blog-tags",
+        method:"POST",
+        data:{
+          destag:$modal.find("[name=destag]").val()
+        },
+        success:function(){
+
+          $modal.find(".btn-save-tag").btnload("unload");
+          $modal.find("[type=text]").val('');
+          $modal.modal("hide");
+          loadTags(false);
+
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
+
+  });
+
+  $(".categories .md-plus").on("click", function(){
+
+    var $modal = $("#modalCategoryAdd");
+
+    $modal.modal("show");
+
+    $modal.find(".btn-save-category").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/blog-categories",
+        method:"POST",
+        data:{
+          descategory:$modal.find("[name=descategory]").val()
+        },
+        success:function(){
+
+          $modal.find(".btn-save-category").btnload("unload");
+          $modal.find("[type=text]").val('');
+          $modal.modal("hide");
+          loadCategories(false);
+
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
 
   });
 

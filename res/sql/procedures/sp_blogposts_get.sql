@@ -3,8 +3,9 @@ pidpost INT
 )
 BEGIN
 
-    SELECT a.*, b.desurl FROM tb_blogposts a
+    SELECT a.*, b.desurl, c.desdirectory FROM tb_blogposts a
     	INNER JOIN tb_urls b ON a.idurl = b.idurl
+        LEFT JOIN tb_files c ON a.idcover = c.idfile
     WHERE idpost = pidpost;
 
 END

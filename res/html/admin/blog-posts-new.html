@@ -241,8 +241,6 @@ init.push(function(){
       method:"POST",
       data:data,
       success:function(r){
-        console.log(r.data.idpost);
-        console.log(r.data[0].idpost);
         $("[name=idpost]").val(r.data.idpost);
         $btn.btnload("unload");
         System.success();

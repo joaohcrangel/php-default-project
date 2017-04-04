@@ -46,7 +46,7 @@
                             <button type="button" id="btn-cover" class="btn btn-primary">Alterar Capa</button>
                         </div>
                         <div class="col-xs-6">
-                            <img class="img-rounded" width="150" height="150" src="{$path}/res/img/placeholder.png">
+                            <img class="img-rounded" id="img-cover" width="150" height="150" src="{$path}/res/img/placeholder.png">
                         </div>
                     </div>
                 </div>
@@ -125,9 +125,11 @@ var tpl = {
 
 var post = JSON.parse('{function="json_encode($post)"}');
 
+if(post.desdirectory) $("#img-cover").attr('src', PATH + post.desdirectory);
+
 console.log(post);
 
-var isTagsLoaded = false
+var isTagsLoaded = false;
 
 function loadTags(){
 

@@ -170,7 +170,7 @@ $app->post("/blog-posts", function(){
 		$user->getiduser()
 	));
 
-	if(count($data[0]) > 0){
+	if(count($data) > 0){
 		$_POST['idauthor'] = $data[0]['idauthor'];
 	}else{
 

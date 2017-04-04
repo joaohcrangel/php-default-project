@@ -35,6 +35,7 @@
           <section class="page-aside-section p-t-0">
             <div class="panel-primary panel-line p-20">
               <form id="form-post">
+                <input type="hidden" name="idpost">
                 <div class="panel-heading">
                   <h4 class="panel-title">Propriedades da postagem</h4>
                 </div>
@@ -180,11 +181,7 @@ init.push(function(){
 
   });
 
-  $(".btn-save").on("click", function(){
-
-    var $btn = $(this);
-
-    $btn.btnload("load");
+  function save($btn, inpublished, success = function(){}, failure = function(){}){
 
     var destitle = $("[name=destitle]").val();
 
@@ -214,19 +211,42 @@ init.push(function(){
 
     if(window.idcover != undefined) data.idcover = window.idcover;
 
+    if(inpublished != undefined) data.inpublished = inpublished;
+
     rest({
       url:PATH+"/blog-posts",
       method:"POST",
       data:data,
-      success:function(){
-        $btn.btnload("unload");
+      success:function(r){
+        $("[name=idpost]").val(r.data.idpost);
         System.success();
+        if(typeof success == 'function') success();
       },
       failure:function(r){
-        $btn.btnload("unload");
         System.showError(r);
+        if(typeof failure == 'function') failure();
       }
     });
+
+  }
+
+  $(".btn-save").on("click", function(){
+
+    var $btn = $(this);
+
+    $btn.btnload("load");
+
+    save($btn);
+
+  });
+
+  $(".btn-publish").on("click", function(){
+
+    var $btn = $(this);
+
+    $btn.btnload("unload");
+
+    save($btn, 1);
 
   });
 

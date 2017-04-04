@@ -657,12 +657,12 @@ $app->get("/install-admin/sql/transactions/tables", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/tb_userslogs/tables", function(){
+$app->get("/install-admin/sql/userslogs/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
 	$sql->exec("
-	CREATE TABLE tb_userslogstypes (
+		CREATE TABLE tb_userslogstypes (
 			idlogtype int(11) NOT NULL AUTO_INCREMENT,
   			deslogtype varchar(32) NOT NULL,
   			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -671,7 +671,7 @@ $app->get("/install-admin/sql/tb_userslogs/tables", function(){
 	");
 
 	$sql->exec("
-		CREATE TABLE tb_tb_userslogs (
+		CREATE TABLE tb_userslogs (
 			idlog int(11) NOT NULL AUTO_INCREMENT,
   			iduser int(11) NOT NULL,
   			idlogtype int(11) NOT NULL,
@@ -1250,6 +1250,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogComments->save();
 	//////////////////////////////////////
+	$menuEmail = new Menu(array(
+		'nrorder'=>11,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-email',
+		'deshref'=>'/emails',
+		'desmenu'=>$lang->getString('menus_emails')
+	));
+	$menuEmail->save();
+	//////////////////////////////////////
 	
 	echo success();
 });
@@ -1745,7 +1754,7 @@ $app->get("/install-admin/sql/addresses/cities/inserts", function(){
 	
 	$results = $sql->arrays("SELECT * FROM tb_cities");
 
-	echo json_encode($results);
+	echo success();
 
 });
 $app->get("/install-admin/sql/ordersnegotiationstypes/inserts", function(){ 
@@ -1757,7 +1766,7 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/inserts", function(){
 	
 	$results = $sql->arrays("SELECT * FROM tb_ordersnegotiationstypes");
 
-	echo json_encode($results);
+	echo success();
 
 });
 $app->get("/install-admin/sql/addresses/get", function(){
@@ -3977,6 +3986,121 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_blogcomments_list',
 		'sp_blogposts_list',
 		'sp_blogtags_list'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/emails/tables", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$sql = new Sql();
+
+	$sql->exec("
+		CREATE TABLE tb_emails (
+		  idemail int(11) NOT NULL AUTO_INCREMENT,
+		  desemail varchar(256) NOT NULL,
+		  dessubject varchar(256) NOT NULL,
+		  desbody text NOT NULL,
+		  desbcc varchar(256) DEFAULT NULL,
+		  descc varchar(256) DEFAULT NULL,
+		  desreplyto varchar(256) DEFAULT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idemail)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_emailsattachments (
+		  idemail int(11) NOT NULL,
+		  idfile int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idemail,idfile),
+		  KEY fk_emailsattachments_files_idx (idfile),
+		  CONSTRAINT fk_emailsattachments_emails FOREIGN KEY (idemail) REFERENCES tb_emails (idemail) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT fk_emailsattachments_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_emailsblacklists (
+		  idblacklist int(11) NOT NULL AUTO_INCREMENT,
+		  idcontact int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idblacklist),
+		  KEY fk_emailsblacklists_contacts_idx (idcontact),
+		  CONSTRAINT fk_emailsblacklists_contacts FOREIGN KEY (idcontact) REFERENCES tb_contacts (idcontact) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	$sql->exec("
+		CREATE TABLE tb_emailsshipments (
+		  idshipment int(11) NOT NULL AUTO_INCREMENT,
+		  idemail int(11) NOT NULL,
+		  idcontact int(11) NOT NULL,
+		  dtsent datetime DEFAULT NULL,
+		  dtreceived datetime DEFAULT NULL,
+		  dtvisualized datetime DEFAULT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idshipment),
+		  KEY fk_emailsshipments_emails_idx (idemail),
+		  KEY fk_emailsshipments_contacts_idx (idcontact),
+		  CONSTRAINT fk_emailsshipments_contacts FOREIGN KEY (idcontact) REFERENCES tb_contacts (idcontact) ON DELETE NO ACTION ON UPDATE NO ACTION,
+		  CONSTRAINT fk_emailsshipments_emails FOREIGN KEY (idemail) REFERENCES tb_emails (idemail) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/emails/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_emailsblacklists_get',
+		'sp_emailsattachments_get',
+		'sp_emails_get',
+		'sp_emailsshipments_get'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/emails/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_emailsblacklists_save',
+		'sp_emailsattachments_save',
+		'sp_emails_save',
+		'sp_emailsshipments_save'
+	);
+
+	saveProcedures($procs);
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/emails/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_emailsblacklists_remove',
+		'sp_emailsattachments_remove',
+		'sp_emails_remove',
+		'sp_emailsshipments_remove'
 	);
 
 	saveProcedures($procs);

@@ -226,5 +226,7 @@
 
 	<string name="sitesmenus_home">Home</string>
 	<string name="sitesmenus_contact">Contato</string>
+
+	<string name="menus_emails">Serviço de E-mails</string>
 	
 </resources>

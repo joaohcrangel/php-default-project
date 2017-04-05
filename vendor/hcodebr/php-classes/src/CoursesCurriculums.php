@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class CoursesCurriculums extends Collection {
 
-    protected $class = "CourseCurriculum";
+    protected $class = "Hcode\CourseCurriculum";
     protected $saveQuery = "sp_coursescurriculums_save";
     protected $saveArgs = array("idcurriculum", "descurriculum", "idsection", "desdescription", "nrordem");
     protected $pk = "idcurriculum";

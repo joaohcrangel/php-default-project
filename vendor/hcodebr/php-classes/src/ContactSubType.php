@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class ContactSubType extends Model {
 
     const TELEFONE_CASA = 1;

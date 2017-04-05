@@ -4,7 +4,7 @@ namespace Hcode;
 
 class SitesContatos extends Collection {
 
-    protected $class = "SiteContato";
+    protected $class = "Hcode\SiteContato";
     protected $saveQuery = "sp_sitescontatos_save";
     protected $saveArgs = array("idsitecontato", "idpessoa", "desmensagem", "inlido", "idpessoaresposta");
     protected $pk = "idsitecontato";

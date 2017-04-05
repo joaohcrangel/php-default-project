@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class CartFreight extends Model {
 
     public $required = array('idcart', 'deszipcode', 'vlfreight');

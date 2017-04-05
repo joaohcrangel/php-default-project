@@ -2,7 +2,10 @@
 
 namespace Hcode;
 
-class Page {
+use Hcode\Locale\Language;
+use Rain\Tpl;
+
+abstract class Page {
 
 	private $language;
 	private $Tpl;
@@ -19,14 +22,22 @@ class Page {
 		)
 	);
 
-	public function __construct($options = array()){
+	private function getConfig():array
+	{
 
-		$rootdir = PATH;
+		return array(
+			"base_url"      => PATH,
+			"tpl_dir"       => PATH."/res/tpl/",
+			"cache_dir"     => PATH."/res/tpl/tmp/",
+			"debug"         => false // set to false to improve the speed
+	    );
 
-		raintpl::configure("base_url", $rootdir );
-		raintpl::configure("tpl_dir", $rootdir."/res/tpl/" );
-		raintpl::configure("cache_dir", $rootdir."/res/tpl/tmp/" );
-		raintpl::configure("path_replace", false );
+	}
+
+	public function __construct($options = array())
+	{
+
+		Tpl::configure( $this->getConfig() );
 
 		$options = array_merge($this->options, $options);
 
@@ -51,13 +62,15 @@ class Page {
 
 	}
 
-	public function getString($name){
+	public function getString($name):string
+	{
 
 		return $this->language->getString($name);
 
 	}
 
-	public function __destruct(){
+	public function __destruct()
+	{
 
 		$tpl = $this->getTpl();
 
@@ -71,7 +84,8 @@ class Page {
 
 	}
 
-	public function setTpl($tplname, $data = array(), $returnHTML = false){
+	public function setTpl($tplname, $data = array(), $returnHTML = false)
+	{
 
 		$tpl = $this->getTpl();
 
@@ -85,9 +99,10 @@ class Page {
 
 	}
 
-	public function getTpl(){
+	public function getTpl():Tpl
+	{
 
-		return ($this->Tpl)?$this->Tpl:$this->Tpl = new RainTPL;
+		return ($this->Tpl)?$this->Tpl:$this->Tpl = new Tpl;
 
 	}
 

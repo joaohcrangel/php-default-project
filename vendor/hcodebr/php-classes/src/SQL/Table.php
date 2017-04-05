@@ -1,6 +1,6 @@
 <?php 
 
-namespace SQL;
+namespace Hcode\SQL;
 
 class Table extends \Model {
 	

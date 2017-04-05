@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Carousels extends Collection {
 
-    protected $class = "Carousel";
+    protected $class = "Hcode\Carousel";
     protected $saveQuery = "sp_carousels_save";
     protected $saveArgs = array("idcarousel", "descarousel", "inloop", "innav", "incenter", "inautowidth", "invideo", "inlazyload", "indots", "nritems", "nrstagepadding");
     protected $pk = "idcarousel";

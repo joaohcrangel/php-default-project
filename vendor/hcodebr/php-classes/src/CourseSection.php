@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class CourseSection extends Model {
 
     public $required = array('idsection', 'dessection', 'nrordem', 'idcourse');

@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class File extends Model {
 
     public $required = array('desdirectory', 'desfile', 'desextension', 'desalias');

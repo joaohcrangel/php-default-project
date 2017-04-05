@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class FormsPayments extends Collection {
 
-    protected $class = "FormPayment";
+    protected $class = "Hcode\FormPayment";
     protected $saveQuery = "sp_formspayments_save";
     protected $saveArgs = array("idformpayment", "idgateway", "desformpayment", "nrparcelsmax", "instatus");
     protected $pk = "idformpayment";

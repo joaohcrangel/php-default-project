@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class CreditCards extends Collection {
 
-    protected $class = "CreditCard";
+    protected $class = "Hcode\CreditCard";
     protected $saveQuery = "sp_creditcards_save";
     protected $saveArgs = array("idcard", "idperson", "desname", "dtvalidity", "nrcds", "desnumber");
     protected $pk = "idcard";

@@ -4,7 +4,7 @@ namespace Hcode;
 
 class OrdersReceipts extends Collection {
 
-    protected $class = "OrderReceipt";
+    protected $class = "Hcode\OrderReceipt";
     protected $saveQuery = "sp_ordersreceipts_save";
     protected $saveArgs = array("idorder", "desauthentication");
     protected $pk = "idorder";

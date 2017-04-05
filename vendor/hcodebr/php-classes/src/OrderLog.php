@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class OrderLog extends Model {
 
     public $required = array('idlog', 'idorder', 'iduser');

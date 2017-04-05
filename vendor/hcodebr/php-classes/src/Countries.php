@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Countries extends Collection {
 
-    protected $class = "Country";
+    protected $class = "Hcode\Country";
     protected $saveQuery = "sp_countries_save";
     protected $saveArgs = array("idcountry", "descountry");
     protected $pk = "idcountry";

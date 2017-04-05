@@ -1,11 +1,10 @@
-
-
-
 <?php
+
+namespace Hcode;
 
 class CouponsTypes extends Collection {
 
-    protected $class = "CouponType";
+    protected $class = "Hcode\CouponType";
     protected $saveQuery = "sp_couponstypes_save";
     protected $saveArgs = array("idcoupontype", "descoupontype", "dtregister");
     protected $pk = "idcoupontype";

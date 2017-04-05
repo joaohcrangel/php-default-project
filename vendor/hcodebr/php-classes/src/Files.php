@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Files extends Collection {
 
-    protected $class = "file";
+    protected $class = "Hcode\File";
     protected $saveQuery = "sp_files_save";
     protected $saveArgs = array("idfile", "desdirectory", "desfile", "desextension", "desname");
     protected $pk = "idfile";

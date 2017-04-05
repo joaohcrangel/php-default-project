@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class CouponType extends Model {
 
     public $required = array('idcoupontype', 'descoupontype');

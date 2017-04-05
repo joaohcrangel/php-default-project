@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class ContactsTypes extends Collection {
 
-    protected $class = "ContactType";
+    protected $class = "Hcode\ContactType";
     protected $saveQuery = "sp_contactstypes_save";
     protected $saveArgs = array("idcontacttype", "descontacttype");
     protected $pk = "idcontacttype";

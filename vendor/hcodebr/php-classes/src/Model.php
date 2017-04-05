@@ -4,6 +4,10 @@
  * joaohcrangel@gmail.com
  *
  */
+namespace Hcode;
+
+use Hcode\Locale\Language;
+
 interface ModelInterface {
 
 	public function get();

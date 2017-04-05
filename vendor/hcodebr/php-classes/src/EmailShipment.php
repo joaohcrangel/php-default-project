@@ -1,5 +1,6 @@
-
 <?php
+
+namespace Hcode;
 
 class EmailShipment extends Model {
 

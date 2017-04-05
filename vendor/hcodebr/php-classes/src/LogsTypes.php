@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class LogsTypes extends Collection {
 
-    protected $class = "LogType";
+    protected $class = "Hcode\LogType";
     protected $saveQuery = "sp_logstypes_save";
     protected $saveArgs = array("idlogtype", "deslogtype");
     protected $pk = "idlogtype";

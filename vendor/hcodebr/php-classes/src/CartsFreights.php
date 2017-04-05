@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class CartsFreights extends Collection {
 
-    protected $class = "CartFreight";
+    protected $class = "Hcode\CartFreight";
     protected $saveQuery = "sp_cartsfreights_save";
     protected $saveArgs = array("idcart", "deszipcode", "vlfreight");
     protected $pk = "idcart";

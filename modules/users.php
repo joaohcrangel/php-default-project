@@ -2,17 +2,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/users/login", function(){
 
-	$user = User::login(strtolower(post('username')), post('password'));
+	$user = Hcode\User::login(strtolower(post('username')), post('password'));
 
 	$user->getPerson();
 
-	Session::setUser($user, (isset($_POST['remember'])));
+	Hcode\Session::setUser($user, (isset($_POST['remember'])));
 	
-	$configurations = Configurations::listAll();
+	$configurations = Hcode\Configurations::listAll();
 
-	Session::setConfigurations($configurations);
+	Hcode\Session::setConfigurations($configurations);
 
-	Menu::resetMenuSession();
+	Hcode\Menu::resetMenuSession();
 
 	echo success(array(
 		'token'=>session_id(), 
@@ -23,17 +23,17 @@ $app->post("/users/login", function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/users/login", function(){
 
-	$user = User::login('root', 'root');
+	$user = Hcode\User::login('root', 'root');
 
 	$user->getPerson();
 
-	Session::setUser($user, (isset($_POST['remember'])));
+	Hcode\Session::setUser($user, (isset($_POST['remember'])));
 
-	$configurations = Configurations::listAll();
+	$configurations = Hcode\Configurations::listAll();
 
-	Session::setConfigurations($configurations);
+	Hcode\Session::setConfigurations($configurations);
 
-	Menu::resetMenuSession();
+	Hcode\Menu::resetMenuSession();
 
 	echo success(array(
 		'token'=>session_id(), 

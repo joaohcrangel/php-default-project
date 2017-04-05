@@ -2,7 +2,7 @@
 
  $app->get("/addressestypes",function(){
 
-   $address = AddressesTypes::listAll();
+   $address = Types::listAll();
     echo success(array(
      "data"=> $address->getFields()
    	));

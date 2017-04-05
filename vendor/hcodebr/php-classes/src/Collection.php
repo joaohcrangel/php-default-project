@@ -4,6 +4,8 @@
  * joaohcrangel@gmail.com
  *
  */
+namespace Hcode;
+
 abstract class Collection extends Model {
   
 	protected $itens = array();
@@ -86,19 +88,22 @@ abstract class Collection extends Model {
 
 	}
 
-	public function &getItens(){
+	public function &getItens()
+	{
 
 		return $this->itens;
 
 	}
 
-	public function loadFromQuery($query, $params = array()){
+	public function loadFromQuery($query, $params = array())
+	{
 
 		return $this->load($this->getSql()->arrays($query, false, $params));
 
 	}
 
-	public function load($data){
+	public function load($data)
+	{
 
 		if(!gettype($data) === "array") throw new Exception("Uma coleção só pode definir itens à partir de um Array");
 

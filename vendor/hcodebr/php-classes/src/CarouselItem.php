@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class CarouselItem extends Model {
 
     public $required = array('iditem', 'desitem', 'nrorder', 'idtype', 'idcarousel');

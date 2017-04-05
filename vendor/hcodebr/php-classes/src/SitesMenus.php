@@ -4,7 +4,7 @@ namespace Hcode;
 
 class SitesMenus extends Collection {
 
-    protected $class = "SiteMenu";
+    protected $class = "Hcode\SiteMenu";
     protected $saveQuery = "sp_sitesmenus_save";
     protected $saveArgs = array("idmenu", "idmenufather", "desmenu", "desicon", "deshref", "nrorder");
     protected $pk = "idmenu";

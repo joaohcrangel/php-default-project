@@ -4,7 +4,7 @@ namespace Hcode;
 
 class SettingsTypes extends Collection {
 
-    protected $class = "SettingType";
+    protected $class = "Hcode\SettingType";
     protected $saveQuery = "sp_settingstypes_save";
     protected $saveArgs = array("idsettingtype", "dessettingtype");
     protected $pk = "idsettingtype";

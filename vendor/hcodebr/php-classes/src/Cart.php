@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Cart extends Model {
 
     public $required = array('idcart', 'idperson', 'dessession');

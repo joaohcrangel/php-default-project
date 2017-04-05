@@ -4,7 +4,7 @@ namespace Hcode;
 
 class PersonsCategoriesTypes extends Collection {
 
-    protected $class = "PersonCategoryType";
+    protected $class = "Hcode\PersonCategoryType";
     protected $saveQuery = "sp_personscategoriestypes_save";
     protected $saveArgs = array("idcategory", "descategory");
     protected $pk = "idcategory";

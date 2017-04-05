@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class CreditCard extends Model {
 
     public $required = array('idcard', 'idperson', 'desname', 'dtvalidity', 'nrcds', 'desnumber');

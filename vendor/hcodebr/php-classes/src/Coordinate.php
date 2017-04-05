@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Coordinate extends Model {
 
     public $required = array('vllatitude', 'vllongitude', 'nrzoom');

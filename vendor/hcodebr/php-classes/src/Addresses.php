@@ -4,7 +4,7 @@ namespace Hcode;
 
 class Addresses extends Collection {
 
-    protected $class = "Address";
+    protected $class = "Hcode\Address";
     protected $saveQuery = "sp_addresses_save";
     protected $saveArgs = array("idaddress", "idaddresstype", "desaddress", "desnumber", "desdistrict", "descity", "desstate", "descountry", "descep", "descomplement", "inmain");
     protected $pk = "idaddress";

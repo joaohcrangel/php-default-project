@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class City extends Model {
 
     public $required = array('idcity', 'descity', 'idstate');

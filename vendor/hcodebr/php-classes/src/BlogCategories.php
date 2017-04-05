@@ -4,7 +4,7 @@ namespace Hcode;
 
 class BlogCategories extends Collection {
 
-    protected $class = "BlogCategory";
+    protected $class = "Hcode\BlogCategory";
     protected $saveQuery = "sp_blogcategories_save";
     protected $saveArgs = array("idcategory", "descategory");
     protected $pk = "idcategory";

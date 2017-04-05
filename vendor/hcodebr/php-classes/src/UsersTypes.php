@@ -4,7 +4,7 @@ namespace Hcode;
 
 class UsersTypes extends Collection {
 
-    protected $class = "UserType";
+    protected $class = "Hcode\UserType";
     protected $saveQuery = "sp_userstypes_save";
     protected $saveArgs = array("idusertype", "desusertype");
     protected $pk = "idusertype";

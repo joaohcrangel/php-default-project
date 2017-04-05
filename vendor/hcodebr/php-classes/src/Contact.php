@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Contact extends Model {
 
     public $required = array('idcontact', 'idcontactsubtype', 'idperson', 'descontact', 'inprincipal');

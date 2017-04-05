@@ -3,11 +3,12 @@
 define('START_EXECUTION', microtime(true));
 
 require_once("inc/configuration.php");
-require_once("inc/class/vendor/Slim/Slim.php");
 
-\Slim\Slim::registerAutoloader();
+use Slim\Slim;
 
-$app = new \Slim\Slim();
+Slim::registerAutoloader();
+
+$app = new Slim();
 
 $app->config('debug', false);
 

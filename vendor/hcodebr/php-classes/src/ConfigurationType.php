@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class ConfigurationType extends Model {
 
     const STRING = 1;

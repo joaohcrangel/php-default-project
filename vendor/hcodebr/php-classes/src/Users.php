@@ -4,7 +4,7 @@ namespace Hcode;
 
 class Users extends Collection {
 
-    protected $class = "User";
+    protected $class = "Hcode\User";
     protected $saveQuery = "sp_users_save";
     protected $saveArgs = array("iduser", "idperson", "desuser", "despassword", "inblocked", "idusertype");
     protected $pk = "iduser";

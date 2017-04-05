@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Configuration extends Model {
 
     public $required = array('desconfiguration', 'desvalue', 'idconfigurationtype');

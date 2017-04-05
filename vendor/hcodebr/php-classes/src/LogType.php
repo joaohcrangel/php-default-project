@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class LogType extends Model {
 
     public $required = array('idlogtype', 'deslogtype');

@@ -1,4 +1,7 @@
 <?php
+
+namespace Hcode;
+
 class DefaultObject {
 
 	protected $fields = NULL;

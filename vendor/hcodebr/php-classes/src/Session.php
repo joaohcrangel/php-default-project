@@ -2,6 +2,10 @@
 
 namespace Hcode;
 
+use \Hcode\User;
+use \Hcode\Configurations;
+use \Hcode\Configuration;
+
 class Session extends DefaultObject {
 
 	public static function setObjectInSession($object){
@@ -20,7 +24,10 @@ class Session extends DefaultObject {
 
 		if(isset($_SESSION[$class_name])){
 			try{
-				return new $class_name($_SESSION[$class_name]);
+
+				$class = "Hcode\\".$class_name;
+
+				return new $class($_SESSION[$class_name]);
 			}catch(Exception $e){
 				return $_SESSION[$class_name];
 			}
@@ -35,7 +42,7 @@ class Session extends DefaultObject {
 	}
 
 	public static function getCollectionFromSession($class_name){
-
+		
 		if(isset($_SESSION[$class_name])){
 			try{
 				$col = new $class_name();
@@ -205,7 +212,7 @@ class Session extends DefaultObject {
 	public static function getConfigurations():Configurations
 	{
 
-		return Session::getCollectionFromSession('Configurations');
+		return Session::getCollectionFromSession('Hcode\Configurations');
 
 	}
 	

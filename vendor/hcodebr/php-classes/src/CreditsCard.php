@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class CreditsCards extends Collection {
 
     protected $class = "CreditCard";

@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Configurations extends Collection {
 
-    protected $class = "Configuration";
+    protected $class = "Hcode\Configuration";
     protected $saveQuery = "sp_configurations_save";
     protected $saveArgs = array("idconfiguration", "desconfiguration", "desvalue", "desdescription", "idconfigurationtype");
     protected $pk = "idconfiguration";

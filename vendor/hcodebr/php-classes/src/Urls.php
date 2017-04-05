@@ -4,7 +4,7 @@ namespace Hcode;
 
 class Urls extends Collection {
 
-    protected $class = "Url";
+    protected $class = "Hcode\Url";
     protected $saveQuery = "sp_urls_save";
     protected $saveArgs = array("idurl", "desurl", "destitle");
     protected $pk = "idurl";

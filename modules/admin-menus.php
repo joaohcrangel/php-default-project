@@ -1,16 +1,16 @@
-<?php 
+<?php
 
 $app->get("/".DIR_ADMIN."/system/menu", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "header"=>true,
         "footer"=>true
     ));
 
     $page->setTpl("/admin/system-menu", array(
-        'menuHTML'=>Menu::getAllMenuOL()
+        'menuHTML'=>Hcode\Menu::getAllMenuOL()
     ));
 
 });

@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Gateway extends Model {
 
     public $required = array('idgateway', 'desgateway');

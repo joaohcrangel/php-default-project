@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class BlogTag extends Model {
 
     public $required = array('destag');

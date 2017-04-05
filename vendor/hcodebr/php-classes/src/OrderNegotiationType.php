@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class OrderNegotiationType extends Model {
 
     public $required = array('desnegotiation');

@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class BlogPost extends Model {
 
     public $required = array('destitle', 'idurl', 'descontentshort', 'descontent', 'idauthor');

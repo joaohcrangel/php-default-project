@@ -4,7 +4,7 @@ namespace Hcode;
 
 class Places extends Collection {
 
-    protected $class = "Place";
+    protected $class = "Hcode\Place";
     protected $saveQuery = "sp_placees_save";
     protected $saveArgs = array("idplace", "idplacefather", "desplace", "idplacetype", "descontent", "nrviews", "vlreview");
     protected $pk = "idplace";

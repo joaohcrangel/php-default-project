@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class BlogTags extends Collection {
 
-    protected $class = "BlogTag";
+    protected $class = "Hcode\BlogTag";
     protected $saveQuery = "sp_blogtags_save";
     protected $saveArgs = array("idtag", "destag");
     protected $pk = "idtag";

@@ -4,7 +4,7 @@ namespace Hcode;
 
 class AddressesTypes extends Collection {
 
-    protected $class = "AddressType";
+    protected $class = "Hcode\AddressType";
     protected $saveQuery = "sp_addressestypes_save";
     protected $saveArgs = array("idaddresstype", "desaddresstype");
     protected $pk = "idaddresstype";

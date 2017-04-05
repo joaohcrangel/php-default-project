@@ -4,7 +4,7 @@ namespace Hcode;
 
 class States extends Collection {
 
-    protected $class = "State";
+    protected $class = "Hcode\State";
     protected $saveQuery = "sp_states_save";
     protected $saveArgs = array("idstate", "desstate", "desuf", "idcountry");
     protected $pk = "idstate";

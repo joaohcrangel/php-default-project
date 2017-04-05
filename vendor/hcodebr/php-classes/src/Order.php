@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Order extends Model {
 
     public $required = array('idorder', 'idperson', 'idformidorder', 'idstatus', 'dessession', 'vltotal', 'nrplots');

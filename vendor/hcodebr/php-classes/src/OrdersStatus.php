@@ -4,7 +4,7 @@ namespace Hcode;
 
 class OrdersStatus extends Collection {
 
-    protected $class = "OrderStatus";
+    protected $class = "Hcode\OrderStatus";
     protected $saveQuery = "sp_ordersstatus_save";
     protected $saveArgs = array("idstatus", "desstatus");
     protected $pk = "idstatus";

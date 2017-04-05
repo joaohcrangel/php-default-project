@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Document extends Model {
 
     public $required = array('iddocument', 'iddocumenttype', 'idperson', 'desdocument');

@@ -465,8 +465,3 @@ $app->post("/blog-tags", function(){
 });
 
 ?>
-
-///fazer o administrativo do
- 
- ("blogcategories")
- ("blogtags")

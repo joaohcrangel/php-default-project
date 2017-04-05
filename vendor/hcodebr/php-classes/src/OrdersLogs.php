@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class OrdersLogs extends Collection {
 
-    protected $class = "OrderLog";
+    protected $class = "Hcode\OrderLog";
     protected $saveQuery = "sp_orderslogs_save";
     protected $saveArgs = array("idlog", "idorder", "iduser");
     protected $pk = "idlog";

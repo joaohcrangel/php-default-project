@@ -4,7 +4,7 @@ namespace Hcode;
 
 class Permissions extends Collection {
 
-    protected $class = "Permission";
+    protected $class = "Hcode\Permission";
     protected $saveQuery = "sp_permissions_save";
     protected $saveArgs = array("idpermission", "despermission");
     protected $pk = "idpermission";

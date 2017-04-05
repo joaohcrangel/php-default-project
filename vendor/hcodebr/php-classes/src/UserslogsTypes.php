@@ -4,7 +4,7 @@ namespace Hcode;
 
 class UsersLogsTypes extends Collection {
 
-    protected $class = "UserLogType";
+    protected $class = "Hcode\UserLogType";
     protected $saveQuery = "sp_userslogstypes_save";
     protected $saveArgs = array("idlogtype", "deslogtype", "dtregister");
     protected $pk = "idlogtype";

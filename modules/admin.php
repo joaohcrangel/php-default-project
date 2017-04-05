@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'head_title'=>'Administração'
         )
@@ -43,7 +43,7 @@ $app->get("/".DIR_ADMIN."/home", function(){
 
 $app->get("/".DIR_ADMIN."/login", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false,
         'data'=>array(

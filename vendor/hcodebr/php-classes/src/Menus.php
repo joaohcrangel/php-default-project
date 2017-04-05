@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Menus extends Collection {
 
-    protected $class = "Menu";
+    protected $class = "Hcode\Menu";
     protected $saveQuery = "sp_menus_save";
     protected $saveArgs = array("idmenu", "idmenufather", "desmenu", "desicon", "deshref", "nrorder", "nrsubmenus");
     protected $pk = "idmenu";

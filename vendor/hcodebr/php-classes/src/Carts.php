@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Carts extends Collection {
 
     protected $class = "Cart";

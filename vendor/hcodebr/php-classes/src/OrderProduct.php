@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class OrderProduct extends Model {
 
     public $required = array('idorder', 'idproduct', 'nrqtd', 'vlprice', 'vltotal');

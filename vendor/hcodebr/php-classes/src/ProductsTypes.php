@@ -4,7 +4,7 @@ namespace Hcode;
 
 class ProductsTypes extends Collection {
 
-    protected $class = "ProductType";
+    protected $class = "Hcode\ProductType";
     protected $saveQuery = "sp_productstypes_save";
     protected $saveArgs = array("idproducttype", "desproducttype");
     protected $pk = "idproducttype";

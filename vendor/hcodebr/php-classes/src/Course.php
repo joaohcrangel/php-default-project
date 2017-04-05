@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Course extends Model {
 
     public $required = array('idcourse', 'descourse', 'vlworkload', 'nrlessons', 'nrexercises', 'inremoved');

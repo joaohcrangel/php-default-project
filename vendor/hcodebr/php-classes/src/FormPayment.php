@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class FormPayment extends Model {
 
     public $required = array('idformpayment', 'idgateway', 'desformpayment', 'nrparcelsmax');

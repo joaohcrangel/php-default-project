@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Country extends Model {
 
     public $required = array('idcountry', 'descountry');

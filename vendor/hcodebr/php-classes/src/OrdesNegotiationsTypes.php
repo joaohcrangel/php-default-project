@@ -4,7 +4,7 @@ namespace Hcode;
 
 class OrdersNegotiationsTypes extends Collection {
 
-    protected $class = "OrderNegotiationType";
+    protected $class = "Hcode\OrderNegotiationType";
     protected $saveQuery = "sp_ordersnegotiationstypes_save";
     protected $saveArgs = array("idnegotiation", "desnegotiation");
     protected $pk = "idnegotiation";

@@ -1,4 +1,7 @@
 <?php
+
+namespace Hcode\Locale;
+
 class Language {
 
 	private $default = "pt-BR";

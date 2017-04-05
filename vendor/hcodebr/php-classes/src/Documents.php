@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Documents extends Collection {
 
-    protected $class = "Document";
+    protected $class = "Hcode\Document";
     protected $saveQuery = "sp_documents_save";
     protected $saveArgs = array("iddocument", "iddocumenttype", "idperson", "desdocument");
     protected $pk = "iddocument";

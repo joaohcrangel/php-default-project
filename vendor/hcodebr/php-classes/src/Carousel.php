@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Carousel extends Model {
 
     public $required = array('idcarousel', 'descarousel', 'inloop', 'innav', 'incenter', 'inautowidth', 'invideo', 'inlazyload', 'indots', 'nritems', 'nrstagepadding');

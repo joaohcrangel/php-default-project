@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class OrderReceipt extends Model {
 
     public $required = array('idorder', 'desauthentication');

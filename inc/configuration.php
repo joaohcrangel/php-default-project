@@ -9,10 +9,11 @@ if((float)PHP_VERSION < 5.5) {
 	exit;
 }
 
+require_once("vendor/autoload.php");
 require_once("consts.php");
 require_once("functions.php");
 require_once("raintpl/inc/rain.tpl.class.php");
 
 //Define a função autoload como uma função automatica de __autoload
-spl_autoload_register('autoload_php_default_project');
+//spl_autoload_register('autoload_php_default_project');
 ?>

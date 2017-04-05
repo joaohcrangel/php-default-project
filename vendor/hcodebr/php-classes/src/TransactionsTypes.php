@@ -4,7 +4,7 @@ namespace Hcode;
 
 class TransactionsTypes extends Collection {
 
-    protected $class = "TransactionType";
+    protected $class = "Hcode\TransactionType";
     protected $saveQuery = "sp_transactionstypes_save";
     protected $saveArgs = array("idtransactiontype", "destransactiontype", "dtregister");
     protected $pk = "idtransactiontype";

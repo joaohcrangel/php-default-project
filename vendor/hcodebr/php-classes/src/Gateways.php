@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Gateways extends Collection {
 
-    protected $class = "Gateway";
+    protected $class = "Hcode\Gateway";
     protected $saveQuery = "sp_gateways_save";
     protected $saveArgs = array("idgateway", "desgateway");
     protected $pk = "idgateway";

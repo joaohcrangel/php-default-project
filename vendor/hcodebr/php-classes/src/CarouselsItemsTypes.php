@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class CarouselsItemsTypes extends Collection {
 
-    protected $class = "CarouselItemType";
+    protected $class = "Hcode\CarouselItemType";
     protected $saveQuery = "sp_carouselsitemstypes_save";
     protected $saveArgs = array("idtype", "destype");
     protected $pk = "idtype";

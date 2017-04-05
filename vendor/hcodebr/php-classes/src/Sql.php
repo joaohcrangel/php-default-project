@@ -2,6 +2,9 @@
 
 namespace Hcode;
 
+use \PDO;
+use \DateTime;
+
 class Sql extends PDO {
 
 	private $conn;

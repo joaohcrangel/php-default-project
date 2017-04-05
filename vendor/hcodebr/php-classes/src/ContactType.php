@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class ContactType extends Model {
 
     public $required = array('descontacttype');

@@ -4,7 +4,7 @@ namespace Hcode;
 
 class SitesContacts extends Collection {
 
-    protected $class = "SiteContact";
+    protected $class = "Hcode\SiteContact";
     protected $saveQuery = "sp_sitescontacts_save";
     protected $saveArgs = array("idsitecontact", "idperson", "desmessage", "inread", "idpersonanswer");
     protected $pk = "idsitecontact";

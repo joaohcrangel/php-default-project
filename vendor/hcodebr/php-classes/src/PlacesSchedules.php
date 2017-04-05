@@ -4,7 +4,7 @@ namespace Hcode;
 
 class PlacesSchedules extends Collection {
 
-    protected $class = "PlaceSchedule";
+    protected $class = "Hcode\PlaceSchedule";
     protected $saveQuery = "sp_placesschedules_save";
     protected $saveArgs = array("idschedule", "idplace", "nrday", "hropen", "hrclose");
     protected $pk = "idschedule";

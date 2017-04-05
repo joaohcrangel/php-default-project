@@ -4,7 +4,7 @@ namespace Hcode;
 
 class PersonsLogs extends Collection {
 
-    protected $class = "PersonLog";
+    protected $class = "Hcode\PersonLog";
     protected $saveQuery = "sp_personslogs_save";
     protected $saveArgs = array("idpersonlog", "idperson", "idlogtype", "deslog");
     protected $pk = "idpersonlog";

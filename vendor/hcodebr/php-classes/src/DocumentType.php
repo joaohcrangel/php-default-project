@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class DocumentType extends Model {
 
     const CPF = 1;

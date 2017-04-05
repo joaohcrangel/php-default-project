@@ -1,8 +1,10 @@
 <?php
 
+namespace Hcode;
+
 class Cities extends Collection {
 
-    protected $class = "City";
+    protected $class = "Hcode\City";
     protected $saveQuery = "sp_cities_save";
     protected $saveArgs = array("idcity", "descity", "idstate");
     protected $pk = "idcity";

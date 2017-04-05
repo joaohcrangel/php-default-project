@@ -1,5 +1,7 @@
 <?php
 
+namespace Hcode;
+
 class Menu extends Model {
 
     public $required = array('desmenu', 'nrorder');

@@ -13,5 +13,18 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Principal</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_profile">Perfil</string>
+    <string name="prompt_profile_desperson">Nome</string>
+    <string name="action_profile_save">Salvar</string>
+    <string name="action_profile_password">Alterar Senha</string>
+    <string name="title_activity_profile_password">Alterar Senha</string>
+    <string name="profile_password_current_pass">Senha Atual</string>
+    <string name="profile_password_new">Nova Senha</string>
+    <string name="profile_password_new_repeat">Confirme a Nova Senha</string>
 </resources>

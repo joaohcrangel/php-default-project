@@ -149,21 +149,21 @@
               if (typeof o.selectfiles === 'function') o.selectfiles(files);
               
               $.store({
-	        	url:PATH+"/files-upload_max_filesize",
-	        	success:function(data){
+    	        	url:PATH+"/files-upload_max_filesize",
+    	        	success:function(data){
 
-	        		o.fileSizeMax = parseInt(data);
-	        		
-	        		$.each(files, function(index, file){
+    	        		o.fileSizeMax = parseInt(data);
+    	        		
+    	        		$.each(files, function(index, file){
 
-		                t.addFileToQueue(file);
+    		                t.addFileToQueue(file);
 
-		            });
+    		            });
 
-		            t.startUpload();
+    		            t.startUpload();
 
-	        	}
-		      });
+    	        	}
+    		      });
 
             }
 

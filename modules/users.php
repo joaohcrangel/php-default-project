@@ -7,7 +7,7 @@ $app->post("/users/login", function(){
 	$user->getPerson();
 
 	Session::setUser($user, (isset($_POST['remember'])));
-
+	
 	$configurations = Configurations::listAll();
 
 	Session::setConfigurations($configurations);
@@ -243,21 +243,21 @@ $app->post("/users/:iduser/password", function($iduser){
 
 	Permission::checkSession(Permission::ADMIN);
 
-	if (!post('despasswordnova')) {
+	if (!post('passwordnew')) {
 		throw new Exception("Informe a senha.", 400);
 	}
 
-	if (post('despasswordnova')!==post('despasswordconfirme')) {
+	if (post('passwordnew')!==post('passwordconfirm')) {
 		throw new Exception("Confirme a senha corretamente.", 400);
 	}
 
 	$user = new User((int)$iduser);
 
-	if (!$user->checkPassword(post('despasswordatual'))) {
+	if (!$user->checkPassword(post('passwordcurrent'))) {
 		throw new Exception("A senha atual não é válida.", 400);
 	}
 
-	$user->setdespassword(User::getPasswordHash(post('despasswordnova')));
+	$user->setdespassword(User::getPasswordHash(post('passwordnew')));
 
 	$user->save();
 
@@ -410,7 +410,9 @@ $app->get("/users/:iduser", function($iduser){
 		throw new Exception("ID de usuário não informado.", 400);
 	}
 
-	$user = new User($iduser);
+	$user = new User((int)$iduser);
+
+	$user->getPerson();
 
 	if (!(int)$user->getiduser() > 0) {
 		throw new Exception("Usuário não encontrado.", 404);

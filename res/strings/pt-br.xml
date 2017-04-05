@@ -63,7 +63,8 @@
 	<string name="menus_order_methods">Formas de Pagamentos</string>
 	<string name="menus_person_values">Pessoas Valores Campos</string>
 	<string name="menus_config_types">Configurações Tipos</string>
-	<string name="menus_carousel_types">Carousels Items Tipos</string><string name="menus_negotiation_types">Pedidos Negociações Tipos</string>	
+	<string name="menus_carousel_types">Carousels Items Tipos</string>
+	<string name="menus_negotiation_types">Pedidos Negociações Tipos</string>	
 	<string name="menus_orders">Pedidos</string>
 	<string name="menus_carts">Carrinhos</string>
 	<string name="menus_places">Lugares</string>
@@ -225,6 +226,11 @@
 	<string name="person_cliente">Cliente</string>
 	<string name="person_fornecedor">Fornecedor</string>
 	<string name="person_colaborador">Colaborador</string>
+
+	<string name="sitesmenus_home">Home</string>
+	<string name="sitesmenus_contact">Contato</string>
+
+	<string name="menus_emails">Serviço de E-mails</string>
 
 	<string name="transaction_debito">Débito</string>
 	<string name="transaction_credito">Crédito</string>

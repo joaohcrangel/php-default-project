@@ -1,0 +1,187 @@
+/* ----------------------------------------------------------------
+    Canvas: Media Agency Demo
+    Version: 1.0.1
+-----------------------------------------------------------------*/
+
+
+#wrapper {
+	margin: 0;
+	width: 75%;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.device-md #wrapper { width: 80%; }
+
+.device-sm #wrapper,
+.device-xs #wrapper,
+.device-xxs #wrapper { width: 100%; }
+
+.side-cover-wrapper {
+	position: fixed;
+	top: 0;
+	left: auto;
+	right: 0;
+	width: 25%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center right;
+	background-size: cover;
+}
+
+.device-md .side-cover-wrapper { width: 20%; }
+
+.device-xs .side-cover-wrapper,
+.device-xxs .side-cover-wrapper { width: 0; }
+
+.container-fluid {
+	padding-left: 120px;
+	padding-right: 120px;
+}
+
+.device-md .container-fluid {
+	padding-left: 80px;
+	padding-right: 80px;
+}
+
+.device-xs .container-fluid,
+.device-xxs .container-fluid {
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+
+/* Header
+---------------------------------------------------------------------------- */
+
+#primary-menu ul li a {
+	font-size: 11px;
+	color: #888;
+}
+
+.header-social-set {
+	float: right;
+	margin: 34px 0;
+}
+
+@media (max-width: 991px) {
+
+	#primary-menu-trigger { left: 106px !important; }
+
+	.header-social-set {
+		position: absolute;
+		top: 0;
+		left: auto;
+		right: 120px;
+	}
+
+}
+
+@media (max-width: 767px) {
+
+	#primary-menu-trigger { left: 26px !important; }
+
+	.header-social-set { right: 40px; }
+
+}
+
+
+/* Headings
+---------------------------------------------------------------------------- */
+
+.hero-headline h1 {
+	font-size: 58px;
+	line-height: 1.6;
+	font-weight: 700;
+	text-transform: none;
+	color: #111;
+	letter-spacing: -2px;
+	word-spacing: 5px;
+	margin-bottom: 0;
+}
+
+.hero-headline > span {
+	display: block;
+	font-family: 'Merriweather';
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 2;
+	color: #999;
+	margin-top: 40px;
+	max-width: 80%;
+}
+
+
+.device-sm .hero-headline h1 { font-size: 48px; }
+
+@media (max-width: 767px) {
+
+	.hero-headline h1 {
+		font-size: 36px;
+		letter-spacing: -1px;
+		word-spacing: 3px;
+	}
+
+	.hero-headline > span {
+		font-size: 14px;
+		max-width: 100%;
+	}
+
+}
+
+
+/* Portfolio Items
+---------------------------------------------------------------------------- */
+
+.portfolio-full.portfolio-3 { margin: 0 -20px -20px 0 !important; }
+
+.portfolio-full.portfolio-3 .portfolio-item { padding: 0 20px 20px 0 !important; }
+
+.device-xxs .portfolio-full.portfolio-3 { margin: 0 0 -20px 0 !important; }
+
+.device-xxs .portfolio-full.portfolio-3 .portfolio-item { padding: 0 0 20px 0 !important; }
+
+
+.i-overlay { background: rgba(255,255,255,0.8); }
+
+.i-overlay i {
+	color: #777666;
+	text-shadow: none;
+}
+
+
+/* Border Form Design
+---------------------------------------------------------------------------- */
+
+.border-form-control {
+	height: 48px;
+	padding: 8px 4px;
+	font-size: 16px;
+	letter-spacing: 1px;
+	background-color: transparent !important;
+	border-top: transparent;
+	border-right: transparent;
+	border-left: transparent;
+	border-bottom-width: 1px;
+	font-family: 'Montserrat', sans-serif;
+}
+
+textarea.border-form-control {
+	resize: none;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
+
+/* Footer: Copyrights
+---------------------------------------------------------------------------- */
+
+.dark #copyrights {
+	background-color: rgba(0,0,0,0.6);
+	color: rgba(255,255,255,0.4);
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 1px;
+}
+

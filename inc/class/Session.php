@@ -127,7 +127,15 @@ class Session extends DefaultObject {
 
 			} else {
 
-				throw new Exception("Usuário não autenticado.", 403);				
+				if (isset($_GET["token"]) && $_GET["token"] !== '') {
+
+					throw new Exception("Token expirado.", 10100);
+
+				} else {
+
+					throw new Exception("Usuário não autenticado.", 403);
+					
+				}
 
 			}
 

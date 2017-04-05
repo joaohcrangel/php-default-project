@@ -127,7 +127,7 @@ class File extends Model {
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
         $finfo = new finfo(FILEINFO_MIME_TYPE);
-       
+
         $ext = array_search(
             $finfo->file($tmp_name),
             $mimes,

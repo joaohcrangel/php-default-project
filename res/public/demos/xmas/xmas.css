@@ -1,0 +1,140 @@
+/* ----------------------------------------------------------------
+    Canvas: XMAS Demo
+    Version: 1.0
+-----------------------------------------------------------------*/
+
+
+
+/* Countdown
+-----------------------------------------------------------------*/
+
+
+.xmas-countdown { font-family: 'Roboto', sans-serif; }
+
+.xmas-countdown .countdown-section {
+	font-size: 13px;
+	letter-spacing: 1px;
+	font-weight: 300;
+	border: 0;
+	color: rgba(255,255,255,0.8);
+}
+
+.xmas-countdown .countdown-amount {
+	font-size: 50px;
+	margin-bottom: 5px;
+	letter-spacing: -2px;
+	font-weight: 700;
+	color: #FFF;
+}
+
+
+@media (min-width: 768px) {
+
+	.vertical-middle-offset {
+		position: relative;
+		top: -100px;
+	}
+
+	.xmas-countdown .countdown-section { font-size: 18px; }
+
+	.xmas-countdown .countdown-amount {
+		font-size: 108px;
+		letter-spacing: -4px;
+	}
+
+}
+
+
+/* Add to Cart Button
+-----------------------------------------------------------------*/
+
+.button-addcart { background-color: #1A2F4C !important; }
+
+.button-addcart:hover { background-color: #24426A !important; }
+
+
+/* Payments Info
+-----------------------------------------------------------------*/
+
+.payment-cards {
+	list-style: none;
+	text-align: right;
+	margin: 0;
+}
+
+.payment-cards li {
+	display: inline-block;
+	margin: 5px;
+	margin-top: 0;
+	width: 40px;
+}
+
+
+/* Footer
+-----------------------------------------------------------------*/
+
+#footer { background-color: #1A2F4C !important; }
+
+
+/* Snowfall Effect
+-----------------------------------------------------------------*/
+
+.snowfall {
+	background-image:	url('images/snow/s1.png'),
+						url('images/snow/s2.png'),
+						url('images/snow/s3.png');
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-animation: snow 10s linear infinite;
+	-moz-animation: snow 10s linear infinite;
+	-ms-animation: snow 10s linear infinite;
+	animation: snow 10s linear infinite;
+}
+
+@keyframes snow {
+	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+	50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+	100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+
+@-moz-keyframes snow {
+	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+	50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+	100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+}
+
+@-webkit-keyframes snow {
+	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+	50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+	100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+
+@-ms-keyframes snow {
+	0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+	50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+	100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+
+
+/* Responsive CSS
+-----------------------------------------------------------------*/
+
+@media (max-width: 991px) {
+	#header.show-on-sticky #header-wrap {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.payments-info { text-align: center; }
+
+	.payment-cards {
+		margin-top: 40px;
+		text-align: center;
+	}
+}
+

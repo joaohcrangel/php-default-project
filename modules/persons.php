@@ -53,11 +53,18 @@ $app->get("/persons",function(){
 		}
 
 	}
+
+	if (get("desperson")) {
+		array_push($where, "desperson LIKE ?");
+		array_push($params, "%".get("desperson")."%");
+	}
+
 	if (count($where) > 0) {
 		$where = "WHERE ".implode(" AND ", $where);
 	} else {
 		$where = "";
 	}
+
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
 	$itensPorPagina = (int)get('limite');//Itens por página

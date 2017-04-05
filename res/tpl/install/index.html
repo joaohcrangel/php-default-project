@@ -39852,7 +39852,32 @@ angular.module("install", []).controller("sql", function($scope, $http){
             name:"Históricos Usuários- REMOVE",
             status:"",
             enabled:true
+        },
+
+        {
+            url:"/sql/emails/tables",
+            name:"E-mails - Tabelas",
+            status:"",
+            enabled:true
         },{
+            url:"/sql/emails/get",
+            name:"E-mails - GET",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/emails/save",
+            name:"E-mails - SAVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/emails/remove",
+            name:"E-mails- REMOVE",
+            status:"",
+            enabled:true
+        },
+
+
+        {
 			url:"/sql/ordersnegotiationstypes/inserts",
 			name:"PedidosNegociacoesTipos - Inserts",
 			status:"",
@@ -39873,6 +39898,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+            url:"/sql/sitesmenus/inserts",
+            name:"Site Menus",
+            status:"",
+            enabled:true
+        },{
 			url:"/sql/contacts/inserts",
 			name:"Contatos - Inserts",
 			status:"",

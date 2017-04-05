@@ -1,0 +1,104 @@
+/* ----------------------------------------------------------------
+    Canvas: Agency Demo
+    Version: 1.0
+-----------------------------------------------------------------*/
+
+.line,
+#header,
+#primary-menu.style-2 { border-color: #DDD; }
+
+@media (min-width: 992px) {
+
+	#header.sticky-style-2,
+	#header.sticky-header:not(.static-sticky).sticky-style-2 {
+		border-bottom: 0;
+		height: 240px;
+	}
+
+	#header.sticky-style-2 > .container {
+		text-align: center;
+		line-height: 1;
+		height: 160px;
+		overflow: hidden;
+	}
+
+	#header.sticky-style-2 #logo {
+		display: inline-block;
+		margin: 30px 0;
+	}
+
+	#header.sticky-style-2:not(.sticky-header) #header-wrap {
+		width: 1140px;
+		margin: 0 auto;
+		height: 80px;
+		border-top: 1px solid #DDD;
+		border-bottom: 1px solid #DDD;
+	}
+
+	#header.sticky-header.sticky-style-2 #header-wrap {
+		border-color: transparent;
+		height: 80px;
+	}
+
+	.boxed-slider { padding-top: 60px; }
+
+	#primary-menu.style-2 { border-top: none; }
+
+	#primary-menu.style-2 > div > ul > li > a {
+		padding-top: 28px;
+		padding-bottom: 28px;
+	}
+
+	#primary-menu.style-2 ul li .mega-menu-content { left: -15px; }
+
+	#primary-menu > div > ul > li { margin: 0 10px; }
+
+	#primary-menu > div > ul > li > a {
+	    font-size: 13px;
+	    letter-spacing: 2px;
+	}
+
+	body:not(.device-sm):not(.device-xs):not(.device-xxs) #primary-menu.style-2.center > div {
+		display: block;
+		text-align: center;
+		width: 1140px;
+		height: 78px;
+	}
+
+	body:not(.device-sm):not(.device-xs):not(.device-xxs) #primary-menu.style-2.center > div > ul {
+	    float: none;
+	    display: inline-block;
+	    width: auto;
+	    text-align: left;
+	}
+
+	#footer { width: 1140px; }
+
+	#footer .container {
+		padding: 0;
+		width: 100%;
+	}
+
+}
+
+.portfolio-desc { -webkit-backface-visibility: hidden; }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+	#header.sticky-style-2:not(.sticky-header) #header-wrap,
+	body:not(.device-sm):not(.device-xs):not(.device-xxs) #primary-menu.style-2.center > div,
+	#footer { width: 940px; }
+
+}
+
+#footer {
+	border-top: 1px solid #DDD;
+	background-color: transparent;
+	margin: 0 auto;
+}
+
+#copyrights {
+	background-color: transparent;
+	padding: 50px 0;
+}
+

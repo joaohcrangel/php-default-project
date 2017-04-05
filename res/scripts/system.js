@@ -273,7 +273,7 @@ window.System = {
       var $form = $modal.find('form');
       
       $form.form({
-        url:PATH+"/usuarios/login",
+        url:PATH+"/users/login",
         success:function(){
           
           alertify.success("Autenticado com sucesso!");
@@ -354,30 +354,30 @@ window.System = {
 
     };
 
-    System.getUsuario = function(){
+    System.getUser = function(){
 
       var controllerScope = System.getControllerScope();
 
-      return controllerScope.Usuario;
+      return controllerScope.User;
 
     };
 
-    System.getPessoa = function(){
+    System.getPerson = function(){
 
       var controllerScope = System.getControllerScope();
 
-      return controllerScope.Usuario.Pessoa;
+      return controllerScope.User.Person;
 
     };
 
-    System.setUsuario = function(Usuario){
+    System.setUser = function(User){
 
       var controllerScope = System.getControllerScope();
       
       controllerScope.$apply(function() {
 
-        controllerScope.Usuario = Usuario;
-        controllerScope.Pessoa = Usuario.Pessoa;
+        controllerScope.User = User;
+        controllerScope.Person = User.Person;
 
       });
 

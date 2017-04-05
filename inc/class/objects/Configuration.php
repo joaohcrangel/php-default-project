@@ -51,9 +51,6 @@ class Configuration extends Model {
 
             }
 
-            // var_dump($this);
-            // exit;
-
             $this->queryToAttr("CALL sp_configurations_save(?, ?, ?, ?, ?);", array(
                 $this->getidconfiguration(),
                 $this->getdesconfiguration(),

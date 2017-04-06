@@ -14,7 +14,9 @@ abstract class Page {
 		"header"=>true,
 		"footer"=>true,
 		"data"=>array(
-			"body"=>array(),
+			"body"=>array(
+				"class"=>""
+			),
 			"js"=>array(),
 			"head_title"=>"Título do Site",
 			"meta_description"=>"Descrição",

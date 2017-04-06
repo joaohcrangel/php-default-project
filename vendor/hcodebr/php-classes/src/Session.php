@@ -24,9 +24,7 @@ class Session extends DefaultObject {
 
 		if(isset($_SESSION[$class_name])){
 			try{
-
-				$class = "Hcode\\".$class_name;
-
+				$class = $class_name;
 				return new $class($_SESSION[$class_name]);
 			}catch(Exception $e){
 				return $_SESSION[$class_name];
@@ -87,7 +85,7 @@ class Session extends DefaultObject {
 			}
 		}
 
-		$user = Session::getObjectFromSession('User');
+		$user = Session::getObjectFromSession('Hcode\User');
 
 		if ($user !== NULL && !$user->getiduser() > 0) {
 

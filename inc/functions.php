@@ -428,17 +428,17 @@ function array_merge_recursive_distinct ( array &$array1, array &$array2 ){
 }
 if(!function_exists('echoMenuHTML')){
 function echoMenuHTML(){
-    echo Menu::getMenuSession();
+    echo Hcode\Menu::getMenuSession();
 }
 }
 if(!function_exists('echoSiteMenuHTML')){
 function echoSiteMenuHTML(){
-    echo SiteMenu::getMenuSession();
+    echo Hcode\SiteMenu::getMenuSession();
 }
 }
 if(!function_exists('isLogged')){
 function isLogged(){
-	$user = Session::getUser();
+	$user = Hcode\Session::getUser();
 	return $user->isLogged();
 }
 }
@@ -469,5 +469,11 @@ function parse_size($size) {
   else {
     return round($size);
   }
+}
+function getUserJSON(){
+	return Hcode\Session::getUser()->toJSON();
+}
+function getPersonJSON(){
+	return Hcode\Session::getPerson()->toJSON();
 }
 ?>

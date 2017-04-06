@@ -5,6 +5,8 @@ define('START_EXECUTION', microtime(true));
 require_once("inc/configuration.php");
 
 use Slim\Slim;
+use Hcode\Permission;
+use Hcode\Session;
 
 Slim::registerAutoloader();
 

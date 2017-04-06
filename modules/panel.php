@@ -3,7 +3,7 @@
 // produtos
 $app->get("/panel/products/:idproduct", function($idproduct){
 
-	$conf = Session::getconfigurations();
+	$conf = Hcode\Session::getconfigurations();
 
 	$product = new Product((int)$idproduct);
 
@@ -684,7 +684,7 @@ $app->get("/panel/carts/:idcart", function($idcart){
 // lugares
 $app->get("/panel/places/:idplace", function($idplace){
 
-	$config = Session::getConfigurations();
+	$config = Hcode\Session::getConfigurations();
 
 	$place = new Place((int)$idplace);
 
@@ -711,7 +711,7 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 $app->get("/panel/place-create", function(){
 
-	$config = Session::getConfigurations();
+	$config = Hcode\Session::getConfigurations();
 
 	$page = new Page(array(
 		"header"=>false,

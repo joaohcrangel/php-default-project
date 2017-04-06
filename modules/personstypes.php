@@ -2,7 +2,7 @@
 
 $app->get('/persons-types',function(){
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -57,7 +57,7 @@ $app->post("/persons-types", function(){
 
 $app->delete("/persons-types/:idpersontype", function($idpersontype){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!(int)$idpersontype > 0){
 		throw new Exception("Tipo de pessoa não informado.", 400);		

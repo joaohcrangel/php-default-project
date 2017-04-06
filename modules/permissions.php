@@ -2,7 +2,7 @@
 
 $app->get('/permissions', function () {
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -22,10 +22,10 @@ $app->get('/permissions', function () {
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_permissions
 	".$where." LIMIT ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "Permissions",
+        "Hcode\Permissions",
         $itemsPerPage
     );
 
@@ -43,9 +43,9 @@ $app->get('/permissions', function () {
 
 $app->post('/permissions', function () {
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
-	$permission = new Permission($_POST);
+	$permission = new Hcode\Permission($_POST);
 
 	$permission->save();
 
@@ -56,9 +56,9 @@ $app->post('/permissions', function () {
 
 $app->post('/permissions/:idpermission', function ($idpermission) {
 	
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
-	$permission = new Permission((int)$idpermission);
+	$permission = new Hcode\Permission((int)$idpermission);
 
 	$permission->set($_POST);
 
@@ -72,9 +72,9 @@ $app->post('/permissions/:idpermission', function ($idpermission) {
 
 $app->delete('/permissions/:idpermission', function ($idpermission) {
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
-	$permission = new Permission((int)$idpermission);
+	$permission = new Hcode\Permission((int)$idpermission);
 
 	$permission->remove();
 
@@ -84,9 +84,9 @@ $app->delete('/permissions/:idpermission', function ($idpermission) {
 
 $app->get('/permissions/:idpermission', function ($idpermission) {
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 	
-	$permission = new Permission((int)$idpermission);
+	$permission = new Hcode\Permission((int)$idpermission);
 
 	echo success(array(
 		'data'=>$permission->getFields()

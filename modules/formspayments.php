@@ -2,7 +2,7 @@
 
 $app->get("/forms-payments/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -54,7 +54,7 @@ $app->get("/forms-payments/all", function(){
 
 $app->post("/forms-payments", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idformpayment') > 0){
         $payment = new FormPayment((int)post('idformpayment'));
@@ -78,7 +78,7 @@ $app->post("/forms-payments", function(){
 
 $app->delete("/forms-payments/:idformpayment", function($idformpayment){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idformpayment){
         throw new Exception("Forma de Pagamento não informado", 400);

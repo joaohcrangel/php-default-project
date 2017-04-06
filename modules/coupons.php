@@ -2,7 +2,7 @@
 
 $app->get("/coupons/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	echo success(array("data"=>Coupons::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/coupons/all", function(){
 
 $app->post("/coupons", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if((int)post("idcoupon") > 0){
 		$coupon = new Coupon((int)post("idcoupon"));
@@ -28,7 +28,7 @@ $app->post("/coupons", function(){
 
 $app->delete("/cupons/:idcoupon", function($idcoupon){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!(int)$idcoupon){
 		throw new Exception("Cupom não informado", 400);		
@@ -50,7 +50,7 @@ $app->delete("/cupons/:idcoupon", function($idcoupon){
 // cupons tipos
 $app->get("/coupons/types", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -93,7 +93,7 @@ $app->get("/coupons/types", function(){
 
 $app->post("/coupons-types", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if((int)post('idcoupontype') > 0){
 		$coupon = new CouponType((int)post('idcoupontype'));
@@ -111,7 +111,7 @@ $app->post("/coupons-types", function(){
 
 $app->delete("/coupons-types/:idcoupontype", function($idcoupontype){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!($idcoupontype)){
 		throw new Exception("Tipo de cupom não informado", 400);		

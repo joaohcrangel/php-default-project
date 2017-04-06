@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/emails", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -18,9 +18,9 @@ $app->get("/".DIR_ADMIN."/emails", function(){
 
 $app->get("/".DIR_ADMIN."/emails/new", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
     $page->setTpl("/admin/system-emails-new");
 

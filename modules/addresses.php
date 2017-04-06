@@ -11,7 +11,7 @@
 
  $app->get("/addresses/:idaddress", function($idaddress){
 
-    Permission::checkSession(Permission::ADMIN);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
     $address = new Address((int)$idaddress);
 
@@ -21,7 +21,7 @@
 
 $app->get('/addresses/cep/:nrcep', function($nrcep){
 
-    Permission::checkSession(Permission::ADMIN);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
     $address = Address::getByCep($nrcep);
 
@@ -32,7 +32,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
  $app->get('/addresses/cities', function(){
 
-    Permission::checkSession(Permission::ADMIN);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
     $address = new Cities();
 
@@ -53,7 +53,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
  $app->get('/addresses-types', function () {
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -96,7 +96,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
  $app->post('/addresses-types', function () {
 
-    Permission::checkSession(Permission::ADMIN);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
     $addresstype = new AddressType($_POST);
 
@@ -110,7 +110,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
 $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
 
 	$addresstype = new AddressType((int)$idaddresstype);
 
@@ -122,7 +122,7 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
 
  $app->post("/".DIR_ADMIN."/addresses", function(){
 
- 	Permission::checkSession(Permission::ADMIN, true);
+ 	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
  	if(post('idaddress') > 0){
  		$address = new Address((int)post('idaddress'));
@@ -142,7 +142,7 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
 
  $app->delete("/".DIR_ADMIN."/addresses/:idaddress", function($idaddress){
 
- 	Permission::checkSession(Permission::ADMIN, true);
+ 	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
  	if(!(int)$idaddress){
  		throw new Exception("Endereço não informado", 400); 		

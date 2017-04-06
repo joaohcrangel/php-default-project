@@ -4,7 +4,7 @@
 /*
 $app->get("/orders/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>orders::listAll()->getFields()));
 
@@ -12,7 +12,7 @@ $app->get("/orders/all", function(){
 */
 $app->get("/orders", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $where = array();
 
@@ -74,7 +74,7 @@ $app->get("/orders", function(){
 
 $app->post("/orders", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idorder') > 0){
         $order = new Order((int)post('idorder'));
@@ -94,7 +94,7 @@ $app->post("/orders", function(){
 
 $app->delete("/orders/:idorder", function($idorder){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idorder){
         throw new Exception("Pedido não informado", 400);
@@ -116,7 +116,7 @@ $app->delete("/orders/:idorder", function($idorder){
 // pedidos status
 $app->get("/orders-status/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -157,7 +157,7 @@ $app->get("/orders-status/all", function(){
 
 $app->post("/orders-status", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idstatus') > 0){
         $status = new OrderStatus((int)post('idstatus'));
@@ -177,7 +177,7 @@ $app->post("/orders-status", function(){
 
 $app->delete("/orders-status/:idstatus", function($idstatus){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idstatus){
         throw new Exception("Status não informado", 400);        
@@ -199,7 +199,7 @@ $app->delete("/orders-status/:idstatus", function($idstatus){
 // pedidos produtos
 $app->get("/orders-products/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>OrdersProducts::listAll()->getFields()));
 
@@ -207,7 +207,7 @@ $app->get("/orders-products/all", function(){
 
 $app->post("/orders-products", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idorder') > 0 && post('idproduct') > 0){
         $order = new OrderProduct((int)post('idorder'), (int)post('idproduct'));
@@ -227,7 +227,7 @@ $app->post("/orders-products", function(){
 
 $app->delete("/orders/:idorder/products/:idproduct", function($idorder, $idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idorder){
         throw new Exception("Pedido não informado", 400);        
@@ -253,7 +253,7 @@ $app->delete("/orders/:idorder/products/:idproduct", function($idorder, $idprodu
 // pedidos recibos
 $app->get("/orders-receipts/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>OrdersReceipts::listAll()->getFields()));
 
@@ -261,7 +261,7 @@ $app->get("/orders-receipts/all", function(){
 
 $app->post("/orders-receipts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idorder') > 0){
         $receipt = new OrderReceipt((int)post('idorder'));
@@ -281,7 +281,7 @@ $app->post("/orders-receipts", function(){
 
 $app->delete("/orders-receipts/:idorder", function($idorder){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idorder){
         throw new Exception("Pedido não informado", 400);        
@@ -302,7 +302,7 @@ $app->delete("/orders-receipts/:idorder", function($idorder){
 // recibos
 $app->get("/orders/:idorder/receipts", function($idorder){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $order = new Order((int)$idorder);
 
@@ -314,7 +314,7 @@ $app->get("/orders/:idorder/receipts", function($idorder){
 // pedidos historicos
 $app->get("/orders/logs/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>OrdersLogs::listAll()->getFields()));
 
@@ -322,7 +322,7 @@ $app->get("/orders/logs/all", function(){
 
 $app->post("/orders-logs", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if((int)post('idlog') > 0){
         $log = new OrderLog((int)post('idlog'));
@@ -340,7 +340,7 @@ $app->post("/orders-logs", function(){
 
 $app->delete("/orders-logs/:idlog", function($idlog){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idlog){
         throw new Exception("Histórico não informado", 400);        
@@ -363,7 +363,7 @@ $app->delete("/orders-logs/:idlog", function($idlog){
 // pedidosnegociacoestipos
 $app->get("/ordersnegotiationstypes", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -404,7 +404,7 @@ $app->get("/ordersnegotiationstypes", function(){
 
 $app->post("/ordersnegotiationstypes", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if((int)post('idnegotiation') > 0){
         $order = new OrderNegotiationType((int)post('idnegotiation'));
@@ -422,7 +422,7 @@ $app->post("/ordersnegotiationstypes", function(){
 
 $app->delete("/ordersnegotiationstypes/:idnegotiation", function($idnegotiation){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idnegotiation){
         throw new Exception("Pedido não informado", 400);        

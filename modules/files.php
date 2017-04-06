@@ -2,7 +2,7 @@
 
 $app->get("/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -54,7 +54,7 @@ $app->get("/files-upload_max_filesize", function(){
 
 $app->post("/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $files = Files::upload($_FILES['arquivo']);
     
@@ -66,7 +66,7 @@ $app->post("/files", function(){
 
 $app->delete("/files/:idfile", function($idfile){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idfile){
         throw new Exception("Arquivo não informado", 400);        
@@ -86,7 +86,7 @@ $app->delete("/files/:idfile", function($idfile){
 
 $app->delete("/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $ids = explode(",", post('ids'));
 

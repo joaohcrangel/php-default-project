@@ -2,7 +2,7 @@
 
 $app->get("/cards/all", function(){
 
-     Permission::checkSession(Permission::ADMIN, true);
+     Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>CardsCredits::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/cards/all", function(){
 
 $app->post("/cards", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idcard') > 0){
         $card = new CardCredit((int)post('idcard'));
@@ -30,7 +30,7 @@ $app->post("/cards", function(){
 
 $app->delete("/cards/:idcard", function($idcard){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idcard){
         throw new Exception("Cartão não informado", 400);        

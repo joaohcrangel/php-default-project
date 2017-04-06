@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -18,9 +18,9 @@ $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
 $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-right"
@@ -34,9 +34,9 @@ $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
 
 $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -50,9 +50,9 @@ $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
 $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -66,9 +66,9 @@ $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
 $app->get("/".DIR_ADMIN."/blog/comments", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"

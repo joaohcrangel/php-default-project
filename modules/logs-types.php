@@ -59,7 +59,7 @@ $app->post("/logs-types", function(){
 
 $app->delete("/logs-types/:idlogtype", function($idlogtype){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!(int)$idlogtype > 0){
 		throw new Exception("Tipo de historico não informado.", 400);		

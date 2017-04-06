@@ -3,7 +3,7 @@
 // blog authors
 $app->get("/blog/authors", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$page = (int)get("page");
 	$itemsPerPage = (int)get("limit");
@@ -46,7 +46,7 @@ $app->get("/blog/authors", function(){
 
 $app->post("/blog/authors", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if((int)post("idauthor") > 0){
 		$author = new BlogAuthor((int)post("idauthor"));
@@ -64,7 +64,7 @@ $app->post("/blog/authors", function(){
 
 $app->delete("/blog/authors", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -91,7 +91,7 @@ $app->delete("/blog/authors", function(){
 // blog posts
 $app->get("/blog-posts", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$page = (int)get("page");
 	$itemsPerPage = (int)get("limit");
@@ -152,7 +152,7 @@ $app->get("/blog-posts", function(){
 
 $app->post("/blog-posts", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if((int)get("idpost") > 0){
 		$post = new BlogPost((int)post("idpost"));
@@ -160,7 +160,7 @@ $app->post("/blog-posts", function(){
 		$post = new BlogPost();
 	}
 
-	$user = Session::getUser();
+	$user = Hcode\Session::getUser();
 
 	$sql = new Sql();
 
@@ -248,7 +248,7 @@ $app->post("/blog-posts", function(){
 
 $app->post("/blog-posts/:idpost/tags", function($idpost){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -270,7 +270,7 @@ $app->post("/blog-posts/:idpost/tags", function($idpost){
 
 $app->post("/blog-posts/:idpost/categories", function($idpost){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -292,7 +292,7 @@ $app->post("/blog-posts/:idpost/categories", function($idpost){
 
 $app->delete("/blog-posts", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -319,7 +319,7 @@ $app->delete("/blog-posts", function(){
 // blog comments
 $app->get("/blog-comments", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$page = (int)get("page");
 	$itemsPerPage = (int)get("limit");
@@ -368,7 +368,7 @@ $app->get("/blog-comments", function(){
 
 $app->post("/blog-comments", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if((int)post("idcomment") > 0){
 		$comment = new BlogComment((int)post("idcomment"));
@@ -386,7 +386,7 @@ $app->post("/blog-comments", function(){
 
 $app->delete("/blog-comments", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -413,7 +413,7 @@ $app->delete("/blog-comments", function(){
 // blog categories
 $app->get("/blog-categories/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	echo success(array("data"=>BlogCategories::listAll()->getFields()));
 
@@ -421,7 +421,7 @@ $app->get("/blog-categories/all", function(){
 
 $app->post("/blog-categories", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(post("idcategory") > 0){
 		$category = new BlogCategory((int)post("idcategory"));
@@ -440,7 +440,7 @@ $app->post("/blog-categories", function(){
 // blog tags
 $app->get("/blog-tags/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	echo success(array("data"=>BlogTags::listAll()->getFields()));
 
@@ -448,7 +448,7 @@ $app->get("/blog-tags/all", function(){
 
 $app->post("/blog-tags", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(post("idtag") > 0){
 		$tag = new BlogTag((int)post("idtag"));

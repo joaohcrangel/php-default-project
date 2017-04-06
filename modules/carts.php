@@ -2,7 +2,7 @@
 
 $app->get("/carts/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $where = array();
 
@@ -55,7 +55,7 @@ $app->get("/carts/all", function(){
 
 $app->get("/carts/:idcart/products", function($idcart){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $cart = new Cart((int)$idcart);
 
@@ -65,7 +65,7 @@ $app->get("/carts/:idcart/products", function($idcart){
 
 $app->post("/carts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if((int)post('idcart') > 0){
         $cart = new Cart((int)post('idcart'));
@@ -83,7 +83,7 @@ $app->post("/carts", function(){
 
 $app->delete("/carts/:idcart", function($idcart){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idcart){
         throw new Exception("Carrinho não informado", 400);        
@@ -105,7 +105,7 @@ $app->delete("/carts/:idcart", function($idcart){
 // carts Coupons
 $app->get("/carts-coupons/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>CartsCoupons::listAll()->getFields()));
 
@@ -113,7 +113,7 @@ $app->get("/carts-coupons/all", function(){
 
 $app->post("/carts-coupons", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(isset($_POST['idcart'], $_POST['idcoupon'])){
 
@@ -134,7 +134,7 @@ $app->post("/carts-coupons", function(){
 
 $app->delete("/carts/:idcart/coupons/:idcoupon", function($idcart, $idcoupon){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idcart){
         throw new Exception("Carrinho não informado", 400);        
@@ -157,7 +157,7 @@ $app->delete("/carts/:idcart/coupons/:idcoupon", function($idcart, $idcoupon){
 // carts fretes
 $app->get("/carts-freights/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     echo success(array("data"=>CartsFreights::listAll()->getFields()));
 
@@ -165,7 +165,7 @@ $app->get("/carts-freights/all", function(){
 
 $app->post("/carts-freights", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idcart') > 0){
         $freight = new CartFreight((int)post('idcart'));
@@ -183,7 +183,7 @@ $app->post("/carts-freights", function(){
 
 $app->delete("/carts-fretes/:idcart", function($idcart){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idcart){
         throw new Exception("Carrinho não informado", 400);        

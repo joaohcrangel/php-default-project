@@ -2,13 +2,13 @@
 
 $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $user = new User((int)$iduser);
+    $user = new Hcode\User((int)$iduser);
 
     $user->getPerson();
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
     	"header"=>false,
         "footer"=>false,
         'data'=>array(
@@ -24,9 +24,9 @@ $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
 $app->get("/".DIR_ADMIN."/users", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-	$page = new AdminPage(array(
+	$page = new Hcode\Admin\Page(array(
         "header"=>true,
         "footer"=>true
     ));

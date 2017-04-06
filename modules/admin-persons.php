@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/persons-create", function(){
 
-   Permission::checkSession(Permission::ADMIN, true);
+   Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
     	'header'=>false,
         'footer'=>false
     ));
@@ -15,11 +15,11 @@ $app->get("/".DIR_ADMIN."/persons-create", function(){
 
 $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $person = new Person((int)$idperson);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false
     ));
@@ -33,9 +33,9 @@ $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
 $app->get("/".DIR_ADMIN."/persons", function(){
 
-   Permission::checkSession(Permission::ADMIN, true);
+   Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'

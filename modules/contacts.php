@@ -2,7 +2,7 @@
 
 $app->get("/contacts/", function(){
     
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -43,7 +43,7 @@ $app->get("/contacts/", function(){
 
 $app->post("/contacts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idcontact') > 0){
         $contact = new Contact((int)post('idcontact'));
@@ -63,7 +63,7 @@ $app->post("/contacts", function(){
 
 $app->delete("/contacts/:idcontact", function($idcontact){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idcontact){
         throw new Exception("Contato não informado", 400);        
@@ -85,7 +85,7 @@ $app->delete("/contacts/:idcontact", function($idcontact){
 
 $app->get("/contacts/types", function(){
     
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -126,7 +126,7 @@ $app->get("/contacts/types", function(){
 
 $app->post("/contacts-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(post('idcontacttype') > 0){
         $contact = new ContactType((int)post('idcontacttype'));
@@ -146,7 +146,7 @@ $app->post("/contacts-types", function(){
 
 $app->delete("/contacts-types/:idcontact", function($idcontacttype){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
     if(!(int)$idcontacttype){
         throw new Exception("Contato não informado", 400);        

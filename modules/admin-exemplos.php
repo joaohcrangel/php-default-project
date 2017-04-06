@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/exemplos/upload", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'head_title'=>'Administração'
         )

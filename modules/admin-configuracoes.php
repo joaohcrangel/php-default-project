@@ -3,9 +3,9 @@
 
 $app->get("/".DIR_ADMIN."/sistema/Settings", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "header"=>true,
         "footer"=>true
     ));

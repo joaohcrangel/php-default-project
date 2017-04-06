@@ -2,7 +2,7 @@
 
 $app->get("/carousels/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -45,7 +45,7 @@ $app->get("/carousels/all", function(){
 
 $app->get("/carousels/:idcarousel/items", function($idcarousel){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$carousel = new Carousel((int)$idcarousel);
 
@@ -55,7 +55,7 @@ $app->get("/carousels/:idcarousel/items", function($idcarousel){
 
 $app->post("/carousels", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(post('idcarousel') > 0){
 		$carousel = new Carousel((int)post('idcarousel'));
@@ -79,7 +79,7 @@ $app->post("/carousels", function(){
 
 $app->delete("/carousels/:idcarousel", function($idcarousel){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!(int)$idcarousel){
 		throw new Exception("Carousel não informado", 400);		
@@ -101,7 +101,7 @@ $app->delete("/carousels/:idcarousel", function($idcarousel){
 // carousels items
 $app->post("/carousels-items", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(post('iditem') > 0){
 		$item = new CarouselItem((int)post('iditem'));
@@ -119,7 +119,7 @@ $app->post("/carousels-items", function(){
 
 $app->delete("/carousels-items/:iditem", function($iditem){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!(int)$iditem){
 		throw new Exception("Item não informado", 400);		
@@ -141,7 +141,7 @@ $app->delete("/carousels-items/:iditem", function($iditem){
 // carousel items tipos
 $app->get("/carousels-types", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -182,7 +182,7 @@ $app->get("/carousels-types", function(){
 
 $app->post("/carousels-types", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(post('idtype') > 0){
 		$type = new CarouselItemType((int)post('idtype'));
@@ -200,7 +200,7 @@ $app->post("/carousels-types", function(){
 
 $app->delete("/carousels-types/:idtype", function($idtype){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
 	if(!(int)$idtype){
 		throw new Exception("Carousel não informado", 400);		

@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogTag extends Model {
+use \Hcode\Model;
+
+class Tag extends Model {
 
     public $required = array('destag');
     protected $pk = "idtag";

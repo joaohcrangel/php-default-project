@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogAuthor extends Model {
+use \Hcode\Model;
+
+class Author extends Model {
 
     public $required = array('iduser', 'desauthor');
     protected $pk = "idauthor";

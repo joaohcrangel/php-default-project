@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogComment extends Model {
+use \Hcode\Model;
+
+class Comment extends Model {
 
     public $required = array('idpost', 'idperson', 'descomment', 'inapproved', 'idcommentfather');
     protected $pk = "idcomment";

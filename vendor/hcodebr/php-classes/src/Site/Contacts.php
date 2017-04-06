@@ -1,10 +1,13 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Sites;
 
-class SitesContacts extends Collection {
+use \Hcode\Collection;
+use \Hcode\Person;
 
-    protected $class = "Hcode\SiteContact";
+class Contacts extends Collection {
+
+    protected $class = "Hcode\Site\Contact";
     protected $saveQuery = "sp_sitescontacts_save";
     protected $saveArgs = array("idsitecontact", "idperson", "desmessage", "inread", "idpersonanswer");
     protected $pk = "idsitecontact";
@@ -12,7 +15,7 @@ class SitesContacts extends Collection {
 
     public static function listAll(){
 
-    	$contacts = new SitesContacts();
+    	$contacts = new Contacts();
 
     	$contacts->loadFromQuery("CALL sp_sitescontacts_list();");
 
@@ -20,7 +23,7 @@ class SitesContacts extends Collection {
 
     }
 
-      public function getByPerson(Person $person):SitesContacts      
+      public function getByPerson(Person $person):Contacts      
     {
     
          $this->loadFromQuery("CALL sp_sitescontactsfromperson_list(?)",array(

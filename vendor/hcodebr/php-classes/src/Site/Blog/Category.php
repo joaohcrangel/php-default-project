@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogCategory extends Model {
+use \Hcode\Model;
+
+class Category extends Model {
 
     public $required = array('descategory');
     protected $pk = "idcategory";

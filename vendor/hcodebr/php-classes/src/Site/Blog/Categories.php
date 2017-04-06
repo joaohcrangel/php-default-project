@@ -1,20 +1,22 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogCategories extends Collection {
+use \Hcode\Collection;
 
-    protected $class = "Hcode\BlogCategory";
+class Categories extends Collection {
+
+    protected $class = "Hcode\Site\Blog\Category";
     protected $saveQuery = "sp_blogcategories_save";
     protected $saveArgs = array("idcategory", "descategory");
     protected $pk = "idcategory";
 
     public function get(){}
 
-    public static function listAll():BlogCategories
+    public static function listAll():Categories
     {
 
-    	$categories = new BlogCategories();
+    	$categories = new Categories();
 
     	$categories->loadFromQuery("CALL sp_blogcategories_list();");
 
@@ -22,7 +24,7 @@ class BlogCategories extends Collection {
 
     }
 
-    public function getByBlogPost(BlogPost $post):BlogCategories
+    public function getByBlogPost(Post $post):Categories
     {
 
         $this->loadFromQuery("CALL sp_categoriesfrompost_list(?);", array(

@@ -1,10 +1,12 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogAuthors extends Collection {
+use \Hcode\Collection;
 
-    protected $class = "Hcode\BlogAuthor";
+class Authors extends Collection {
+
+    protected $class = "Hcode\Site\Blog\Author";
     protected $saveQuery = "sp_blogauthors_save";
     protected $saveArgs = array("idauthor", "iduser", "desauthor", "desresume", "idphoto");
     protected $pk = "idauthor";

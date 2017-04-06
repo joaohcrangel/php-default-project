@@ -1,10 +1,12 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogComments extends Collection {
+use \Hcode\Collection;
 
-    protected $class = "Hcode\BlogComment";
+class Comments extends Collection {
+
+    protected $class = "Hcode\Site\Blog\Comment";
     protected $saveQuery = "sp_blogcomments_save";
     protected $saveArgs = array("idcomment", "idcommentfather", "idpost", "idperson", "descomment", "inapproved");
     protected $pk = "idcomment";

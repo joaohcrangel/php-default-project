@@ -1,10 +1,12 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site;
 
-class SitesMenus extends Collection {
+use \Hcode\Collection;
 
-    protected $class = "Hcode\SiteMenu";
+class Menus extends Collection {
+
+    protected $class = "Hcode\Site\Menu";
     protected $saveQuery = "sp_sitesmenus_save";
     protected $saveArgs = array("idmenu", "idmenufather", "desmenu", "desicon", "deshref", "nrorder");
     protected $pk = "idmenu";
@@ -13,7 +15,7 @@ class SitesMenus extends Collection {
 
     public static function listAll(){
 
-    	$menus = new SitesMenus();
+    	$menus = new Menus();
 
     	$menus->loadFromQuery("CALL sp_sitesmenus_list()");
 

@@ -1,20 +1,22 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogTags extends Collection {
+use \Hcode\Collection;
 
-    protected $class = "Hcode\BlogTag";
+class Tags extends Collection {
+
+    protected $class = "Hcode\Site\Blog\Tag";
     protected $saveQuery = "sp_blogtags_save";
     protected $saveArgs = array("idtag", "destag");
     protected $pk = "idtag";
 
     public function get(){}
 
-    public static function listAll():BlogTags
+    public static function listAll():Tags
     {
 
-    	$tags = new BlogTags();
+    	$tags = new Tags();
 
     	$tags->loadFromQuery("CALL sp_blogtags_list();");
 
@@ -22,7 +24,7 @@ class BlogTags extends Collection {
 
     }
 
-    public function getByBlogPost(BlogPost $post):BlogTags
+    public function getByBlogPost(Post $post):Tags
     {
 
         $this->loadFromQuery("CALL sp_tagsfrompost_list(?);", array(

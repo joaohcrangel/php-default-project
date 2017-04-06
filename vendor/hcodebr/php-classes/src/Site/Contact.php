@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site;
 
-class SiteContact extends Model {
+use \Hcode\Model;
+
+class Contact extends Model {
 
     public $required = array('idsitecontact', 'idperson', 'desmessage');
     protected $pk = "idsitecontact";

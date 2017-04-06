@@ -1,10 +1,12 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogPosts extends Collection {
+use \Hcode\Collection;
 
-    protected $class = "Hcode\BlogPost";
+class Posts extends Collection {
+
+    protected $class = "Hcode\Site\Blog\Post";
     protected $saveQuery = "sp_blogposts_save";
     protected $saveArgs = array("idpost", "destitle", "idurl", "descontentshort", "descontent", "idauthor", "dtpublished", "intrash", "idcover");
     protected $pk = "idpost";

@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site\Blog;
 
-class BlogPost extends Model {
+use \Hcode\Model;
+
+class Post extends Model {
 
     public $required = array('destitle', 'idurl', 'descontentshort', 'descontent', 'idauthor');
     protected $pk = "idpost";
@@ -54,14 +56,14 @@ class BlogPost extends Model {
         
     }
 
-    public function getTags():BlogTags
+    public function getTags():Tags
     {
-        return new BlogTags($this);
+        return new Tags($this);
     }
 
-    public function getCategories():BlogCategories
+    public function getCategories():Categories
     {
-        return new BlogCategories($this);
+        return new Categories($this);
     }
 
     public function removeTags():bool
@@ -75,7 +77,7 @@ class BlogPost extends Model {
 
     }
 
-    public function addTag(BlogTag $tag):BlogTag
+    public function addTag(Tag $tag):Tag
     {
 
         $this->execute("CALL sp_blogpoststags_save(?, ?);", array(
@@ -98,7 +100,7 @@ class BlogPost extends Model {
 
     }
 
-    public function addCategory(BlogCategory $category):BlogCategory
+    public function addCategory(Category $category):Category
     {
 
         $this->execute("CALL sp_blogpostscategories_save(?, ?);", array(

@@ -1,8 +1,10 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Site;
 
-class SiteMenu extends Model {
+use \Hcode\Model;
+
+class Menu extends Model {
 
     public $required = array('desmenu', 'nrorder');
     protected $pk = "idmenu";
@@ -33,7 +35,7 @@ class SiteMenu extends Model {
                 $this->getdesmenu()
             ));
 
-            SiteMenu::updateFile();
+            Menu::updateFile();
 
             return $this->getidmenu();
 
@@ -51,7 +53,7 @@ class SiteMenu extends Model {
             $this->getidmenu()
         ));
 
-        SiteMenu::updateFile();
+        Menu::updateFile();
 
         return true;
         
@@ -61,21 +63,21 @@ class SiteMenu extends Model {
     {
 
         $file = fopen(PATH."/res/tpl/header-menu.html", "w+");
-        fwrite($file, SiteMenu::getAllMenuHTML());
+        fwrite($file, Menu::getAllMenuHTML());
         fclose($file);
 
     }
 
-    public static function getMenus(SiteMenu $menuPai, SitesMenus $menusTodos) {
+    public static function getMenus(Menu $menuPai, Menus $menusTodos) {
 
         $roots = $menusTodos->filter('idmenufather', $menuPai->getidmenu());
 
-        $subs = new SitesMenus();
+        $subs = new Menus();
 
         foreach ($roots->getItens() as $menu) {
 
             if ($menu->getnrsubmenus() > 0) {
-                $menu->setMenus(SiteMenu::getMenus($menu, $menusTodos));
+                $menu->setMenus(Menu::getMenus($menu, $menusTodos));
             }
 
             $subs->add($menu);
@@ -87,12 +89,12 @@ class SiteMenu extends Model {
     }
 
     public static function getAllMenus(){
-        $root = new SiteMenu(array('idmenu' => 0));
-        $menus = SitesMenus::listAll();
-        return SiteMenu::getMenus($root, $menus);
+        $root = new Menu(array('idmenu' => 0));
+        $menus = Menus::listAll();
+        return Menu::getMenus($root, $menus);
     }
 
-    public static function getMenuHTML(SiteMenu $menuPai, SitesMenus $menusTodos) {
+    public static function getMenuHTML(Menu $menuPai, Menus $menusTodos) {
 
         $roots = $menusTodos->filter('idmenufather', $menuPai->getidmenu());
 
@@ -111,7 +113,7 @@ class SiteMenu extends Model {
                         <a title="'.$menu->getdesmenu().'" href="'.$href.'">
                             <div>'.$menu->getdesmenu().'</div>
                         </a>
-                        '.SiteMenu::getMenuHTML($menu, $menusTodos).'
+                        '.Menu::getMenuHTML($menu, $menusTodos).'
                     </li>
                 ';
 
@@ -127,7 +129,7 @@ class SiteMenu extends Model {
 
     }
 
-    public static function getMenuOL(SiteMenu $menuPai, SitesMenus $menusTodos) {
+    public static function getMenuOL(Menu $menuPai, Menus $menusTodos) {
 
         $roots = $menusTodos->filter('idmenufather', $menuPai->getidmenu());
 
@@ -146,7 +148,7 @@ class SiteMenu extends Model {
                             <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-add"><i class="icon md-plus" aria-hidden="true"></i></button>
                             <button type="button" class="btn btn-icon btn-pure btn-xs waves-effect pull-xs-right btn-edit"><i class="icon md-edit" aria-hidden="true"></i></button>
                         </div>
-                        '.SiteMenu::getMenuOL($menu, $menusTodos).'
+                        '.Menu::getMenuOL($menu, $menusTodos).'
                     </li>
                 ';
 
@@ -163,27 +165,27 @@ class SiteMenu extends Model {
     }
 
     public static function getAllMenuHTML(){
-        $root = new SiteMenu(array('idmenu' => 0));
-        $menus = SitesMenus::listAll();
-        return SiteMenu::getMenuHTML($root, $menus);
+        $root = new Menu(array('idmenu' => 0));
+        $menus = Menus::listAll();
+        return Menu::getMenuHTML($root, $menus);
     }
 
     public static function getAllMenuOL(){
-        $root = new SiteMenu(array('idmenu' => 0));
-        $menus = SitesMenus::listAll();
-        return SiteMenu::getMenuOL($root, $menus);
+        $root = new Menu(array('idmenu' => 0));
+        $menus = Menus::listAll();
+        return Menu::getMenuOL($root, $menus);
     }
 
     public static function getMenuSession(){
-        if (!isset($_SESSION[SiteMenu::SESSION_NAME])) {
-            $_SESSION[SiteMenu::SESSION_NAME] = SiteMenu::getAllMenuHTML();
+        if (!isset($_SESSION[Menu::SESSION_NAME])) {
+            $_SESSION[Menu::SESSION_NAME] = Menu::getAllMenuHTML();
         }
-        return $_SESSION[SiteMenu::SESSION_NAME];
+        return $_SESSION[Menu::SESSION_NAME];
     }
 
     public static function resetMenuSession(){
-        if (isset($_SESSION[SiteMenu::SESSION_NAME])) unset($_SESSION[SiteMenu::SESSION_NAME]);
-        SiteMenu::getMenuSession();
+        if (isset($_SESSION[Menu::SESSION_NAME])) unset($_SESSION[Menu::SESSION_NAME]);
+        Menu::getMenuSession();
     }
 
 }

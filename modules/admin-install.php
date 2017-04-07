@@ -4,11 +4,11 @@ define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 define("PATH_FUNCTION", PATH."/res/sql/functions/");
 
-function saveProcedures($procs = array()){
+function saveProcedures($procs = array(), $src = PATH_PROC){
 	$sql = new Sql();
 	foreach ($procs as $name) {
 		$sql->exec("DROP PROCEDURE IF EXISTS {$name};");
-		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+		$sql->queryFromFile($src."{$name}.sql");
 	}
 }
 function saveTriggers($triggers = array(), $pathTrigger = PATH_TRIGGER){
@@ -268,7 +268,7 @@ $app->get("/install-admin/sql/persons/get", function(){
 		"sp_personscategoriestypes_get",
 		"sp_personsdevices_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/persons/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/list", function(){

@@ -2225,7 +2225,7 @@ $app->get("/install-admin/sql/carts/list", function(){
 		'sp_productsfromcart_list',
 		'sp_couponsfromcart_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/list/");
 	echo success();
 	
 });
@@ -2238,7 +2238,7 @@ $app->get("/install-admin/sql/carts/get", function(){
 		'sp_cartscoupons_get',
 		'sp_cartsfreights_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/get/");
 	
 	echo success();
 });
@@ -2252,7 +2252,7 @@ $app->get("/install-admin/sql/carts/save", function(){
 		'sp_cartsfreights_save',
 		'sp_cartsdata_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/save/");
 	
 	echo success();
 	
@@ -2266,7 +2266,7 @@ $app->get("/install-admin/sql/carts/remove", function(){
 		'sp_cartscoupons_remove',
 		'sp_cartsfreights_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/remove/");
 	
 	echo success();
 	

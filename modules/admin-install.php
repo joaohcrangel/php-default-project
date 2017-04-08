@@ -268,7 +268,7 @@ $app->get("/install-admin/sql/persons/get", function(){
 		"sp_personscategoriestypes_get",
 		"sp_personsdevices_get"
 	);
-	saveProcedures($procs, PATH_PROC."/persons/");
+	saveProcedures($procs, PATH_PROC."/persons/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/list", function(){
@@ -282,7 +282,7 @@ $app->get("/install-admin/sql/persons/list", function(){
         "sp_personsvaluesfields_list",
         "sp_personscategoriestypes_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/persons/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/save", function(){

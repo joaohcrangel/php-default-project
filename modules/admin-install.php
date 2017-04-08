@@ -1945,7 +1945,7 @@ $app->get("/install-admin/sql/permissions/get", function(){
 		'sp_permissionsfrommenusmissing_list',
 		'sp_permissions_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/permissions/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/list", function(){
@@ -1960,7 +1960,7 @@ $app->get("/install-admin/sql/permissions/save", function(){
 		"sp_permissions_save",
 		"sp_permissionsmenus_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/permissions/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/remove", function(){
@@ -1970,17 +1970,10 @@ $app->get("/install-admin/sql/permissions/remove", function(){
 		"sp_permissions_remove",
 		"sp_permissionsmenus_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/permissions/remove/");
 	
 	echo success();
 });
-
-// AQUI O RAFA PARA
-
-
-// DAQUI PRA BAIXO É O RONALDO
-
-
 
 $app->get("/install-admin/sql/personsdata/tables", function(){
 	set_time_limit(0);

@@ -439,7 +439,7 @@ $app->get("/install-admin/sql/products/remove", function(){
 		"sp_productsprices_remove",
 		"sp_productsdata_remove"
 	);
-	saveProcedures($procs, PATH_PROC."products/remove/");
+	saveProcedures($procs, PATH_PROC."/products/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/tables", function(){
@@ -515,10 +515,9 @@ $app->get("/install-admin/sql/users/get", function(){
 		"sp_users_get",
 		"sp_userslogin_get",
 		"sp_usersfromemail_get",
-		"sp_usersfrommenus_list",
 		"sp_userstypes_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/users/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/remove", function(){
@@ -528,7 +527,7 @@ $app->get("/install-admin/sql/users/remove", function(){
 		"sp_users_remove",
 		"sp_userstypes_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/users/remove/");
 	
 	echo success();
 });
@@ -539,7 +538,7 @@ $app->get("/install-admin/sql/users/save", function(){
 		"sp_users_save",
 		"sp_userstypes_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/users/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/list", function(){
@@ -548,9 +547,10 @@ $app->get("/install-admin/sql/users/list", function(){
 	$names = array(
         "sp_userstypes_list",
         "sp_usersfromperson_list",
+        "sp_usersfrommenus_list",
         "sp_users_list"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/users/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/tables", function(){

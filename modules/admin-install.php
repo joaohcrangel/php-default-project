@@ -709,7 +709,7 @@ $app->get("/install-admin/sql/transactionstypes/get", function(){
        "sp_transactions_get",
        "sp_transactionstypes_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/transactionstypes/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/transactionstypes/list", function(){
@@ -719,7 +719,7 @@ $app->get("/install-admin/sql/transactionstypes/list", function(){
         "sp_transactions_list",
         "sp_transactionstypes_list"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/transactionstypes/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/transactionstypes/remove", function(){
@@ -729,7 +729,7 @@ $app->get("/install-admin/sql/transactionstypes/remove", function(){
        "sp_transactions_remove",
        "sp_transactionstypes_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/transactionstypes/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/transactionstypes/save", function(){
@@ -739,7 +739,7 @@ $app->get("/install-admin/sql/transactionstypes/save", function(){
 		"sp_transactions_save",
 		"sp_transactionstypes_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/transactionstypes/save/");
 	echo success();
 });
 
@@ -1309,7 +1309,7 @@ $app->get("/install-admin/sql/menus/get", function(){
        "sp_menus_get",
        "sp_sitesmenus_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/menus/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
@@ -1319,7 +1319,7 @@ $app->get("/install-admin/sql/menus/list", function(){
         "sp_menus_list",
         "sp_sitesmenus_list"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/menus/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
@@ -1329,7 +1329,7 @@ $app->get("/install-admin/sql/menus/remove", function(){
        "sp_menus_remove",
        "sp_sitesmenus_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/menus/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/save", function(){
@@ -1342,7 +1342,7 @@ $app->get("/install-admin/sql/menus/save", function(){
 		"sp_sitesmenustrigger_save",
 		"sp_sitesmenus_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/menus/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/tables", function(){

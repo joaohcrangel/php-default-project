@@ -1940,10 +1940,7 @@ $app->get("/install-admin/sql/permissions/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_permissions_get',
-		'sp_permissionsfrommenus_list',
-		'sp_permissionsfrommenusmissing_list',
-		'sp_permissions_list'
+		'sp_permissions_get'
 	);
 	saveProcedures($procs, PATH_PROC."/permissions/get/");
 	echo success();
@@ -1951,6 +1948,12 @@ $app->get("/install-admin/sql/permissions/get", function(){
 $app->get("/install-admin/sql/permissions/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_permissionsfrommenus_list',
+		'sp_permissionsfrommenusmissing_list',
+		'sp_permissions_list'
+	);
+	saveProcedures($procs, PATH_PROC."/permissions/list/")
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/save", function(){

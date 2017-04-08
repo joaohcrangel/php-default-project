@@ -1819,7 +1819,7 @@ $app->get("/install-admin/sql/addresses/get", function(){
         "sp_states_get",
         "sp_cities_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/addresses/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/list", function(){
@@ -1833,7 +1833,7 @@ $app->get("/install-admin/sql/addresses/list", function(){
         "sp_cities_list",
         "sp_addressesfromplace_list"
     );
-    saveProcedures($names);
+    saveProcedures($names, PATH_PROC."/addresses/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/save", function(){
@@ -1847,7 +1847,7 @@ $app->get("/install-admin/sql/addresses/save", function(){
        "sp_cities_save",
        "sp_personsaddresses_save"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/addresses/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/remove", function(){
@@ -1860,7 +1860,7 @@ $app->get("/install-admin/sql/addresses/remove", function(){
        "sp_states_remove",
        "sp_cities_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/addresses/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/tables", function(){

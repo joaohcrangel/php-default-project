@@ -298,7 +298,7 @@ $app->get("/install-admin/sql/persons/save", function(){
 		"sp_personscategoriestypes_save",
 		"sp_personsdevices_save"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/persons/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/remove", function(){
@@ -314,7 +314,7 @@ $app->get("/install-admin/sql/persons/remove", function(){
 		"sp_personscategoriestypes_remove",
 		"sp_personsdevices_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/persons/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/products/tables", function(){

@@ -1317,6 +1317,7 @@ $app->get("/install-admin/sql/menus/list", function(){
 	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_menus_list",
+        "sp_menusfromuser_list",
         "sp_sitesmenus_list"
 	);
 	saveProcedures($names, PATH_PROC."/menus/list/");
@@ -1336,7 +1337,6 @@ $app->get("/install-admin/sql/menus/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_menusfromuser_list",
 		"sp_menustrigger_save",
 		"sp_menus_save",
 		"sp_sitesmenustrigger_save",
@@ -1471,7 +1471,7 @@ $app->get("/install-admin/sql/contacts/get", function(){
 		"sp_contactssubtypes_get",
 		"sp_contactstypes_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/list", function(){
@@ -1482,7 +1482,7 @@ $app->get("/install-admin/sql/contacts/list", function(){
 		"sp_contactstypes_list",
 		"sp_contactssubtypes_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/save", function(){
@@ -1493,7 +1493,7 @@ $app->get("/install-admin/sql/contacts/save", function(){
 		"sp_contactssubtypes_save",
 		"sp_contactstypes_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/remove", function(){
@@ -1504,7 +1504,7 @@ $app->get("/install-admin/sql/contacts/remove", function(){
 		"sp_contactssubtypes_remove",
 		"sp_contactstypes_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/tables", function(){

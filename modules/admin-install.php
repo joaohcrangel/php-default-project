@@ -398,7 +398,7 @@ $app->get("/install-admin/sql/products/get", function(){
 		"sp_productstypes_get",
 		"sp_productsprices_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/get/");
 	
 	echo success();
 });
@@ -413,7 +413,7 @@ $app->get("/install-admin/sql/products/list", function(){
 		"sp_ordersfromproduct_list",
 		"sp_pricesfromproduct_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/list/");
 	
 	echo success();
 });
@@ -426,7 +426,7 @@ $app->get("/install-admin/sql/products/save", function(){
 		"sp_productsprices_save",
 		"sp_productsdata_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/save/");
 	
 	echo success();
 });
@@ -439,7 +439,7 @@ $app->get("/install-admin/sql/products/remove", function(){
 		"sp_productsprices_remove",
 		"sp_productsdata_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."products/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/tables", function(){

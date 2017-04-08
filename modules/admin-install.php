@@ -1567,7 +1567,7 @@ $app->get("/install-admin/sql/documents/get", function(){
         "sp_documents_get",
         "sp_documentstypes_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/documents/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/list", function(){
@@ -1577,7 +1577,7 @@ $app->get("/install-admin/sql/documents/list", function(){
 		"sp_documentsfromperson_list",
 		"sp_documentstypes_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/documents/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/save", function(){
@@ -1587,7 +1587,7 @@ $app->get("/install-admin/sql/documents/save", function(){
        "sp_documents_save",
        "sp_documentstypes_save"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/documents/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/remove", function(){
@@ -1597,7 +1597,7 @@ $app->get("/install-admin/sql/documents/remove", function(){
         "sp_documents_remove",
         "sp_documentstypes_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/documents/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/tables", function(){

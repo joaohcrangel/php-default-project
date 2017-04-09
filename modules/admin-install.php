@@ -2377,7 +2377,7 @@ $app->get("/install-admin/sql/gateways/get", function(){
 	$name = array(
 		"sp_gateways_get"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/get/");
 	
 	echo success();
 	
@@ -2388,7 +2388,7 @@ $app->get("/install-admin/sql/gateways/save", function(){
 	$name = array(
 		"sp_gateways_save"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/save/");
 	
 	echo success();
 	
@@ -2399,7 +2399,7 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 	$name = array(
 		"sp_gateways_remove"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/remove/");
 	
 	echo success();
 	
@@ -2605,13 +2605,60 @@ $app->get("/install-admin/sql/orders/list", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_orders_list',
-		'sp_orders_list',
 		'sp_ordersproducts_list',
 		'sp_ordersreceipts_list',
 		'sp_ordersstatus_list',
 		'sp_ordersfromperson_list',
 		'sp_receiptsfromorder_list',
 		'sp_orderslogs_list'
+	);
+	saveProcedures($procs, PATH_PROC."/orders/list/");
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/orders/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_orders_get',
+		'sp_orders_get',
+		'sp_ordersproducts_get',
+		'sp_ordersreceipts_get',
+		'sp_ordersstatus_get',
+		'sp_orderslogs_get'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/orders/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_orders_save',
+		'sp_orders_save',
+		'sp_ordersproducts_save',
+		'sp_ordersreceipts_save',
+		'sp_ordersstatus_save',
+		'sp_orderslogs_save'
+	);
+	saveProcedures($procs);
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/orders/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_orders_remove',
+		'sp_orders_remove',
+		'sp_ordersproducts_remove',
+		'sp_ordersreceipts_remove',
+		'sp_ordersstatus_remove',
+		'sp_orderslogs_remove'
 	);
 	saveProcedures($procs);
 	
@@ -2763,54 +2810,6 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/remove", function(){
 		
 });		
 
-$app->get("/install-admin/sql/orders/get", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_orders_get',
-		'sp_orders_get',
-		'sp_ordersproducts_get',
-		'sp_ordersreceipts_get',
-		'sp_ordersstatus_get',
-		'sp_orderslogs_get'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
-$app->get("/install-admin/sql/orders/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_orders_save',
-		'sp_orders_save',
-		'sp_ordersproducts_save',
-		'sp_ordersreceipts_save',
-		'sp_ordersstatus_save',
-		'sp_orderslogs_save'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
-$app->get("/install-admin/sql/orders/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_orders_remove',
-		'sp_orders_remove',
-		'sp_ordersproducts_remove',
-		'sp_ordersreceipts_remove',
-		'sp_ordersstatus_remove',
-		'sp_orderslogs_remove'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
 $app->get("/install-admin/sql/sitescontacts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);

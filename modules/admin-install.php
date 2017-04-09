@@ -3261,7 +3261,7 @@ $app->get("/install-admin/sql/courses/list", function(){
 		'sp_sectionsfromcourse_list',
 		'sp_curriculumsfromcourse_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/list/");
 
 	echo success();
 });
@@ -3274,7 +3274,7 @@ $app->get("/install-admin/sql/courses/get", function(){
 		'sp_coursescurriculums_get',
 		'sp_coursessections_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/get/");
 
 	echo success();
 });
@@ -3287,7 +3287,7 @@ $app->get("/install-admin/sql/courses/save", function(){
 		'sp_coursescurriculums_save',
 		'sp_coursessections_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/save/");
 
 	echo success();
 });
@@ -3300,7 +3300,7 @@ $app->get("/install-admin/sql/courses/remove", function(){
 		'sp_coursescurriculums_remove',
 		'sp_coursessections_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/remove/");
 
 	echo success();
 });

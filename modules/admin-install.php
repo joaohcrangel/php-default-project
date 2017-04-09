@@ -3639,7 +3639,7 @@ $app->get("/install-admin/sql/urls/get", function(){
 	$procs = array(
 		'sp_urls_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/get/");
 
 	echo success();
 });
@@ -3649,7 +3649,7 @@ $app->get("/install-admin/sql/urls/save", function(){
 	$procs = array(
 		'sp_urls_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/save/");
 
 	echo success();
 });
@@ -3659,7 +3659,7 @@ $app->get("/install-admin/sql/urls/remove", function(){
 	$procs = array(
 		'sp_urls_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/remove/");
 
 	echo success();
 });
@@ -3669,7 +3669,7 @@ $app->get("/install-admin/sql/urls/list", function(){
 	$procs = array(
 		'sp_urls_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/list/");
 
 	echo success();
 });

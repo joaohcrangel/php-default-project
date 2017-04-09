@@ -4051,7 +4051,7 @@ $app->get("/install-admin/sql/emails/get", function(){
 		'sp_emailsshipments_get'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/emails/get/");
 
 	echo success();
 
@@ -4068,7 +4068,7 @@ $app->get("/install-admin/sql/emails/save", function(){
 		'sp_emailsshipments_save'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/emails/save/");
 
 	echo success();
 
@@ -4085,7 +4085,7 @@ $app->get("/install-admin/sql/emails/remove", function(){
 		'sp_emailsshipments_remove'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/emails/remove/");
 
 	echo success();
 

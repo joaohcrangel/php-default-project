@@ -3175,7 +3175,7 @@ $app->get("/install-admin/sql/coordinates/get", function(){
 	$procs = array(
 		'sp_coordinates_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coordinates/get/");
 
 	echo success();
 });
@@ -3185,7 +3185,7 @@ $app->get("/install-admin/sql/coordinates/save", function(){
 	$procs = array(
 		'sp_coordinates_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coordinates/save/");
 
 	echo success();
 });
@@ -3195,7 +3195,7 @@ $app->get("/install-admin/sql/coordinates/remove", function(){
 	$procs = array(
 		'sp_coordinates_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coordinates/remove/");
 
 	echo success();
 });

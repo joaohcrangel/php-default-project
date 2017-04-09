@@ -413,10 +413,42 @@ $app->delete("/blog-comments", function(){
 // blog categories
 $app->get("/blog-categories/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	$tag = BlogCategories::listAll();
 
-	echo success(array("data"=>BlogCategories::listAll()->getFields()));
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
 
+	$where = array();
+
+	if(get('descategory')) {
+		array_push($where, "descategory LIKE '%".get('descategory')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AND ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogcategories
+	".$where." limit ?, ?;";
+
+	$pagination = new Pagination(
+        $query,
+        array(),
+        "BlogCategories",
+        $itemsPerPage
+    );
+
+    $category = $pagination->getPage($currentPage);
+
+    echo success(array(
+    	"data"=>$category ->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$pagination->getTotal(),
+
+    ));
 });
 
 $app->post("/blog-categories", function(){
@@ -437,12 +469,61 @@ $app->post("/blog-categories", function(){
 
 });
 
-// blog tags
-$app->get("/blog-tags/all", function(){
+$app->delete("/blog-categories/:idcategory", function($idcategory){
 
 	Permission::checkSession(Permission::ADMIN, true);
 
-	echo success(array("data"=>BlogTags::listAll()->getFields()));
+	if(!(int)$idcategory > 0){
+		throw new Exception("categoria não informado.", 400);		
+	}
+
+	$category = new BlogCategory((int)$idcategory);
+
+	$category->remove();
+
+	echo success();
+
+});
+
+// blog tags
+$app->get("/blog-tags/all", function(){
+
+	$tag = BlogTags::listAll();
+
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('destag')) {
+		array_push($where, "destag LIKE '%".get('destag')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AND ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogtags
+	".$where." limit ?, ?;";
+
+	$pagination = new Pagination(
+        $query,
+        array(),
+        "BlogTags",
+        $itemsPerPage
+    );
+
+    $tag = $pagination->getPage($currentPage);
+
+    echo success(array(
+    	"data"=>$tag ->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$pagination->getTotal(),
+
+    ));
 
 });
 
@@ -464,9 +545,25 @@ $app->post("/blog-tags", function(){
 
 });
 
-?>
+$app->delete("/blog-tags/:idtag", function($idtag){
 
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(!(int)$idtag > 0){
+		throw new Exception("Tag não informado.", 400);		
+	}
+
+	$tag = new BlogTag((int)$idtag);
+
+	$tag->remove();
+
+	echo success();
+
+});
+ /*
 ///fazer o administrativo do
  
  ("blogcategories")
  ("blogtags")
+*/
+?>

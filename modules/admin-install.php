@@ -661,7 +661,7 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-
+/*
 	$sql->exec("
 		CREATE TABLE tb_userslogstypes (
 			idlogtype int(11) NOT NULL AUTO_INCREMENT,
@@ -670,7 +670,7 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
   			PRIMARY KEY (idlogtype)
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-
+*/
 	$sql->exec("
 		CREATE TABLE tb_userslogs (
 			idlog int(11) NOT NULL AUTO_INCREMENT,

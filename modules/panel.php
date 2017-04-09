@@ -597,6 +597,61 @@ $app->get("/panel/transaction-type-create", function(){
 
 });
 
+// blogs tags
+$app->get("/panel/blog-tags/:idtag", function($idtag){
+
+	$tag = new BlogTag((int)$idtag);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-tag-save", array(
+		"tag"=>$tag->getFields()
+	));
+
+});
+
+$app->get("/panel/blog-tag-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-tag-create");
+
+});
+
+
+// blogs categoria
+$app->get("/panel/blog-categories/:idcategory", function($idcategory){
+
+	$category = new BlogCategory((int)$idcategory);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-category-save", array(
+		"category"=>$category->getFields()
+	));
+
+});
+
+$app->get("/panel/blog-category-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-category-create");
+
+});
+
 // historicos-tipos
 $app->get("/panel/logs-types/:idlogtype", function($idlogtype){
 

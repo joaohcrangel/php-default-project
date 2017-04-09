@@ -1,0 +1,223 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
+<style>
+#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+</style>
+<div class="page bg-white">
+
+	<div class="page-aside">
+	    <div class="page-aside-switch">
+	      <i class="icon md-chevron-left" aria-hidden="true"></i>
+	      <i class="icon md-chevron-right" aria-hidden="true"></i>
+	    </div>
+	    <div class="page-aside-inner page-aside-scroll">
+	      <div data-role="container">
+	        <div data-role="content">
+	          <section class="page-aside-section p-t-0">
+	            <div class="panel-primary panel-line">
+	              <div class="panel-heading">
+	                <h3 class="panel-title">Filtrar Tags</h3>
+	              </div>
+	              <form id="form-filtros" class="p-x-25">
+	                <div class="form-group form-material" data-plugin="formMaterial">
+	                  <label class="form-control-label">Nome</label>
+	                  <input type="text" class="form-control" name="destag">
+	                </div>       
+	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+	              </form>
+	            </div>
+	          </section>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+
+    <div class="page-main">
+        <div class="row-fluid">
+            <div class="col-sm-12">
+                <div class="panel" id="panel-blog-tag" data-auto-height="-179">
+                    <div class="panel-heading">
+                        <div class="btn-group" id="actions-buttons"></div>
+
+                        <div class="panel-actions">
+                            <a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle"
+                            aria-hidden="true"><i class="icon wb-refresh"></i></a>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Tags
+                                </th>
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                                      
+                        </thead>
+                        <tbody>
+                             	
+                        </tbody>
+                    </table>
+                </div>
+                <div id="paginacao"></div> 
+            </div>
+        </div>
+    </div>
+    <div class="site-action">
+        <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
+        data-url="{$path}/panel/blog-tag-create" data-toggle="slidePanel">
+            <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
+            </i>
+            <i class="back-icon md-close animation-scale-up" aria-hidden="true">
+            </i>
+        </button>
+    </div>
+</div>
+<script id="tpl-blog-tag" type="/x-handlebars-temprate">
+<tr data-idtag="{{idtag}}">
+	<td>{{destag}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/blog-tags/{{idtag}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-tag icon wb-trash">
+      	</button>
+	</td>
+	</tr>
+	</script>
+	<script>
+	init.push(function(){
+	var panel = System.getPanelApi($("#panel-blog-tag"));
+
+	var $tbody = $("#panel-blog-tag tbody");
+
+	var $tplBlogTag = Handlebars.compile($("#tpl-blog-tag").html());
+
+	$("#form-filtros [type=submit]").on("click", function(e){
+     
+    	e.preventDefault();
+
+    	loadBlogTag();
+    
+  	});
+
+	function loadBlogTag(pagina){
+
+		if(!pagina) pagina = 1;
+
+		$(".refresh").on("click", function(){
+			loadBlogTag();
+
+		});
+
+		var params = $("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params. limite = Math.floor((window.innerHeight-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
+
+		panel.load();
+
+		rest({
+			url:PATH+"/blog-tags/all",
+			data:params,
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplBlogTag(row));
+
+				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadBlogTag(page);
+         			}
+        		});
+
+        		$("#paginacao").asPaginator(r.total, config);
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-tag").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idtag = $btn.closest("tr").data("idtag");
+					System.confirm('Deseja remover essa Tag?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/blog-tags/"+idtag,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadBlogTag();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+/*
+	new ToolBar({
+	    id:"actions-buttons",
+	    buttons:[{
+			text:"Cadastrar",
+			icon:"md-plus",
+			cls:"btn-success",
+			listeners:{
+				click:function(){
+
+				  System.openSlidePanel({
+				    url:PATH+"/panel/user-type-create"
+				  });
+
+				}
+			}
+	    }]
+	});
+*/
+
+
+
+    loadBlogTag();
+});
+
+</script>

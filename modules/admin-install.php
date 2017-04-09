@@ -2823,7 +2823,7 @@ $app->get("/install-admin/sql/sitescontacts/list", function(){
 		"sp_sitescontacts_list",
 		"sp_sitescontactsfromperson_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/sitescontacts/list/");
 	
 	echo success();
 	
@@ -2835,7 +2835,7 @@ $app->get("/install-admin/sql/sitescontacts/get", function(){
 		'sp_sitescontactsbyperson_get',
 		'sp_sitescontacts_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/sitescontacts/get/");
 	
 	echo success();
 	
@@ -2846,7 +2846,7 @@ $app->get("/install-admin/sql/sitescontacts/save", function(){
 	$name = array(
 		"sp_sitescontacts_save"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/sitescontacts/save/");
 	
 	echo success();
 	
@@ -2857,7 +2857,7 @@ $app->get("/install-admin/sql/sitescontacts/remove", function(){
 	$name = array(
 		"sp_sitescontacts_remove"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/sitescontacts/remove/");
 	
 	echo success();
 	

@@ -2622,7 +2622,6 @@ $app->get("/install-admin/sql/orders/get", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_orders_get',
-		'sp_orders_get',
 		'sp_ordersproducts_get',
 		'sp_ordersreceipts_get',
 		'sp_ordersstatus_get',
@@ -2638,7 +2637,6 @@ $app->get("/install-admin/sql/orders/save", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_orders_save',
-		'sp_orders_save',
 		'sp_ordersproducts_save',
 		'sp_ordersreceipts_save',
 		'sp_ordersstatus_save',
@@ -2653,7 +2651,6 @@ $app->get("/install-admin/sql/orders/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_orders_remove',
 		'sp_orders_remove',
 		'sp_ordersproducts_remove',
 		'sp_ordersreceipts_remove',

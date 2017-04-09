@@ -2301,7 +2301,7 @@ $app->get("/install-admin/sql/creditcards/list", function(){
 		"sp_creditcards_list",
 		"sp_cardsfromperson_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/creditcards/list/");
 	
 	echo success();
 	
@@ -2313,7 +2313,7 @@ $app->get("/install-admin/sql/creditcards/get", function(){
 		"sp_creditcards_get"
 	);
 	
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/creditcards/get/");
 	
 	echo success();
 	
@@ -2324,7 +2324,7 @@ $app->get("/install-admin/sql/creditcards/save", function(){
 	$name = array(
 		"sp_creditcards_save"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/creditcards/save/");
 	
 	echo success();
 	
@@ -2335,7 +2335,7 @@ $app->get("/install-admin/sql/creditcards/remove", function(){
 	$name = array(
 		"sp_creditcards_remove"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/creditcards/remove/");
 	
 	echo success();
 	

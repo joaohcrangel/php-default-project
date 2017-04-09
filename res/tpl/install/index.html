@@ -39676,6 +39676,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+            url:"/sql/configurations/list",
+            name:"Configurações - LIST",
+            status:"",
+            enabled:true
+        },{
 			url:"/sql/configurations/save",
 			name:"Configurações - SAVE",
 			status:"",
@@ -39776,8 +39781,7 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"PedidosNegociacoesTipos - REMOVE",
 			status:"",
 			enabled:true
-		},
-        {
+		},{
             url:"/sql/blog/tables",
             name:"Blog - Tabelas",
             status:"",

@@ -1953,7 +1953,7 @@ $app->get("/install-admin/sql/permissions/list", function(){
 		'sp_permissionsfrommenusmissing_list',
 		'sp_permissions_list'
 	);
-	saveProcedures($procs, PATH_PROC."/permissions/list/")
+	saveProcedures($procs, PATH_PROC."/permissions/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/save", function(){
@@ -2627,7 +2627,7 @@ $app->get("/install-admin/sql/orders/get", function(){
 		'sp_ordersstatus_get',
 		'sp_orderslogs_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/orders/get/");
 	
 	echo success();
 	
@@ -2642,7 +2642,7 @@ $app->get("/install-admin/sql/orders/save", function(){
 		'sp_ordersstatus_save',
 		'sp_orderslogs_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/orders/save/");
 	
 	echo success();
 	
@@ -2657,7 +2657,7 @@ $app->get("/install-admin/sql/orders/remove", function(){
 		'sp_ordersstatus_remove',
 		'sp_orderslogs_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/orders/remove/");
 	
 	echo success();
 	

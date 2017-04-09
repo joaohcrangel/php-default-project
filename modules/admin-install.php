@@ -2750,12 +2750,10 @@ $app->get("/install-admin/sql/formspayments/inserts", function(){
 $app->get("/install-admin/sql/ordersnegotiationstypes/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-	
-		'sp_ordersnegotiationstypes_list'
-		
+	$procs = array(	
+		'sp_ordersnegotiationstypes_list'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/list/");
 	
 	echo success();
 	
@@ -2765,11 +2763,9 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-
-		'sp_ordersnegotiationstypes_get'
-		
+		'sp_ordersnegotiationstypes_get'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/get/");
 	
 	echo success();
 	
@@ -2779,11 +2775,9 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		
-		'sp_ordersnegotiationstypes_save'
-		
+		'sp_ordersnegotiationstypes_save'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/save/");
 	
 	echo success();
 	
@@ -2792,12 +2786,10 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/save", function(){
 $app->get("/install-admin/sql/ordersnegotiationstypes/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-	
-		'sp_ordersnegotiationstypes_remove'
-		
+	$procs = array(	
+		'sp_ordersnegotiationstypes_remove'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/remove/");
 	
 	echo success();
 		

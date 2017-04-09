@@ -3390,7 +3390,7 @@ $app->get("/install-admin/sql/carousels/save", function(){
 		'sp_carouselsitems_save',
 		'sp_carouselsitemstypes_save'
 	);
-	saveProcedures($procs, PATH_PROC."/carousels/list/");
+	saveProcedures($procs, PATH_PROC."/carousels/save/");
 
 	echo success();
 });
@@ -3403,7 +3403,7 @@ $app->get("/install-admin/sql/carousels/remove", function(){
 		'sp_carouselsitems_remove',
 		'sp_carouselsitemstypes_remove'
 	);
-	saveProcedures($procs, PATH_PROC."/carousels/list/");
+	saveProcedures($procs, PATH_PROC."/carousels/remove/");
 
 	echo success();
 });
@@ -3526,16 +3526,26 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 
 });
 
+$app->get("/install-admin/sql/configurations/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_configurationstypes_list',
+		'sp_configurations_list'
+	);
+	saveProcedures($procs, PATH_PROC."/configurations/list/");
+
+	echo success();
+});
+
 $app->get("/install-admin/sql/configurations/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_configurationstypes_get',
-		'sp_configurationstypes_list',
-		'sp_configurations_get',
-		'sp_configurations_list'
+		'sp_configurations_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/configurations/get/");
 
 	echo success();
 });
@@ -3546,7 +3556,7 @@ $app->get("/install-admin/sql/configurations/save", function(){
 		'sp_configurationstypes_save',
 		'sp_configurations_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/configurations/save/");
 
 	echo success();
 });
@@ -3557,7 +3567,7 @@ $app->get("/install-admin/sql/configurations/remove", function(){
 		'sp_configurationstypes_remove',
 		'sp_configurations_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/configurations/remove/");
 
 	echo success();
 });

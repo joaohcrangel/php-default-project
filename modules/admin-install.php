@@ -2687,11 +2687,10 @@ $app->get("/install-admin/sql/formspayments/tables", function(){
 $app->get("/install-admin/sql/formspayments/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/list/");
 	
 	echo success();
 	
@@ -2699,11 +2698,10 @@ $app->get("/install-admin/sql/formspayments/list", function(){
 $app->get("/install-admin/sql/formspayments/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/get/");
 	
 	echo success();
 	
@@ -2712,11 +2710,10 @@ $app->get("/install-admin/sql/formspayments/get", function(){
 $app->get("/install-admin/sql/formspayments/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/save/");
 	
 	echo success();
 	
@@ -2725,11 +2722,10 @@ $app->get("/install-admin/sql/formspayments/save", function(){
 $app->get("/install-admin/sql/formspayments/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/remove/");
 	
 	echo success();
 	

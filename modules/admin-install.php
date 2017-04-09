@@ -3633,47 +3633,6 @@ $app->get("/install-admin/sql/files/list", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/urls/get", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_get'
-	);
-	saveProcedures($procs, PATH_PROC."/urls/get/");
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_save'
-	);
-	saveProcedures($procs, PATH_PROC."/urls/save/");
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_remove'
-	);
-	saveProcedures($procs, PATH_PROC."/urls/remove/");
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/list", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_list'
-	);
-	saveProcedures($procs, PATH_PROC."/urls/list/");
-
-	echo success();
-});
-
 $app->get("/install-admin/sql/productsfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -3768,56 +3727,45 @@ $app->get("/install-admin/sql/urls/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/urls/list", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$procs = array(
-		'sp_urls_list'
-	);
-	saveProcedures($procs);
-
-	echo success();
-
-});
-
 $app->get("/install-admin/sql/urls/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-
 	$procs = array(
 		'sp_urls_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/get/");
 
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/urls/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-
 	$procs = array(
 		'sp_urls_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/save/");
 
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/urls/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-
 	$procs = array(
 		'sp_urls_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/remove/");
 
 	echo success();
+});
+$app->get("/install-admin/sql/urls/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_list'
+	);
+	saveProcedures($procs, PATH_PROC."/urls/list/");
 
+	echo success();
 });
 
 $app->get("/install-admin/sql/personsaddresses/tables", function(){
@@ -3962,7 +3910,7 @@ $app->get("/install-admin/sql/blog/get", function(){
 		'sp_blogtags_get'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/get/");
 
 	echo success();
 
@@ -3982,7 +3930,7 @@ $app->get("/install-admin/sql/blog/save", function(){
 		'sp_blogpostscategories_save'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/save/");
 
 	echo success();
 
@@ -4002,7 +3950,7 @@ $app->get("/install-admin/sql/blog/remove", function(){
 		'sp_blogpostscategories_remove'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/remove/");
 
 	echo success();
 
@@ -4022,7 +3970,7 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_categoriesfrompost_list'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/list/");
 
 	echo success();
 

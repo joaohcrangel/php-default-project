@@ -2366,7 +2366,7 @@ $app->get("/install-admin/sql/gateways/list", function(){
 		"sp_gateways_list"
 	);
 	
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/list/");
 	
 	echo success();
 	

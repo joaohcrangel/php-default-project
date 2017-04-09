@@ -3364,7 +3364,7 @@ $app->get("/install-admin/sql/carousels/list", function(){
 		'sp_carouselsitemstypes_list',
 		'sp_itemsfromcarousel_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/list/");
 
 	echo success();
 });
@@ -3377,7 +3377,7 @@ $app->get("/install-admin/sql/carousels/get", function(){
 		'sp_carouselsitems_get',
 		'sp_carouselsitemstypes_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/get/");
 
 	echo success();
 });
@@ -3390,7 +3390,7 @@ $app->get("/install-admin/sql/carousels/save", function(){
 		'sp_carouselsitems_save',
 		'sp_carouselsitemstypes_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/list/");
 
 	echo success();
 });
@@ -3403,7 +3403,7 @@ $app->get("/install-admin/sql/carousels/remove", function(){
 		'sp_carouselsitems_remove',
 		'sp_carouselsitemstypes_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/list/");
 
 	echo success();
 });

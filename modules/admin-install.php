@@ -3598,7 +3598,7 @@ $app->get("/install-admin/sql/files/get", function(){
 	$procs = array(
 		'sp_files_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/get/");
 
 	echo success();
 });
@@ -3608,7 +3608,7 @@ $app->get("/install-admin/sql/files/save", function(){
 	$procs = array(
 		'sp_files_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/save/");
 
 	echo success();
 });
@@ -3618,7 +3618,7 @@ $app->get("/install-admin/sql/files/remove", function(){
 	$procs = array(
 		'sp_files_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/remove/");
 
 	echo success();
 });
@@ -3628,10 +3628,11 @@ $app->get("/install-admin/sql/files/list", function(){
 	$procs = array(
 		'sp_files_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/list/");
 
 	echo success();
 });
+
 $app->get("/install-admin/sql/urls/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);

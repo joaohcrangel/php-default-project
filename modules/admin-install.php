@@ -2097,7 +2097,7 @@ $app->get("/install-admin/sql/coupons/list", function(){
 		'sp_couponstypes_list'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/save", function(){
@@ -2107,7 +2107,7 @@ $app->get("/install-admin/sql/coupons/save", function(){
 		'sp_coupons_save',
 		'sp_couponstypes_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/get", function(){
@@ -2117,7 +2117,7 @@ $app->get("/install-admin/sql/coupons/get", function(){
 		'sp_coupons_get',
 		'sp_couponstypes_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/remove", function(){
@@ -2127,7 +2127,7 @@ $app->get("/install-admin/sql/coupons/remove", function(){
 		'sp_coupons_remove',
 		'sp_couponstypes_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/inserts", function(){

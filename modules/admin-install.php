@@ -3019,10 +3019,9 @@ $app->get("/install-admin/sql/places/get", function(){
 	$procs = array(
 		'sp_placestypes_get',
 		'sp_places_get',
-		'sp_placesschedules_get',
-		'sp_placesvaluesfield_get'
+		'sp_placesschedules_get'
 	);
-	saveProcedures($procs, PATH_PROC."/places/list/");
+	saveProcedures($procs, PATH_PROC."/places/get/");
 	
 	echo success();
 	
@@ -3048,7 +3047,7 @@ $app->get("/install-admin/sql/places/save", function(){
 		'sp_placesaddresses_add',
 		'sp_placesfiles_add'
 	);
-	saveProcedures($procs, PATH_PROC."/places/list/");
+	saveProcedures($procs, PATH_PROC."/places/save/");
 	
 	echo success();
 	
@@ -3063,7 +3062,7 @@ $app->get("/install-admin/sql/places/remove", function(){
 		'sp_placesschedules_remove',
 		'sp_placesschedulesall_remove'
 	);
-	saveProcedures($procs, PATH_PROC."/places/list/");
+	saveProcedures($procs, PATH_PROC."/places/remove/");
 	
 	echo success();
 	

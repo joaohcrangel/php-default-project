@@ -532,7 +532,7 @@ $app->get("/install-admin/sql/users/triggers", function(){
 		"tg_users_AFTER_UPDATE",
 		"tg_users_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/users/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/inserts", function(){
@@ -1401,7 +1401,7 @@ $app->get("/install-admin/sql/contacts/triggers", function(){
 		"tg_contacts_AFTER_UPDATE",
 		"tg_contacts_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/contacts/");
     
 	echo success();
 });
@@ -1551,7 +1551,7 @@ $app->get("/install-admin/sql/documents/triggers", function(){
 		"tg_documents_AFTER_UPDATE",
 		"tg_documents_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/documents/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/inserts", function(){

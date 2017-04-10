@@ -195,6 +195,15 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		  CONSTRAINT FK_personsfiles_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->exec("
+		CREATE TABLE tb_personsaddresses(
+			idperson INT NOT NULL,
+			idaddress INT NOT NULL,
+			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
+			CONSTRAINT FOREIGN KEY(idaddress) REFERENCES tb_addresses(idaddress)
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 
@@ -208,9 +217,13 @@ $app->get("/install-admin/sql/persons/triggers", function(){
 
 		"tg_personsvalues_AFTER_INSERT",
 		"tg_personsvalues_AFTER_UPDATE",
-		"tg_personsvalues_BEFORE_DELETE"
+		"tg_personsvalues_BEFORE_DELETE",
+
+		"tg_personsaddresses_AFTER_INSERT",
+		"tg_personsaddresses_AFTER_UPDATE",
+		"tg_personsaddresses_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/persons/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/inserts", function(){
@@ -309,7 +322,8 @@ $app->get("/install-admin/sql/persons/save", function(){
 		"sp_personscategoriestypes_save",
 		"sp_personsdevices_save",
 		"sp_personsfiles_save",
-		"sp_personslogs_save"
+		"sp_personslogs_save",
+		"sp_personsaddresses_save"
 	);
 	saveProcedures($names, PATH_PROC."/persons/save/");
 	echo success();
@@ -1840,8 +1854,7 @@ $app->get("/install-admin/sql/addresses/save", function(){
        "sp_addressestypes_save",
        "sp_countries_save",
        "sp_states_save",
-       "sp_cities_save",
-       "sp_personsaddresses_save"
+       "sp_cities_save"
 	);
 	saveProcedures($names, PATH_PROC."/addresses/save/");
 	echo success();
@@ -3726,38 +3739,6 @@ $app->get("/install-admin/sql/urls/list", function(){
 	);
 	saveProcedures($procs, PATH_PROC."/urls/list/");
 
-	echo success();
-});
-
-$app->get("/install-admin/sql/personsaddresses/tables", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$sql = new Sql();
-
-	$sql->exec("
-		CREATE TABLE tb_personsaddresses(
-			idperson INT NOT NULL,
-			idaddress INT NOT NULL,
-			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson),
-			CONSTRAINT FOREIGN KEY(idaddress) REFERENCES tb_addresses(idaddress)
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	echo success();
-
-});
-
-$app->get("/install-admin/sql/personsaddresses/triggers", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$triggers = array(
-		"tg_personsaddresses_AFTER_INSERT",
-		"tg_personsaddresses_AFTER_UPDATE",
-		"tg_personsaddresses_BEFORE_DELETE"
-	);
-	saveTriggers($triggers);
 	echo success();
 });
 

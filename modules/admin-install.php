@@ -2219,7 +2219,7 @@ $app->get("/install-admin/sql/carts/triggers", function(){
 		"tg_cartsproducts_AFTER_INSERT",
 		"tg_cartsproducts_AFTER_UPDATE"		
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/carts/");
 	echo success();
 });
 $app->get("/install-admin/sql/carts/list", function(){

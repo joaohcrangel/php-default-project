@@ -8,4 +8,12 @@ $app->get("/", function(){
 
 });
 
+$app->get("/blog", function(){
+
+	$page = new Page();
+
+	$page->setTpl("blog");
+
+});
+
 ?>

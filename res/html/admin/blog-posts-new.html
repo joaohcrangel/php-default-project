@@ -37,6 +37,7 @@
             <div class="panel-primary panel-line p-20">
               <form id="form-post">
                 <input type="hidden" name="idpost">
+                <input type="hidden" name="idurl">
                 <div class="panel-heading">
                   <h4 class="panel-title">Propriedades da postagem</h4>
                 </div>
@@ -307,6 +308,7 @@ init.push(function(){
       data:data,
       success:function(r){
         $("[name=idpost]").val(r.data.idpost);
+        $("[name=idurl]").val(r.data.idurl);
         $btn.btnload("unload");
         System.success();
         if(typeof success == 'function') success();

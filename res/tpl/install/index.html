@@ -39123,6 +39123,32 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			enabled:true
 		},
         {
+            url:"/sql/addresses/tables",
+            name:"Endereços - Tabelas",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/get",
+            name:"Endereços - Procedure GET",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/list",
+            name:"Endereços - Procedure LIST",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/save",
+            name:"Endereços - Procedure SAVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/remove",
+            name:"Endereços - Procedure REMOVE",
+            status:"",
+            enabled:true
+        },
+        {
             url:"/sql/files/tables",
             name:"Arquivos - Tabelas",
             status:"",
@@ -39314,33 +39340,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/documents/remove",
 			name:"Documentos - Procedure REMOVE",
-			status:"",
-			enabled:true
-		},
-
-		{
-			url:"/sql/addresses/tables",
-			name:"Endereços - Tabelas",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/get",
-			name:"Endereços - Procedure GET",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/list",
-			name:"Endereços - Procedure LIST",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/save",
-			name:"Endereços - Procedure SAVE",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/remove",
-			name:"Endereços - Procedure REMOVE",
 			status:"",
 			enabled:true
 		},
@@ -39584,11 +39583,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/personsdata/tables",
 			name:"Pessoas Dados - Tabelas",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/personsaddresses/tables",
-			name:"Pessoas Endereços - Tabelas",
 			status:"",
 			enabled:true
 		},{

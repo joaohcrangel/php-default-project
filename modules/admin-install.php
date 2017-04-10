@@ -184,6 +184,17 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		  CONSTRAINT FK_personsdevices_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->exec("
+		CREATE TABLE tb_personsfiles (
+		  idperson int(11) NOT NULL,
+		  idfile int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idperson,idfile),
+		  KEY FK_personsfiles_files_idx (idfile),
+		  CONSTRAINT FK_personsfiles_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE CASCADE ON UPDATE CASCADE,
+		  CONSTRAINT FK_personsfiles_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 
@@ -296,7 +307,9 @@ $app->get("/install-admin/sql/persons/save", function(){
 		"sp_personsvaluesfields_save",
 		"sp_personstypes_save",
 		"sp_personscategoriestypes_save",
-		"sp_personsdevices_save"
+		"sp_personsdevices_save",
+		"sp_personsfiles_save",
+		"sp_personslogs_save"
 	);
 	saveProcedures($names, PATH_PROC."/persons/save/");
 	echo success();
@@ -312,7 +325,8 @@ $app->get("/install-admin/sql/persons/remove", function(){
 		"sp_personsvaluesfields_remove",
 		"sp_personstypes_remove",
 		"sp_personscategoriestypes_remove",
-		"sp_personsdevices_remove"
+		"sp_personsdevices_remove",
+		"sp_personslogs_remove"
 	);
 	saveProcedures($names, PATH_PROC."/persons/remove/");
 	echo success();
@@ -468,6 +482,32 @@ $app->get("/install-admin/sql/users/tables", function(){
 		  CONSTRAINT FK_users_userstypes FOREIGN KEY (idusertype) REFERENCES tb_userstypes (idusertype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->exec("
+		CREATE TABLE tb_userslogstypes (
+			idlogtype int(11) NOT NULL AUTO_INCREMENT,
+  			deslogtype varchar(32) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlogtype)
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->exec("
+		CREATE TABLE tb_userslogs (
+			idlog int(11) NOT NULL AUTO_INCREMENT,
+  			iduser int(11) NOT NULL,
+  			idlogtype int(11) NOT NULL,
+  			deslog varchar(256) NOT NULL,
+  			desip varchar(64) NOT NULL,
+  			dessession varchar(64) NOT NULL,
+  			desuseragent varchar(128) NOT NULL,
+  			despath varchar(256) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlog),
+  			KEY fk_userslogs_users_idx (iduser),
+  			KEY fk_userslogs_userslogstypes_idx (idlogtype),
+ 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_addressestypes (idaddresstype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 $app->get("/install-admin/sql/users/triggers", function(){
@@ -515,7 +555,9 @@ $app->get("/install-admin/sql/users/get", function(){
 		"sp_users_get",
 		"sp_userslogin_get",
 		"sp_usersfromemail_get",
-		"sp_userstypes_get"
+		"sp_userstypes_get",
+		"sp_userslogs_get",
+       	"sp_userslogstypes_get"
 	);
 	saveProcedures($procs, PATH_PROC."/users/get/");
 	echo success();
@@ -525,7 +567,9 @@ $app->get("/install-admin/sql/users/remove", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_users_remove",
-		"sp_userstypes_remove"
+		"sp_userstypes_remove",
+		"sp_userslogs_remove",
+       	"sp_userslogstypes_remove"
 	);
 	saveProcedures($procs, PATH_PROC."/users/remove/");
 	
@@ -536,7 +580,9 @@ $app->get("/install-admin/sql/users/save", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_users_save",
-		"sp_userstypes_save"
+		"sp_userstypes_save",
+		"sp_userslogs_save",
+       	"sp_userslogstypes_save"
 	);
 	saveProcedures($procs, PATH_PROC."/users/save/");
 	echo success();
@@ -548,7 +594,9 @@ $app->get("/install-admin/sql/users/list", function(){
         "sp_userstypes_list",
         "sp_usersfromperson_list",
         "sp_usersfrommenus_list",
-        "sp_users_list"
+        "sp_users_list",
+        "sp_userslogs_list",
+       	"sp_userslogstypes_list"
 	);
 	saveProcedures($names, PATH_PROC."/users/list/");
 	echo success();
@@ -657,51 +705,6 @@ $app->get("/install-admin/sql/transactionstypes/tables", function(){
 	echo success();
 });
 
-$app->get("/install-admin/sql/userslogs/tables", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$sql = new Sql();
-
-	$sql->exec("
-		CREATE TABLE tb_userslogstypes (
-			idlogtype int(11) NOT NULL AUTO_INCREMENT,
-  			deslogtype varchar(32) NOT NULL,
-  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			PRIMARY KEY (idlogtype)
-		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->exec("
-		CREATE TABLE tb_userslogs (
-			idlog int(11) NOT NULL AUTO_INCREMENT,
-  			iduser int(11) NOT NULL,
-  			idlogtype int(11) NOT NULL,
-  			deslog varchar(256) NOT NULL,
-  			desip varchar(64) NOT NULL,
-  			dessession varchar(64) NOT NULL,
-  			desuseragent varchar(128) NOT NULL,
-  			despath varchar(256) NOT NULL,
-  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			PRIMARY KEY (idlog),
-  			KEY fk_userslogs_users_idx (iduser),
-  			KEY fk_userslogs_userslogstypes_idx (idlogtype),
- 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_addressestypes (idaddresstype) ON DELETE NO ACTION ON UPDATE NO ACTION
-		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	$sql->exec("
-	CREATE TABLE tb_userslogstypes (
-			idlogtype int(11) NOT NULL AUTO_INCREMENT,
-  			deslogtype varchar(32) NOT NULL,
-  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			CONSTRAINT PRIMARY KEY (idlogtype)
-		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	echo success();
-});
-
 $app->get("/install-admin/sql/transactionstypes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -740,47 +743,6 @@ $app->get("/install-admin/sql/transactionstypes/save", function(){
 		"sp_transactionstypes_save"
 	);
 	saveProcedures($procs, PATH_PROC."/transactionstypes/save/");
-	echo success();
-});
-
-$app->get("/install-admin/sql/userslogs/get", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$names = array(
-       "sp_userslogs_get",
-       "sp_userslogstypes_get"
-	);
-	saveProcedures($names);
-	echo success();
-});
-$app->get("/install-admin/sql/userslogs/list", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$names = array(
-        "sp_userslogs_list",
-        "sp_userslogstypes_list"
-	);
-	saveProcedures($names);
-	echo success();
-});
-$app->get("/install-admin/sql/userslogs/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$names = array(
-       "sp_userslogs_remove",
-       "sp_userslogstypes_remove"
-	);
-	saveProcedures($names);
-	echo success();
-});
-$app->get("/install-admin/sql/userslogs/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		"sp_userslogs_save",
-		"sp_userslogstypes_save"
-	);
-	saveProcedures($procs);
 	echo success();
 });
 
@@ -3650,41 +3612,6 @@ $app->get("/install-admin/sql/productsfiles/tables", function(){
 		  CONSTRAINT FK_productsfiles_products FOREIGN KEY (idproduct) REFERENCES tb_products (idproduct) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
 	");
-
-	echo success();
-
-});
-
-$app->get("/install-admin/sql/personsfiles/tables", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$sql = new Sql();
-
-	$sql->exec("
-		CREATE TABLE tb_personsfiles (
-		  idperson int(11) NOT NULL,
-		  idfile int(11) NOT NULL,
-		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idperson,idfile),
-		  KEY FK_personsfiles_files_idx (idfile),
-		  CONSTRAINT FK_personsfiles_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT FK_personsfiles_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	echo success();
-
-});
-
-$app->get("/install-admin/sql/personsfiles/procs", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$procs = array(
-		'sp_personsfiles_save'
-	);
-	saveProcedures($procs);
 
 	echo success();
 

@@ -51,6 +51,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                	<div id="summernote"></div>
+                </div>
 			    <button type="submit" class="btn btn-block btn-primary" id="btn-post-save">Salvar</button>
 			  </form>
 	        </div>
@@ -125,6 +128,10 @@ var tpl = {
 };
 
 var post = JSON.parse('{function="json_encode($post)"}');
+
+$("#summernote").html(post.descontent).summernote({
+	height:200
+});
 
 if(post.despath) $("#img-cover").attr('src', PATH + post.despath);
 
@@ -331,26 +338,33 @@ $("#form-post").formLoad(post);
 var form = $("#form-post");
 
 form.form({
-  resetForm:false,
-  url:PATH+"/blog-posts",
-  params:{
-    idpost:post.idpost,
-    idurl:post.idurl,
-    idauthor:post.idauthor
-  },
-  success:function(){
+  	resetForm:false,
+  	url:PATH+"/blog-posts",
+  	params:{
+    	idpost:post.idpost,
+    	idurl:post.idurl,
+    	idauthor:post.idauthor
+  	},
+	beforeParams: function() {
 
-    form.find("button#btn-post-save").btnload("unload");
-    System.success("Postagem salva com sucesso");
-    $(".slidePanel-close").trigger("click");
+        return {
+            descontent: $('#summernote').next('.note-editor').find('.note-editable').html()
+        };
 
-  },
-  failure:function(r){
+   },
+  	success:function(){
 
-    form.find("button#btn-post-save").btnload("unload");
-    System.showError(r);
+    	form.find("button#btn-post-save").btnload("unload");
+    	System.success("Postagem salva com sucesso");
+    	$(".slidePanel-close").trigger("click");
 
-  }
+  	},
+  	failure:function(r){
+
+    	form.find("button#btn-post-save").btnload("unload");
+    	System.showError(r);
+
+  	}
 });
 
 </script>

@@ -238,6 +238,8 @@ $app->post("/blog-posts", function(){
 
 	$_POST['intrash'] = (isset($_POST['intrash']) && $_POST['intrash'] === '1') ? true : false;
 
+	if($_POST['idcover'] == 0) $_POST['idcover'] = NULL;
+
 	$post->set($_POST);
 
 	$post->save();

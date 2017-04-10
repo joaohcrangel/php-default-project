@@ -1030,6 +1030,8 @@ $app->get("/panel/blog-posts/:idpost", function($idpost){
 	$post->setTags($post->getTags());
 	$post->setCategories($post->getCategories());
 
+	$post->setdescontent(addslashes($post->getdescontent()));
+
 	$page->setTpl("panel/blog-post", array(
 		"post"=>$post->getFields()
 	));

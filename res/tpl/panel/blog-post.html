@@ -5,7 +5,7 @@
 .image-wrap {
 	display: table-cell;
     vertical-align: middle;
-}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados da postagem</h5></h4></div></header><div class="slidePanel-inner m-0 p-0 app-media"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="post-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-post" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-post" role="tabpanel"><form asutocomplete="off" id="form-post" class="slidePanel-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="destitle">Título</label><input type="text" class="form-control" name="destitle"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desurl">URL</label><input type="text" class="form-control" name="desurl"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="dtpublished">Data de Publicação</label><input type="date" class="form-control" name="dtpublished"></div><div class="form-group form-material row margin-top-10" data-plugin="formMaterial"><div class="row-fluid"><div class="col-xs-6"><h4>Capa</h4><input type="hidden" name="idcover"> <button type="button" id="btn-cover" class="btn btn-primary">Alterar Capa</button></div><div class="col-xs-6"><img class="img-rounded" id="img-cover" width="150" height="150" src="{$path}/res/img/placeholder.png"></div></div></div><button type="submit" class="btn btn-block btn-primary" id="btn-post-save">Salvar</button></form></div><div class="tab-pane" id="tab-post-tags" role="tabpanel"><div class="panel"><div class="panel-heading"></div><h5>Tags</h5><ul class="p-10 ul-tags" style="list-style:none"></ul></div></div><div class="tab-pane" id="tab-post-categories" role="tabpanel"><div class="panel"><div class="panel-heading"></div><h5>Categorias</h5><ul class="p-10 ul-categories" style="list-style:none"></ul></div></div></div></div></div></div><script id="tpl-tag" type="text/x-handlebars-template"><li data-idtag="{{idtag}}">
+}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados da postagem</h5></h4></div></header><div class="slidePanel-inner m-0 p-0 app-media"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="post-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-post" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-post" role="tabpanel"><form asutocomplete="off" id="form-post" class="slidePanel-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="destitle">Título</label><input type="text" class="form-control" name="destitle"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desurl">URL</label><input type="text" class="form-control" name="desurl"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="dtpublished">Data de Publicação</label><input type="date" class="form-control" name="dtpublished"></div><div class="form-group form-material row margin-top-10" data-plugin="formMaterial"><div class="row-fluid"><div class="col-xs-6"><h4>Capa</h4><input type="hidden" name="idcover"> <button type="button" id="btn-cover" class="btn btn-primary">Alterar Capa</button></div><div class="col-xs-6"><img class="img-rounded" id="img-cover" width="150" height="150" src="{$path}/res/img/placeholder.png"></div></div></div><div class="form-group form-material" data-plugin="formMaterial"><div id="summernote"></div></div><button type="submit" class="btn btn-block btn-primary" id="btn-post-save">Salvar</button></form></div><div class="tab-pane" id="tab-post-tags" role="tabpanel"><div class="panel"><div class="panel-heading"></div><h5>Tags</h5><ul class="p-10 ul-tags" style="list-style:none"></ul></div></div><div class="tab-pane" id="tab-post-categories" role="tabpanel"><div class="panel"><div class="panel-heading"></div><h5>Categorias</h5><ul class="p-10 ul-categories" style="list-style:none"></ul></div></div></div></div></div></div><script id="tpl-tag" type="text/x-handlebars-template"><li data-idtag="{{idtag}}">
     <span class="checkbox-custom checkbox-primary checkbox-lg">
       <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1"
       />
@@ -23,6 +23,10 @@
 };
 
 var post = JSON.parse('{function="json_encode($post)"}');
+
+$("#summernote").html(post.descontent).summernote({
+	height:200
+});
 
 if(post.despath) $("#img-cover").attr('src', PATH + post.despath);
 
@@ -229,24 +233,31 @@ $("#form-post").formLoad(post);
 var form = $("#form-post");
 
 form.form({
-  resetForm:false,
-  url:PATH+"/blog-posts",
-  params:{
-    idpost:post.idpost,
-    idurl:post.idurl,
-    idauthor:post.idauthor
-  },
-  success:function(){
+  	resetForm:false,
+  	url:PATH+"/blog-posts",
+  	params:{
+    	idpost:post.idpost,
+    	idurl:post.idurl,
+    	idauthor:post.idauthor
+  	},
+	beforeParams: function() {
 
-    form.find("button#btn-post-save").btnload("unload");
-    System.success("Postagem salva com sucesso");
-    $(".slidePanel-close").trigger("click");
+        return {
+            descontent: $('#summernote').next('.note-editor').find('.note-editable').html()
+        };
 
-  },
-  failure:function(r){
+   },
+  	success:function(){
 
-    form.find("button#btn-post-save").btnload("unload");
-    System.showError(r);
+    	form.find("button#btn-post-save").btnload("unload");
+    	System.success("Postagem salva com sucesso");
+    	$(".slidePanel-close").trigger("click");
 
-  }
+  	},
+  	failure:function(r){
+
+    	form.find("button#btn-post-save").btnload("unload");
+    	System.showError(r);
+
+  	}
 });</script>

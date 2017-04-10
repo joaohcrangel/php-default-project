@@ -4,11 +4,11 @@ define("PATH_PROC", PATH."/res/sql/procedures/");
 define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 define("PATH_FUNCTION", PATH."/res/sql/functions/");
 
-function saveProcedures($procs = array()){
+function saveProcedures($procs = array(), $src = PATH_PROC){
 	$sql = new Sql();
 	foreach ($procs as $name) {
 		$sql->exec("DROP PROCEDURE IF EXISTS {$name};");
-		$sql->queryFromFile(PATH_PROC."{$name}.sql");
+		$sql->queryFromFile($src."{$name}.sql");
 	}
 }
 function saveTriggers($triggers = array(), $pathTrigger = PATH_TRIGGER){
@@ -184,6 +184,17 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		  CONSTRAINT FK_personsdevices_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+	$sql->exec("
+		CREATE TABLE tb_personsfiles (
+		  idperson int(11) NOT NULL,
+		  idfile int(11) NOT NULL,
+		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY (idperson,idfile),
+		  KEY FK_personsfiles_files_idx (idfile),
+		  CONSTRAINT FK_personsfiles_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE CASCADE ON UPDATE CASCADE,
+		  CONSTRAINT FK_personsfiles_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
+		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
+	");
 	echo success();
 });
 
@@ -268,7 +279,7 @@ $app->get("/install-admin/sql/persons/get", function(){
 		"sp_personscategoriestypes_get",
 		"sp_personsdevices_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/persons/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/list", function(){
@@ -282,7 +293,7 @@ $app->get("/install-admin/sql/persons/list", function(){
         "sp_personsvaluesfields_list",
         "sp_personscategoriestypes_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/persons/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/save", function(){
@@ -296,9 +307,11 @@ $app->get("/install-admin/sql/persons/save", function(){
 		"sp_personsvaluesfields_save",
 		"sp_personstypes_save",
 		"sp_personscategoriestypes_save",
-		"sp_personsdevices_save"
+		"sp_personsdevices_save",
+		"sp_personsfiles_save",
+		"sp_personslogs_save"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/persons/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/persons/remove", function(){
@@ -312,9 +325,10 @@ $app->get("/install-admin/sql/persons/remove", function(){
 		"sp_personsvaluesfields_remove",
 		"sp_personstypes_remove",
 		"sp_personscategoriestypes_remove",
-		"sp_personsdevices_remove"
+		"sp_personsdevices_remove",
+		"sp_personslogs_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/persons/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/products/tables", function(){
@@ -398,7 +412,7 @@ $app->get("/install-admin/sql/products/get", function(){
 		"sp_productstypes_get",
 		"sp_productsprices_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/get/");
 	
 	echo success();
 });
@@ -413,7 +427,7 @@ $app->get("/install-admin/sql/products/list", function(){
 		"sp_ordersfromproduct_list",
 		"sp_pricesfromproduct_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/list/");
 	
 	echo success();
 });
@@ -426,7 +440,7 @@ $app->get("/install-admin/sql/products/save", function(){
 		"sp_productsprices_save",
 		"sp_productsdata_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/save/");
 	
 	echo success();
 });
@@ -439,7 +453,7 @@ $app->get("/install-admin/sql/products/remove", function(){
 		"sp_productsprices_remove",
 		"sp_productsdata_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/products/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/tables", function(){
@@ -467,6 +481,32 @@ $app->get("/install-admin/sql/users/tables", function(){
 		  CONSTRAINT FK_users_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_users_userstypes FOREIGN KEY (idusertype) REFERENCES tb_userstypes (idusertype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->exec("
+		CREATE TABLE tb_userslogstypes (
+			idlogtype int(11) NOT NULL AUTO_INCREMENT,
+  			deslogtype varchar(32) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlogtype)
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
+	");
+	$sql->exec("
+		CREATE TABLE tb_userslogs (
+			idlog int(11) NOT NULL AUTO_INCREMENT,
+  			iduser int(11) NOT NULL,
+  			idlogtype int(11) NOT NULL,
+  			deslog varchar(256) NOT NULL,
+  			desip varchar(64) NOT NULL,
+  			dessession varchar(64) NOT NULL,
+  			desuseragent varchar(128) NOT NULL,
+  			despath varchar(256) NOT NULL,
+  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  			PRIMARY KEY (idlog),
+  			KEY fk_userslogs_users_idx (iduser),
+  			KEY fk_userslogs_userslogstypes_idx (idlogtype),
+ 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_logstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION
+		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
 });
@@ -515,10 +555,11 @@ $app->get("/install-admin/sql/users/get", function(){
 		"sp_users_get",
 		"sp_userslogin_get",
 		"sp_usersfromemail_get",
-		"sp_usersfrommenus_list",
-		"sp_userstypes_get"
+		"sp_userstypes_get",
+		"sp_userslogs_get",
+       	"sp_userslogstypes_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/users/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/remove", function(){
@@ -526,9 +567,11 @@ $app->get("/install-admin/sql/users/remove", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_users_remove",
-		"sp_userstypes_remove"
+		"sp_userstypes_remove",
+		"sp_userslogs_remove",
+       	"sp_userslogstypes_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/users/remove/");
 	
 	echo success();
 });
@@ -537,9 +580,11 @@ $app->get("/install-admin/sql/users/save", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_users_save",
-		"sp_userstypes_save"
+		"sp_userstypes_save",
+		"sp_userslogs_save",
+       	"sp_userslogstypes_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/users/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/users/list", function(){
@@ -548,9 +593,12 @@ $app->get("/install-admin/sql/users/list", function(){
 	$names = array(
         "sp_userstypes_list",
         "sp_usersfromperson_list",
-        "sp_users_list"
+        "sp_usersfrommenus_list",
+        "sp_users_list",
+        "sp_userslogs_list",
+       	"sp_userslogstypes_list"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/users/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/tables", function(){
@@ -661,7 +709,6 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$sql = new Sql();
-/*
 	$sql->exec("
 		CREATE TABLE tb_userslogstypes (
 			idlogtype int(11) NOT NULL AUTO_INCREMENT,
@@ -670,7 +717,6 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
   			PRIMARY KEY (idlogtype)
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
-*/
 	$sql->exec("
 		CREATE TABLE tb_userslogs (
 			idlog int(11) NOT NULL AUTO_INCREMENT,
@@ -690,15 +736,6 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 
-	$sql->exec("
-	CREATE TABLE tb_userslogstypes (
-			idlogtype int(11) NOT NULL AUTO_INCREMENT,
-  			deslogtype varchar(32) NOT NULL,
-  			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  			CONSTRAINT PRIMARY KEY (idlogtype)
-		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
 	echo success();
 });
 
@@ -709,7 +746,7 @@ $app->get("/install-admin/sql/transactionstypes/get", function(){
        "sp_transactions_get",
        "sp_transactionstypes_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/transactionstypes/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/transactionstypes/list", function(){
@@ -719,7 +756,7 @@ $app->get("/install-admin/sql/transactionstypes/list", function(){
         "sp_transactions_list",
         "sp_transactionstypes_list"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/transactionstypes/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/transactionstypes/remove", function(){
@@ -729,7 +766,7 @@ $app->get("/install-admin/sql/transactionstypes/remove", function(){
        "sp_transactions_remove",
        "sp_transactionstypes_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/transactionstypes/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/transactionstypes/save", function(){
@@ -739,48 +776,7 @@ $app->get("/install-admin/sql/transactionstypes/save", function(){
 		"sp_transactions_save",
 		"sp_transactionstypes_save"
 	);
-	saveProcedures($procs);
-	echo success();
-});
-
-$app->get("/install-admin/sql/userslogs/get", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$names = array(
-       "sp_userslogs_get",
-       "sp_userslogstypes_get"
-	);
-	saveProcedures($names);
-	echo success();
-});
-$app->get("/install-admin/sql/userslogs/list", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$names = array(
-        "sp_userslogs_list",
-        "sp_userslogstypes_list"
-	);
-	saveProcedures($names);
-	echo success();
-});
-$app->get("/install-admin/sql/userslogs/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$names = array(
-       "sp_userslogs_remove",
-       "sp_userslogstypes_remove"
-	);
-	saveProcedures($names);
-	echo success();
-});
-$app->get("/install-admin/sql/userslogs/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		"sp_userslogs_save",
-		"sp_userslogstypes_save"
-	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/transactionstypes/save/");
 	echo success();
 });
 
@@ -1309,7 +1305,7 @@ $app->get("/install-admin/sql/menus/get", function(){
        "sp_menus_get",
        "sp_sitesmenus_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/menus/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/list", function(){
@@ -1317,9 +1313,10 @@ $app->get("/install-admin/sql/menus/list", function(){
 	ini_set('max_execution_time', 0);
 	$names = array(
         "sp_menus_list",
+        "sp_menusfromuser_list",
         "sp_sitesmenus_list"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/menus/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/remove", function(){
@@ -1329,20 +1326,19 @@ $app->get("/install-admin/sql/menus/remove", function(){
        "sp_menus_remove",
        "sp_sitesmenus_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/menus/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/menus/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		"sp_menusfromuser_list",
 		"sp_menustrigger_save",
 		"sp_menus_save",
 		"sp_sitesmenustrigger_save",
 		"sp_sitesmenus_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/menus/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/tables", function(){
@@ -1471,7 +1467,7 @@ $app->get("/install-admin/sql/contacts/get", function(){
 		"sp_contactssubtypes_get",
 		"sp_contactstypes_get"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/list", function(){
@@ -1482,7 +1478,7 @@ $app->get("/install-admin/sql/contacts/list", function(){
 		"sp_contactstypes_list",
 		"sp_contactssubtypes_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/save", function(){
@@ -1493,7 +1489,7 @@ $app->get("/install-admin/sql/contacts/save", function(){
 		"sp_contactssubtypes_save",
 		"sp_contactstypes_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/contacts/remove", function(){
@@ -1504,7 +1500,7 @@ $app->get("/install-admin/sql/contacts/remove", function(){
 		"sp_contactssubtypes_remove",
 		"sp_contactstypes_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/contacts/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/tables", function(){
@@ -1567,7 +1563,7 @@ $app->get("/install-admin/sql/documents/get", function(){
         "sp_documents_get",
         "sp_documentstypes_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/documents/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/list", function(){
@@ -1577,7 +1573,7 @@ $app->get("/install-admin/sql/documents/list", function(){
 		"sp_documentsfromperson_list",
 		"sp_documentstypes_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/documents/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/save", function(){
@@ -1587,7 +1583,7 @@ $app->get("/install-admin/sql/documents/save", function(){
        "sp_documents_save",
        "sp_documentstypes_save"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/documents/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/documents/remove", function(){
@@ -1597,7 +1593,7 @@ $app->get("/install-admin/sql/documents/remove", function(){
         "sp_documents_remove",
         "sp_documentstypes_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/documents/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/tables", function(){
@@ -1819,7 +1815,7 @@ $app->get("/install-admin/sql/addresses/get", function(){
         "sp_states_get",
         "sp_cities_get"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/addresses/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/list", function(){
@@ -1833,7 +1829,7 @@ $app->get("/install-admin/sql/addresses/list", function(){
         "sp_cities_list",
         "sp_addressesfromplace_list"
     );
-    saveProcedures($names);
+    saveProcedures($names, PATH_PROC."/addresses/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/save", function(){
@@ -1847,7 +1843,7 @@ $app->get("/install-admin/sql/addresses/save", function(){
        "sp_cities_save",
        "sp_personsaddresses_save"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/addresses/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/addresses/remove", function(){
@@ -1860,7 +1856,7 @@ $app->get("/install-admin/sql/addresses/remove", function(){
        "sp_states_remove",
        "sp_cities_remove"
 	);
-	saveProcedures($names);
+	saveProcedures($names, PATH_PROC."/addresses/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/tables", function(){
@@ -1940,17 +1936,20 @@ $app->get("/install-admin/sql/permissions/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		'sp_permissions_get',
-		'sp_permissionsfrommenus_list',
-		'sp_permissionsfrommenusmissing_list',
-		'sp_permissions_list'
+		'sp_permissions_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/permissions/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_permissionsfrommenus_list',
+		'sp_permissionsfrommenusmissing_list',
+		'sp_permissions_list'
+	);
+	saveProcedures($procs, PATH_PROC."/permissions/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/save", function(){
@@ -1960,7 +1959,7 @@ $app->get("/install-admin/sql/permissions/save", function(){
 		"sp_permissions_save",
 		"sp_permissionsmenus_save"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/permissions/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/remove", function(){
@@ -1970,17 +1969,10 @@ $app->get("/install-admin/sql/permissions/remove", function(){
 		"sp_permissions_remove",
 		"sp_permissionsmenus_remove"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/permissions/remove/");
 	
 	echo success();
 });
-
-// AQUI O RAFA PARA
-
-
-// DAQUI PRA BAIXO É O RONALDO
-
-
 
 $app->get("/install-admin/sql/personsdata/tables", function(){
 	set_time_limit(0);
@@ -2101,7 +2093,7 @@ $app->get("/install-admin/sql/coupons/list", function(){
 		'sp_couponstypes_list'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/list/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/save", function(){
@@ -2111,7 +2103,7 @@ $app->get("/install-admin/sql/coupons/save", function(){
 		'sp_coupons_save',
 		'sp_couponstypes_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/save/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/get", function(){
@@ -2121,7 +2113,7 @@ $app->get("/install-admin/sql/coupons/get", function(){
 		'sp_coupons_get',
 		'sp_couponstypes_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/get/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/remove", function(){
@@ -2131,7 +2123,7 @@ $app->get("/install-admin/sql/coupons/remove", function(){
 		'sp_coupons_remove',
 		'sp_couponstypes_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coupons/remove/");
 	echo success();
 });
 $app->get("/install-admin/sql/coupons/inserts", function(){
@@ -2229,7 +2221,7 @@ $app->get("/install-admin/sql/carts/list", function(){
 		'sp_productsfromcart_list',
 		'sp_couponsfromcart_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/list/");
 	echo success();
 	
 });
@@ -2242,7 +2234,7 @@ $app->get("/install-admin/sql/carts/get", function(){
 		'sp_cartscoupons_get',
 		'sp_cartsfreights_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/get/");
 	
 	echo success();
 });
@@ -2256,7 +2248,7 @@ $app->get("/install-admin/sql/carts/save", function(){
 		'sp_cartsfreights_save',
 		'sp_cartsdata_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/save/");
 	
 	echo success();
 	
@@ -2270,7 +2262,7 @@ $app->get("/install-admin/sql/carts/remove", function(){
 		'sp_cartscoupons_remove',
 		'sp_cartsfreights_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carts/remove/");
 	
 	echo success();
 	
@@ -2305,7 +2297,7 @@ $app->get("/install-admin/sql/creditcards/list", function(){
 		"sp_creditcards_list",
 		"sp_cardsfromperson_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/creditcards/list/");
 	
 	echo success();
 	
@@ -2317,7 +2309,7 @@ $app->get("/install-admin/sql/creditcards/get", function(){
 		"sp_creditcards_get"
 	);
 	
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/creditcards/get/");
 	
 	echo success();
 	
@@ -2328,7 +2320,7 @@ $app->get("/install-admin/sql/creditcards/save", function(){
 	$name = array(
 		"sp_creditcards_save"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/creditcards/save/");
 	
 	echo success();
 	
@@ -2339,7 +2331,7 @@ $app->get("/install-admin/sql/creditcards/remove", function(){
 	$name = array(
 		"sp_creditcards_remove"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/creditcards/remove/");
 	
 	echo success();
 	
@@ -2370,7 +2362,7 @@ $app->get("/install-admin/sql/gateways/list", function(){
 		"sp_gateways_list"
 	);
 	
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/list/");
 	
 	echo success();
 	
@@ -2381,7 +2373,7 @@ $app->get("/install-admin/sql/gateways/get", function(){
 	$name = array(
 		"sp_gateways_get"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/get/");
 	
 	echo success();
 	
@@ -2392,7 +2384,7 @@ $app->get("/install-admin/sql/gateways/save", function(){
 	$name = array(
 		"sp_gateways_save"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/save/");
 	
 	echo success();
 	
@@ -2403,7 +2395,7 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 	$name = array(
 		"sp_gateways_remove"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/gateways/remove/");
 	
 	echo success();
 	
@@ -2609,7 +2601,6 @@ $app->get("/install-admin/sql/orders/list", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_orders_list',
-		'sp_orders_list',
 		'sp_ordersproducts_list',
 		'sp_ordersreceipts_list',
 		'sp_ordersstatus_list',
@@ -2617,7 +2608,52 @@ $app->get("/install-admin/sql/orders/list", function(){
 		'sp_receiptsfromorder_list',
 		'sp_orderslogs_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/orders/list/");
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/orders/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_orders_get',
+		'sp_ordersproducts_get',
+		'sp_ordersreceipts_get',
+		'sp_ordersstatus_get',
+		'sp_orderslogs_get'
+	);
+	saveProcedures($procs, PATH_PROC."/orders/get/");
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/orders/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_orders_save',
+		'sp_ordersproducts_save',
+		'sp_ordersreceipts_save',
+		'sp_ordersstatus_save',
+		'sp_orderslogs_save'
+	);
+	saveProcedures($procs, PATH_PROC."/orders/save/");
+	
+	echo success();
+	
+});
+$app->get("/install-admin/sql/orders/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_orders_remove',
+		'sp_ordersproducts_remove',
+		'sp_ordersreceipts_remove',
+		'sp_ordersstatus_remove',
+		'sp_orderslogs_remove'
+	);
+	saveProcedures($procs, PATH_PROC."/orders/remove/");
 	
 	echo success();
 	
@@ -2647,11 +2683,10 @@ $app->get("/install-admin/sql/formspayments/tables", function(){
 $app->get("/install-admin/sql/formspayments/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/list/");
 	
 	echo success();
 	
@@ -2659,11 +2694,10 @@ $app->get("/install-admin/sql/formspayments/list", function(){
 $app->get("/install-admin/sql/formspayments/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/get/");
 	
 	echo success();
 	
@@ -2672,11 +2706,10 @@ $app->get("/install-admin/sql/formspayments/get", function(){
 $app->get("/install-admin/sql/formspayments/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/save/");
 	
 	echo success();
 	
@@ -2685,11 +2718,10 @@ $app->get("/install-admin/sql/formspayments/save", function(){
 $app->get("/install-admin/sql/formspayments/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
+	$procs = array(		
 		'sp_formspayments_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/formspayments/remove/");
 	
 	echo success();
 	
@@ -2714,12 +2746,10 @@ $app->get("/install-admin/sql/formspayments/inserts", function(){
 $app->get("/install-admin/sql/ordersnegotiationstypes/list", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-	
-		'sp_ordersnegotiationstypes_list'
-		
+	$procs = array(	
+		'sp_ordersnegotiationstypes_list'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/list/");
 	
 	echo success();
 	
@@ -2729,11 +2759,9 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-
-		'sp_ordersnegotiationstypes_get'
-		
+		'sp_ordersnegotiationstypes_get'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/get/");
 	
 	echo success();
 	
@@ -2743,11 +2771,9 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
-		
-		'sp_ordersnegotiationstypes_save'
-		
+		'sp_ordersnegotiationstypes_save'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/save/");
 	
 	echo success();
 	
@@ -2756,65 +2782,15 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/save", function(){
 $app->get("/install-admin/sql/ordersnegotiationstypes/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-	
-		'sp_ordersnegotiationstypes_remove'
-		
+	$procs = array(	
+		'sp_ordersnegotiationstypes_remove'		
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/ordersnegotiationstypes/remove/");
 	
 	echo success();
 		
 });		
 
-$app->get("/install-admin/sql/orders/get", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_orders_get',
-		'sp_orders_get',
-		'sp_ordersproducts_get',
-		'sp_ordersreceipts_get',
-		'sp_ordersstatus_get',
-		'sp_orderslogs_get'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
-$app->get("/install-admin/sql/orders/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_orders_save',
-		'sp_orders_save',
-		'sp_ordersproducts_save',
-		'sp_ordersreceipts_save',
-		'sp_ordersstatus_save',
-		'sp_orderslogs_save'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
-$app->get("/install-admin/sql/orders/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_orders_remove',
-		'sp_orders_remove',
-		'sp_ordersproducts_remove',
-		'sp_ordersreceipts_remove',
-		'sp_ordersstatus_remove',
-		'sp_orderslogs_remove'
-	);
-	saveProcedures($procs);
-	
-	echo success();
-	
-});
 $app->get("/install-admin/sql/sitescontacts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2843,7 +2819,7 @@ $app->get("/install-admin/sql/sitescontacts/list", function(){
 		"sp_sitescontacts_list",
 		"sp_sitescontactsfromperson_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/sitescontacts/list/");
 	
 	echo success();
 	
@@ -2855,7 +2831,7 @@ $app->get("/install-admin/sql/sitescontacts/get", function(){
 		'sp_sitescontactsbyperson_get',
 		'sp_sitescontacts_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/sitescontacts/get/");
 	
 	echo success();
 	
@@ -2866,7 +2842,7 @@ $app->get("/install-admin/sql/sitescontacts/save", function(){
 	$name = array(
 		"sp_sitescontacts_save"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/sitescontacts/save/");
 	
 	echo success();
 	
@@ -2877,7 +2853,7 @@ $app->get("/install-admin/sql/sitescontacts/remove", function(){
 	$name = array(
 		"sp_sitescontacts_remove"
 	);
-	saveProcedures($name);
+	saveProcedures($name, PATH_PROC."/sitescontacts/remove/");
 	
 	echo success();
 	
@@ -3028,7 +3004,7 @@ $app->get("/install-admin/sql/places/list", function(){
 		"sp_placestypes_list",
 		"sp_placesschedules_list"
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/places/list/");
 	
 	echo success();
 	
@@ -3041,7 +3017,7 @@ $app->get("/install-admin/sql/places/get", function(){
 		'sp_places_get',
 		'sp_placesschedules_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/places/get/");
 	
 	echo success();
 	
@@ -3050,11 +3026,6 @@ $app->get("/install-admin/sql/places/get", function(){
 $app->get("/install-admin/sql/placesvaluesfield/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$procs = array(
-		
-		'sp_placesvaluesfield_get'
-	);
-	saveProcedures($procs);
 	
 	echo success();
 	
@@ -3072,7 +3043,7 @@ $app->get("/install-admin/sql/places/save", function(){
 		'sp_placesaddresses_add',
 		'sp_placesfiles_add'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/places/save/");
 	
 	echo success();
 	
@@ -3087,7 +3058,7 @@ $app->get("/install-admin/sql/places/remove", function(){
 		'sp_placesschedules_remove',
 		'sp_placesschedulesall_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/places/remove/");
 	
 	echo success();
 	
@@ -3200,7 +3171,7 @@ $app->get("/install-admin/sql/coordinates/get", function(){
 	$procs = array(
 		'sp_coordinates_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coordinates/get/");
 
 	echo success();
 });
@@ -3210,7 +3181,7 @@ $app->get("/install-admin/sql/coordinates/save", function(){
 	$procs = array(
 		'sp_coordinates_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coordinates/save/");
 
 	echo success();
 });
@@ -3220,7 +3191,7 @@ $app->get("/install-admin/sql/coordinates/remove", function(){
 	$procs = array(
 		'sp_coordinates_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/coordinates/remove/");
 
 	echo success();
 });
@@ -3286,7 +3257,7 @@ $app->get("/install-admin/sql/courses/list", function(){
 		'sp_sectionsfromcourse_list',
 		'sp_curriculumsfromcourse_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/list/");
 
 	echo success();
 });
@@ -3299,7 +3270,7 @@ $app->get("/install-admin/sql/courses/get", function(){
 		'sp_coursescurriculums_get',
 		'sp_coursessections_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/get/");
 
 	echo success();
 });
@@ -3312,7 +3283,7 @@ $app->get("/install-admin/sql/courses/save", function(){
 		'sp_coursescurriculums_save',
 		'sp_coursessections_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/save/");
 
 	echo success();
 });
@@ -3325,7 +3296,7 @@ $app->get("/install-admin/sql/courses/remove", function(){
 		'sp_coursescurriculums_remove',
 		'sp_coursessections_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/courses/remove/");
 
 	echo success();
 });
@@ -3389,7 +3360,7 @@ $app->get("/install-admin/sql/carousels/list", function(){
 		'sp_carouselsitemstypes_list',
 		'sp_itemsfromcarousel_list'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/list/");
 
 	echo success();
 });
@@ -3402,7 +3373,7 @@ $app->get("/install-admin/sql/carousels/get", function(){
 		'sp_carouselsitems_get',
 		'sp_carouselsitemstypes_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/get/");
 
 	echo success();
 });
@@ -3415,7 +3386,7 @@ $app->get("/install-admin/sql/carousels/save", function(){
 		'sp_carouselsitems_save',
 		'sp_carouselsitemstypes_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/save/");
 
 	echo success();
 });
@@ -3428,7 +3399,7 @@ $app->get("/install-admin/sql/carousels/remove", function(){
 		'sp_carouselsitems_remove',
 		'sp_carouselsitemstypes_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/carousels/remove/");
 
 	echo success();
 });
@@ -3551,16 +3522,26 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 
 });
 
+$app->get("/install-admin/sql/configurations/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_configurationstypes_list',
+		'sp_configurations_list'
+	);
+	saveProcedures($procs, PATH_PROC."/configurations/list/");
+
+	echo success();
+});
+
 $app->get("/install-admin/sql/configurations/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		'sp_configurationstypes_get',
-		'sp_configurationstypes_list',
-		'sp_configurations_get',
-		'sp_configurations_list'
+		'sp_configurations_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/configurations/get/");
 
 	echo success();
 });
@@ -3571,7 +3552,7 @@ $app->get("/install-admin/sql/configurations/save", function(){
 		'sp_configurationstypes_save',
 		'sp_configurations_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/configurations/save/");
 
 	echo success();
 });
@@ -3582,7 +3563,7 @@ $app->get("/install-admin/sql/configurations/remove", function(){
 		'sp_configurationstypes_remove',
 		'sp_configurations_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/configurations/remove/");
 
 	echo success();
 });
@@ -3613,7 +3594,7 @@ $app->get("/install-admin/sql/files/get", function(){
 	$procs = array(
 		'sp_files_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/get/");
 
 	echo success();
 });
@@ -3623,7 +3604,7 @@ $app->get("/install-admin/sql/files/save", function(){
 	$procs = array(
 		'sp_files_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/save/");
 
 	echo success();
 });
@@ -3633,7 +3614,7 @@ $app->get("/install-admin/sql/files/remove", function(){
 	$procs = array(
 		'sp_files_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/remove/");
 
 	echo success();
 });
@@ -3643,47 +3624,7 @@ $app->get("/install-admin/sql/files/list", function(){
 	$procs = array(
 		'sp_files_list'
 	);
-	saveProcedures($procs);
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/get", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_get'
-	);
-	saveProcedures($procs);
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/save", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_save'
-	);
-	saveProcedures($procs);
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/remove", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_remove'
-	);
-	saveProcedures($procs);
-
-	echo success();
-});
-$app->get("/install-admin/sql/urls/list", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-	$procs = array(
-		'sp_urls_list'
-	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/files/list/");
 
 	echo success();
 });
@@ -3705,41 +3646,6 @@ $app->get("/install-admin/sql/productsfiles/tables", function(){
 		  CONSTRAINT FK_productsfiles_products FOREIGN KEY (idproduct) REFERENCES tb_products (idproduct) ON DELETE CASCADE ON UPDATE CASCADE
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";	
 	");
-
-	echo success();
-
-});
-
-$app->get("/install-admin/sql/personsfiles/tables", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$sql = new Sql();
-
-	$sql->exec("
-		CREATE TABLE tb_personsfiles (
-		  idperson int(11) NOT NULL,
-		  idfile int(11) NOT NULL,
-		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idperson,idfile),
-		  KEY FK_personsfiles_files_idx (idfile),
-		  CONSTRAINT FK_personsfiles_files FOREIGN KEY (idfile) REFERENCES tb_files (idfile) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT FK_personsfiles_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE CASCADE ON UPDATE CASCADE
-		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	echo success();
-
-});
-
-$app->get("/install-admin/sql/personsfiles/procs", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$procs = array(
-		'sp_personsfiles_save'
-	);
-	saveProcedures($procs);
 
 	echo success();
 
@@ -3782,56 +3688,45 @@ $app->get("/install-admin/sql/urls/tables", function(){
 
 });
 
-$app->get("/install-admin/sql/urls/list", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);
-
-	$procs = array(
-		'sp_urls_list'
-	);
-	saveProcedures($procs);
-
-	echo success();
-
-});
-
 $app->get("/install-admin/sql/urls/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-
 	$procs = array(
 		'sp_urls_get'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/get/");
 
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/urls/save", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-
 	$procs = array(
 		'sp_urls_save'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/save/");
 
 	echo success();
-
 });
-
 $app->get("/install-admin/sql/urls/remove", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-
 	$procs = array(
 		'sp_urls_remove'
 	);
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/urls/remove/");
 
 	echo success();
+});
+$app->get("/install-admin/sql/urls/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+	$procs = array(
+		'sp_urls_list'
+	);
+	saveProcedures($procs, PATH_PROC."/urls/list/");
 
+	echo success();
 });
 
 $app->get("/install-admin/sql/personsaddresses/tables", function(){
@@ -3976,7 +3871,7 @@ $app->get("/install-admin/sql/blog/get", function(){
 		'sp_blogtags_get'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/get/");
 
 	echo success();
 
@@ -3996,7 +3891,7 @@ $app->get("/install-admin/sql/blog/save", function(){
 		'sp_blogpostscategories_save'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/save/");
 
 	echo success();
 
@@ -4016,7 +3911,7 @@ $app->get("/install-admin/sql/blog/remove", function(){
 		'sp_blogpostscategories_remove'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/remove/");
 
 	echo success();
 
@@ -4036,7 +3931,7 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_categoriesfrompost_list'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/blog/list/");
 
 	echo success();
 
@@ -4117,7 +4012,7 @@ $app->get("/install-admin/sql/emails/get", function(){
 		'sp_emailsshipments_get'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/emails/get/");
 
 	echo success();
 
@@ -4134,7 +4029,7 @@ $app->get("/install-admin/sql/emails/save", function(){
 		'sp_emailsshipments_save'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/emails/save/");
 
 	echo success();
 
@@ -4151,7 +4046,7 @@ $app->get("/install-admin/sql/emails/remove", function(){
 		'sp_emailsshipments_remove'
 	);
 
-	saveProcedures($procs);
+	saveProcedures($procs, PATH_PROC."/emails/remove/");
 
 	echo success();
 

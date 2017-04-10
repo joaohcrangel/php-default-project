@@ -178,10 +178,11 @@
 
 				<!-- Pagination
 				============================================= -->
-				<ul class="pager nomargin">
+				<div class="pagination"></div>
+				<!-- <ul class="pager nomargin">
 					<li class="previous"><a href="#">&larr; Older</a></li>
 					<li class="next"><a href="#">Newer &rarr;</a></li>
-				</ul><!-- .pager end -->
+				</ul> --><!-- .pager end -->
 
 			</div><!-- .postcontent end -->
 
@@ -455,7 +456,9 @@ init.push(function(){
 		post:Handlebars.compile($("#tpl-post").html())
 	};
 
-	function loadPosts(){
+	function loadPosts(page){
+
+		if(!page) page = 1;
 
 		var $div = $("#posts");
 
@@ -470,6 +473,23 @@ init.push(function(){
 					$div.append($post);
 
 				});
+
+				if(r.total > 0){
+
+					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+						skin:'pagination-gap',
+						currentPage:r.currentPage,
+						itemsPerPage:r.itemsPerPage,
+						onChange:function(page){
+							loadPosts(page)
+						}
+					});
+
+					$("#pagination").show().asPaginator(r.total, config);
+
+				}else{
+					$("#pagination").hide();
+				}
 
 			},
 			failure:function(r){

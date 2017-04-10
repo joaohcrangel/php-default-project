@@ -505,7 +505,7 @@ $app->get("/install-admin/sql/users/tables", function(){
   			KEY fk_userslogs_users_idx (iduser),
   			KEY fk_userslogs_userslogstypes_idx (idlogtype),
  			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_addressestypes (idaddresstype) ON DELETE NO ACTION ON UPDATE NO ACTION
+  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_logstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();

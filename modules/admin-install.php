@@ -394,7 +394,7 @@ $app->get("/install-admin/sql/products/triggers", function(){
 		"tg_productsprices_AFTER_UPDATE",
 		"tg_productsprices_BEFORE_DELETE"
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/products/");
 	
 	echo success();
 });
@@ -3004,7 +3004,7 @@ $app->get("/install-admin/sql/places/triggers", function(){
 		'tg_placesaddresses_AFTER_UPDATE',
 		'tg_placesaddresses_BEFORE_DELETE'
 	);
-	saveTriggers($triggers);
+	saveTriggers($triggers, PATH_TRIGGER."/places/");
 
 	echo success();
 

@@ -3794,7 +3794,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 	$sql->exec("
 		CREATE TABLE tb_blogcomments (
 		  idcomment int(11) NOT NULL AUTO_INCREMENT,
-		  idcommentfather int(11) NOT NULL,
+		  idcommentfather int(11) NULL,
 		  idpost int(11) NOT NULL,
 		  idperson int(11) NOT NULL,
 		  descomment text NOT NULL,

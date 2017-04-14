@@ -36,12 +36,13 @@ $app->get("/public/blog-posts", function(){
 	}
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS descover FROM tb_blogposts a
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS descover, CONCAT(g.idcomment) AS nrcomments, (SELECT GROUP_CONCAT(idtag) FROM tb_blogpoststags WHERE idpost = a.idpost) AS destags FROM tb_blogposts a
 			INNER JOIN tb_blogauthors b ON a.idauthor = b.idauthor
 			LEFT JOIN tb_blogpostscategories c ON a.idpost = c.idpost
 			LEFT JOIN tb_blogpoststags d ON a.idpost = d.idpost
             LEFT JOIN tb_files e ON a.idcover = e.idfile
             LEFT JOIN tb_urls f ON a.idurl = f.idurl
+            LEFT JOIN tb_blogcomments g ON a.idpost = g.idpost
 		".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
 

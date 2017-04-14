@@ -36,7 +36,16 @@ $app->get("/public/blog-posts", function(){
 	}
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS descover, CONCAT(g.idcomment) AS nrcomments, (SELECT GROUP_CONCAT(idtag) FROM tb_blogpoststags WHERE idpost = a.idpost) AS destags FROM tb_blogposts a
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS descover, 
+			(
+				SELECT COUNT(idcomment) FROM tb_blogcomments WHERE idpost = a.idpost
+			) AS nrcomments,
+			(
+				SELECT GROUP_CONCAT(b.destag)
+				FROM tb_blogpoststags a
+				INNER JOIN tb_blogtags b ON a.idtag = b.idtag
+				WHERE idpost = a.idpost
+			) AS destags FROM tb_blogposts a
 			INNER JOIN tb_blogauthors b ON a.idauthor = b.idauthor
 			LEFT JOIN tb_blogpostscategories c ON a.idpost = c.idpost
 			LEFT JOIN tb_blogpoststags d ON a.idpost = d.idpost

@@ -238,11 +238,37 @@ $app->post("/blog-posts", function(){
 
 	$_POST['intrash'] = (isset($_POST['intrash']) && $_POST['intrash'] === '1') ? true : false;
 
-	if($_POST['idcover'] == 0) $_POST['idcover'] = NULL;
+	if(isset($_POST['idcover']) && $_POST['idcover'] == 0) $_POST['idcover'] = NULL;
 
 	$post->set($_POST);
 
 	$post->save();
+
+	if(isset($_POST['idsCategories'])){
+
+		$idsCategories = explode(",", post("idsCategories"));
+
+		foreach ($idsCategories as $idcategory) {
+
+			$category = new BlogCategory((int)$idcategory);
+			
+			$post->addCategory($category);
+
+		}
+	}
+
+	if(isset($_POST['idsTags'])){
+
+		$idsTags = explode(",", post("idsTags"));
+
+		foreach ($idsTags as $idtag) {
+
+			$tag = new BlogTag((int)$idtag);
+			
+			$post->addTag($tag);
+
+		}
+	}
 
 	echo success(array("data"=>$post->getFields()));
 

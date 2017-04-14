@@ -28,7 +28,9 @@ $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
         )
     ));
 
-    $page->setTpl("/admin/blog-posts-new");
+    $page->setTpl("/admin/blog-posts-new", array(
+        "post"=>array()
+    ));
 
 });
 

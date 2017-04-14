@@ -42,6 +42,8 @@
                   <h4 class="panel-title">Propriedades da postagem</h4>
                 </div>
                 <button type="button" class="btn btn-success btn-add-cover">Adicionar capa</button>
+                <img class="image_fade" id="img-cover" src="{$path}/res/img/placeholder.png" style="height:100px; margin-top:10px;">
+                <img src="" alt="">
                 <div class="published panel">
                   <h5>Data de publicação</h5>
                   <label for="dtpublished">Escolha uma data</label>
@@ -86,20 +88,24 @@
     <!-- Mailbox Header -->
     <div class="page-header p-15">
 
-      <h1 class="m-0">Nova Postagem</h1>
-      <input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título">
+      <form id="postagem-left">
 
-      <label for="desurl" class="m-t-10">URL</label>
-      <input type="text" id="desurl" name="desurl" class="form-control">
+        <h1 class="m-0">Nova Postagem</h1>
+        <input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título">
 
-    </div>
+        <label for="desurl" class="m-t-10">URL</label>
+        <input type="text" id="desurl" name="desurl" class="form-control">
 
-    <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
-      <h4>Resumo desta postagem</h4>
-      <textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea>
+      </div>
 
-      <h3>Escreva a postagem</h3>
-      <div id="summernote"></div>
+      <div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable">
+        <h4>Resumo desta postagem</h4>
+        <textarea name="descontentshort" id="descontentshort" cols="30" rows="5" class="form-control"></textarea>
+
+        <h3>Escreva a postagem</h3>
+        <div id="summernote"></div>
+
+      </form>
     </div>
         
   </div>
@@ -219,9 +225,21 @@
 <script>
 init.push(function(){
 
-  $("#summernote").summernote({
+  var post = JSON.parse('{function="json_encode($post)"}');
+
+  console.log(post);
+
+  $("#form-post").formLoad(post);
+
+  $("#postagem-left").formLoad(post);
+
+  $("[name=descontentshort]").val(post.descontentshort);
+
+  $("#summernote").html(post.descontent).summernote({
     height:200
   });
+
+  if(post.despath) $("#img-cover").attr('src', PATH + post.despath);
 
   var tpl = {
     tag:Handlebars.compile($("#tpl-tag").html()),
@@ -262,7 +280,12 @@ init.push(function(){
       modalInfo:true,
       success:function(r){
 
-        window.idcover = r.data[0].idfile;
+        var data = r.data[0];
+
+        console.log(data);
+
+        window.idcover = data.idfile;
+        $("#img-cover").attr('src', PATH + data.desdirectory + data.desfile +"."+ data.desextension);
 
       }
     });
@@ -429,11 +452,21 @@ init.push(function(){
 
         $ul.html('');
 
+        var idsTags = post.destags.split(",");
+
         $.each(data, function(index, row){
 
           var $li = $(tpl.tag(row));
 
           $ul.append($li);
+
+          $.each(idsTags, function(indice, value){
+
+            if(row.idtag == value){
+              $li.find("[type=checkbox]").prop("checked", true);
+            }
+
+          });
 
         });
 
@@ -463,11 +496,19 @@ init.push(function(){
 
         $ul.html('');
 
+        var idsCategories = post.descategories.split(",");
+
         $.each(data, function(index, row){
 
           var $li = $(tpl.category(row));
 
           $ul.append($li);
+
+          $.each(idsCategories, function(indice, value){
+            if(row.idcategory == value){
+              $li.find("[type=checkbox]").prop("checked", true);
+            }
+          });
 
         });
 

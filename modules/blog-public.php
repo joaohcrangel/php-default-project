@@ -73,4 +73,10 @@ $app->get("/public/blog-posts", function(){
 
 });
 
+$app->get("/public/blog-categories", function(){
+
+	echo success(array("data"=>BlogCategories::listAll()->getFields()));
+
+});
+
 ?>

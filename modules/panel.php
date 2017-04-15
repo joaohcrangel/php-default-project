@@ -499,7 +499,7 @@ $app->get("/panel/documents/types/:iddocumenttype", function($iddocumenttype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-salvar", array(
+	$page->setTpl("panel/document-type-save", array(
 		"document"=>$document->getFields()
 	));
 
@@ -512,7 +512,7 @@ $app->get("/panel/document-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-criar");
+	$page->setTpl("panel/document-type-create");
 
 });
 
@@ -526,7 +526,7 @@ $app->get("/panel/addresses/types/:idaddresstype", function($idaddresstype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-salvar", array(
+	$page->setTpl("panel/address-type-save", array(
 		"address"=>$address->getFields()
 	));
 
@@ -539,7 +539,7 @@ $app->get("/panel/address-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-criar");
+	$page->setTpl("panel/address-type-create");
 
 });
 
@@ -756,7 +756,7 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$data['Schedules'] = $schedules;
 
-	$page->setTpl("panel/lugar", array(
+	$page->setTpl("panel/place", array(
 		"place"=>$data,
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
 		"addressestypes"=>AddressesTypes::listAll()->getFields()
@@ -773,7 +773,7 @@ $app->get("/panel/place-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-criar", array(
+	$page->setTpl("panel/place-create", array(
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
 	));
 

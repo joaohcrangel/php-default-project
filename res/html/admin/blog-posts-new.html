@@ -94,7 +94,14 @@
         <input type="text" name="destitle" class="form-control m-t-10" placeholder="Digite o título">
 
         <label for="desurl" class="m-t-10">URL</label>
-        <input type="text" id="desurl" name="desurl" class="form-control">
+        <div class="row">
+            <div class="col-sm-4">
+                <span class="form-control-static">/public/blog-posts/</span>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" id="desurl" name="desurl" class="form-control">
+            </div>
+        </div>       
 
       </div>
 
@@ -248,7 +255,7 @@ init.push(function(){
 
   var date = new Date();
 
-  var defaultUrl = "/blog/"+date.getFullYear()+"/"+date.getMonth()+"/";
+  var defaultUrl = date.getFullYear()+"/"+date.getMonth()+"/";
 
   function stringReplace(str){
 

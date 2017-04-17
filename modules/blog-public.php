@@ -91,10 +91,59 @@ $app->get("/public/blog-categories/:desurl", function($desurl){
 
 		$category = new BlogCategory($data[0]);
 
+		$page = (int)get("page");
+		$itemsPerPage = (int)get("limit");
+
+		$where = array();
+
+		array_push($where, "c.idcategory = ".$category->getidcategory());
+
+		if(count($where) > 0){
+			$where = " WHERE ".implode(" AND ", $where);
+		}else{
+			$where = "";
+		}
+
+		$query = "
+			SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS descover, 
+				(
+					SELECT COUNT(idcomment) FROM tb_blogcomments WHERE idpost = a.idpost
+				) AS nrcomments,
+				(
+					SELECT GROUP_CONCAT(b.destag)
+					FROM tb_blogpoststags a
+					LEFT JOIN tb_blogtags b ON a.idtag = b.idtag
+					WHERE idpost = a.idpost
+				) AS destags FROM tb_blogposts a
+				INNER JOIN tb_blogauthors b ON a.idauthor = b.idauthor
+				LEFT JOIN tb_blogpostscategories c ON a.idpost = c.idpost
+				LEFT JOIN tb_blogpoststags d ON a.idpost = d.idpost
+	            LEFT JOIN tb_files e ON a.idcover = e.idfile
+	            LEFT JOIN tb_urls f ON a.idurl = f.idurl
+	            LEFT JOIN tb_blogcomments g ON a.idpost = g.idpost
+	        ".$where." GROUP BY a.idpost LIMIT ?, ?;
+		";
+
+		$pagination = new Pagination(
+			$query,
+			array(),
+			"BlogPosts",		
+			$itemsPerPage
+		);
+
+		$posts = $pagination->getPage($page);
+
+		$categories = BlogCategories::listAll()->getFields();
+
 		$page = new Page();
 
 		$page->setTpl("blog-category", array(
-			"category"=>$category->getFields()
+			"category"=>$category->getFields(),
+			"posts"=>$posts->getFields(),
+			"currentPage"=>$page,
+			"total"=>$pagination->getTotal(),
+			"itemsPerPage"=>$itemsPerPage,
+			"categories"=>$categories
 		));
 
 	}

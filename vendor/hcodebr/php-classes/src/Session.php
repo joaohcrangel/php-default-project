@@ -2,9 +2,10 @@
 
 namespace Hcode;
 
-use \Hcode\User;
-use \Hcode\Configurations;
-use \Hcode\Configuration;
+use \Hcode\User\User;
+use \Hcode\Person\Person;
+use \Hcode\System\Configurations;
+use \Hcode\System\Configuration;
 
 class Session extends DefaultObject {
 

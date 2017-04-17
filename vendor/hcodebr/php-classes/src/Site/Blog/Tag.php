@@ -2,7 +2,7 @@
 
 namespace Hcode\Site\Blog;
 
-use \Hcode\Model;
+use Hcode\Model;
 
 class Tag extends Model {
 

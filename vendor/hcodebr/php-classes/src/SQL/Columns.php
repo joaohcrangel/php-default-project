@@ -1,10 +1,12 @@
 <?php 
 
-namespace Hcode\SQL;
+namespace Hcode\Sql;
 
-class Columns extends \Collection {
+use Hcode\Collection;
+
+class Columns extends Collection {
 	
-	protected $class = "SQL\Column";
+	protected $class = "Hcode\Sql\Column";
 	protected $pk = "";
 
 	public function get(){}

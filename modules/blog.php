@@ -141,6 +141,9 @@ $app->get("/blog-posts", function(){
 
 	$posts = $pagination->getPage($page);
 
+	var_dump($posts->getFields());
+	exit;
+
 	echo success(array(
 		"data"=>$posts->getFields(),
 		"total"=>$pagination->getTotal(),
@@ -238,9 +241,37 @@ $app->post("/blog-posts", function(){
 
 	$_POST['intrash'] = (isset($_POST['intrash']) && $_POST['intrash'] === '1') ? true : false;
 
+	if(isset($_POST['idcover']) && $_POST['idcover'] == 0) $_POST['idcover'] = NULL;
+
 	$post->set($_POST);
 
 	$post->save();
+
+	if($_POST['idsCategories']){
+
+		$idsCategories = explode(",", post("idsCategories"));
+
+		foreach ($idsCategories as $idcategory) {
+
+			$category = new BlogCategory((int)$idcategory);
+			
+			$post->addCategory($category);
+
+		}
+	}
+
+	if($_POST['idsTags']){
+
+		$idsTags = explode(",", post("idsTags"));
+
+		foreach ($idsTags as $idtag) {
+
+			$tag = new BlogTag((int)$idtag);
+			
+			$post->addTag($tag);
+
+		}
+	}
 
 	echo success(array("data"=>$post->getFields()));
 
@@ -415,8 +446,44 @@ $app->get("/blog-categories/all", function(){
 
 	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-	echo success(array("data"=>BlogCategories::listAll()->getFields()));
+	$tag = BlogCategories::listAll();
 
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('descategory')) {
+		array_push($where, "descategory LIKE '%".get('descategory')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AND ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desurl FROM tb_blogcategories a
+			INNER JOIN tb_urls b ON a.idurl = b.idurl
+	".$where." LIMIT ?, ?;";
+
+	$pagination = new Pagination(
+        $query,
+        array(),
+        "BlogCategories",
+        $itemsPerPage
+    );
+
+    $category = $pagination->getPage($currentPage);
+
+    echo success(array(
+    	"data"=>$category ->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$pagination->getTotal(),
+
+    ));
 });
 
 $app->post("/blog-categories", function(){
@@ -431,18 +498,82 @@ $app->post("/blog-categories", function(){
 
 	$category->set($_POST);
 
+	if(isset($_POST['desurl'])){
+
+		$url = new Url(array(
+			"desurl"=>post("desurl")
+		));
+
+		$url->save();
+
+		$category->setidurl($url->getidurl());
+
+	}
+
 	$category->save();
 
 	echo success(array("data"=>$category->getFields()));
 
 });
 
+$app->delete("/blog-categories/:idcategory", function($idcategory){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(!(int)$idcategory > 0){
+		throw new Exception("categoria não informado.", 400);		
+	}
+
+	$category = new BlogCategory((int)$idcategory);
+
+	$category->remove();
+
+	echo success();
+
+});
+
 // blog tags
 $app->get("/blog-tags/all", function(){
 
+
 	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-	echo success(array("data"=>BlogTags::listAll()->getFields()));
+	$tag = BlogTags::listAll();
+
+	$currentPage = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get('destag')) {
+		array_push($where, "destag LIKE '%".get('destag')."%'");
+	}
+
+	if (count($where) > 0) {
+		$where = ' WHERE '.implode(' AND ', $where);
+	} else {
+		$where = '';
+	}
+
+	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogtags
+	".$where." limit ?, ?;";
+
+	$pagination = new Pagination(
+        $query,
+        array(),
+        "BlogTags",
+        $itemsPerPage
+    );
+
+    $tag = $pagination->getPage($currentPage);
+
+    echo success(array(
+    	"data"=>$tag ->getFields(),
+        "currentPage"=>$currentPage,
+        "itemsPerPage"=>$itemsPerPage,
+        "total"=>$pagination->getTotal(),
+
+    ));
 
 });
 
@@ -464,4 +595,25 @@ $app->post("/blog-tags", function(){
 
 });
 
+$app->delete("/blog-tags/:idtag", function($idtag){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(!(int)$idtag > 0){
+		throw new Exception("Tag não informado.", 400);		
+	}
+
+	$tag = new BlogTag((int)$idtag);
+
+	$tag->remove();
+
+	echo success();
+
+});
+ /*
+///fazer o administrativo do
+ 
+ ("blogcategories")
+ ("blogtags")
+*/
 ?>

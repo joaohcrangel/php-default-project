@@ -6,16 +6,16 @@ $app->post("/users/login", function(){
 
 	$user->getPerson();
 
-	Hcode\Hcode\Session::setUser($user, (isset($_POST['remember'])));
+	Hcode\Session::setUser($user, (isset($_POST['remember'])));
 	
 	$configurations = Hcode\Configurations::listAll();
 
-	Hcode\Hcode\Session::setConfigurations($configurations);
+	Hcode\Session::setConfigurations($configurations);
 
 	Hcode\Menu::resetMenuSession();
 
 	echo success(array(
-		'token'=>session_id(), 
+		'token'=>session_id(),
 		'data'=>$user->getFields()
 	));
 
@@ -27,11 +27,11 @@ $app->get("/users/login", function(){
 
 	$user->getPerson();
 
-	Hcode\Hcode\Session::setUser($user, (isset($_POST['remember'])));
+	Hcode\Session::setUser($user, (isset($_POST['remember'])));
 
 	$configurations = Hcode\Configurations::listAll();
 
-	Hcode\Hcode\Session::setConfigurations($configurations);
+	Hcode\Session::setConfigurations($configurations);
 
 	Hcode\Menu::resetMenuSession();
 

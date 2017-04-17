@@ -28,7 +28,34 @@ $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
         )
     ));
 
-    $page->setTpl("/admin/blog-posts-new");
+    $page->setTpl("/admin/blog-posts-new", array(
+        "post"=>array()
+    ));
+
+});
+
+$app->get("/blog-posts/:idpost", function($idpost){
+
+    Permission::checkSession(Permission::ADMIN, true);
+
+    $post = new BlogPost((int)$idpost);
+
+    $page = new AdminPage(array(
+        "data"=>array(
+            "body"=>array(
+                "class"=>"page-aside-fixed page-aside-right"
+            )
+        )
+    ));
+
+    $post->setTags($post->getTags());
+    $post->setCategories($post->getCategories());
+
+    $post->setdescontent(addslashes($post->getdescontent()));
+
+    $page->setTpl("/admin/blog-posts-new", array(
+        "post"=>$post->getFields()
+    ));
 
 });
 

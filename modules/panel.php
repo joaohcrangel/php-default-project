@@ -499,7 +499,7 @@ $app->get("/panel/documents/types/:iddocumenttype", function($iddocumenttype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-salvar", array(
+	$page->setTpl("panel/document-type-save", array(
 		"document"=>$document->getFields()
 	));
 
@@ -512,7 +512,7 @@ $app->get("/panel/document-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/documento-tipo-criar");
+	$page->setTpl("panel/document-type-create");
 
 });
 
@@ -526,7 +526,7 @@ $app->get("/panel/addresses/types/:idaddresstype", function($idaddresstype){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-salvar", array(
+	$page->setTpl("panel/address-type-save", array(
 		"address"=>$address->getFields()
 	));
 
@@ -539,7 +539,7 @@ $app->get("/panel/address-type-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/endereco-tipo-criar");
+	$page->setTpl("panel/address-type-create");
 
 });
 
@@ -594,6 +594,61 @@ $app->get("/panel/transaction-type-create", function(){
 	));
 
 	$page->setTpl("panel/transaction-type-create");
+
+});
+
+// blogs tags
+$app->get("/panel/blog-tags/:idtag", function($idtag){
+
+	$tag = new BlogTag((int)$idtag);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-tag-save", array(
+		"tag"=>$tag->getFields()
+	));
+
+});
+
+$app->get("/panel/blog-tag-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-tag-create");
+
+});
+
+
+// blogs categoria
+$app->get("/panel/blog-categories/:idcategory", function($idcategory){
+
+	$category = new BlogCategory((int)$idcategory);
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-category-save", array(
+		"category"=>$category->getFields()
+	));
+
+});
+
+$app->get("/panel/blog-category-create", function(){
+
+	$page = new Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel/blog-category-create");
 
 });
 
@@ -701,7 +756,7 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$data['Schedules'] = $schedules;
 
-	$page->setTpl("panel/lugar", array(
+	$page->setTpl("panel/place", array(
 		"place"=>$data,
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY"),
 		"addressestypes"=>AddressesTypes::listAll()->getFields()
@@ -718,7 +773,7 @@ $app->get("/panel/place-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel/lugar-criar", array(
+	$page->setTpl("panel/place-create", array(
 		"mapKey"=>$config->getByName("GOOGLE_MAPS_KEY")
 	));
 
@@ -959,25 +1014,6 @@ $app->get("/panel/url-create", function(){
 	));
 
 	$page->setTpl("panel/url-criar");
-
-});
-
-// blog
-$app->get("/panel/blog-posts/:idpost", function($idpost){
-
-	$post = new BlogPost((int)$idpost);
-
-	$page = new Page(array(
-		"header"=>false,
-		"footer"=>false
-	));
-
-	$post->setTags($post->getTags());
-	$post->setCategories($post->getCategories());
-
-	$page->setTpl("panel/blog-post", array(
-		"post"=>$post->getFields()
-	));
 
 });
 

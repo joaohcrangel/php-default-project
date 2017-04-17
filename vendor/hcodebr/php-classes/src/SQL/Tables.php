@@ -1,10 +1,12 @@
 <?php 
 
-namespace Hcode\SQL;
+namespace Hcode\Sql;
 
-class Tables extends \Collection {
+use Hcode\Collection;
+
+class Tables extends Collection {
 	
-	protected $class = "SQL\Table";
+	protected $class = "Hcode\Sql\Table";
 	protected $pk = "";
 
 	public function get(){}

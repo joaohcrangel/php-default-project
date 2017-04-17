@@ -1,8 +1,10 @@
 <?php 
 
-namespace Hcode\SQL;
+namespace Hcode\Sql;
 
-class Table extends \Model {
+use Hcode\Model;
+
+class Table extends Model {
 	
 	public function get(){}
 	public function save(){}

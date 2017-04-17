@@ -2,7 +2,8 @@
 
 namespace Hcode\Site;
 
-use \Hcode\Model;
+use Hcode\Model;
+use Hcode\Site\Menus;
 
 class Menu extends Model {
 

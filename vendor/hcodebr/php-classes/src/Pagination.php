@@ -44,7 +44,7 @@ class Pagination {
 	public function __construct(
 		$query,
 		$params = array(),
-		$collectionName = 'Collection',
+		$collectionName = 'Hcode\Collection',
 		$itemsPerPage = 100
 	){
 

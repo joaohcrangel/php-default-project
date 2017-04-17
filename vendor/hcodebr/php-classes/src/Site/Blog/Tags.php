@@ -2,7 +2,8 @@
 
 namespace Hcode\Site\Blog;
 
-use \Hcode\Collection;
+use Hcode\Collection;
+use Hcode\Site\Blog\Post;
 
 class Tags extends Collection {
 

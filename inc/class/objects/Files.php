@@ -2,7 +2,7 @@
 
 class Files extends Collection {
 
-    protected $class = "file";
+    protected $class = "File";
     protected $saveQuery = "sp_files_save";
     protected $saveArgs = array("idfile", "desdirectory", "desfile", "desextension", "desname");
     protected $pk = "idfile";
@@ -23,13 +23,13 @@ class Files extends Collection {
     public static function upload($_FILE):Files
     {
 
-        $filesPost = array();
+        $filePost = array();
 
             if (isset($_FILE['name'])) {
 
             if (gettype($_FILE['name']) === 'array') {
                 for ($i=0; $i < count($_FILE['name']); $i++) { 
-                    array_push($filesPost, array(
+                    array_push($filePost, array(
                         'name'=>$_FILE['name'][$i],
                         'type'=>$_FILE['type'][$i],
                         'tmp_name'=>$_FILE['tmp_name'][$i],
@@ -39,7 +39,7 @@ class Files extends Collection {
                 }        
             } else {
 
-                array_push($filesPost, array(
+                array_push($filePost, array(
                     'name'=>$_FILE['name'],
                     'type'=>$_FILE['type'],
                     'tmp_name'=>$_FILE['tmp_name'],
@@ -52,9 +52,9 @@ class Files extends Collection {
 
         $file = new Files();
 
-        foreach ($filesPost as $f) {
+        foreach ($filePost as $f) {
 
-            $files->add(File::upload(
+            $file->add(File::upload(
                 $f['name'],
                 $f['type'],
                 $f['tmp_name'],

@@ -2,7 +2,8 @@
 
 namespace Hcode\Site;
 
-use \Hcode\Model;
+use Hcode\Model;
+use Hcode\Exception;
 
 class Contact extends Model {
 

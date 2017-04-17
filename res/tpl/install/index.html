@@ -39121,7 +39121,59 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			name:"Funções do MySQL",
 			status:"",
 			enabled:true
-		},{
+		},
+        {
+            url:"/sql/addresses/tables",
+            name:"Endereços - Tabelas",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/get",
+            name:"Endereços - Procedure GET",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/list",
+            name:"Endereços - Procedure LIST",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/save",
+            name:"Endereços - Procedure SAVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/addresses/remove",
+            name:"Endereços - Procedure REMOVE",
+            status:"",
+            enabled:true
+        },
+        {
+            url:"/sql/files/tables",
+            name:"Arquivos - Tabelas",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/files/get",
+            name:"Arquivos - GET",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/files/list",
+            name:"Arquivos - LIST",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/files/save",
+            name:"Arquivos - SAVE",
+            status:"",
+            enabled:true
+        },{
+            url:"/sql/files/remove",
+            name:"Arquivos - REMOVE",
+            status:"",
+            enabled:true
+        },{
 			url:"/sql/persons/tables",
 			name:"Pessoas - Tabelas",
 			status:"",
@@ -39288,33 +39340,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/documents/remove",
 			name:"Documentos - Procedure REMOVE",
-			status:"",
-			enabled:true
-		},
-
-		{
-			url:"/sql/addresses/tables",
-			name:"Endereços - Tabelas",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/get",
-			name:"Endereços - Procedure GET",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/list",
-			name:"Endereços - Procedure LIST",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/save",
-			name:"Endereços - Procedure SAVE",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/addresses/remove",
-			name:"Endereços - Procedure REMOVE",
 			status:"",
 			enabled:true
 		},
@@ -39561,11 +39586,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/personsaddresses/tables",
-			name:"Pessoas Endereços - Tabelas",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/coordinates/tables",
 			name:"Coordenadas - Tabelas",
 			status:"",
@@ -39676,6 +39696,11 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
+            url:"/sql/configurations/list",
+            name:"Configurações - LIST",
+            status:"",
+            enabled:true
+        },{
 			url:"/sql/configurations/save",
 			name:"Configurações - SAVE",
 			status:"",
@@ -39686,31 +39711,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 			status:"",
 			enabled:true
 		},{
-			url:"/sql/files/tables",
-			name:"Arquivos - Tabelas",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/files/get",
-			name:"Arquivos - GET",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/files/list",
-			name:"Arquivos - LIST",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/files/save",
-			name:"Arquivos - SAVE",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/files/remove",
-			name:"Arquivos - REMOVE",
-			status:"",
-			enabled:true
-		},{
 			url:"/sql/productsfiles/tables",
 			name:"Produtos Arquivos - Tabela",
 			status:"",
@@ -39718,16 +39718,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
 		},{
 			url:"/sql/placesfiles/tables",
 			name:"Lugares Arquivos - Tabela",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/personsfiles/tables",
-			name:"Pessoas Arquivos - Tabela",
-			status:"",
-			enabled:true
-		},{
-			url:"/sql/personsfiles/procs",
-			name:"Pessoas Arquivos - Procedures",
 			status:"",
 			enabled:true
 		},{
@@ -39824,31 +39814,6 @@ angular.module("install", []).controller("sql", function($scope, $http){
         },{
             url:"/sql/transactionstypes/remove",
             name:"TransaçõesTipos - REMOVE",
-            status:"",
-            enabled:true
-        },{
-            url:"/sql/userslogs/tables",
-            name:"Históricos Usuários - Tabelas",
-            status:"",
-            enabled:true
-        },{
-            url:"/sql/userslogs/get",
-            name:"Históricos Usuários - GET",
-            status:"",
-            enabled:true
-        },{
-            url:"/sql/userslogs/list",
-            name:"Históricos Usuários - LIST",
-            status:"",
-            enabled:true
-        },{
-            url:"/sql/userslogs/save",
-            name:"Históricos Usuários - SAVE",
-            status:"",
-            enabled:true
-        },{
-            url:"/sql/userslogs/remove",
-            name:"Históricos Usuários- REMOVE",
             status:"",
             enabled:true
         },

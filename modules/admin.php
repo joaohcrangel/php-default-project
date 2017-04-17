@@ -362,6 +362,21 @@ $app->get("/".DIR_ADMIN."/transactions-types", function(){
     $page->setTpl("/admin/transactions-types");
 });
 
+$app->get("/".DIR_ADMIN."/blog-tags/all", function(){
+
+    Permission::checkSession(Permission::ADMIN, true);
+
+   $page = new AdminPage(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+    $page->setTpl("blog-tags-all");
+
+});
+
 $app->get("/".DIR_ADMIN."/forms-payments", function(){
 
     Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
@@ -764,7 +779,7 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
     Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $tables = SQL\Tables::listAll();
+    $tables = Hcode\SQL\Tables::listAll();
 
     echo success(array(
         'data'=>$tables->getFields()
@@ -776,7 +791,7 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class/tables/:tableName", function($tabl
 
     Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
 
-    $table = SQL\Table::loadFromName($tableName);
+    $table = Hcode\SQL\Table::loadFromName($tableName);
 
     $table->setdessingular($table->getSingularName());
     $table->setdesplural($table->getPluralName());
@@ -796,7 +811,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
         throw new Exception("Informe o nome da tabela.", 400);
     }
 
-    $table = SQL\Table::loadFromName(post('destabela'));
+    $table = Hcode\SQL\Table::loadFromName(post('destabela'));
 
     $columns = $table->getColumns();
 
@@ -884,7 +899,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
     if ($download === false) {
 
-        $sql = new Sql();
+        $sql = new Hcode\Sql();
 
         $spName = '';
 

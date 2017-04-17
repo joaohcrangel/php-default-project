@@ -240,6 +240,45 @@
 	<!-- Footer Scripts
 	============================================= -->
 	<script type="text/javascript" src="/res/public/js/functions.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.core.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.btnload.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.btnrest.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.store.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.combobox.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.form.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.upload.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.table.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.arquivos.js"></script>
+	<script type="text/javascript" src="/res/js/jrangel/jquery.panel.js"></script>
+	<script type="text/javascript" src="/res/js/aribeiro/selecionar.js"></script>
+	
+	<script type="text/javascript" src="/res/theme/assets/vendor/handlebars/handlebars-v4.0.5.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/alertify/alertify.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/switchery/switchery.min.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/js/Plugin/switchery.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/js/Plugin/aspaginator.js"></script>
+	<script type="text/javascript" src="/res/public/js/system.js"></script>
+
+	<!-- Functions -->
+	<script>
+
+		$(document).ready(function(){
+
+			if (init instanceof Array) {
+
+		      $.each(init, function(index, fn){
+
+		        if (typeof fn === 'function') {
+		          fn();
+		        }
+
+		      });
+
+		    }
+		});
+
+	</script>
 
 </body>
 </html>

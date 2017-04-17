@@ -13,7 +13,8 @@ class Contacts extends Collection {
     protected $pk = "idsitecontact";
     public function get(){}
 
-    public static function listAll(){
+    public static function listAll():Contacts
+    {
 
     	$contacts = new Contacts();
 

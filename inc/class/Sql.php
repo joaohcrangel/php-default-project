@@ -51,9 +51,10 @@ class Sql extends PDO {
 
 			foreach ($value as $index => $row) {
 
-				if(gettype($row) == "string"){
-					
-					$results[$key][$index] = utf8_encode($row);
+				switch(gettype($row)){
+					case "string":					
+					$results[$key][$index] = ($this->utf8 === true) ? utf8_encode($row) : $row;
+					break;
 
 				}
 

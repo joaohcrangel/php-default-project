@@ -208,6 +208,8 @@ $app->post("/blog-posts", function(){
 				if(!count($urls2) > 0){
 					throw new Exception("Essa URL já existe", 400);					
 				}
+			}else{
+				$url->set($_POST);
 			}
 
 		}else{

@@ -33,7 +33,7 @@
 								<a href="images/blog/full/17.jpg" data-lightbox="image"><img class="image_fade" src="{$path}{$value.descover}" alt="{$value.destitle}"></a>
 							</div>
 							<div class="entry-title">
-								<h2><a href="{$path}{$value.desurl}">{$value.destitle}</a></h2>
+								<h2><a href="{$path}/blog/{$value.desurl}">{$value.destitle}</a></h2>
 							</div>
 							<ul class="entry-meta clearfix">
 								<li><i class="icon-calendar3"></i> {$value.dtpublished}</li>
@@ -44,7 +44,7 @@
 							</ul>
 							<div class="entry-content">
 								<p>{$value.descontentshort}</p>
-								<a href="{$path}/public/blog-posts/{$value.desurl}" class="more-link">Leia Mais</a>
+								<a href="{$path}/blog/{$value.desurl}" class="more-link">Leia Mais</a>
 							</div>
 						</div>
 					{/loop}
@@ -81,7 +81,7 @@
 						  
 							{loop="$categories"}
 								<li class="list-group-item">	  
-								    <a href="{$path}/public/blog-categories/{$value.desurl}">{$value.descategory} ({$value.nrposts})</a>
+								    <a href="{$path}/blog/categories/{$value.desurl}">{$value.descategory} ({$value.nrposts})</a>
 							  	</li>
 							{/loop}
 
@@ -103,84 +103,7 @@
 	
 init.push(function(){
 
-	function loadPosts(page){
-
-		var $div = $("#posts");
-
-		rest({
-			url:PATH+"/public/blog-posts",
-			data:data,
-			success:function(r){
-
-				$div.html('');
-
-				$.each(r.data, function(index, row){
-
-					$post = $(tpl.post(row));
-
-					$div.append($post);
-
-				});
-
-				$("#btn-post-search").on("click", function(){
-
-					loadPosts();
-
-				});
-
-				if(r.total > 0){
-
-					var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
-						skin:'pagination-gap',
-						currentPage:r.currentPage,
-						itemsPerPage:r.itemsPerPage,
-						onChange:function(page){
-							loadPosts(page)
-						}
-					});
-
-					$("#pagination").show().asPaginator(r.total, config);
-
-				}else{
-					$("#pagination").hide();
-				}
-
-			},
-			failure:function(r){
-				console.error(r);
-			}
-		});
-
-	}
-
-	function loadCategories(){
-
-		var $ul = $(".categories ul.list-group");
-
-		rest({
-			url:PATH+"/public/blog-categories",
-			success:function(r){
-
-				$ul.html('');
-
-				$.each(r.data, function(index, row){
-
-					$li = $(tpl.category(row));
-
-					$ul.append($li);
-
-				});
-
-			},
-			failure:function(r){
-				System.showError(r);
-			}
-		});
-
-	}
-
-	loadPosts();
-	loadCategories();
+	
 
 });
 

@@ -1,6 +1,6 @@
 <?php
 
-$app->get("/public/blog-posts/:desurl", function($desurl){
+$app->get("/blog/:desurl", function($desurl){
 
 	$sql = new Sql();
 
@@ -104,7 +104,7 @@ $app->get("/public/blog-categories", function(){
 
 });
 
-$app->get("/public/blog-categories/:desurl", function($desurl){
+$app->get("/blog/categories/:desurl", function($desurl){
 
 	$sql = new Sql();
 

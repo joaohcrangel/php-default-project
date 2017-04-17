@@ -42,6 +42,7 @@
                   <h4 class="panel-title">Propriedades da postagem</h4>
                 </div>
                 <button type="button" class="btn btn-success btn-add-cover">Adicionar capa</button>
+                <input type="hidden" name="idcover">
                 <img class="image_fade" id="img-cover" src="{$path}/res/img/placeholder.png" style="height:100px; margin-top:10px;">
                 <img src="" alt="">
                 <div class="published panel">
@@ -96,7 +97,7 @@
         <label for="desurl" class="m-t-10">URL</label>
         <div class="row">
             <div class="col-sm-4">
-                <span class="form-control-static">/public/blog-posts/</span>
+                <span class="form-control-static">/blog/</span>
             </div>
             <div class="col-sm-8">
                 <input type="text" id="desurl" name="desurl" class="form-control">
@@ -289,9 +290,7 @@ init.push(function(){
 
         var data = r.data[0];
 
-        console.log(data);
-
-        window.idcover = data.idfile;
+        $("[name=idcover]").val(data.idfile);
         $("#img-cover").attr('src', PATH + data.desdirectory + data.desfile +"."+ data.desextension);
 
       }
@@ -327,8 +326,6 @@ init.push(function(){
 
     data.descontent = $('#summernote').next('.note-editor').find('.note-editable').html();
     data.descontentshort = $("[name=descontentshort]").val();
-
-    if(window.idcover != undefined) data.idcover = window.idcover;
 
     if(inpublished != undefined) data.dtpublished = date.getFullYear()+"-"+(date.getMonth() + 1)+"-"+date.getDay();
 

@@ -121,15 +121,11 @@ $app->get("/blog/search", function(){
 
 	$posts = $pagination->getPage($page);
 
-	// foreach ($posts->getFields() as $post) {
+	foreach ($posts->getFields() as $post) {
 	
-	// 	foreach ($post as $key => $value) {
-			
-	// 		$post['desdtpublished'] = strftime("%d de %B de %Y", strtotime($post['desdtpublished']));
+		$post['desdtpublished'] = strftime("%d de %B de %Y", strtotime($post['desdtpublished']));
 
-	// 	}
-
-	// }
+	}
 
 	$page = new Page();
 

@@ -261,12 +261,7 @@
 					<div class="widget clearfix">
 
 						<h4>Encontre um artigo</h4>
-						<div class="input-group form-material">
-							<input type="text" class="form-control" placeholder="Digite uma palavra chave" name="despost">
-							<div class="input-group-btn">
-								<button type="button" class="btn btn-default" id="btn-post-search"><i class="icon md-search" aria-hidden="true"></i></button>
-							</div>
-						</div>
+						{include="found_article"}
 
 					</div>
 
@@ -275,11 +270,7 @@
 						<h4>Categorias</h4>
 						<ul class="list-group">
 						  
-							{loop="$categories"}
-								<li class="list-group-item">	  
-								    <a href="{$path}/blog/categories/{$value.desurl}">{$value.descategory} ({$value.nrposts})</a>
-							  	</li>
-							{/loop}
+							{include="loop-categories"}
 
 						</ul>
 

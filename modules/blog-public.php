@@ -150,4 +150,29 @@ $app->get("/public/blog-categories/:desurl", function($desurl){
 
 });
 
+$app->get("/public/blog-posts/:desurl", function($desurl){
+
+	$sql = new Sql();
+
+	$data = $sql->query("CALL sp_blogpostbyurl_get(?);", array(
+		$desurl
+	));
+
+	if(isset($data[0])){
+
+		$post = new BlogPost($data[0]);
+
+		$categories = BlogCategories::listAll()->getFields();
+
+		$page = new Page();
+
+		$page->setTpl("blog-post", array(
+			"post"=>$post->getFields(),
+			"categories"=>$categories
+		));
+
+	}
+
+});
+
 ?>

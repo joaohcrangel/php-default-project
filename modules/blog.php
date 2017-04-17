@@ -141,9 +141,6 @@ $app->get("/blog-posts", function(){
 
 	$posts = $pagination->getPage($page);
 
-	var_dump($posts->getFields());
-	exit;
-
 	echo success(array(
 		"data"=>$posts->getFields(),
 		"total"=>$pagination->getTotal(),
@@ -444,15 +441,13 @@ $app->delete("/blog-comments", function(){
 // blog categories
 $app->get("/blog-categories/all", function(){
 
-	$tag = BlogCategories::listAll();
-
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
 
 	$where = array();
 
 	if(get('descategory')) {
-		array_push($where, "descategory LIKE '%".get('descategory')."%'");
+		array_push($where, "descategory LIKE '%".utf8_encode(get('descategory'))."%'");
 	}
 
 	if (count($where) > 0) {
@@ -476,7 +471,7 @@ $app->get("/blog-categories/all", function(){
     $category = $pagination->getPage($currentPage);
 
     echo success(array(
-    	"data"=>$category ->getFields(),
+    	"data"=>$category->getFields(),
         "currentPage"=>$currentPage,
         "itemsPerPage"=>$itemsPerPage,
         "total"=>$pagination->getTotal(),

@@ -43,7 +43,7 @@ $app->get("/public/blog-posts", function(){
 			(
 				SELECT GROUP_CONCAT(b.destag)
 				FROM tb_blogpoststags a
-				INNER JOIN tb_blogtags b ON a.idtag = b.idtag
+				LEFT JOIN tb_blogtags b ON a.idtag = b.idtag
 				WHERE idpost = a.idpost
 			) AS destags FROM tb_blogposts a
 			INNER JOIN tb_blogauthors b ON a.idauthor = b.idauthor
@@ -76,6 +76,28 @@ $app->get("/public/blog-posts", function(){
 $app->get("/public/blog-categories", function(){
 
 	echo success(array("data"=>BlogCategories::listAll()->getFields()));
+
+});
+
+$app->get("/public/blog-categories/:desurl", function($desurl){
+
+	$sql = new Sql();
+
+	$data = $sql->query("CALL sp_blogcategorybyurl_get(?);", array(
+		$desurl
+	));
+
+	if(isset($data[0])){
+
+		$category = new BlogCategory($data[0]);
+
+		$page = new Page();
+
+		$page->setTpl("blog-category", array(
+			"category"=>$category->getFields()
+		));
+
+	}
 
 });
 

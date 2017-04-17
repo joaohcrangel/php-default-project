@@ -2,7 +2,7 @@
 
 $app->get("/site-contacts/all", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>SiteContacts::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/site-contacts/all", function(){
 
 $app->post("/site-contacts", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idsitecontact') > 0){
         $site = new SiteContact((int)post('idsitecontact'));
@@ -87,7 +87,7 @@ $app->post("/site-contacts/person", function(){
 
 $app->delete("/site-contacts/:idsitecontact", function($idsitecontact){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idsitecontact){
         throw new Exception("Contato não informado", 400);        

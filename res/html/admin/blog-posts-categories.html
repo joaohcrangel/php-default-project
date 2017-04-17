@@ -84,10 +84,10 @@
         </button>
     </div>
 </div>
-<script id="tpl-blog-category" type="/x-handlebars-temprate">
+<script id="tpl-blog-category" type="text/x-handlebars-template">
 <tr data-idcategory="{{idcategory}}">
   <td>{{descategory}}</td>
-  <td>{{desurl}}</td>
+  <td>/public/blog-categories/{{desurl}}</td>
   <td>
     <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/blog-categories/{{idcategory}}" data-toggle="slidePanel">
         </button>
@@ -124,7 +124,7 @@
     var params = $("#form-filtros").formValues();
 
     params.pagina = pagina;
-    params. limite = Math.floor((window.innerHeight-179)/53);
+    params.limite = Math.floor((window.innerHeight-179)/53);
     params.limite = (params.limite<5)?5:params.limite;
 
     panel.load();

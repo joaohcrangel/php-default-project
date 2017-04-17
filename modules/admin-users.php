@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $user = new Hcode\User((int)$iduser);
 
@@ -24,7 +24,7 @@ $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
 $app->get("/".DIR_ADMIN."/users", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$page = new Hcode\Admin\Page(array(
         "header"=>true,

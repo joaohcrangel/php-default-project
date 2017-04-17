@@ -2,7 +2,7 @@
 
 $app->get("/configurations", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $configurations = Configurations::listAll();
 
@@ -14,7 +14,7 @@ $app->get("/configurations", function(){
 
 $app->post("/configurations", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if ((int)post('idconfiguration') > 0) {
 		$conf = new Configuration((int)post('idconfiguration'));
@@ -37,7 +37,7 @@ $app->post("/configurations", function(){
 
 $app->delete("/configurations/:idconfiguration", function($idconfiguration){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if (!(int)$idconfiguration > 0) {
 		throw new Exception("O ID não foi informado.");		

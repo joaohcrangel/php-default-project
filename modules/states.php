@@ -2,7 +2,7 @@
 
 $app->get("/states", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	echo success(array("data"=>States::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/states", function(){
 
 $app->get("/states/all", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -53,7 +53,7 @@ $app->get("/states/all", function(){
 
 $app->post("/states", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idstate') > 0){
 		$state = new State((int)post('idstate'));
@@ -71,7 +71,7 @@ $app->post("/states", function(){
 
 $app->delete("/states", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 

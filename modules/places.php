@@ -2,7 +2,7 @@
 
 $app->get("/places", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -55,7 +55,7 @@ $app->get("/places", function(){
 
 $app->get("/places/:idplace", function($idplace){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$place = new Places((int)$idplace);
 
@@ -65,7 +65,7 @@ $app->get("/places/:idplace", function($idplace){
 
 $app->get("/places/:idplace/addresses", function($idplace){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$place = new Place((int)$idplace);
 
@@ -75,7 +75,7 @@ $app->get("/places/:idplace/addresses", function($idplace){
 
 $app->get("/places/:idplace/files", function($idplace){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$place = new Place((int)$idplace);
 
@@ -122,7 +122,7 @@ $app->get("/places/:idplace/files", function($idplace){
 
 $app->post("/places", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(isset($_POST['idaddress'])){
 
@@ -217,7 +217,7 @@ $app->post("/places", function(){
 
 $app->post("/places/:idplace/coordinates", function($idplace){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$place = new Place((int)$idplace);
 
@@ -237,7 +237,7 @@ $app->post("/places/:idplace/coordinates", function($idplace){
 
 $app->post("/places/:idplace/files", function($idplace){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$place = new Place((int)$idplace);
 
@@ -253,13 +253,13 @@ $app->post("/places/:idplace/files", function($idplace){
 
 $app->post("/places/:idplace/addresses/:idaddress", function($idplace, $idaddress){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 });
 
 $app->delete("/places/:idplace", function($idplace){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idplace){
 		throw new Exception("Lugar não informado", 400);		
@@ -282,7 +282,7 @@ $app->delete("/places/:idplace", function($idplace){
 
 $app->get("/places-types", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -321,7 +321,7 @@ $app->get("/places-types", function(){
 
 $app->post("/places-types", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idplacetype') > 0){
 		$placetype = new PlaceType((int)post('idplacetype'));
@@ -341,7 +341,7 @@ $app->post("/places-types", function(){
 
 $app->delete("/places-types/:idplacetype", function($idplacetype){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idplacetype){
 		throw new Exception("Tipo de lugar não informado", 400);	
@@ -364,7 +364,7 @@ $app->delete("/places-types/:idplacetype", function($idplacetype){
 
 $app->post("/places-schedules", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 

@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/system/configurations", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "header"=>true,

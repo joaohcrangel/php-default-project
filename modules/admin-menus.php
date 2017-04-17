@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/system/menu", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "header"=>true,
@@ -17,7 +17,7 @@ $app->get("/".DIR_ADMIN."/system/menu", function(){
 
 $app->delete("/".DIR_ADMIN."/system/menu", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $menu = new Menu((int)post('idmenu'));
 
@@ -29,7 +29,7 @@ $app->delete("/".DIR_ADMIN."/system/menu", function(){
 
 $app->get("/".DIR_ADMIN."/system/menus", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     function convertDataTreeview($Items){
 
@@ -64,7 +64,7 @@ $app->get("/".DIR_ADMIN."/system/menus", function(){
 
 $app->post("/".DIR_ADMIN."/system/menu", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if (!post('desmenu')) {
         throw new Exception("Informe o texto do menu.", 400);
@@ -88,7 +88,7 @@ $app->post("/".DIR_ADMIN."/system/menu", function(){
 ////////////////////////////////////////////////////////////
 $app->get("/".DIR_ADMIN."/site/menu", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "header"=>true,
@@ -103,7 +103,7 @@ $app->get("/".DIR_ADMIN."/site/menu", function(){
 
 $app->delete("/".DIR_ADMIN."/site/menu", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $menu = new SiteMenu((int)post('idmenu'));
 
@@ -115,7 +115,7 @@ $app->delete("/".DIR_ADMIN."/site/menu", function(){
 
 $app->get("/".DIR_ADMIN."/site/menus", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     function convertDataTreeview($Items){
 
@@ -150,7 +150,7 @@ $app->get("/".DIR_ADMIN."/site/menus", function(){
 
 $app->post("/".DIR_ADMIN."/site/menu", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if (!post('desmenu')) {
         throw new Exception("Informe o texto do menu.", 400);

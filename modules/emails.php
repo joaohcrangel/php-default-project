@@ -2,7 +2,7 @@
 
 $app->get("/emails", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$q = get("q");
 	$where = array();
 	$params = array();

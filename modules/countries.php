@@ -2,7 +2,7 @@
 
 $app->get("/countries/all", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	echo success(array("data"=>Countries::listAll()->getFields()));
 
@@ -10,7 +10,7 @@ $app->get("/countries/all", function(){
 
 $app->get("/countries", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -53,7 +53,7 @@ $app->get("/countries", function(){
 
 $app->post("/countries", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcountry') > 0){
 		$country = new Country((int)post('idcountry'));
@@ -71,7 +71,7 @@ $app->post("/countries", function(){
 
 $app->delete("/countries", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 

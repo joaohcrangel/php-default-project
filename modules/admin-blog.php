@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "data"=>array(
@@ -18,7 +18,7 @@ $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
 $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "data"=>array(
@@ -61,7 +61,7 @@ $app->get("/blog-posts/:idpost", function($idpost){
 
 $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "data"=>array(
@@ -77,7 +77,7 @@ $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
 $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "data"=>array(
@@ -93,7 +93,7 @@ $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
 $app->get("/".DIR_ADMIN."/blog/comments", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "data"=>array(

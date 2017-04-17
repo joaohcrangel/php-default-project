@@ -2,7 +2,7 @@
 
 $app->get("/contacts/", function(){
     
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -43,7 +43,7 @@ $app->get("/contacts/", function(){
 
 $app->post("/contacts", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcontact') > 0){
         $contact = new Contact((int)post('idcontact'));
@@ -63,7 +63,7 @@ $app->post("/contacts", function(){
 
 $app->delete("/contacts/:idcontact", function($idcontact){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idcontact){
         throw new Exception("Contato não informado", 400);        
@@ -85,7 +85,7 @@ $app->delete("/contacts/:idcontact", function($idcontact){
 
 $app->get("/contacts/types", function(){
     
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -126,7 +126,7 @@ $app->get("/contacts/types", function(){
 
 $app->post("/contacts-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcontacttype') > 0){
         $contact = new ContactType((int)post('idcontacttype'));
@@ -146,7 +146,7 @@ $app->post("/contacts-types", function(){
 
 $app->delete("/contacts-types/:idcontact", function($idcontacttype){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idcontacttype){
         throw new Exception("Contato não informado", 400);        

@@ -2,7 +2,7 @@
 
 $app->get("/documents/cpf/:nrcpf", function($nrcpf){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>array(
         'incpf'=>Document::CPFValidate($nrcpf)
@@ -12,7 +12,7 @@ $app->get("/documents/cpf/:nrcpf", function($nrcpf){
 
 $app->post("/documents", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('iddocument') > 0){
         $document = new Document((int)post('iddocument'));
@@ -32,7 +32,7 @@ $app->post("/documents", function(){
 
 $app->delete("/documents/:iddocument", function($iddocument){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$iddocument){
         throw new Exception("Documento não informado", 400);        
@@ -53,7 +53,7 @@ $app->delete("/documents/:iddocument", function($iddocument){
 
 $app->get("/documents/types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -93,7 +93,7 @@ $app->get("/documents/types", function(){
 
 $app->post('/documents-types', function () {
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
     $documenttype = new DocumentType($_POST);
 
@@ -107,7 +107,7 @@ $app->post('/documents-types', function () {
 
 $app->delete('/documents-types/:iddocumenttype', function ($iddocumenttype) {
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
     $documenttype = new DocumentType((int)$iddocumenttype);
 

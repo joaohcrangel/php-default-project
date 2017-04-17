@@ -1,12 +1,12 @@
 <section id="page-title">
 
 	<div class="container clearfix">
-		<h1>Blog</h1>
-		<span>Veja nossas últimas postagens</span>
+		<h1>{$category.descategory}</h1>
+		<!-- <span>Veja nossas últimas postagens</span>
 		<ol class="breadcrumb">
 			<li><a href="#">Home</a></li>
 			<li class="active">Blog</li>
-		</ol>
+		</ol> -->
 	</div>
 
 </section><!-- #page-title end -->
@@ -27,11 +27,33 @@
 				============================================= -->
 				<div id="posts">
 
+					{loop="$posts"}
+						<div class="entry clearfix">
+							<div class="entry-image">
+								<a href="images/blog/full/17.jpg" data-lightbox="image"><img class="image_fade" src="{$path}{$value.descover}" alt="{$value.destitle}"></a>
+							</div>
+							<div class="entry-title">
+								<h2><a href="{$path}{$value.desurl}">{$value.destitle}</a></h2>
+							</div>
+							<ul class="entry-meta clearfix">
+								<li><i class="icon-calendar3"></i> {$value.dtpublished}</li>
+								<li><a href="#"><i class="icon-user"></i> {$value.desauthor}</a></li>
+								<li><i class="icon-folder-open"></i> <a href="#">{$value.destags}</a></li>
+								<li><a href="blog-single.html#comments"><i class="icon-comments"></i> {$value.nrcomments}</a></li>
+								<li><a href="#"><i class="icon-camera-retro"></i></a></li>
+							</ul>
+							<div class="entry-content">
+								<p>{$value.descontentshort}</p>
+								<a href="{$path}/public/blog-posts/{$value.desurl}" class="more-link">Leia Mais</a>
+							</div>
+						</div>
+					{/loop}
+
 				</div><!-- #posts end -->
 
 				<!-- Pagination
 				============================================= -->
-				<div class="pagination"></div>				
+				<div class="pagination"></div>
 
 			</div><!-- .postcontent end -->
 
@@ -57,6 +79,12 @@
 						<h4>Categorias</h4>
 						<ul class="list-group">
 						  
+							{loop="$categories"}
+								<li class="list-group-item">	  
+								    <a href="{$path}/public/blog-categories/{$value.desurl}">{$value.descategory} ({$value.nrposts})</a>
+							  	</li>
+							{/loop}
+
 						</ul>
 
 					</div>
@@ -71,54 +99,11 @@
 
 </section><!-- #content end -->
 
-<script id="tpl-post" type="text/x-handlebars-template">
-	
-	<div class="entry clearfix">
-		<div class="entry-image">
-			<a href="images/blog/full/17.jpg" data-lightbox="image"><img class="image_fade" src="{$path}{{descover}}" alt="{{destitle}}"></a>
-		</div>
-		<div class="entry-title">
-			<h2><a href="{$path}/public/blog-posts/{{desurl}}">{{destitle}}</a></h2>
-		</div>
-		<ul class="entry-meta clearfix">
-			<li><i class="icon-calendar3"></i> {{dtpublished}}</li>
-			<li><a href="#"><i class="icon-user"></i> {{desauthor}}</a></li>
-			<li><i class="icon-folder-open"></i> <a href="#">{{destags}}</a></li>
-			<li><a href="blog-single.html#comments"><i class="icon-comments"></i> {{nrcomments}}</a></li>
-			<li><a href="#"><i class="icon-camera-retro"></i></a></li>
-		</ul>
-		<div class="entry-content">
-			<p>{{descontentshort}}</p>
-			<a href="{$path}/public/blog-posts/{{desurl}}" class="more-link">Leia Mais</a>
-		</div>
-	</div>
-
-</script>
-
-<script type="text/x-handlebars-template" id="tpl-category">
-	<li class="list-group-item">	  
-	    <a href="{$path}/public/blog-categories/{{desurl}}">{{descategory}} ({{nrposts}})</a>
-	  </li>
-</script>
-
 <script>
 	
 init.push(function(){
 
-	var tpl = {
-		post:Handlebars.compile($("#tpl-post").html()),
-		category:Handlebars.compile($("#tpl-category").html())
-	};
-
 	function loadPosts(page){
-
-		if(!page) page = 1;
-
-		var data = {};
-
-		data.destitle = $("[name=despost]").val();
-		data.page = page;
-		data.limit = 10;
 
 		var $div = $("#posts");
 

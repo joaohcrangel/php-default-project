@@ -1,6 +1,6 @@
 <?php
 
-namespace Hcode\System\User;
+namespace Hcode\System;
 
 use Hcode\Collection;
 use Hcode\Admin\Menu;

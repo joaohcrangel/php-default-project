@@ -2,7 +2,7 @@
 
 $app->get('/persons/:idperson',function($idperson){
    
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
 
 	echo success(array(
@@ -12,7 +12,7 @@ $app->get('/persons/:idperson',function($idperson){
 });
 
 $app->get('/persons/:idperson/contacts',function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
      
     $person = new Person(array(
 		'idperson'=>(int)$idperson
@@ -24,7 +24,7 @@ $app->get('/persons/:idperson/contacts',function($idperson){
 });
 
 $app->get('/persons/:idperson/logs',function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
      
     $person = new Person(array(
 		'idperson'=>(int)$idperson
@@ -36,7 +36,7 @@ $app->get('/persons/:idperson/logs',function($idperson){
 });
 
 $app->get("/persons",function(){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$q = get("q");
 	$where = array();
 	$params = array();
@@ -85,7 +85,7 @@ $app->get("/persons",function(){
 });
 
 $app->get("/persons/all", function(){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	echo success(array("data"=>Persons::listAll()->getFields()));
 });
 
@@ -206,7 +206,7 @@ $app->post("/persons", function(){
 });
 
 $app->delete("/persons/:idperson", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	if(!(int)$idperson > 0){
 		throw new Exception("Pessoa não informada", 400);		
 	}
@@ -220,21 +220,21 @@ $app->delete("/persons/:idperson", function($idperson){
 
 // documentos
 $app->get("/persons/:idperson/documents", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
 	echo success(array("data"=>$person->getDocuments()->getFields()));
 });
 
 // contacts
 $app->get("/persons/:idperson/contacts", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
 	echo success(array("data"=>$person->getContacts()->getFields()));
 });
 
 // site contacts
 $app->get("/persons/:idperson/site-contact", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS 
 		a.idsitecontact, a.desmessage, a.inread, a.dtregister,
@@ -268,7 +268,7 @@ $app->get("/persons/:idperson/site-contact", function($idperson){
 
 $app->post("/persons/:idperson/files", function($idperson){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if (!(int)$idperson > 0) {
 		throw new Exception("Informe o ID da pessoa.");
@@ -290,7 +290,7 @@ $app->post("/persons/:idperson/files", function($idperson){
 
 $app->get("/persons/:idperson/files", function($idperson){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS *
@@ -318,7 +318,7 @@ $app->get("/persons/:idperson/files", function($idperson){
 
 // pedidos
 $app->get("/persons/:idperson/orders", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS a.*, b.*, c.desformpayment, d.* FROM tb_orders a
 			INNER JOIN tb_persons b USING(idperson)
@@ -345,14 +345,14 @@ $app->get("/persons/:idperson/orders", function($idperson){
 
 // cartoes de credito
 $app->get("/persons/:idperson/cards", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
 	echo success(array("data"=>$person->getCreditCards()->getFields()));
 });
 
 // carrinhos
 $app->get("/persons/:idperson/carts", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS * FROM tb_carts
 		WHERE idperson = ".$idperson." LIMIT ?, ?;
@@ -376,14 +376,14 @@ $app->get("/persons/:idperson/carts", function($idperson){
 
 // enderecos
 $app->get("/persons/:idperson/addresses", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
 	echo success(array("data"=>$person->getAddresses()->getFields()));
 });
 
 // usuarios
 $app->get("/persons/:idperson/users", function($idperson){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$person = new Person((int)$idperson);
 	echo success(array("data"=>$person->getUsers()->getFields()));
 });
@@ -391,7 +391,7 @@ $app->get("/persons/:idperson/users", function($idperson){
 
 // pessoas categorias types
 $app->get("/persons-categories-types/all", function(){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$where = array();
 	if(get('descategory') != ''){
 		array_push($where, "descategory LIKE '%".utf8_decode(get('descategory'))."%'");
@@ -424,7 +424,7 @@ $app->get("/persons-categories-types/all", function(){
 });
 
 $app->post("/persons-categories-types", function(){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	if(post('idcategory') > 0){
 		$category = new PersonCategoryType((int)post('idcategory'));
 	}else{
@@ -436,7 +436,7 @@ $app->post("/persons-categories-types", function(){
 });
 
 $app->delete("/persons-categories-types/:idcategory", function($idcategory){
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	if(!(int)$idcategory){
 		throw new Exception("Categoria não informada", 400);		
 	}

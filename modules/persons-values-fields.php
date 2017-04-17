@@ -60,7 +60,7 @@ $app->post("/persons-valuesfields", function(){
 
 $app->delete("/persons-valuesfields/:idfield", function($idfield){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idfield > 0){
 		throw new Exception("Valor de campo não informado.", 400);		

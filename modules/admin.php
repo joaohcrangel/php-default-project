@@ -2,7 +2,7 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -71,7 +71,7 @@ $app->get("/".DIR_ADMIN."/forget", function(){
 
 $app->get("/".DIR_ADMIN."/reset", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $user = Hcode\Session::getUser();
 
@@ -149,7 +149,7 @@ $app->get("/".DIR_ADMIN."/profile", function(){
 
 $app->get("/".DIR_ADMIN."/settings", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page();
 
@@ -159,7 +159,7 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/profile", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page();
 
@@ -174,7 +174,7 @@ $app->get("/".DIR_ADMIN."/profile", function(){
 
 $app->get("/".DIR_ADMIN."/session", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     pre($_SESSION);
 
@@ -196,7 +196,7 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 $app->get("/".DIR_ADMIN."/system/users", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "header"=>true,
@@ -209,7 +209,7 @@ $app->get("/".DIR_ADMIN."/system/users", function(){
 
 $app->get("/".DIR_ADMIN."/system/sql-to-class", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         "header"=>true,
@@ -222,7 +222,7 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class", function(){
 
 $app->get("/".DIR_ADMIN."/products", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -252,7 +252,7 @@ $app->get("/admin/permissions", function(){
 
 $app->get("/".DIR_ADMIN."/products-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -268,7 +268,7 @@ $app->get("/".DIR_ADMIN."/products-types", function(){
 
 $app->get("/".DIR_ADMIN."/documents-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -285,7 +285,7 @@ $app->get("/".DIR_ADMIN."/documents-types", function(){
 
 $app->get("/".DIR_ADMIN."/addresses-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -301,7 +301,7 @@ $app->get("/".DIR_ADMIN."/addresses-types", function(){
 
 $app->get("/".DIR_ADMIN."/users-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -317,7 +317,7 @@ $app->get("/".DIR_ADMIN."/users-types", function(){
 
 $app->get("/".DIR_ADMIN."/logs-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -333,7 +333,7 @@ $app->get("/".DIR_ADMIN."/logs-types", function(){
 
 $app->get("/".DIR_ADMIN."/userslogs-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -349,7 +349,7 @@ $app->get("/".DIR_ADMIN."/userslogs-types", function(){
 
 $app->get("/".DIR_ADMIN."/transactions-types", function(){
     
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -379,7 +379,7 @@ $app->get("/".DIR_ADMIN."/blog-tags/all", function(){
 
 $app->get("/".DIR_ADMIN."/forms-payments", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
    $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -394,7 +394,7 @@ $app->get("/".DIR_ADMIN."/forms-payments", function(){
 
 $app->get("/".DIR_ADMIN."/places-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -410,7 +410,7 @@ $app->get("/".DIR_ADMIN."/places-types", function(){
 
 $app->get("/".DIR_ADMIN."/coupons-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -426,7 +426,7 @@ $app->get("/".DIR_ADMIN."/coupons-types", function(){
 
 $app->get("/".DIR_ADMIN."/gateways", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
           'data'=>array(
@@ -442,7 +442,7 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
 $app->get("/".DIR_ADMIN."/orders-status", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -458,7 +458,7 @@ $app->get("/".DIR_ADMIN."/orders-status", function(){
 
 $app->get("/".DIR_ADMIN."/contacts-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -475,7 +475,7 @@ $app->get("/".DIR_ADMIN."/contacts-types", function(){
 
 $app->get("/".DIR_ADMIN."/persons-valuesfields", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -491,7 +491,7 @@ $app->get("/".DIR_ADMIN."/persons-valuesfields", function(){
 
 $app->get("/".DIR_ADMIN."/ordersnegotiationstypes", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -507,7 +507,7 @@ $app->get("/".DIR_ADMIN."/ordersnegotiationstypes", function(){
 
 $app->get("/".DIR_ADMIN."/persons-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -523,7 +523,7 @@ $app->get("/".DIR_ADMIN."/persons-types", function(){
 
 $app->get("/".DIR_ADMIN."/forms-payment", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page();
 
@@ -533,7 +533,7 @@ $app->get("/".DIR_ADMIN."/forms-payment", function(){
 
 $app->get("/".DIR_ADMIN."/orders", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -549,7 +549,7 @@ $app->get("/".DIR_ADMIN."/orders", function(){
 
 $app->get("/".DIR_ADMIN."/site-contacts", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page();
 
@@ -559,7 +559,7 @@ $app->get("/".DIR_ADMIN."/site-contacts", function(){
 
 $app->get("/".DIR_ADMIN."/carts", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -575,7 +575,7 @@ $app->get("/".DIR_ADMIN."/carts", function(){
 
 $app->get("/".DIR_ADMIN."/credit-cards", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page();
 
@@ -585,7 +585,7 @@ $app->get("/".DIR_ADMIN."/credit-cards", function(){
 
 $app->get("/".DIR_ADMIN."/coupons", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page();
 
@@ -595,7 +595,7 @@ $app->get("/".DIR_ADMIN."/coupons", function(){
 
 $app->get("/".DIR_ADMIN."/configurations-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -612,7 +612,7 @@ $app->get("/".DIR_ADMIN."/configurations-types", function(){
 
 $app->get("/".DIR_ADMIN."/files", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $conf = Hcode\Session::getConfigurations();
 
@@ -633,7 +633,7 @@ $app->get("/".DIR_ADMIN."/files", function(){
 
 $app->get("/".DIR_ADMIN."/courses", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -649,7 +649,7 @@ $app->get("/".DIR_ADMIN."/courses", function(){
 
 $app->get("/".DIR_ADMIN."/carousels", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -665,7 +665,7 @@ $app->get("/".DIR_ADMIN."/carousels", function(){
 
 $app->get("/".DIR_ADMIN."/carousels-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
          'data'=>array(
@@ -681,7 +681,7 @@ $app->get("/".DIR_ADMIN."/carousels-types", function(){
 
 $app->get("/".DIR_ADMIN."/places", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -697,7 +697,7 @@ $app->get("/".DIR_ADMIN."/places", function(){
 
 $app->get("/".DIR_ADMIN."/countries", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -713,7 +713,7 @@ $app->get("/".DIR_ADMIN."/countries", function(){
 
 $app->get("/".DIR_ADMIN."/states", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -729,7 +729,7 @@ $app->get("/".DIR_ADMIN."/states", function(){
 
 $app->get("/".DIR_ADMIN."/cities", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -745,7 +745,7 @@ $app->get("/".DIR_ADMIN."/cities", function(){
 
 $app->get("/".DIR_ADMIN."/persons-categories-types", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -761,7 +761,7 @@ $app->get("/".DIR_ADMIN."/persons-categories-types", function(){
 
 $app->get("/".DIR_ADMIN."/urls", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $page = new Hcode\Admin\Page(array(
         'data'=>array(
@@ -777,7 +777,7 @@ $app->get("/".DIR_ADMIN."/urls", function(){
 
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $tables = Hcode\SQL\Tables::listAll();
 
@@ -789,7 +789,7 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables/:tableName", function($tableName){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $table = Hcode\SQL\Table::loadFromName($tableName);
 
@@ -805,7 +805,7 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class/tables/:tableName", function($tabl
 
 $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
-    Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if (!post('destabela')) {
         throw new Exception("Informe o nome da tabela.", 400);

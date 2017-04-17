@@ -3,20 +3,20 @@
 // blog authors
 $app->get("/blog/authors", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$page = (int)get("page");
 	$itemsPerPage = (int)get("limit");
 
 	$where = array();
 
-	if(get("desauthor")){
+	if (get("desauthor")) {
 		array_push($where, "a.desauthor LIKE '%".utf8_encode(get("desauthor"))."%'");
 	}
 
-	if(count($where) > 0){
+	if (count($where) > 0) {
 		$where = " WHERE ".implode(" AND ", $where)."";
-	}else{
+	} else {
 		$where = "";
 	}
 
@@ -46,11 +46,11 @@ $app->get("/blog/authors", function(){
 
 $app->post("/blog/authors", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	if((int)post("idauthor") > 0){
+	if ((int)post("idauthor") > 0) {
 		$author = new BlogAuthor((int)post("idauthor"));
-	}else{
+	} else {
 		$author = new BlogAuthor();
 	}
 
@@ -64,7 +64,7 @@ $app->post("/blog/authors", function(){
 
 $app->delete("/blog/authors", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -91,7 +91,7 @@ $app->delete("/blog/authors", function(){
 // blog posts
 $app->get("/blog-posts", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$page = (int)get("page");
 	$itemsPerPage = (int)get("limit");
@@ -141,9 +141,6 @@ $app->get("/blog-posts", function(){
 
 	$posts = $pagination->getPage($page);
 
-	var_dump($posts->getFields());
-	exit;
-
 	echo success(array(
 		"data"=>$posts->getFields(),
 		"total"=>$pagination->getTotal(),
@@ -155,7 +152,7 @@ $app->get("/blog-posts", function(){
 
 $app->post("/blog-posts", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if((int)get("idpost") > 0){
 		$post = new BlogPost((int)post("idpost"));
@@ -279,7 +276,7 @@ $app->post("/blog-posts", function(){
 
 $app->post("/blog-posts/:idpost/tags", function($idpost){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -301,7 +298,7 @@ $app->post("/blog-posts/:idpost/tags", function($idpost){
 
 $app->post("/blog-posts/:idpost/categories", function($idpost){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -323,7 +320,7 @@ $app->post("/blog-posts/:idpost/categories", function($idpost){
 
 $app->delete("/blog-posts", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -350,7 +347,7 @@ $app->delete("/blog-posts", function(){
 // blog comments
 $app->get("/blog-comments", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$page = (int)get("page");
 	$itemsPerPage = (int)get("limit");
@@ -399,7 +396,7 @@ $app->get("/blog-comments", function(){
 
 $app->post("/blog-comments", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if((int)post("idcomment") > 0){
 		$comment = new BlogComment((int)post("idcomment"));
@@ -417,7 +414,7 @@ $app->post("/blog-comments", function(){
 
 $app->delete("/blog-comments", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -444,7 +441,7 @@ $app->delete("/blog-comments", function(){
 // blog categories
 $app->get("/blog-categories/all", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$tag = BlogCategories::listAll();
 
@@ -454,7 +451,7 @@ $app->get("/blog-categories/all", function(){
 	$where = array();
 
 	if(get('descategory')) {
-		array_push($where, "descategory LIKE '%".get('descategory')."%'");
+		array_push($where, "descategory LIKE '%".utf8_encode(get('descategory'))."%'");
 	}
 
 	if (count($where) > 0) {
@@ -478,7 +475,7 @@ $app->get("/blog-categories/all", function(){
     $category = $pagination->getPage($currentPage);
 
     echo success(array(
-    	"data"=>$category ->getFields(),
+    	"data"=>$category->getFields(),
         "currentPage"=>$currentPage,
         "itemsPerPage"=>$itemsPerPage,
         "total"=>$pagination->getTotal(),
@@ -486,9 +483,56 @@ $app->get("/blog-categories/all", function(){
     ));
 });
 
+$app->get("/blog-categories/:idcategory/posts", function($idcategory){
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
+
+	$where = array();
+
+	array_push($where, "c.idcategory = ".(int)$idcategory);
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS descover, 
+			(
+				SELECT COUNT(idcomment) FROM tb_blogcomments WHERE idpost = a.idpost
+			) AS nrcomments,
+			(
+				SELECT GROUP_CONCAT(b.destag)
+				FROM tb_blogpoststags a
+				LEFT JOIN tb_blogtags b ON a.idtag = b.idtag
+				WHERE idpost = a.idpost
+			) AS destags FROM tb_blogposts a
+			INNER JOIN tb_blogauthors b ON a.idauthor = b.idauthor
+			LEFT JOIN tb_blogpostscategories c ON a.idpost = c.idpost
+			LEFT JOIN tb_blogpoststags d ON a.idpost = d.idpost
+            LEFT JOIN tb_files e ON a.idcover = e.idfile
+            LEFT JOIN tb_urls f ON a.idurl = f.idurl
+            LEFT JOIN tb_blogcomments g ON a.idpost = g.idpost
+        ".$where." GROUP BY a.idpost LIMIT ?, ?;
+	";
+
+	$pagination = new Pagination(
+		$query,
+		array(),
+		"BlogPosts",		
+		$itemsPerPage
+	);
+
+	$posts = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$posts->getFields(),
+		"currentPage"=>$page,
+		"total"=>$pagination->getTotal(),
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
 $app->post("/blog-categories", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post("idcategory") > 0){
 		$category = new BlogCategory((int)post("idcategory"));
@@ -536,7 +580,7 @@ $app->delete("/blog-categories/:idcategory", function($idcategory){
 $app->get("/blog-tags/all", function(){
 
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$tag = BlogTags::listAll();
 
@@ -579,7 +623,7 @@ $app->get("/blog-tags/all", function(){
 
 $app->post("/blog-tags", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post("idtag") > 0){
 		$tag = new BlogTag((int)post("idtag"));

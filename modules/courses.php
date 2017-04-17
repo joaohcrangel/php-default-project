@@ -2,7 +2,7 @@
 
 $app->get("/courses", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -45,7 +45,7 @@ $app->get("/courses", function(){
 
 $app->get("/courses/:idcourse/sections", function($idcourse){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$course = new Course((int)$idcourse);
 
@@ -58,7 +58,7 @@ $app->get("/courses/:idcourse/sections", function($idcourse){
 
 $app->get("/courses/:idcourse/html", function($idcourse){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$course = new Course((int)$idcourse);
 
@@ -70,7 +70,7 @@ $app->get("/courses/:idcourse/html", function($idcourse){
 
 $app->post("/courses", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcourse') > 0){
 		$course = new Course((int)post('idcourse'));
@@ -90,7 +90,7 @@ $app->post("/courses", function(){
 
 $app->delete("/courses/:idcourse", function($idcourse){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idcourse){
 		throw new Exception("Curso não informado", 400);		
@@ -112,7 +112,7 @@ $app->delete("/courses/:idcourse", function($idcourse){
 // cursos secoes
 $app->get("/courses-sections/:idsection/curriculums", function($idsection){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$section = new CourseSection((int)$idsection);
 
@@ -122,7 +122,7 @@ $app->get("/courses-sections/:idsection/curriculums", function($idsection){
 
 $app->post("/courses-sections", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idsection') > 0){
 		$section = new CourseSection((int)post('idsection'));
@@ -140,7 +140,7 @@ $app->post("/courses-sections", function(){
 
 $app->delete("/courses-sections/:idsection", function($idsection){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idsection){
 		throw new Exception("Seção não informada", 400);		
@@ -162,7 +162,7 @@ $app->delete("/courses-sections/:idsection", function($idsection){
 // cursos curriculos
 $app->post("/courses-curriculums", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcurriculum') > 0){
 		$curriculum = new CoursoCurriculum((int)post('idcurriculum'));
@@ -180,7 +180,7 @@ $app->post("/courses-curriculums", function(){
 
 $app->delete("/courses-curriculums/:idcurriculum", function($idcurriculum){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idcurriculum){
 		throw new Exception("Currículo não informado", 400);		

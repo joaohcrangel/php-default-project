@@ -2,7 +2,7 @@
 
 $app->get('/permissions', function () {
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -43,7 +43,7 @@ $app->get('/permissions', function () {
 
 $app->post('/permissions', function () {
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
 	$permission = new Hcode\Permission($_POST);
 
@@ -56,7 +56,7 @@ $app->post('/permissions', function () {
 
 $app->post('/permissions/:idpermission', function ($idpermission) {
 	
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
 	$permission = new Hcode\Permission((int)$idpermission);
 
@@ -72,7 +72,7 @@ $app->post('/permissions/:idpermission', function ($idpermission) {
 
 $app->delete('/permissions/:idpermission', function ($idpermission) {
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
 	$permission = new Hcode\Permission((int)$idpermission);
 
@@ -84,7 +84,7 @@ $app->delete('/permissions/:idpermission', function ($idpermission) {
 
 $app->get('/permissions/:idpermission', function ($idpermission) {
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 	
 	$permission = new Hcode\Permission((int)$idpermission);
 

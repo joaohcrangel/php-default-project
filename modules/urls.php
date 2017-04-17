@@ -2,7 +2,7 @@
 
 $app->get("/urls/all", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -48,7 +48,7 @@ $app->get("/urls/all", function(){
 
 $app->post("/urls", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idurl') > 0){
 		$url = new Url((int)post('idurl'));
@@ -66,7 +66,7 @@ $app->post("/urls", function(){
 
 $app->delete("/urls", function(){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post('ids'));
 

@@ -3860,7 +3860,9 @@ $app->get("/install-admin/sql/blog/get", function(){
 		'sp_blogcategories_get',
 		'sp_blogcomments_get',
 		'sp_blogposts_get',
-		'sp_blogtags_get'
+		'sp_blogtags_get',
+		'sp_blogcategorybyurl_get',
+		'sp_blogpostbyurl_get'
 	);
 
 	saveProcedures($procs, PATH_PROC."/blog/get/");

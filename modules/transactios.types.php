@@ -59,7 +59,7 @@ $app->post("/transactions-types", function(){
 
 $app->delete("/transactions-types/:idtransactiontype", function($idtransactiontype){
 
-	Hcode\Permission::checkSession(Hcode\Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idtransactiontype > 0){
 		throw new Exception("Tipo de Transações não informado.", 400);		

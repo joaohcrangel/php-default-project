@@ -2,7 +2,7 @@
 
 class BlogCategory extends Model {
 
-    public $required = array('descategory');
+    public $required = array('descategory', 'idurl');
     protected $pk = "idcategory";
 
     public function get(){
@@ -19,9 +19,10 @@ class BlogCategory extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_blogcategories_save(?, ?);", array(
+            $this->queryToAttr("CALL sp_blogcategories_save(?, ?, ?);", array(
                 $this->getidcategory(),
-                $this->getdescategory()
+                $this->getdescategory(),
+                $this->getidurl()
             ));
 
             return $this->getidcategory();

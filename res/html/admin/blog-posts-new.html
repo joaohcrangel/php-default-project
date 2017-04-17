@@ -452,7 +452,7 @@ init.push(function(){
 
         $ul.html('');
 
-        var idsTags = post.destags.split(",");
+        var idsTags = (post.destags != undefined) ? post.destags.split(",") : "";
 
         $.each(data, function(index, row){
 
@@ -496,7 +496,7 @@ init.push(function(){
 
         $ul.html('');
 
-        var idsCategories = post.descategories.split(",");
+        var idsCategories = (post.descategories != undefined) ? post.descategories.split(",") : "";
 
         $.each(data, function(index, row){
 

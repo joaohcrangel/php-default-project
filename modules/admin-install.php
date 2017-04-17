@@ -683,6 +683,15 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 	));
 	$menuContato->save();
 
+	$menuBlog = new SiteMenu(array(
+		'nrorder'=>0,
+		'idmenufather'=>NULL,
+		'desicon'=>'',
+		'deshref'=>'/blog',
+		'desmenu'=>$lang->getString('sitesmenus_blog')
+	));
+	$menuBlog->save();
+
 	echo success();
 
 
@@ -3766,8 +3775,10 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		CREATE TABLE tb_blogcategories (
 		  idcategory int(11) NOT NULL AUTO_INCREMENT,
 		  descategory varchar(64) NOT NULL,
+		  idurl INT NOT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY (idcategory)
+		  PRIMARY KEY (idcategory),
+		  CONSTRAINT FOREIGN KEY(idurl) REFERENCES tb_urls(idurl)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 

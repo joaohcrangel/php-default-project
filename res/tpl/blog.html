@@ -16,8 +16,8 @@
 			<p>{{descontentshort}}</p>
 			<a href="{$path}{{desurl}}" class="more-link">Leia Mais</a>
 		</div>
-	</div></script><script type="text/x-handlebars-compile" id="tpl-category"><li class="list-group-item">	  
-	    <a href="#">{{descategory}} ({{nrposts}})</a>
+	</div></script><script type="text/x-handlebars-template" id="tpl-category"><li class="list-group-item">	  
+	    <a href="{$path}/blog/{{desurl}}">{{descategory}} ({{nrposts}})</a>
 	  </li></script><script>init.push(function(){
 
 	var tpl = {
@@ -32,6 +32,8 @@
 		var data = {};
 
 		data.destitle = $("[name=despost]").val();
+		data.page = page;
+		data.limit = 10;
 
 		var $div = $("#posts");
 

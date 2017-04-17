@@ -57,6 +57,9 @@
                                     Categoria
                                 </th>
                                 <th>
+                                    URL
+                                </th>
+                                <th>
                                     &nbsp;
                                 </th>
                             </tr>
@@ -84,6 +87,7 @@
 <script id="tpl-blog-category" type="/x-handlebars-temprate">
 <tr data-idcategory="{{idcategory}}">
   <td>{{descategory}}</td>
+  <td>{{desurl}}</td>
   <td>
     <button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/blog-categories/{{idcategory}}" data-toggle="slidePanel">
         </button>
@@ -140,7 +144,7 @@
 
         var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
                 skin:'pagination-gap',
-              currentPage:r.currentPage,
+                currentPage:r.currentPage,
                 itemsPerPage:r.itemsPerPage,
                 onChange:function(page){
                   loadBlogCategory(page);

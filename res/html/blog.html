@@ -305,9 +305,9 @@
 
 </script>
 
-<script type="text/x-handlebars-compile" id="tpl-category">
+<script type="text/x-handlebars-template" id="tpl-category">
 	<li class="list-group-item">	  
-	    <a href="#">{{descategory}} ({{nrposts}})</a>
+	    <a href="{$path}/blog/{{desurl}}">{{descategory}} ({{nrposts}})</a>
 	  </li>
 </script>
 
@@ -327,6 +327,8 @@ init.push(function(){
 		var data = {};
 
 		data.destitle = $("[name=despost]").val();
+		data.page = page;
+		data.limit = 10;
 
 		var $div = $("#posts");
 

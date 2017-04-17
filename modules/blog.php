@@ -141,6 +141,9 @@ $app->get("/blog-posts", function(){
 
 	$posts = $pagination->getPage($page);
 
+	var_dump($posts->getFields());
+	exit;
+
 	echo success(array(
 		"data"=>$posts->getFields(),
 		"total"=>$pagination->getTotal(),
@@ -244,7 +247,7 @@ $app->post("/blog-posts", function(){
 
 	$post->save();
 
-	if(isset($_POST['idsCategories'])){
+	if($_POST['idsCategories']){
 
 		$idsCategories = explode(",", post("idsCategories"));
 
@@ -257,7 +260,7 @@ $app->post("/blog-posts", function(){
 		}
 	}
 
-	if(isset($_POST['idsTags'])){
+	if($_POST['idsTags']){
 
 		$idsTags = explode(",", post("idsTags"));
 
@@ -458,8 +461,10 @@ $app->get("/blog-categories/all", function(){
 		$where = '';
 	}
 
-	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogcategories
-	".$where." limit ?, ?;";
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desurl FROM tb_blogcategories a
+			INNER JOIN tb_urls b ON a.idurl = b.idurl
+	".$where." LIMIT ?, ?;";
 
 	$pagination = new Pagination(
         $query,
@@ -490,6 +495,18 @@ $app->post("/blog-categories", function(){
 	}
 
 	$category->set($_POST);
+
+	if(isset($_POST['desurl'])){
+
+		$url = new Url(array(
+			"desurl"=>post("desurl")
+		));
+
+		$url->save();
+
+		$category->setidurl($url->getidurl());
+
+	}
 
 	$category->save();
 

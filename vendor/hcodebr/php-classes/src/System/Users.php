@@ -48,6 +48,15 @@ class Users extends Collection {
             ORDER BY b.desperson, a.desuser
         ");
 
+        $data = $users->getItens();
+
+        foreach ($data as &$user) {
+            $person = $user->getPerson()->getFields();
+            $user->set($person);
+        }
+
+        $users->setItens($data);
+
     	return $users;
 
     }

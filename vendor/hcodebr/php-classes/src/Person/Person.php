@@ -299,7 +299,7 @@ class Person extends Model {
     public function setPhoto(File $photo){
 
         $this->addFile($photo);
-        $this->setdesphoto($photo->getdesfile().'.'.$photo->getdesextensao());
+        $this->setdesphoto($photo->getdesfile().'.'.$photo->getdesextension());
         $this->save();
 
     }

@@ -12,7 +12,7 @@ use Hcode\Session;
 
 class User extends Model {
 
-    public $required = array('iduser', 'idperson', 'desuser', 'despassword', 'inblocked', 'idusertype');
+    public $required = array('idperson', 'desuser', 'despassword', 'inblocked', 'idusertype');
     protected $pk = "iduser";
 
     const SESSION_NAME_LOCK = "USER.LOCK";

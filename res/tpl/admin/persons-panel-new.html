@@ -174,7 +174,7 @@
 
   t.formatCep = function(cep){
 
-    return cep.substring(0, 5)+"-"+cep.substring(5);
+    return (cep)?cep.substring(0, 5)+"-"+cep.substring(5):'';
 
   }
 
@@ -233,7 +233,7 @@
       url:PATH+"/persons/"+t.getIdperson()+"/photo",
       success:function(r){
 
-        t.setData(r.data);
+        if (r.data.length) t.setData(r.data[0]);
 
       },
       failure:function(e){

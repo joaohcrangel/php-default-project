@@ -2,6 +2,7 @@
 <header class="slidePanel-header">
   <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" data-btn="simulate" class="btn btn-pure icon md-sign-in" aria-hidden="true"></button>
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
     <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4>
@@ -52,37 +53,66 @@
 </div>
 </script>
 <script>
-(function(){
+var simulate = function(){
+  
+  System.load();
 
-  var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
-  var user = JSON.parse('{function="json_encode($user)"}');
-
-  user.desperson = user.person.desperson;
-
-  $('#profile-header').html(tplHeader(user));
-
-  $('#profile-form').formLoad(user);
-
-  $('#profile-form').form({
-    url:PATH+"/users/"+user.iduser,
-    resetForm:false,
-    success:function(r){
-
-      user = r.data;
-      $('#profile-form').formLoad(user);
-      $('#profile-header').html(tplHeader(user));
-      System.setUser(r.data);
-      System.success("Seus dados foram salvos!");
-
+  rest({
+    url:PATH+"/users/simulate",
+    method:"POST",
+    data:{
+      iduser:user.iduser
+    },
+    success:function(){
+      System.done();
+      window.location.href = PATH+"/admin";
+    },
+    failure:function(e){
+      System.done();
+      System.showError(e);
     }
   });
 
-  $('#idusertype').combobox({
-    url:PATH+"/userstypes",
-    displayField:'desusertype',
-    valueField:'idusertype',
-    value:user.idusertype
+}
+
+var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
+var user = JSON.parse('{function="json_encode($user)"}');
+
+user.desperson = user.Person.desperson;
+
+$('#profile-header').html(tplHeader(user));
+
+$('#profile-form').formLoad(user);
+
+$('#profile-form').form({
+  url:PATH+"/users/"+user.iduser,
+  resetForm:false,
+  success:function(r){
+
+    user = r.data;
+    $('#profile-form').formLoad(user);
+    $('#profile-header').html(tplHeader(user));
+    System.setUser(r.data);
+    System.success("Seus dados foram salvos!");
+
+  }
+});
+
+$('#idusertype').combobox({
+  url:PATH+"/userstypes",
+  displayField:'desusertype',
+  valueField:'idusertype',
+  value:user.idusertype
+});
+
+$("[data-btn]").each(function(){
+
+  $(this).on("click", function(){
+
+    var fn = $(this).data("btn");
+    window[fn]();
+
   });
 
-})();
+});
 </script>

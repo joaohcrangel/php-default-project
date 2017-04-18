@@ -1,0 +1,1248 @@
+<style>
+	.slidePanel{
+		overflow: overlay;
+	}
+</style>
+<div id="place-panel">
+	<header class="slidePanel-header">
+	  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+	    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">  <button id="btn-delete-place" type="button" class="btn btn-pure icon md-delete waves-effect" aria-hidden="true"></button>
+	      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+	    </div>
+	    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$place.desplace}</h5></h4>
+	  </div>  
+	</header>
+	<div class="slidePanel-inner m-0 p-0">
+
+		<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="place-tabs" data-plugin="tabs">
+		    <div class="panel-heading panel-heading-tab" id="tabs-place" style="border-radius: 0;">		  
+		    </div>
+
+		    <div class="panel-body p-t-20">
+	      		<div class="tab-content">
+	      			<div class="tab-pane" id="tab-place-edit" role="tabpanel">
+
+	      				<form id="form-place-edit">
+
+		      				<div class="panel m-0" style="box-shadow:none">
+
+		                  		<div class="panel-body p-y-0 p-t-20">
+
+		                  			<div class="panel-heading" style="height: 30px;">
+				                      <div class="panel-actions panel-actions-keep">
+				                        <a id="btn-actions-refresh" class="panel-action icon md-refresh-alt" aria-hidden="true" style="font-size:16px;"></a>
+				                        <a id="btn-actions-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px;"></a>
+				                      </div>
+				                    </div>
+
+		                  			<div class="row">
+			
+										<div class="form-group col-xs-12 col-md-8" data-plugin="formMaterial">
+											<label class="form-control-label">Lugar</label>
+											<input type="text" class="form-control" name="desplace">
+										</div>
+
+										<div class="form-group col-xs-12 col-md-4" data-plugin="formMaterial">
+											<label class="form-control-label">Tipo do Lugar</label>
+											<select name="idplacetype" class="form-control"></select>
+										</div>
+
+									</div>									
+
+									<div class="form-group form-material" data-plugin="formMaterial">
+										<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+									</div>
+
+		                  		</div>
+
+		                  	</div>						
+
+						</form>
+
+	      			</div>
+	      			<!-- terminando painel de edit place -->
+		        	<div class="tab-pane active" id="tab-place" role="tabpanel">
+
+		        		<button id="btn-place-edit" class="btn btn-primary pull-xs-right waves-effect"><i class="icon md-edit" aria-hidden="true"></i> edit</button>
+
+	              		<div class="card"></div>
+				
+		        	</div>
+		        	<!-- fim da tab de dados do place -->
+
+		        	<!-- inicio da tab do map -->
+		        	<div class="tab-pane" id="tab-place-map" role="tabpanel">
+
+		        		<input type="hidden" name="vllatitude">
+		        		<input type="hidden" name="vllongitude">
+		        		<input type="hidden" name="nrzoom">
+
+						<div id="map" style="width:100%;height:400px"></div>
+
+						<div class="form-group form-material m-t-15" data-plugin="formMaterial">
+							<button type="button" class="btn btn-primary waves-effect btn-salvar">Salvar</button>
+						</div>
+
+		        	</div>
+		        	<!-- fim da tab do map -->
+
+		        	<!-- inicio da tab de horários -->
+		        	<div class="tab-pane panel" id="tab-place-schedules" role="tabpanel">
+
+						<table class="table table-stripped table-hover">
+
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="schedulesAll"></th>
+									<th>Dia</th>
+									<th>Horário de Abertura</th>
+									<th>Horário de Fechamento</th>
+									<th></th>
+								</tr>
+							</thead>
+
+							<tbody>
+								
+							</tbody>
+
+						</table>
+
+						<div class="form-group form-material m-t-15" data-plugin="formMaterial">
+							<button type="button" class="btn btn-primary waves-effect btn-salvar-Schedules">Salvar</button>
+						</div>
+
+		        	</div>
+		        	<!-- fim da tab de Schedules -->
+
+					<!-- inicio da tab de editar enderecos -->
+		            <div class="tab-pane panel" id="tab-address-edit" role="tabpanel">
+
+		              <div class="panel-body">
+		                  
+		                <div class="panel-heading" style="height:  30px;">
+		                  <div class="panel-actions panel-actions-keep">
+		                    <a id="btn-actions-address-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px;"></a>
+		                  </div>
+		                </div>
+
+		                <form id="form-addresses">
+		                
+		                </form>
+
+		              </div>             
+
+		            </div>
+
+		            <!-- inicio da tab que lista os addresses -->
+		            <div class="tab-pane" id="tab-place-addresses" role="tabpanel">
+
+		              <div class="panel">
+
+		                <div class="panel-body panel-primary panel-line p-b-0 m-0">
+
+		                  <div class="btn-group open">
+		                    <button type="button" class="btn btn-success pull-xs-left waves-effect btn-address-add" id="dropdownaddress" data-toggle="dropdown" aria-expanded="true">
+		                      <i class="icon md-plus" aria-hidden="true"></i> adicionar
+		                    </button>
+		                    <div class="dropdown-menu" aria-labelledby="dropdownaddress" role="menu">
+		                      {loop="$addressestypes"}
+		                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idaddresstype="{$value.idaddresstype}">{$value.desaddresstype}</a>
+		                      {/loop}
+		                    </div>
+		                  </div>
+
+		                  <table class="table table-stripped table-hover m-t-15">
+		                    <tbody>
+		                      
+		                    </tbody>
+		                  </table>
+		                </div>
+
+		              </div>
+		            </div>
+
+		            <div class="tab-pane" id="tab-place-address-add" role="tabpanel">
+		              
+		              <div class="panel" id="address-add">
+
+		                <div class="panel-body panel-primary panel-line p-b-0 m-0">
+		                  <div class="panel-heading" style="height: 30px;">
+		                    <div class="panel-actions panel-actions-keep">
+		                      <a id="btn-actions-address-add-close" class="panel-action icon md-close" aria-hidden="true" style="font-size:16px;"></a>
+		                    </div>
+		                  </div>
+
+		                  <form>
+
+		                      <div class="row">
+		                        <div class="form-group col-xs-12 col-md-3">
+		                          <input type="hidden" name="idaddress">
+		                          <input type="hidden" name="idaddresstype">
+		                          <label class="form-control-label" for="descep">CEP</label>
+		                          <input type="text" class="form-control" id="descep" name="descep">
+		                        </div>
+		                        <div class="form-group col-xs-12 col-md-6">
+		                          <label class="form-control-label" for="desaddress">Endereço</label>
+		                          <input type="text" class="form-control" id="desaddress" name="desaddress">
+		                        </div>
+		                        <div class="form-group col-xs-12 col-md-3">
+		                          <label class="form-control-label" for="desnumber">Número</label>
+		                          <input type="text" class="form-control" id="desnumber" name="desnumber">
+		                        </div>
+		                      </div>
+		                      <div class="row">
+		                        <div class="form-group col-xs-12 col-md-3">
+		                          <label class="form-control-label" for="descomplement">Complemento</label>
+		                          <input type="text" class="form-control" id="descomplement" name="descomplement">
+		                        </div>
+		                        <div class="form-group col-xs-12 col-md-4">
+		                          <label class="form-control-label" for="desdistrict">Bairro</label>
+		                          <input type="text" class="form-control" id="desdistrict" name="desdistrict">
+		                        </div>
+		                        <div class="form-group col-xs-12 col-md-5">          
+		                            <label class="form-control-label" for="descity">Cidade</label>
+		                            <input type="text" class="form-control" id="descity" name="descity">
+		                            <input type="hidden" name="desuf">
+		                        </div>
+		                        <div class="input-group">
+		                          <span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom;">
+		                            <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+		                          </span>
+		                        </div>
+		                      </div>
+		                    
+		                  </form>
+
+		                </div>
+		                  
+		              </div>
+
+		            </div>
+
+					<div class="tab-pane" id="tab-place-files" role="tabpanel">
+
+						<div class="panel">
+                			<div class="panel-heading">
+                				<div class="m-10 btn-group btn-group-flat">
+									<button id="btn-place-files-upload" type="button" class="btn btn-icon btn-success waves-effect"><i class="icon md-upload" aria-hidden="true"></i> Adicionar</button>
+									<button id="btn-place-files-remove" type="button" class="btn btn-icon btn-danger waves-effect m-l-15" disabled="disabled"><i class="icon md-delete" aria-hidden="true"></i> Excluir</button>
+								</div>
+							</div>
+							<div class="panel-body p-b-0">
+								<ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5" data-plugin="animateList" data-child=">li"></ul>
+							</div>
+							<div class="panel-footer">
+								<div id="pagination-files"></div>
+							</div>
+						</div>
+		            
+						<!-- <div  class="media-list is-grid" data-plugin="animateList" data-animate="fade" data-child="li">
+			              <ul class="blocks blocks-100 blocks-xxl-5 blocks-xl-5 blocks-lg-5 blocks-md-4 blocks-sm-5"
+			              data-plugin="animateList" data-child=">li"> 
+			              </ul>
+			            </div> -->
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+{noparse}
+<script id="tpl-place-home-card" type="text/x-handlebars-template">
+<div class="card-header bg-white p-30 clearfix">
+  <div class="pull-xs-left">
+    <div class="font-size-20 m-b-15">{{desplace}}</div>
+    {{#if desaddress}}
+    <p class="m-b-5 text-nowrap"><i class="icon md-pin m-r-10" aria-hidden="true"></i>
+      <span class="text-break">{{desaddress}}</span>
+    </p>
+    {{/if}}
+  </div>
+</div>
+</script>
+{/noparse}
+
+<script id="tpl-place-schedule" type="text/x-handlebars-template">
+	<tr data-nrday="{{nrweekday}}">
+		<td><input type="checkbox"></td>
+		<td>{{desweekday}}</td>
+		<td><input type="time" name="hropen" class="form-control" value="{{hropen}}" disabled="disabled"></td>
+		<td><input type="time" name="hrclose" class="form-control" value="{{hrclose}}" disabled="disabled"></td>
+		<td><button type="button" class="btn btn-default" disabled="disabled">Padrão</button></td>
+	</tr>
+</script>
+
+<script id="tpl-place-addresses" type="text/x-handlebars-template">
+  <tr>
+    <td>
+      <p>{{desaddress}}, {{desnumber}} - {{descity}} - {{descep}}</p>
+      <p><small>{{desaddresstype}}</small></p>
+    </td>
+    <td>
+      <button class="btn btn-danger pull-xs-right waves-effect icon md-delete"></button>
+      <button class="btn-address-edit m-l-10 btn btn-primary pull-xs-right waves-effect icon md-edit"></button>
+    </td>
+  </tr>
+</script>
+
+<script id="tpl-place-address" type="text/x-handlebars-template">
+  <div class="panel">
+
+    <div class="panel-body panel-primary panel-line p-b-0 m-0">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-5">
+            <h3 class="panel-title p-l-0"><select name="idaddresstype" class="form-control"></select></h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-3">
+          <input type="hidden" name="idaddress" value="{{idaddress}}">
+          <label class="form-control-label" for="descep">CEP</label>
+          <input type="text" class="form-control" id="descep" name="descep" value="{{descep}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-6">
+          <label class="form-control-label" for="desaddress">Endereço</label>
+          <input type="text" class="form-control" id="desaddress" name="desaddress" value="{{desaddress}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-3">
+          <label class="form-control-label" for="desnumber">Número</label>
+          <input type="text" class="form-control" id="desnumber" name="desnumber" value="{{desnumber}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-12 col-md-3">
+          <label class="form-control-label" for="descomplement">Complemento</label>
+          <input type="text" class="form-control" id="descomplement" name="descomplement" value="{{descomplement}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-4">
+          <label class="form-control-label" for="desdistrict">Bairro</label>
+          <input type="text" class="form-control" id="desdistrict" name="desdistrict" value="{{desdistrict}}">
+        </div>
+        <div class="form-group col-xs-12 col-md-5">          
+            <label class="form-control-label" for="descity">Cidade</label>
+            <input type="text" class="form-control" id="descity" name="descity" value="{{descity}}">
+            <input type="hidden" name="desuf">            
+        </div>
+        <div class="input-group">
+          <span class="input-group-btn pull-xs-right m-r-60" style="vertical-align:bottom;">
+            <button type="button" class="btn btn-danger btn-outline input-search-close icon md-delete" style="padding:10px"></button>
+            <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl-place-files" type="text/x-handlebars-template">
+<li class="animation-scale-up masonry-item" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+  <div class="media-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" data-idfile="{{idfile}}" id="media_1" />
+      <label for="media_1"></label>
+    </div>
+    <div class="image-wrap">
+      <img class="image img-rounded" src="{{desthumb}}" alt="{{desalias}}">
+    </div>
+    <div class="info-wrap">
+      <div class="title">{{desalias}}</div>
+    </div>
+  </div>
+</li>
+</script>
+
+<script>
+
+var placePanel = (function(data, selectorContainer, opts){
+
+  var t = this;
+
+  var defaults = {
+    debug:false
+  };
+
+  var o = $.extend({}, defaults, opts);
+
+  t.$el = $(selectorContainer);
+  t.id = 0;
+
+  t.setData = function(place){
+
+    t.data = place;
+    t.$el.trigger('place-change');
+
+  };
+
+  t.getData = function(){
+
+    return t.data;
+
+  };
+
+  t.getTpl = function(id){
+
+    return Handlebars.compile($("#"+id).html());
+
+  };
+
+  t.setCard = function(){
+
+    var tpl = t.getTpl('tpl-place-home-card');
+    var $render = $(tpl(t.getData()));
+
+    t.$el.find('#tab-place').find('.card').html($render);
+
+  };
+
+  t.formatCep = function(cep){
+
+  	return cep.substring(0, 5)+"-"+cep.substring(5);
+
+  }
+
+  t.$el.on('place-change', function(){
+
+    var place = t.getData();
+
+    place.descep = t.formatCep(place.descep);
+
+    t.$el.find('#form-place-edit').formLoad(place);
+    t.$el.find('#form-addresses').formLoad(place);
+    t.setCard(t.getData());
+
+  });
+  
+  t.setData(place);
+
+  t.getIdplace = function(){
+
+    return t.getData().idplace;
+
+  };
+
+  t.deletePlace = function(){
+
+    System.confirm("Deseja realmente excluir o cadastro de "+data.desplace+"?", function(r, s, f){
+
+      if (r) {
+
+        rest({
+          url:PATH+"/places/"+t.getIdplace(),
+          method:"DELETE",
+          success:function(){
+            s();
+            data = {};
+            $(".slidePanel-close").trigger("click");
+            $("#form-filtros [type=submit]").trigger("click");
+          },
+          failure:function(e){
+            System.showError(e);
+            f(e.error);
+          }
+        });
+
+      } else {
+
+        f();
+
+      }
+
+    });
+
+  };
+
+  t.setTabActive = function(id){
+
+    $('#place-tabs .tab-content .tab-pane').removeClass('active');
+    $('#place-tabs .tab-content .tab-pane#'+id).addClass('active');
+    $('#place-tabs [role="tab"]').removeClass('active');
+    $('#place-tabs [role="tab"][href="#'+id+'"]').addClass('active');
+
+  };
+
+  t.initFieldCity = function(){
+
+    t.$el.find('[name=descity]').combobox({
+      url:PATH+"/addresses/cities",
+      autoComplete:true,
+      displayField:'descity',
+      displayFieldRight:'desuf',
+      valueField:'idcity',
+      submitValue:true,
+      hiddenName:'idcity'
+    });
+
+  };
+
+  t.initFieldClassEmpty = function(){
+
+    t.$el.find('input').on('change', function(){
+      if ($(this).val().length) {
+        $(this).removeClass('empty');
+      } else {
+        $(this).addClass('empty');
+      }
+    });
+
+  };
+
+  t.initFieldCEP = function(){
+
+    t.$el.find('[name=descep]').formValueCheck({
+      url:PATH+"/addresses/cep",
+      success:function(r){
+      	console.log(r);
+        t.$el.find('#form-addresses').formLoad(r);
+        t.$el.find('#form-addresses').find('[name=descity]').trigger('change');
+        t.$el.find('#form-addresses').find('[name=desnumber]').trigger('focus');
+      }
+    });
+
+  };
+
+  t.initFieldsTypes = function(){
+
+    t.$el.find("[name=idplacetype]").combobox({
+      url:PATH+"/places-types",
+      displayField:"desplacetype",
+      valueField:"idplacetype",
+      value:t.getData().idplacetype
+    });
+
+    t.$el.find("[name=idaddresstype]").combobox({
+      url:PATH+"/addressestypes",
+      displayField:"desaddresstype",
+      valueField:"idaddresstype",
+      value:t.getData().idaddresstype
+    });
+
+  };
+
+  t.initFormPlaceEdit = function(){
+
+    t.$el.find('#form-place-edit').form({
+      url:PATH+"/places",
+      params:{
+      	idplace:t.getData().idplace,
+      	idaddress:t.getData().idaddress
+      },
+      resetForm:false,
+      success:function(r){
+
+        t.setData(r.data);
+        System.success('Dados salvos com sucesso!');
+        t.refreshList();
+
+      }
+    });
+
+  };
+
+  t.reload = function(callback){
+
+    rest({
+      url:PATH+"/places/"+t.getIdplace(),
+      success:function(r){
+
+        t.setData(r.data);
+        if (typeof callback === 'function') callback();
+
+      },
+      failure:function(e){
+
+        System.showError(e);
+
+      }
+    });
+
+  };
+
+  t.refreshList = function(){
+
+  	$("#form-filtros [type=submit]").trigger("click");
+
+  };
+
+  t.initMap = function(){
+
+  	var position = {
+		lat: -8.361126490598373,
+		lng: -55.705590349999966
+	}
+
+	var zoom = 3;
+
+	if(parseFloat(t.getData().vllatitude) != 0 && parseFloat(t.getData().vllongitude) != 0){
+		position.lat = t.getData().vllatitude;
+		position.lng = t.getData().vllongitude;
+		zoom = t.getData().nrzoom;
+	}
+
+	var map = new google.maps.Map(document.getElementById("map"), {
+		center:{lat: position.lat, lng: position.lng},
+		zoom:zoom
+	});
+
+	var marker = new google.maps.Marker({
+		position:position,
+		map:map,
+		draggable:true
+	});
+
+	marker.setMap(map);
+
+	t.$el.find("#tab-place-map [name=vllatitude]").val(position.lat);
+	t.$el.find("#tab-place-map [name=vllongitude]").val(position.lng);
+	t.$el.find("#tab-place-map [name=nrzoom]").val(zoom);
+
+	function setForm(){
+		t.$el.find("#tab-place-map [name=vllatitude]").val(marker.getPosition().lat());
+		t.$el.find("#tab-place-map [name=vllongitude]").val(marker.getPosition().lng());
+		t.$el.find("#tab-place-map [name=nrzoom]").val(map.getZoom());
+	}
+
+	google.maps.event.addListener(marker, 'dragend', function(){
+		setForm();
+	});
+
+	google.maps.event.addListener(map, "rightclick", function(e){
+    	marker.setPosition(e.latLng);
+    	setForm();
+	});
+
+  };
+
+  var isSchedulesLogged = 0;
+
+  t.initSchedules = function(){
+
+  	if(isSchedulesLogged == 0){
+
+		var $panel = System.getPanelApi(t.$el.find("#tab-place-schedules"));
+
+		var $tbody = t.$el.find("#tab-place-schedules").find("table tbody");
+
+		$panel.load();
+
+		$tbody.html('');
+
+		var tplSchedules = t.getTpl("tpl-place-schedule");
+
+		$.each(t.getData().Schedules, function(index, row){
+
+			var $tr = $(tplSchedules(row))
+
+			$tbody.append($tr);
+
+			$tr.find("input[type=checkbox]").on("change", function(){
+
+				var disabled = !$(this).prop('checked');
+
+				$tr.find('input:not(:checkbox)').attr('disabled', disabled);
+	        	$tr.find('button').attr('disabled', disabled);
+
+	        	if(disabled){
+	        		$tr.find("input:not(:checkbox)").val("");
+	        	}
+
+			});
+
+			$tr.find(".btn-default").on("click", function(){
+
+				var hropen = $tr.find("[name=hropen]").val();
+				var hrclose = $tr.find("[name=hrclose]").val();
+
+				t.$el.find("#tab-place-schedules tbody tr [name=hropen]:enabled").val(hropen);
+				t.$el.find("#tab-place-schedules tbody tr [name=hrclose]:enabled").val(hrclose);
+
+			});
+
+		});
+
+		$panel.done();
+
+		t.$el.find('#schedulesAll').on('change', function() {
+
+	        t.$el.find('#tab-place-schedules tbody :checkbox').prop('checked', $(this).prop('checked')).trigger('change');
+
+	    });
+
+		t.$el.find("#tab-place-schedules .btn-salvar-Schedules").on("click", function(){
+
+			var $btn = $(this);
+
+			$btn.btnload("load");
+
+			var nrday = [];
+			var hropen = [];
+			var hrclose = [];
+
+			t.$el.find("#tab-place-schedules tbody tr").each(function(){
+
+				if($(this).find(":checkbox").prop("checked") || $(this).find("[type='time']").val() != '00:00:00'){
+
+					nrday.push($(this).data("nrday"));
+					hropen.push($(this).find("[name=hropen]").val());
+					hrclose.push($(this).find("[name=hrclose]").val());
+
+				}
+
+			});
+
+			rest({
+				url:PATH+"/places-schedules",
+				method:"POST",
+				data:{
+					ids:place.idplace.toString(),
+					nrday:nrday.toString(),
+					hropen:hropen.toString(),
+					hrclose:hrclose.toString()
+				},
+				success:function(){
+					$btn.btnload("unload");
+					isSchedulesLogged = 1;
+				},
+				failure:function(r){				
+					System.showError(r);
+					$btn.btnload("unload");
+				}
+			});
+
+		});
+
+	}
+
+  };
+
+  t.saveAddress = function($row, callback = function(){}){
+
+    rest({
+      url:PATH+"/places",
+      method:"POST",
+      data:{
+        idplace:t.getIdplace(),
+        idplacetype:t.getData().idplacetype,
+        idaddress:$row.find("[name=idaddress]").val(),
+        idaddresstype:$row.find("[name=idaddresstype]").val(),
+        desaddress:$row.find("[name=desaddress]").val(),
+        descep:$row.find("[name=descep]").val(),
+        desnumber:$row.find("[name=desnumber]").val(),
+        descomplement:$row.find("[name=descomplement]").val(),
+        desdistrict:$row.find("[name=desdistrict]").val(),
+        descity:$row.find("[name=descity]").val(),
+        desuf:$row.find("[name=desuf]").val()
+      },
+      success:function(){
+        if(typeof callback == 'function') callback();
+      },
+      failure:function(r){
+        System.showError(r);
+        
+      }
+    });
+
+  }
+
+  t.renderAddress = function(data){
+
+    var tplAddress = t.getTpl("tpl-place-address");
+
+    var $panel = System.getPanelApi(t.$el.find("#tab-address-edit"));
+
+    $panel.load();
+
+    var $form = t.$el.find("#tab-address-edit form#form-addresses");
+
+    $form.html('');
+
+    data.descep = t.formatCep(data.descep);
+
+    var $row = $(tplAddress(data));
+
+    $form.append($row);
+
+    $panel.done();
+
+    $row.find("[name=idaddresstype]").combobox({
+      url:PATH+"/addressestypes",
+      displayField:"desaddresstype",
+      valueField:"idaddresstype",
+      value:data.idaddresstype
+    }).on("change", function(){
+      t.saveAddress($row);            
+    });
+
+    $row.find('[name=descity]').combobox({
+      url:PATH+"/addresses/cities",
+      autoComplete:true,
+      displayField:'descity',
+      displayFieldRight:'desuf',
+      valueField:'idcity',
+      submitValue:true,
+      hiddenName:'idcity'
+    });
+
+    $row.find("[name=descity]").trigger("change");
+
+    $row.find('[name=descep]').formValueCheck({
+      url:PATH+"/addresses/cep",
+      success:function(r){
+
+        $.each(r, function(chave, value){
+          
+          $.each(data, function(index, valor){
+            
+            if(chave == index){
+              data[index] = value;
+              $row.find("[name="+index+"]").val(value);
+            }
+
+          });
+
+        });
+
+        $row.find("[name=desuf]").val(r.desuf);
+        $row.find("[name=descity]").trigger("change");
+        $row.find("[name=desnumber]").trigger("focus");
+
+      }
+    });
+
+    $row.find(".btn-success").on("click", function(){
+
+      	var $btn = $(this);
+
+      	$btn.btnload("load");
+
+      	t.saveAddress($row, function(){
+      		t.setTabActive('tab-place-addresses');
+      	});
+
+      	$btn.btnload("unload");
+
+    });
+
+    $row.find(".btn-danger").on("click", function(){
+
+      var $btn = $(this);
+
+      $btn.btnload("load");
+
+      rest({
+        url:PATH+"/admin/addresses/"+row.idaddress,
+        method:"DELETE",
+        success:function(){
+          $btn.btnload("unload");
+          $row.remove();
+        },
+        failure:function(r){
+          $btn.btnload("unload");
+          System.showError(r);
+        }
+      });
+
+    });
+
+  };
+
+  t.initAddresses = function(){
+
+    var $panel = System.getPanelApi(t.$el.find("#tab-place-addresses"));
+
+    var tplAddressesAll = t.getTpl("tpl-place-addresses");
+
+    var $tbody = t.$el.find("#tab-place-addresses table tbody");
+    var $form = t.$el.find("#form-addresses");
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/places/"+t.getIdplace()+"/addresses",
+      success:function(r){
+
+        $tbody.html('');
+
+        $.each(r.data, function(index, row){
+
+          row.descep = t.formatCep(row.descep);
+
+          var $tr = $(tplAddressesAll(row));
+
+          $tbody.append($tr);
+
+          $tr.find(".btn-address-edit").on("click", function(){
+
+            t.setTabActive('tab-address-edit');
+
+            rest({
+              url:PATH+"/addresses/"+row.idaddress,
+              success:function(r){
+                t.renderAddress(r.data);
+              },
+              failure:function(r){
+                System.showError(r);
+              }
+            });            
+
+          });
+
+          $tr.find(".btn-danger").on("click", function(){
+
+            var $btn = $(this);
+
+            $btn.btnload("load");
+
+            rest({
+              url:PATH+"/admin/addresses/"+row.idaddress,
+              method:"DELETE",
+              success:function(){
+                $btn.btnload("unload");
+                $tr.remove();
+              },
+              failure:function(r){
+                $btn.btnload("unload");
+                System.showError(r);
+              }
+            });
+
+          });
+
+        });        
+
+        $panel.done();
+
+        $("#tab-place-addresses .btn-group .dropdown-item").on("click", function(){
+
+          var idaddresstype = $(this).data("idaddresstype");
+
+          t.setTabActive('tab-place-address-add');
+
+          var $formAdd = t.$el.find("#address-add form");
+
+          $formAdd.find("[name=idaddresstype]").val(idaddresstype);
+
+          $formAdd.find("[name=idaddresstype]").combobox({
+            url:PATH+"/addressestypes",
+            displayField:"desaddresstype",
+            valueField:"idaddresstype"
+          });
+
+          $formAdd.find('[name=descep]').formValueCheck({
+            url:PATH+"/addresses/cep",
+            success:function(r){
+              $formAdd.formLoad(r);
+              $formAdd.find("[name=descity]").trigger("change");
+              $formAdd.find("[name=desnumber]").trigger("focus");
+            }
+          });
+
+          $formAdd.find(".btn-success").on("click", function(){
+
+            var $btn = $(this);
+
+            $btn.btnload("load");
+
+            t.saveAddress($formAdd, function(){
+              t.initAddresses();
+              t.setTabActive('tab-place-addresses');
+              $formAdd.find("input").val('');
+            });
+
+            $btn.btnload("unload");
+
+          });
+
+        });        
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  };
+
+  t.initFiles = function(page){
+
+  	if(!page) page = 1;
+
+  	var $panel = System.getPanelApi(t.$el.find("#tab-place-files"));
+
+  	var tplfiles = t.getTpl('tpl-place-files');
+  	var $ul = t.$el.find("#tab-place-files ul");
+
+  	var data = {
+  		pagina:page
+  	};
+
+  	data.limit = Math.floor((window.innerHeight-373)/116);
+  	data.limit *= Math.floor(t.$el.find('#tab-place-files').find('.blocks').width()/123);
+  	data.limit = (data.limit<5)?5:data.limit;
+
+  	$panel.load();
+
+  	rest({
+  		url:PATH+"/places/"+t.getIdplace()+"/files",
+  		data:data,
+  		success:function(r){
+
+  			$ul.html('');
+
+  			$.each(r.data, function(index, row){
+
+  				var $li = $(tplfiles(row));
+
+  				$ul.append($li);
+
+  				$li.find("[type=checkbox]").on("change", function(){  					
+
+  					var checked = $("#tab-place-files .panel-body [type=checkbox]:checked");
+
+  					var disabled = (checked.length > 0) ? false : true;
+
+  					$("#btn-place-files-remove").prop("disabled", disabled);
+
+  				});
+
+  			});
+
+  			if(r.total > 0){
+
+  				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+  					skin:'pagination-gap',
+  					currentPage:r.currentPage,
+  					itemsPerPage:r.itemsPerPage,
+  					onChange:function(page){
+  						t.initFiles(page);
+  					}
+  				});
+
+  				$("#pagination-files").show().asPaginator(r.total, config)
+
+  			}else{
+  				$("#pagination-files").hide();
+  			}
+
+  			$panel.done();
+
+  			$("#btn-place-files-remove").on("click", function(){
+
+				var $btn = $(this);
+
+				$btn.btnload("load");
+
+				var ids = [];
+
+				$("#tab-place-files .panel-body [type=checkbox]:checked").each(function(){
+					ids.push($(this).data("idfile"));
+				});
+
+				console.log(ids);
+
+				rest({
+					url:PATH+"/files",
+					data:{
+						ids:ids.toString()
+					},
+					method:"DELETE",
+					success:function(){
+						$btn.btnload("unload");
+						t.initFiles();
+					},
+					failure:function(r){
+						$btn.btnload("unload");
+						System.showError(r);
+					}
+				});
+
+			});
+
+  		},
+  		failure:function(r){
+  			$panel.done();
+  			System.showError(r);
+  		}
+  	});
+
+  };
+
+  t.addfile = function(){
+  	$.upload({
+      multiple:true,
+      url:PATH+"/places/"+t.getIdplace()+"/files",
+      accept:"*",
+      modalInfo:true,
+      success:function(r){
+        console.log('upload', r);
+        t.initFiles();
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+  };
+
+  t.initTabs = function(){
+
+	var tabs = new Tab({
+		id:"tabs-place",
+		items:[{
+			title:"Dados",
+			id:"tab-place"
+		},{
+			title:"Mapa",
+			id:"tab-place-map"
+		},{
+			title:"Horários",
+			id:"tab-place-schedules"
+		},{
+			title:"Endereços",
+			id:"tab-place-addresses"
+		},{
+			title:"Fotos",
+			id:"tab-place-files"
+		}],
+		listeners:{
+			tabchange:function(object, event){
+
+				switch(event.tabContent.id){
+
+					case "tab-place-schedules":
+					t.initSchedules();
+					break;
+
+					case "tab-place-map":
+					t.initMap();
+					break;
+
+					case "tab-place-addresses":
+					t.initAddresses();
+					break;
+
+					case "tab-place-files":
+					t.initFiles();
+					break;
+
+				}
+
+			}
+		}
+	})
+
+  };
+
+  t.init = function(){
+
+    t.initFieldCity();
+    t.initFieldClassEmpty();
+    t.initFieldCEP();
+    t.initFieldsTypes();
+    t.initFormPlaceEdit();    
+    t.initTabs();
+
+    t.$el.find("[name=descity]").trigger("change");
+
+    t.$el.on('click', '#btn-actions-refresh', function(){
+
+      var $btn = $(this);
+
+      $btn.btnload('load');
+
+      t.reload(function(){
+
+        $btn.btnload('unload');
+
+      });
+
+    });
+
+    t.$el.on('click', '#btn-actions-close', function(){
+
+      t.setTabActive('tab-place');
+      
+    });
+
+    t.$el.on('click',  "#btn-actions-address-close", function(){
+
+      t.setTabActive('tab-place-addresses');
+
+    });
+
+    t.$el.on('click', "#btn-place-files-upload", function(){
+
+    	t.addfile();
+
+    });
+
+    t.$el.on('click', "#btn-actions-address-add-close", function(){
+
+      t.setTabActive('tab-place-addresses');
+
+    });
+
+    t.$el.on('click', '#btn-place-edit', function(){
+
+      t.setTabActive('tab-place-edit');
+
+    });
+
+    t.$el.on('click', '#btn-delete-place', function(){
+
+      t.deletePlace();
+
+    });
+
+    t.$el.on('click', '#place-photo', function(){
+
+      t.uploadPhoto();
+
+    });
+
+    t.$el.on("click", "#tab-place-map .btn-salvar", function(){
+
+		var $btn = $(this);
+
+		$btn.btnload("load");
+
+		rest({
+			url:PATH+"/places/"+place.idplace+"/coordinates",
+			method:"POST",
+			data:{
+				idcoordinate:place.idcoordinate,
+				vllatitude:t.$el.find("#tab-place-map [name=vllatitude]").val(),
+				vllongitude:t.$el.find("#tab-place-map [name=vllongitude]").val(),
+				nrzoom:t.$el.find("#tab-place-map [name=nrzoom]").val()
+			},
+			success:function(){
+				$btn.btnload("unload");
+			},
+			failure:function(r){
+				$btn.btnload("unload");
+				System.showError(r);
+			}
+		})
+
+	});
+
+  };
+
+  t.init();
+
+});
+
+var place = JSON.parse('{function="json_encode($place)"}');
+var placePanel = new placePanel(place, '#place-panel');
+
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={$mapKey}&callback=initMap">
+</script>

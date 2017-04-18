@@ -5,14 +5,14 @@ define("PATH_TRIGGER", PATH."/res/sql/triggers/");
 define("PATH_FUNCTION", PATH."/res/sql/functions/");
 
 function saveProcedures($procs = array(), $src = PATH_PROC){
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	foreach ($procs as $name) {
 		$sql->exec("DROP PROCEDURE IF EXISTS {$name};");
 		$sql->queryFromFile($src."{$name}.sql");
 	}
 }
 function saveTriggers($triggers = array(), $pathTrigger = PATH_TRIGGER){
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	foreach ($triggers as $name) {
 		$sql->exec("DROP TRIGGER IF EXISTS {$name};");
 		$sql->queryFromFile($pathTrigger."{$name}.sql");
@@ -23,11 +23,11 @@ $app->get("/install", function(){
 	unsetLocalCookie(COOKIE_KEY);
 	if (isset($_SESSION)) unset($_SESSION);
 	session_destroy();
-	$page = new Page(array(
+	$page = new Hcode\Site\Page(array(
 		'header'=>false,
 		'footer'=>false
 	));
-	$page->setTpl("install/index");
+	$page->setTpl("install\index");
 
 });
 $app->get("/install-admin/uploads/clear", function(){
@@ -49,7 +49,7 @@ $app->get("/install-admin/sql/clear", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	
 	$procs = $sql->arrays("SHOW PROCEDURE STATUS WHERE Db = ?", array(
 		DB_NAME
@@ -89,7 +89,7 @@ $app->get("/install-admin/sql/persons/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_personstypes (
 		  idpersontype int(11) NOT NULL AUTO_INCREMENT,
@@ -111,7 +111,7 @@ $app->get("/install-admin/sql/persons/tables", function(){
 		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	$sql->exec("
-		CREATE TABLE tb_logstypes (
+		CREATE TABLE tb_personslogstypes (
 			idlogtype int(11) NOT NULL AUTO_INCREMENT,
 			deslogtype varchar(32) NOT NULL,
 			dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -128,7 +128,7 @@ $app->get("/install-admin/sql/persons/tables", function(){
 			PRIMARY KEY (idpersonlog),
 			KEY fk_personslogs_logstypes (idlogtype),
 			KEY fk_personslogs_persons_idx (idperson),
-			CONSTRAINT fk_personslogs_logstypes FOREIGN KEY (idlogtype) REFERENCES tb_logstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION,
+			CONSTRAINT fk_personslogs_personslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_personslogstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION,
 			CONSTRAINT fk_personslogs_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -231,47 +231,47 @@ $app->get("/install-admin/sql/persons/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$personTypeF = new PersonType(array(
+	$personTypeF = new Hcode\Person\Type(array(
 		'despersontype'=>$lang->getString("persons_fisica")
 	));
 	$personTypeF->save();
 
-	$personTypeJ = new PersonType(array(
+	$personTypeJ = new Hcode\Person\Type(array(
 		'despersontype'=>$lang->getString("persons_juridica")
 	));
 	$personTypeJ->save();
 	
-	$person = new Person(array(
+	$person = new Hcode\Person\Person(array(
 		'desperson'=>$lang->getString("persons_nome"),
-		'idpersontype'=>PersonType::FISICA
+		'idpersontype'=>Hcode\Person\Type::FISICA
 	));
 	$person->save();
 
-	$nascimento = new PersonValueField(array(
+	$nascimento = new Hcode\Person\Value\Field(array(
 		'desfield'=>$lang->getString('data_nascimento')
 	));
 	$nascimento->save();
-	$sexo = new PersonValueField(array(
+	$sexo = new Hcode\Person\Value\Field(array(
 		'desfield'=>$lang->getString('sexo')
 	));
 	$sexo->save();
-	$foto = new PersonValueField(array(
+	$foto = new Hcode\Person\Value\Field(array(
 		'desfield'=>$lang->getString('foto')
 	));
 	$foto->save();
-	$cliente = new PersonCategoryType(array(
+	$cliente = new Hcode\Person\Category\Type(array(
 		'idcategory'=>0,
 		'descategory'=>$lang->getString('person_cliente')
 	));
 	$cliente->save();
-	$fornecedor = new PersonCategoryType(array(
+	$fornecedor = new Hcode\Person\Category\Type(array(
 		'idcategory'=>0,
 		'descategory'=>$lang->getString('person_fornecedor')
 	));
 	$fornecedor->save();
-	$colaborador = new PersonCategoryType(array(
+	$colaborador = new Hcode\Person\Category\Type(array(
 		'idcategory'=>0,
 		'descategory'=>$lang->getString('person_colaborador')
 	));
@@ -284,7 +284,7 @@ $app->get("/install-admin/sql/persons/get", function(){
 	ini_set('max_execution_time', 0);
 	$procs = array(
 		"sp_persons_get",
-		"sp_logstypes_get",
+		"sp_personslogstypes_get",
 		"sp_personslogs_get",
 		"sp_personsvalues_get",
 		"sp_personsvaluesfields_get",
@@ -301,7 +301,7 @@ $app->get("/install-admin/sql/persons/list", function(){
 	$procs = array(
 		"sp_persons_list",
 		"sp_personstypes_list",
-        "sp_logstypes_list",
+        "sp_personslogstypes_list",
         "sp_personsvalues_list",
         "sp_personsvaluesfields_list",
         "sp_personscategoriestypes_list"
@@ -315,7 +315,7 @@ $app->get("/install-admin/sql/persons/save", function(){
 	$names = array(
 		"sp_personsdata_save",
 		"sp_persons_save",
-		"sp_logstypes_save",
+		"sp_personslogstypes_save",
 		"sp_personsvalues_save",
 		"sp_personsvaluesfields_save",
 		"sp_personstypes_save",
@@ -334,7 +334,7 @@ $app->get("/install-admin/sql/persons/remove", function(){
 	$names = array(
 		"sp_personsdata_remove",
 		"sp_persons_remove",
-		"sp_logstypes_remove",
+		"sp_personslogstypes_remove",
 		"sp_personsvalues_remove",
 		"sp_personsvaluesfields_remove",
 		"sp_personstypes_remove",
@@ -348,7 +348,7 @@ $app->get("/install-admin/sql/persons/remove", function(){
 $app->get("/install-admin/sql/products/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_productstypes(
 			idproducttype INT NOT NULL AUTO_INCREMENT,
@@ -403,14 +403,14 @@ $app->get("/install-admin/sql/products/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$courseUdemy = new ProductType(array(
+	$courseUdemy = new Hcode\Shop\Product\Type(array(
 		'desproducttype'=>$lang->getString('products_course')
 	));
 	$courseUdemy->save();
 
-	$camiseta = new ProductType(array(
+	$camiseta = new Hcode\Shop\Product\Type(array(
 		'desproducttype'=>$lang->getString('products_shirt')
 	));
 	$camiseta->save();
@@ -473,7 +473,7 @@ $app->get("/install-admin/sql/products/remove", function(){
 $app->get("/install-admin/sql/users/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_userstypes (
 		  idusertype int(11) NOT NULL AUTO_INCREMENT,
@@ -519,7 +519,7 @@ $app->get("/install-admin/sql/users/tables", function(){
   			KEY fk_userslogs_users_idx (iduser),
   			KEY fk_userslogs_userslogstypes_idx (idlogtype),
  			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_logstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION
+  			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_personslogstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();
@@ -539,10 +539,10 @@ $app->get("/install-admin/sql/users/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-    $lang = new Language();
+    $lang = new Hcode\Locale\Language();
 
-	$sql = new Sql();
-	$hash = User::getPasswordHash($lang->getString('users_root'));
+	$sql = new Hcode\Sql();
+	$hash = Hcode\System\User::getPasswordHash($lang->getString('users_root'));
 
 	$sql->proc("sp_userstypes_save", array(
 		0,
@@ -618,7 +618,7 @@ $app->get("/install-admin/sql/users/list", function(){
 $app->get("/install-admin/sql/menus/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_menus (
 		  idmenu int(11) NOT NULL AUTO_INCREMENT,
@@ -663,9 +663,9 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$menuHome = new SiteMenu(array(
+	$menuHome = new Hcode\Site\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>NULL,
 		'desicon'=>'',
@@ -674,7 +674,7 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 	));
 	$menuHome->save();
 
-	$menuContato = new SiteMenu(array(
+	$menuContato = new Hcode\Site\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>NULL,
 		'desicon'=>'',
@@ -683,7 +683,7 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 	));
 	$menuContato->save();
 
-	$menuBlog = new SiteMenu(array(
+	$menuBlog = new Hcode\Site\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>NULL,
 		'desicon'=>'',
@@ -700,7 +700,7 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 $app->get("/install-admin/sql/transactionstypes/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->exec("
 	CREATE TABLE tb_transactionstypes (
@@ -731,7 +731,7 @@ $app->get("/install-admin/sql/transactionstypes/tables", function(){
 $app->get("/install-admin/sql/userslogs/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_userslogstypes (
 			idlogtype int(11) NOT NULL AUTO_INCREMENT,
@@ -809,17 +809,17 @@ $app->get("/install-admin/sql/transactionstypes/inserts", function(){
 	ini_set('max_execution_time', 0);
 	ini_set('memory_limit', 512);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$typeDebito = new TransactionType(array(
+	$typeDebito = new Hcode\Financial\Transaction\Type(array(
 		'destransactiontype'=>$lang->getString("transaction_debito")
 	));
 
 	$typeDebito->save();
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$typeCredito = new TransactionType(array(
+	$typeCredito = new Hcode\Financial\Transaction\Type(array(
 		'destransactiontype'=>$lang->getString("transaction_credito")
 	));
 
@@ -834,7 +834,7 @@ $app->get("/install-admin/sql/userslogs/inserts", function(){
 	ini_set('max_execution_time', 0);
 	ini_set('memory_limit', 512);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_userslogs");
 
@@ -847,10 +847,10 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
 	//////////////////////////////////////
-	$menuDashboard = new Menu(array(
+	$menuDashboard = new Hcode\Admin\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-view-dashboard',
@@ -859,7 +859,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuDashboard->save();
 	//////////////////////////////////////
-	$menuSystem = new Menu(array(
+	$menuSystem = new Hcode\Admin\Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-code-setting',
@@ -868,7 +868,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSystem->save();
 	//////////////////////////////////////
-	$menuAdmin = new Menu(array(
+	$menuAdmin = new Hcode\Admin\Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-settings',
@@ -877,7 +877,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuAdmin->save();
 	//////////////////////////////////////
-	$menuPersons = new Menu(array(
+	$menuPersons = new Hcode\Admin\Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-accounts',
@@ -886,7 +886,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPersons->save();
 	//////////////////////////////////////
-	$menuTypes = new Menu(array(
+	$menuTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'md-collection-item',
@@ -895,7 +895,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTypes->save();
 	//////////////////////////////////////
-	$menuMenu = new Menu(array(
+	$menuMenu = new Hcode\Admin\Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -904,7 +904,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuMenu->save();
 	//////////////////////////////////////
-	$menuUsers = new Menu(array(
+	$menuUsers = new Hcode\Admin\Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -913,7 +913,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUsers->save();
 	//////////////////////////////////////
-	$menuConfigs = new Menu(array(
+	$menuConfigs = new Hcode\Admin\Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -922,7 +922,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuConfigs->save();
 	//////////////////////////////////////
-	$menuSqlToClass = new Menu(array(
+	$menuSqlToClass = new Hcode\Admin\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
@@ -931,7 +931,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSqlToClass->save();
 	//////////////////////////////////////
-	$menuTemplate = new Menu(array(
+	$menuTemplate = new Hcode\Admin\Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
@@ -940,7 +940,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTemplate->save();
 	//////////////////////////////////////
-	$menuExemplos = new Menu(array(
+	$menuExemplos = new Hcode\Admin\Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuSystem->getidmenu(),
 		'desicon'=>'',
@@ -949,7 +949,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuExemplos->save();
 	//////////////////////////////////////
-	$menuUpload = new Menu(array(
+	$menuUpload = new Hcode\Admin\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuExemplos->getidmenu(),
 		'desicon'=>'',
@@ -958,7 +958,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUpload->save();
 	//////////////////////////////////////
-	$menuPermissions = new Menu(array(
+	$menuPermissions = new Hcode\Admin\Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuAdmin->getidmenu(),
 		'desicon'=>'',
@@ -967,7 +967,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPermissions->save();
 	//////////////////////////////////////
-	$menuProducts = new Menu(array(
+	$menuProducts = new Hcode\Admin\Menu(array(
 		'nrorder'=>4,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-devices',
@@ -976,7 +976,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuProducts->save();
 	//////////////////////////////////////
-	$menutypesaddresses = new Menu(array(
+	$menutypesaddresses = new Hcode\Admin\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -985,7 +985,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menutypesaddresses->save();
 	//////////////////////////////////////
-	$menuTypesUsers = new Menu(array(
+	$menuTypesUsers = new Hcode\Admin\Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -994,7 +994,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTypesUsers->save();
 	//////////////////////////////////////
-	$menuTypesDocuments = new Menu(array(
+	$menuTypesDocuments = new Hcode\Admin\Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1003,7 +1003,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTypesDocuments->save();
 	//////////////////////////////////////
-	$menuTypesPlaces = new Menu(array(
+	$menuTypesPlaces = new Hcode\Admin\Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1012,7 +1012,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTypesPlaces->save();
 	//////////////////////////////////////
-	$menuTypesCupons = new Menu(array(
+	$menuTypesCupons = new Hcode\Admin\Menu(array(
 		'nrorder'=>4,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1021,7 +1021,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTypesCupons->save();
 	//////////////////////////////////////
-	$menuTypesProducts = new Menu(array(
+	$menuTypesProducts = new Hcode\Admin\Menu(array(
 		'nrorder'=>5,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1030,7 +1030,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTypesProducts->save();
 	//////////////////////////////////////
-	$menuOrdersStatus = new Menu(array(
+	$menuOrdersStatus = new Hcode\Admin\Menu(array(
 		'nrorder'=>6,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1039,7 +1039,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuOrdersStatus->save();
 	//////////////////////////////////////
-	$menuPersonsTypes = new Menu(array(
+	$menuPersonsTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>7,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1048,7 +1048,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPersonsTypes->save();
 	//////////////////////////////////////
-	$menuContactsTypes = new Menu(array(
+	$menuContactsTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>8,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1057,7 +1057,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuContactsTypes->save();
 	//////////////////////////////////////
-	$menuGateways = new Menu(array(
+	$menuGateways = new Hcode\Admin\Menu(array(
 		'nrorder'=>9,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1066,7 +1066,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuGateways->save();
 	//////////////////////////////////////
-	$menuHistoricosTypes = new Menu(array(
+	$menuHistoricosTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>10,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1075,7 +1075,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuHistoricosTypes->save();
 	//////////////////////////////////////
-	$menuFormasOrders = new Menu(array(
+	$menuFormasOrders = new Hcode\Admin\Menu(array(
 		'nrorder'=>11,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1084,7 +1084,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuFormasOrders->save();
 	//////////////////////////////////////
-	$menuPersonsValuesFields = new Menu(array(
+	$menuPersonsValuesFields = new Hcode\Admin\Menu(array(
 		'nrorder'=>11,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1093,7 +1093,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPersonsValuesFields->save();
 	//////////////////////////////////////
-	$menuConfigurationsTypes = new Menu(array(
+	$menuConfigurationsTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>12,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1102,7 +1102,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuConfigurationsTypes->save();
 	//////////////////////////////////////
-	$menuCarouselsItemsTypes = new Menu(array(
+	$menuCarouselsItemsTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>13,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1111,7 +1111,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarouselsItemsTypes->save();
 	//////////////////////////////////////
-	$menuOrdersNegotiationsTypes = new Menu(array(
+	$menuOrdersNegotiationsTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>13,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1120,7 +1120,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuOrdersNegotiationsTypes->save();
 	//////////////////////////////////////
-	$menuOrders = new Menu(array(
+	$menuOrders = new Hcode\Admin\Menu(array(
 		"nrorder"=>5,
 		"idmenufather"=>NULL,
 		"desicon"=>'md-money-box',
@@ -1129,7 +1129,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuOrders->save();
 	//////////////////////////////////////
-	$menuCarts = new Menu(array(
+	$menuCarts = new Hcode\Admin\Menu(array(
 		"nrorder"=>6,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-shopping-cart",
@@ -1138,7 +1138,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarts->save();
 	//////////////////////////////////////
-	$menuPlaces = new Menu(array(
+	$menuPlaces = new Hcode\Admin\Menu(array(
 		"nrorder"=>7,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-city",
@@ -1147,7 +1147,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPlaces->save();
 	//////////////////////////////////////
-	$menuSite = new Menu(array(
+	$menuSite = new Hcode\Admin\Menu(array(
 		"nrorder"=>8,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-view-web",
@@ -1156,7 +1156,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSite->save();
 	//////////////////////////////////////
-	$menuSiteMenu = new Menu(array(
+	$menuSiteMenu = new Hcode\Admin\Menu(array(
 		"nrorder"=>0,
 		"idmenufather"=>$menuSite->getidmenu(),
 		"desicon"=>"",
@@ -1165,7 +1165,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteMenu->save();
 	//////////////////////////////////////
-	$menuCourses = new Menu(array(
+	$menuCourses = new Hcode\Admin\Menu(array(
 		"nrorder"=>9,
 		"idmenufather"=>NULL,
 		"desicon"=>"md-book",
@@ -1174,7 +1174,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCourses->save();
 	//////////////////////////////////////
-	$menuCarousels = new Menu(array(
+	$menuCarousels = new Hcode\Admin\Menu(array(
 		"nrorder"=>1,
 		"idmenufather"=>$menuSite->getidmenu(),
 		"desicon"=>"",
@@ -1183,7 +1183,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCarousels->save();
 	//////////////////////////////////////
-	$menuCountries = new Menu(array(
+	$menuCountries = new Hcode\Admin\Menu(array(
 		"nrorder"=>5,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1192,7 +1192,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCountries->save();
 	//////////////////////////////////////
-	$menuStates = new Menu(array(
+	$menuStates = new Hcode\Admin\Menu(array(
 		"nrorder"=>6,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1201,7 +1201,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuStates->save();
 	//////////////////////////////////////
-	$menuCities = new Menu(array(
+	$menuCities = new Hcode\Admin\Menu(array(
 		"nrorder"=>7,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1210,7 +1210,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCities->save();
 	//////////////////////////////////////
-	$menuCities = new Menu(array(
+	$menuCities = new Hcode\Admin\Menu(array(
 		"nrorder"=>8,
 		"idmenufather"=>$menuAdmin->getidmenu(),
 		"desicon"=>"",
@@ -1219,7 +1219,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuCities->save();
 	//////////////////////////////////////
-	$menuPersonsCategoriesTypes = new Menu(array(
+	$menuPersonsCategoriesTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>14,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1228,7 +1228,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuPersonsCategoriesTypes->save();
 	//////////////////////////////////////
-	$menuUsersLogsTypes = new Menu(array(
+	$menuUsersLogsTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>15,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1237,7 +1237,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUsersLogsTypes->save();
 	//////////////////////////////////////
-	$menuTransactiosTypes = new Menu(array(
+	$menuTransactiosTypes = new Hcode\Admin\Menu(array(
 		'nrorder'=>16,
 		'idmenufather'=>$menuTypes->getidmenu(),
 		'desicon'=>'',
@@ -1246,7 +1246,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuTransactiosTypes->save();
 	//////////////////////////////////////
-	$menuUrls = new Menu(array(
+	$menuUrls = new Hcode\Admin\Menu(array(
 		'nrorder'=>10,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-link',
@@ -1255,7 +1255,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuUrls->save();
 	//////////////////////////////////////
-	$menuSiteBlog = new Menu(array(
+	$menuSiteBlog = new Hcode\Admin\Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuSite->getidmenu(),
 		'desicon'=>'',
@@ -1264,7 +1264,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlog->save();
 	//////////////////////////////////////
-	$menuSiteBlogPrincipal = new Menu(array(
+	$menuSiteBlogPrincipal = new Hcode\Admin\Menu(array(
 		'nrorder'=>0,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
@@ -1273,7 +1273,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogPrincipal->save();
 	//////////////////////////////////////
-	$menuSiteBlogPostNew = new Menu(array(
+	$menuSiteBlogPostNew = new Hcode\Admin\Menu(array(
 		'nrorder'=>1,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
@@ -1282,7 +1282,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogPostNew->save();
 	//////////////////////////////////////
-	$menuSiteBlogCategories = new Menu(array(
+	$menuSiteBlogCategories = new Hcode\Admin\Menu(array(
 		'nrorder'=>2,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
@@ -1291,7 +1291,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogCategories->save();
 	//////////////////////////////////////
-	$menuSiteBlogTags = new Menu(array(
+	$menuSiteBlogTags = new Hcode\Admin\Menu(array(
 		'nrorder'=>3,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
@@ -1300,7 +1300,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogTags->save();
 	//////////////////////////////////////
-	$menuSiteBlogComments = new Menu(array(
+	$menuSiteBlogComments = new Hcode\Admin\Menu(array(
 		'nrorder'=>4,
 		'idmenufather'=>$menuSiteBlog->getidmenu(),
 		'desicon'=>'',
@@ -1309,7 +1309,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteBlogComments->save();
 	//////////////////////////////////////
-	$menuEmail = new Menu(array(
+	$menuEmail = new Hcode\Admin\Menu(array(
 		'nrorder'=>11,
 		'idmenufather'=>NULL,
 		'desicon'=>'md-email',
@@ -1367,7 +1367,7 @@ $app->get("/install-admin/sql/menus/save", function(){
 $app->get("/install-admin/sql/contacts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_contactstypes (
 		  idcontacttype int(11) NOT NULL AUTO_INCREMENT,
@@ -1419,61 +1419,61 @@ $app->get("/install-admin/sql/contacts/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 	
-	$email = new ContactType(array(
+	$email = new Hcode\Contact\Type(array(
 		'descontacttype'=>$lang->getString('contact_type')
 	));
 	$email->save();
 
-	$telefone = new ContactType(array(
+	$telefone = new Hcode\Contact\Type(array(
 		'descontacttype'=>$lang->getString('phone_type')
 	));
 	$telefone->save();
 
-	$telefoneCasa = new ContactSubType(array(
+	$telefoneCasa = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('home_type')
 	));
 	$telefoneCasa->save();
 
-	$telefoneTrabalho = new ContactSubType(array(
+	$telefoneTrabalho = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('work_type')
 	));
 	$telefoneTrabalho->save();
 
-	$telefoneCelular = new ContactSubType(array(
+	$telefoneCelular = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('cell_phone_type')
 	));
 	$telefoneCelular->save();
 
-	$telefoneFax = new ContactSubType(array(
+	$telefoneFax = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('fax_type')
 	));
 	$telefoneFax->save();
 
-	$telefoneOutro = new ContactSubType(array(
+	$telefoneOutro = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$telefone->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('other_type')
 	));
 	$telefoneOutro->save();
 
-	$emailpersonl = new ContactSubType(array(
+	$emailpersonl = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$email->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('personal_type')
 	));
 	$emailpersonl->save();
 
-	$emailTrabalho = new ContactSubType(array(
+	$emailTrabalho = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$email->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('work_type')
 	));
 	$emailTrabalho->save();
 
-	$emailOutro = new ContactSubType(array(
+	$emailOutro = new Hcode\Contact\Subtype(array(
 		'idcontacttype'=>$email->getidcontacttype(),
 		'descontactsubtype'=>$lang->getString('other_type_email')
 	));
@@ -1529,7 +1529,7 @@ $app->get("/install-admin/sql/contacts/remove", function(){
 $app->get("/install-admin/sql/documents/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_documentstypes (
 		  iddocumenttype int(11) NOT NULL AUTO_INCREMENT,
@@ -1566,7 +1566,7 @@ $app->get("/install-admin/sql/documents/triggers", function(){
 $app->get("/install-admin/sql/documents/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->arrays("
 		INSERT INTO tb_documentstypes (desdocumenttype) VALUES
 		(?),
@@ -1622,7 +1622,7 @@ $app->get("/install-admin/sql/documents/remove", function(){
 $app->get("/install-admin/sql/addresses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_countries (
 		  idcountry int(11) NOT NULL AUTO_INCREMENT,
@@ -1698,24 +1698,24 @@ $app->get("/install-admin/sql/addresses/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$residencial = new AddressType(array(
+	$residencial = new Hcode\Address\Type(array(
 		'desaddresstype'=>$lang->getString('address_residencial')
 	));
 	$residencial->save();
 
-	$comercial = new AddressType(array(
+	$comercial = new Hcode\Address\Type(array(
 		'desaddresstype'=>$lang->getString('address_comercial')
 	));
 	$comercial->save();
 
-	$cobranca = new AddressType(array(
+	$cobranca = new Hcode\Address\Type(array(
 		'desaddresstype'=>$lang->getString('address_cobranca')
 	));
 	$cobranca->save();
 
-	$entrega = new AddressType(array(
+	$entrega = new Hcode\Address\Type(array(
 		'desaddresstype'=>$lang->getString('address_entrega')
 	));
 	$entrega->save();
@@ -1728,7 +1728,7 @@ $app->get("/install-admin/sql/addresses/countries/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->arrays("
 		INSERT INTO tb_countries (idcountry, descountry) VALUES (1, 'Brasil');
 	");
@@ -1741,9 +1741,9 @@ $app->get("/install-admin/sql/addresses/states/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->arrays("
 		INSERT INTO tb_states (idstate, desstate, desuf, idcountry) VALUES
@@ -1787,7 +1787,7 @@ $app->post("/install-admin/sql/addresses/cities/inserts", function(){
 
 	$data = json_decode(post('json'), true);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	foreach ($data as $city) {
 		$sql->arrays("
@@ -1809,7 +1809,7 @@ $app->get("/install-admin/sql/addresses/cities/inserts", function(){
 	ini_set('max_execution_time', 0);
 	ini_set('memory_limit', 512);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_cities");
 
@@ -1821,7 +1821,7 @@ $app->get("/install-admin/sql/ordersnegotiationstypes/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_ordersnegotiationstypes");
 
@@ -1884,7 +1884,7 @@ $app->get("/install-admin/sql/addresses/remove", function(){
 $app->get("/install-admin/sql/permissions/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_permissions (
 		  idpermission int(11) NOT NULL AUTO_INCREMENT,
@@ -1920,24 +1920,24 @@ $app->get("/install-admin/sql/permissions/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 	
-	$superUser = new Permission(array(
+	$superUser = new Hcode\Admin\Permission(array(
 		'despermission'=>$lang->getString('permissions_user')
 	));
 	$superUser->save();
 
-	$accessAdmin = new Permission(array(
+	$accessAdmin = new Hcode\Admin\Permission(array(
 		'despermission'=>$lang->getString('permissions_admin')
 	));
 	$accessAdmin->save();
 
-	$accessClient = new Permission(array(
+	$accessClient = new Hcode\Admin\Permission(array(
 		'despermission'=>$lang->getString('permissions_client')
 	));
 	$accessClient->save();
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->arrays("
 		INSERT INTO tb_permissionsmenus (idmenu, idpermission)
@@ -1945,13 +1945,9 @@ $app->get("/install-admin/sql/permissions/inserts", function(){
 	", array());
 
 	$sql->arrays("
-		INSERT INTO tb_permissionsusers (iduser, idpermission) VALUES
-		(?, ?),
-		(?, ?);
-	", array(
-		1, 1,
-		1, 2
-	));
+		INSERT INTO tb_permissionsusers (iduser, idpermission)
+		SELECT iduser, idpermission FROM tb_users CROSS JOIN tb_permissions;
+	", array());
 	echo success();
 });
 $app->get("/install-admin/sql/permissions/get", function(){
@@ -1999,7 +1995,7 @@ $app->get("/install-admin/sql/permissions/remove", function(){
 $app->get("/install-admin/sql/personsdata/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_personsdata (
 		  idperson int(11) NOT NULL,
@@ -2055,7 +2051,7 @@ $app->get("/install-admin/sql/personsdata/tables", function(){
 $app->get("/install-admin/sql/productsdata/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_productsdata(
 			idproduct INT NOT NULL,
@@ -2077,7 +2073,7 @@ $app->get("/install-admin/sql/productsdata/tables", function(){
 $app->get("/install-admin/sql/coupons/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_couponstypes(
 			idcoupontype INT NOT NULL AUTO_INCREMENT,
@@ -2153,9 +2149,9 @@ $app->get("/install-admin/sql/coupons/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->arrays("
 		INSERT INTO tb_couponstypes(descoupontype)
 		VALUES(?), (?);
@@ -2170,7 +2166,7 @@ $app->get("/install-admin/sql/coupons/inserts", function(){
 $app->get("/install-admin/sql/carts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_carts(
 			idcart INT NOT NULL AUTO_INCREMENT,
@@ -2294,7 +2290,7 @@ $app->get("/install-admin/sql/creditcards/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_creditcards(
 			idcard INT NOT NULL AUTO_INCREMENT,
@@ -2363,9 +2359,9 @@ $app->get("/install-admin/sql/gateways/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->arrays("
 		INSERT INTO tb_gateways(desgateway) VALUES(?);
 	", array(
@@ -2425,7 +2421,7 @@ $app->get("/install-admin/sql/gateways/remove", function(){
 $app->get("/install-admin/sql/orders/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_gateways(
 			idgateway INT NOT NULL AUTO_INCREMENT,
@@ -2534,9 +2530,9 @@ $app->get("/install-admin/sql/orders/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->arrays("
 		INSERT INTO tb_formspayments (idgateway, desformpayment, nrparcelsmax, instatus) VALUES
 		(?, ?, ?, ?),
@@ -2680,27 +2676,6 @@ $app->get("/install-admin/sql/orders/remove", function(){
 	echo success();
 	
 });
-/*
-$app->get("/install-admin/sql/formspayments/tables", function(){
-	set_time_limit(0);
-	ini_set('max_execution_time', 0);	
-	$sql = new Sql();
-	$sql->exec("
-			CREATE TABLE tb_formspayments(
-			idformpayment INT NOT NULL AUTO_INCREMENT,
-			idgateway INT NOT NULL,
-			desformpayment VARCHAR(128) NOT NULL,
-			nrparcelsmax INT NOT NULL,
-			instatus BIT(1),
-			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
-			CONSTRAINT PRIMARY KEY(idformpayment),
-			CONSTRAINT FOREIGN KEY(idgateway) REFERENCES tb_gateways(idgateway)
-		) ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
-	");
-
-	echo success();
-});
-*/
 
 $app->get("/install-admin/sql/formspayments/list", function(){
 	set_time_limit(0);
@@ -2713,6 +2688,7 @@ $app->get("/install-admin/sql/formspayments/list", function(){
 	echo success();
 	
 });
+
 $app->get("/install-admin/sql/formspayments/get", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -2754,7 +2730,7 @@ $app->get("/install-admin/sql/formspayments/inserts", function(){
 	ini_set('max_execution_time', 0);
 	ini_set('memory_limit', 512);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	
 	$results = $sql->arrays("SELECT * FROM tb_formspayments");
 
@@ -2817,7 +2793,7 @@ $app->get("/install-admin/sql/sitescontacts/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_sitescontacts(
 			idsitecontact INT NOT NULL AUTO_INCREMENT,
@@ -2885,7 +2861,7 @@ $app->get("/install-admin/sql/places/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_placestypes(
 			idplacetype INT NOT NULL AUTO_INCREMENT,
@@ -3089,35 +3065,35 @@ $app->get("/install-admin/sql/places/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 	
-	$district = new PlaceType(array(
+	$district = new Hcode\Place\Type(array(
 		'desplacetype'=>$lang->getString('placetype_district')
 	));
 	$district->save();
 
-	$city = new PlaceType(array(
+	$city = new Hcode\Place\Type(array(
 		'desplacetype'=>$lang->getString('placetype_city')
 	));
 	$city->save();
 
-	$state = new PlaceType(array(
+	$state = new Hcode\Place\Type(array(
 		'desplacetype'=>$lang->getString('placetype_state')
 	));
 	$state->save();
 
-	$country = new PlaceType(array(
+	$country = new Hcode\Place\Type(array(
 		'desplacetype'=>$lang->getString('placetype_country')
 	));
 	$country->save();
 
-	$companies = new PlaceType(array(
+	$companies = new Hcode\Place\Type(array(
 		'desplacetype'=>$lang->getString('placetype_companies')
 	));
 	$companies->save();
 	
-	$address = new Address(array(
-		'idaddresstype'=>AddressType::COMERCIAL,
+	$address = new Hcode\Address\Address(array(
+		'idaddresstype'=>Hcode\Address\Type::COMERCIAL,
 		'desaddress'=>$lang->getString('placetype_hcode_address'),
 		'desnumber'=>$lang->getString('placetype_hcode_number'),
 		'desdistrict'=>$lang->getString('placetype_hcode_district'),
@@ -3129,7 +3105,7 @@ $app->get("/install-admin/sql/places/inserts", function(){
 	));
 	$address->save();
 
-	$placeHcode = new Place(array(
+	$placeHcode = new Hcode\Place\Place(array(
 		'desplace'=>$lang->getString('place_hcode'),
 		'idplacetype'=>$companies->getidplacetype()
 	));
@@ -3144,7 +3120,7 @@ $app->get("/install-admin/sql/placesfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_placesfiles(
 			idplace INT NOT NULL,
@@ -3163,7 +3139,7 @@ $app->get("/install-admin/sql/coordinates/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_coordinates(
 			idcoordinate INT NOT NULL AUTO_INCREMENT,
@@ -3222,7 +3198,7 @@ $app->get("/install-admin/sql/courses/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->exec("
 		CREATE TABLE tb_courses (
@@ -3327,7 +3303,7 @@ $app->get("/install-admin/sql/carousels/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_carousels (
 		  idcarousel int(11) NOT NULL AUTO_INCREMENT,
@@ -3430,7 +3406,7 @@ $app->get("/install-admin/sql/configurations/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_configurationstypes (
 		  idconfigurationtype int(11) NOT NULL AUTO_INCREMENT,
@@ -3463,39 +3439,39 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$lang = new Language();
+	$lang = new Hcode\Locale\Language();
 
-	$texto = new ConfigurationType(array(
+	$texto = new Hcode\System\Configuration\Type(array(
 		'desconfigurationtype'=>$lang->getString('configtype_string')
 	));
 	$texto->save();
 
-	$int = new ConfigurationType(array(
+	$int = new Hcode\System\Configuration\Type(array(
 		'desconfigurationtype'=>$lang->getString('configtype_int')
 	));
 	$int->save();
 
-	$float = new ConfigurationType(array(
+	$float = new Hcode\System\Configuration\Type(array(
 		'desconfigurationtype'=>$lang->getString('configtype_float')
 	));
 	$float->save();
 
-	$bool = new ConfigurationType(array(
+	$bool = new Hcode\System\Configuration\Type(array(
 		'desconfigurationtype'=>$lang->getString('configtype_boolean')
 	));
 	$bool->save();
 
-	$data = new ConfigurationType(array(
+	$data = new Hcode\System\Configuration\Type(array(
 		'desconfigurationtype'=>$lang->getString('configtype_datetime')
 	));
 	$data->save();
 
-	$array = new ConfigurationType(array(
+	$array = new Hcode\System\Configuration\Type(array(
 		'desconfigurationtype'=>$lang->getString('configtype_object')
 	));
 	$array->save();
 
-	$adminName = new Configuration(array(
+	$adminName = new Hcode\System\Configuration(array(
 		'desconfiguration'=>$lang->getString('config_admin_name'),
 		'desvalue'=>$lang->getString('config_admin_name_value'),
 		'idconfigurationtype'=>$texto->getidconfigurationtype(),
@@ -3503,7 +3479,7 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 	));
 	$adminName->save();
 
-	$uploadDir = new Configuration(array(
+	$uploadDir = new Hcode\System\Configuration(array(
 		'desconfiguration'=>$lang->getString('config_upload_dir'),
 		'desvalue'=>$lang->getString('config_upload_dir_value'),
 		'idconfigurationtype'=>$texto->getidconfigurationtype(),
@@ -3511,7 +3487,7 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 	));
 	$uploadDir->save();
 
-	$uploadMaxSize = new Configuration(array(
+	$uploadMaxSize = new Hcode\System\Configuration(array(
 		'desconfiguration'=>$lang->getString('config_upload_max_filesize'),
 		'desvalue'=>file_upload_max_size(),
 		'idconfigurationtype'=>$int->getidconfigurationtype(),
@@ -3519,7 +3495,7 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 	));
 	$uploadMaxSize->save();
 
-	$uploadMimes = new Configuration(array(
+	$uploadMimes = new Hcode\System\Configuration(array(
 		'desconfiguration'=>$lang->getString('config_upload_mimetype'),
 		'desvalue'=>json_encode(array(
 			'jpg' => 'image/jpeg',
@@ -3532,7 +3508,7 @@ $app->get("/install-admin/sql/configurations/inserts", function(){
 	));
 	$uploadMimes->save();
 
-	$googleMapKey = new Configuration(array(
+	$googleMapKey = new Hcode\System\Configuration(array(
 		'desconfiguration'=>$lang->getString('config_google_map_key'),
 		'desvalue'=>$lang->getString('google_map_key'),
 		'idconfigurationtype'=>$texto->getidconfigurationtype(),
@@ -3594,7 +3570,7 @@ $app->get("/install-admin/sql/files/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 	
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 	$sql->exec("
 		CREATE TABLE tb_files (
 		  idfile int(11) NOT NULL AUTO_INCREMENT,
@@ -3655,7 +3631,7 @@ $app->get("/install-admin/sql/productsfiles/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->exec("
 		CREATE TABLE tb_productsfiles (
@@ -3677,7 +3653,7 @@ $app->get("/install-admin/sql/functions", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	foreach (scandir(PATH_FUNCTION) as $file) {
 		if ($file !== '.' && $file !== '..') {
@@ -3693,7 +3669,7 @@ $app->get("/install-admin/sql/urls/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->exec("
 		CREATE TABLE tb_urls (
@@ -3755,7 +3731,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->exec("
 		CREATE TABLE tb_blogauthors (
@@ -3935,7 +3911,7 @@ $app->get("/install-admin/sql/emails/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$sql->exec("
 		CREATE TABLE tb_emails (

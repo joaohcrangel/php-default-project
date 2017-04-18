@@ -8,6 +8,12 @@ pnrorder INT,
 pnrsubmenus INT
 )
 BEGIN
+    
+    IF pidmenufather = 0 THEN
+
+        SET pidmenufather = NULL;
+
+    END IF;
 
     IF pidmenu = 0 THEN
     

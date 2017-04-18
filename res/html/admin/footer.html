@@ -3,6 +3,22 @@
     <div class="site-footer-legal">© {function="date('Y')"} <a href="https://www.hcode.com.br">Hcode</a></div>
     <div class="site-footer-right">
       <i class="icon md-account-circle" aria-hidden="true"></i> <a href="{$path}/perfil">{{Person.desperson}}</a>
+      {if="Hcode\Session::isSimulated()"}
+      <button type="button" class="btn btn-xs btn-danger" id="btn-simulate-end">Encerrar Simulação</button>
+	  <script>
+	  	init.push(function(){
+
+	  		$("#btn-simulate-end").btnrest({
+	  			url:PATH+"/users/simulated",
+	  			method:"POST",
+	  			success:function(){
+	  				window.location.href = PATH+"/admin";
+	  			}
+	  		});
+
+	  	});
+	  </script>
+      {/if}
     </div>
   </footer>
   {include="footer-scripts"}

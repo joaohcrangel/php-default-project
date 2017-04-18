@@ -1,12 +1,9 @@
 <script src="{$path}/res/js/all.js"></script><script>Config.set('assets', '{$path}/res/theme/assets/');</script><script>app.controller('footer', function($scope, $http){
 	{if="isLogged()"}
-	$scope.User = JSON.parse('{function="Session::getUser()->toJSON()"}');
-	$scope.Person = JSON.parse('{function="Session::getPerson()->toJSON()"}');
+	$scope.User = JSON.parse('{function="getUserJSON()"}');
+	$scope.Person = JSON.parse('{function="getPersonJSON()"}');
 	{else}
 	$scope.User = {};
 	$scope.Person = {};
 	{/if}
-});
-/*try{
-  window.debugSQL = {if="isset($session.querys)"}{function="json_encode($session.querys)"}{else}[]{/if};
-}catch(e){}*/</script>
+});</script>

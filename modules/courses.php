@@ -2,7 +2,7 @@
 
 $app->get("/courses", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -25,10 +25,10 @@ $app->get("/courses", function(){
 
     $itemsPerPage = (int)get('limite');
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
     	$query,
     	array(),
-    	"Courses",
+    	"Hcode\Course\Courses",
     	$itemsPerPage
     );
 
@@ -45,9 +45,9 @@ $app->get("/courses", function(){
 
 $app->get("/courses/:idcourse/sections", function($idcourse){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$course = new Course((int)$idcourse);
+	$course = new Hcode\Course\Course((int)$idcourse);
 
 	echo success(array(
 		"dataSections"=>$course->getSections()->getFields(),
@@ -58,9 +58,9 @@ $app->get("/courses/:idcourse/sections", function($idcourse){
 
 $app->get("/courses/:idcourse/html", function($idcourse){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$course = new Course((int)$idcourse);
+	$course = new Hcode\Course\Course((int)$idcourse);
 
 	echo success(array(
 		"data"=>addslashes($course->getdesdescricao())
@@ -70,12 +70,12 @@ $app->get("/courses/:idcourse/html", function($idcourse){
 
 $app->post("/courses", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcourse') > 0){
-		$course = new Course((int)post('idcourse'));
+		$course = new Hcode\Course\Course((int)post('idcourse'));
 	}else{
-		$course = new Course();
+		$course = new Hcode\Course\Course();
 	}
 
 	$_POST['inremoved'] = (post('inremoved') == 'true' ? true : false);
@@ -90,13 +90,13 @@ $app->post("/courses", function(){
 
 $app->delete("/courses/:idcourse", function($idcourse){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idcourse){
 		throw new Exception("Curso não informado", 400);		
 	}
 
-	$course = new Course((int)$idcourse);
+	$course = new Hcode\Course\Course((int)$idcourse);
 
 	if(!(int)$course->getidcourse() > 0){
 		throw new Exception("Curso não encontrado", 404);		
@@ -112,9 +112,9 @@ $app->delete("/courses/:idcourse", function($idcourse){
 // cursos secoes
 $app->get("/courses-sections/:idsection/curriculums", function($idsection){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$section = new CourseSection((int)$idsection);
+	$section = new Hcode\Course\Section((int)$idsection);
 
 	echo success(array("data"=>$section->getCurriculums()->getFields()));
 
@@ -122,12 +122,12 @@ $app->get("/courses-sections/:idsection/curriculums", function($idsection){
 
 $app->post("/courses-sections", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idsection') > 0){
-		$section = new CourseSection((int)post('idsection'));
+		$section = new Hcode\Course\Section((int)post('idsection'));
 	}else{
-		$section = new CourseSection();
+		$section = new Hcode\Course\Section();
 	}
 
 	$section->set($_POST);
@@ -140,13 +140,13 @@ $app->post("/courses-sections", function(){
 
 $app->delete("/courses-sections/:idsection", function($idsection){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idsection){
 		throw new Exception("Seção não informada", 400);		
 	}
 
-	$section = new CourseSection((int)$idsection);
+	$section = new Hcode\Course\Section((int)$idsection);
 
 	if(!(int)$Section->getidSection() > 0){
 		throw new Exception("Seção não encontrada", 404);		
@@ -162,12 +162,12 @@ $app->delete("/courses-sections/:idsection", function($idsection){
 // cursos curriculos
 $app->post("/courses-curriculums", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcurriculum') > 0){
-		$curriculum = new CoursoCurriculum((int)post('idcurriculum'));
+		$curriculum = new Hcode\Course\Curriculum((int)post('idcurriculum'));
 	}else{
-		$curriculum = new CoursoCurriculum();
+		$curriculum = new Hcode\Course\Curriculum();
 	}
 
 	$curriculum->set($_POST);
@@ -180,13 +180,13 @@ $app->post("/courses-curriculums", function(){
 
 $app->delete("/courses-curriculums/:idcurriculum", function($idcurriculum){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idcurriculum){
 		throw new Exception("Currículo não informado", 400);		
 	}
 
-	$curriculum = new CoursoCurriculum((int)$idcurriculum);
+	$curriculum = new Hcode\Course\Curriculum((int)$idcurriculum);
 
 	if(!(int)$curriculum->getidcurriculum() > 0){
 		throw new Exception("Currículo não encontrado", 404);		

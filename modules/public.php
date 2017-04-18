@@ -2,7 +2,7 @@
 
 $app->get("/", function(){
 
-    $page = new Page();
+    $page = new Hcode\Site\Page();
 
     $page->setTpl('index');
 
@@ -72,7 +72,7 @@ $app->get("/blog", function(){
 
 	$posts = $pagination->getPage($page);
 
-	$page = new Page();
+	$page = new Hcode\Site\Page();
 
 	$page->setTpl("blog", array(
 		"posts"=>$posts->getFields(),

@@ -352,7 +352,7 @@
           loading: true,
           loadingClass: 'loader-overlay',
           loadingParentElement: 'html',
-          loadingInner: '\n      <div class="loader-content">\n        <img src="' + assets + '/images/logo@2x.png">\n        <h2>'+document.querySelector("meta[name=system-name]").content+'</h2>\n        <div class="loader-index">\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>',
+          loadingInner: '\n      <div class="loader-content">\n        <img src="' + assets + '/images/logo@2x.png">\n        <h2>'+((document.querySelector("meta[name=system-name]"))?document.querySelector("meta[name=system-name]").content:"REMARK")+'</h2>\n        <div class="loader-index">\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>',
           onLoadEvent: true
         });
       }

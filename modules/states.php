@@ -2,15 +2,15 @@
 
 $app->get("/states", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	echo success(array("data"=>States::listAll()->getFields()));
+	echo success(array("data"=>Hcode\Address\States::listAll()->getFields()));
 
 });
 
 $app->get("/states/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -33,10 +33,10 @@ $app->get("/states/all", function(){
 	$pagina = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"States",
+		"Hcode\Address\States",
 		$itemsPerPage
 	);
 
@@ -53,12 +53,12 @@ $app->get("/states/all", function(){
 
 $app->post("/states", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idstate') > 0){
-		$state = new State((int)post('idstate'));
+		$state = new Hcode\Address\State((int)post('idstate'));
 	}else{
-		$state = new State();
+		$state = new Hcode\Address\State();
 	}
 
 	$state->set($_POST);
@@ -71,7 +71,7 @@ $app->post("/states", function(){
 
 $app->delete("/states", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -81,7 +81,7 @@ $app->delete("/states", function(){
 			throw new Exception("Estado não encontrado", 400);		
 		}
 
-		$state = new State((int)$idstate);
+		$state = new Hcode\Address\State((int)$idstate);
 
 		if(!(int)$state->getidstate() > 0){
 			throw new Exception("Estado não encontrado", 404);		

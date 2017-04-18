@@ -2,7 +2,7 @@
 
 $app->get("/products/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $pagina = (int)get('pagina');    
 
@@ -34,10 +34,10 @@ $app->get("/products/all", function(){
         ".$where." LIMIT ?, ?
     ;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "Products",
+        "Hcode\Shop\Products",
         $itemsPorPagina
     );
 
@@ -54,12 +54,12 @@ $app->get("/products/all", function(){
 
 $app->post('/products', function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if((int)post('idproduct') > 0){
-        $product = new Product((int)post('idproduct'));
+        $product = new Hcode\Shop\Product((int)post('idproduct'));
     }else{
-        $product = new Product();
+        $product = new Hcode\Shop\Product();
     }
 
     $_POST['inremoved'] = ($_POST['inremoved'] === '0') ? false : true;
@@ -74,13 +74,13 @@ $app->post('/products', function(){
 
 $app->get("/products/:idproduct/prices", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idproduct){
         throw new Exception("Produto não informado", 400);        
     }
 
-    $product = new Product(array(
+    $product = new Hcode\Shop\Product(array(
         'idproduct'=>(int)$idproduct
     ));
 
@@ -92,7 +92,7 @@ $app->get("/products/:idproduct/prices", function($idproduct){
         if (!isset($row['isodttermino'])) {
             
         } else {
-            $row['desduracao'] = Utils::getDateTimeDiffHuman(
+            $row['desduracao'] = Hcode\System\Utils::getDateTimeDiffHuman(
                 new DateTime($row['isodtinicio']),
                 new DateTime($row['isodttermino'])
             );
@@ -108,7 +108,7 @@ $app->get("/products/:idproduct/prices", function($idproduct){
 
 $app->get("/products/:idproduct/files", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $pagina = (int)get('pagina');
     $itemsPerPage = (int)get('limit');
@@ -130,10 +130,10 @@ $app->get("/products/:idproduct/files", function($idproduct){
         ".$where." LIMIT ?, ?;
     ";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "Files",
+        "Hcode\FileSystem\Files",
         $itemsPerPage
     );
 
@@ -150,17 +150,17 @@ $app->get("/products/:idproduct/files", function($idproduct){
 
 $app->post("/products/:idproduct/files", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idproduct){
         throw new Exception("Produto não informado", 400);        
     }
 
-    $product = new Product(array(
+    $product = new Hcode\Shop\Product(array(
         'idproduct'=>(int)$idproduct
     ));
 
-    $files = Files::upload($_FILES['arquivo']);
+    $files = Hcode\FileSystem\Files::upload($_FILES['arquivo']);
 
     foreach($files->getItens() as $file){
         $product->addFile($file);
@@ -174,13 +174,13 @@ $app->post("/products/:idproduct/files", function($idproduct){
 
 $app->delete("/products/:idproduct", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idproduct){
         throw new Exception("Produto não informado", 400);        
     }
 
-    $product = new Product((int)$idproduct);
+    $product = new Hcode\Shop\Product((int)$idproduct);
 
     if(!(int)$product->getidproduct() > 0){
         throw new Exception("Produto não encontrado", 404);        
@@ -196,7 +196,7 @@ $app->delete("/products/:idproduct", function($idproduct){
 // products types
 $app->get("/products/types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -216,10 +216,10 @@ $app->get("/products/types", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_productstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "ProductsTypes",
+        "Hcode\Shop\Product\Types",
         $itemsPerPage
     );
 
@@ -237,12 +237,12 @@ $app->get("/products/types", function(){
 
 $app->post("/products-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idproducttype') > 0){
-        $producttype = new ProductType((int)post('idproducttype'));
+        $producttype = new Hcode\Shop\Product\Type((int)post('idproducttype'));
     }else{
-        $producttype = new ProductType();
+        $producttype = new Hcode\Shop\Product\Type();
     }
 
     foreach ($_POST as $key => $value) {
@@ -257,13 +257,13 @@ $app->post("/products-types", function(){
 
 $app->delete("/products-types/:idproducttype", function($idproducttype){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idproducttype){
         throw new Exception("Tipo de produto não informado", 400);        
     }
 
-    $producttype = new ProductType((int)$idproducttype);
+    $producttype = new Hcode\Shop\Product\Type((int)$idproducttype);
 
     if(!(int)$producttype->getidproducttype() > 0){
         throw new Exception("Tipo de produto não encontrado", 404);        
@@ -278,9 +278,9 @@ $app->delete("/products-types/:idproducttype", function($idproducttype){
 // carrinhos
 $app->get("/products/:idproduct/carts", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $product = new Product((int)$idproduct);
+    $product = new Hcode\Shop\Product((int)$idproduct);
 
     echo success(array("data"=>$product->getCarts()->getFields()));
 
@@ -289,9 +289,9 @@ $app->get("/products/:idproduct/carts", function($idproduct){
 // pagamentos
 $app->get("/products/:idproduct/payments", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $product = new Product((int)$idproduct);
+    $product = new Hcode\Shop\Product((int)$idproduct);
 
     echo success(array("data"=>$product->getPayments()->getFields()));
 
@@ -300,9 +300,9 @@ $app->get("/products/:idproduct/payments", function($idproduct){
 // precos
 $app->get("/products/:idproduct/prices", function($idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $product = new Product((int)$idproduct);
+    $product = new Hcode\Shop\Product((int)$idproduct);
 
     echo success(array("data"=>$product->getPrices()->getFields()));
 

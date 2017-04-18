@@ -1,7 +1,7 @@
 <?php 
 $app->get('/configurations-types',function(){
 
- 	$configuration = ConfigurationsTypes::listAll();
+ 	$configuration = Hcode\System\Configuration\Types::listAll();
 
  	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -21,10 +21,10 @@ $app->get('/configurations-types',function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_configurationstypes
 	".$where." limit ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "ConfigurationsTypes",
+        "Hcode\System\Configuration\Types",
         $itemsPerPage
     );
 
@@ -42,12 +42,12 @@ $app->get('/configurations-types',function(){
 
 $app->post("/configurations-types", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idconfigurationtype') > 0){
-		$configuration = new ConfigurationType((int)post('idconfigurationtype'));
+		$configuration = new Hcode\System\Configuration\Type((int)post('idconfigurationtype'));
 	}else{
-		$configuration = new ConfigurationType();
+		$configuration = new Hcode\System\Configuration\Type();
 	}
 
 	$configuration->set($_POST);
@@ -59,13 +59,13 @@ $app->post("/configurations-types", function(){
 
 $app->delete("/configurations-types/:idconfigurationtype", function($idconfigurationtype){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idconfigurationtype > 0){
 		throw new Exception("Configuracao de Campos não informado.", 400);		
 	}
 
-	$configuration = new ConfigurationType((int)$idconfigurationtype);
+	$configuration = new Hcode\System\Configuration\Type((int)$idconfigurationtype);
 
 	$configuration->remove();
 

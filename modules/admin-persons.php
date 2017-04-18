@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/persons-create", function(){
 
-   Permission::checkSession(Permission::ADMIN, true);
+   Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
     	'header'=>false,
         'footer'=>false
     ));
@@ -15,27 +15,27 @@ $app->get("/".DIR_ADMIN."/persons-create", function(){
 
 $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $person = new Person((int)$idperson);
+    $person = new Hcode\Person\Person((int)$idperson);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false
     ));
 
     $page->setTpl('/admin/persons-panel-new',  array(
         'person'=>$person->getFields(),
-        'addressesTypes'=>AddressesTypes::listAll()->getFields()
+        'addressesTypes'=>Hcode\Address\Types::listAll()->getFields()
     ));
 
 });
 
 $app->get("/".DIR_ADMIN."/persons", function(){
 
-   Permission::checkSession(Permission::ADMIN, true);
+   Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'

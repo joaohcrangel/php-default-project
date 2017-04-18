@@ -2,7 +2,7 @@
 
 $app->get("/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -25,10 +25,10 @@ $app->get("/files", function(){
 
     $query = 'SELECT SQL_CALC_FOUND_ROWS * FROM tb_files '.$where.' LIMIT ?, ?';
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "Files",
+        "Hcode\FileSystem\Files",
         $itemsPerPage
     );
 
@@ -54,9 +54,9 @@ $app->get("/files-upload_max_filesize", function(){
 
 $app->post("/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $files = Files::upload($_FILES['arquivo']);
+    $files = Hcode\FileSystem\Files::upload($_FILES['arquivo']);
     
     echo success(array(
         'data'=>$files->getFields()
@@ -66,13 +66,13 @@ $app->post("/files", function(){
 
 $app->delete("/files/:idfile", function($idfile){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idfile){
         throw new Exception("Arquivo não informado", 400);        
     }
 
-    $file = new File((int)$idfile);
+    $file = new Hcode\FileSystem\File((int)$idfile);
 
     if(!(int)$file->getidfile() > 0){
         throw new Exception("Arquivo não encontrado", 404);        
@@ -86,13 +86,13 @@ $app->delete("/files/:idfile", function($idfile){
 
 $app->delete("/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $ids = explode(",", post('ids'));
 
     foreach ($ids as $idfile) {
 
-        $file = new File(array(
+        $file = new Hcode\FileSystem\File(array(
             "idfile"=>$idfile
         ));
 

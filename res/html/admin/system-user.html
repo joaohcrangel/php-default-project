@@ -39,10 +39,11 @@
       </div>
     </div>
   </section>
+
 </div>
 <script id="tpl-profile-header" type="text/x-handlebars-template">
 <div class="card-block p-30">
-  <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
+  <a id="user-photo" class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
     <img src="{{desphotourl}}" alt="">
   </a>
   <div class="vertical-align h-100 text-truncate">
@@ -111,6 +112,7 @@ var tplHeader = Handlebars.compile($("#tpl-profile-header").html());
 var user = JSON.parse('{function="json_encode($user)"}');
 
 user.desperson = user.Person.desperson;
+user.desphotourl = user.Person.desphotourl;
 
 $('#profile-header').html(tplHeader(user));
 
@@ -144,6 +146,22 @@ $("[data-btn]").each(function(){
     var fn = $(this).data("btn");
     window[fn]();
 
+  });
+
+});
+
+$("#user-photo").on("click", function(){
+
+  $.upload({
+    url:PATH+"/persons/"+user.idperson+"/photo",
+    success:function(r){
+
+      $("#user-photo img").attr("src", r.data[0].desphotourl+"?_="+new Date().getTime());
+
+    },
+    failure:function(e){
+      System.showError(e);
+    }
   });
 
 });

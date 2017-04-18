@@ -219,6 +219,10 @@ $app->get("/install-admin/sql/persons/triggers", function(){
 		"tg_personsvalues_AFTER_UPDATE",
 		"tg_personsvalues_BEFORE_DELETE",
 
+		"tg_personsfiles_AFTER_INSERT",
+		"tg_personsfiles_AFTER_UPDATE",
+		"tg_personsfiles_BEFORE_DELETE",
+
 		"tg_personsaddresses_AFTER_INSERT",
 		"tg_personsaddresses_AFTER_UPDATE",
 		"tg_personsaddresses_BEFORE_DELETE"

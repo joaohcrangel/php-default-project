@@ -156,11 +156,11 @@
     	        		
     	        		$.each(files, function(index, file){
 
-    		                t.addFileToQueue(file);
+  		              t.addFileToQueue(file);
 
-    		            });
+  		            });
 
-    		            t.startUpload();
+  		            t.startUpload();
 
     	        	}
     		      });
@@ -229,6 +229,9 @@
         t.done = function(){
 
           $('body').off('onbeforeunload');
+
+          if (o.debug === true) console.log('resultFiles', t.resultFiles);
+
           if (typeof o.success === 'function') o.success({
             success:true,
             data:t.resultFiles
@@ -333,14 +336,21 @@
 
           oReq.addEventListener("readystatechange", function(evt){
 
-          	if (o.debug === true) console.info("readystatechange", oReq.readyState);
+            if (o.debug === true) console.info("readystatechange", oReq.readyState);
 
           	if (oReq.readyState === 4) {
           		var result = JSON.parse(oReq.response);
+
+              if (o.debug === true) console.info("result", result);
+              
           		if (result.success) {
-          			$.each(result.data, function(index, data){
-          				t.resultFiles.push(data);
-          			});
+                if (result.data instanceof Array) {
+                  $.each(result.data, function(index, data){
+                    t.resultFiles.push(data);
+                  });
+                } else {
+                  t.resultFiles.push(result.data);
+                }          			
           			$tr.find('.actions').html(o.tplActionIconOK({
 		              cls:'green-500'
 		            }));

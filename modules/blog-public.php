@@ -152,10 +152,6 @@ $app->get("/blog/:desurl", function($desurl){
 
 		$post = new BlogPost($data[0]);
 
-		var_dump($post->getFields());
-
-		exit;
-
 		$categories = BlogCategories::listAll()->getFields();
 
 		// function getCommentsHTML(BlogComment $commentFather, BlogComments $commentsAll){

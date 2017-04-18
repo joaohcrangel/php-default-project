@@ -165,4 +165,14 @@ $app->get("/blog/:desurl", function($desurl){
 
 });
 
+$app->post("/blog/comment", function(){
+
+	$person = new Person(array(
+		"desperson"=>post("desperson")
+	));
+
+	$person->save();
+
+});
+
 ?>

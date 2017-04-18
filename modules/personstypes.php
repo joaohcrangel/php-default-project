@@ -2,7 +2,7 @@
 
 $app->get('/persons-types',function(){
 
-	Permission::checkSession(Permission::ADMIN);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -22,10 +22,10 @@ $app->get('/persons-types',function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_personstypes
 	".$where." LIMIT ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "PersonsTypes",
+        "Hcode\Person\Types",
         $itemsPerPage
     );
 
@@ -42,9 +42,9 @@ $app->get('/persons-types',function(){
 $app->post("/persons-types", function(){
 
 	if(post('idpersontype') > 0){
-		$person = new PersonType((int)post('idpersontype'));
+		$person = new Hcode\Person\Type((int)post('idpersontype'));
 	}else{
-		$person = new PersonType();
+		$person = new Hcode\Person\Type();
 	}
 
 	$person->set($_POST);
@@ -57,13 +57,13 @@ $app->post("/persons-types", function(){
 
 $app->delete("/persons-types/:idpersontype", function($idpersontype){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idpersontype > 0){
 		throw new Exception("Tipo de pessoa não informado.", 400);		
 	}
 
-	$person = new PersonType((int)$idpersontype);
+	$person = new Hcode\Person\Type((int)$idpersontype);
 
 	$person->remove();
 

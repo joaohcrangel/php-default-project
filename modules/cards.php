@@ -2,20 +2,20 @@
 
 $app->get("/cards/all", function(){
 
-     Permission::checkSession(Permission::ADMIN, true);
+     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    echo success(array("data"=>CardsCredits::listAll()->getFields()));
+    echo success(array("data"=>Hcode\Financial\CardsCredits::listAll()->getFields()));
 
 });
 
 $app->post("/cards", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcard') > 0){
-        $card = new CardCredit((int)post('idcard'));
+        $card = new Hcode\Financial\CardCredit((int)post('idcard'));
     }else{
-        $card = new CardCredit();
+        $card = new Hcode\Financial\CardCredit();
     }
 
     foreach ($_POST as $key => $value) {
@@ -30,13 +30,13 @@ $app->post("/cards", function(){
 
 $app->delete("/cards/:idcard", function($idcard){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idcard){
         throw new Exception("Cartão não informado", 400);        
     }
 
-    $card = new CardCredit((int)$idcard);
+    $card = new Hcode\Financial\CardCredit((int)$idcard);
 
     if(!(int)$card->getidcard() > 0){
         throw new Exception("Cartão não encontrado", 404);        

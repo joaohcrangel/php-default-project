@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -18,9 +18,9 @@ $app->get("/".DIR_ADMIN."/blog/posts", function(){
 
 $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-right"
@@ -38,9 +38,9 @@ $app->get("/blog-posts/:idpost", function($idpost){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $post = new BlogPost((int)$idpost);
+    $post = new Hcode\Site\Blog\Post((int)$idpost);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-right"
@@ -61,9 +61,9 @@ $app->get("/blog-posts/:idpost", function($idpost){
 
 $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -77,9 +77,9 @@ $app->get("/".DIR_ADMIN."/blog/categories", function(){
 
 $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"
@@ -93,9 +93,9 @@ $app->get("/".DIR_ADMIN."/blog/tags", function(){
 
 $app->get("/".DIR_ADMIN."/blog/comments", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-left"

@@ -2,22 +2,22 @@
 
 $app->get("/documents/cpf/:nrcpf", function($nrcpf){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>array(
-        'incpf'=>Document::CPFValidate($nrcpf)
+        'incpf'=>Hcode\Document\Document::CPFValidate($nrcpf)
     )));
 
 });
 
 $app->post("/documents", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('iddocument') > 0){
-        $document = new Document((int)post('iddocument'));
+        $document = new Hcode\Document\Document((int)post('iddocument'));
     }else{
-        $document = new Document();
+        $document = new Hcode\Document\Document();
     }
 
     foreach ($_POST as $key => $value) {
@@ -32,13 +32,13 @@ $app->post("/documents", function(){
 
 $app->delete("/documents/:iddocument", function($iddocument){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$iddocument){
         throw new Exception("Documento não informado", 400);        
     }
 
-    $document = new Document((int)$iddocument);
+    $document = new Hcode\Document\Document((int)$iddocument);
 
     if(!(int)$document->getiddocument() > 0){
         throw new Exception("Documento não encontrado", 404);        
@@ -53,7 +53,7 @@ $app->delete("/documents/:iddocument", function($iddocument){
 
 $app->get("/documents/types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -73,10 +73,10 @@ $app->get("/documents/types", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_documentstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "DocumentsTypes",
+        "Hcode\Document\Types",
         $itemsPerPage
     );
 
@@ -93,9 +93,9 @@ $app->get("/documents/types", function(){
 
 $app->post('/documents-types', function () {
 
-    Permission::checkSession(Permission::ADMIN);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $documenttype = new DocumentType($_POST);
+    $documenttype = new Hcode\Document\Type($_POST);
 
     $documenttype->save();
 
@@ -107,9 +107,9 @@ $app->post('/documents-types', function () {
 
 $app->delete('/documents-types/:iddocumenttype', function ($iddocumenttype) {
 
-    Permission::checkSession(Permission::ADMIN);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $documenttype = new DocumentType((int)$iddocumenttype);
+    $documenttype = new Hcode\Document\Type((int)$iddocumenttype);
 
     $documenttype->remove();
 

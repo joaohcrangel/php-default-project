@@ -2,7 +2,7 @@
 
 $app->get("/urls/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -28,10 +28,10 @@ $app->get("/urls/all", function(){
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
 
-	$paginacao = new Pagination(
+	$paginacao = new Hcode\Pagination(
 		$query,
 		array(),
-		"Urls",
+		"Hcode\Site\Urls",
 		$itemsPerPage
 	);
 
@@ -48,12 +48,12 @@ $app->get("/urls/all", function(){
 
 $app->post("/urls", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idurl') > 0){
-		$url = new Url((int)post('idurl'));
+		$url = new Hcode\Site\Url((int)post('idurl'));
 	}else{
-		$url = new Url();
+		$url = new Hcode\Site\Url();
 	}
 
 	$url->set($_POST);
@@ -66,7 +66,7 @@ $app->post("/urls", function(){
 
 $app->delete("/urls", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post('ids'));
 
@@ -76,7 +76,7 @@ $app->delete("/urls", function(){
 			throw new Exception("URL não informada", 400);			
 		}
 
-		$url = new Url((int)$idurl);
+		$url = new Hcode\Site\Url((int)$idurl);
 
 		if(!(int)$url->getidurl() > 0){
 			throw new Exception("URL não encontrada", 404);			

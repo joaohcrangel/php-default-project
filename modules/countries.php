@@ -2,15 +2,15 @@
 
 $app->get("/countries/all", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	echo success(array("data"=>Countries::listAll()->getFields()));
+	echo success(array("data"=>Hcode\Address\Countries::listAll()->getFields()));
 
 });
 
 $app->get("/countries", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
 
@@ -33,10 +33,10 @@ $app->get("/countries", function(){
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Countries",
+		"Hcode\Address\Countries",
 		$itemsPerPage
 	);
 
@@ -53,12 +53,12 @@ $app->get("/countries", function(){
 
 $app->post("/countries", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcountry') > 0){
-		$country = new Country((int)post('idcountry'));
+		$country = new Hcode\Address\Country((int)post('idcountry'));
 	}else{
-		$country = new Country();
+		$country = new Hcode\Address\Country();
 	}
 
 	$country->set($_POST);
@@ -71,7 +71,7 @@ $app->post("/countries", function(){
 
 $app->delete("/countries", function(){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$ids = explode(",", post("ids"));
 
@@ -81,7 +81,7 @@ $app->delete("/countries", function(){
 			throw new Exception("País não informado", 400);		
 		}
 
-		$country = new Country((int)$idcountry);
+		$country = new Hcode\Address\Country((int)$idcountry);
 
 		if(!(int)$country->getidcountry() > 0){
 			throw new Exception("País não encontrado", 404);		

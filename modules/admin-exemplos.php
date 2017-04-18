@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN."/exemplos/upload", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'head_title'=>'Administração'
         )
@@ -18,7 +18,7 @@ $app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-2", function(){
 	
 	$file = $_FILES['arquivo'];
 
-	$arquivo = Arquivo::upload(
+	$arquivo = Hcode\FileSystem\File::upload(
 		$file['name'],
 		$file['type'],
 		$file['tmp_name'],
@@ -36,7 +36,7 @@ $app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-3", function(){
 
 	$file = $_FILES['desarquivo'];
 
-	$arquivo = Arquivo::upload(
+	$arquivo = Hcode\FileSystem\File::upload(
 		$file['name'],
 		$file['type'],
 		$file['tmp_name'],
@@ -52,7 +52,7 @@ $app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-3", function(){
 
 $app->post("/".DIR_ADMIN."/exemplos/upload-form-exemplo-4", function(){
 
-	$arquivo = Arquivo::download(post('desurl'));
+	$arquivo = Hcode\FileSystem\File::download(post('desurl'));
 	
 	echo success(array(
 		'data'=>$arquivo->getFields()

@@ -2,9 +2,9 @@
 
 $app->get("/".DIR_ADMIN, function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'head_title'=>'Administração'
         )
@@ -43,7 +43,7 @@ $app->get("/".DIR_ADMIN."/home", function(){
 
 $app->get("/".DIR_ADMIN."/login", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false,
         'data'=>array(
@@ -57,7 +57,7 @@ $app->get("/".DIR_ADMIN."/login", function(){
 
 $app->get("/".DIR_ADMIN."/forget", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false,
         'data'=>array(
@@ -71,19 +71,19 @@ $app->get("/".DIR_ADMIN."/forget", function(){
 
 $app->get("/".DIR_ADMIN."/reset", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $user = Session::getUser();
+    $user = Hcode\Session::getUser();
 
     $user->reload();
 
     $user->getPerson();
 
-    Session::setUser($user);
+    Hcode\Session::setUser($user);
 
-    $configurations = Configurations::listAll();
+    $configurations = Hcode\System\Configurations::listAll();
 
-    Session::setConfigurations($configurations);
+    Hcode\Session::setConfigurations($configurations);
 
     Menu::resetMenuSession();
 
@@ -103,7 +103,7 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
 $app->get("/".DIR_ADMIN."/lock", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false
     ));
@@ -114,7 +114,7 @@ $app->get("/".DIR_ADMIN."/lock", function(){
 
 $app->get("/".DIR_ADMIN."/profile/change-password", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false,
         'data'=>array(
@@ -128,7 +128,7 @@ $app->get("/".DIR_ADMIN."/profile/change-password", function(){
 
 $app->get("/".DIR_ADMIN."/profile", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false,
         'data'=>array(
@@ -136,7 +136,7 @@ $app->get("/".DIR_ADMIN."/profile", function(){
         )
     ));
 
-    $user = Session::getUser();
+    $user = Hcode\Session::getUser();
     $user->reload();
     $user->setPerson(null);
     $user->getPerson();
@@ -149,9 +149,9 @@ $app->get("/".DIR_ADMIN."/profile", function(){
 
 $app->get("/".DIR_ADMIN."/settings", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
     $page->setTpl('/admin/index');
 
@@ -159,11 +159,11 @@ $app->get("/".DIR_ADMIN."/settings", function(){
 
 $app->get("/".DIR_ADMIN."/profile", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
-    $user = Session::getUser();
+    $user = Hcode\Session::getUser();
 
     $page->setTpl('/admin/profile', array(
         'user'=>$user->getFields(),
@@ -174,7 +174,7 @@ $app->get("/".DIR_ADMIN."/profile", function(){
 
 $app->get("/".DIR_ADMIN."/session", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     pre($_SESSION);
 
@@ -182,7 +182,7 @@ $app->get("/".DIR_ADMIN."/session", function(){
 
 $app->get("/".DIR_ADMIN."/search-panel", function(){
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false
     ));
@@ -196,9 +196,9 @@ $app->get("/".DIR_ADMIN."/search-panel", function(){
 
 $app->get("/".DIR_ADMIN."/system/users", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "header"=>true,
         "footer"=>true
     ));
@@ -209,9 +209,9 @@ $app->get("/".DIR_ADMIN."/system/users", function(){
 
 $app->get("/".DIR_ADMIN."/system/sql-to-class", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "header"=>true,
         "footer"=>true
     ));
@@ -222,9 +222,9 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class", function(){
 
 $app->get("/".DIR_ADMIN."/products", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -238,7 +238,7 @@ $app->get("/".DIR_ADMIN."/products", function(){
 
 $app->get("/admin/permissions", function(){
 
-    $permisao = new AdminPage(array(
+    $permisao = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -252,9 +252,9 @@ $app->get("/admin/permissions", function(){
 
 $app->get("/".DIR_ADMIN."/products-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -268,9 +268,9 @@ $app->get("/".DIR_ADMIN."/products-types", function(){
 
 $app->get("/".DIR_ADMIN."/documents-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -285,9 +285,9 @@ $app->get("/".DIR_ADMIN."/documents-types", function(){
 
 $app->get("/".DIR_ADMIN."/addresses-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -301,9 +301,9 @@ $app->get("/".DIR_ADMIN."/addresses-types", function(){
 
 $app->get("/".DIR_ADMIN."/users-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -317,9 +317,9 @@ $app->get("/".DIR_ADMIN."/users-types", function(){
 
 $app->get("/".DIR_ADMIN."/logs-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -333,9 +333,9 @@ $app->get("/".DIR_ADMIN."/logs-types", function(){
 
 $app->get("/".DIR_ADMIN."/userslogs-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -349,9 +349,9 @@ $app->get("/".DIR_ADMIN."/userslogs-types", function(){
 
 $app->get("/".DIR_ADMIN."/transactions-types", function(){
     
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -366,7 +366,7 @@ $app->get("/".DIR_ADMIN."/blog-tags/all", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-   $page = new AdminPage(array(
+   $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -379,9 +379,9 @@ $app->get("/".DIR_ADMIN."/blog-tags/all", function(){
 
 $app->get("/".DIR_ADMIN."/forms-payments", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-   $page = new AdminPage(array(
+   $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -394,9 +394,9 @@ $app->get("/".DIR_ADMIN."/forms-payments", function(){
 
 $app->get("/".DIR_ADMIN."/places-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -410,9 +410,9 @@ $app->get("/".DIR_ADMIN."/places-types", function(){
 
 $app->get("/".DIR_ADMIN."/coupons-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -426,9 +426,9 @@ $app->get("/".DIR_ADMIN."/coupons-types", function(){
 
 $app->get("/".DIR_ADMIN."/gateways", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
           'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -442,9 +442,9 @@ $app->get("/".DIR_ADMIN."/gateways", function(){
 
 $app->get("/".DIR_ADMIN."/orders-status", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -458,9 +458,9 @@ $app->get("/".DIR_ADMIN."/orders-status", function(){
 
 $app->get("/".DIR_ADMIN."/contacts-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -475,9 +475,9 @@ $app->get("/".DIR_ADMIN."/contacts-types", function(){
 
 $app->get("/".DIR_ADMIN."/persons-valuesfields", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -491,9 +491,9 @@ $app->get("/".DIR_ADMIN."/persons-valuesfields", function(){
 
 $app->get("/".DIR_ADMIN."/ordersnegotiationstypes", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -507,9 +507,9 @@ $app->get("/".DIR_ADMIN."/ordersnegotiationstypes", function(){
 
 $app->get("/".DIR_ADMIN."/persons-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -523,9 +523,9 @@ $app->get("/".DIR_ADMIN."/persons-types", function(){
 
 $app->get("/".DIR_ADMIN."/forms-payment", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
     $page->setTpl("/admin/forms-payment");
 
@@ -533,9 +533,9 @@ $app->get("/".DIR_ADMIN."/forms-payment", function(){
 
 $app->get("/".DIR_ADMIN."/orders", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -549,9 +549,9 @@ $app->get("/".DIR_ADMIN."/orders", function(){
 
 $app->get("/".DIR_ADMIN."/site-contacts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
     $page->setTpl("/admin/site-contacts");
 
@@ -559,9 +559,9 @@ $app->get("/".DIR_ADMIN."/site-contacts", function(){
 
 $app->get("/".DIR_ADMIN."/carts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -575,9 +575,9 @@ $app->get("/".DIR_ADMIN."/carts", function(){
 
 $app->get("/".DIR_ADMIN."/credit-cards", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
     $page->setTpl("/admin/credit-cards");
 
@@ -585,9 +585,9 @@ $app->get("/".DIR_ADMIN."/credit-cards", function(){
 
 $app->get("/".DIR_ADMIN."/coupons", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage();
+    $page = new Hcode\Admin\Page();
 
     $page->setTpl("/admin/coupons");
 
@@ -595,9 +595,9 @@ $app->get("/".DIR_ADMIN."/coupons", function(){
 
 $app->get("/".DIR_ADMIN."/configurations-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -612,11 +612,11 @@ $app->get("/".DIR_ADMIN."/configurations-types", function(){
 
 $app->get("/".DIR_ADMIN."/files", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $conf = Session::getConfigurations();
+    $conf = Hcode\Session::getConfigurations();
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'app-media page-aside-left'
@@ -633,9 +633,9 @@ $app->get("/".DIR_ADMIN."/files", function(){
 
 $app->get("/".DIR_ADMIN."/courses", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -649,9 +649,9 @@ $app->get("/".DIR_ADMIN."/courses", function(){
 
 $app->get("/".DIR_ADMIN."/carousels", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -665,9 +665,9 @@ $app->get("/".DIR_ADMIN."/carousels", function(){
 
 $app->get("/".DIR_ADMIN."/carousels-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
          'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -681,9 +681,9 @@ $app->get("/".DIR_ADMIN."/carousels-types", function(){
 
 $app->get("/".DIR_ADMIN."/places", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -697,9 +697,9 @@ $app->get("/".DIR_ADMIN."/places", function(){
 
 $app->get("/".DIR_ADMIN."/countries", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -713,9 +713,9 @@ $app->get("/".DIR_ADMIN."/countries", function(){
 
 $app->get("/".DIR_ADMIN."/states", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -729,9 +729,9 @@ $app->get("/".DIR_ADMIN."/states", function(){
 
 $app->get("/".DIR_ADMIN."/cities", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -745,9 +745,9 @@ $app->get("/".DIR_ADMIN."/cities", function(){
 
 $app->get("/".DIR_ADMIN."/persons-categories-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -761,9 +761,9 @@ $app->get("/".DIR_ADMIN."/persons-categories-types", function(){
 
 $app->get("/".DIR_ADMIN."/urls", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -777,9 +777,9 @@ $app->get("/".DIR_ADMIN."/urls", function(){
 
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $tables = SQL\Tables::listAll();
+    $tables = Hcode\SQL\Tables::listAll();
 
     echo success(array(
         'data'=>$tables->getFields()
@@ -789,9 +789,9 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables/:tableName", function($tableName){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $table = SQL\Table::loadFromName($tableName);
+    $table = Hcode\SQL\Table::loadFromName($tableName);
 
     $table->setdessingular($table->getSingularName());
     $table->setdesplural($table->getPluralName());
@@ -805,13 +805,13 @@ $app->get("/".DIR_ADMIN."/system/sql-to-class/tables/:tableName", function($tabl
 
 $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if (!post('destabela')) {
         throw new Exception("Informe o nome da tabela.", 400);
     }
 
-    $table = SQL\Table::loadFromName(post('destabela'));
+    $table = Hcode\SQL\Table::loadFromName(post('destabela'));
 
     $columns = $table->getColumns();
 
@@ -880,12 +880,14 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
         break;
     }
 
-    raintpl::configure("base_url", PATH );
-    raintpl::configure("tpl_dir", PATH."/res/tpl/sql-to-class/" );
-    raintpl::configure("cache_dir", PATH."/res/tpl/tmp/" );
-    raintpl::configure("path_replace", false );
+    Rain\Tpl::configure(array(
+        "base_url"      => PATH,
+        "tpl_dir"       => PATH."/res/tpl/sql-to-class/",
+        "cache_dir"     => PATH."/res/tpl/tmp/",
+        "debug"         => false
+    ));
 
-    $tpl = new RainTPL();
+    $tpl = new Rain\Tpl();
 
     if(gettype($data)=='array'){
         foreach($data as $key=>$val){
@@ -899,7 +901,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
     if ($download === false) {
 
-        $sql = new Sql();
+        $sql = new Hcode\Sql();
 
         $spName = '';
 

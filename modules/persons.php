@@ -2,8 +2,8 @@
 
 $app->get('/persons/:idperson',function($idperson){
    
-	Permission::checkSession(Permission::ADMIN, true);
-	$person = new Person((int)$idperson);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+	$person = new Hcode\Person\Person((int)$idperson);
 
 	echo success(array(
 		'data'=>$person->getFields()
@@ -12,9 +12,9 @@ $app->get('/persons/:idperson',function($idperson){
 });
 
 $app->get('/persons/:idperson/contacts',function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
      
-    $person = new Person(array(
+    $person = new Hcode\Person\Person(array(
 		'idperson'=>(int)$idperson
 	));
      $contact = $person->getContacts();
@@ -24,9 +24,9 @@ $app->get('/persons/:idperson/contacts',function($idperson){
 });
 
 $app->get('/persons/:idperson/logs',function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
      
-    $person = new Person(array(
+    $person = new Hcode\Person\Person(array(
 		'idperson'=>(int)$idperson
 	));
      $log = $person->getLogs();
@@ -36,7 +36,7 @@ $app->get('/persons/:idperson/logs',function($idperson){
 });
 
 $app->get("/persons",function(){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$q = get("q");
 	$where = array();
 	$params = array();
@@ -68,10 +68,10 @@ $app->get("/persons",function(){
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
 	$itensPorPagina = (int)get('limite');//Itens por página
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		"SELECT SQL_CALC_FOUND_ROWS * FROM tb_personsdata ".$where." ORDER BY desperson LIMIT ?, ?",//Query com as duas interrogações no LIMIT
 	    $params,//Outros parâmetros
-	    'Persons',//Coleção que será retornada
+	    'Hcode\Person\Persons',//Coleção que será retornada
 	    $itensPorPagina//Informo os itens por página
 	);
 	$persons = $pagination->getPage($pagina);//Neste momento vai no banco e solicita os itens da página específica
@@ -85,7 +85,7 @@ $app->get("/persons",function(){
 });
 
 $app->get("/persons/all", function(){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	echo success(array("data"=>Persons::listAll()->getFields()));
 });
 
@@ -96,9 +96,9 @@ $app->get("/persons-post", function(){
 		'idperson'=>'3'
 	);
 	if(post('idperson') > 0){
-		$person = new Person((int)post('idperson'));
+		$person = new Hcode\Person\Person((int)post('idperson'));
 	}else{
-		$person = new Person();
+		$person = new Hcode\Person\Person();
 	}
 	$person->set($_POST);
 	$person->save();
@@ -121,7 +121,7 @@ $app->post("/persons/:idperson/photo", function($idperson){
 
 	$file = $_FILES['arquivo'];
 
-	$file = File::upload(
+	$file = Hcode\FileSystem\File::upload(
 		$file['name'],
 		$file['type'],
 		$file['tmp_name'],
@@ -129,7 +129,7 @@ $app->post("/persons/:idperson/photo", function($idperson){
 		$file['size']
 	);
 
-	$person = new Person((int)$idperson);
+	$person = new Hcode\Person\Person((int)$idperson);
 	$person->setPhoto($file);
 	$person->getPhotoURL();
 
@@ -142,18 +142,18 @@ $app->post("/persons/:idperson/photo", function($idperson){
 $app->post("/persons", function(){
 
 	if(post('idperson') > 0){
-		$person = new Person((int)post('idperson'));
+		$person = new Hcode\Person\Person((int)post('idperson'));
 	}else{
-		$person = new Person();
+		$person = new Hcode\Person\Person();
 	}
 
 	$person->set($_POST);
 	$person->save();
 	
 	if((int)post('idaddress') > 0){
-		$address = new Address((int)post('idaddress'));
+		$address = new Hcode\Address\Address((int)post('idaddress'));
 	}else{
-		$address = new Address();
+		$address = new Hcode\Address\Address();
 	}
 
 	foreach (array(
@@ -171,18 +171,18 @@ $app->post("/persons", function(){
 	}
 
 	if (isset($_POST['idcity']) && (int)post('idcity') > 0) {
-		$city = new City((int)post('idcity'));
+		$city = new Hcode\Address\City((int)post('idcity'));
 	} else {
 		if (post('desuf')) {
-			$city = City::loadFromName(post('descity'), post('desuf'));			
+			$city = Hcode\Address\City::loadFromName(post('descity'), post('desuf'));			
 		} else {
-			$city = City::loadFromName(post('descity'));
+			$city = Hcode\Address\City::loadFromName(post('descity'));
 		}
 	}
 
 	if (!$address->getidaddresstype() > 0 && count($address->getFields()) > 0) {
 
-		$address->setidaddresstype(($person->getidpersontype() === PersonType::FISICA)?AddressType::RESIDENCIAL:AddressType::COMERCIAL);
+		$address->setidaddresstype(($person->getidpersontype() === Hcode\Person\Type::FISICA)?Hcode\Address\Type::RESIDENCIAL:Hcode\Address\Type::COMERCIAL);
 
 	}
 
@@ -206,35 +206,35 @@ $app->post("/persons", function(){
 });
 
 $app->delete("/persons/:idperson", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	if(!(int)$idperson > 0){
 		throw new Exception("Pessoa não informada", 400);		
 	}
 	if ((int)$idperson === 1) {
 		throw new Exception("Não é possível excluir o cadastro root.", 400);
 	}
-	$person = new Person((int)$idperson);
+	$person = new Hcode\Person\Person((int)$idperson);
 	$person->remove();
 	echo success();
 });
 
 // documentos
 $app->get("/persons/:idperson/documents", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
-	$person = new Person((int)$idperson);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getDocuments()->getFields()));
 });
 
 // contacts
 $app->get("/persons/:idperson/contacts", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
-	$person = new Person((int)$idperson);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getContacts()->getFields()));
 });
 
 // site contacts
 $app->get("/persons/:idperson/site-contact", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS 
 		a.idsitecontact, a.desmessage, a.inread, a.dtregister,
@@ -251,10 +251,10 @@ $app->get("/persons/:idperson/site-contact", function($idperson){
 	";
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Persons",
+		"Hcode\Person\Persons",
 		$itemsPerPage
 	);
 	$person = $pagination->getPage($pagina);	
@@ -268,15 +268,15 @@ $app->get("/persons/:idperson/site-contact", function($idperson){
 
 $app->post("/persons/:idperson/files", function($idperson){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if (!(int)$idperson > 0) {
 		throw new Exception("Informe o ID da pessoa.");
 	}
 
-	$person = new Person(array('idperson'=>(int)$idperson));
+	$person = new Hcode\Person\Person(array('idperson'=>(int)$idperson));
 
-	$files = Files::upload($_FILES['arquivo']);
+	$files = Hcode\FileSystem\Files::upload($_FILES['arquivo']);
 
 	foreach ($files->getItens() as $file) {
 		$person->addFile($file);
@@ -290,7 +290,7 @@ $app->post("/persons/:idperson/files", function($idperson){
 
 $app->get("/persons/:idperson/files", function($idperson){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS *
@@ -300,10 +300,10 @@ $app->get("/persons/:idperson/files", function($idperson){
 	";
 	$pagina = (int)get('page');
 	$itemsPerPage = (int)get('limit');
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Files",
+		"Hcode\FileSystem\Files",
 		$itemsPerPage
 	);
 	$files = $pagination->getPage($pagina);
@@ -318,7 +318,7 @@ $app->get("/persons/:idperson/files", function($idperson){
 
 // pedidos
 $app->get("/persons/:idperson/orders", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS a.*, b.*, c.desformpayment, d.* FROM tb_orders a
 			INNER JOIN tb_persons b USING(idperson)
@@ -328,10 +328,10 @@ $app->get("/persons/:idperson/orders", function($idperson){
 	";
 	$pagina = (int)get('page');
 	$itemsPerPage = (int)get('limit');
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Orders",
+		"Hcode\Financial\Orders",
 		$itemsPerPage
 	);
 	$person = $pagination->getPage($pagina);
@@ -345,24 +345,24 @@ $app->get("/persons/:idperson/orders", function($idperson){
 
 // cartoes de credito
 $app->get("/persons/:idperson/cards", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
-	$person = new Person((int)$idperson);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getCreditCards()->getFields()));
 });
 
 // carrinhos
 $app->get("/persons/:idperson/carts", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$query = "
 		SELECT SQL_CALC_FOUND_ROWS * FROM tb_carts
 		WHERE idperson = ".$idperson." LIMIT ?, ?;
 	";
 	$pagina = (int)get('page');
 	$itemsPerPage = (int)get('limit');
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Carts",
+		"Hcode\Shop\Carts",
 		$itemsPerPage
 	);
 	$person = $pagination->getPage($pagina);
@@ -376,22 +376,22 @@ $app->get("/persons/:idperson/carts", function($idperson){
 
 // enderecos
 $app->get("/persons/:idperson/addresses", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
-	$person = new Person((int)$idperson);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getAddresses()->getFields()));
 });
 
 // usuarios
 $app->get("/persons/:idperson/users", function($idperson){
-	Permission::checkSession(Permission::ADMIN, true);
-	$person = new Person((int)$idperson);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getUsers()->getFields()));
 });
 /////////////////////////////////////////////////////////////////////
 
 // pessoas categorias types
 $app->get("/persons-categories-types/all", function(){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	$where = array();
 	if(get('descategory') != ''){
 		array_push($where, "descategory LIKE '%".utf8_decode(get('descategory'))."%'");
@@ -408,10 +408,10 @@ $app->get("/persons-categories-types/all", function(){
 	";
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"PersonsCategoriesTypes",
+		"Hcode\Person\Category\Types",
 		$itemsPerPage
 	);
 	$categories = $pagination->getPage($pagina);
@@ -424,11 +424,11 @@ $app->get("/persons-categories-types/all", function(){
 });
 
 $app->post("/persons-categories-types", function(){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	if(post('idcategory') > 0){
-		$category = new PersonCategoryType((int)post('idcategory'));
+		$category = new Hcode\Person\Category\Type((int)post('idcategory'));
 	}else{
-		$category = new PersonCategoryType();
+		$category = new Hcode\Person\Category\Type();
 	}
 	$category->set($_POST);
 	$category->save();
@@ -436,11 +436,11 @@ $app->post("/persons-categories-types", function(){
 });
 
 $app->delete("/persons-categories-types/:idcategory", function($idcategory){
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 	if(!(int)$idcategory){
 		throw new Exception("Categoria não informada", 400);		
 	}
-	$category = new PersonCategoryType((int)$idcategory);
+	$category = new Hcode\Person\Category\Type((int)$idcategory);
 	if(!(int)$category->getidcategory() > 0){
 		throw new Exception("Categoria não encontrada", 404);		
 	}

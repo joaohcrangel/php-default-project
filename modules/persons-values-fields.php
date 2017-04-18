@@ -2,7 +2,7 @@
 
 $app->get('/persons-valuesfields',function(){
 
- 	$personvalue = PersonsValuesFields::listAll();
+ 	$personvalue = Hcode\Person\Value\Field::listAll();
 
  	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -22,10 +22,10 @@ $app->get('/persons-valuesfields',function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_personsvaluesfields
 	".$where." LIMIT ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "PersonsValuesFields",
+        "Hcode\Person\Value\Fields",
         $itemsPerPage
     );
 
@@ -45,9 +45,9 @@ $app->get('/persons-valuesfields',function(){
 $app->post("/persons-valuesfields", function(){
 
 	if(post('idfield') > 0){
-		$personvalue = new PersonValueField((int)post('idfield'));
+		$personvalue = new Hcode\Person\Value\Field((int)post('idfield'));
 	}else{
-		$personvalue = new PersonValueField();
+		$personvalue = new Hcode\Person\Value\Field();
 	}
 
 	$personvalue->set($_POST);
@@ -60,13 +60,13 @@ $app->post("/persons-valuesfields", function(){
 
 $app->delete("/persons-valuesfields/:idfield", function($idfield){
 
-	Permission::checkSession(Permission::ADMIN, true);
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(!(int)$idfield > 0){
 		throw new Exception("Valor de campo não informado.", 400);		
 	}
 
-	$personvalue = new PersonValueField((int)$idfield);
+	$personvalue = new Hcode\Person\Value\Field((int)$idfield);
 
 	$personvalue->remove();
 

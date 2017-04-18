@@ -4,7 +4,7 @@
 /*
 $app->get("/orders/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>orders::listAll()->getFields()));
 
@@ -12,7 +12,7 @@ $app->get("/orders/all", function(){
 */
 $app->get("/orders", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $where = array();
 
@@ -54,10 +54,10 @@ $app->get("/orders", function(){
     $pagina = (int)get('pagina');
     $itemsPerPage = (int)get('limite');
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        'Orders',
+        'Hcode\Financial\Orders',
         $itemsPerPage
     );
 
@@ -74,12 +74,12 @@ $app->get("/orders", function(){
 
 $app->post("/orders", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idorder') > 0){
-        $order = new Order((int)post('idorder'));
+        $order = new Hcode\Financial\Order((int)post('idorder'));
     }else{
-        $order = new Order();
+        $order = new Hcode\Financial\Order();
     }
 
     foreach ($_POST as $key => $value) {
@@ -94,13 +94,13 @@ $app->post("/orders", function(){
 
 $app->delete("/orders/:idorder", function($idorder){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idorder){
         throw new Exception("Pedido não informado", 400);
     }
 
-    $order = new Order((int)$idorder);
+    $order = new Hcode\Financial\Order((int)$idorder);
 
     if(!(int)$order->getidorder() > 0){
         throw new Exception("Pedido não encontrado", 404);        
@@ -116,7 +116,7 @@ $app->delete("/orders/:idorder", function($idorder){
 // pedidos status
 $app->get("/orders-status/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -136,10 +136,10 @@ $app->get("/orders-status/all", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_ordersstatus
     ".$where." LIMIT ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "OrdersStatus",
+        "Hcode\Financial\Order\Statuses",
         $itemsPerPage
     );
 
@@ -157,12 +157,12 @@ $app->get("/orders-status/all", function(){
 
 $app->post("/orders-status", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idstatus') > 0){
-        $status = new OrderStatus((int)post('idstatus'));
+        $status = new Hcode\Financial\Order\Status((int)post('idstatus'));
     }else{
-        $status = new OrderStatus();
+        $status = new Hcode\Financial\Order\Status();
     }
 
     foreach ($_POST as $key => $value) {
@@ -177,13 +177,13 @@ $app->post("/orders-status", function(){
 
 $app->delete("/orders-status/:idstatus", function($idstatus){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idstatus){
         throw new Exception("Status não informado", 400);        
     }
 
-    $status = new OrderStatus((int)$idstatus);
+    $status = new Hcode\Financial\Order\Status((int)$idstatus);
 
     if(!(int)$status->getidstatus() > 0){
         throw new Exception("Status não encontrado", 404);        
@@ -199,20 +199,20 @@ $app->delete("/orders-status/:idstatus", function($idstatus){
 // pedidos produtos
 $app->get("/orders-products/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    echo success(array("data"=>OrdersProducts::listAll()->getFields()));
+    echo success(array("data"=>Hcode\Financial\Products::listAll()->getFields()));
 
 });
 
 $app->post("/orders-products", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idorder') > 0 && post('idproduct') > 0){
-        $order = new OrderProduct((int)post('idorder'), (int)post('idproduct'));
+        $order = new Hcode\Financial\Product((int)post('idorder'), (int)post('idproduct'));
     }else{
-        $order = new OrderProduct();
+        $order = new Hcode\Financial\Product();
     }
 
     foreach ($_POST as $key => $value) {
@@ -227,7 +227,7 @@ $app->post("/orders-products", function(){
 
 $app->delete("/orders/:idorder/products/:idproduct", function($idorder, $idproduct){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idorder){
         throw new Exception("Pedido não informado", 400);        
@@ -237,7 +237,7 @@ $app->delete("/orders/:idorder/products/:idproduct", function($idorder, $idprodu
         throw new Exception("Produto não informado", 400);        
     }
 
-    $order = new OrderProduct((int)$idorder, (int)$idproduct);
+    $order = new Hcode\Financial\Product((int)$idorder, (int)$idproduct);
 
     if(!(int)$order->getidorder() > 0 && !(int)$order->getidproduct() > 0){
         throw new Exception("Recurso não encontrado", 404);        
@@ -253,7 +253,7 @@ $app->delete("/orders/:idorder/products/:idproduct", function($idorder, $idprodu
 // pedidos recibos
 $app->get("/orders-receipts/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>OrdersReceipts::listAll()->getFields()));
 
@@ -261,12 +261,12 @@ $app->get("/orders-receipts/all", function(){
 
 $app->post("/orders-receipts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idorder') > 0){
-        $receipt = new OrderReceipt((int)post('idorder'));
+        $receipt = new Hcode\Financial\Order\Receipt((int)post('idorder'));
     }else{
-        $receipt = new OrderReceipt();
+        $receipt = new Hcode\Financial\Order\Receipt();
     }
 
     foreach ($_POST as $key => $value) {
@@ -281,13 +281,13 @@ $app->post("/orders-receipts", function(){
 
 $app->delete("/orders-receipts/:idorder", function($idorder){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idorder){
         throw new Exception("Pedido não informado", 400);        
     }
 
-    $receipt = new OrderReceipt((int)$idorder);
+    $receipt = new Hcode\Financial\Order\Receipt((int)$idorder);
 
     if(!(int)$receipt->getidorder() > 0){
         throw new Exception("Pedido não encontrado", 404);        
@@ -302,9 +302,9 @@ $app->delete("/orders-receipts/:idorder", function($idorder){
 // recibos
 $app->get("/orders/:idorder/receipts", function($idorder){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $order = new Order((int)$idorder);
+    $order = new Hcode\Financial\Order((int)$idorder);
 
     echo success(array("data"=>$order->getReceipts()->getFields()));
 
@@ -314,7 +314,7 @@ $app->get("/orders/:idorder/receipts", function($idorder){
 // pedidos historicos
 $app->get("/orders/logs/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>OrdersLogs::listAll()->getFields()));
 
@@ -322,12 +322,12 @@ $app->get("/orders/logs/all", function(){
 
 $app->post("/orders-logs", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if((int)post('idlog') > 0){
-        $log = new OrderLog((int)post('idlog'));
+        $log = new Hcode\Financial\Order\Log((int)post('idlog'));
     }else{
-        $log = new OrderLog();
+        $log = new Hcode\Financial\Order\Log();
     }
 
     $log->set($_POST);
@@ -340,13 +340,13 @@ $app->post("/orders-logs", function(){
 
 $app->delete("/orders-logs/:idlog", function($idlog){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idlog){
         throw new Exception("Histórico não informado", 400);        
     }
 
-    $log = new OrderLog((int)$idlog);
+    $log = new Hcode\Financial\Order\Log((int)$idlog);
 
     if(!(int)$log->getidlog() > 0){
         throw new Exception("Histórico não encontrado", 404);        
@@ -363,7 +363,7 @@ $app->delete("/orders-logs/:idlog", function($idlog){
 // pedidosnegociacoestipos
 $app->get("/ordersnegotiationstypes", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -383,10 +383,10 @@ $app->get("/ordersnegotiationstypes", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_ordersnegotiationstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "OrdersNegotiationsTypes",
+        "Hcode\Financial\Order\Negotiation\Types",
         $itemsPerPage
     );
 
@@ -404,12 +404,12 @@ $app->get("/ordersnegotiationstypes", function(){
 
 $app->post("/ordersnegotiationstypes", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if((int)post('idnegotiation') > 0){
-        $order = new OrderNegotiationType((int)post('idnegotiation'));
+        $order = new Hcode\Financial\Order\Negotiation\Type((int)post('idnegotiation'));
     }else{
-        $order = new OrderNegotiationType();
+        $order = new Hcode\Financial\Order\Negotiation\Type();
     }
 
     $order->set($_POST);
@@ -422,13 +422,13 @@ $app->post("/ordersnegotiationstypes", function(){
 
 $app->delete("/ordersnegotiationstypes/:idnegotiation", function($idnegotiation){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idnegotiation){
         throw new Exception("Pedido não informado", 400);        
     }
 
-    $order = new OrderNegotiationType((int)$idnegotiation);
+    $order = new Hcode\Financial\Order\Negotiation\Type((int)$idnegotiation);
 
     if(!(int)$order->getidnegotiation() > 0){
         throw new Exception("Pedido não encontrado", 404);        

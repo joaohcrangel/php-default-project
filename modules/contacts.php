@@ -2,7 +2,7 @@
 
 $app->get("/contacts/", function(){
     
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -22,10 +22,10 @@ $app->get("/contacts/", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_contactstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "ContactsTypes",
+        "Hcode\Contact\Types",
         $itemsPerPage
     );
 
@@ -43,12 +43,12 @@ $app->get("/contacts/", function(){
 
 $app->post("/contacts", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcontact') > 0){
-        $contact = new Contact((int)post('idcontact'));
+        $contact = new Hcode\Contact\Contact((int)post('idcontact'));
     }else{
-        $contact = new Contact();
+        $contact = new Hcode\Contact\Contact();
     }
 
     foreach ($_POST as $key => $value) {
@@ -63,13 +63,13 @@ $app->post("/contacts", function(){
 
 $app->delete("/contacts/:idcontact", function($idcontact){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idcontact){
         throw new Exception("Contato não informado", 400);        
     }
 
-    $contact = new Contact((int)$idcontato);
+    $contact = new Hcode\Contact\Contact((int)$idcontato);
 
     if(!(int)$contact->getidcontact() > 0){
         throw new Exception("Contato não encontrado", 404);        
@@ -85,7 +85,7 @@ $app->delete("/contacts/:idcontact", function($idcontact){
 
 $app->get("/contacts/types", function(){
     
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -105,10 +105,10 @@ $app->get("/contacts/types", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_contactstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "ContactsTypes",
+        "Hcode\Contact\Contact\Types",
         $itemsPerPage
     );
 
@@ -126,12 +126,12 @@ $app->get("/contacts/types", function(){
 
 $app->post("/contacts-types", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcontacttype') > 0){
-        $contact = new ContactType((int)post('idcontacttype'));
+        $contact = new Hcode\Contact\Type((int)post('idcontacttype'));
     }else{
-        $contact = new ContactType();
+        $contact = new Hcode\Contact\Type();
     }
 
     foreach ($_POST as $key => $value) {
@@ -146,13 +146,13 @@ $app->post("/contacts-types", function(){
 
 $app->delete("/contacts-types/:idcontact", function($idcontacttype){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idcontacttype){
         throw new Exception("Contato não informado", 400);        
     }
 
-    $contact = new ContactType((int)$idcontacttype);
+    $contact = new Hcode\Contact\Type((int)$idcontacttype);
 
     if(!(int)$contact->getidcontacttype() > 0){
         throw new Exception("Contato não encontrado", 404);        

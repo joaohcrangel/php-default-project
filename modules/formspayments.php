@@ -2,7 +2,7 @@
 
 $app->get("/forms-payments/all", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $currentPage = (int)get("pagina");
     $itemsPerPage = (int)get("limite");
@@ -34,10 +34,10 @@ $app->get("/forms-payments/all", function(){
         INNER JOIN tb_gateways b USING(idgateway)
         '.$where.' LIMIT ?, ?';
 
-      $pagination = new Pagination(
+      $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "FormsPayments",
+        "Hcode\Financial\FormsPayments",
         $itemsPerPage
     );
 
@@ -54,12 +54,12 @@ $app->get("/forms-payments/all", function(){
 
 $app->post("/forms-payments", function(){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idformpayment') > 0){
-        $payment = new FormPayment((int)post('idformpayment'));
+        $payment = new Hcode\Financial\FormPayment((int)post('idformpayment'));
     }else{
-        $payment = new FormPayment();
+        $payment = new Hcode\Financial\FormPayment();
     }
 
     $payment->set($_POST);
@@ -78,13 +78,13 @@ $app->post("/forms-payments", function(){
 
 $app->delete("/forms-payments/:idformpayment", function($idformpayment){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(!(int)$idformpayment){
         throw new Exception("Forma de Pagamento não informado", 400);
     }
 
-    $payment = new FormPayment((int)$idformpayment);
+    $payment = new Hcode\Financial\FormPayment((int)$idformpayment);
 
     if(!(int)$payment->getidformpayment() > 0){
         throw new Exception("Forma de pagamento não encontrado", 404); 

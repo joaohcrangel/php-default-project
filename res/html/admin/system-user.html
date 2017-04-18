@@ -2,6 +2,7 @@
 <header class="slidePanel-header">
   <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
     <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" data-btn="deleteUser" class="btn btn-pure icon md-delete" aria-hidden="true"></button>
       <button type="button" data-btn="simulate" class="btn btn-pure icon md-sign-in" aria-hidden="true"></button>
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
@@ -24,7 +25,7 @@
             <input type="text" class="form-control" id="desuser" name="desuser" placeholder="Digite o seu usuário">
           </div>
           <div class="form-group form-material" data-plugin="formMaterial">
-            <label class="form-control-label" for="idusertype">type</label>
+            <label class="form-control-label" for="idusertype">Tipo de Usuário</label>
             <select class="form-control" id="idusertype" name="idusertype"></select>
           </div>
           <div class="form-group form-material" data-plugin="formMaterial">
@@ -53,6 +54,37 @@
 </div>
 </script>
 <script>
+var deleteUser = function(){
+
+  System.confirm("Deseja excluir definitivamente este usuário?", function(b, s, f){
+
+    if (b) {
+
+      System.load();
+
+      rest({
+        url:PATH+"/users/"+user.iduser,
+        method:"DELETE",
+        success:function(){
+          s();
+          System.done();
+          if (typeof loadUsers === 'function') loadUsers();
+        },
+        failure:function(e){
+          f();
+          System.done();
+          System.showError(e);
+        }
+      });
+
+    } else {
+      f();
+    }
+
+  });  
+
+}
+
 var simulate = function(){
   
   System.load();

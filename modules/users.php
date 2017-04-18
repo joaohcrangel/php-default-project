@@ -297,13 +297,23 @@ $app->post("/users", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$person = new Hcode\Person\Person((int)post('idperson'));
+	if ((int)post('idperson') > 0) {
+		$person = new Hcode\Person\Person((int)post('idperson'));
+	} else {
+		$person = new Hcode\Person\Person(array(
+			"desperson"=>post("desperson"),
+			"idpersontype"=>Hcode\Person\Type::FISICA
+		));
+		$person->save();
+	}	
 
 	if (!(int)$person->getidperson() > 0) {
 		throw new Exception("Pessoa não encontrada.", 404);
 	}
 
 	$_POST['despassword'] = Hcode\System\User::getPasswordHash(post('despassword'));
+	$_POST['inblocked'] = 0;
+	$_POST['idperson'] = $person->getidperson();
 
 	$user = new Hcode\System\User($_POST);
 	$user->save();

@@ -6,7 +6,7 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Usuários</h3>
 						<div class="panel-actions">
-			                <button class="btn btn-sm btn-success btn-block waves-effect" type="button">Novo</button>
+			                <button class="btn btn-sm btn-success btn-block waves-effect" type="button" data-toggle="slidePanel" data-url="{$pathAdmin}/users">Novo</button>
 			             </div>
 						
 					</div>
@@ -278,7 +278,7 @@ init.push(function(){
 
 	}
 
-	function loadUsers(q){
+	window.loadUsers = function(q){
 
 		if (!q) q = '';
 

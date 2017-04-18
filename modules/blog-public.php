@@ -154,6 +154,33 @@ $app->get("/blog/:desurl", function($desurl){
 
 		$categories = BlogCategories::listAll()->getFields();
 
+		// function getCommentsHTML(BlogComment $commentFather, BlogComments $commentsAll){
+
+		// 	$roots = $commentsAll->filter('idcommentfather', $commentFather->getidmenu());
+
+		// 	$html = '';
+
+		// 	if($roots->getSize() > 0){
+
+		// 		$html = '<ul>';
+
+		// 		$html .= '</ul>';
+
+		// 	}
+
+		// 	pre($html);
+		// 	exit;
+
+		// 	return $html;
+
+		// }
+
+		// foreach ($post->getComments()->getItens() as $comment) {
+		// 	getCommentsHTML($comment, $post->getComments());
+		// };
+
+		$post->setTags($post->getTags());
+
 		$page = new Page();
 
 		$page->setTpl("blog-post", array(
@@ -168,7 +195,7 @@ $app->get("/blog/:desurl", function($desurl){
 $app->post("/blog/comment", function(){
 
 	$person = new Person(array(
-		"desperson"=>post("desperson")
+		"desperson"=>post("desperson"),
 	));
 
 	$person->save();

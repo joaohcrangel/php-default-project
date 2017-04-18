@@ -55,6 +55,7 @@
                     <h5 class="panel-title">Tags</h5>
                     <div class="panel-actions">
                       <a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a>
+                      <a href="javascript:void(0)" class="btn btn-pure icon md-refresh panel-action"></a>
                     </div>
                   </div>
                   <div class="panel-body">
@@ -67,6 +68,7 @@
                     <h5 class="panel-title">Categorias</h5>
                     <div class="panel-actions">
                       <a href="javascript:void(0)" class="btn btn-success btn-pure icon md-plus panel-action"></a>
+                      <a href="javascript:void(0)" class="btn btn-pure icon md-refresh panel-action"></a>
                     </div>
                   </div>
                   <div class="panel-body">
@@ -369,6 +371,10 @@ init.push(function(){
 
   });
 
+  $(".tags .md-refresh").on("click", function(){
+    loadTags(false);
+  });
+
   $(".tags .md-plus").on("click", function(){
 
     var $modal = $("#modalTagAdd");
@@ -403,6 +409,10 @@ init.push(function(){
 
     });
 
+  });
+
+  $(".categories .md-refresh").on("click", function(){
+    loadCategories(false);
   });
 
   $(".categories .md-plus").on("click", function(){

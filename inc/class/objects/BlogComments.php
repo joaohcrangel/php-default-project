@@ -9,6 +9,17 @@ class BlogComments extends Collection {
 
     public function get(){}
 
+    public function getByBlogPost(BlogPost $post):BlogComments
+    {
+
+    	$this->loadFromQuery("CALL sp_commentsfrompost_list(?);", array(
+    		$post->getidpost()
+    	));
+
+    	return $this;
+
+    }
+
 }
 
 ?>

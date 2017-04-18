@@ -36,9 +36,13 @@
 						<!-- Entry Meta
 						============================================= -->
 						<ul class="entry-meta clearfix">
-							<li><i class="icon-calendar3"></i> {$post.dtpublished}</li>
+							<li><i class="icon-calendar3"></i> {$post.desdtpublished}</li>
 							<li><a href="#"><i class="icon-user"></i> {$post.desauthor}</a></li>
-							<li><i class="icon-folder-open"></i> <a href="#">{$post.destags}</a></li>
+							<li><i class="icon-folder-open"></i>
+								{loop="$post.Tags"}
+								<a href="#">{$value.destag}</a>
+								{/loop}
+							</li>
 							<li><a href="#"><i class="icon-comments"></i> {$post.nrcomments}</a></li>							
 						</ul><!-- .entry-meta end -->
 
@@ -58,12 +62,9 @@
 							<!-- Tag Cloud
 							============================================= -->
 							<div class="tagcloud clearfix bottommargin">
-								<a href="#">general</a>
-								<a href="#">information</a>
-								<a href="#">media</a>
-								<a href="#">press</a>
-								<a href="#">gallery</a>
-								<a href="#">illustration</a>
+								{loop="$post.Tags"}
+								<a href="#">{$value.destag}</a>
+								{/loop}
 							</div><!-- .tagcloud end -->
 
 							<div class="clear"></div>
@@ -117,8 +118,6 @@
 
 					<!-- </div>.post-navigation end -->
 
-					<div class="line"></div>
-
 					<!-- Post Author Info
 					============================================= -->
 					<div class="panel panel-default">
@@ -127,7 +126,11 @@
 						</div>
 						<div class="panel-body">
 							<div class="author-image">
-								<img src="{$path}{$post.desauthorphoto}" alt="{$post.desauthor}" class="img-circle">
+								{if="$post.desauthorphoto"}
+									<img src="{$path}{$post.desauthorphoto}" alt="{$post.desauthor}" class="img-circle">
+								{else}
+									<img src="{$path}/res/img/male.png" alt="" class="img-circle">
+								{/if}
 							</div>
 							{$post.desresume}
 						</div>

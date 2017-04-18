@@ -62,6 +62,11 @@ class BlogPost extends Model {
         return new BlogCategories($this);
     }
 
+    public function getComments():BlogComments
+    {
+        return new BlogComments($this);
+    }
+
     public function removeTags():bool
     {
 

@@ -2,7 +2,7 @@
 
 class BlogComment extends Model {
 
-    public $required = array('idpost', 'idperson', 'descomment', 'inapproved', 'idcommentfather');
+    public $required = array('idpost', 'idperson', 'descomment');
     protected $pk = "idcomment";
 
     public function get(){

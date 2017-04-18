@@ -647,10 +647,31 @@ $app->delete("/blog-tags/:idtag", function($idtag){
 	echo success();
 
 });
- /*
-///fazer o administrativo do
- 
- ("blogcategories")
- ("blogtags")
-*/
+
+$app->get("/public/blog-posts", function(){
+
+     Permission::checkSession(Permission::ADMIN, true);
+
+    echo success(array("data"=>BlogComment::listAll()->getFields()));
+
+});
+
+$app->post("/public/blog-posts", function(){
+
+	Permission::checkSession(Permission::ADMIN, true);
+
+	if(post("idpost") > 0){
+		$tag = new BlogComment((int)post("idpost"));
+	}else{
+		$tag = new BlogComment();
+	}
+
+	$tag->set($_POST);
+
+	$tag->save();
+
+	echo success(array("data"=>$tag->getFields()));
+
+});
+
 ?>

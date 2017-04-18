@@ -1945,7 +1945,7 @@ $app->get("/install-admin/sql/permissions/inserts", function(){
 	", array());
 
 	$sql->arrays("
-		INSERT INTO tb_permissionsusers (iduser, idpermission) VALUES
+		INSERT INTO tb_permissionsusers (iduser, idpermission)
 		SELECT iduser, idpermission FROM tb_users CROSS JOIN tb_permissions;
 	", array());
 	echo success();

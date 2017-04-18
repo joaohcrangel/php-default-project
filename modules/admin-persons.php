@@ -26,7 +26,7 @@ $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
     $page->setTpl('/admin/persons-panel-new',  array(
         'person'=>$person->getFields(),
-        'addressesTypes'=>AddressesTypes::listAll()->getFields()
+        'addressesTypes'=>Hcode\Address\Types::listAll()->getFields()
     ));
 
 });

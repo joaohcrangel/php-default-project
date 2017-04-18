@@ -42,6 +42,28 @@ $app->get("/users/login", function(){
 
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/users/simulate", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
+
+	$user = new Hcode\System\User((int)post("iduser"));
+
+	Hcode\Session::simulateStart($user);
+
+	echo success();
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
+$app->post("/users/simulated", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
+
+	Hcode\Session::simulateEnd();
+
+	echo success();
+
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/users/menus/reset", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
@@ -76,7 +98,7 @@ $app->get("/users", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$users = Hcode\Users::listAll($_GET);
+	$users = Hcode\System\Users::listAll($_GET);
 
     echo success(array(
     	'data'=>$users->getFields()

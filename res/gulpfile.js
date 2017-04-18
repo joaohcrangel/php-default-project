@@ -254,13 +254,13 @@ gulp.task('html', function() {
     }))
     .pipe(gulp.dest('tpl/install'));
 
-    gulp.src('html/panel/*.html')
+    gulp.src('html/admin/panel/*.html')
     .pipe(htmlmin({
         collapseWhitespace: true,
         removeComments: true,
         removeOptionalTags: true
     }))
-    .pipe(gulp.dest('tpl/panel'));
+    .pipe(gulp.dest('tpl/admin/panel'));
 });
  
 gulp.task('images', function(cb) {

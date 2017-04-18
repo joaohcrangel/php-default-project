@@ -4,10 +4,13 @@ namespace Hcode;
 
 use \Hcode\Person\Person;
 use \Hcode\System\User;
+use \Hcode\Admin\Menu;
 use \Hcode\System\Configurations;
 use \Hcode\System\Configuration;
 
 class Session extends DefaultObject {
+
+	const SIMULATE = "SIMULATE";
 
 	public static function setObjectInSession($object){
 
@@ -214,6 +217,63 @@ class Session extends DefaultObject {
 		return Session::getCollectionFromSession('Hcode\System\Configurations');
 
 	}
+
+	public static function simulateStart(User $user):User
+	{
+
+		$_SESSION[Session::SIMULATE] = Session::getUser()->getFields();
+
+		if (!$user->getiduser() > 0) {
+			throw new Exception("Informe um objeto User com os dados.");		
+		}
+
+		$user->getPerson();
+
+		Session::setUser($user, (isset($_POST['remember'])));
+
+		$configurations = Configurations::listAll();
+
+		Session::setConfigurations($configurations);
+
+		Menu::resetMenuSession();
+
+		return $user;
+
+	}
+
+	public static function isSimulated():bool
+	{
+
+		return (isset($_SESSION[Session::SIMULATE]));
+
+	}
+
+	public static function simulateEnd():User
+	{
+
+		if (Session::isSimulated()) {
+
+			$user = new User($_SESSION[Session::SIMULATE]);
+
+			unset($_SESSION[Session::SIMULATE]);
+
+			$user->getPerson();
+
+			Session::setUser($user, (isset($_POST['remember'])));
+
+			$configurations = Configurations::listAll();
+
+			Session::setConfigurations($configurations);
+
+			Menu::resetMenuSession();
+
+			return $user;
+
+		} else {
+			throw new Exception("Não está simulando um usuário.");
+		}
+
+	} 
 	
 }
 ?>

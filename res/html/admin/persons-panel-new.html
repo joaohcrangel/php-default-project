@@ -218,7 +218,7 @@
                       <i class="icon md-plus" aria-hidden="true"></i> adicionar
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownAddress" role="menu">
-                      {loop="addressesTypes"}
+                      {loop="$addressesTypes"}
                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-idaddresstype="{$value.idaddresstype}">{$value.desaddresstype}</a>
                       {/loop}
                     </div>

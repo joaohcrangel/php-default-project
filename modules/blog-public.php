@@ -152,6 +152,10 @@ $app->get("/blog/:desurl", function($desurl){
 
 		$post = new BlogPost($data[0]);
 
+		var_dump($post->getFields());
+
+		exit;
+
 		$categories = BlogCategories::listAll()->getFields();
 
 		$page = new Page();
@@ -168,7 +172,9 @@ $app->get("/blog/:desurl", function($desurl){
 $app->post("/blog/comment", function(){
 
 	$person = new Person(array(
-		"desperson"=>post("desperson")
+		"desperson"=>post("desperson"),
+		"idpersontype"=>PersonType::FISICA,
+		"desemail"=>post("desemail")
 	));
 
 	$person->save();

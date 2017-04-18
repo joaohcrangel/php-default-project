@@ -202,6 +202,14 @@ $app->post("/blog/comment", function(){
 
 	$person->save();
 
+	$comment = new BlogComment(array(
+		"descomment"=>post("descomment"),
+		"idpersontype"=>PersonType::FISICA,
+		"desemail"=>post("desemail")
+	));
+
+	$person->save();
+
 });
 
 ?>

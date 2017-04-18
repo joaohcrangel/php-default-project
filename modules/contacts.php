@@ -22,10 +22,10 @@ $app->get("/contacts/", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_contactstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "ContactsTypes",
+        "Hcode\Contact\Types",
         $itemsPerPage
     );
 
@@ -46,9 +46,9 @@ $app->post("/contacts", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcontact') > 0){
-        $contact = new Contact((int)post('idcontact'));
+        $contact = new Hcode\Contact\Contact((int)post('idcontact'));
     }else{
-        $contact = new Contact();
+        $contact = new Hcode\Contact\Contact();
     }
 
     foreach ($_POST as $key => $value) {
@@ -69,7 +69,7 @@ $app->delete("/contacts/:idcontact", function($idcontact){
         throw new Exception("Contato não informado", 400);        
     }
 
-    $contact = new Contact((int)$idcontato);
+    $contact = new Hcode\Contact\Contact((int)$idcontato);
 
     if(!(int)$contact->getidcontact() > 0){
         throw new Exception("Contato não encontrado", 404);        
@@ -105,10 +105,10 @@ $app->get("/contacts/types", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_contactstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "ContactsTypes",
+        "Hcode\Contact\Contact\Types",
         $itemsPerPage
     );
 
@@ -129,9 +129,9 @@ $app->post("/contacts-types", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idcontacttype') > 0){
-        $contact = new ContactType((int)post('idcontacttype'));
+        $contact = new Hcode\Contact\Type((int)post('idcontacttype'));
     }else{
-        $contact = new ContactType();
+        $contact = new Hcode\Contact\Type();
     }
 
     foreach ($_POST as $key => $value) {
@@ -152,7 +152,7 @@ $app->delete("/contacts-types/:idcontact", function($idcontacttype){
         throw new Exception("Contato não informado", 400);        
     }
 
-    $contact = new ContactType((int)$idcontacttype);
+    $contact = new Hcode\Contact\Type((int)$idcontacttype);
 
     if(!(int)$contact->getidcontacttype() > 0){
         throw new Exception("Contato não encontrado", 404);        

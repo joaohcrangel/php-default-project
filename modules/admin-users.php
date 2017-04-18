@@ -4,7 +4,7 @@ $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $user = new Hcode\User((int)$iduser);
+    $user = new Hcode\System\User((int)$iduser);
 
     $user->getPerson();
 

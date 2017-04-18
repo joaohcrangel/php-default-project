@@ -7,6 +7,7 @@
 namespace Hcode;
 
 use Hcode\Locale\Language;
+use Hcode\Sql;
 
 interface ModelInterface {
 

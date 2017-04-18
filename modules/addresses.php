@@ -2,7 +2,7 @@
 
  $app->get("/addressestypes",function(){
 
-   $address = Types::listAll();
+   $address = Hcode\Address\Types::listAll();
     echo success(array(
      "data"=> $address->getFields()
    	));
@@ -13,7 +13,7 @@
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $address = new Address((int)$idaddress);
+    $address = new Hcode\Address\Address((int)$idaddress);
 
     echo success(array("data"=>$address->getFields()));
 
@@ -23,7 +23,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $address = Address::getByCep($nrcep);
+    $address = Hcode\Address\Address::getByCep($nrcep);
 
     echo success(array(
         'data'=>$address->getFields()
@@ -34,7 +34,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $address = new Cities();
+    $address = new Hcode\Address\Cities();
 
     $address->loadFromQuery("
         SELECT * 
@@ -75,10 +75,10 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
         FROM tb_addressestypes 
         ".$where." LIMIT ?, ?;";
 
-      $Pagination = new Pagination(
+      $Pagination = new Hcode\Pagination(
         $query,
         array(),
-        "AddressesTypes",
+        "Hcode\Address\Types",
         $itemsPerPage
     );
 
@@ -98,7 +98,7 @@ $app->get('/addresses/cep/:nrcep', function($nrcep){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $addresstype = new AddressType($_POST);
+    $addresstype = new Hcode\Address\Type($_POST);
 
     $addresstype->save();
 
@@ -112,7 +112,7 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$addresstype = new AddressType((int)$idaddresstype);
+	$addresstype = new Hcode\Address\Type((int)$idaddresstype);
 
 	$addresstype->remove();
 
@@ -125,9 +125,9 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
  	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
  	if(post('idaddress') > 0){
- 		$address = new Address((int)post('idaddress'));
+ 		$address = new Hcode\Address\Address((int)post('idaddress'));
  	}else{
- 		$address = new Address();
+ 		$address = new Hcode\Address\Address();
  	}
 
  	foreach ($_POST as $key => $value) {
@@ -148,7 +148,7 @@ $app->delete('/addresses-types/:idaddresstype', function ($idaddresstype) {
  		throw new Exception("Endereço não informado", 400); 		
  	}
 
- 	$address = new Address((int)$idaddress);
+ 	$address = new Hcode\Address\Address((int)$idaddress);
 
  	if(!(int)$address->getidaddress() > 0){
  		throw new Exception("Endereço não encontrado", 404); 		

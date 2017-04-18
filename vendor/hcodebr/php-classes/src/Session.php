@@ -2,8 +2,8 @@
 
 namespace Hcode;
 
-use \Hcode\User\User;
 use \Hcode\Person\Person;
+use \Hcode\System\User;
 use \Hcode\System\Configurations;
 use \Hcode\System\Configuration;
 
@@ -86,7 +86,7 @@ class Session extends DefaultObject {
 			}
 		}
 
-		$user = Session::getObjectFromSession('Hcode\User');
+		$user = Session::getObjectFromSession('Hcode\System\User');
 
 		if ($user !== NULL && !$user->getiduser() > 0) {
 
@@ -211,7 +211,7 @@ class Session extends DefaultObject {
 	public static function getConfigurations():Configurations
 	{
 
-		return Session::getCollectionFromSession('Hcode\Configurations');
+		return Session::getCollectionFromSession('Hcode\System\Configurations');
 
 	}
 	

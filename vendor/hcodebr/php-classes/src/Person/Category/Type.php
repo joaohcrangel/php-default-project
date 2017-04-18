@@ -1,8 +1,11 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Person\Category;
 
-class PersonCategoryType extends Model {
+use Hcode\Model;
+use Hcode\Exception;
+
+class Type extends Model {
 
     public $required = array('idcategory', 'descategory');
     protected $pk = "idcategory";

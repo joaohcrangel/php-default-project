@@ -1,6 +1,6 @@
 <?php 
 
-namespace Hcode\Sql;
+namespace Hcode;
 
 use \PDO;
 use \DateTime;

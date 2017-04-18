@@ -5,7 +5,7 @@ $app->get("/documents/cpf/:nrcpf", function($nrcpf){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     echo success(array("data"=>array(
-        'incpf'=>Document::CPFValidate($nrcpf)
+        'incpf'=>Hcode\Document\Document::CPFValidate($nrcpf)
     )));
 
 });
@@ -15,9 +15,9 @@ $app->post("/documents", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('iddocument') > 0){
-        $document = new Document((int)post('iddocument'));
+        $document = new Hcode\Document\Document((int)post('iddocument'));
     }else{
-        $document = new Document();
+        $document = new Hcode\Document\Document();
     }
 
     foreach ($_POST as $key => $value) {
@@ -38,7 +38,7 @@ $app->delete("/documents/:iddocument", function($iddocument){
         throw new Exception("Documento não informado", 400);        
     }
 
-    $document = new Document((int)$iddocument);
+    $document = new Hcode\Document\Document((int)$iddocument);
 
     if(!(int)$document->getiddocument() > 0){
         throw new Exception("Documento não encontrado", 404);        
@@ -73,10 +73,10 @@ $app->get("/documents/types", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_documentstypes
     ".$where." limit ?, ?;";
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "DocumentsTypes",
+        "Hcode\Document\Types",
         $itemsPerPage
     );
 
@@ -95,7 +95,7 @@ $app->post('/documents-types', function () {
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $documenttype = new DocumentType($_POST);
+    $documenttype = new Hcode\Document\Type($_POST);
 
     $documenttype->save();
 
@@ -109,7 +109,7 @@ $app->delete('/documents-types/:iddocumenttype', function ($iddocumenttype) {
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-    $documenttype = new DocumentType((int)$iddocumenttype);
+    $documenttype = new Hcode\Document\Type((int)$iddocumenttype);
 
     $documenttype->remove();
 

@@ -24,10 +24,10 @@ $app->get("/emails", function(){
 	/***********************************************************************************************/
 	$pagina = (int)get('pagina');//Página atual
 	$itensPorPagina = (int)get('limite');//Itens por página
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		"SELECT SQL_CALC_FOUND_ROWS * FROM tb_emails ".$where." ORDER BY desemail LIMIT ?, ?",//Query com as duas interrogações no LIMIT
 	    $params,//Outros parâmetros
-	    'Emails',//Coleção que será retornada
+	    'Hcode\Email\Emails',//Coleção que será retornada
 	    $itensPorPagina//Informo os itens por página
 	);
 	$persons = $pagination->getPage($pagina);//Neste momento vai no banco e solicita os itens da página específica

@@ -24,18 +24,6 @@ abstract class Page {
 		)
 	);
 
-	private function getConfig():array
-	{
-
-		return array(
-			"base_url"      => PATH,
-			"tpl_dir"       => PATH."/res/tpl/",
-			"cache_dir"     => PATH."/res/tpl/tmp/",
-			"debug"         => false // set to false to improve the speed
-	    );
-
-	}
-
 	public function __construct($options = array())
 	{
 

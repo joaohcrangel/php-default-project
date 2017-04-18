@@ -2,7 +2,7 @@
 
 $app->get('/userslogs-types',function(){
 
- 	$logs = UsersLogsTypes::listAll();
+ 	$logs = Hcode\User\Log\Types::listAll();
 
  	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -22,10 +22,10 @@ $app->get('/userslogs-types',function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_userslogstypes
 	".$where." limit ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "UsersLogsTypes",
+        "Hcode\User\Log\Types",
         $itemsPerPage
     );
 
@@ -44,9 +44,9 @@ $app->get('/userslogs-types',function(){
 $app->post("/userslogs-types", function(){
 
 	if(post('idlogtype') > 0){
-		$logs = new UserLogType((int)post('idlogtype'));
+		$logs = new Hcode\System\User\Log\Type((int)post('idlogtype'));
 	}else{
-		$logs = new UserLogType();
+		$logs = new Hcode\System\User\Log\Type();
 	}
 
 	$logs->set($_POST);
@@ -65,7 +65,7 @@ $app->delete("/userslogs-types/:idlogtype", function($idlogtype){
 		throw new Exception("Tipo de historico não informado.", 400);		
 	}
 
-	$logs = new UserLogType((int)$idlogtype);
+	$logs = new Hcode\System\User\Log\Type((int)$idlogtype);
 
 	$logs->remove();
 

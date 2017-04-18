@@ -4,7 +4,7 @@ $app->get("/site-contacts/all", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    echo success(array("data"=>SiteContacts::listAll()->getFields()));
+    echo success(array("data"=>Hcode\Site\Contacts::listAll()->getFields()));
 
 });
 
@@ -13,9 +13,9 @@ $app->post("/site-contacts", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idsitecontact') > 0){
-        $site = new SiteContact((int)post('idsitecontact'));
+        $site = new Hcode\Site\Contact((int)post('idsitecontact'));
     }else{
-        $site = new SiteContact();
+        $site = new Hcode\Site\Contact();
     }
 
     foreach ($_POST as $key => $value) {
@@ -30,7 +30,7 @@ $app->post("/site-contacts", function(){
 
 $app->post("/site-contacts/person", function(){
 
-    $sql = new Sql();
+    $sql = new Hcode\Sql();
 
     $data = $sql->execute("sp_sitecontactsbyperson_get", array(
         post('desemail')
@@ -38,7 +38,7 @@ $app->post("/site-contacts/person", function(){
 
     if(isset($data[0])){
 
-        $site = new SiteContact(array(            
+        $site = new Hcode\Site\Contact(array(            
             'idsitecontact'=>0,
             'idperson'=>$data[0]['idperson'],
             'desmessage'=>post('desmessage')
@@ -46,11 +46,11 @@ $app->post("/site-contacts/person", function(){
 
         $site->save();
 
-        $person = new Person((int)$data[0]['idperson']);
+        $person = new Hcode\Person\Person((int)$data[0]['idperson']);
 
     }else{
 
-        $person = new Person($_POST);
+        $person = new Hcode\Person\Person($_POST);
 
         $person->save();
 
@@ -73,7 +73,7 @@ $app->post("/site-contacts/person", function(){
 
         foreach ($saveArgs as $value) {
             
-            $contact = new Contact($value);
+            $contact = new Hcode\Contact\Contact($value);
 
             $contact->save();
 
@@ -93,7 +93,7 @@ $app->delete("/site-contacts/:idsitecontact", function($idsitecontact){
         throw new Exception("Contato não informado", 400);        
     }
 
-    $site = new SiteContact((int)$idsitecontact);
+    $site = new Hcode\Site\Contact((int)$idsitecontact);
 
     if(!(int)$site->getidsitecontact() > 0){
         throw new Exception("Contato não encontrado", 404);        

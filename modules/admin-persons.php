@@ -17,7 +17,7 @@ $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $person = new Person((int)$idperson);
+    $person = new Hcode\Person\Person((int)$idperson);
 
     $page = new Hcode\Admin\Page(array(
         'header'=>false,

@@ -22,10 +22,10 @@ $app->get("/gateways/all", function(){
     $query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_gateways
     ".$where." limit ?, ?;";
 
-    $paginacao = new Pagination(
+    $paginacao = new Hcode\Pagination(
         $query,
         array(),
-        "Gateways",
+        "Hcode\Shop\Gateways",
         $itemsPerPage
     );
 
@@ -46,9 +46,9 @@ $app->post("/gateways", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idgateway') > 0){
-        $gateway = new Gateway((int)post('idgateway'));
+        $gateway = new Hcode\Shop\Gateway((int)post('idgateway'));
     }else{
-        $gateway = new Gateway();
+        $gateway = new Hcode\Shop\Gateway();
     }
 
     foreach ($_POST as $key => $value) {
@@ -69,7 +69,7 @@ $app->delete("/gateways/:idgateway", function($idgateway){
         throw new Exception("Gateway não informado", 400);        
     }
 
-    $gateway = new Gateway((int)$idgateway);
+    $gateway = new Hcode\Shop\Gateway((int)$idgateway);
 
     if(!(int)$gateway->getidgateway() > 0){
         throw new Exception("Gateway não encontrado", 404);        

@@ -81,7 +81,7 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Hcode\Session::setUser($user);
 
-    $configurations = Configurations::listAll();
+    $configurations = Hcode\System\Configurations::listAll();
 
     Hcode\Session::setConfigurations($configurations);
 
@@ -366,7 +366,7 @@ $app->get("/".DIR_ADMIN."/blog-tags/all", function(){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-   $page = new AdminPage(array(
+   $page = new Hcode\Admin\Page(array(
         'data'=>array(
             'body'=>array(
                 'class'=>'page-aside-fixed page-aside-left'
@@ -880,12 +880,14 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
         break;
     }
 
-    raintpl::configure("base_url", PATH );
-    raintpl::configure("tpl_dir", PATH."/res/tpl/sql-to-class/" );
-    raintpl::configure("cache_dir", PATH."/res/tpl/tmp/" );
-    raintpl::configure("path_replace", false );
+    Rain\Tpl::configure(array(
+        "base_url"      => PATH,
+        "tpl_dir"       => PATH."/res/tpl/sql-to-class/",
+        "cache_dir"     => PATH."/res/tpl/tmp/",
+        "debug"         => false
+    ));
 
-    $tpl = new RainTPL();
+    $tpl = new Rain\Tpl();
 
     if(gettype($data)=='array'){
         foreach($data as $key=>$val){

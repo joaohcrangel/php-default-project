@@ -4,18 +4,19 @@ namespace Hcode\Admin;
 
 use Hcode\Locale\Language;
 use Hcode\Session;
-use Hcode\Configurations;
+use Hcode\System\Configurations;
 use Rain\Tpl;
 
 class Page extends \Hcode\Page {
   	
-	private function getConfig(){
+	public function getConfig(){
 
 		return array(
 			"base_url"      => PATH,
 			"tpl_dir"       => PATH."/res/tpl/admin/",
 			"cache_dir"     => PATH."/res/tpl/tmp/admin/",
-			"debug"         => false
+			"debug"         => false,
+			"auto_escape"	=> false
 	    );
 
 	}

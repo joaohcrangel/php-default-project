@@ -4,7 +4,7 @@ $app->get("/menus/:idmenu/users", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu(array(
+	$menu = new Hcode\Admin\Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
@@ -16,7 +16,7 @@ $app->get("/menus/:idmenu/permissions/missing", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu(array(
+	$menu = new Hcode\Admin\Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
@@ -30,7 +30,7 @@ $app->get("/menus/:idmenu/permissions", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu(array(
+	$menu = new Hcode\Admin\Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
@@ -42,11 +42,11 @@ $app->post("/menus/:idmenu/permissions", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu(array(
+	$menu = new Hcode\Admin\Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	$permissions = new permissions();
+	$permissions = new Hcode\Admin\Permissions();
 
 	foreach (explode(",", post('idpermission')) as $id) {
 		$permissions->add(new Permission(array(
@@ -67,14 +67,14 @@ $app->delete("/menus/:idmenu/permissions", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu(array(
+	$menu = new Hcode\Admin\Menu(array(
 		'idmenu'=>(int)$idmenu
 	));
 
-	$permissions = new Permission();
+	$permissions = new Hcode\Admin\Permission();
 
 	foreach (explode(",", post('idpermission')) as $id) {
-		$permissoes->add(new Permission(array(
+		$permissoes->add(new Hcode\Admin\Permission(array(
 			'idpermission'=>(int)$id
 		)));
 	}
@@ -89,7 +89,7 @@ $app->get("/menus/:idmenu", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu((int)$idmenu);
+	$menu = new Hcode\Admin\Menu((int)$idmenu);
 
 	echo success(array('data'=>$menu->getFields()));
 
@@ -99,7 +99,7 @@ $app->delete("/menus/:idmenu", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu((int)$idmenu);
+	$menu = new Hcode\Admin\Menu((int)$idmenu);
 
 	$menu->remove();
 
@@ -111,7 +111,7 @@ $app->post("/menus/:idmenu", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu((int)$idmenu);
+	$menu = new Hcode\Admin\Menu((int)$idmenu);
 
 	$menu->set($_POST);
 
@@ -125,7 +125,7 @@ $app->post("/menus", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new Menu($_POST);
+	$menu = new Hcode\Admin\Menu($_POST);
 
 	$menu->save();
 

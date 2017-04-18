@@ -30,10 +30,10 @@ $app->get("/cities/all", function(){
 	$pagina = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Cities",
+		"Hcode\Address\Cities",
 		$itemsPerPage
 	);
 
@@ -53,9 +53,9 @@ $app->post("/cities", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idcity') > 0){
-		$city = new City((int)post('idcity'));
+		$city = new Hcode\Address\City((int)post('idcity'));
 	}else{
-		$city = new City();
+		$city = new Hcode\Address\City();
 	}
 
 	$city->set($_POST);
@@ -78,7 +78,7 @@ $app->delete("/cities", function(){
 			throw new Exception("Cidade não informada", 400);		
 		}
 
-		$city = new City((int)$idcity);
+		$city = new Hcode\Address\City((int)$idcity);
 
 		if(!(int)$city->getidcity() > 0){
 			throw new Exception("Cidade não encontrada", 404);		
@@ -100,7 +100,7 @@ $app->delete("/cities/:idcity", function($idcity){
 		throw new Exception("cidade não encontrado", 400);		
 	}
 
-	$city = new City((int)$idcity);
+	$city = new Hcode\Address\City((int)$idcity);
 
 	if(!(int)$city->getidcity() > 0){
 		throw new Exception("cidade não encontrado", 404);		

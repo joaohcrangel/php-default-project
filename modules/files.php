@@ -25,10 +25,10 @@ $app->get("/files", function(){
 
     $query = 'SELECT SQL_CALC_FOUND_ROWS * FROM tb_files '.$where.' LIMIT ?, ?';
 
-    $pagination = new Pagination(
+    $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "Files",
+        "Hcode\FileSystem\Files",
         $itemsPerPage
     );
 
@@ -56,7 +56,7 @@ $app->post("/files", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $files = Files::upload($_FILES['arquivo']);
+    $files = Hcode\FileSystem\Files::upload($_FILES['arquivo']);
     
     echo success(array(
         'data'=>$files->getFields()
@@ -72,7 +72,7 @@ $app->delete("/files/:idfile", function($idfile){
         throw new Exception("Arquivo não informado", 400);        
     }
 
-    $file = new File((int)$idfile);
+    $file = new Hcode\FileSystem\File((int)$idfile);
 
     if(!(int)$file->getidfile() > 0){
         throw new Exception("Arquivo não encontrado", 404);        
@@ -92,7 +92,7 @@ $app->delete("/files", function(){
 
     foreach ($ids as $idfile) {
 
-        $file = new File(array(
+        $file = new Hcode\FileSystem\File(array(
             "idfile"=>$idfile
         ));
 

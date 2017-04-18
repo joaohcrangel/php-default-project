@@ -2,17 +2,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/users/login", function(){
 
-	$user = Hcode\User::login(strtolower(post('username')), post('password'));
+	$user = Hcode\System\User::login(strtolower(post('username')), post('password'));
 
 	$user->getPerson();
 
 	Hcode\Session::setUser($user, (isset($_POST['remember'])));
 	
-	$configurations = Hcode\Configurations::listAll();
+	$configurations = Hcode\System\Configurations::listAll();
 
 	Hcode\Session::setConfigurations($configurations);
 
-	Hcode\Menu::resetMenuSession();
+	Hcode\Admin\Menu::resetMenuSession();
 
 	echo success(array(
 		'token'=>session_id(),
@@ -23,17 +23,17 @@ $app->post("/users/login", function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->get("/users/login", function(){
 
-	$user = Hcode\User::login('root', 'root');
+	$user = Hcode\System\User::login('root', 'root');
 
 	$user->getPerson();
 
 	Hcode\Session::setUser($user, (isset($_POST['remember'])));
 
-	$configurations = Hcode\Configurations::listAll();
+	$configurations = Hcode\System\Configurations::listAll();
 
 	Hcode\Session::setConfigurations($configurations);
 
-	Hcode\Menu::resetMenuSession();
+	Hcode\Admin\Menu::resetMenuSession();
 
 	echo success(array(
 		'token'=>session_id(), 
@@ -46,11 +46,11 @@ $app->get("/users/menus/reset", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$configurations = Hcode\Configurations::listAll();
+	$configurations = Hcode\System\Configurations::listAll();
 
 	Hcode\Session::setConfigurations($configurations);
 
-	Hcode\Menu::resetMenuSession();
+	Hcode\Admin\Menu::resetMenuSession();
 
 	echo success(array('token'=>session_id()));
 
@@ -58,7 +58,7 @@ $app->get("/users/menus/reset", function(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 $app->post("/users/forget", function(){
 
-	$user = Hcode\User::getByEmail(strtolower(post('email')));
+	$user = Hcode\System\User::getByEmail(strtolower(post('email')));
 
 	if ($user->getiduser() > 0) {
 
@@ -89,7 +89,7 @@ $app->get("/userstypes", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
     echo success(array(
-    	'data'=>UsersTypes::listAll()->getFields()
+    	'data'=>Hcode\System\User\Types::listAll()->getFields()
     ));
 
 });
@@ -119,7 +119,7 @@ $app->get("/users/types", function(){
 	$paginacao = new Hcode\Pagination(
         $query,
         array(),
-        "UsersTypes",
+        "Hcode\System\User\Types",
         $itemsPerPage
     );
 
@@ -140,9 +140,9 @@ $app->post("/users-types", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idusertype') > 0){
-        $usertype = new Hcode\UserType((int)post('idusertype'));
+        $usertype = new Hcode\System\User\Type((int)post('idusertype'));
     }else{
-        $usertype = new Hcode\UserType();
+        $usertype = new Hcode\System\User\Type();
     }
 
     foreach ($_POST as $key => $value) {
@@ -163,7 +163,7 @@ $app->delete("/users-types/:idusertype", function($idusertype){
         throw new Exception("Tipo de usuário não informado", 400);        
     }
 
-    $usertype = new Hcode\UserType((int)$idusertype);
+    $usertype = new Hcode\System\User\Type((int)$idusertype);
 
     if(!(int)$usertype->getidusertype() > 0){
         throw new Exception("Tipo de usuário não encontrado", 404);        
@@ -179,11 +179,11 @@ $app->post("/users/:iduser/permissions", function($iduser){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$user = new Hcode\User(array(
+	$user = new Hcode\System\User(array(
 		'iduser'=>(int)$iduser
 	));
 
-	$permission = new Hcode\Permission(array(
+	$permission = new Hcode\Admin\Permission(array(
 		'idpermission'=>(int)post('idpermission')
 	));
 
@@ -197,11 +197,11 @@ $app->delete("/users/:iduser/permissions", function($iduser){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$user = new Hcode\User(array(
+	$user = new Hcode\System\User(array(
 		'iduser'=>(int)$iduser
 	));
 
-	$permission = new Hcode\Permission(array(
+	$permission = new Hcode\Admin\Permission(array(
 		'idpermission'=>(int)post('idpermission')
 	));
 
@@ -215,7 +215,7 @@ $app->get("/users/:iduser/permissions", function($iduser){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$user = new Hcode\User(array(
+	$user = new Hcode\System\User(array(
 		'iduser'=>(int)$iduser
 	));
 
@@ -229,7 +229,7 @@ $app->get("/users/:iduser/menus", function($iduser){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$user = new Hcode\User(array(
+	$user = new Hcode\System\User(array(
 		'iduser'=>(int)$iduser
 	));
 
@@ -251,13 +251,13 @@ $app->post("/users/:iduser/password", function($iduser){
 		throw new Exception("Confirme a senha corretamente.", 400);
 	}
 
-	$user = new Hcode\User((int)$iduser);
+	$user = new Hcode\System\User((int)$iduser);
 
 	if (!$user->checkPassword(post('passwordcurrent'))) {
 		throw new Exception("A senha atual não é válida.", 400);
 	}
 
-	$user->setdespassword(Hcode\User::getPasswordHash(post('passwordnew')));
+	$user->setdespassword(Hcode\System\User::getPasswordHash(post('passwordnew')));
 
 	$user->save();
 
@@ -275,15 +275,15 @@ $app->post("/users", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$person = new Hcode\Person((int)post('idperson'));
+	$person = new Hcode\Person\Person((int)post('idperson'));
 
 	if (!(int)$person->getidperson() > 0) {
 		throw new Exception("Pessoa não encontrada.", 404);
 	}
 
-	$_POST['despassword'] = Hcode\User::getPasswordHash(post('despassword'));
+	$_POST['despassword'] = Hcode\System\User::getPasswordHash(post('despassword'));
 
-	$user = new Hcode\User($_POST);
+	$user = new Hcode\System\User($_POST);
 	$user->save();
 
 	echo success(array('data'=>$user->getFields()));
@@ -327,7 +327,7 @@ $app->get('/users/lock', function () {
 
 	$url = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:SITE_PATH.'/'.DIR_ADMIN;
 
-	$_SESSION[User::SESSION_NAME_LOCK] = array(
+	$_SESSION[Hcode\System\User::SESSION_NAME_LOCK] = array(
 		'url'=>$url,
 		'time'=>time()
 	);
@@ -355,7 +355,7 @@ $app->post('/users/unlock', function () {
 
 	$user = Hcode\Session::getUser(false);
 
-	$u = Hcode\User::login($user->getdesuser(), post('password'));
+	$u = Hcode\System\User::login($user->getdesuser(), post('password'));
 
 	if (!(int)$u->getiduser() > 0) {
 
@@ -366,11 +366,11 @@ $app->post('/users/unlock', function () {
 
 	Hcode\Session::setUser($u);
 
-	$url = $_SESSION[Hcode\User::SESSION_NAME_LOCK]['url'];
+	$url = $_SESSION[Hcode\System\User::SESSION_NAME_LOCK]['url'];
 
-	unset($_SESSION[Hcode\User::SESSION_NAME_LOCK]);
+	unset($_SESSION[Hcode\System\User::SESSION_NAME_LOCK]);
 
-	Hcode\Menu::resetMenuSession();
+	Hcode\Admin\Menu::resetMenuSession();
 
 	echo success(array(
 		'url'=>$url
@@ -410,7 +410,7 @@ $app->get("/users/:iduser", function($iduser){
 		throw new Exception("ID de usuário não informado.", 400);
 	}
 
-	$user = new Hcode\User((int)$iduser);
+	$user = new Hcode\System\User((int)$iduser);
 
 	$user->getPerson();
 
@@ -426,7 +426,7 @@ $app->post("/users/:iduser", function($iduser){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$user = new Hcode\User((int)$iduser);
+	$user = new Hcode\System\User((int)$iduser);
 
 	$person = $user->getPerson();
 
@@ -457,7 +457,7 @@ $app->delete("/users/:iduser", function($iduser){
 		throw new Exception("ID de usuário não informado.", 400);
 	}
 
-	$user = new Hcode\User((int)$iduser);
+	$user = new Hcode\System\User((int)$iduser);
 
 	if (!(int)$user->getiduser() > 0) {
 		throw new Exception("Usuário não encontrado.", 404);

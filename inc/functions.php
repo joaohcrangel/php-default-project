@@ -428,12 +428,12 @@ function array_merge_recursive_distinct ( array &$array1, array &$array2 ){
 }
 if(!function_exists('echoMenuHTML')){
 function echoMenuHTML(){
-    echo Hcode\Menu::getMenuSession();
+    echo Hcode\Admin\Menu::getMenuSession();
 }
 }
 if(!function_exists('echoSiteMenuHTML')){
 function echoSiteMenuHTML(){
-    echo Hcode\SiteMenu::getMenuSession();
+    echo Hcode\Site\Menu::getMenuSession();
 }
 }
 if(!function_exists('isLogged')){

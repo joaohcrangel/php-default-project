@@ -2,13 +2,12 @@
 
 namespace Hcode\Site;
 
-use Hcode\Page;
 use Hcode\Locale\Language;
 use Rain\Tpl;
 
-class Page extends Page {
+class Page extends \Hcode\Page {
 
-	private function getConfig():array
+	public function getConfig():array
 	{
 
 		return array(

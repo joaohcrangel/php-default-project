@@ -5,9 +5,9 @@ $app->get("/panel/products/:idproduct", function($idproduct){
 
 	$conf = Hcode\Session::getconfigurations();
 
-	$product = new Product((int)$idproduct);
+	$product = new Hcode\Shop\Product((int)$idproduct);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -21,7 +21,7 @@ $app->get("/panel/products/:idproduct", function($idproduct){
 
 $app->get("/panel/product-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -30,25 +30,24 @@ $app->get("/panel/product-create", function(){
 
 });
 
-// pagamentos
-$app->get("/panel/payments/:idpayment", function($idpayment){
+$app->get("/panel/orders/:idorder", function($idorder){
 
-	$payment = new Payment((int)$idpayment);
+	$order = new Hcode\Shop\Order((int)$idorder);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
 
 	$page->setTpl("panel/pagamento", array(
-		"payment"=>$payment->getFields()
+		"order"=>$order->getFields()
 	));
 
 });
 
-$app->get("/panel/payment-create", function(){
+$app->get("/panel/order-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -60,9 +59,9 @@ $app->get("/panel/payment-create", function(){
 // contatos tipos
 $app->get("/panel/contacts-types-save/:idcontacttype", function($idcontacttype){
 
-	$contact = new ContactType((int)$idcontacttype);
+	$contact = new Hcode\Contact\Type((int)$idcontacttype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -75,7 +74,7 @@ $app->get("/panel/contacts-types-save/:idcontacttype", function($idcontacttype){
 
 $app->get("/panel/contacts-types-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -87,9 +86,9 @@ $app->get("/panel/contacts-types-create", function(){
 // pessoas tipos
 $app->get("/panel/persons-types/:idpersontype", function($idpersontype){
 
-	$person = new PersonType((int)$idpersontype);
+	$person = new Hcode\Person\PersonType((int)$idpersontype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -102,7 +101,7 @@ $app->get("/panel/persons-types/:idpersontype", function($idpersontype){
 
 $app->get("/panel/persons-types-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -114,9 +113,9 @@ $app->get("/panel/persons-types-create", function(){
 // gateways
 $app->get("/panel/gateways-save/:idgateway", function($idgateway){
 
-	$gateway = new Gateway((int)$idgateway);
+	$gateway = new Hcode\Shop\Gateway((int)$idgateway);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -129,7 +128,7 @@ $app->get("/panel/gateways-save/:idgateway", function($idgateway){
 
 $app->get("/panel/gateways-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -141,9 +140,9 @@ $app->get("/panel/gateways-create", function(){
 // pedidos-status
 $app->get("/panel/orders-status/:idstatus", function($idstatus){
 
-	$status = new OrderStatus((int)$idstatus);
+	$status = new Hcode\Financial\Order\Status((int)$idstatus);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -156,7 +155,7 @@ $app->get("/panel/orders-status/:idstatus", function($idstatus){
 
 $app->get("/panel/orders-status-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -168,9 +167,9 @@ $app->get("/panel/orders-status-create", function(){
 // orders negotiations types
 $app->get("/panel/ordersnegotiations-types/:idnegociacao", function($idnegociacao){
 
-	$order = new OrderNegotiationType((int)$idnegociacao);
+	$order = new Hcode\Financial\Order\Negotiation\Type((int)$idnegociacao);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -183,7 +182,7 @@ $app->get("/panel/ordersnegotiations-types/:idnegociacao", function($idnegociaca
 
 $app->get("/panel/ordernegotiation-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -195,9 +194,9 @@ $app->get("/panel/ordernegotiation-type-create", function(){
 // site contacts
 $app->get("/panel/sites-contacts/:idsitecontact", function($idsitecontact){
 
-	$site = new SiteContact((int)$idsitecontact);
+	$site = new Hcode\Site\Contact((int)$idsitecontact);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -212,9 +211,9 @@ $app->get("/panel/sites-contacts/:idsitecontact", function($idsitecontact){
 // formas de pagamento
 $app->get("/panel/forms-payments/:idformpayment", function($idformpayment){
 
-	$form = new FormPayment((int)$idformpayment);
+	$form = new Hcode\Financial\FormPayment((int)$idformpayment);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -227,7 +226,7 @@ $app->get("/panel/forms-payments/:idformpayment", function($idformpayment){
 
 $app->get("/panel/form-payment-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -240,9 +239,9 @@ $app->get("/panel/form-payment-create", function(){
 // cartoes de credito
 $app->get("/panel/cards/:idcard", function($idcard){
 
-	$card = new CreditCard((int)$idcard);
+	$card = new Hcode\Financial\CreditCard((int)$idcard);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -255,7 +254,7 @@ $app->get("/panel/cards/:idcard", function($idcard){
 
 $app->get("/panel/card-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -267,7 +266,7 @@ $app->get("/panel/card-create", function(){
 // permissoes
 $app->get("/panel/permission-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -281,9 +280,9 @@ $app->get("/panel/permission-create", function(){
 // cupons
 $app->get("/panel/coupons/:idcoupon", function($idcoupon){
 
-	$coupon = new coupon((int)$idcoupon);
+	$coupon = new Hcode\Shop\Coupon((int)$idcoupon);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -296,7 +295,7 @@ $app->get("/panel/coupons/:idcoupon", function($idcoupon){
 
 $app->get("/panel/coupon-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -309,9 +308,9 @@ $app->get("/panel/coupon-create", function(){
 
 $app->get("/panel/coupons-types/:idcoupontype", function($idcoupontype){
 
-	$coupon = new CouponType((int)$idcoupontype);
+	$coupon = new Hcode\Shop\Coupon\Type((int)$idcoupontype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -324,7 +323,7 @@ $app->get("/panel/coupons-types/:idcoupontype", function($idcoupontype){
 
 $app->get("/panel/coupons-types-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -336,9 +335,9 @@ $app->get("/panel/coupons-types-create", function(){
 // Permissao Salvar
 $app->get("/panel/permissions/:idpermission", function($idpermission){
 
-	$permission = new Permission((int)$idpermission);
+	$permission = new Hcode\Admin\Permission((int)$idpermission);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -353,9 +352,9 @@ $app->get("/panel/permissions/:idpermission", function($idpermission){
 // product-type salvar
 $app->get("/panel/products-types/:idproducttype", function($idproducttype){
 
-	$product = new ProductType((int)$idproducttype);
+	$product = new Hcode\Shop\Product\Type((int)$idproducttype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -368,7 +367,7 @@ $app->get("/panel/products-types/:idproducttype", function($idproducttype){
 
 $app->get("/panel/products-types-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -381,9 +380,9 @@ $app->get("/panel/products-types-create", function(){
 
 $app->get("/panel/users-types/:idusertype", function($idusertype){
 
-	$usertype = new UserType((int)$idusertype);
+	$usertype = new Hcode\System\User\Type((int)$idusertype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -397,7 +396,7 @@ $app->get("/panel/users-types/:idusertype", function($idusertype){
 
 $app->get("/panel/user-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -409,9 +408,9 @@ $app->get("/panel/user-type-create", function(){
 // pessoas-valores-campos
 $app->get("/panel/persons-valuesfields/:idfield", function($idfield){
 
-	$personvalue = new PersonValueField((int)$idfield);
+	$personvalue = new Hcode\Person\PersonValueField((int)$idfield);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -424,7 +423,7 @@ $app->get("/panel/persons-valuesfields/:idfield", function($idfield){
 
 $app->get("/panel/persons-valuesfields-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -436,9 +435,9 @@ $app->get("/panel/persons-valuesfields-create", function(){
 // configuracoes-tipos
 $app->get("/panel/configurations-types/:idconfigurationtype", function($idconfigurationtype){
 
-	$configuration = new ConfigurationType((int)$idconfigurationtype);
+	$configuration = new Hcode\System\Configuration\Type((int)$idconfigurationtype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -451,7 +450,7 @@ $app->get("/panel/configurations-types/:idconfigurationtype", function($idconfig
 
 $app->get("/panel/configurations-types-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -464,9 +463,9 @@ $app->get("/panel/configurations-types-create", function(){
 // lugares-tipos salvar
 $app->get("/panel/places-types/:idplacetype", function($idplacetype){
 
-	$placetype = new PlaceType((int)$idplacetype);
+	$placetype = new Hcode\Place\Type((int)$idplacetype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -479,7 +478,7 @@ $app->get("/panel/places-types/:idplacetype", function($idplacetype){
 
 $app->get("/panel/places-types-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -492,9 +491,9 @@ $app->get("/panel/places-types-create", function(){
 // documentos-tipos
 $app->get("/panel/documents/types/:iddocumenttype", function($iddocumenttype){
 
-	$document = new DocumentType((int)$iddocumenttype);
+	$document = new Hcode\Document\Type((int)$iddocumenttype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -507,7 +506,7 @@ $app->get("/panel/documents/types/:iddocumenttype", function($iddocumenttype){
 
 $app->get("/panel/document-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -519,9 +518,9 @@ $app->get("/panel/document-type-create", function(){
 // enderecos-types
 $app->get("/panel/addresses/types/:idaddresstype", function($idaddresstype){
 
-	$address = new AddressType((int)$idaddresstype);
+	$address = new Hcode\Address\Type((int)$idaddresstype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -534,7 +533,7 @@ $app->get("/panel/addresses/types/:idaddresstype", function($idaddresstype){
 
 $app->get("/panel/address-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -546,9 +545,9 @@ $app->get("/panel/address-type-create", function(){
 // userslogs-tipos
 $app->get("/panel/userslogs-types/:idlogtype", function($idlogtype){
 
-	$logs = new UserLogType((int)$idlogtype);
+	$logs = new Hcode\System\User\Log\Type((int)$idlogtype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -561,7 +560,7 @@ $app->get("/panel/userslogs-types/:idlogtype", function($idlogtype){
 
 $app->get("/panel/userslog-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -573,9 +572,9 @@ $app->get("/panel/userslog-type-create", function(){
 // transaçoes-tipos
 $app->get("/panel/transactions-types/:idtransactiontype", function($idtransactiontype){
 
-	$transaction = new TransactionType((int)$idtransactiontype);
+	$transaction = new Hcode\Financial\Transaction\Type((int)$idtransactiontype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -588,7 +587,7 @@ $app->get("/panel/transactions-types/:idtransactiontype", function($idtransactio
 
 $app->get("/panel/transaction-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -600,9 +599,9 @@ $app->get("/panel/transaction-type-create", function(){
 // blogs tags
 $app->get("/panel/blog-tags/:idtag", function($idtag){
 
-	$tag = new BlogTag((int)$idtag);
+	$tag = new Hcode\Site\Blog\Tag((int)$idtag);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -615,7 +614,7 @@ $app->get("/panel/blog-tags/:idtag", function($idtag){
 
 $app->get("/panel/blog-tag-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -628,9 +627,9 @@ $app->get("/panel/blog-tag-create", function(){
 // blogs categoria
 $app->get("/panel/blog-categories/:idcategory", function($idcategory){
 
-	$category = new BlogCategory((int)$idcategory);
+	$category = new Hcode\Site\Blog\Category((int)$idcategory);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -643,7 +642,7 @@ $app->get("/panel/blog-categories/:idcategory", function($idcategory){
 
 $app->get("/panel/blog-category-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -655,9 +654,9 @@ $app->get("/panel/blog-category-create", function(){
 // historicos-tipos
 $app->get("/panel/logs-types/:idlogtype", function($idlogtype){
 
-	$logtype = new LogType((int)$idlogtype);
+	$logtype = new Hcode\Person\Log\Type((int)$idlogtype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -670,7 +669,7 @@ $app->get("/panel/logs-types/:idlogtype", function($idlogtype){
 
 $app->get("/panel/log-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -683,9 +682,9 @@ $app->get("/panel/log-type-create", function(){
 // persons
 $app->get("/panel/persons/:idperson", function($idperson){
 
-	$person = new Person((int)$idperson);
+	$person = new Hcode\Person\Person((int)$idperson);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -716,15 +715,15 @@ $app->get("/panel/persons/:idperson", function($idperson){
 // carrinhos
 $app->get("/panel/carts/:idcart", function($idcart){
 
-	$cart = new Cart((int)$idcart);
+	$cart = new Hcode\Shop\Cart((int)$idcart);
 
-	$freight = new CartFreight((int)$idcart);
+	$freight = new Hcode\Shop\Cart\Freight((int)$idcart);
 
 	$cart->setProducts($cart->getProducts()->getFields());
 	$cart->setCoupons($cart->getCoupons()->getFields());
 	$cart->setFreight($freight->getFields());
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -741,9 +740,9 @@ $app->get("/panel/places/:idplace", function($idplace){
 
 	$config = Hcode\Session::getConfigurations();
 
-	$place = new Place((int)$idplace);
+	$place = new Hcode\Place\Place((int)$idplace);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -768,7 +767,7 @@ $app->get("/panel/place-create", function(){
 
 	$config = Hcode\Session::getConfigurations();
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -781,7 +780,7 @@ $app->get("/panel/place-create", function(){
 
 $app->get("/panel/place-logs", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -797,9 +796,9 @@ $app->get("/panel/place-logs", function(){
 // cursos
 $app->get("/panel/courses/:idcourse", function($idcourse){
 
-	$course = new Course((int)$idcourse);
+	$course = new Hcode\Course\Course((int)$idcourse);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -812,7 +811,7 @@ $app->get("/panel/courses/:idcourse", function($idcourse){
 
 $app->get("/panel/course-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -825,9 +824,9 @@ $app->get("/panel/course-create", function(){
 // carousels
 $app->get("/panel/carousels/:idcarousel", function($idcarousel){
 
-	$carousel = new Carousel((int)$idcarousel);
+	$carousel = new Hcode\Site\Carousel((int)$idcarousel);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -840,7 +839,7 @@ $app->get("/panel/carousels/:idcarousel", function($idcarousel){
 
 $app->get("/panel/carousel-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -853,9 +852,9 @@ $app->get("/panel/carousel-create", function(){
 // carousels items tipos
 $app->get("/panel/carousels-items-types/:idtype", function($idtype){
 
-	$type = new CarouselItemType((int)$idtype);
+	$type = new Hcode\Site\Carousel\Item\Type((int)$idtype);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -868,7 +867,7 @@ $app->get("/panel/carousels-items-types/:idtype", function($idtype){
 
 $app->get("/panel/carousel-item-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -881,9 +880,9 @@ $app->get("/panel/carousel-item-type-create", function(){
 // paises
 $app->get("/panel/countries/:idcountry", function($idcountry){
 
-	$country = new Country((int)$idcountry);
+	$country = new Hcode\Address\Country((int)$idcountry);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -896,7 +895,7 @@ $app->get("/panel/countries/:idcountry", function($idcountry){
 
 $app->get("/panel/country-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -909,9 +908,9 @@ $app->get("/panel/country-create", function(){
 // estados
 $app->get("/panel/states/:idstate", function($idstate){
 
-	$state = new State((int)$idstate);
+	$state = new Hcode\Address\State((int)$idstate);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -924,7 +923,7 @@ $app->get("/panel/states/:idstate", function($idstate){
 
 $app->get("/panel/state-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -937,9 +936,9 @@ $app->get("/panel/state-create", function(){
 // cidades
 $app->get("/panel/cities/:idcity", function($idcity){
 
-	$city = new City((int)$idcity);
+	$city = new Hcode\Address\City((int)$idcity);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -952,7 +951,7 @@ $app->get("/panel/cities/:idcity", function($idcity){
 
 $app->get("/panel/city-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -965,9 +964,9 @@ $app->get("/panel/city-create", function(){
 // persons categorias tipos
 $app->get("/panel/persons-categories-types/:idcategory", function($idcategory){
 
-	$category = new PersonCategoryType((int)$idcategory);
+	$category = new Hcode\Person\PersonCategoryType((int)$idcategory);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -980,7 +979,7 @@ $app->get("/panel/persons-categories-types/:idcategory", function($idcategory){
 
 $app->get("/panel/person-category-type-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -993,9 +992,9 @@ $app->get("/panel/person-category-type-create", function(){
 // urls
 $app->get("/panel/urls/:idurl", function($idurl){
 
-	$url = new Url((int)$idurl);
+	$url = new Hcode\Site\Url((int)$idurl);
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));
@@ -1008,7 +1007,7 @@ $app->get("/panel/urls/:idurl", function($idurl){
 
 $app->get("/panel/url-create", function(){
 
-	$page = new Page(array(
+	$page = new Hcode\Admin\Page(array(
 		"header"=>false,
 		"footer"=>false
 	));

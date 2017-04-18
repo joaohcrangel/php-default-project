@@ -2,7 +2,7 @@
 
 $app->get("/", function(){
 
-    $page = new Page();
+    $page = new Hcode\Site\Page();
 
     $page->setTpl('index');
 
@@ -10,7 +10,7 @@ $app->get("/", function(){
 
 $app->get("/blog", function(){
 
-	$page = new Page();
+	$page = new Hcode\Site\Page();
 
 	$page->setTpl("blog");
 

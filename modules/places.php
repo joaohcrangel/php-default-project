@@ -35,10 +35,10 @@ $app->get("/places", function(){
 	$pagina = (int)get('pagina');
 	$itemsPerPage = (int)get('limite');
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Places",
+		"Hcode\Place\Places",
 		$itemsPerPage
 	);
 
@@ -57,7 +57,7 @@ $app->get("/places/:idplace", function($idplace){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$place = new Places((int)$idplace);
+	$place = new Hcode\Place\Places((int)$idplace);
 
 	echo success(array("data"=>$place->getFields()));
 
@@ -67,7 +67,7 @@ $app->get("/places/:idplace/addresses", function($idplace){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$place = new Place((int)$idplace);
+	$place = new Hcode\Place\Place((int)$idplace);
 
 	echo success(array("data"=>$place->getAddresses()->getFields()));
 
@@ -77,7 +77,7 @@ $app->get("/places/:idplace/files", function($idplace){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$place = new Place((int)$idplace);
+	$place = new Hcode\Place\Place((int)$idplace);
 
 	$where = array();
 
@@ -102,10 +102,10 @@ $app->get("/places/:idplace/files", function($idplace){
 	// pre($query);
 	// exit;
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"Files",
+		"Hcode\FileSystem\Files",
 		$itemsPerPage
 	);
 
@@ -127,9 +127,9 @@ $app->post("/places", function(){
 	if(isset($_POST['idaddress'])){
 
 		if((int)post('idaddress') > 0){
-			$address = new Address((int)post('idaddress'));
+			$address = new Hcode\Address\Address((int)post('idaddress'));
 		}else{
-			$address = new Address();
+			$address = new Hcode\Address\Address();
 		}
 
 		foreach (array(
@@ -147,12 +147,12 @@ $app->post("/places", function(){
 		}
 
 		if (isset($_POST['idcity']) && (int)post('idcity') > 0) {
-			$city = new City((int)post('idcity'));
+			$city = new Hcode\Address\City((int)post('idcity'));
 		} else {
 			if (post('desuf')) {
-				$city = City::loadFromName(post('descity'), post('desuf'));
+				$city = Hcode\Address\City::loadFromName(post('descity'), post('desuf'));
 			} else {
-				$city = City::loadFromName(post('descity'));
+				$city = Hcode\Address\City::loadFromName(post('descity'));
 			}
 		}
 
@@ -171,13 +171,10 @@ $app->post("/places", function(){
 	}
 
 	if(post('idplace') > 0){
-		$place = new Place((int)post('idplace'));
+		$place = new Hcode\Place\Place((int)post('idplace'));
 	}else{
-		$place = new Place();
+		$place = new Hcode\Place\Place();
 	}
-
-	// var_dump($place);
-	// exit;
 
 	foreach ($_POST as $key => $value) {
 		$place->{'set'.$key}($value);
@@ -194,9 +191,9 @@ $app->post("/places", function(){
 		if((float)$_POST['vllatitude'] != 0 && (float)$_POST['vllongitude'] != 0){
 
 			if($place->getidcoordinate() > 0){
-				$c = new Coordinate((int)$place->getidcoordinate());
+				$c = new Hcode\Address\Coordinate((int)$place->getidcoordinate());
 			}else{
-				$c = new Coordinate();
+				$c = new Hcode\Address\Coordinate();
 			}
 
 			$c->setvllatitude((float)post('vllatitude'));
@@ -219,12 +216,12 @@ $app->post("/places/:idplace/coordinates", function($idplace){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$place = new Place((int)$idplace);
+	$place = new Hcode\Place\Place((int)$idplace);
 
 	if($place->getidcoordinate() > 0){
-		$c = new Coordinate((int)$place->getidcoordinate());
+		$c = new Hcode\Address\Coordinate((int)$place->getidcoordinate());
 	}else{
-		$c = new Coordinate();
+		$c = new Hcode\Address\Coordinate();
 	}
 
 	$c->set($_POST);
@@ -239,9 +236,9 @@ $app->post("/places/:idplace/files", function($idplace){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$place = new Place((int)$idplace);
+	$place = new Hcode\Place\Place((int)$idplace);
 
-	$files = Files::upload($_FILES['arquivo']);
+	$files = Hcode\FileSystem\Files::upload($_FILES['arquivo']);
 
 	foreach($files->getItens() as $file){
 		$place->addFile($file);
@@ -265,7 +262,7 @@ $app->delete("/places/:idplace", function($idplace){
 		throw new Exception("Lugar não informado", 400);		
 	}
 
-	$place = new Place((int)$idplace);
+	$place = new Hcode\Place\Place((int)$idplace);
 
 	if(!(int)$place->getidplace() > 0){
 		throw new Exception("Lugar não encontrado", 404);		
@@ -302,10 +299,10 @@ $app->get("/places-types", function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_placestypes
 	".$where." LIMIT ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "PlacesTypes",
+        "Hcode\Place\Types",
         $itemsPerPage
     );
 
@@ -324,9 +321,9 @@ $app->post("/places-types", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post('idplacetype') > 0){
-		$placetype = new PlaceType((int)post('idplacetype'));
+		$placetype = new Hcode\Place\Type((int)post('idplacetype'));
 	}else{
-		$placetype = new PlaceType();
+		$placetype = new Hcode\Place\Type();
 	}
 
 	foreach ($_POST as $key => $value) {
@@ -347,7 +344,7 @@ $app->delete("/places-types/:idplacetype", function($idplacetype){
 		throw new Exception("Tipo de lugar não informado", 400);	
 	}
 
-	$placetype = new PlaceType((int)$idplacetype);
+	$placetype = new Hcode\Place\Type((int)$idplacetype);
 
 	if(!(int)$placetype->getidplacetype() > 0){
 		throw new Exception("Tipo de lugur não encontrado", 404);		
@@ -370,9 +367,9 @@ $app->post("/places-schedules", function(){
 
 	foreach ($ids as $idplace) {
 		
-		$place = new Place((int)$idplace);
+		$place = new Hcode\Place\Place((int)$idplace);
 	
-		$schedules = new PlacesSchedules();
+		$schedules = new Hcode\Place\Schedules();
 
 		$nrday = explode(",", post('nrday'));
 		$hropen = explode(",", post('hropen'));
@@ -380,7 +377,7 @@ $app->post("/places-schedules", function(){
 
 		for($i = 0; $i < count($nrday); $i++){
 
-			$schedules->add(new PlaceSchedule(array(
+			$schedules->add(new Hcode\Place\Schedule(array(
 				'nrday'=>$nrday[$i],
 				'hropen'=>$hropen[$i],
 				'hrclose'=>$hrclose[$i]

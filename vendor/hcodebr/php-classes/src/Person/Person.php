@@ -4,13 +4,16 @@ namespace Hcode\Person;
 
 use Hcode\Model;
 use Hcode\Exception;
-
+use Hcode\Session;
+use Hcode\Contact\Contact;
 use Hcode\Contact\Contacts;
 use Hcode\Contact\Subtype;
+use Hcode\Document\Document;
 use Hcode\Document\Documents;
 use Hcode\Financial\Order\Orders;
 use Hcode\Financial\CreditCards;
 use Hcode\Shop\Carts;
+use Hcode\Address\Address;
 use Hcode\Address\Addresses;
 use Hcode\System\Users;
 use Hcode\FileSystem\File;

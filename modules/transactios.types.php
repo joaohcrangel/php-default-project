@@ -2,7 +2,7 @@
 
 $app->get('/transactions-types',function(){
 
- 	$transaction = TransactionsTypes::listAll();
+ 	$transaction = Hcode\Financial\Transaction\Types::listAll();
 
  	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -22,10 +22,10 @@ $app->get('/transactions-types',function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_transactionstypes
 	".$where." limit ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "TransactionsTypes",
+        "Hcode\Financial\Transaction\Types",
         $itemsPerPage
     );
 
@@ -44,9 +44,9 @@ $app->get('/transactions-types',function(){
 $app->post("/transactions-types", function(){
 
 	if(post('idtransactiontype') > 0){
-		$transaction = new TransactionType((int)post('idtransactiontype'));
+		$transaction = new Hcode\Financial\Transaction\Type((int)post('idtransactiontype'));
 	}else{
-		$transaction = new TransactionType();
+		$transaction = new Hcode\Financial\Transaction\Type();
 	}
 
 	$transaction->set($_POST);
@@ -65,7 +65,7 @@ $app->delete("/transactions-types/:idtransactiontype", function($idtransactionty
 		throw new Exception("Tipo de Transações não informado.", 400);		
 	}
 
-	$transaction = new TransactionType((int)$idtransactiontype);
+	$transaction = new Hcode\Financial\Transaction\Type((int)$idtransactiontype);
 
 	$transaction->remove();
 

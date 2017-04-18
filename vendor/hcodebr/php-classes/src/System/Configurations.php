@@ -2,6 +2,8 @@
 
 namespace Hcode\System;
 
+use Hcode\Collection;
+
 class Configurations extends Collection {
 
     protected $class = "Hcode\System\Configuration";

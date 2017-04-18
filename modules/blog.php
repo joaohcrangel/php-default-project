@@ -26,10 +26,10 @@ $app->get("/blog/authors", function(){
 		".$where." LIMIT ?, ?;
 	";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"BlogAuthors",
+		"Hcode\Site\Blog\Authors",
 		$itemsPerPage
 	);
 
@@ -49,9 +49,9 @@ $app->post("/blog/authors", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if ((int)post("idauthor") > 0) {
-		$author = new BlogAuthor((int)post("idauthor"));
+		$author = new Hcode\Site\Blog\Author((int)post("idauthor"));
 	} else {
-		$author = new BlogAuthor();
+		$author = new Hcode\Site\Blog\Author();
 	}
 
 	$author->set($_POST);
@@ -74,7 +74,7 @@ $app->delete("/blog/authors", function(){
 			throw new Exception("Autor não informado", 400);			
 		}
 		
-		$author = new BlogAuthor((int)$idauthor);
+		$author = new Hcode\Site\Blog\Author((int)$idauthor);
 
 		if(!(int)$author->getidauthor() > 0){
 			throw new Exception("Autor não encontrado", 404);			
@@ -132,10 +132,10 @@ $app->get("/blog-posts", function(){
 		".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"BlogPosts",
+		"Hcode\Site\Blog\Posts",
 		$itemsPerPage
 	);
 
@@ -155,14 +155,14 @@ $app->post("/blog-posts", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if((int)get("idpost") > 0){
-		$post = new BlogPost((int)post("idpost"));
+		$post = new Hcode\Site\Blog\Post((int)post("idpost"));
 	}else{
-		$post = new BlogPost();
+		$post = new Hcode\Site\Blog\Post();
 	}
 
 	$user = Hcode\Session::getUser();
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$data = $sql->query("
 		SELECT * FROM tb_blogauthors WHERE iduser = ?
@@ -176,7 +176,7 @@ $app->post("/blog-posts", function(){
 
 		$person = $user->getPerson();
 
-		$author = new BlogAuthor(array(
+		$author = new Hcode\Site\Blog\Author(array(
 			"iduser"=>$user->getiduser(),
 			"desauthor"=>$person->getdesperson()
 		));
@@ -189,11 +189,11 @@ $app->post("/blog-posts", function(){
 
 	if(post("desurl")){
 
-		$sql = new Sql();
+		$sql = new Hcode\Sql();
 
 		if(post("idurl") > 0){
 
-			$url = new Url((int)post("idurl"));
+			$url = new Hcode\Site\Url((int)post("idurl"));
 
 			$urls = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?;", array(
 				post("desurl")
@@ -212,7 +212,7 @@ $app->post("/blog-posts", function(){
 
 		}else{
 
-			$url = new Url(array(
+			$url = new Hcode\Site\Url(array(
 				"desurl"=>post("desurl")
 			));
 
@@ -250,7 +250,7 @@ $app->post("/blog-posts", function(){
 
 		foreach ($idsCategories as $idcategory) {
 
-			$category = new BlogCategory((int)$idcategory);
+			$category = new Hcode\Site\Blog\Category((int)$idcategory);
 			
 			$post->addCategory($category);
 
@@ -263,7 +263,7 @@ $app->post("/blog-posts", function(){
 
 		foreach ($idsTags as $idtag) {
 
-			$tag = new BlogTag((int)$idtag);
+			$tag = new Hcode\Site\Blog\Tag((int)$idtag);
 			
 			$post->addTag($tag);
 
@@ -280,13 +280,13 @@ $app->post("/blog-posts/:idpost/tags", function($idpost){
 
 	$ids = explode(",", post("ids"));
 
-	$post = new BlogPost((int)$idpost);
+	$post = new Hcode\Site\Blog\Post((int)$idpost);
 
 	$post->removeTags();
 
 	foreach($ids as $idtag){
 
-		$tag = new BlogTag((int)$idtag);
+		$tag = new Hcode\Site\Blog\Tag((int)$idtag);
 
 		$post->addTag($tag);
 
@@ -302,13 +302,13 @@ $app->post("/blog-posts/:idpost/categories", function($idpost){
 
 	$ids = explode(",", post("ids"));
 
-	$post = new BlogPost((int)$idpost);
+	$post = new Hcode\Site\Blog\Post((int)$idpost);
 
 	$post->removeCategories();
 
 	foreach($ids as $idcategory){
 
-		$category = new BlogCategory((int)$idcategory);
+		$category = new Hcode\Site\Blog\Category((int)$idcategory);
 
 		$post->addCategory($category);
 
@@ -330,7 +330,7 @@ $app->delete("/blog-posts", function(){
 			throw new Exception("Post não informado", 400);			
 		}
 
-		$post = new BlogPost((int)$idpost);
+		$post = new Hcode\Site\Blog\Post((int)$idpost);
 
 		if(!(int)$post->getidpost() > 0){
 			throw new Exception("Post não encontrado", 404);			
@@ -376,10 +376,10 @@ $app->get("/blog-comments", function(){
 	";
 
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"BlogComments",
+		"Hcode\Site\Blog\Comments",
 		$itemsPerPage
 	);
 
@@ -399,9 +399,9 @@ $app->post("/blog-comments", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if((int)post("idcomment") > 0){
-		$comment = new BlogComment((int)post("idcomment"));
+		$comment = new Hcode\Site\Blog\Comment((int)post("idcomment"));
 	}else{
-		$comment = new BlogComment();
+		$comment = new Hcode\Site\Blog\Comment();
 	}
 
 	$comment->set($_POST);
@@ -424,7 +424,7 @@ $app->delete("/blog-comments", function(){
 			throw new Exception("Comentário não informado", 400);			
 		}
 
-		$comment = new BlogComment((int)$idcomment);
+		$comment = new Hcode\Site\Blog\Comment((int)$idcomment);
 
 		if(!(int)$comment->getidcomment() > 0){
 			throw new Exception("Comentário não encontrado", 404);			
@@ -443,7 +443,7 @@ $app->get("/blog-categories/all", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$tag = BlogCategories::listAll();
+	$tag = Hcode\Site\Blog\Categories::listAll();
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -465,10 +465,10 @@ $app->get("/blog-categories/all", function(){
 			INNER JOIN tb_urls b ON a.idurl = b.idurl
 	".$where." LIMIT ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "BlogCategories",
+        "Hcode\Site\Blog\Categories",
         $itemsPerPage
     );
 
@@ -512,10 +512,10 @@ $app->get("/blog-categories/:idcategory/posts", function($idcategory){
         ".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"BlogPosts",		
+		"Hcode\Site\Blog\Posts",		
 		$itemsPerPage
 	);
 
@@ -535,9 +535,9 @@ $app->post("/blog-categories", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post("idcategory") > 0){
-		$category = new BlogCategory((int)post("idcategory"));
+		$category = new Hcode\Site\Blog\Category((int)post("idcategory"));
 	}else{
-		$category = new BlogCategory();
+		$category = new Hcode\Site\Blog\Category();
 	}
 
 	$category->set($_POST);
@@ -568,7 +568,7 @@ $app->delete("/blog-categories/:idcategory", function($idcategory){
 		throw new Exception("categoria não informado.", 400);		
 	}
 
-	$category = new BlogCategory((int)$idcategory);
+	$category = new Hcode\Site\Blog\Category((int)$idcategory);
 
 	$category->remove();
 
@@ -582,7 +582,7 @@ $app->get("/blog-tags/all", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-	$tag = BlogTags::listAll();
+	$tag = Hcode\Site\Blog\Tags::listAll();
 
 	$currentPage = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
@@ -602,10 +602,10 @@ $app->get("/blog-tags/all", function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_blogtags
 	".$where." limit ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "BlogTags",
+        "Hcode\Site\Blog\Tags",
         $itemsPerPage
     );
 
@@ -626,9 +626,9 @@ $app->post("/blog-tags", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if(post("idtag") > 0){
-		$tag = new BlogTag((int)post("idtag"));
+		$tag = new Hcode\Site\Blog\Tag((int)post("idtag"));
 	}else{
-		$tag = new BlogTag();
+		$tag = new Hcode\Site\Blog\Tag();
 	}
 
 	$tag->set($_POST);
@@ -647,7 +647,7 @@ $app->delete("/blog-tags/:idtag", function($idtag){
 		throw new Exception("Tag não informado.", 400);		
 	}
 
-	$tag = new BlogTag((int)$idtag);
+	$tag = new Hcode\Site\Blog\Tag((int)$idtag);
 
 	$tag->remove();
 

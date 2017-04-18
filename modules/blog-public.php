@@ -55,10 +55,10 @@ $app->get("/public/blog-posts", function(){
 		".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"BlogPosts",
+		"Hcode\Site\Blog\Posts",
 		$itemsPerPage
 	);
 
@@ -75,13 +75,13 @@ $app->get("/public/blog-posts", function(){
 
 $app->get("/public/blog-categories", function(){
 
-	echo success(array("data"=>BlogCategories::listAll()->getFields()));
+	echo success(array("data"=>Hcode\Site\Blog\Categories::listAll()->getFields()));
 
 });
 
 $app->get("/public/blog-categories/:desurl", function($desurl){
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$data = $sql->query("CALL sp_blogcategorybyurl_get(?);", array(
 		$desurl
@@ -89,7 +89,7 @@ $app->get("/public/blog-categories/:desurl", function($desurl){
 
 	if(isset($data[0])){
 
-		$category = new BlogCategory($data[0]);
+		$category = new Hcode\Site\Blog\Category($data[0]);
 
 		$page = (int)get("page");
 		$itemsPerPage = (int)get("limit");
@@ -124,7 +124,7 @@ $app->get("/public/blog-categories/:desurl", function($desurl){
 	        ".$where." GROUP BY a.idpost LIMIT ?, ?;
 		";
 
-		$pagination = new Pagination(
+		$pagination = new Hcode\Pagination(
 			$query,
 			array(),
 			"BlogPosts",		
@@ -133,9 +133,9 @@ $app->get("/public/blog-categories/:desurl", function($desurl){
 
 		$posts = $pagination->getPage($page);
 
-		$categories = BlogCategories::listAll()->getFields();
+		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
 
-		$page = new Page();
+		$page = new Hcode\Site\Page();
 
 		$page->setTpl("blog-category", array(
 			"category"=>$category->getFields(),
@@ -152,7 +152,7 @@ $app->get("/public/blog-categories/:desurl", function($desurl){
 
 $app->get("/public/blog-posts/:desurl", function($desurl){
 
-	$sql = new Sql();
+	$sql = new Hcode\Sql();
 
 	$data = $sql->query("CALL sp_blogpostbyurl_get(?);", array(
 		$desurl
@@ -160,11 +160,11 @@ $app->get("/public/blog-posts/:desurl", function($desurl){
 
 	if(isset($data[0])){
 
-		$post = new BlogPost($data[0]);
+		$post = new Hcode\Site\Blog\Post($data[0]);
 
-		$categories = BlogCategories::listAll()->getFields();
+		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
 
-		$page = new Page();
+		$page = new Hcode\Site\Page();
 
 		$page->setTpl("blog-post", array(
 			"post"=>$post->getFields(),

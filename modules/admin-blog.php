@@ -38,9 +38,9 @@ $app->get("/blog-posts/:idpost", function($idpost){
 
     Permission::checkSession(Permission::ADMIN, true);
 
-    $post = new BlogPost((int)$idpost);
+    $post = new Hcode\Site\Blog\Post((int)$idpost);
 
-    $page = new AdminPage(array(
+    $page = new Hcode\Admin\Page(array(
         "data"=>array(
             "body"=>array(
                 "class"=>"page-aside-fixed page-aside-right"

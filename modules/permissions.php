@@ -25,7 +25,7 @@ $app->get('/permissions', function () {
 	$pagination = new Hcode\Pagination(
         $query,
         array(),
-        "Hcode\Permissions",
+        "Hcode\Admin\Permissions",
         $itemsPerPage
     );
 
@@ -45,7 +45,7 @@ $app->post('/permissions', function () {
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$permission = new Hcode\Permission($_POST);
+	$permission = new Hcode\Admin\Permission($_POST);
 
 	$permission->save();
 
@@ -58,7 +58,7 @@ $app->post('/permissions/:idpermission', function ($idpermission) {
 	
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$permission = new Hcode\Permission((int)$idpermission);
+	$permission = new Hcode\Admin\Permission((int)$idpermission);
 
 	$permission->set($_POST);
 
@@ -74,7 +74,7 @@ $app->delete('/permissions/:idpermission', function ($idpermission) {
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$permission = new Hcode\Permission((int)$idpermission);
+	$permission = new Hcode\Admin\Permission((int)$idpermission);
 
 	$permission->remove();
 
@@ -86,7 +86,7 @@ $app->get('/permissions/:idpermission', function ($idpermission) {
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 	
-	$permission = new Hcode\Permission((int)$idpermission);
+	$permission = new Hcode\Admin\Permission((int)$idpermission);
 
 	echo success(array(
 		'data'=>$permission->getFields()

@@ -1,8 +1,11 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Financial\Transaction;
 
-class TransactionType extends Model {
+use Hcode\Model;
+use Hcode\Exception;
+
+class Type extends Model {
 
     public $required = array('destransactiontype');
     protected $pk = "idtransactiontype";

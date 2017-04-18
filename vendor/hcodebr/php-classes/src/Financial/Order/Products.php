@@ -6,7 +6,7 @@ use Hcode\Collection;
 
 class Products extends Collection {
 
-    protected $class = "Hcode\Order\Product";
+    protected $class = "Hcode\Financial\Order\Product";
     protected $saveQuery = "sp_ordersproducts_save";
     protected $saveArgs = array("idorder", "idproduct", "nrqtd", "vlprice", "vltotal");
     protected $pk = "idorder";

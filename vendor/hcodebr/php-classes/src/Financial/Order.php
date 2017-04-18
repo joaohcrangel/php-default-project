@@ -1,6 +1,6 @@
 <?php
 
-namespace Hcode\Financial\Order;
+namespace Hcode\Financial;
 
 use Hcode\Model;
 use Hcode\Exception;

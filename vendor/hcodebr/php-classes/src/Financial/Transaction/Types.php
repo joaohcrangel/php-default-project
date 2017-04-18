@@ -1,19 +1,21 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Financial\Transaction;
 
-class TransactionsTypes extends Collection {
+use Hcode\Collection;
 
-    protected $class = "Hcode\TransactionType";
+class Types extends Collection {
+
+    protected $class = "Hcode\Financial\Transaction\Type";
     protected $saveQuery = "sp_transactionstypes_save";
     protected $saveArgs = array("idtransactiontype", "destransactiontype", "dtregister");
     protected $pk = "idtransactiontype";
 
     public function get(){}
 
-    public static function listAll():TransactionsTypes
+    public static function listAll():Types
     {
-    	$transaction = new TransactionsTypes();
+    	$transaction = new Types();
 
     	$transaction->loadFromQuery("Call sp_transactionstypes_list()");
 

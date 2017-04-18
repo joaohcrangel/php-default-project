@@ -1,13 +1,13 @@
 <?php
 
-namespace Hcode\Financial\Order;
+namespace Hcode\Financial;
 
 use Hcode\Collection;
 use Hcode\Person\Person;
 
 class Orders extends Collection {
 
-    protected $class = "Hcode\Order";
+    protected $class = "Hcode\Financial\Order";
     protected $saveQuery = "sp_orders_save";
     protected $saveArgs = array("idorder", "idperson", "idordermethod", "idstatus", "dessession", "vltotal", "nrparcels");
     protected $pk = "idorder";

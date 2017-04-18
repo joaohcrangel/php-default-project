@@ -4,7 +4,7 @@ $app->get("/sitesmenus/:idmenu", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new SiteMenu((int)$idmenu);
+	$menu = new Hcode\Site\Menu((int)$idmenu);
 
 	echo success(array('data'=>$menu->getFields()));
 
@@ -14,7 +14,7 @@ $app->delete("/sitesmenus/:idmenu", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new SiteMenu((int)$idmenu);
+	$menu = new Hcode\Site\Menu((int)$idmenu);
 
 	$menu->remove();
 
@@ -26,7 +26,7 @@ $app->post("/sitesmenus/:idmenu", function($idmenu){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new SiteMenu((int)$idmenu);
+	$menu = new Hcode\Site\Menu((int)$idmenu);
 
 	$menu->set($_POST);
 
@@ -40,7 +40,7 @@ $app->post("/sitesmenus", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN);
 
-	$menu = new SiteMenu($_POST);
+	$menu = new Hcode\Site\Menu($_POST);
 
 	$menu->save();
 

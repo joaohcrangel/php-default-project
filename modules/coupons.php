@@ -13,9 +13,9 @@ $app->post("/coupons", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if((int)post("idcoupon") > 0){
-		$coupon = new Coupon((int)post("idcoupon"));
+		$coupon = new Hcode\Shop\Coupon((int)post("idcoupon"));
 	}else{
-		$coupon = new Coupon();
+		$coupon = new Hcode\Shop\Coupon();
 	}
 
 	$coupon->set();
@@ -34,7 +34,7 @@ $app->delete("/cupons/:idcoupon", function($idcoupon){
 		throw new Exception("Cupom não informado", 400);		
 	}
 
-	$coupon = new Coupon((int)$idcoupon);
+	$coupon = new Hcode\Shop\Coupon((int)$idcoupon);
 
 	if(!(int)$coupon->getidcoupon() > 0){
 		throw new Exception("coupon não encontrado", 404);		
@@ -70,7 +70,7 @@ $app->get("/coupons/types", function(){
 	$query = "SELECT SQL_CALC_FOUND_ROWS * FROM tb_couponstypes
 	".$where." limit ?, ?;";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
         $query,
         array(),
         "CouponsTypes",
@@ -96,9 +96,9 @@ $app->post("/coupons-types", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	if((int)post('idcoupontype') > 0){
-		$coupon = new CouponType((int)post('idcoupontype'));
+		$coupon = new Hcode\Shop\Coupon\Type((int)post('idcoupontype'));
 	}else{
-		$coupon = new CouponType();
+		$coupon = new Hcode\Shop\Coupon\Type();
 	}
 
 	$coupon->set($_POST);
@@ -117,7 +117,7 @@ $app->delete("/coupons-types/:idcoupontype", function($idcoupontype){
 		throw new Exception("Tipo de cupom não informado", 400);		
 	}
 
-	$coupon = new CouponType((int)$idcoupontype);
+	$coupon = new Hcode\Shop\Coupon\Type((int)$idcoupontype);
 
 	if(!(int)$coupon->getidcoupontype() > 0){
 		throw new Exception("Tipo de cupom não encontrado", 404);		

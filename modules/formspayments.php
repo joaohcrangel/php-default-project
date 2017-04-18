@@ -34,10 +34,10 @@ $app->get("/forms-payments/all", function(){
         INNER JOIN tb_gateways b USING(idgateway)
         '.$where.' LIMIT ?, ?';
 
-      $pagination = new Pagination(
+      $pagination = new Hcode\Pagination(
         $query,
         array(),
-        "FormsPayments",
+        "Hcode\Financial\FormsPayments",
         $itemsPerPage
     );
 
@@ -57,9 +57,9 @@ $app->post("/forms-payments", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idformpayment') > 0){
-        $payment = new FormPayment((int)post('idformpayment'));
+        $payment = new Hcode\Financial\FormPayment((int)post('idformpayment'));
     }else{
-        $payment = new FormPayment();
+        $payment = new Hcode\Financial\FormPayment();
     }
 
     $payment->set($_POST);
@@ -84,7 +84,7 @@ $app->delete("/forms-payments/:idformpayment", function($idformpayment){
         throw new Exception("Forma de Pagamento não informado", 400);
     }
 
-    $payment = new FormPayment((int)$idformpayment);
+    $payment = new Hcode\Financial\FormPayment((int)$idformpayment);
 
     if(!(int)$payment->getidformpayment() > 0){
         throw new Exception("Forma de pagamento não encontrado", 404); 

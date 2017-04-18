@@ -1,6 +1,6 @@
 <?php
 
-namespace Hcode\Site\Carousel;
+namespace Hcode\Site;
 
 use Hcode\Model;
 use Hcode\Exception;

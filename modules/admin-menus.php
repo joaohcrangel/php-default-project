@@ -10,7 +10,7 @@ $app->get("/".DIR_ADMIN."/system/menu", function(){
     ));
 
     $page->setTpl("/admin/system-menu", array(
-        'menuHTML'=>Hcode\Menu::getAllMenuOL()
+        'menuHTML'=>Hcode\Admin\Menu::getAllMenuOL()
     ));
 
 });
@@ -19,7 +19,7 @@ $app->delete("/".DIR_ADMIN."/system/menu", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $menu = new Menu((int)post('idmenu'));
+    $menu = new Hcode\Admin\Menu((int)post('idmenu'));
 
     $menu->remove();
 
@@ -52,7 +52,7 @@ $app->get("/".DIR_ADMIN."/system/menus", function(){
 
     }
 
-    $menus = Menu::getAllMenus()->getFields();
+    $menus = Hcode\Admin\Menu::getAllMenus()->getFields();
 
     $menus = convertDataTreeview($menus);
 
@@ -71,9 +71,9 @@ $app->post("/".DIR_ADMIN."/system/menu", function(){
     }
 
     if ((int)post('idmenu') > 0) {
-        $menu = new Menu((int)post('idmenu'));
+        $menu = new Hcode\Admin\Menu((int)post('idmenu'));
     } else {
-        $menu = new SiteMenu();
+        $menu = new Hcode\Site\Menu();
     }
 
     $menu->set($_POST);
@@ -96,7 +96,7 @@ $app->get("/".DIR_ADMIN."/site/menu", function(){
     ));
 
     $page->setTpl("/admin/sites-menus", array(
-        'menuHTML'=>SiteMenu::getAllMenuOL()
+        'menuHTML'=>Hcode\Site\Menu::getAllMenuOL()
     ));
 
 });
@@ -105,7 +105,7 @@ $app->delete("/".DIR_ADMIN."/site/menu", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $menu = new SiteMenu((int)post('idmenu'));
+    $menu = new Hcode\Site\Menu((int)post('idmenu'));
 
     $menu->remove();
 
@@ -138,7 +138,7 @@ $app->get("/".DIR_ADMIN."/site/menus", function(){
 
     }
 
-    $menus = SiteMenu::getAllMenus()->getFields();
+    $menus = Hcode\Site\Menu::getAllMenus()->getFields();
 
     $menus = convertDataTreeview($menus);
 
@@ -157,9 +157,9 @@ $app->post("/".DIR_ADMIN."/site/menu", function(){
     }
 
     if ((int)post('idmenu') > 0) {
-        $menu = new SiteMenu((int)post('idmenu'));
+        $menu = new Hcode\Site\Menu((int)post('idmenu'));
     } else {
-        $menu = new SiteMenu();
+        $menu = new Hcode\Site\Menu();
     }
 
     $menu->set($_POST);

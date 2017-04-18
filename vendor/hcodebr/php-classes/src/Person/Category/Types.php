@@ -1,20 +1,22 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Person\Category;
 
-class PersonsCategoriesTypes extends Collection {
+use Hcode\Collection;
 
-    protected $class = "Hcode\PersonCategoryType";
+class Types extends Collection {
+
+    protected $class = "Hcode\Person\Category\Type";
     protected $saveQuery = "sp_personscategoriestypes_save";
     protected $saveArgs = array("idcategory", "descategory");
     protected $pk = "idcategory";
 
     public function get(){}
 
-    public static function listAll():PersonsCategoriesTypes
+    public static function listAll():Hcode\Person\Category\Types
     {
 
-    	$types = new PersonsCategoriesTypes();
+    	$types = new Hcode\Person\Category\Types();
 
     	$types->loadFromQuery("CALL sp_personscategoriestypes_list();");
 

@@ -2,11 +2,13 @@
 
 namespace Hcode\System;
 
-use Hcode\Person;
-use Hcode\Permission;
-use Hcode\Menus;
-use Hcode\Sql\Sql;
+use Hcode\Person\Person;
+use Hcode\Admin\Permission;
+use Hcode\Admin\Permissions;
+use Hcode\Admin\Menus;
+use Hcode\Sql;
 use Hcode\Model;
+use Hcode\Session;
 
 class User extends Model {
 
@@ -114,7 +116,7 @@ class User extends Model {
     public function getPerson():Person
     {
 
-        return $this->getObjectOrCreate('Hcode\Person', $this->getidperson());
+        return $this->getObjectOrCreate('Hcode\Person\Person', $this->getidperson());
         
     }
 
@@ -228,10 +230,10 @@ class User extends Model {
 
         $fields = parent::getFields();
 
-        if (isset($fields["Hcode\Person"])) {
-            $person = $fields["Hcode\Person"];
+        if (isset($fields["Hcode\Person\Person"])) {
+            $person = $fields["Hcode\Person\Person"];
             $fields["Person"] = $person;
-            unset($fields["Hcode\Person"]);
+            unset($fields["Hcode\Person\Person"]);
         }
 
         return $fields;

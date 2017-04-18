@@ -3,7 +3,7 @@ pidpost INT
 )
 BEGIN
 
-	SELECT a.*, b.desauthor, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS despath, 
+	SELECT a.*, b.desauthor, b.desresume, CONCAT(e1.desdirectory, e1.desfile, '.', e1.desextension) AS desauthorphoto, f.desurl, CONCAT(e.desdirectory, e.desfile, '.', e.desextension) AS despath, 
 		(
 			SELECT COUNT(idcomment) FROM tb_blogcomments WHERE idpost = a.idpost
 		) AS nrcomments,
@@ -22,6 +22,7 @@ BEGIN
 		LEFT JOIN tb_blogpostscategories c ON a.idpost = c.idpost
 		LEFT JOIN tb_blogpoststags d ON a.idpost = d.idpost
         LEFT JOIN tb_files e ON a.idcover = e.idfile
+        LEFT JOIN tb_files e1 ON b.idphoto = e1.idfile
         LEFT JOIN tb_urls f ON a.idurl = f.idurl
         LEFT JOIN tb_blogcomments g ON a.idpost = g.idpost
     WHERE a.idpost = pidpost;

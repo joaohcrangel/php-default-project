@@ -47,6 +47,21 @@ class Sql extends PDO {
 		$results = $stmt->fetchAll();
 		$stmt->nextRowset();
 		
+		foreach($results as $key => $value){
+
+			foreach ($value as $index => $row) {
+
+				switch(gettype($row)){
+					case "string":					
+					$results[$key][$index] = ($this->utf8 === true) ? utf8_encode($row) : $row;
+					break;
+
+				}
+
+			}
+
+		}
+		
 		return $results;
 
 	}

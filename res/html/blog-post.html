@@ -127,9 +127,9 @@
 						</div>
 						<div class="panel-body">
 							<div class="author-image">
-								<img src="images/author/1.jpg" alt="" class="img-circle">
+								<img src="{$path}{$post.desauthorphoto}" alt="{$post.desauthor}" class="img-circle">
 							</div>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, eveniet, eligendi et nobis neque minus mollitia sit repudiandae ad repellendus recusandae blanditiis praesentium vitae ab sint earum voluptate velit beatae alias fugit accusantium laboriosam nisi reiciendis deleniti tenetur molestiae maxime id quaerat consequatur fugiat aliquam laborum nam aliquid. Consectetur, perferendis?
+							{$post.desresume}
 						</div>
 					</div><!-- Post Single - Author End -->
 
@@ -221,15 +221,16 @@
 							<h3>Escreva um <span>Comentário</span></h3>
 
 							<form class="clearfix" action="#" method="post" id="commentform">
+								<input type="hidden" name="idpost" value="{$post.idpost}">
 
 								<div class="col_one_third">
-									<label for="author">Nome</label>
-									<input type="text" name="author" id="author" value="" size="22" tabindex="1" class="sm-form-control" />
+									<label for="desperson">Nome</label>
+									<input type="text" name="desperson" id="desperson" value="" size="22" tabindex="1" class="sm-form-control" />
 								</div>
 
 								<div class="col_one_third">
-									<label for="email">Email</label>
-									<input type="text" name="email" id="email" value="" size="22" tabindex="2" class="sm-form-control" />
+									<label for="desemail">Email</label>
+									<input type="text" name="desemail" id="desemail" value="" size="22" tabindex="2" class="sm-form-control" />
 								</div>
 
 								<div class="clear"></div>
@@ -261,12 +262,7 @@
 					<div class="widget clearfix">
 
 						<h4>Encontre um artigo</h4>
-						<div class="input-group form-material">
-							<input type="text" class="form-control" placeholder="Digite uma palavra chave" name="despost">
-							<div class="input-group-btn">
-								<button type="button" class="btn btn-default" id="btn-post-search"><i class="icon md-search" aria-hidden="true"></i></button>
-							</div>
-						</div>
+						{include="found_article"}
 
 					</div>
 
@@ -275,11 +271,7 @@
 						<h4>Categorias</h4>
 						<ul class="list-group">
 						  
-							{loop="$categories"}
-								<li class="list-group-item">	  
-								    <a href="{$path}/public/blog-categories/{$value.desurl}">{$value.descategory} ({$value.nrposts})</a>
-							  	</li>
-							{/loop}
+							{include="loop-categories"}
 
 						</ul>
 

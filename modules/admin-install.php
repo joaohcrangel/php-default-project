@@ -518,7 +518,7 @@ $app->get("/install-admin/sql/users/tables", function(){
   			PRIMARY KEY (idlog),
   			KEY fk_userslogs_users_idx (iduser),
   			KEY fk_userslogs_userslogstypes_idx (idlogtype),
- 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE CASCADE ON UPDATE CASCADE,
   			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_personslogstypes (idlogtype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -754,7 +754,7 @@ $app->get("/install-admin/sql/userslogs/tables", function(){
   			PRIMARY KEY (idlog),
   			KEY fk_userslogs_users_idx (iduser),
   			KEY fk_userslogs_userslogstypes_idx (idlogtype),
- 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ 			CONSTRAINT fk_userslogs_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE CASCADE ON UPDATE CASCADE,
   			CONSTRAINT fk_userslogs_userslogstypes FOREIGN KEY (idlogtype) REFERENCES tb_addressestypes (idaddresstype) ON DELETE NO ACTION ON UPDATE NO ACTION
 		) 	ENGINE=".DB_ENGINE." AUTO_INCREMENT=1 DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -2043,7 +2043,7 @@ $app->get("/install-admin/sql/personsdata/tables", function(){
 		  KEY FK_personsdata_users_idx (iduser),
 		  CONSTRAINT FK_personsdata_persons FOREIGN KEY (idperson) REFERENCES tb_persons (idperson) ON DELETE NO ACTION ON UPDATE NO ACTION,
 		  CONSTRAINT FK_personsdata_personstypes FOREIGN KEY (idpersontype) REFERENCES tb_personstypes (idpersontype) ON DELETE NO ACTION ON UPDATE NO ACTION,
-		  CONSTRAINT FK_personsdata_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE NO ACTION ON UPDATE NO ACTION
+		  CONSTRAINT FK_personsdata_users FOREIGN KEY (iduser) REFERENCES tb_users (iduser) ON DELETE SET NULL ON UPDATE NO ACTION
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
 	echo success();

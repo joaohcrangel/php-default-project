@@ -3,6 +3,8 @@ pidpost INT
 )
 BEGIN
 
-	SELECT * FROM tb_blogcomments WHERE idpost = pidpost;
+	SELECT a.*, b.desperson FROM tb_blogcomments a
+		INNER JOIN tb_persons b ON a.idperson = b.idperson
+	WHERE idpost = pidpost;
 
 END

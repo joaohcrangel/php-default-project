@@ -3799,6 +3799,7 @@ $app->get("/install-admin/sql/blog/tables", function(){
 		  idperson int(11) NOT NULL,
 		  descomment text NOT NULL,
 		  inapproved bit NOT NULL DEFAULT b'0',
+		  nrsubcomments INT NULL,
 		  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  PRIMARY KEY (idcomment),
 		  CONSTRAINT FOREIGN KEY(idcommentfather) REFERENCES tb_blogcomments(idcomment),
@@ -3871,7 +3872,8 @@ $app->get("/install-admin/sql/blog/save", function(){
 		'sp_blogposts_save',
 		'sp_blogtags_save',
 		'sp_blogpoststags_save',
-		'sp_blogpostscategories_save'
+		'sp_blogpostscategories_save',
+		'sp_blogcommentstrigger_save'
 	);
 
 	saveProcedures($procs, PATH_PROC."/blog/save/");
@@ -3911,7 +3913,8 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_blogposts_list',
 		'sp_blogtags_list',
 		'sp_tagsfrompost_list',
-		'sp_categoriesfrompost_list'
+		'sp_categoriesfrompost_list',
+		'sp_commentsfrompost_list'
 	);
 
 	saveProcedures($procs, PATH_PROC."/blog/list/");

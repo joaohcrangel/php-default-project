@@ -144,9 +144,10 @@
 
 						<!-- Comments List
 						============================================= -->
-						<ol class="commentlist clearfix">
+						{$comments}
+						<!-- <ol class="commentlist clearfix">
 
-							<li class="comment even thread-even depth-1" id="li-comment-1">
+							<li class="comment even thread-even depth-1">
 
 								<div id="comment-1" class="comment-wrap clearfix">
 
@@ -213,7 +214,8 @@
 
 							</li>
 
-						</ol><!-- .commentlist end -->
+						</ol> -->
+						<!-- .commentlist end -->
 
 						<div class="clear"></div>
 
@@ -223,7 +225,7 @@
 
 							<h3>Escreva um <span>Comentário</span></h3>
 
-							<form class="clearfix" action="#" method="post" id="commentform">
+							<form id="commentform">
 								<input type="hidden" name="idpost" value="{$post.idpost}">
 
 								<div class="col_one_third">
@@ -296,7 +298,7 @@ init.push(function(){
 
 	setTimeout(function(){
 		$("footer").css("margin-top", 0);
-	}, 2000)
+	}, 2000);
 
 });
 

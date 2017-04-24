@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="/res/public/css/magnific-popup.css" type="text/css" />
 	
 	<link rel="stylesheet" href="/res/theme/material/global/vendor/alertify/alertify.css" type="text/css" />
-	<link rel="stylesheet" href="/res/theme/assets/examples/css/advanced/alertify.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="/res/theme/assets/examples/css/advanced/alertify.css" type="text/css" /> -->
 	<link rel="stylesheet" href="/res/theme/material/global/vendor/switchery/switchery.css" type="text/css" />
 	<link rel="stylesheet" href="/res/theme/material/global/fonts/material-design/material-design.min.css" type="text/css" />
 
@@ -56,6 +56,16 @@
 						<a href="index.html" class="standard-logo" data-dark-logo="/res/img/logo.png"><img src="/res/img/logo.png" alt="Hcode Logo"></a>
 						<a href="index.html" class="retina-logo" data-dark-logo="/res/img/logo@2x.png"><img src="/res/img/logo@2x.png" alt="Hcode Logo"></a>
 					</div><!-- #logo end -->
+
+					{if="isLogged()"}
+
+						<div id="top-account" class="dropdown">
+							<a href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="icon-user"></i> {$user.Person.desperson}<i class="icon-angle-down"></i></a>
+							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+								<li><a href="#" class="btn-logout">Sair <i class="icon-signout"></i></a></li>
+							</ul>
+						</div>
+					{/if}
 
 					<!-- Primary Navigation
 					============================================= -->

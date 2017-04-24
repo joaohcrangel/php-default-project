@@ -1,0 +1,17 @@
+<section id="page-title"></section><section id="content"><div class="content-wrap"><div class="container clearfix"><div class="accordion accordion-lg divcenter nobottommargin clearfix" style="max-width: 550px"><div class="acctitle"><i class="acc-closed icon-lock3"></i><i class="acc-open icon-unlock"></i>Entre com sua conta</div><div class="acc_content clearfix"><form id="login-form" name="login-form" class="nobottommargin" action="#" method="post"><div class="col_full"><label for="login-form-username">Email:</label><input type="text" name="username" class="form-control"></div><div class="col_full"><label for="login-form-password">Senha:</label><input type="password" name="password" class="form-control"></div><div class="col_full nobottommargin"><button class="button button-3d button-black nomargin" type="submit">Entrar</button> <a href="#" class="fright">Esqueceu a senha?</a></div></form></div><div class="acctitle"><i class="acc-closed icon-user4"></i><i class="acc-open icon-ok-sign"></i>Você é novo por aqui? Registre-se</div><div class="acc_content clearfix"><form id="register-form" class="nobottommargin"><div class="col_full"><label for="register-form-name">Nome:</label><input type="text" name="desperson" class="form-control"></div><div class="col_full"><label for="register-form-email">Email:</label><input type="text" name="desuser" value="" class="form-control"></div><div class="col_full"><label for="register-form-password">Senha:</label><input type="password" name="despassword" class="form-control"></div><div class="col_full"><label for="register-form-repassword">Digite a senha novamente:</label><input type="password" name="despassword2" class="form-control"></div><div class="col_full nobottommargin"><button class="button button-3d button-black nomargin" type="submit">Registre-se agora</button></div></form></div></div></div></div></section><script>init.push(function(){
+
+	$("#login-form").form({
+		url:PATH+"/login",
+		success:function(){
+			window.location.href = PATH+"/";
+		}
+	});
+	
+	$("#register-form").form({
+		url:PATH+"/register",
+		success:function(){
+			window.location.href = PATH + "/";
+		}
+	});
+
+});</script>

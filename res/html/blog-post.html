@@ -298,7 +298,15 @@ init.push(function(){
 		$("footer").css("margin-top", 0);
 	}, 2000)
 
-	.form
+	$("#commentform").form({
+		url:PATH+"/blog/comments",
+		resetForm:false,
+		success:function(){
+			
+			System.success("Comentário criado com sucesso");
+		}
+
+	});
 	
 });
 

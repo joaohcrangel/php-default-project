@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 // blog authors
 $app->get("/blog/authors", function(){
 

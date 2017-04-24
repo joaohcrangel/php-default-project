@@ -6,7 +6,7 @@ use \Hcode\Model;
 
 class Comment extends Model {
 
-    public $required = array('idpost', 'idperson', 'descomment', 'inapproved', 'idcommentfather');
+    public $required = array('idpost', 'idperson', 'descomment', 'inapproved');
     protected $pk = "idcomment";
 
     public function get(){

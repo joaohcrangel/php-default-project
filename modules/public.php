@@ -84,4 +84,43 @@ $app->get("/blog", function(){
 
 });
 
+$app->get("/login", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("login");
+
+});
+
+$app->post("/register", function(){
+
+	$person = new Hcode\Person\Person(array(
+		"desperson"=>post("desperson"),
+		"idpersontype"=>Hcode\Person\Type::FISICA
+	));
+
+	$person->save();
+
+	$person->addEmail()
+
+	$user = new Hcode\Sytem\User(array(
+		"idperson"=>$person->getidperson(),
+		"desuser"=>post("username"),
+		"despassword"=>Hcode\System\User::getPasswordHash(post('despassword')),
+		"inblocked"=>0,
+		"idusertype"=>Hcode\System\User\Type::CLIENTE
+	));
+
+	$user->save();
+
+});
+
+$app->post("/login", function(){
+
+	$user = Hcode\System\User::login(strtolower(post("username")), post("password"));
+
+	$user->getPerson();
+
+});
+
 ?>

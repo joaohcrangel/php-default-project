@@ -246,7 +246,7 @@
 								</div>
 
 								<div class="col_full nobottommargin">
-									<button name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin">Enviar Comentário</button>
+									<button type="submit" tabindex="5" class="button button-3d nomargin">Enviar Comentário</button>
 								</div>
 
 							</form>
@@ -298,18 +298,14 @@ init.push(function(){
 
 	setTimeout(function(){
 		$("footer").css("margin-top", 0);
-
 	}, 2000)
 
 	$("#commentform").form({
 		url:PATH+"/blog/comments",
 		resetForm:false,
-		success:function(){
-			
+		success:function(){			
 			System.success("Comentário criado com sucesso");
 		}
-
-	});
-	
+	});	
 
 </script>

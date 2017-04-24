@@ -10,7 +10,7 @@ class Type extends Model {
     const ADMINISTRATIVO = 1;
     const CLIENTE = 2;
 
-    public $required = array('idusertype', 'desusertype');
+    public $required = array('desusertype');
     protected $pk = "idusertype";
 
     public function get(){

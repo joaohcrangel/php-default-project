@@ -173,7 +173,11 @@ $app->get("/blog/:desurl", function($desurl){
 
 });
 
+$app->get("/blog/images/world-map.png", function(){
 
+	echo success(array("data"=>Hcode\Site\Blog::listAll()->getFields()));
+
+});
 
 $app->post("/blog/comments", function(){
 
@@ -218,3 +222,4 @@ $app->get("/blog/authors/:desauthor", function($desauhtor){
 });
 
 ?>
+

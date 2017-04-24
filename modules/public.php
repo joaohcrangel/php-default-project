@@ -92,6 +92,14 @@ $app->get("/login", function(){
 
 });
 
+$app->get("/forget", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("forget");
+
+});
+
 $app->post("/login", function(){
 
 	$user = Hcode\System\User::login(strtolower(post("username")), post("password"));

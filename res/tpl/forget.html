@@ -1,0 +1,10 @@
+<section id="page-title"><div class="container clearfix"><h1>Esqueceu a senha</h1></div></section><section id="content"><div class="content-wrap"><div class="container clearfix"><div class="accordion accordion-lg divcenter nobottommargin clearfix" style="max-width: 550px"><div class="acctitle"><i class="acc-closed icon-lock3"></i><i class="acc-open icon-unlock"></i>Digite seu email</div><div class="acc_content clearfix"><form id="forget-form" class="nobottommargin"><div class="col_full"><label>Email:</label><input type="text" name="email" class="form-control"></div><div class="col_full nobottommargin"><button class="button button-3d button-black nomargin" type="submit">Recuperar senha</button></div></form></div></div></div></div></section><script>init.push(function(){
+
+	$("#forget-form").form({
+		url:PATH+"/users/forget",
+		success:function(r){
+			alertify.success(r.data.message);
+		}
+	});
+
+});</script>

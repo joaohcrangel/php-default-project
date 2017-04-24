@@ -64,6 +64,19 @@ class User extends Model {
         
     }
 
+    public static function getByEmail($desemail):User
+    {
+
+        $user = new User();
+
+        $user->queryToAttr("CALL sp_usersfromemail_get(?);", array(
+            $desemail
+        ));
+
+        return $user;
+
+    }
+
     public static function getPasswordHash($despassword){
 
         return password_hash($despassword, PASSWORD_DEFAULT, array(

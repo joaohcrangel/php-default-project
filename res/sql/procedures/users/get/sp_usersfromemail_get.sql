@@ -10,9 +10,7 @@ BEGIN
     FROM tb_users a
     INNER JOIN tb_contacts b USING(idperson)
     WHERE 
-		b.descontact = pdesemail
-        AND
-        b.idcontacttype = 1;
+		b.descontact = pdesemail;
 	
 	IF piduser > 0 THEN
     

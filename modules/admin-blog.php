@@ -36,7 +36,7 @@ $app->get("/".DIR_ADMIN."/blog/posts/new", function(){
 
 $app->get("/blog-posts/:idpost", function($idpost){
 
-    Permission::checkSession(Permission::ADMIN, true);
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     $post = new Hcode\Site\Blog\Post((int)$idpost);
 

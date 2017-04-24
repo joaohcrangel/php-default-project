@@ -25,7 +25,7 @@ class Tags extends Collection {
 
     }
 
-    public function getByBlogPost(Post $post):Tags
+    public function getByHcode_Site_Blog_Post(Post $post):Tags
     {
 
         $this->loadFromQuery("CALL sp_tagsfrompost_list(?);", array(

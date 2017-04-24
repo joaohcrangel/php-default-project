@@ -23,9 +23,10 @@ class Category extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_blogcategories_save(?, ?);", array(
+            $this->queryToAttr("CALL sp_blogcategories_save(?, ?, ?);", array(
                 $this->getidcategory(),
-                $this->getdescategory()
+                $this->getdescategory(),
+                $this->getidurl()
             ));
 
             return $this->getidcategory();

@@ -14,7 +14,8 @@ class Page extends \Hcode\Page {
 			"base_url"      => PATH,
 			"tpl_dir"       => PATH."/res/tpl/",
 			"cache_dir"     => PATH."/res/tpl/tmp/",
-			"debug"         => false
+			"debug"         => false,
+			"auto_escape"	=> false
 	    );
 
 	}

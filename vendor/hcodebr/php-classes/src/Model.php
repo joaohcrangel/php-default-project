@@ -42,7 +42,7 @@ abstract class Model extends DefaultObject implements ModelInterface {
 					$this->arrayToAttr($arg);
 					break;
 					case 'object':
-					$this->{"getBy".get_class($arg)}($arg);
+					$this->{"getBy".str_replace("\\", "_", get_class($arg))}($arg);
 					break;
 					case 'string':
 					$this->getbystring($arg);

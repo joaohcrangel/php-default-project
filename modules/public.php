@@ -63,10 +63,10 @@ $app->get("/blog", function(){
 		".$where." GROUP BY a.idpost LIMIT ?, ?;
 	";
 
-	$pagination = new Pagination(
+	$pagination = new Hcode\Pagination(
 		$query,
 		array(),
-		"BlogPosts",
+		"Hcode\Site\Blog\Posts",
 		$itemsPerPage
 	);
 
@@ -79,7 +79,7 @@ $app->get("/blog", function(){
 		"total"=>$pagination->getTotal(),
 		"currentPage"=>$page,
 		"itemsPerPage"=>$itemsPerPage,
-		"categories"=>BlogCategories::listAll()->getFields()
+		"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
 	));
 
 });

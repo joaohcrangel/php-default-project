@@ -227,39 +227,18 @@ $app->get("/blog/:desurl", function($desurl){
 
 		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
 
-
-		// function getCommentsHTML(BlogComment $commentFather, BlogComments $commentsAll){
-
-		// 	$roots = $commentsAll->filter('idcommentfather', $commentFather->getidmenu());
-
-		// 	$html = '';
-
-		// 	if($roots->getSize() > 0){
-
-		// 		$html = '<ul>';
-
-		// 		$html .= '</ul>';
-
-		// 	}
-
-		// 	pre($html);
-		// 	exit;
-
-		// 	return $html;
-
-		// }
-
-		// foreach ($post->getComments()->getItens() as $comment) {
-		// 	getCommentsHTML($comment, $post->getComments());
-		// };
-
 		$post->setTags($post->getTags());
+
+		$root = new Hcode\Site\Blog\Comment(array("idcomment"=>0));
+		
+		$commentsHTML = Hcode\Site\Blog\Comment::getCommentsHTML($root, $post->getComments());
 
 		$page = new Hcode\Site\Page();
 
 		$page->setTpl("blog-post", array(
 			"post"=>$post->getFields(),
-			"categories"=>$categories
+			"categories"=>$categories,
+			"comments"=>$commentsHTML
 		));
 
 	}

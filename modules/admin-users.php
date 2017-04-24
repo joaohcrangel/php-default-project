@@ -16,7 +16,7 @@ $app->get("/".DIR_ADMIN."/users/:iduser", function($iduser){
         )
     ));
 
-    $page->setTpl('/admin/system-user', array(
+    $page->setTpl('system-user', array(
     	'user'=>$user->getFields()
     ));
 
@@ -27,11 +27,11 @@ $app->get("/".DIR_ADMIN."/users", function(){
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$page = new Hcode\Admin\Page(array(
-        "header"=>true,
-        "footer"=>true
+        "header"=>false,
+        "footer"=>false
     ));
 
-	$page->setTpl("/admin/users");
+	$page->setTpl("panel\user");
 
 });
 

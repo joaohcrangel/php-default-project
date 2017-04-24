@@ -2,6 +2,7 @@
 
 namespace Hcode\System\User;
 
+use Hcode\Model;
 use Hcode\Exception;
 
 class Type extends Model {

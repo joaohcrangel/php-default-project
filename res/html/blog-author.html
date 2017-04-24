@@ -1,0 +1,81 @@
+<section id="page-title">
+
+	<div class="container clearfix">
+		<h1>{$author.desauthor}</h1>
+		<span>Veja as últimas postagens deste autor</span>
+		<!-- <ol class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li class="active">Blog</li>
+		</ol> -->
+	</div>
+
+</section><!-- #page-title end -->
+
+<!-- Content
+============================================= -->
+<section id="content">
+
+	<div class="content-wrap">
+
+		<div class="container clearfix">
+
+			<!-- Post Content
+			============================================= -->
+			<div class="postcontent nobottommargin clearfix">
+
+				<!-- Posts
+				============================================= -->
+				<div id="posts">
+
+					{include="loop-posts"}
+
+				</div><!-- #posts end -->
+
+				<!-- Pagination
+				============================================= -->
+				<div class="pagination"></div>
+
+			</div><!-- .postcontent end -->
+
+			<!-- Sidebar
+			============================================= -->
+			<div class="sidebar nobottommargin col_last clearfix">
+				<div class="sidebar-widgets-wrap">
+
+					<div class="widget clearfix">
+
+						<h4>Encontre um artigo</h4>
+						{include="found_article"}
+
+					</div>
+
+					<div class="widget clearfix categories">
+
+						<h4>Categorias</h4>
+						<ul class="list-group">
+						  
+							{include="loop-categories"}
+
+						</ul>
+
+					</div>
+
+				</div>
+
+			</div><!-- .sidebar end -->
+
+		</div>
+
+	</div>
+
+</section><!-- #content end -->
+
+<script>
+	
+init.push(function(){
+
+	
+
+});
+
+</script>

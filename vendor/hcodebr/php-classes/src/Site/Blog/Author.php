@@ -52,6 +52,24 @@ class Author extends Model {
         
     }
 
+    public static function getByAuthor($desauthor):Author
+    {
+
+        $author = new Author();
+
+        $author->queryToAttr("CALL sp_blogauthorsbyauthor_get(?);", array(
+            $desauthor
+        ));
+
+        return $author;
+
+    }
+
+    public function getPosts():Posts
+    {
+        return new Posts($this);
+    }
+
 }
 
 ?>

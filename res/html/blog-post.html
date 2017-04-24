@@ -37,7 +37,7 @@
 						============================================= -->
 						<ul class="entry-meta clearfix">
 							<li><i class="icon-calendar3"></i> {$post.desdtpublished}</li>
-							<li><a href="#"><i class="icon-user"></i> {$post.desauthor}</a></li>
+							<li><a href="{$path}/blog/authors/{$post.desauthor}"><i class="icon-user"></i> {$post.desauthor}</a></li>
 							<li><i class="icon-folder-open"></i>
 								{loop="$post.Tags"}
 								<a href="#">{$value.destag}</a>
@@ -122,7 +122,7 @@
 					============================================= -->
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Escrito por <span><a href="#">{$post.desauthor}</a></span></h3>
+							<h3 class="panel-title">Escrito por <span><a href="{$path}/blog/authors/{$post.desauthor}">{$post.desauthor}</a></span></h3>
 						</div>
 						<div class="panel-body">
 							<div class="author-image">

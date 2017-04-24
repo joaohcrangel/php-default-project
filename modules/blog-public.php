@@ -16,7 +16,7 @@ $app->get("/blog/categories/:desurl", function($desurl){
 
 	if(isset($data[0])){
 
-		$category = new BlogCategory($data[0]);
+		$category = new Hcode\Site\Blog\Category($data[0]);
 
 		$page = (int)get("page");
 		$itemsPerPage = (int)get("limit");
@@ -51,18 +51,18 @@ $app->get("/blog/categories/:desurl", function($desurl){
 	        ".$where." GROUP BY a.idpost LIMIT ?, ?;
 		";
 
-		$pagination = new Pagination(
+		$pagination = new Hcode\Pagination(
 			$query,
 			array(),
-			"BlogPosts",		
+			"Hcode\Site\Blog\Posts",
 			$itemsPerPage
 		);
 
 		$posts = $pagination->getPage($page);
 
-		$categories = BlogCategories::listAll()->getFields();
+		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
 
-		$page = new Hcode\Page();
+		$page = new Hcode\Site\Page();
 
 		$page->setTpl("blog-category", array(
 			"category"=>$category->getFields(),
@@ -128,7 +128,7 @@ $app->get("/blog/search", function(){
 
 	}
 
-	$page = new Hcode\Page();
+	$page = new Hcode\Site\Page();
 
 	$page->setTpl("blog-search", array(
 		"posts"=>$posts->getFields(),
@@ -136,7 +136,7 @@ $app->get("/blog/search", function(){
 		"total"=>$pagination->getTotal(),
 		"itemsPerPage"=>$itemsPerPage,
 		"get"=>$_GET,
-		"categories"=>BlogCategories::listAll()->getFields()
+		"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
 	));
 
 });
@@ -154,7 +154,7 @@ $app->get("/blog/:desurl", function($desurl){
 		$post = new Hcode\Site\Blog\Post($data[0]);
 
 		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
-		
+
 		$post->setTags($post->getTags());
 
 		$root = new Hcode\Site\Blog\Comment(array("idcomment"=>0));
@@ -190,6 +190,24 @@ $app->post("/blog/comment", function(){
 	));
 
 	$comment->save();
+
+});
+
+$app->get("/blog/authors/:desauthor", function($desauhtor){
+
+	$author = Hcode\Site\Blog\Author::getByAuthor($desauhtor);
+
+	if($author){
+
+		$page = new Hcode\Site\Page();
+
+		$page->setTpl("blog-author", array(
+			"author"=>$author->getFields(),
+			"posts"=>$author->getPosts()->getFields(),
+			"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
+		));
+
+	}
 
 });
 

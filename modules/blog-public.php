@@ -220,4 +220,22 @@ $app->get("/blog/:desurl", function($desurl){
 
 });
 
+$app->get("/blog/authors/:desauthor", function($desauhtor){
+
+	$author = Hcode\Site\Blog\Author::getByAuthor($desauhtor);
+
+	if($author){
+
+		$page = new Hcode\Site\Page();
+
+		$page->setTpl("blog-author", array(
+			"author"=>$author->getFields(),
+			"posts"=>$author->getPosts()->getFields(),
+			"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
+		));
+
+	}
+
+});
+
 ?>

@@ -66,6 +66,11 @@ class Post extends Model {
         return new Categories($this);
     }
 
+    public function getComments():Comments
+    {
+        return new Comments($this);
+    }
+
     public function removeTags():bool
     {
 

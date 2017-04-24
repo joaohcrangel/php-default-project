@@ -545,7 +545,7 @@ $app->post("/blog-categories", function(){
 
 	if(isset($_POST['desurl'])){
 
-		$url = new Url(array(
+		$url = new Hcode\Site\Url(array(
 			"desurl"=>post("desurl")
 		));
 

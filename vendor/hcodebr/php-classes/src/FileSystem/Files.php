@@ -60,7 +60,7 @@ class Files extends Collection {
 
         foreach ($filesPost as $f) {
 
-            $files->add(File::upload(
+            $file->add(File::upload(
                 $f['name'],
                 $f['type'],
                 $f['tmp_name'],

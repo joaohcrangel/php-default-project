@@ -1,5 +1,28 @@
 <?php
 
+$app->post("/blog/comments", function(){
+
+	$person = new Hcode\Person\Person(array(
+		"desperson"=>post("desperson"),
+		"idpersontype"=>Hcode\Person\Type::FISICA,
+		"desemail"=>post("desemail")
+	));
+
+	$person->save();
+
+	$comment = new Hcode\Site\Blog\Comment(array(
+		"descomment"=>post("descomment"),
+		"idperson"=>$person->getidperson(),
+		"idpost"=>post("idpost"),
+		"inapproved"=>false
+	));
+
+	$comment->save();
+
+	echo success();
+
+});
+
 $app->get("/public/blog-categories", function(){
 
 	echo success(array("data"=>Hcode\Site\Blog\Categories::listAll()->getFields()));
@@ -141,6 +164,30 @@ $app->get("/blog/search", function(){
 
 });
 
+$app->get("/blog/images/world-map.png", function(){
+
+	echo success(array("data"=>Hcode\Site\Blog::listAll()->getFields()));
+
+});
+
+$app->get("/blog/authors/:desauthor", function($desauhtor){
+
+	$author = Hcode\Site\Blog\Author::getByAuthor($desauhtor);
+
+	if($author){
+
+		$page = new Hcode\Site\Page();
+
+		$page->setTpl("blog-author", array(
+			"author"=>$author->getFields(),
+			"posts"=>$author->getPosts()->getFields(),
+			"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
+		));
+
+	}
+
+});
+
 $app->get("/blog/:desurl", function($desurl){
 
 	$sql = new Hcode\Sql();
@@ -167,54 +214,6 @@ $app->get("/blog/:desurl", function($desurl){
 			"post"=>$post->getFields(),
 			"categories"=>$categories,
 			"comments"=>$commentsHTML
-		));
-
-	}
-
-});
-
-$app->get("/blog/images/world-map.png", function(){
-
-	echo success(array("data"=>Hcode\Site\Blog::listAll()->getFields()));
-
-});
-
-$app->post("/blog/comments", function(){
-
-	$person = new Hcode\Person\Person(array(
-		"desperson"=>post("desperson"),
-		"idpersontype"=>Hcode\Person\Type::FISICA,
-		"desemail"=>post("desemail")
-	));
-
-	$person->save();
-
-	$comment = new Hcode\Site\Blog\Comment(array(
-		"descomment"=>post("descomment"),
-		"idperson"=>$person->getidperson(),
-		"idpost"=>post("idpost"),
-		"inapproved"=>false
-	));
-
-	$comment->save();
-
-	echo success();
-
-});
-
-
-$app->get("/blog/authors/:desauthor", function($desauhtor){
-
-	$author = Hcode\Site\Blog\Author::getByAuthor($desauhtor);
-
-	if($author){
-
-		$page = new Hcode\Site\Page();
-
-		$page->setTpl("blog-author", array(
-			"author"=>$author->getFields(),
-			"posts"=>$author->getPosts()->getFields(),
-			"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
 		));
 
 	}

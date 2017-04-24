@@ -84,4 +84,12 @@ $app->get("/blog", function(){
 
 });
 
+$app->get("/login", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("login");
+
+});
+
 ?>

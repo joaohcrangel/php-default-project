@@ -101,9 +101,9 @@ $app->post("/register", function(){
 
 	$person->save();
 
-	$person->addEmail()
+	$person->addEmail();
 
-	$user = new Hcode\Sytem\User(array(
+	$user = new Hcode\System\User(array(
 		"idperson"=>$person->getidperson(),
 		"desuser"=>post("username"),
 		"despassword"=>Hcode\System\User::getPasswordHash(post('despassword')),

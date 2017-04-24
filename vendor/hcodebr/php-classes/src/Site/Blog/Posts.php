@@ -13,6 +13,17 @@ class Posts extends Collection {
 
     public function get(){}
 
+    public function getByHcode_Site_Blog_Author(Author $author):Posts
+    {
+
+    	$this->loadFromQuery("CALL sp_postsfromauthor_list(?);", array(
+    		$author->getidauthor()
+    	));
+
+    	return $this;
+
+    }
+
 }
 
 ?>

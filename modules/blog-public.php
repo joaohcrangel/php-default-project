@@ -62,7 +62,7 @@ $app->get("/blog/categories/:desurl", function($desurl){
 
 		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
 
-		$page = new Hcode\Page();
+		$page = new Hcode\Site\Page();
 
 		$page->setTpl("blog-category", array(
 			"category"=>$category->getFields(),
@@ -128,7 +128,7 @@ $app->get("/blog/search", function(){
 
 	}
 
-	$page = new Hcode\Page();
+	$page = new Hcode\Site\Page();
 
 	$page->setTpl("blog-search", array(
 		"posts"=>$posts->getFields(),
@@ -154,7 +154,7 @@ $app->get("/blog/:desurl", function($desurl){
 		$post = new Hcode\Site\Blog\Post($data[0]);
 
 		$categories = Hcode\Site\Blog\Categories::listAll()->getFields();
-		
+
 		$post->setTags($post->getTags());
 
 		$root = new Hcode\Site\Blog\Comment(array("idcomment"=>0));
@@ -202,5 +202,23 @@ $app->post("/blog/comments", function(){
 
 });
 
+
+$app->get("/blog/authors/:desauthor", function($desauhtor){
+
+	$author = Hcode\Site\Blog\Author::getByAuthor($desauhtor);
+
+	if($author){
+
+		$page = new Hcode\Site\Page();
+
+		$page->setTpl("blog-author", array(
+			"author"=>$author->getFields(),
+			"posts"=>$author->getPosts()->getFields(),
+			"categories"=>Hcode\Site\Blog\Categories::listAll()->getFields()
+		));
+
+	}
+
+});
 
 ?>

@@ -24,8 +24,9 @@ class Contact extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_sitescontacts_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_sitescontacts_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidsitecontact(),
+                $this->getidsitecontactfather(),
                 $this->getidperson(),
                 $this->getdesmessage(),
                 $this->getinread(),

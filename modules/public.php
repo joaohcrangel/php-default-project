@@ -100,6 +100,14 @@ $app->get("/forget", function(){
 
 });
 
+$app->get("/site-contact", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("site-contact");
+
+});
+
 $app->post("/login", function(){
 
 	$user = Hcode\System\User::login(strtolower(post("username")), post("password"));
@@ -173,11 +181,39 @@ $app->post("/register", function(){
 
 });
 
-$app->post("/login", function(){
+$app->post("/site-contacts/new", function(){
 
-	$user = Hcode\System\User::login(strtolower(post("username")), post("password"));
+	if(isLogged()){
 
-	$user->getPerson();
+		$person = Hcode\Session::getPerson();
+
+	}else{
+
+		$person = Hcode\Person\Person::getByEmail(post("desemail"));
+
+		if(!(int)$person->getidperson() > 0){
+
+			$person = new Hcode\Person\Person(array(
+				"idpersontype"=>Hcode\Person\Type::FISICA,
+				"desperson"=>post("desperson")
+			));
+
+			$person->save();
+
+			$person->addContact(post("desemail"), Hcode\Contact\SubType::EMAIL_PESSOAL);
+
+		}
+
+	}
+
+	$sitecontact = new Hcode\Site\Contact(array(
+		"idperson"=>$person->getidperson(),
+		"desmessage"=>post("desmessage")
+	));
+
+	$sitecontact->save();
+
+	echo success();
 
 });
 

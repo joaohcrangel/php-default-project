@@ -99,6 +99,8 @@
 	
 init.push(function(){
 
+	var mapKey = JSON.parse('{function="json_encode($conf.GOOGLE_MAPS_KEY)"}');
+
 	$("#form-site-contact").form({
 		url:PATH+"/site-contacts/new",
 		success:function(){
@@ -107,12 +109,10 @@ init.push(function(){
 	});
 
 	$("#google-map").map({
-		id:1
+		id:1,
+		mapKey:mapKey
 	});
 
 });
 
-</script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={$conf.GOOGLE_MAPS_KEY}&callback=initMap">
 </script>

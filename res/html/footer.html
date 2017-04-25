@@ -18,7 +18,7 @@
 
 								<p>We believe in <strong>Simple</strong>, <strong>Creative</strong> &amp; <strong>Flexible</strong> Design Standards.</p>
 
-								<div style="background: url('images/world-map.png') no-repeat center center; background-size: 100%;">
+								<div style="background-size: 100%;">
 									<address>
 										<strong>Headquarters:</strong><br>
 										795 Folsom Ave, Suite 600<br>
@@ -234,12 +234,30 @@
 
 	<!-- External JavaScripts
 	============================================= -->
+	<script type="text/javascript" src="/res/theme/material/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
 	<script type="text/javascript" src="/res/public/js/jquery.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/tether/tether.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/animsition/animsition.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/waves/waves.js"></script>
+
 	<script type="text/javascript" src="/res/public/js/plugins.js"></script>
 
 	<!-- Footer Scripts
 	============================================= -->
 	<script type="text/javascript" src="/res/public/js/functions.js"></script>
+	
+	<script type="text/javascript" src="/res/theme/assets/vendor/handlebars/handlebars-v4.0.5.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/alertify/alertify.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/switchery/switchery.min.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/js/Plugin/switchery.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js"></script>
+	<script type="text/javascript" src="/res/theme/material/global/js/Plugin/aspaginator.js"></script>
+	<script type="text/javascript" src="/res/public/js/system.js"></script>
+
 	<script type="text/javascript" src="/res/js/jrangel/jquery.core.js"></script>
 	<script type="text/javascript" src="/res/js/jrangel/jquery.btnload.js"></script>
 	<script type="text/javascript" src="/res/js/jrangel/jquery.btnrest.js"></script>
@@ -251,14 +269,6 @@
 	<script type="text/javascript" src="/res/js/jrangel/jquery.arquivos.js"></script>
 	<script type="text/javascript" src="/res/js/jrangel/jquery.panel.js"></script>
 	<script type="text/javascript" src="/res/js/aribeiro/selecionar.js"></script>
-	
-	<script type="text/javascript" src="/res/theme/assets/vendor/handlebars/handlebars-v4.0.5.js"></script>
-	<script type="text/javascript" src="/res/theme/material/global/vendor/alertify/alertify.js"></script>
-	<script type="text/javascript" src="/res/theme/material/global/vendor/switchery/switchery.min.js"></script>
-	<script type="text/javascript" src="/res/theme/material/global/js/Plugin/switchery.js"></script>
-	<script type="text/javascript" src="/res/theme/material/global/vendor/aspaginator/jquery.asPaginator.min.js"></script>
-	<script type="text/javascript" src="/res/theme/material/global/js/Plugin/aspaginator.js"></script>
-	<script type="text/javascript" src="/res/public/js/system.js"></script>
 
 	<!-- Functions -->
 	<script>
@@ -276,6 +286,27 @@
 		      });
 
 		    }
+
+		    // $(".btn-logout").on("click", function(){
+
+		    // 	rest({
+		    // 		url:PATH+"/logout",
+		    // 		method:"POST",
+		    // 		success:function(){
+		    // 			window.location.href = PATH+"/";
+		    // 		}
+		    // 	});
+
+		    // });
+
+		    $(".btn-logout").btnrest({
+		    	url:PATH+"/logout",
+		    	method:"POST",
+		    	success:function(){
+		    		window.location.href = PATH+"/";
+		    	}
+		    });
+
 		});
 
 	</script>

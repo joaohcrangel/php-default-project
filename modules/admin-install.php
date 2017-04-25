@@ -3852,7 +3852,8 @@ $app->get("/install-admin/sql/blog/get", function(){
 		'sp_blogposts_get',
 		'sp_blogtags_get',
 		'sp_blogcategorybyurl_get',
-		'sp_blogpostbyurl_get'
+		'sp_blogpostbyurl_get',
+		'sp_blogauthorsbyauthor_get'
 	);
 
 	saveProcedures($procs, PATH_PROC."/blog/get/");
@@ -3914,7 +3915,8 @@ $app->get("/install-admin/sql/blog/list", function(){
 		'sp_blogtags_list',
 		'sp_tagsfrompost_list',
 		'sp_categoriesfrompost_list',
-		'sp_commentsfrompost_list'
+		'sp_commentsfrompost_list',
+		'sp_postsfromauthor_list'
 	);
 
 	saveProcedures($procs, PATH_PROC."/blog/list/");

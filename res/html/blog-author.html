@@ -1,9 +1,9 @@
 <section id="page-title">
 
 	<div class="container clearfix">
-		<!-- <h1>{$category.descategory}</h1> -->
-		<!-- <span>Veja nossas últimas postagens</span>
-		<ol class="breadcrumb">
+		<h1>{$author.desauthor}</h1>
+		<span>Veja as postagens deste autor</span>
+		<!-- <ol class="breadcrumb">
 			<li><a href="#">Home</a></li>
 			<li class="active">Blog</li>
 		</ol> -->
@@ -37,7 +37,7 @@
 						============================================= -->
 						<ul class="entry-meta clearfix">
 							<li><i class="icon-calendar3"></i> {$post.desdtpublished}</li>
-							<li><a href="{$path}/blog/authors/{$post.desauthor}"><i class="icon-user"></i> {$post.desauthor}</a></li>
+							<li><a href="#"><i class="icon-user"></i> {$post.desauthor}</a></li>
 							<li><i class="icon-folder-open"></i>
 								{loop="$post.Tags"}
 								<a href="#">{$value.destag}</a>
@@ -107,9 +107,11 @@
 					<!-- Post Navigation
 					============================================= -->
 					<!-- <div class="post-navigation clearfix">
+
 						<div class="col_half nobottommargin">
 							<a href="#">&lArr; This is a Standard post with a Slider Gallery</a>
 						</div>
+
 						<div class="col_half col_last tright nobottommargin">
 							<a href="#">This is an Embedded Audio Post &rArr;</a>
 						</div> -->
@@ -120,7 +122,7 @@
 					============================================= -->
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Escrito por <span><a href="{$path}/blog/authors/{$post.desauthor}">{$post.desauthor}</a></span></h3>
+							<h3 class="panel-title">Escrito por <span><a href="#">{$post.desauthor}</a></span></h3>
 						</div>
 						<div class="panel-body">
 							<div class="author-image">
@@ -144,40 +146,74 @@
 						============================================= -->
 						{$comments}
 						<!-- <ol class="commentlist clearfix">
+
 							<li class="comment even thread-even depth-1">
+
 								<div id="comment-1" class="comment-wrap clearfix">
+
 									<div class="comment-meta">
+
 										<div class="comment-author vcard">
+
 											<span class="comment-avatar clearfix">
 											<img alt='' src='http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60' class='avatar avatar-60 photo avatar-default' height='60' width='60' /></span>
+
 										</div>
+
 									</div>
+
 									<div class="comment-content clearfix">
+
 										<div class="comment-author">John Doe<span><a href="#" title="Permalink to this comment">April 24, 2012 at 10:46 am</a></span></div>
+
 										<p>Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+
 										<a class='comment-reply-link' href='#'><i class="icon-reply"></i></a>
+
 									</div>
+
 									<div class="clear"></div>
+
 								</div>
+
+
 								<ul class='children'>
+
 									<li class="comment byuser comment-author-_smcl_admin odd alt depth-2" id="li-comment-3">
+
 										<div id="comment-3" class="comment-wrap clearfix">
+
 											<div class="comment-meta">
+
 												<div class="comment-author vcard">
+
 													<span class="comment-avatar clearfix">
 													<img alt='' src='http://1.gravatar.com/avatar/30110f1f3a4238c619bcceb10f4c4484?s=40&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' /></span>
+
 												</div>
+
 											</div>
+
 											<div class="comment-content clearfix">
+
 												<div class="comment-author"><a href='#' rel='external nofollow' class='url'>SemiColon</a><span><a href="#" title="Permalink to this comment">April 25, 2012 at 1:03 am</a></span></div>
+
 												<p>Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+
 												<a class='comment-reply-link' href='#'><i class="icon-reply"></i></a>
+
 											</div>
+
 											<div class="clear"></div>
+
 										</div>
+
 									</li>
+
 								</ul>
+
 							</li>
+
 						</ol> -->
 						<!-- .commentlist end -->
 
@@ -210,7 +246,7 @@
 								</div>
 
 								<div class="col_full nobottommargin">
-									<button type="submit" tabindex="5" class="button button-3d nomargin">Enviar Comentário</button>
+									<button name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin">Enviar Comentário</button>
 								</div>
 
 							</form>
@@ -259,16 +295,11 @@
 <script>
 	
 init.push(function(){
+
 	setTimeout(function(){
 		$("footer").css("margin-top", 0);
-	}, 2000)
-	
-	$("#commentform").form({
-		url:PATH+"/blog/comments",
-		resetForm:false,
-		success:function(){			
-			System.success("Comentário criado com sucesso");
-		}
-	});	
+	}, 2000);
+
 });
+
 </script>

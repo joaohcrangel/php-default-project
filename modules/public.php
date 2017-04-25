@@ -84,4 +84,101 @@ $app->get("/blog", function(){
 
 });
 
+$app->get("/login", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("login");
+
+});
+
+$app->get("/forget", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("forget");
+
+});
+
+$app->post("/login", function(){
+
+	$user = Hcode\System\User::login(strtolower(post("username")), post("password"));
+
+	$user->getPerson();
+
+	Hcode\Session::setUser($user, (isset($_POST['remember'])));
+	
+	$configurations = Hcode\System\Configurations::listAll();
+
+	Hcode\Session::setConfigurations($configurations);
+
+	echo success(array(
+		"token"=>session_id()
+	));
+
+});
+
+$app->post("/logout", function(){
+
+	unsetLocalCookie(COOKIE_KEY);
+
+	if (isset($_SESSION)) unset($_SESSION);
+
+	session_destroy();
+
+	echo success();
+
+});
+
+$app->post("/register", function(){
+
+	if(!post("despassword")){
+		throw new Exception("Preencha a senha", 400);		
+	}
+
+	if($_POST["despassword"] != $_POST['despassword2']){
+		throw new Exception("As senhas devem ser idênticas", 400);		
+	}
+
+	$person = new Hcode\Person\Person(array(
+		"desperson"=>post("desperson"),
+		"idpersontype"=>Hcode\Person\Type::FISICA
+	));
+
+	$person->save();
+
+	$user = new Hcode\System\User(array(
+		"idperson"=>$person->getidperson(),
+		"desuser"=>post("desuser"),
+		"despassword"=>Hcode\System\User::getPasswordHash(post('despassword')),
+		"inblocked"=>0,
+		"idusertype"=>Hcode\System\User\Type::CLIENTE
+	));
+
+	$user->save();
+
+	$person->addContact(post("desuser"), Hcode\Contact\SubType::EMAIL_PESSOAL);
+
+	$user->getPerson();
+
+	Hcode\Session::setUser($user, (isset($_POST['remember'])));
+	
+	$configurations = Hcode\System\Configurations::listAll();
+
+	Hcode\Session::setConfigurations($configurations);
+
+	echo success(array(
+		'token'=>session_id()
+	));
+
+});
+
+$app->post("/login", function(){
+
+	$user = Hcode\System\User::login(strtolower(post("username")), post("password"));
+
+	$user->getPerson();
+
+});
+
 ?>

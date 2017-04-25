@@ -6,7 +6,9 @@
 
 			var defaults = {
 				id: "",
-				mapKey:""
+				mapKey:"",
+				success:function(){},
+				failure:function(){}
 			};
 
 			var o = $.extend({}, defaults, options);
@@ -29,6 +31,10 @@
 
 							console.log(data);
 
+							if(typeof o.success === 'function'){
+								o.success(data);
+							}
+
 							window.initMap = function(){
 
 								var position = {
@@ -49,11 +55,17 @@
 									draggable:true
 								});
 
-								marker.setMap(map);							
+								marker.setMap(map);
 
-								google.maps.event.addListener(map, "rightclick", function(e){
-							    	marker.setPosition(e.latLng);
-								});
+								var addressContent = "<h4>"+data.desplace+"</h4><span>"+data.desaddress + ", "+ data.descity + " - " + data.descep+"</span>"
+
+								var infowindow = new google.maps.InfoWindow({
+								    content: addressContent
+							  	});
+
+								marker.addListener('click', function() {
+								    infowindow.open(map, marker);
+							  	});
 
 							}
 
@@ -62,6 +74,9 @@
 						},
 						failure:function(r){
 							System.showError(r);
+							if(typeof o.failure === 'function'){
+								o.failure();
+							}
 						}
 					});
 

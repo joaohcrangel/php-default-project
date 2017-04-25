@@ -304,6 +304,19 @@ class Person extends Model {
 
     }
 
+    public static function getByEmail($desemail):Person
+    {
+
+        $person = new Person();
+
+        $person->queryToAttr("CALL sp_personsbyemail_get(?);", array(
+            $desemail
+        ));
+
+        return $person;
+
+    }
+
     public function getFields(){
 
         $this->getPhotoURL();

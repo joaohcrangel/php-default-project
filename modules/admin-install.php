@@ -294,7 +294,8 @@ $app->get("/install-admin/sql/persons/get", function(){
 		"sp_personsvaluesfields_get",
 		"sp_personstypes_get",
 		"sp_personscategoriestypes_get",
-		"sp_personsdevices_get"
+		"sp_personsdevices_get",
+		"sp_personsbyemail_get"
 	);
 	saveProcedures($procs, PATH_PROC."/persons/get/");
 	echo success();

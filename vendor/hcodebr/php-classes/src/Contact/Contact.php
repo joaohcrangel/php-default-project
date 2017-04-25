@@ -7,7 +7,7 @@ use Hcode\Exception;
 
 class Contact extends Model {
 
-    public $required = array('idcontact', 'idcontactsubtype', 'idperson', 'descontact', 'inprincipal');
+    public $required = array('idcontactsubtype', 'idperson', 'descontact', 'inmain');
 
     const EMAIL = 1;
     const TELEFONE = 2;
@@ -33,7 +33,7 @@ class Contact extends Model {
                 $this->getidcontactsubtype(),
                 $this->getidperson(),
                 $this->getdescontact(),
-                $this->getinprincipal()
+                $this->getinmain()
             ));
 
             return $this->getidcontact();

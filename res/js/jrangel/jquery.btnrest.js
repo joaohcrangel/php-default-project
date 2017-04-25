@@ -36,7 +36,7 @@
 						}
 					}
 
-					alertify.alert(r.error || "Não foi possível executar está ação. Tente novamente mais tarde.").set('title', 'Erro');
+					alertify.alert(r.error || "Não foi possível executar esta ação. Tente novamente mais tarde.").set('title', 'Erro');
 
 				}
 			};

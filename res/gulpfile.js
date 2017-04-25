@@ -95,7 +95,7 @@ gulp.task('scripts-admin', function() {
         //Plugins
         './theme/material/global/vendor/babel-external-helpers/babel-external-helpers.js',
         './theme/material/global/vendor/jquery/jquery.js',
-        './theme/material/global/vendor/tether/tether.js',                
+        './theme/material/global/vendor/tether/tether.js',
         './theme/material/global/vendor/bootstrap/bootstrap.js',
         './theme/material/global/vendor/animsition/animsition.js',
         './theme/material/global/vendor/mousewheel/jquery.mousewheel.js',

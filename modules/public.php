@@ -104,7 +104,17 @@ $app->get("/site-contact", function(){
 
 	$page = new Hcode\Site\Page();
 
-	$page->setTpl("site-contact");
+	$page->setTpl("site-contact", array(
+		"conf"=>Hcode\Session::getConfigurations()->getNames()
+	));
+
+});
+
+$app->get("/public/places/:idplace", function($idplace){
+
+	$place = new Hcode\Place\Place((int)$idplace);
+
+	echo success(array("data"=>$place->getFields()));
 
 });
 

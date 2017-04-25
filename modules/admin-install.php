@@ -697,6 +697,15 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 	));
 	$menuBlog->save();
 
+	$menuSiteContact = new Hcode\Site\Menu(array(
+		'nrorder'=>0,
+		'idmenufather'=>NULL,
+		'desicon'=>'',
+		'deshref'=>'/site-contact',
+		'desmenu'=>$lang->getString('sitesmenus_sitecontact')
+	));
+	$menuSiteContact->save();
+
 	echo success();
 
 
@@ -2802,12 +2811,14 @@ $app->get("/install-admin/sql/sitescontacts/tables", function(){
 	$sql->exec("
 		CREATE TABLE tb_sitescontacts(
 			idsitecontact INT NOT NULL AUTO_INCREMENT,
+			idsitecontactfather INT NULL,
 			idperson INT NOT NULL,
 			idpersonanswer INT NULL,
 			desmessage VARCHAR(2048) NOT NULL,
 			inread BIT(1) NULL,
 			dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 			CONSTRAINT PRIMARY KEY(idsitecontact),
+			CONSTRAINT FOREIGN KEY(idsitecontactfather) REFERENCES tb_sitescontacts(idsitecontact),
 			CONSTRAINT FOREIGN KEY(idperson) REFERENCES tb_persons(idperson)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
@@ -3115,7 +3126,15 @@ $app->get("/install-admin/sql/places/inserts", function(){
 		'idplacetype'=>$companies->getidplacetype()
 	));
 	$placeHcode->save();
-	$placeHcode->setaddress($address);
+	$placeHcode->setAddress($address);
+
+	$coordinateHcode = new Hcode\Address\Coordinate(array(
+		"vllatitude"=>-23.741167,
+		"vllongitude"=>-46.603036,
+		"nrzoom"=>4
+	));
+	$coordinateHcode->save();
+	$placeHcode->setCoordinate($coordinateHcode);
 	
 	echo success();
 	

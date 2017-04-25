@@ -75,7 +75,7 @@
 			============================================= -->
 			<div class="col_half col_last">
 
-				<section id="google-map" class="gmap" style="height: 410px;"></section>
+				<section id="google-map" style="height: 410px;"></section>
 
 			</div><!-- Google Map End -->
 
@@ -106,6 +106,13 @@ init.push(function(){
 		}
 	});
 
+	$("#google-map").map({
+		id:1
+	});
+
 });
 
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={$conf.GOOGLE_MAPS_KEY}&callback=initMap">
 </script>

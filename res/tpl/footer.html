@@ -12,18 +12,6 @@
 
 		    }
 
-		    // $(".btn-logout").on("click", function(){
-
-		    // 	rest({
-		    // 		url:PATH+"/logout",
-		    // 		method:"POST",
-		    // 		success:function(){
-		    // 			window.location.href = PATH+"/";
-		    // 		}
-		    // 	});
-
-		    // });
-
 		    $(".btn-logout").btnrest({
 		    	url:PATH+"/logout",
 		    	method:"POST",
@@ -31,5 +19,9 @@
 		    		window.location.href = PATH+"/";
 		    	}
 		    });
+
+		    setTimeout(function(){
+				$("footer").css("margin-top", 0);
+			}, 1000);
 
 		});</script>

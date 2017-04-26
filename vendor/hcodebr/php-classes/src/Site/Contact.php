@@ -7,7 +7,7 @@ use Hcode\Exception;
 
 class Contact extends Model {
 
-    public $required = array('idsitecontact', 'idperson', 'desmessage');
+    public $required = array('idperson', 'desmessage');
     protected $pk = "idsitecontact";
 
     public function get(){

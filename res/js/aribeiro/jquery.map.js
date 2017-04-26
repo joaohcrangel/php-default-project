@@ -2,16 +2,16 @@
 
 	$.fn.extend({
 
-		map:function(options){
+		HcodeMap:function(options){
 
 			var defaults = {
-				id: "",
+				id:"",
 				mapKey:"",
 				success:function(){},
 				failure:function(){}
 			};
 
-			var o = $.extend({}, defaults, options);
+			var o = $.extend(defaults, options);
 
 			if(!o.id){
 				console.error("Informe o ID do lugar");

@@ -697,15 +697,6 @@ $app->get("/install-admin/sql/sitesmenus/inserts", function(){
 	));
 	$menuBlog->save();
 
-	$menuSiteContact = new Hcode\Site\Menu(array(
-		'nrorder'=>0,
-		'idmenufather'=>NULL,
-		'desicon'=>'',
-		'deshref'=>'/site-contact',
-		'desmenu'=>$lang->getString('sitesmenus_sitecontact')
-	));
-	$menuSiteContact->save();
-
 	echo success();
 
 

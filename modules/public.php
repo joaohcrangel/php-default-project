@@ -100,7 +100,7 @@ $app->get("/forget", function(){
 
 });
 
-$app->get("/site-contact", function(){
+$app->get("/contato", function(){
 
 	$page = new Hcode\Site\Page();
 

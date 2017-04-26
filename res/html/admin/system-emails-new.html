@@ -6,36 +6,36 @@
 </style>
 <div class="page">
 	<div class="page-content container-fluid">
-		
-		<div class="panel" id="examplePanelToolbar">
-	        <div class="panel-heading">
-	          <h3 class="panel-title">Criar Novo E-mail</h3>
-	        </div>
-	        <div class="panel-collapse">
-	          <div class="panel-body p-x-25 p-y-0">
-	          	<form class="m-0">
-                    <div class="form-group form-material">
-						<input type="text" class="form-control" name="desto" id="desto" autocomplete="off" placeholder="Para">
-                    </div>
-                    <div class="form-group form-material">
-						<input type="text" class="form-control" name="descc" id="descc" autocomplete="off" placeholder="Cópia">
-                    </div>
-                    <div class="form-group form-material">
-						<input type="text" class="form-control" name="desbcc" id="desbcc" autocomplete="off" placeholder="Cópia oculta">
-                    </div>
-                    <div class="form-group form-material">
-						<input type="text" class="form-control" name="desreplyto" id="desreplyto" autocomplete="off" placeholder="Responder para">
-                    </div>
-                    <div class="form-group form-material">
-						<input type="text" class="form-control" name="dessubject" id="dessubject" autocomplete="off" placeholder="Assunto">
-                    </div>
-                </form>
-	            <div id="htmlEditor"></div>
-	            <button type="button" class="btn btn-block btn-primary m-b-15 waves-effect">Salvar</button>
-	          </div>
-	        </div>
-	      </div>
-
+		<form class="m-0" id="system-email-form">
+	    <div class="panel" id="examplePanelToolbar">
+        <div class="panel-heading">
+          <h3 class="panel-title">Criar Novo E-mail</h3>
+        </div>
+        <div class="panel-collapse">
+          <div class="panel-body p-x-25 p-y-0">
+          	
+            <div class="form-group form-material">
+		          <input type="text" class="form-control" name="desemail" id="desemail" autocomplete="off" placeholder="Nome do E-mail">
+            </div>
+            <div class="form-group form-material">
+		          <input type="text" class="form-control" name="descc" id="descc" autocomplete="off" placeholder="Cópia">
+            </div>
+            <div class="form-group form-material">
+		          <input type="text" class="form-control" name="desbcc" id="desbcc" autocomplete="off" placeholder="Cópia oculta">
+            </div>
+            <div class="form-group form-material">
+		          <input type="text" class="form-control" name="desreplyto" id="desreplyto" autocomplete="off" placeholder="Responder para">
+            </div>
+            <div class="form-group form-material">
+		          <input type="text" class="form-control" name="dessubject" id="dessubject" autocomplete="off" placeholder="Assunto">
+            </div>
+              
+            <div id="htmlEditor"></div>
+            <button type="submit" class="btn btn-block btn-primary m-b-15 waves-effect">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </form>
 	</div>
 </div>
 <script id="tpl-modal-tpl" type="text/x-handlebars-template">
@@ -3081,7 +3081,23 @@ init.push(function(){
 	    ]
 	});
 
+  $("#system-email-form").form({
+    url:PATH+"/emails",
+    beforeParams:function(data){
 
+      data.desbody = $("#htmlEditor").summernote("code");
+      return data;
+
+    },
+    success:function(r){
+
+      System.success("E-mail salvo com sucesso!");
+
+    },
+    failure:function(e){
+      System.showError(e);
+    }
+  });
 
 });
 </script>

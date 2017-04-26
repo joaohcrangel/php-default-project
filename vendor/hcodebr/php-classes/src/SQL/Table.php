@@ -3,6 +3,7 @@
 namespace Hcode\Sql;
 
 use Hcode\Model;
+use Hcode\SQL\Tables;
 
 class Table extends Model {
 	
@@ -19,6 +20,24 @@ class Table extends Model {
 		$table->getColumns();
 
 		return $table;
+
+	}
+
+	public function getTablesReferences(){
+
+		$tables = new Tables();
+
+		$tables->loadFromQuery("
+			select table_name
+			from information_schema.KEY_COLUMN_USAGE
+			where table_schema = ?
+			and referenced_table_name = ?;
+		", array(
+			DB_NAME,
+			$this->getName()
+		));
+
+		return $tables;
 
 	}
 

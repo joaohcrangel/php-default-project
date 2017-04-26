@@ -1,6 +1,14 @@
 <style>.page-content {
 	height: calc(100% - 0px)!important;
-}</style><div class="page"><div class="page-content"><div class="row" ng-controller="sql-to-class"><div class="col-md-5"><div class="panel panel-bordered m-b-0" id="panel-tables"><div class="panel-heading"><h4 class="panel-title">Tabelas</h4><div class="panel-actions"><a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" ng-click="loadTables()" aria-hidden="true"></a></div></div><div class="panel-body" data-auto-height="-250"><table class="table"><thead><tr><th>Nome<th>Linhas<th>&nbsp;<tbody ng-repeat="table in tables"><tr><td>{{table.Name}}<td>{{table.Rows}}<td><button type="button" class="btn btn-primary btn-xs pull-right" id="btn-selecionar-{{table.Name}}" ng-click="selecionar(table)">Selecionar</button></table></div></div></div><div class="col-md-7"><div class="panel panel-bordered" id="panel-form"><div class="panel-heading"><h4 class="panel-title">Detalhes da Tabela</h4></div><div class="panel-body"><form><div class="form-group form-material"><label class="control-label" for="inputText">Nome da Tabela</label><input type="text" class="form-control" id="destabela" name="destabela" ng-model="form.destabela"></div><div class="form-group form-material"><label class="control-label" for="inputText">Nome no Plural</label><input type="text" class="form-control" id="desplural" name="desplural" ng-model="form.desplural"></div><div class="form-group form-material"><label class="control-label" for="inputText">Nome no Singular</label><input type="text" class="form-control" id="dessingular" name="dessingular" ng-model="form.dessingular"></div><div class="form-group form-material"><label class="control-label" for="inputText">Campos</label></div><div class="col-md-6"><h4 class="example-title">Obrigatórios</h4><div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns"><input type="checkbox" ng-checked="Column.IS_NULLABLE === 'NO'" name="requireds" value="{{Column.COLUMN_NAME}}"><label for="inputUnchecked">{{Column.COLUMN_NAME}}</label></div></div><div class="col-md-6"><h4 class="example-title">Chave Primária</h4><div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns"><input type="checkbox" ng-checked="Column.COLUMN_KEY === 'PRI'" name="pks" value="{{Column.COLUMN_NAME}}"><label for="inputUnchecked">{{Column.COLUMN_NAME}}</label></div></div></form></div><div class="panel-footer"><div class="btn-group" id="actions-buttons"><button type="button" class="btn btn-default btn-sm" ng-click="download('model', $event)">Model</button> <button type="button" class="btn btn-default btn-sm" ng-click="download('collection', $event)">Collection</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('get', $event)">SP GET</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('save', $event)">SP SAVE</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('remove', $event)">SP DELETE</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('list', $event)">SP LIST</button> <button type="button" class="btn btn-default btn-sm" ng-click="download('rest', $event)">REST</button></div></div></div></div></div></div></div><script>app.controller('sql-to-class', function($scope, $http){
+}</style><div class="page"><div class="page-content"><div class="row" ng-controller="sql-to-class"><div class="col-md-5"><div class="panel panel-bordered m-b-0" id="panel-tables"><div class="panel-heading"><h4 class="panel-title">Tabelas</h4><div class="panel-actions"><a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" ng-click="loadTables()" aria-hidden="true"></a></div></div><div class="panel-body" data-auto-height="-250"><table class="table"><thead><tr><th>Nome<th>Linhas<th>&nbsp;<tbody ng-repeat="table in tables"><tr><td>{{table.Name}}<td>{{table.Rows}}<td><button type="button" class="btn btn-primary btn-xs pull-right" id="btn-selecionar-{{table.Name}}" ng-click="selecionar(table)">Selecionar</button></table></div></div></div><div class="col-md-7"><div class="nav-tabs-horizontal" data-plugin="tabs"><ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#tabCreate" aria-controls="exampleTabsReverseOne" role="tab">Criar no MySQL</a><li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#tabInstall" aria-controls="exampleTabsReverseTwo" role="tab">Instalador</a></ul><div class="tab-content p-t-20"><div class="tab-pane active" id="tabCreate" role="tabpanel"><div class="panel panel-bordered" id="panel-form"><div class="panel-heading"><h4 class="panel-title">Detalhes da Tabela</h4></div><div class="panel-body"><form><div class="form-group form-material"><label class="control-label" for="inputText">Nome da Tabela</label><input type="text" class="form-control" id="destabela" name="destabela" ng-model="form.destabela"></div><div class="form-group form-material"><label class="control-label" for="inputText">Nome no Plural</label><input type="text" class="form-control" id="desplural" name="desplural" ng-model="form.desplural"></div><div class="form-group form-material"><label class="control-label" for="inputText">Nome no Singular</label><input type="text" class="form-control" id="dessingular" name="dessingular" ng-model="form.dessingular"></div><div class="form-group form-material"><label class="control-label" for="inputText">Campos</label></div><div class="col-md-6"><h4 class="example-title">Obrigatórios</h4><div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns"><input type="checkbox" ng-checked="Column.IS_NULLABLE === 'NO'" name="requireds" value="{{Column.COLUMN_NAME}}"><label for="inputUnchecked">{{Column.COLUMN_NAME}}</label></div></div><div class="col-md-6"><h4 class="example-title">Chave Primária</h4><div class="checkbox-custom checkbox-primary" ng-repeat="Column in form.Columns"><input type="checkbox" ng-checked="Column.COLUMN_KEY === 'PRI'" name="pks" value="{{Column.COLUMN_NAME}}"><label for="inputUnchecked">{{Column.COLUMN_NAME}}</label></div></div></form></div><div class="panel-footer"><div class="btn-group" id="actions-buttons"><button type="button" class="btn btn-default btn-sm" ng-click="download('model', $event)">Model</button> <button type="button" class="btn btn-default btn-sm" ng-click="download('collection', $event)">Collection</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('get', $event)">SP GET</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('save', $event)">SP SAVE</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('remove', $event)">SP DELETE</button> <button type="button" class="btn btn-default btn-sm" ng-click="execute('list', $event)">SP LIST</button> <button type="button" class="btn btn-default btn-sm" ng-click="download('rest', $event)">REST</button></div></div></div></div><div class="tab-pane" id="tabInstall" role="tabpanel"><table class="table table-bordered" id="install"><tbody></table></div></div></div></div></div></div></div><script type="text/x-handlebars-template" id="tpl-row"><tr class="create">
+	    <td>{{action}}</td>
+	    <td>
+	    	<span class="tag">{{exist}}</span>
+	    </td>
+	    <td>
+	    	<button type="button" class="btn btn-success btn-xs waves-effect">Adicionar ao Instalador</button>
+	    </td>
+	</tr></script><script>app.controller('sql-to-class', function($scope, $http){
 
 	$scope.form = {};
 	$scope.tables = [];
@@ -40,6 +48,8 @@
 				$scope.form = r.data;
 				$btn.btnload('unload');
 				if (panel) panel.done();
+
+				$scope.checkInstall(Table.Name);
 
 			}
 		});
@@ -124,6 +134,49 @@
 		setTimeout(function(){
 			$form.remove();
 		}, 1000);
+
+	};
+
+	$scope.checkInstall = function(table){
+
+		var tplRow = Handlebars.compile($("#tpl-row").html());
+
+		$("#install .tags").attr("class", "tag tag-info").text("Aguarde...");
+
+		$("#install tbody").html("");
+
+		rest({
+			method:"POST",
+			url:PATH+"/admin/system/sql-to-class/check",
+			data:{
+				table:table
+			},
+			success:function(r){
+
+				if (r.success) {
+
+					for (var name in r.data) {
+
+						var item = r.data[name];
+						var $row = $(tplRow({
+							action:name,
+							exist:item
+						}));
+
+						if (item) {
+							$row.find(".tag").attr("class", "tag tag-success").text("sim");
+						} else {
+							$row.find(".tag").attr("class", "tag tag-danger").text("não");
+						}
+
+						$("#install tbody").append($row);
+
+					}
+					
+				}				
+
+			}
+		});
 
 	};
 

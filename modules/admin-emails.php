@@ -1,5 +1,22 @@
 <?php 
 
+$app->get("/".DIR_ADMIN."/emails/:idemail/dashboard", function($idemail){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $email = new Hcode\Email\Email((int)$idemail);
+
+    $page = new Hcode\Admin\Page(array(
+        'header'=>false,
+        'footer'=>false
+    ));
+
+    $page->setTpl("email-dashboard", array(
+
+    ));
+
+});
+
 $app->get("/".DIR_ADMIN."/emails", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
@@ -12,7 +29,7 @@ $app->get("/".DIR_ADMIN."/emails", function(){
         )
     ));
 
-    $page->setTpl("/admin/system-emails");
+    $page->setTpl("system-emails");
 
 });
 
@@ -22,7 +39,7 @@ $app->get("/".DIR_ADMIN."/emails/new", function(){
 
     $page = new Hcode\Admin\Page();
 
-    $page->setTpl("/admin/system-emails-new");
+    $page->setTpl("system-emails-new");
 
 });
 

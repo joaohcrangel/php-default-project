@@ -1323,6 +1323,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuEmail->save();
 	//////////////////////////////////////
+	$menuFluxo = new Hcode\Admin\Menu(array(
+		'nrorder'=>11,
+		'idmenufather'=>NULL,
+		'desicon'=>'md-money-box',
+		'deshref'=>'/fluxo-de-caixa',
+		'desmenu'=>$lang->getString('menus_fluxodecaixa')
+	));
+	$menuFluxo->save();
+	//////////////////////////////////////
 	
 	echo success();
 });

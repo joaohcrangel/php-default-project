@@ -41,4 +41,18 @@ $app->get("/emails", function(){
 
 });
 
+$app->post("/emails", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$email = new Hcode\Email\Email();
+	$email->set($_POST);
+	$email->save();
+
+	echo success(array(
+		"data"=>$email->getFields()
+	));
+
+});
+
  ?>

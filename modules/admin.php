@@ -775,6 +775,28 @@ $app->get("/".DIR_ADMIN."/urls", function(){
 
 });
 
+$app->post("/".DIR_ADMIN."/system/sql-to-class/check", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $tablename = post("table");
+    $table = Hcode\SQL\Table::loadFromName($tablename);
+    $tables = $table->getTablesReferences();
+
+    echo success(array(
+        'data'=>array(
+            //"tables_ref"=>$tables->getFields(),
+            "table"=>file_exists(PATH."/res/sql/tables/".$tablename.".sql"),
+            "get"=>file_exists(PATH."/res/sql/procedures/get/".$table->getProcedureName("get").".sql"),
+            "save"=>file_exists(PATH."/res/sql/procedures/save/".$table->getProcedureName("save").".sql"),
+            "remove"=>file_exists(PATH."/res/sql/procedures/remove/".$table->getProcedureName("remove").".sql"),
+            "list"=>file_exists(PATH."/res/sql/procedures/list/".$table->getProcedureName("list").".sql"),
+            "inserts"=>file_exists(PATH."/res/sql/inserts/".$tablename.".sql")
+        )
+    ));
+
+});
+
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);

@@ -4096,6 +4096,62 @@ $app->get("/install-admin/sql/testimonial/tables", function(){
 
 });
 
+$app->get("/install-admin/sql/testimonial/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_testimonial_get'
+	);
+
+	saveProcedures($procs, PATH_PROC"/get/");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/testimonial/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_testimonial_list'
+	);
+
+	saveProcedures($procs, PATH_PROC"/list/");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/testimonial/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_testimonial_save'
+	);
+
+	saveProcedures($procs, PATH_PROC"/save/");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/testimonial/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_testimonial_remove'
+	);
+
+	saveProcedures($procs, PATH_PROC"/remove/");
+
+	echo success();
+
+});
+
 $app->get("/install-admin/sql/team/tables", function(){
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);

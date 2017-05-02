@@ -295,3 +295,17 @@
 	</div>
 
 </section><!-- #content end -->
+
+<script>
+	
+init.push(function(){
+	
+	$("#form-profile").form({
+		url:PATH+"/profiles-news",
+		//resetForm:false,
+		success:function(){			
+			System.success("Comentário criado com sucesso");
+		}
+	});	
+});
+</script>

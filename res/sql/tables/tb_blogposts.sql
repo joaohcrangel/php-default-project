@@ -1,0 +1,20 @@
+CREATE TABLE `tb_blogposts` (
+  `idpost` int(11) NOT NULL AUTO_INCREMENT,
+  `destitle` varchar(128) NOT NULL,
+  `idurl` int(11) NOT NULL,
+  `descontentshort` varchar(256) NOT NULL,
+  `descontent` text NOT NULL,
+  `idauthor` int(11) NOT NULL,
+  `dtpublished` datetime DEFAULT NULL,
+  `intrash` bit(1) NOT NULL DEFAULT b'0',
+  `idcover` int(11) DEFAULT NULL,
+  `dtupdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idpost`),
+  KEY `idurl` (`idurl`),
+  KEY `idauthor` (`idauthor`),
+  KEY `idcover` (`idcover`),
+  CONSTRAINT `tb_blogposts_ibfk_1` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`),
+  CONSTRAINT `tb_blogposts_ibfk_2` FOREIGN KEY (`idauthor`) REFERENCES `tb_blogauthors` (`idauthor`),
+  CONSTRAINT `tb_blogposts_ibfk_3` FOREIGN KEY (`idcover`) REFERENCES `tb_files` (`idfile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

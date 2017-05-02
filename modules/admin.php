@@ -797,14 +797,106 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/check", function(){
 
 });
 
+$app->post("/".DIR_ADMIN."/system/sql-to-class/add-to-install", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $tablename = post("table");
+    $item = post("item");
+    $table = Hcode\SQL\Table::loadFromName($tablename);
+
+    switch ($item) {
+
+        case "table":
+
+        $file = fopen(PATH."/res/sql/tables/".$table->getName().".sql", "w+");
+        fwrite($file, $table->getCreate());
+        fclose($file);
+
+        $tablesNames = array();
+
+        foreach ($table->getTablesReferences()->getFields() as $t) {
+            array_push($tablesNames, $t["table_name"]);
+        }
+
+        $file = fopen(PATH."/res/sql/references/".$table->getName().".json", "w+");
+        fwrite($file, json_encode(array(
+            "tables"=>$tablesNames
+        )));
+        fclose($file);
+
+        break;
+
+        case "get":
+        case "save":
+        case "remove":
+        case "list":
+
+        $file = fopen(PATH."/res/sql/procedures/".$item."/".$table->getProcedureName($item).".sql", "w+");
+        fwrite($file, $table->getProcedureScriptFromTpl($item));
+        fclose($file);
+        
+        break;
+
+        case "inserts":
+
+        $sql = new Hcode\Sql();
+
+        $data = $sql->query("SELECT * FROM ".$table->getName());
+
+        $valuesRows = array();
+
+        foreach ($data as $row) {
+            
+            $columns = array();
+            $values = array();
+
+            foreach ($row as $key => $value) {
+                array_push($columns, $key);
+                switch (gettype($value)) {
+                    case "string":
+                    array_push($values, "'".$value."'");
+                    break;
+
+                    default:
+                    array_push($values, $value);
+                    break;
+                }
+                
+            }
+
+            array_push($valuesRows, "(".implode(",", $values).")");
+
+        }
+
+        $insert = "INSERT INTO ".$table->getName()." (".implode(",", $columns).") VALUES\r\n".implode(",\r\n", $valuesRows).";";
+
+        $file = fopen(PATH."/res/sql/inserts/".$table->getName().".sql", "w+");
+        fwrite($file, $insert);
+        fclose($file);
+
+        break;
+
+    }
+
+    echo success();
+
+});
+
 $app->get("/".DIR_ADMIN."/system/sql-to-class/tables", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
-    $tables = Hcode\SQL\Tables::listAll();
+    $tables = Hcode\SQL\Tables::listAll()->getFields();
+
+    foreach ($tables as &$table) {
+        
+        $table["installer"] = file_exists(PATH."/res/sql/tables/".$table["Name"].".sql");
+
+    }
 
     echo success(array(
-        'data'=>$tables->getFields()
+        'data'=>$tables
     ));
 
 });
@@ -885,7 +977,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
         case "collection":
         case "rest":
         $download = true;
-        raintpl::configure("tpl_ext", "php");
+        Rain\Tpl::configure(array("tpl_ext" => "php"));
         $tpl_name = post("filetype");
         break;
 
@@ -893,7 +985,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
         case "list":
         case "save":
         case "remove":
-        raintpl::configure("tpl_ext", "sql");
+        Rain\Tpl::configure(array("tpl_ext" => "sql"));
         $tpl_name = "sp_".post("filetype");
         break;
 

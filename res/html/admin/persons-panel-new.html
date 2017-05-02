@@ -162,7 +162,33 @@
             </div>
             <div class="tab-pane" id="tab-person-log" role="tabpanel">
               
-              
+              <div class="panel">
+
+                <div class="panel-body">
+
+                  <table class="table table-hover">
+                    
+                    <thead>
+                      <tr>
+                        <th>Log</th>
+                        <th>Tipo</th>
+                        <th>Data de cadastro</th>
+                      </tr>  
+                    </thead>
+
+                    <tbody>
+                      
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+                <div class="panel-footer">
+                  <div class="pagination"></div>
+                </div>
+                
+              </div>
 
             </div>
             <div class="tab-pane" id="tab-person-files" role="tabpanel">
@@ -469,6 +495,13 @@
       {{descategory}}
     </div>    
   </li>
+</script>
+<script id="tpl-person-log" type="text/x-handlebars-template">
+  <tr>
+    <td>{{deslog}}</td>
+    <td>{{deslogtype}}</td>
+    <td>{{desdtregister}}</td>
+  </tr>
 </script>
 {/noparse}
 <script>
@@ -942,6 +975,72 @@ var personPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.initLogs = function(page){
+
+    if(!page) page = 1;
+
+    var data = {
+      page:page,
+      limit:5
+    }
+
+    var $panelHTML = $("#tab-person-log .panel");
+
+    var $panel = System.getPanelApi($panelHTML);
+
+    var tpl = t.getTpl("tpl-person-log");
+
+    var $tbody = $panelHTML.find("tbody");
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/persons/"+t.getIdperson()+"/logs",
+      data:data,
+      success:function(r){
+
+        $tbody.html('');
+
+        $.each(r.data, function(index, row){
+
+          var $tr = $(tpl(row));
+
+          $tbody.append($tr);
+
+        });
+
+        if (r.total > 0) {
+
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage: r.currentPage,
+            itemsPerPage: r.itemsPerPage,
+            onChange: function(page){
+              
+              t.initLogs(page);
+
+            }
+          }, r);
+
+          $panelHTML.find('#pagination').show().asPaginator(r.total, config);
+
+        } else {
+
+          $panelHTML.find('#pagination').hide();
+
+        }
+
+        $panel.done();
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  };
+
   t.initTabs = function(){
 
     var tabs = new Tab({
@@ -997,6 +1096,10 @@ var personPanel = (function(data, selectorContainer, opts){
 
             case 'tab-person-categories':
             t.initCategories();
+            break;
+
+            case 'tab-person-log':
+            t.initLogs();
             break;
             
           }

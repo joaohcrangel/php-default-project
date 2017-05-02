@@ -24,15 +24,43 @@ $app->get('/persons/:idperson/contacts',function($idperson){
 });
 
 $app->get('/persons/:idperson/logs',function($idperson){
+
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
      
-    $person = new Hcode\Person\Person(array(
-		'idperson'=>(int)$idperson
-	));
-     $log = $person->getLogs();
-	echo success(array(
-         'data'=>$log->getFields()
-    ));  
+    $where = array();
+
+    if(count($where) > 0){
+    	$where = " WHERE ".implode(" AND ", $where)."";
+    }else{
+    	$where = "";
+    }
+
+    $query = "
+    	SELECT SQL_CALC_FOUND_ROWS a.*, b.desperson, c.deslogtype FROM tb_personslogs a
+    		INNER JOIN tb_persons b ON a.idperson = b.idperson
+    		INNER JOIN tb_personslogstypes c ON a.idlogtype = c.idlogtype
+    	".$where." LIMIT ?, ?;
+   	";
+
+   	$pagination = new Hcode\Pagination(
+   		$query,
+   		array(),
+   		"Hcode\Person\Logs",
+   		$itemsPerPage
+   	);
+
+   	$logs = $pagination->getPage($page);
+
+   	echo success(array(
+   		"data"=>$logs->getFields(),
+   		"total"=>$pagination->getTotal(),
+   		"currentPage"=>$page,
+   		"itemsPerPage"=>$itemsPerPage
+   	));
+
 });
 
 $app->get("/persons",function(){

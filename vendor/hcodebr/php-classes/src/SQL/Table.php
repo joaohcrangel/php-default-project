@@ -125,6 +125,37 @@ class Table extends Model {
 
 	}
 
+	public function getTriggers()
+	{
+
+		$triggers = new Collection();
+
+		$triggers->loadFromQuery("
+			select trigger_name, event_manipulation, action_timing, action_statement
+			from information_schema.triggers
+			where trigger_schema = '".DB_NAME."' and event_object_table = '".$this->getName()."';
+		");
+
+		return $triggers;
+
+	}
+
+	public function getTriggerCode($name)
+	{
+
+		$trigger = $this->getSql()->select("
+			select trigger_name, event_manipulation, action_timing, action_statement
+			from information_schema.triggers
+			where trigger_schema = '".DB_NAME."' and event_object_table = '".$this->getName()."' and trigger_name = '".$name."';
+		");
+
+		return "
+			CREATE TRIGGER `".DB_NAME."`.`".$trigger['trigger_name']."` ".$trigger['action_timing']." ".$trigger['event_manipulation']." ON `".$this->getName()."` FOR EACH ROW
+			".$trigger['action_statement']."
+		";
+
+	}
+
 	public function getColumns()
 	{
 

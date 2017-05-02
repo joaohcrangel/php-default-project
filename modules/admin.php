@@ -791,7 +791,13 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/check", function(){
             "save"=>file_exists(PATH."/res/sql/procedures/save/".$table->getProcedureName("save").".sql"),
             "remove"=>file_exists(PATH."/res/sql/procedures/remove/".$table->getProcedureName("remove").".sql"),
             "list"=>file_exists(PATH."/res/sql/procedures/list/".$table->getProcedureName("list").".sql"),
-            "inserts"=>file_exists(PATH."/res/sql/inserts/".$tablename.".sql")
+            "inserts"=>file_exists(PATH."/res/sql/inserts/".$tablename.".sql"),
+            "trigger_after_insert"=>file_exists(PATH."/res/sql/triggers/".str_replace("tb_", "tg_", $tablename)."_AFTER_INSERT.sql"),
+            "trigger_before_insert"=>file_exists(PATH."/res/sql/triggers/".str_replace("tb_", "tg_", $tablename)."_BEFORE_INSERT.sql"),
+            "trigger_after_update"=>file_exists(PATH."/res/sql/triggers/".str_replace("tb_", "tg_", $tablename)."_AFTER_UPDATE.sql"),
+            "trigger_before_update"=>file_exists(PATH."/res/sql/triggers/".str_replace("tb_", "tg_", $tablename)."_BEFORE_UPDATE.sql"),
+            "trigger_after_delete"=>file_exists(PATH."/res/sql/triggers/".str_replace("tb_", "tg_", $tablename)."_AFTER_DELETE.sql"),
+            "trigger_before_delete"=>file_exists(PATH."/res/sql/triggers/".str_replace("tb_", "tg_", $tablename)."_BEFORE_DELETE.sql")
         )
     ));
 

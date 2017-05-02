@@ -9,7 +9,7 @@ class Contacts extends Collection {
 
     protected $class = "Hcode\Site\Contact";
     protected $saveQuery = "sp_sitescontacts_save";
-    protected $saveArgs = array("idsitecontact", "idperson", "desmessage", "inread", "idpersonanswer");
+    protected $saveArgs = array("idsitecontact", "idsitecontactfather", "idperson", "desmessage", "inread", "idpersonanswer");
     protected $pk = "idsitecontact";
     public function get(){}
 

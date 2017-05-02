@@ -100,11 +100,49 @@ $app->get("/forget", function(){
 
 });
 
-$app->get("/site-contact", function(){
+$app->get("/contato", function(){
 
 	$page = new Hcode\Site\Page();
 
-	$page->setTpl("site-contact");
+	$page->setTpl("site-contact", array(
+		"conf"=>Hcode\Session::getConfigurations()->getNames()
+	));
+
+});
+
+$app->get("/perfil", function(){
+
+	$page = new Hcode\Site\Page();
+
+	$page->setTpl("profile", array(
+		"conf"=>Hcode\Session::getConfigurations()->getFields()
+	));
+
+});
+
+$app->post("/profile", function(){
+
+	$person = Hcode\Session::getPerson();
+
+	$person->set($_POST);
+
+	$person->save();
+
+	echo success();
+
+});
+
+$app->post("/password", function(){
+
+	$user = Hcode\Session::getUser();
+
+});
+
+$app->get("/public/places/:idplace", function($idplace){
+
+	$place = new Hcode\Place\Place((int)$idplace);
+
+	echo success(array("data"=>$place->getFields()));
 
 });
 

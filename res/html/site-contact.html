@@ -75,7 +75,7 @@
 			============================================= -->
 			<div class="col_half col_last">
 
-				<section id="google-map" class="gmap" style="height: 410px;"></section>
+				<section id="google-map" style="height: 410px;"></section>
 
 			</div><!-- Google Map End -->
 
@@ -99,11 +99,18 @@
 	
 init.push(function(){
 
+	var mapKey = JSON.parse('{function="json_encode($conf.GOOGLE_MAPS_KEY)"}');
+
 	$("#form-site-contact").form({
 		url:PATH+"/site-contacts/new",
 		success:function(){
 			alertify.success("Email enviado com sucesso");
 		}
+	});
+
+	$("#google-map").HcodeMap({
+		id:1,
+		mapKey:mapKey
 	});
 
 });

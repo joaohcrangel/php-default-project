@@ -71,6 +71,10 @@
 	<string name="menus_site">Site</string>
 	<string name="menus_site_menu">Menu</string>
 	<string name="menus_fluxodecaixa">Fluxo de Caixa</string>
+	<string name="menus_site_testimonial">Depoimentos</string>
+	<string name="menus_team">Equipe</string>
+	<string name="menus_jobs_positions">Cargos</string>
+	<string name="menus_social_networks">Redes Sociais</string>
 
 	<string name="menus_courses">Cursos</string>
 	<string name="menus_carousels">Carousels</string>

@@ -1193,6 +1193,15 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 	));
 	$menuSiteMenu->save();
 	//////////////////////////////////////
+	$menuSiteTestimonial = new Hcode\Admin\Menu(array(
+		"nrorder"=>0,
+		"idmenufather"=>$menuSite->getidmenu(),
+		"desicon"=>"",
+		"deshref"=>"/site/testimonial",
+		"desmenu"=>$lang->getString('menus_site_testimonial')
+	));
+	$menuSiteTestimonial->save();
+	//////////////////////////////////////
 	$menuCourses = new Hcode\Admin\Menu(array(
 		"nrorder"=>9,
 		"idmenufather"=>NULL,
@@ -1354,6 +1363,33 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'desmenu'=>$lang->getString('menus_fluxodecaixa')
 	));
 	$menuFluxo->save();
+	//////////////////////////////////////
+	$menuTeam = new Hcode\Admin\Menu(array(
+		'nrorder'=>12,
+		'idmenufather'=>NULL,
+		'desicon'=>'',
+		'deshref'=>'',
+		'desmenu'=>$lang->getString('menus_team')
+	));
+	$menuTeam->save();
+	//////////////////////////////////////
+	$menuTeamJobPosition = new Hcode\Admin\Menu(array(
+		'nrorder'=>0,
+		'idmenufather'=>$menuTeam->getidmenu(),
+		'desicon'=>'',
+		'deshref'=>'/team/jobs-positions',
+		'desmenu'=>$lang->getString('menus_jobs_positions')
+	));
+	$menuTeamJobPosition->save();
+	//////////////////////////////////////
+	$menuSocialNetworks = new Hcode\Admin\Menu(array(
+		'nrorder'=>13,
+		'idmenufather'=>NULL,
+		'desicon'=>'',
+		'deshref'=>'/admin/social-networks',
+		'desmenu'=>$lang->getString('menus_social_networks')
+	));
+	$menuSocialNetworks->save();
 	//////////////////////////////////////
 	
 	echo success();

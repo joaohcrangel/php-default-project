@@ -177,52 +177,56 @@ $app->post("/persons", function(){
 
 	$person->set($_POST);
 	$person->save();
+
+	if(isset($_POST["idaddress"]) && !empty($_POST["idaddress"])){
 	
-	if((int)post('idaddress') > 0){
-		$address = new Hcode\Address\Address((int)post('idaddress'));
-	}else{
-		$address = new Hcode\Address\Address();
-	}
-
-	foreach (array(
-		'idaddresstype',
-		'descep',
-		'desaddress',
-		'desnumber',
-		'descomplement',
-		'desdistrict',
-		'descity'
-	) as $field) {
-		if (isset($_POST[$field]) && post($field)) {
-			$address->{'set'.$field}(post($field));
-		}	
-	}
-
-	if (isset($_POST['idcity']) && (int)post('idcity') > 0) {
-		$city = new Hcode\Address\City((int)post('idcity'));
-	} else {
-		if (post('desuf')) {
-			$city = Hcode\Address\City::loadFromName(post('descity'), post('desuf'));			
-		} else {
-			$city = Hcode\Address\City::loadFromName(post('descity'));
+		if((int)post('idaddress') > 0){
+			$address = new Hcode\Address\Address((int)post('idaddress'));
+		}else{
+			$address = new Hcode\Address\Address();
 		}
-	}
 
-	if (!$address->getidaddresstype() > 0 && count($address->getFields()) > 0) {
+		foreach (array(
+			'idaddresstype',
+			'descep',
+			'desaddress',
+			'desnumber',
+			'descomplement',
+			'desdistrict',
+			'descity'
+		) as $field) {
+			if (isset($_POST[$field]) && post($field)) {
+				$address->{'set'.$field}(post($field));
+			}	
+		}
 
-		$address->setidaddresstype(($person->getidpersontype() === Hcode\Person\Type::FISICA)?Hcode\Address\Type::RESIDENCIAL:Hcode\Address\Type::COMERCIAL);
+		if (isset($_POST['idcity']) && (int)post('idcity') > 0) {
+			$city = new Hcode\Address\City((int)post('idcity'));
+		} else {
+			if (post('desuf')) {
+				$city = Hcode\Address\City::loadFromName(post('descity'), post('desuf'));			
+			} else {
+				$city = Hcode\Address\City::loadFromName(post('descity'));
+			}
+		}
 
-	}
+		if (!$address->getidaddresstype() > 0 && count($address->getFields()) > 0) {
 
-	if (count($city->getFields())) $address->set($city->getFields());
+			$address->setidaddresstype(($person->getidpersontype() === Hcode\Person\Type::FISICA)?Hcode\Address\Type::RESIDENCIAL:Hcode\Address\Type::COMERCIAL);
 
-	if (count($address->getFields())) {
+		}
 
-		$address->setinmain(true);
+		if (count($city->getFields())) $address->set($city->getFields());
 
-		$address->save();
+		if (count($address->getFields())) {
 
-		$person->addAddress($address);
+			$address->setinmain(true);
+
+			$address->save();
+
+			$person->addAddress($address);
+
+		}
 
 	}
 

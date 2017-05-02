@@ -354,17 +354,17 @@ class Person extends Model {
         $address->setdesaddressresumido($address->getToString(Address::SUMMARY));
 
         if ($this->getdescpf()) {
-            $cpf = $this->getDocument(DocumentType::CPF);
+            $cpf = $this->getDocument(\Hcode\Document\Type::CPF);
             $cpf->getFormatted();
         } else {
-            $cpf = new Document();
+            $cpf = new \Hcode\Document\Document();
         }
 
         if ($this->getdescnpj()) {
-            $cnpj = $this->getDocument(DocumentType::CNPJ);
+            $cnpj = $this->getDocument(\Hcode\Document\Type::CNPJ);
             $cnpj->getFormatted();
         } else {
-            $cnpj = new Document();
+            $cnpj = new \Hcode\Document\Document();
         }
 
         $data = parent::getFields();

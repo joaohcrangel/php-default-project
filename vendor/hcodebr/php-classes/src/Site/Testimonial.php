@@ -18,7 +18,7 @@ class Testimonial extends Collection {
 
     	$testimonial = new Testimonial();
 
-    	$testimonial->loadFromQuery("CALL sp_testimonial_list");
+    	$testimonial->loadFromQuery("CALL sp_testimonial_list()");
 
     	return $testimonial;
 

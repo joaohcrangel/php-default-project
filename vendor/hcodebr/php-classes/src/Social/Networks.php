@@ -18,7 +18,7 @@ class Networks extends Collection {
 
     	$networks = new Networks();
 
-    	$networks->loadFromQuery("CALL sp_socialnetworks_list");
+    	$networks->loadFromQuery("CALL sp_socialnetworks_list()");
 
     	return $networks;
 

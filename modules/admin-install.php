@@ -4185,7 +4185,8 @@ $app->get("/install-admin/sql/team/get", function(){
 	ini_set('max_execution_time', 0);
 
 	$procs = array(
-		'sp_socialnetworks_get'
+		'sp_socialnetworks_get',
+		'sp_jobspositions_get'
 	);
 
 	saveProcedures($procs, PATH_PROC."/get/");
@@ -4199,7 +4200,8 @@ $app->get("/install-admin/sql/team/list", function(){
 	ini_set('max_execution_time', 0);
 
 	$procs = array(
-		'sp_socialnetworks_list'
+		'sp_socialnetworks_list',
+		'sp_jobspositions_list'
 	);
 	
 	saveProcedures($procs, PATH_PROC."/list/");
@@ -4213,7 +4215,8 @@ $app->get("/install-admin/sql/team/save", function(){
 	ini_set('max_execution_time', 0);
 
 	$procs = array(
-		'sp_socialnetworks_save'
+		'sp_socialnetworks_save',
+		'sp_jobspositions_save'
 	);
 	
 	saveProcedures($procs, PATH_PROC."/save/");
@@ -4227,7 +4230,8 @@ $app->get("/install-admin/sql/team/remove", function(){
 	ini_set('max_execution_time', 0);
 
 	$procs = array(
-		'sp_socialnetworks_remove'
+		'sp_socialnetworks_remove',
+		'sp_jobspositions_remove'
 	);
 	
 	saveProcedures($procs, PATH_PROC."/remove/");

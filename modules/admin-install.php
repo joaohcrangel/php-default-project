@@ -332,7 +332,8 @@ $app->get("/install-admin/sql/persons/list", function(){
         "sp_personslogstypes_list",
         "sp_personsvalues_list",
         "sp_personsvaluesfields_list",
-        "sp_personscategoriestypes_list"
+        "sp_personscategoriestypes_list",
+        "sp_categoriesfromperson_list"
 	);
 	saveProcedures($procs, PATH_PROC."/list/");
 	echo success();
@@ -351,7 +352,8 @@ $app->get("/install-admin/sql/persons/save", function(){
 		"sp_personsdevices_save",
 		"sp_personsfiles_save",
 		"sp_personslogs_save",
-		"sp_personsaddresses_save"
+		"sp_personsaddresses_save",
+		"sp_personscategories_save"
 	);
 	saveProcedures($names, PATH_PROC."/save/");
 	echo success();
@@ -368,7 +370,8 @@ $app->get("/install-admin/sql/persons/remove", function(){
 		"sp_personstypes_remove",
 		"sp_personscategoriestypes_remove",
 		"sp_personsdevices_remove",
-		"sp_personslogs_remove"
+		"sp_personslogs_remove",
+		"sp_categoriesfromperson_remove"
 	);
 	saveProcedures($names, PATH_PROC."/remove/");
 	echo success();

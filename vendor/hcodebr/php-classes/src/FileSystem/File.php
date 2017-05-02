@@ -89,7 +89,7 @@ class File extends Model {
 
         if ($preview === true && in_array($this->getdesextension(), array('jpg','gif','png','svg'))) {
             return $this->setdesthumb($this->getdesurl());
-        } elseif (file_exists(SITE_PATH . "res/img/filetypes/" . $this->getdesextensao() . ".svg")) {
+        } elseif (file_exists(SITE_PATH . "res/img/filetypes/" . $this->getdesextension() . ".svg")) {
             return $this->setdesthumb(SITE_PATH . "/res/img/filetypes/" . $this->getdesextension() . ".svg");
         } else {
             return $this->setdesthumb(SITE_PATH . "/res/img/filetypes/_.svg");
@@ -104,7 +104,7 @@ class File extends Model {
         $uploadDir = $configs->getByName('UPLOAD_DIR');
 
         if ($this->getdesdirectory()) {
-            $uploadDir .= $this->getdesdirectory();
+            $uploadDir = $this->getdesdirectory();
         }
 
         return $this->setdesurl(SITE_PATH.$uploadDir.$this->getdesfile().'.'.$this->getdesextension());

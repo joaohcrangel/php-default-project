@@ -291,6 +291,23 @@
               </div>
 
             </div>
+            <!-- fim da tab de addresses -->
+
+            <!-- start of tab that list the categories  -->
+            <div class="tab-pane" id="tab-person-categories" role="tabpanel">
+
+              <div class="panel">
+
+                <div class="panel-body panel-primary panel-line p-b-0 m-0">                 
+
+                  <ul class="list-group">
+                    
+                  </ul>
+                  
+                </div>
+
+              </div>
+            </div>
 
           </div>
         </div>
@@ -443,6 +460,15 @@
       </div>
     </div>
   </div>
+</script>
+<script id="tpl-person-category" type="text/x-handlebars-template">
+  <li class="list-group-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" id="media_1" data-idcategory="{{idcategory}}" />
+      <label for="media_1"></label>
+      {{descategory}}
+    </div>    
+  </li>
 </script>
 {/noparse}
 <script>
@@ -938,6 +964,9 @@ var personPanel = (function(data, selectorContainer, opts){
       },{
         title:"Endereços",
         id:"tab-person-addresses"
+      },{
+        title:"Categorias",
+        id:"tab-person-categories"
       }],
       listeners:{
         tabchange:function(obejct, event){
@@ -946,7 +975,7 @@ var personPanel = (function(data, selectorContainer, opts){
 
             case 'tab-person-orders':
             t.$el.find('[name=idnegotiation]').combobox({
-              url:'/orders/negotiationstypes',
+              url:'/ordersnegotiationstypes',
               displayField:'desnegotiation',
               valueField:'idnegotiation'
             });
@@ -964,6 +993,10 @@ var personPanel = (function(data, selectorContainer, opts){
 
             case 'tab-person-addresses':
             t.initAddresses();
+            break;
+
+            case 'tab-person-categories':
+            t.initCategories();
             break;
             
           }
@@ -1182,6 +1215,80 @@ var personPanel = (function(data, selectorContainer, opts){
       if (typeof callback === 'function') callback(data);
 
     });
+
+  };
+
+  t.initCategories = function(){
+
+    var $panelHTML = $("#tab-person-categories .panel");
+
+    var $panel = System.getPanelApi($panelHTML);
+
+    $panel.load();
+
+    var $ul = $panelHTML.find("ul");
+
+    var tpl = t.getTpl("tpl-person-category");
+
+    rest({
+      url:PATH+"/persons-categories/all",
+      success:function(r){
+
+        $ul.html('');
+
+        $.each(r.data, function(index, row){
+
+          var $li = $(tpl(row));
+
+          $ul.append($li);
+
+          $.each(t.getData().Categories, function(indice, value){
+
+            if(row.idcategory == value.idcategory){
+              $li.find("[type=checkbox]").prop("checked", true);
+            }
+
+          });
+
+          $li.find("[type=checkbox]").on("change", function(){
+
+            var $input = $(this);
+
+            $input.btnload("load");
+
+            var ids = [];
+
+            $panelHTML.find("ul.list-group li [type=checkbox]:checked").each(function(){
+              ids.push($(this).data("idcategory"));
+            });
+
+            rest({
+              url:PATH+"/persons/"+t.getIdperson()+"/categories",
+              method:"POST",
+              data:{
+                ids:ids.toString()
+              },
+              success:function(){
+                $input.btnload("unload");
+              },
+              failure:function(r){
+                $input.btnload("unload");
+                System.showError(r);
+              }
+            })
+
+          });
+
+        });
+
+        $panel.done();
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    })
 
   };
 

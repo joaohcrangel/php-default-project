@@ -194,7 +194,7 @@ $app->post("/persons", function(){
 
 		$address->save();
 
-		$address = $person->addAddress($address);
+		$person->addAddress($address);
 
 	}
 
@@ -387,6 +387,80 @@ $app->get("/persons/:idperson/users", function($idperson){
 	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getUsers()->getFields()));
 });
+
+// categories
+$app->get("/persons-categories/all", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	echo success(array("data"=>Hcode\Person\Category\Types::listAll()->getFields()));
+
+});
+
+$app->get("/persons/:idperson/categories", function($idperson){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
+
+	$where = array();
+
+	if($_GET['descategory'] != ''){
+		array_push($where, "c.descategory LIKE '".utf8_encode(get("descategory"))."'");
+	}
+
+	if(count($where) > 0){
+		$where = " WHERE ".implode(" AND ", $where)."";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS c.* FROM tb_persons a
+			INNER JOIN tb_personscategories b ON a.idperson = b.idperson
+			INNER JOIN tb_personscategoriestypes c ON b.idcategory = c.idcategory
+		".$where." LIMIT ?, ?;
+	";
+
+	$pagination = new Hcode\Pagination(
+		$query,
+		array(),
+		'Hcode\Person\Category\Types',
+		$itemsPerPage
+	);
+
+	$categories = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$categories->getFields(),
+		"total"=>$pagination->getTotal(),
+		"currentPage"=>$page,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
+$app->post("/persons/:idperson/categories", function($idperson){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$ids = explode(",", post("ids"));
+
+	$person = new Hcode\Person\Person((int)$idperson);
+
+	$person->removeCategories();
+
+	foreach ($ids as $idcategory) {
+
+		$category = new Hcode\Person\Category\Type((int)$idcategory);
+
+		$person->addCategory($category);
+
+	}
+
+	echo success(array("data"=>$person->getCategories()->getFields()));
+
+});
+
 /////////////////////////////////////////////////////////////////////
 
 // pessoas categorias types

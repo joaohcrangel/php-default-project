@@ -19,6 +19,8 @@ $app->get("/".DIR_ADMIN."/persons/:idperson", function($idperson){
 
     $person = new Hcode\Person\Person((int)$idperson);
 
+    $person->setCategories($person->getCategories());
+
     $page = new Hcode\Admin\Page(array(
         'header'=>false,
         'footer'=>false

@@ -133,6 +133,22 @@ class Person extends Model {
         return new Users($this);
     }
 
+    public function getCategories():Category\Types
+    {
+        return new Category\Types($this);
+    }
+
+    public function removeCategories():bool
+    {
+
+        $this->proc("sp_categoriesfromperson_remove", array(
+            $this->getidperson()
+        ));
+
+        return true;
+
+    }
+
     public function addContact($descontact, $idcontactsubtype):Contact
     {
 
@@ -206,7 +222,19 @@ class Person extends Model {
 
     }
 
-    public function getPhotoURL():string
+    public function addCategory(\Hcode\Person\Category\Type $category):\Hcode\Person\Category\Type
+    {
+
+        $this->execute("CALL sp_personscategories_save(?, ?);", array(
+            $this->getidperson(),
+            $category->getidcategory()
+        ));
+
+        return $category;
+
+    }
+
+    public function getPhotoURL()
     {
 
         $configs = Session::getConfigurations();

@@ -50,7 +50,7 @@ class Sql extends PDO {
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute($this->validParams($params));
-		$results = $stmt->fetchAll();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$stmt->nextRowset();
 
 		foreach($results as $key => $value){

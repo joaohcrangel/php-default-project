@@ -19,6 +19,7 @@
 					<table class="table">
 	                    <thead>
 	                      <tr>
+	                        <th>&nbsp;</th>
 	                        <th>Nome</th>
 	                        <th>Linhas</th>
 	                        <th>&nbsp;</th>
@@ -26,6 +27,7 @@
 	                    </thead>
 	                    <tbody ng-repeat="table in tables">
 	                      <tr>
+	                        <td><i class="fa fa-check icon green-500" ng-show="table.installer"></i></td>
 	                        <td>{{table.Name}}</td>
 	                        <td>{{table.Rows}}</td>
 	                        <td>
@@ -38,6 +40,8 @@
 	        </div>
 		</div>
 		<div class="col-md-7">
+			
+			<h1 id="table-name">{{form.destabela}}</h1>
 
 			<div class="nav-tabs-horizontal" data-plugin="tabs">
               <ul class="nav nav-tabs" role="tablist">
@@ -282,17 +286,54 @@ app.controller('sql-to-class', function($scope, $http){
 							exist:item
 						}));
 
+						$row.data("name", name);
+
 						if (item) {
 							$row.find(".tag").attr("class", "tag tag-success").text("sim");
 						} else {
 							$row.find(".tag").attr("class", "tag tag-danger").text("não");
 						}
 
+						$row.find("button").on("click", function(){
+
+							var $_btn = $(this);
+							var _name = $(this).closest("tr").data("name");
+
+							$_btn.btnload("load");
+
+							$scope.addToInstall(table, _name, function () {
+
+								$scope.checkInstall(table);
+								$scope.loadTables();
+								$_btn.btnload("unload");
+
+							});
+
+						});
+
 						$("#install tbody").append($row);
 
 					}
 					
 				}				
+
+			}
+		});
+
+	};
+
+	$scope.addToInstall = function (table, item, callback) {
+
+		rest({
+			url:PATH+"/admin/system/sql-to-class/add-to-install",
+			data:{
+				table:table,
+				item:item
+			},
+			method:"POST",
+			success:function(r){
+
+				if (typeof callback === 'function') callback(r);
 
 			}
 		});

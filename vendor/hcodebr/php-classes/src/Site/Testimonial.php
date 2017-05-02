@@ -13,6 +13,17 @@ class Testimonial extends Collection {
 
     public function get(){}
 
+    public static function listAll():Testimonial
+    {
+
+    	$testimonial = new Testimonial();
+
+    	$testimonial->loadFromQuery("CALL sp_testimonial_list");
+
+    	return $testimonial;
+
+    }
+
 }
 
 ?>

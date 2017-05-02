@@ -4104,7 +4104,7 @@ $app->get("/install-admin/sql/testimonial/get", function(){
 		'sp_testimonial_get'
 	);
 
-	saveProcedures($procs, PATH_PROC"/get/");
+	saveProcedures($procs, PATH_PROC."/get/");
 
 	echo success();
 
@@ -4118,7 +4118,7 @@ $app->get("/install-admin/sql/testimonial/list", function(){
 		'sp_testimonial_list'
 	);
 
-	saveProcedures($procs, PATH_PROC"/list/");
+	saveProcedures($procs, PATH_PROC."/list/");
 
 	echo success();
 
@@ -4132,7 +4132,7 @@ $app->get("/install-admin/sql/testimonial/save", function(){
 		'sp_testimonial_save'
 	);
 
-	saveProcedures($procs, PATH_PROC"/save/");
+	saveProcedures($procs, PATH_PROC."/save/");
 
 	echo success();
 
@@ -4146,7 +4146,7 @@ $app->get("/install-admin/sql/testimonial/remove", function(){
 		'sp_testimonial_remove'
 	);
 
-	saveProcedures($procs, PATH_PROC"/remove/");
+	saveProcedures($procs, PATH_PROC."/remove/");
 
 	echo success();
 
@@ -4175,6 +4175,62 @@ $app->get("/install-admin/sql/team/tables", function(){
 			CONSTRAINT PRIMARY KEY(idjobposition)
 		) ENGINE=".DB_ENGINE." DEFAULT CHARSET=".DB_COLLATE.";
 	");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/team/get", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_socialnetworks_get'
+	);
+
+	saveProcedures($procs, PATH_PROC."/get/");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/team/list", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_socialnetworks_list'
+	);
+	
+	saveProcedures($procs, PATH_PROC."/list/");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/team/save", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_socialnetworks_save'
+	);
+	
+	saveProcedures($procs, PATH_PROC."/save/");
+
+	echo success();
+
+});
+
+$app->get("/install-admin/sql/team/remove", function(){
+	set_time_limit(0);
+	ini_set('max_execution_time', 0);
+
+	$procs = array(
+		'sp_socialnetworks_remove'
+	);
+	
+	saveProcedures($procs, PATH_PROC."/remove/");
 
 	echo success();
 

@@ -349,6 +349,72 @@ class Person extends Model {
 
     }
 
+    public static function getSiteContactsHTML(Hcode\Site\Contact $siteContactFather, Hcode\Site\Contacts $sitesContactsAll){
+
+        $roots = $sitesContactsAll->filter('idsitecontactfather', $siteContactFather->getidsitecontact());
+
+        $html = '';
+
+        if($roots->getSize() > 0){
+
+            if($siteContactFather->getidsitecontact() === 0){
+                $html = '<ol class="commentlist clearfix">';
+                $html .= '<li class="comment even thread-even">';
+            }else{
+                $html = '<ul class="children">';
+                $html .= '<li class="comment byuser comment-author-_smcl_admin odd alt" style>';
+            }
+
+            foreach ($roots->getItens() as $siteContact) {
+                $html .= '
+                    <div class="comment-wrap clearfix">
+
+                        <div class="comment-meta">
+
+                            <div class="comment-author vcard">
+
+                                <span class="comment-avatar clearfix">
+                                <img alt="" src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60" class="avatar avatar-60 photo avatar-default" height="60" width="60" /></span>
+                            </div>
+
+                        </div>
+
+                        '.(($siteContactFather->getidsitecontact() === 0) ? '<div class="comment-content clearfix">' : '<div class="comment-content clearfix" style="padding: 0 0 0 30px;">').'
+
+                            <div class="comment-author">'.$siteContact->getdesperson().'<span><a href="#">'.$siteContact->getdesdtregister().'</a></span></div>
+
+                                <p>'.$siteContact->getdesmessage().'</p>
+
+                                <a class="comment-reply-link" href="#""><i class="icon-reply"></i></a>
+
+                            </div>
+
+                            <div class="clear"></div>
+
+                        </div>
+
+                        '.(($siteContact->getnrsubcomments() > 0) ? Person::getSiteContactsHTML($siteContact, $sitesContactsAll) : '').'
+                    </div>
+                ';
+
+                $html .= '</li>';
+
+                unset($siteContact);
+
+            }
+
+            if($siteContactFather->getidsitecontact() === 0){
+                $html .= '</ol>';
+            }else{
+                $html .= '</ul>';
+            }               
+
+        }
+
+        return $html;
+
+    }
+
 }
 
 ?>

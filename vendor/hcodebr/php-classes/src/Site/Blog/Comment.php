@@ -57,69 +57,69 @@ class Comment extends Model {
 
     public static function getCommentsHTML(Comment $commentFather, Comments $commentsAll){
 
-            $roots = $commentsAll->filter('idcommentfather', $commentFather->getidcomment());
+        $roots = $commentsAll->filter('idcommentfather', $commentFather->getidcomment());
 
-            $html = '';
+        $html = '';
 
-            if($roots->getSize() > 0){
+        if($roots->getSize() > 0){
 
-                if($commentFather->getidcomment() === 0){
-                    $html = '<ol class="commentlist clearfix">';
-                    $html .= '<li class="comment even thread-even">';
-                }else{
-                    $html = '<ul class="children">';
-                    $html .= '<li class="comment byuser comment-author-_smcl_admin odd alt" style>';
-                }
+            if($commentFather->getidcomment() === 0){
+                $html = '<ol class="commentlist clearfix">';
+                $html .= '<li class="comment even thread-even">';
+            }else{
+                $html = '<ul class="children">';
+                $html .= '<li class="comment byuser comment-author-_smcl_admin odd alt" style>';
+            }
 
-                foreach ($roots->getItens() as $comment) {
-                    $html .= '
-                        <div class="comment-wrap clearfix">
+            foreach ($roots->getItens() as $comment) {
+                $html .= '
+                    <div class="comment-wrap clearfix">
 
-                            <div class="comment-meta">
+                        <div class="comment-meta">
 
-                                <div class="comment-author vcard">
+                            <div class="comment-author vcard">
 
-                                    <span class="comment-avatar clearfix">
-                                    <img alt="" src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60" class="avatar avatar-60 photo avatar-default" height="60" width="60" /></span>
-                                </div>
-
+                                <span class="comment-avatar clearfix">
+                                <img alt="" src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60" class="avatar avatar-60 photo avatar-default" height="60" width="60" /></span>
                             </div>
 
-                            '.(($commentFather->getidcomment() === 0) ? '<div class="comment-content clearfix">' : '<div class="comment-content clearfix" style="padding: 0 0 0 30px;">').'
-
-                                <div class="comment-author">'.$comment->getdesperson().'<span><a href="#">'.$comment->getdesdtregister().'</a></span></div>
-
-                                    <p>'.$comment->getdescomment().'</p>
-
-                                    <a class="comment-reply-link" href="#""><i class="icon-reply"></i></a>
-
-                                </div>
-
-                                <div class="clear"></div>
-
-                            </div>
-
-                            '.(($comment->getnrsubcomments() > 0) ? Comment::getCommentsHTML($comment, $commentsAll) : '').'
                         </div>
-                    ';
 
-                    $html .= '</li>';
+                        '.(($commentFather->getidcomment() === 0) ? '<div class="comment-content clearfix">' : '<div class="comment-content clearfix" style="padding: 0 0 0 30px;">').'
 
-                    unset($comment);
+                            <div class="comment-author">'.$comment->getdesperson().'<span><a href="#">'.$comment->getdesdtregister().'</a></span></div>
 
-                }
+                                <p>'.$comment->getdescomment().'</p>
 
-                if($commentFather->getidcomment() === 0){
-                    $html .= '</ol>';
-                }else{
-                    $html .= '</ul>';
-                }               
+                                <a class="comment-reply-link" href="#""><i class="icon-reply"></i></a>
+
+                            </div>
+
+                            <div class="clear"></div>
+
+                        </div>
+
+                        '.(($comment->getnrsubcomments() > 0) ? Comment::getCommentsHTML($comment, $commentsAll) : '').'
+                    </div>
+                ';
+
+                $html .= '</li>';
+
+                unset($comment);
 
             }
 
-            return $html;
+            if($commentFather->getidcomment() === 0){
+                $html .= '</ol>';
+            }else{
+                $html .= '</ul>';
+            }               
 
         }
+
+        return $html;
+
+    }
 
 }
 

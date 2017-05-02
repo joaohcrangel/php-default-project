@@ -220,6 +220,8 @@
 	<string name="data_nascimento">dtnascimento</string>
 	<string name="sexo">dessexo</string>
 	<string name="foto">desfoto</string>
+	<string name="fotoDepoimento">desfotodepoimento</string>
+	<string name="fotoFuncionario">desfotofuncionario</string>
 
 	<string name="negotiation_estimate">Em orçamento</string>
 	<string name="negotiation_sale">Venda</string>
@@ -227,6 +229,7 @@
 	<string name="person_cliente">Cliente</string>
 	<string name="person_fornecedor">Fornecedor</string>
 	<string name="person_colaborador">Colaborador</string>
+	<string name="person_funcionario">Funcionário</string>
 
 	<string name="sitesmenus_home">Home</string>
 	<string name="sitesmenus_contact">Contato</string>

@@ -1,0 +1,739 @@
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="Hcode Developers">
+  <title>Install</title>
+  <link rel="apple-touch-icon" href="/res/theme/material/base/assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/res/theme/material/base/assets/images/favicon.ico">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/res/theme/material/global/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/res/theme/material/global/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="/res/theme/material/base/assets/css/site.min.css">
+  <!-- Plugins -->
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/animsition/animsition.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/asscrollable/asScrollable.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/switchery/switchery.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/intro-js/introjs.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/slidepanel/slidePanel.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/flag-icon-css/flag-icon.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/waves/waves.css">
+  <link rel="stylesheet" href="/res/theme/material/global/vendor/aspieprogress/asPieProgress.css">
+  <link rel="stylesheet" href="/res/theme/material/base/assets/examples/css/charts/pie-progress.css">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="/res/theme/material/global/fonts/material-design/material-design.min.css">
+  <link rel="stylesheet" href="/res/theme/material/global/fonts/brand-icons/brand-icons.min.css">
+  <!--[if lt IE 9]>
+    <script src="/res/theme/material/global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+  <!--[if lt IE 10]>
+    <script src="/res/theme/material/global/vendor/media-match/media.match.min.js"></script>
+    <script src="/res/theme/material/global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+  <!-- Scripts -->
+  <script src="/res/theme/material/global/vendor/breakpoints/breakpoints.js"></script>
+  <script>
+  Breakpoints();
+  </script>
+</head>
+<body class="animsition">
+  <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided"
+      data-toggle="menubar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-collapse"
+      data-toggle="collapse">
+        <i class="icon md-more" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+        <img class="navbar-brand-logo" src="/res/theme/material/base/assets/images/logo.png" title="Remark">
+        <span class="navbar-brand-text hidden-xs-down"> Instalador</span>
+      </div>
+      <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-search"
+      data-toggle="collapse">
+        <span class="sr-only">Toggle Search</span>
+        <i class="icon md-search" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        
+      </div>
+      <!-- End Navbar Collapse -->
+      <!-- Site Navbar Seach -->
+      <div class="collapse navbar-search-overlap" id="site-navbar-search">
+        <form role="search">
+          <div class="form-group">
+            <div class="input-search">
+              <i class="input-search-icon md-search" aria-hidden="true"></i>
+              <input type="text" class="form-control" name="site-search" placeholder="Search...">
+              <button type="button" class="input-search-close icon md-close" data-target="#site-navbar-search"
+              data-toggle="collapse" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- End Site Navbar Seach -->
+    </div>
+  </nav>
+  <div class="site-menubar">
+    <div class="site-menubar-body">
+      <div>
+        <div>
+          <ul class="site-menu" data-plugin="menu">
+
+          </ul>
+          <div class="site-menubar-section">
+            <h5>
+              Configurações
+              <span class="pull-xs-right" id="progress-load-display">0%</span>
+            </h5>
+            <div class="progress progress-xs">
+              <div class="progress-bar active" id="progress-load-bar" style="width: 0%;" role="progressbar"></div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="site-menubar-footer">
+      
+    </div>
+  </div>
+  <div class="site-gridmenu">
+    <div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- Page -->
+  <div class="page">
+    <div class="page-content">
+      <div id="alert-success" class="alert dark alert-alt alert-success alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        Instalação concluída com sucesso!
+      </div>
+      <div id="alert-danger" class="alert dark alert-alt alert-danger alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <p>Não foi possível concluir a instalação.</p>
+        <p class="error"></p>
+      </div>
+      <div id="alert-warning" class="alert dark alert-alt alert-warning alert-dismissible" role="alert" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        A instalação foi concluída com <span class="totalError"></span> erro(s)!
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-primary panel-line">
+            <div class="panel-heading">
+              <h1 class="panel-title">Lista de Instalação</h1>
+            </div>
+            <table class="table table-hover" id="steps">
+              <thead>
+                <tr>
+                  <th>Etapa</th>
+                  <th>Itens</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel p-50">
+            <div class="pie-progress pie-progress-lg center-block" id="pieApi" data-plugin="pieProgress"
+              data-barcolor="#4caf50" data-goal="100" data-size="350" data-barsize="10"
+              aria-valuemin="-100" aria-valuemax="250" role="progressbar">
+              <div class="pie-progress-content">
+                <div class="pie-progress-number">0%</div>
+                <div class="pie-progress-label"></div>
+              </div>
+            </div>
+            <div style="text-align: center;" class="p-25">
+              <button type="button" disabled="disabled" id="btn-install" class="btn btn-animate btn-animate-vertical btn-success waves-effect">
+                <span><i class="icon md-check" aria-hidden="true"></i> Instalar
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Page -->
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="site-footer-legal">© 2016 <a href="http://www.hcode.com.br">Hcode</a></div>
+  </footer>
+  <!-- Core  -->
+  <script src="/res/theme/material/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+  <script src="/res/theme/material/global/vendor/jquery/jquery.js"></script>
+  <script src="/res/theme/material/global/vendor/tether/tether.js"></script>
+  <script src="/res/theme/material/global/vendor/bootstrap/bootstrap.js"></script>
+  <script src="/res/theme/material/global/vendor/animsition/animsition.js"></script>
+  <script src="/res/theme/material/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+  <script src="/res/theme/material/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+  <script src="/res/theme/material/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+  <script src="/res/theme/material/global/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+  <script src="/res/theme/material/global/vendor/waves/waves.js"></script>
+  <!-- Plugins -->
+  <script src="/res/theme/material/global/vendor/switchery/switchery.min.js"></script>
+  <script src="/res/theme/material/global/vendor/intro-js/intro.js"></script>
+  <script src="/res/theme/material/global/vendor/screenfull/screenfull.js"></script>
+  <script src="/res/theme/material/global/vendor/slidepanel/jquery-slidePanel.js"></script>
+  <script src="/res/theme/material/global/vendor/aspieprogress/jquery-asPieProgress.js"></script>
+  <!-- Scripts -->
+  <script src="/res/theme/material/global/js/State.js"></script>
+  <script src="/res/theme/material/global/js/Component.js"></script>
+  <script src="/res/theme/material/global/js/Plugin.js"></script>
+  <script src="/res/theme/material/global/js/Base.js"></script>
+  <script src="/res/theme/material/global/js/Config.js"></script>
+  <script src="/res/theme/material/base/assets/js/Section/Menubar.js"></script>
+  <script src="/res/theme/material/base/assets/js/Section/GridMenu.js"></script>
+  <script src="/res/theme/material/base/assets/js/Section/Sidebar.js"></script>
+  <script src="/res/theme/material/base/assets/js/Section/PageAside.js"></script>
+  <script src="/res/theme/material/base/assets/js/Plugin/menu.js"></script>
+  <script src="/res/theme/material/global/js/config/colors.js"></script>
+  <script src="/res/theme/material/base/assets/js/config/tour.js"></script>
+  <script>
+  Config.set('assets', '/res/theme/material/base/assets');
+  </script>
+  <!-- Page -->
+  <script src="/res/theme/material/base/assets/js/Site.js"></script>
+  <script src="/res/theme/material/global/js/Plugin/asscrollable.js"></script>
+  <script src="/res/theme/material/global/js/Plugin/slidepanel.js"></script>
+  <script src="/res/theme/material/global/js/Plugin/switchery.js"></script>
+  <script src="/res/theme/material/global/js/Plugin/aspieprogress.js"></script>
+  <script src="/res/theme/material/base/assets/examples/js/charts/pie-progress.js"></script>
+    
+  <script src="/res/theme/assets/vendor/handlebars/handlebars-v4.0.5.js"></script>
+  <script src="/res/js/jrangel/jquery.core.js"></script>
+  <script src="/res/js/jrangel/jquery.btnload.js"></script>
+  <script src="/res/js/jrangel/jquery.btnrest.js"></script>
+  <script src="/res/js/jrangel/jquery.store.js"></script>
+  <script src="/res/js/jrangel/jquery.combobox.js"></script>
+  <script src="/res/js/jrangel/jquery.form.js"></script>
+  <script src="/res/js/jrangel/jquery.upload.js"></script>
+  <script src="/res/js/jrangel/jquery.table.js"></script>
+  <script src="/res/js/jrangel/jquery.arquivos.js"></script>
+  <script src="/res/js/jrangel/jquery.panel.js"></script>
+  
+  <script id="tpl-tr" type="text/x-handlebars-template">
+    <tr id="{{id}}"><td>{{step}}</td><td><span class="current">{{index}}</span>/<span class="total">{{itens}}</span></td><td>{{status}}</td></tr>
+  </script>
+    
+  <script>
+  
+  System = {};
+
+  $(function(){
+
+    var Install = new (function(){
+
+      var t = this;
+      var _errors = [];
+      var _tablesOK = [];
+      var _totalSteps = 0;
+      var _currentStep = 0;
+      var _$tbody = $("#steps tbody");
+      var _$btnInstall = $("#btn-install");
+      var _steps = [
+        {
+          id:"clear-db",
+          step:"Limpar banco de dados",
+          index:0,
+          itens:1,
+          load:false,
+          url:"/install/clear-db"
+        },
+        {
+          id:"clear-files",
+          step:"Limpar diretório de uploads",
+          index:0,
+          itens:1,
+          load:false,
+          url:"/install/clear-files"
+        },
+        {
+          id:"tables",
+          step:"Tabelas",
+          index:0,
+          itens:0,
+          load:true,
+          url:"/install/table"
+        },
+        {
+          id:"functions",
+          step:"Functions",
+          index:0,
+          itens:0,
+          load:true,
+          url:"/install/function"
+        },
+        {
+          id:"procedures",
+          step:"Procedures",
+          index:0,
+          itens:0,
+          load:true,
+          url:"/install/procedure"
+        },
+        {
+          id:"triggers",
+          step:"Triggers",
+          index:0,
+          itens:0,
+          load:true,
+          url:"/install/trigger"
+        },
+        {
+          id:"inserts",
+          step:"Inserts",
+          index:0,
+          itens:0,
+          load:true,
+          url:"/install/insert"
+        },
+        {
+          id:"scripts",
+          step:"Scripts",
+          index:0,
+          itens:0,
+          load:true,
+          url:"/install/script"
+        }
+      ];
+
+      t.addError = function (error) {
+
+        _errors.push(error);
+
+      };
+
+      t.stopInstall = function (error) {
+
+        $("#alert-danger .error").text(error.error);
+        $("#alert-danger").show();
+        t.addError(error);
+
+      };
+
+      t.addStep = function (step) {
+
+        var tpl = t.getTpl("tpl-tr");
+        var $render = $(tpl(step));
+
+        $render.data("step", step);
+
+        _$tbody.append($render);
+
+      };
+
+      t.getTpl = function (id) {
+
+        return Handlebars.compile($("#"+id).html());
+
+      };
+
+      t.proccess = function (index, callback) {
+
+        var $tr = $(_$tbody.find("tr")[index]);
+
+        if ($tr.length === 0) {
+
+          if (typeof callback === "function") callback();
+
+        }
+
+        t.activeTr($tr);
+
+        var step = $tr.data("step");
+
+        if (_steps.length <= index) {
+          if (typeof callback === 'function') callback();
+        } else {
+
+          switch (step.id) {
+            case "clear-db":
+            case "clear-files":
+            
+            rest({
+              url:"/install/"+step.id,
+              method:"POST",
+              success:function (r) {
+
+                $("#"+step.id).find(".current").text("1");
+
+                t.setProgress(++_currentStep, _totalSteps);
+                t.proccess(++index, callback);
+
+              },
+              failure:function (e){
+
+                $("#"+step.id).find(".current").text("1");
+
+                t.setProgress(++_currentStep, _totalSteps);
+                t.proccess(++index, callback);
+
+                t.addError(e);
+              }
+            });
+            
+            break;
+
+            case "tables":
+
+            var tables = $tr.data("itens");
+
+            tables.sort(function(a, b) {
+                return parseFloat(a.referencesTotal) - parseFloat(b.referencesTotal);
+            });
+
+            t.startTable(step, tables, function () {
+
+              t.proccess(++index, callback);
+
+            });
+
+            break;
+
+            case "functions":
+            case "procedures":
+            case "triggers":
+            case "inserts":
+            case "scripts":
+
+            var itens = $tr.data("itens");
+
+            t.startItem(0, step, itens, function () {
+
+              t.proccess(++index, callback);
+
+            });
+
+            break;
+
+          }
+
+          
+
+        }        
+
+      };
+
+      t.getTable = function (tables, index) {
+
+        if (!index) index = 0;
+
+        var table = tables[index];
+        var tablesOK = true;
+
+        if (table && table.references) {
+          for (var i = table.references.length - 1; i >= 0; i--) {
+            if (_tablesOK.indexOf(table.references[i])===-1) {
+              tablesOK = false;
+            }
+          }
+        } else {
+          consonle.warn("Existem um conflito de dependencias. Por este motivo as tabelas restantes não puderam ser criadas.", tables);
+        }
+
+        if (!tablesOK) {
+          return t.getTable(tables, ++index);
+        } else {
+          return table;
+        }
+
+      };
+
+      t.startItem = function (index, step, itens, callback) {
+
+        if (itens.length <= index) {
+          if (typeof callback === 'function') callback();
+        } else {
+
+          var item = itens[index];
+
+          var name = item.split(".")[0];
+
+          rest({
+            url:step.url,
+            method:"POST",
+            data:{
+              item:name
+            },
+            success:function (r) {
+
+              t.setProgress(++_currentStep, _totalSteps);
+
+              $("#"+step.id).find(".current").text(++index);
+
+              t.startItem(index, step, itens, callback);
+
+            },
+            failure:function (e){
+              t.addError(e);
+
+              t.setProgress(++_currentStep, _totalSteps);
+
+              $("#"+step.id).find(".current").text(++index);
+
+              t.startItem(index, step, itens, callback);
+
+            }
+          });
+
+        }
+
+      };
+
+      t.startTable = function (step, tables, callback) {
+
+        if (tables.length === 0) {
+          if (typeof callback === 'function') callback();
+        } else {
+
+          var table = t.getTable(tables);
+
+          var _newTables = [];
+          for (var i = tables.length - 1; i >= 0; i--) {
+            if (tables[i].name !== table.name) {
+              _newTables.push(tables[i]);
+            }
+          }
+          tables = _newTables;
+
+          var name = table.name.split(".")[0];
+
+          rest({
+            url:step.url,
+            method:"POST",
+            data:{
+              table:name
+            },
+            success:function (r) {
+
+              _tablesOK.push(name);
+
+              t.setProgress(++_currentStep, _totalSteps);
+
+              $("#"+step.id).find(".current").text(_tablesOK.length);
+
+              t.startTable(step, tables, callback);
+
+            },
+            failure:function (e) {
+
+              t.stopInstall(e);
+
+            }
+          });
+
+        }
+
+      };
+
+      t.stopInstall = function (e) {
+
+        t.addError(e);
+
+
+      };
+
+      t.start = function (callback) {
+
+        t.proccess(0, function () {
+
+          if (_errors.length === 0) {
+
+            $("#alert-success").show();
+
+          } else {
+
+            $("#alert-warning .totalError").text(_errors.length);
+            $("#alert-warning").show();
+
+          }
+
+          if (typeof callback === 'function') callback();
+
+        });
+
+      };
+
+      t.setProgressLoad = function (current, total) {
+
+        var porcent = (current * 100) / total;
+
+        if (porcent < 0) porcent = 0;
+        if (porcent > 100) porcent = 100;
+
+        porcent = parseInt(porcent);
+
+        $("#progress-load-display").text(porcent+"%");
+        $("#progress-load-bar").css("width", porcent+"%");
+
+      };
+
+      t.setProgress = function (current, total) {
+
+        var porcent = (current * 100) / total;
+
+        if (porcent < 0) porcent = 0;
+        if (porcent > 100) porcent = 100;
+
+        porcent = parseInt(porcent);
+
+        $("#pieApi").asPieProgress('go', porcent+'%');
+
+      };
+
+      t.activeTr = function ($tr) {
+
+        _$tbody.find("tr.table-active").removeClass("table-active");
+        $tr.addClass("table-active");
+
+      };
+
+      t.removeActiveTr = function () {
+
+        _$tbody.find("tr.table-active").removeClass("table-active");
+
+      };
+
+      t.loadIntallItem = function ($tr, callback) {
+
+        t.activeTr($tr);
+
+        var step = $tr.data("step");
+
+        if (!step.load) {
+
+          if (typeof callback === 'function') callback([]);
+
+        } else {
+
+          var item = $tr.attr("id");
+
+          rest({
+            url:"/install/load-"+item,
+            success:function (r) {
+
+              var $tr = $("#"+item);
+
+              _totalSteps += r.data.length;
+
+              $tr.find(".total").text(r.data.length);
+              $tr.data("itens", r.data);
+
+              if (typeof callback === 'function') callback(r.data);
+
+            },
+            failure:function (e) {
+
+              console.error(e);
+
+            }
+          });
+
+        }        
+
+      };
+
+      t.loadInstallIndex = function (current, callback) {
+
+        var $tr = $(_$tbody.find("tr")[current]);
+        var total = _$tbody.find("tr").length;
+
+        if ($tr.length == 0) {
+          t.removeActiveTr();
+          if (typeof callback === "function") callback();
+        } else {
+
+          t.loadIntallItem($tr, function () {
+
+            t.setProgressLoad(++current, total);
+            t.loadInstallIndex(current, callback);            
+
+          });
+
+        }
+
+      };
+
+      t.loadInstall = function (callback) {
+
+        t.loadInstallIndex(0, function () {
+
+          if (typeof callback === "function") callback();
+
+        });
+
+      };
+
+      t.initEvents = function () {
+
+        _$btnInstall.on("click", function () {
+
+          var $btn = $(this);
+
+          $btn.btnload("load");
+
+          t.start(function () {
+
+            $btn.btnload("unload");
+
+          });
+
+        });
+
+      };
+
+      t.init = function () {
+
+        $.each(_steps, function () {
+
+          t.addStep(this);
+
+        });
+
+        t.initEvents();
+        t.loadInstall(function () {
+
+          _$btnInstall.prop("disabled", false);
+
+        });
+
+      };
+
+      t.init();
+
+    })();
+
+  });
+
+  </script>
+
+</body>
+</html>

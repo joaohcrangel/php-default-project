@@ -27,10 +27,136 @@ $app->get("/install", function(){
 		'header'=>false,
 		'footer'=>false
 	));
-	$page->setTpl("install\index");
+	$page->setTpl("install\install");
 
 });
-$app->get("/install-admin/uploads/clear", function(){
+$app->get("/install/load-tables", function () {
+
+	$files = scandir(PATH."/res/sql/tables");
+	$tables = array();
+
+	foreach ($files as $file) {
+		if ($file !== '.' && $file !== '..') {
+
+			$info = pathinfo($file);
+			$jsonFile = PATH."/res/sql/references/".$info["filename"].".json";
+
+			$references = (file_exists($jsonFile))?json_decode(file_get_contents($jsonFile), true):array("tables"=>array());
+
+			$refTables = array();
+
+			foreach ($references["tables"] as $t) {
+				if ($t !== $info["filename"]) array_push($refTables, $t);
+			}
+
+			$table = array(
+				"name"=>$file,
+				"references"=>$refTables,
+				"referencesTotal"=>count($refTables)
+			);
+
+			array_push($tables, $table);
+
+		}
+	}
+
+	echo success(array(
+		"data"=>$tables
+	));
+
+});
+$app->get("/install/load-functions", function () {
+
+	$files = scandir(PATH."/res/sql/functions");
+	$functions = array();
+
+	foreach ($files as $file) {
+		if ($file !== '.' && $file !== '..') {
+
+			array_push($functions, $file);
+
+		}
+	}
+
+	echo success(array(
+		"data"=>$functions
+	));
+
+});
+$app->get("/install/load-procedures", function () {
+
+	$procedures = array();
+
+	foreach (scandir(PATH."/res/sql/procedures") as $dir) {
+		if ($dir !== '.' && $dir !== '..') {
+			foreach (scandir(PATH."/res/sql/procedures/$dir") as $file) {
+				if ($file !== '.' && $file !== '..') {
+					array_push($procedures, "$dir/".$file);
+				}
+			}
+		}
+	}
+
+	echo success(array(
+		"data"=>$procedures
+	));
+
+});
+$app->get("/install/load-triggers", function () {
+
+	$files = scandir(PATH."/res/sql/triggers");
+	$triggers = array();
+
+	foreach ($files as $file) {
+		if ($file !== '.' && $file !== '..') {
+
+			array_push($triggers, $file);
+
+		}
+	}
+
+	echo success(array(
+		"data"=>$triggers
+	));
+
+});
+$app->get("/install/load-inserts", function () {
+
+	$files = scandir(PATH."/res/sql/inserts");
+	$inserts = array();
+
+	foreach ($files as $file) {
+		if ($file !== '.' && $file !== '..') {
+
+			array_push($inserts, $file);
+
+		}
+	}
+
+	echo success(array(
+		"data"=>$inserts
+	));
+
+});
+$app->get("/install/load-scripts", function () {
+
+	$files = scandir(PATH."/res/sql/scripts");
+	$scripts = array();
+
+	foreach ($files as $file) {
+		if ($file !== '.' && $file !== '..') {
+
+			array_push($scripts, $file);
+
+		}
+	}
+
+	echo success(array(
+		"data"=>$scripts
+	));
+
+});
+$app->post("/install/clear-files", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -44,7 +170,7 @@ $app->get("/install-admin/uploads/clear", function(){
 	echo success();
 
 });
-$app->get("/install-admin/sql/clear", function(){
+$app->post("/install/clear-db", function(){
 
 	set_time_limit(0);
 	ini_set('max_execution_time', 0);
@@ -82,6 +208,64 @@ $app->get("/install-admin/sql/clear", function(){
 	}
 	
 	echo success();
+});
+$app->post("/install/table", function(){
+
+	$sql = new Hcode\Sql();
+
+	$sql->queryFromFile(PATH."/res/sql/tables/".post("table").".sql");
+
+	echo success();
+
+});
+$app->post("/install/function", function(){
+
+	$sql = new Hcode\Sql();
+
+	$sql->queryFromFile(PATH."/res/sql/functions/".post("item").".sql");
+
+	echo success();
+
+});
+$app->post("/install/procedure", function(){
+
+	$sql = new Hcode\Sql();
+
+	$sql->queryFromFile(PATH."/res/sql/procedures/".post("item").".sql");
+
+	echo success();
+
+});
+$app->post("/install/trigger", function(){
+
+	$sql = new Hcode\Sql();
+
+	$sql->queryFromFile(PATH."/res/sql/triggers/".post("item").".sql");
+
+	echo success();
+
+});
+$app->post("/install/insert", function(){
+
+	$sql = new Hcode\Sql();
+
+	$sql->query("SET foreign_key_checks = 0");
+
+	$sql->queryFromFile(PATH."/res/sql/inserts/".post("item").".sql");
+
+	$sql->query("SET foreign_key_checks = 1");
+
+	echo success();
+
+});
+$app->post("/install/script", function(){
+
+	$sql = new Hcode\Sql();
+
+	$sql->queryFromFile(PATH."/res/sql/scripts/".post("item").".sql");
+
+	echo success();
+
 });
 
 $app->get("/install-admin/sql/persons/tables", function(){

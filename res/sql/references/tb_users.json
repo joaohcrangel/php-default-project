@@ -1,1 +1,1 @@
-{"tables":["tb_blogauthors","tb_menususers","tb_orderslogs","tb_permissionsusers","tb_personsdata","tb_userslogs"]}
+{"tables":["tb_persons","tb_userstypes"]}

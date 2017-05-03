@@ -1,1 +1,1 @@
-{"tables":["tb_orderslogs","tb_ordersnegotiations","tb_ordersproducts","tb_ordersreceipts"]}
+{"tables":["tb_persons", "tb_formspayments", "tb_ordersstatus"]}

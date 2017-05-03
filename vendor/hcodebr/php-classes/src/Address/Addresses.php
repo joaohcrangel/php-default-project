@@ -39,7 +39,7 @@ class Addresses extends Collection {
 
     }
 
-    public function getByPerson(Person $person):Addresses
+    public function getByHcode_Person_Person(Person $person):Addresses
     {
 
         $this->loadFromQuery("CALL sp_addressesfromperson_list(?);", array(

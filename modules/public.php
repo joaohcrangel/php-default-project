@@ -114,8 +114,15 @@ $app->get("/perfil", function(){
 
 	$page = new Hcode\Site\Page();
 
+	$person = Hcode\Session::getPerson();
+
+	$root = new Hcode\Site\Contact(array("idsitecontact"=>0));
+
+	$sitesContacts = Hcode\Person\Person::getSiteContactsHTML($root, $person->getSiteContacts());
+
 	$page->setTpl("profile", array(
-		"conf"=>Hcode\Session::getConfigurations()->getFields()
+		"conf"=>Hcode\Session::getConfigurations()->getFields(),
+		"sitesContacts"=>$sitesContacts
 	));
 
 });
@@ -135,6 +142,20 @@ $app->post("/profile", function(){
 $app->post("/password", function(){
 
 	$user = Hcode\Session::getUser();
+
+	if(!$user->checkPassword(post("descurrentpassword"))){
+		throw new Exception("A senha informada está errada", 403);		
+	}
+
+	if($_POST['despasswordnew'] != $_POST['despasswordnew2']){
+		throw new Exception("As senhas devem ser idênticas");
+	}
+
+	$user->setdespassword(Hcode\System\User::getPasswordHash(post("despasswordnew")));
+
+	$user->save();
+
+	echo success();
 
 });
 

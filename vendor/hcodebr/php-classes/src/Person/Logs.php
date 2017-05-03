@@ -1,6 +1,6 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Person;
 
 use Hcode\Collection;
 use Hcode\Person\Person;

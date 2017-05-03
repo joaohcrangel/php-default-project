@@ -1,8 +1,8 @@
 <?php
 
-namespace Hcode;
+namespace Hcode\Person;
 
-use Hcode\Person\Log;
+use Hcode\Model;
 use Hcode\Exception;
 
 class Log extends Model {

@@ -7,7 +7,7 @@ use Hcode\Exception;
 
 class Document extends Model {
 
-    public $required = array('iddocument', 'iddocumenttype', 'idperson', 'desdocument');
+    public $required = array('iddocumenttype', 'idperson', 'desdocument');
     protected $pk = "iddocument";
 
     public function get(){
@@ -119,13 +119,13 @@ class Document extends Model {
     public function getFormatted(){
 
         switch ($this->getiddocumenttype()) {
-            case DocumentType::CPF:
+            case Type::CPF:
             $formatted = parent::toMask("###.###.###-##", $this->getdesdocument());
             break;
-            case DocumentType::CNPJ:
+            case Type::CNPJ:
             $formatted = parent::toMask("##.###.###/####-##", $this->getdesdocument());
             break;
-            case DocumentType::RG:
+            case Type::RG:
             $formatted = parent::toMask("##.###.###/##", $this->getdesdocument());
             break;
         }

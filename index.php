@@ -74,7 +74,7 @@ function require_files($path) {
 
 require_files($modules_path);
 
-try{
+try {
 
     if(Hcode\Session::getConfigurations()->getSize() == 0){
 

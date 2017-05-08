@@ -16,6 +16,48 @@ $app->get("/".DIR_ADMIN."/social-networks", function(){
 
 });
 
+$app->get("/social-networks", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
+
+	$where = array();
+
+	if(get("dessocialnetwork") != ""){
+		array_push($where, "dessocialnetwork LIKE '%".utf8_encode(get("dessocialnetwork"))."%'");
+	}
+
+	if(count($where) > 0){
+		$where = " WHERE ".implode(" AND ", $where)."";
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS * FROM tb_socialnetworks
+		".$where." LIMIT ?, ?;
+	";
+
+	$pagination = new Hcode\Pagination(
+		$query,
+		array(),
+		"Hcode\Social\Networks",
+		$itemsPerPage
+	);
+
+	$networks = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$networks->getFields(),
+		"total"=>$pagination->getTotal(),
+		"currentPage"=>$page,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
 $app->get("/social-networks/all", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);

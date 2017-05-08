@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css"><style>.info-wrap .title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+}
+.image-wrap {
+	display: table-cell;
+    vertical-align: middle;
+}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$network.dessocialnetwork}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0 app-media"><div class="panel nav-tabs-horizontal nav-tabs-inverse" id="social-network-tabs" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-social-network" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-social-network" role="tabpanel"><form asutocomplete="off" id="form-social-network" class="slidePanel-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="dessocialnetwork">Nome</label><input type="text" class="form-control" name="dessocialnetwork"></div><button type="submit" class="btn btn-block btn-primary" id="btn-social-network-salvar">Salvar</button></form></div></div></div></div></div><script>var socialNetwork = JSON.parse('{function="json_encode($network)"}');
+
+new Tab({
+	id:"tabs-social-network",
+	items:[{
+		title:"Dados",
+		id:"tab-social-network"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch (event.tabContent.id) {
+
+				
+
+			}
+
+		}
+	}
+});
+
+$("#form-social-network").formLoad(socialNetwork);
+  
+var form = $("#form-social-network");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/social-networks",
+  params:{
+    idsocialnetwork:socialNetwork.idsocialnetwork
+  },
+  success:function(){
+
+    form.find("button#btn-social-network-salvar").btnload("unload");
+    System.success("Rede salva com sucesso");
+    $("#form-filtros [type=submit]").trigger("click");
+    $(".slidePanel-close").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-social-network-salvar").btnload("unload");
+    System.showError(r);
+
+  }
+});</script>

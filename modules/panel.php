@@ -1016,4 +1016,31 @@ $app->get("/panel/url-create", function(){
 
 });
 
+// social networks
+$app->get("/panel/social-networks/:idsocialnetwork", function($idsocialnetwork){
+
+	$network = new Hcode\Social\Network((int)$idsocialnetwork);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("/admin/panel/social-network", array(
+		"network"=>$network->getFields()
+	));
+
+});
+
+$app->get("/panel/social-network-create", function(){
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("social-network-create");
+
+});
+
 ?>

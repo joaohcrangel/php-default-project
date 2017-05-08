@@ -75,16 +75,16 @@ function require_files($path) {
 require_files($modules_path);
 
 try {
- 
+
     if(Hcode\Session::getConfigurations()->getSize() == 0){
 
-    $configurations = Hcode\System\Configurations::listAll();
+        $configurations = Hcode\System\Configurations::listAll();
 
-    Hcode\Session::setConfigurations($configurations);
-    
-}
-    
-} catch (Exception $e) {
+        Hcode\Session::setConfigurations($configurations);
+        
+    }
+
+} catch(Exception $e) {
     
 }
 

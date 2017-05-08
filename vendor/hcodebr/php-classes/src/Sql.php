@@ -289,7 +289,7 @@ class Sql extends PDO {
 
 		if (file_exists($filename)) {
 
-			return $this->exec(file_get_contents($filename), false, $params);
+			return $this->exec(utf8_decode(file_get_contents($filename)), false, $params);
 
 		} else {
 

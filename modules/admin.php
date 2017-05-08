@@ -858,15 +858,20 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/add-to-install", function(){
             $values = array();
 
             foreach ($row as $key => $value) {
-                array_push($columns, $key);
-                switch (gettype($value)) {
-                    case "string":
-                    array_push($values, "'".$value."'");
-                    break;
 
-                    default:
-                    array_push($values, $value);
-                    break;
+                if ($key !== "dtregister") {
+
+                    array_push($columns, $key);
+                    switch (gettype($value)) {
+                        case "string":
+                        array_push($values, "'".$value."'");
+                        break;
+
+                        default:
+                        if (!$value) $value = 'NULL';
+                        array_push($values, $value);
+                        break;
+                    }
                 }
                 
             }

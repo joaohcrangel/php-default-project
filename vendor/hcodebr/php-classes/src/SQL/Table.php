@@ -150,7 +150,7 @@ class Table extends Model {
 		");
 
 		return "
-			CREATE TRIGGER `".DB_NAME."`.`".$trigger['trigger_name']."` ".$trigger['action_timing']." ".$trigger['event_manipulation']." ON `".$this->getName()."` FOR EACH ROW
+			CREATE TRIGGER `".DB_NAME."`.`".$name."` ".$trigger['action_timing']." ".$trigger['event_manipulation']." ON `".$this->getName()."` FOR EACH ROW
 			".$trigger['action_statement']."
 		";
 

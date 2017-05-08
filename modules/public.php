@@ -2,9 +2,14 @@
 
 $app->get("/", function(){
 
+	// pre(Hcode\Site\Testimonial::listAll()->getFields());
+	// exit;
+
     $page = new Hcode\Site\Page();
 
-    $page->setTpl('index');
+    $page->setTpl('index', array(
+    	"testimonial"=>Hcode\Site\Testimonial::listAll()->getFields()
+    ));
 
 });
 

@@ -112,10 +112,11 @@ class Table extends Model {
 		$tables = new Tables();
 
 		$tables->loadFromQuery("
-			select table_name
+			select referenced_table_name
 			from information_schema.KEY_COLUMN_USAGE
 			where table_schema = ?
-			and referenced_table_name = ?;
+			and table_name = ?
+            and referenced_table_name is not null;
 		", array(
 			DB_NAME,
 			$this->getName()

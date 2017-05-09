@@ -51,4 +51,8 @@ INSERT INTO tb_menus (idmenu,idmenufather,desmenu,desicon,deshref,nrorder,nrsubm
 (50,46,'Tags','','/blog/tags',3,0,'2017-04-18 16:17:59'),
 (51,46,'Comentários','','/blog/comments',4,0,'2017-04-18 16:17:59'),
 (52,NULL,'Serviço de E-mails','md-email','/emails',11,0,'2017-04-18 16:17:59'),
-(53,NULL,'Fluxo de Caixa','md-money-box','/fluxo-de-caixa',11,0,'2017-04-18 16:17:59');
+(53,NULL,'Fluxo de Caixa','md-money-box','/fluxo-de-caixa',11,0,'2017-04-18 16:17:59'),
+(54,NULL,'Time','','',12,2,'2017-04-18 16:17:59'),
+(55,54,'Cargos','','/team/jobs-positions',0,0,'2017-04-18 16:17:59'),
+(56,54,'Colaboradores','','/team/workers',1,0,'2017-04-18 16:17:59'),
+(57,NULL,'Redes Sociais','','/admin/social-networks',13,0,'2017-04-18 16:17:59');

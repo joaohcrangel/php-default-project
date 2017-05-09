@@ -4,6 +4,7 @@ CREATE TABLE `tb_files` (
   `desfile` varchar(128) NOT NULL,
   `desextension` varchar(32) NOT NULL,
   `desalias` varchar(128) DEFAULT NULL,
+  `despath` varchar(256) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idfile`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

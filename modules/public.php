@@ -4,7 +4,10 @@ $app->get("/", function(){
 
     $page = new Hcode\Site\Page();
 
-    $page->setTpl('index');
+    $page->setTpl('index', array(
+    	"testimonial"=>Hcode\Site\Testimonial::listAll()->getFields(),
+    	"workers"=>Hcode\Team\Workers::listAll()->getFields()
+    ));
 
 });
 

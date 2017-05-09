@@ -1,0 +1,130 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css">
+<style>
+.info-wrap .title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+}
+.image-wrap {
+	display: table-cell;
+    vertical-align: middle;
+}
+</style>
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$worker.desperson}</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0 app-media">
+	
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="worker-tabs" data-plugin="tabs">
+	    <div class="panel-heading panel-heading-tab" id="tabs-worker" style="border-radius: 0;">
+	    </div>
+	    <div class="panel-body p-t-20">
+	      <div class="tab-content">
+	        <div class="tab-pane active" id="tab-worker" role="tabpanel">
+	          <form asutocomplete="off" id="form-worker" class="slidePanel-form">
+			  	<div class="form-group form-material" data-plugin="formMaterial">
+				    <label>Nome</label>
+				    <input type="text" class="form-control" name="desperson">
+			  	</div>
+			    <div class="form-group form-material" data-plugin="formMaterial">
+			        <label>Cargo</label>
+			        <select name="idjobposition" class="form-control"></select>
+			    </div>
+			    <div class="form-group form-material" data-plugin="formMaterial">
+			        <input type="hidden" name="idphoto">
+			        <button class="btn btn-success" type="button" id="btn-photo-update">Alterar Foto</button>
+			        {if="$worker.desphoto"}
+			        	<img class="image_fade" id="img-photo" src="{$path}{$worker.desphoto}" style="height:100px; margin-top:10px;">
+			        {else}
+						<img class="image_fade" id="img-photo" src="{$path}/res/img/placeholder.png" style="height:100px; margin-top:10px;">
+			        {/if}
+		    	</div>
+			    <button type="submit" class="btn btn-block btn-primary" id="btn-worker-save">Salvar</button>
+			  </form>
+	        </div>
+	      </div>
+	    </div>
+    </div>
+
+</div>
+<script>
+
+var worker = JSON.parse('{function="json_encode($worker)"}');
+
+new Tab({
+	id:"tabs-worker",
+	items:[{
+		title:"Dados",
+		id:"tab-worker"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch (event.tabContent.id) {
+
+				
+
+			}
+
+		}
+	}
+});
+
+$("[name=idjobposition]").combobox({
+    url:PATH+"/jobs-positions/all",
+    displayField:"desjobposition",
+    valueField:"idjobposition",
+    value:worker.idjobposition
+});
+
+$("#btn-photo-update").on("click", function(){
+
+	$.upload({
+      url:PATH+"/files",
+      multiple:true,
+      accept:"*",
+      modalInfo:true,
+      success:function(r){
+
+        var data = r.data[0];
+
+        $("[name=idphoto]").val(data.idfile);
+        $("#img-photo").attr('src', PATH + data.desdirectory + data.desfile +"."+ data.desextension);
+
+      }
+    });
+
+});
+
+$("#form-worker").formLoad(worker);
+  
+var form = $("#form-worker");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/workers",
+  params:{
+    idworker:worker.idworker
+  },
+  success:function(){
+
+    form.find("button#btn-worker-save").btnload("unload");
+    System.success("Funcionário salvo com sucesso");
+    $("#form-filtros [type=submit]").trigger("click");
+    $(".slidePanel-close").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-worker-save").btnload("unload");
+    System.showError(r);
+
+  }
+});
+
+</script>

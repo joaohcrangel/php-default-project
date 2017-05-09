@@ -1,6 +1,7 @@
 CREATE PROCEDURE sp_testimonial_save(
 pidtestimony INT,
 pidperson INT,
+pidphoto INT,
 pdessubtitle VARCHAR(128),
 pdestestimony VARCHAR(256)
 )
@@ -8,8 +9,8 @@ BEGIN
 
     IF pidtestimony = 0 THEN
     
-        INSERT INTO tb_testimonial (idperson, dessubtitle, destestimony)
-        VALUES(pidperson, pdessubtitle, pdestestimony);
+        INSERT INTO tb_testimonial (idperson, idphoto, dessubtitle, destestimony)
+        VALUES(pidperson, pidphoto, pdessubtitle, pdestestimony);
         
         SET pidtestimony = LAST_INSERT_ID();
 
@@ -18,6 +19,7 @@ BEGIN
         UPDATE tb_testimonial        
         SET 
             idperson = pidperson,
+            idphoto = pidphoto,
             dessubtitle = pdessubtitle,
             destestimony = pdestestimony    
         WHERE idtestimony = pidtestimony;

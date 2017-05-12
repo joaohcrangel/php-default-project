@@ -300,11 +300,16 @@
 	
 init.push(function(){
 	
+	$("#btn-save-profile").on("click", function(){
+		console.log("ok");
+
+	});
+
 	$("#form-profile").form({
 		url:PATH+"/profiles-news",
-		//resetForm:false,
+		method:"POST",
 		success:function(){			
-			System.success("Comentário criado com sucesso");
+			System.success("Usuario criado com sucesso");
 		}
 	});	
 });

@@ -132,28 +132,44 @@ $app->post("/profile", function(){
 
 });
 
-$app->get("/profiles-news", function(){
+$app->post("/profiles-news", function(){
 
 	$person = Hcode\Session::getPerson();
 
-	$email = new Hcode\Contact\Contact(array(
+	$person = new Hcode\Person\Person(array(
 		"desperson"=>post("desperson"),
-        "descontacttype"=>post("descontacttype"),
-		"idperson"=>$person->getidperson(),
-		"idcontacttype"=>Hcode\Contact\Type::EMAIL 1,
+		"idcontactsubtype"=>Hcode\Contact\SubType::EMAIL_PESSOAL,
 		"desemail"=>post("desemail")
 	));
 
-	$email->save();
+	$person->save();
+
+	echo success();
+
+});
+
+$app->post("/profiles-contact", function(){
+
+	$contact = new Hcode\Contact\Contact(array(
+		"descontact"=>post("descontact"),
+		"idperson"=>$person->getidperson(),
+		"idcontact"=>post("idcontact")	
+	));
+
+	$contact->save();
+
+	echo success();
+});
+
+$app->post("/profiles-address", function(){
 
 	$address = new Hcode\Address\Address(array(
-		"desaddress"=>post("desaddress"),
-		"idperson"=>$person->getidperson(),
 		"idaddress"=>post("idaddress"),
+		"idperson"=>$person->getidperson(),
+		"desaddress"=>post("desaddress")
 	));
 
 	$address->save();
-
 
 	echo success();
 

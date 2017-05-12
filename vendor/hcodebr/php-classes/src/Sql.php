@@ -50,7 +50,7 @@ class Sql extends PDO {
 
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute($this->validParams($params));
-		$results = $stmt->fetchAll();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$stmt->nextRowset();
 
 		foreach($results as $key => $value){
@@ -289,7 +289,7 @@ class Sql extends PDO {
 
 		if (file_exists($filename)) {
 
-			return $this->exec(file_get_contents($filename), false, $params);
+			return $this->exec(utf8_decode(file_get_contents($filename)), false, $params);
 
 		} else {
 

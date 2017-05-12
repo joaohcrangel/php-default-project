@@ -71,6 +71,10 @@
 	<string name="menus_site">Site</string>
 	<string name="menus_site_menu">Menu</string>
 	<string name="menus_fluxodecaixa">Fluxo de Caixa</string>
+	<string name="menus_site_testimonial">Depoimentos</string>
+	<string name="menus_team">Equipe</string>
+	<string name="menus_jobs_positions">Cargos</string>
+	<string name="menus_social_networks">Redes Sociais</string>
 
 	<string name="menus_courses">Cursos</string>
 	<string name="menus_carousels">Carousels</string>
@@ -220,6 +224,8 @@
 	<string name="data_nascimento">dtnascimento</string>
 	<string name="sexo">dessexo</string>
 	<string name="foto">desfoto</string>
+	<string name="fotoDepoimento">desfotodepoimento</string>
+	<string name="fotoFuncionario">desfotofuncionario</string>
 
 	<string name="negotiation_estimate">Em orçamento</string>
 	<string name="negotiation_sale">Venda</string>
@@ -227,6 +233,7 @@
 	<string name="person_cliente">Cliente</string>
 	<string name="person_fornecedor">Fornecedor</string>
 	<string name="person_colaborador">Colaborador</string>
+	<string name="person_funcionario">Funcionário</string>
 
 	<string name="sitesmenus_home">Home</string>
 	<string name="sitesmenus_contact">Contato</string>

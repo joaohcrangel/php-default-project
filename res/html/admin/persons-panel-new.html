@@ -42,9 +42,16 @@
                     </div>
 
                     <div class="row">
-                      <div class="form-group col-xs-12 col-md-8">
+                      <div class="form-group col-xs-12 col-md-4">
                         <label class="form-control-label" for="desperson">Nome do cliente <span class="red-900">*</span></label>
                         <input type="text" class="form-control" id="desperson" name="desperson">
+                      </div>
+                      <div class="form-group col-xs-12 col-md-4">
+                        <label class="form-control-label" for="dessex">Sexo</label>
+                        <select class="form-control" id="dessex" name="dessex">
+                          <option value="M">Masculino</option>
+                          <option value="F">Feminino</option>
+                        </select>
                       </div>
                       <div class="form-group col-xs-12 col-md-4">
                         <label class="form-control-label" for="idpersontype">Tipo</label>
@@ -162,7 +169,29 @@
             </div>
             <div class="tab-pane" id="tab-person-log" role="tabpanel">
               
-              
+              <div class="panel">
+
+                <table class="table table-hover">
+                  
+                  <thead>
+                    <tr>
+                      <th>Log</th>
+                      <th>Tipo</th>
+                      <th>Data de cadastro</th>
+                    </tr>  
+                  </thead>
+
+                  <tbody>
+                    
+                  </tbody>
+
+                </table>
+
+                <div class="panel-footer">
+                  <div id="pagination"></div>
+                </div>
+                
+              </div>
 
             </div>
             <div class="tab-pane" id="tab-person-files" role="tabpanel">
@@ -290,6 +319,23 @@
                   
               </div>
 
+            </div>
+            <!-- fim da tab de addresses -->
+
+            <!-- start of tab that list the categories  -->
+            <div class="tab-pane" id="tab-person-categories" role="tabpanel">
+
+              <div class="panel">
+
+                <div class="panel-body panel-primary panel-line p-b-0 m-0">                 
+
+                  <ul class="list-group">
+                    
+                  </ul>
+                  
+                </div>
+
+              </div>
             </div>
 
           </div>
@@ -443,6 +489,22 @@
       </div>
     </div>
   </div>
+</script>
+<script id="tpl-person-category" type="text/x-handlebars-template">
+  <li class="list-group-item">
+    <div class="checkbox-custom checkbox-primary checkbox-lg">
+      <input type="checkbox" class="selectable-item" id="media_1" data-idcategory="{{idcategory}}" />
+      <label for="media_1"></label>
+      {{descategory}}
+    </div>    
+  </li>
+</script>
+<script id="tpl-person-log" type="text/x-handlebars-template">
+  <tr>
+    <td>{{deslog}}</td>
+    <td>{{deslogtype}}</td>
+    <td>{{desdtregister}}</td>
+  </tr>
 </script>
 {/noparse}
 <script>
@@ -916,6 +978,72 @@ var personPanel = (function(data, selectorContainer, opts){
 
   };
 
+  t.initLogs = function(page){
+
+    if(!page) page = 1;
+
+    var data = {
+      page:page,
+      limit:5
+    }
+
+    var $panelHTML = $("#tab-person-log .panel");
+
+    var $panel = System.getPanelApi($panelHTML);
+
+    var tpl = t.getTpl("tpl-person-log");
+
+    var $tbody = $panelHTML.find("tbody");
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/persons/"+t.getIdperson()+"/logs",
+      data:data,
+      success:function(r){
+
+        $tbody.html('');
+
+        $.each(r.data, function(index, row){
+
+          var $tr = $(tpl(row));
+
+          $tbody.append($tr);
+
+        });
+
+        if (r.total > 0) {
+
+          var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+            skin:'pagination-gap',
+            currentPage: r.currentPage,
+            itemsPerPage: r.itemsPerPage,
+            onChange: function(page){
+              
+              t.initLogs(page);
+
+            }
+          }, r);
+
+          $panelHTML.find('#pagination').show().asPaginator(r.total, config);
+
+        } else {
+
+          $panelHTML.find('#pagination').hide();
+
+        }
+
+        $panel.done();
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  };
+
   t.initTabs = function(){
 
     var tabs = new Tab({
@@ -938,6 +1066,9 @@ var personPanel = (function(data, selectorContainer, opts){
       },{
         title:"Endereços",
         id:"tab-person-addresses"
+      },{
+        title:"Categorias",
+        id:"tab-person-categories"
       }],
       listeners:{
         tabchange:function(obejct, event){
@@ -946,7 +1077,7 @@ var personPanel = (function(data, selectorContainer, opts){
 
             case 'tab-person-orders':
             t.$el.find('[name=idnegotiation]').combobox({
-              url:'/orders/negotiationstypes',
+              url:'/ordersnegotiationstypes',
               displayField:'desnegotiation',
               valueField:'idnegotiation'
             });
@@ -964,6 +1095,14 @@ var personPanel = (function(data, selectorContainer, opts){
 
             case 'tab-person-addresses':
             t.initAddresses();
+            break;
+
+            case 'tab-person-categories':
+            t.initCategories();
+            break;
+
+            case 'tab-person-log':
+            t.initLogs();
             break;
             
           }
@@ -1182,6 +1321,80 @@ var personPanel = (function(data, selectorContainer, opts){
       if (typeof callback === 'function') callback(data);
 
     });
+
+  };
+
+  t.initCategories = function(){
+
+    var $panelHTML = $("#tab-person-categories .panel");
+
+    var $panel = System.getPanelApi($panelHTML);
+
+    $panel.load();
+
+    var $ul = $panelHTML.find("ul");
+
+    var tpl = t.getTpl("tpl-person-category");
+
+    rest({
+      url:PATH+"/persons-categories/all",
+      success:function(r){
+
+        $ul.html('');
+
+        $.each(r.data, function(index, row){
+
+          var $li = $(tpl(row));
+
+          $ul.append($li);
+
+          $.each(t.getData().Categories, function(indice, value){
+
+            if(row.idcategory == value.idcategory){
+              $li.find("[type=checkbox]").prop("checked", true);
+            }
+
+          });
+
+          $li.find("[type=checkbox]").on("change", function(){
+
+            var $input = $(this);
+
+            $input.btnload("load");
+
+            var ids = [];
+
+            $panelHTML.find("ul.list-group li [type=checkbox]:checked").each(function(){
+              ids.push($(this).data("idcategory"));
+            });
+
+            rest({
+              url:PATH+"/persons/"+t.getIdperson()+"/categories",
+              method:"POST",
+              data:{
+                ids:ids.toString()
+              },
+              success:function(){
+                $input.btnload("unload");
+              },
+              failure:function(r){
+                $input.btnload("unload");
+                System.showError(r);
+              }
+            })
+
+          });
+
+        });
+
+        $panel.done();
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    })
 
   };
 

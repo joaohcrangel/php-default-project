@@ -2,6 +2,7 @@
 
 namespace Hcode\System;
 
+use Hcode\Exception;
 use Hcode\Person\Person;
 use Hcode\Admin\Permission;
 use Hcode\Admin\Permissions;

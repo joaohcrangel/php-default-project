@@ -1,0 +1,182 @@
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><style>#actions-buttons button {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+#actions-buttons button .icon {
+  font-size: 32px;
+}
+.page-content-table .table>tbody>tr>td, .page-content-table .table>tbody>tr>th, .page-content-table .table>thead>tr>td, .page-content-table .table>thead>tr>th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.site-menubar-fold.page-aside-fixed.page-aside-left .site-footer {
+  margin-left: 310px;
+}
+#social-network-footer {
+  height: 39px;
+}
+.page {
+  height: calc(100% - 83px);
+  min-height: calc(100% - 83px);
+}</style><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Redes</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="dessocialnetwork">Nome</label><input type="text" class="form-control" name="dessocialnetwork" id="dessocialnetwork"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="page-header p-0"><div class="btn-group" id="actions-buttons"></div></div><div id="mailContent" class="page-content page-content-table" data-plugin="asSelectable"><div style="border-bottom: #e0e0e0 1px solid"><div class="panel panel-bordered overflow-auto" data-auto-height="-291"><table id="lista" class="table table-striped" data-plugin="animateList" data-animate="fade" data-child="tr"><tbody></table></div><div id="pagination"></div></div></div></div></div><footer id="social-network-footer" class="site-footer p-0"></footer><script id="tpl-row" type="text/x-handlebars-template"><tr data-url="{$path}/admin/social-networks/{{idsocialnetwork}}" data-toggle="slidePanel">
+    <td class="cell-60">
+      <span class="checkbox-custom checkbox-primary checkbox-lg">
+        <input type="checkbox" class="mailbox-checkbox selectable-item" id="mail_mid_1" data-idsocialnetwork="{{idsocialnetwork}}"/>
+        <label for="mail_mid_1"></label>
+      </span>
+    </td>
+    <td>
+      <div class="content">
+        <div class="title">{{dessocialnetwork}}</div>
+      </div>
+    </td>
+  </tr></script><script id="tpl-footer" type="text/x-handlebars-template"><div style="padding: 0px 30px; line-height: 36px;">
+    <div class="pull-left">
+      <div>{{data.length}} de {{total}} resultado(s)</div>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-pure btn-dark icon md-settings waves-effect"></button>
+    </div>
+  </div></script><script>init.push(function(){
+
+  var tpl = {
+    row:Handlebars.compile($("#tpl-row").html()),
+    footer:Handlebars.compile($("#tpl-footer").html())
+  };
+
+  $("#social-network-footer").html(tpl.footer({
+    total:0
+  }));
+
+  $("#form-filtros [type=submit]").on("click", function(e){
+
+    e.preventDefault();
+
+    loadNetworks();
+
+  });
+
+  $("#form-filtros input").on("keyup", function(e){
+
+    if (e.keyCode === 13) $("#form-filtros [type=submit]").trigger("click");
+
+  });
+
+  function loadNetworks(page){
+
+    if(!page) page = 1;
+
+    var $panelHTML = $("#mailContent .panel");
+
+    var $panel = System.getPanelApi($panelHTML);
+
+    $panel.load();
+
+    var $tbody = $("table#lista tbody");
+
+    var data = $("#form-filtros").formValues();
+
+    rest({
+      url:PATH+"/social-networks",
+      data:data,
+      success:function(r){
+
+        $tbody.html('');
+
+        $.each(r.data, function(index, row){
+
+          var $tr = $(tpl.row(row));
+
+          $tbody.append($tr);
+
+        });
+
+        $tbody.find("[type=checkbox]").on("change", function(){
+
+          var checked = $("tbody [type=checkbox]:checked");
+
+          var disabled = (checked.length > 0) ? false : true;
+            
+          $("#btn-social-network-delete").prop("disabled", disabled);
+
+        });
+
+        $panel.done();
+
+      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
+
+  }
+
+  new ToolBar({
+    id:"actions-buttons",
+    buttons:[{
+      text:"Cadastrar",
+      icon:"md-plus",
+      cls:"btn-success",
+      listeners:{
+        click:function(btn, e){
+          
+          System.openSlidePanel({
+            url:PATH+"/panel/social-network-create"
+          });
+
+        }
+      }
+    },{
+      text:"Excluir",
+      id:"btn-social-network-delete",
+      icon:"md-delete",
+      disabled:true,
+      handler:function(btn, e){
+
+        var selecteds = [];
+
+        $("tbody [type=checkbox]:checked").each(function(){
+          selecteds.push($(this).data("idsocialnetwork"));
+        });
+
+        if (selecteds.length) {
+
+          System.confirm('Deseja realmente excluir a(s) '+selecteds.length+' rede(s)?', function(r, s, f){
+
+            if (r === true) {
+
+              rest({
+                url:PATH+"/social-networks",
+                method:"DELETE",
+                data:{
+                  ids:selecteds.toString()
+                },
+                success:function(){
+                  System.done();
+                  s()
+                  loadNetworks();
+                },
+                failure:function(r){
+                  System.done();
+                  f(r);
+                }
+              })
+
+            } else {
+
+              f();
+
+            }
+
+          });
+
+        }
+
+      }
+    }]
+  });
+
+  loadNetworks();
+
+});</script>

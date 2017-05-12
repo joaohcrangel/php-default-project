@@ -115,7 +115,7 @@ BEGIN
     IF NOT pdessex IS NULL THEN
         
         INSERT INTO tb_personsvalues (idperson, idfield, desvalue)
-        VALUES(pidperson, 2, cast_to_bit(pdessex));
+        VALUES(pidperson, 2, pdessex);
     
     END IF;
 

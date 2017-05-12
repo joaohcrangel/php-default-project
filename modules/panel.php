@@ -803,7 +803,7 @@ $app->get("/panel/courses/:idcourse", function($idcourse){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\curso", array(
+	$page->setTpl("panel\course", array(
 		"course"=>$course->getFields()
 	));
 
@@ -816,7 +816,7 @@ $app->get("/panel/course-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\curso-criar");
+	$page->setTpl("panel\course-create");
 
 });
 //////////////////////////////////////////////////////////////////////
@@ -1013,6 +1013,33 @@ $app->get("/panel/url-create", function(){
 	));
 
 	$page->setTpl("panel\url-criar");
+
+});
+
+// social networks
+$app->get("/panel/social-networks/:idsocialnetwork", function($idsocialnetwork){
+
+	$network = new Hcode\Social\Network((int)$idsocialnetwork);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("/admin/panel/social-network", array(
+		"network"=>$network->getFields()
+	));
+
+});
+
+$app->get("/panel/social-network-create", function(){
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("social-network-create");
 
 });
 

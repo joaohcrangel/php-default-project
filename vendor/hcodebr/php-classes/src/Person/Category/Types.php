@@ -3,6 +3,7 @@
 namespace Hcode\Person\Category;
 
 use Hcode\Collection;
+use Hcode\Person\Person;
 
 class Types extends Collection {
 
@@ -13,14 +14,25 @@ class Types extends Collection {
 
     public function get(){}
 
-    public static function listAll():Hcode\Person\Category\Types
+    public static function listAll():Types
     {
 
-    	$types = new Hcode\Person\Category\Types();
+    	$types = new Types();
 
     	$types->loadFromQuery("CALL sp_personscategoriestypes_list();");
 
     	return $types;
+
+    }
+
+    public function getByHcode_Person_Person(Person $person):Types
+    {
+
+        $this->loadFromQuery("CALL sp_categoriesfromperson_list(?);", array(
+            $person->getidperson()
+        ));
+
+        return $this;
 
     }
 

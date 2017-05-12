@@ -78,11 +78,17 @@ $app->post("/courses", function(){
 		$course = new Hcode\Course\Course();
 	}
 
+	$url = Hcode\Site\Url::checkUrl(post("desurl"), post("idurl"));
+
+	$url->save();
+
 	$_POST['inremoved'] = (post('inremoved') == 'true' ? true : false);
 
 	$course->set($_POST);
 
 	$course->save();
+
+	$course->setUrl($url);
 
 	echo success(array("data"=>$course->getFields()));
 

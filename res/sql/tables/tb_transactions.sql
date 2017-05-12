@@ -1,0 +1,22 @@
+CREATE TABLE `tb_transactions` (
+  `idtransaction` int(11) NOT NULL AUTO_INCREMENT,
+  `destransaction` varchar(256) NOT NULL,
+  `idtransactiontype` int(11) NOT NULL,
+  `dtdue` date NOT NULL,
+  `vltotal` decimal(10,2) NOT NULL,
+  `dtpayment` date DEFAULT NULL,
+  `vlpayment` decimal(10,2) DEFAULT NULL,
+  `dtcompetence` date NOT NULL,
+  `vlinterest` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `idcategory` int(11) NOT NULL,
+  `idaccount` int(11) NOT NULL,
+  `idperson` int(11) NOT NULL,
+  `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idtransaction`),
+  KEY `fk_transactions_transactionstypes_id` (`idtransactiontype`),
+  KEY `fk_transactionscategories_transactionscategories_idx` (`idcategory`),
+  KEY `fk_transactions_transactionsaccounts_idx` (`idaccount`),
+  CONSTRAINT `fk_transactions_transactionsaccounts` FOREIGN KEY (`idaccount`) REFERENCES `tb_transactionsaccounts` (`idaccount`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transactions_transactionscategories` FOREIGN KEY (`idcategory`) REFERENCES `tb_transactionscategories` (`idcategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transactions_transactionstypes` FOREIGN KEY (`idtransactiontype`) REFERENCES `tb_transactionstypes` (`idtransactiontype`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

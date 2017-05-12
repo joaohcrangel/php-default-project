@@ -24,15 +24,43 @@ $app->get('/persons/:idperson/contacts',function($idperson){
 });
 
 $app->get('/persons/:idperson/logs',function($idperson){
+
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
      
-    $person = new Hcode\Person\Person(array(
-		'idperson'=>(int)$idperson
-	));
-     $log = $person->getLogs();
-	echo success(array(
-         'data'=>$log->getFields()
-    ));  
+    $where = array();
+
+    if(count($where) > 0){
+    	$where = " WHERE ".implode(" AND ", $where)."";
+    }else{
+    	$where = "";
+    }
+
+    $query = "
+    	SELECT SQL_CALC_FOUND_ROWS a.*, b.desperson, c.deslogtype FROM tb_personslogs a
+    		INNER JOIN tb_persons b ON a.idperson = b.idperson
+    		INNER JOIN tb_personslogstypes c ON a.idlogtype = c.idlogtype
+    	".$where." LIMIT ?, ?;
+   	";
+
+   	$pagination = new Hcode\Pagination(
+   		$query,
+   		array(),
+   		"Hcode\Person\Logs",
+   		$itemsPerPage
+   	);
+
+   	$logs = $pagination->getPage($page);
+
+   	echo success(array(
+   		"data"=>$logs->getFields(),
+   		"total"=>$pagination->getTotal(),
+   		"currentPage"=>$page,
+   		"itemsPerPage"=>$itemsPerPage
+   	));
+
 });
 
 $app->get("/persons",function(){
@@ -149,52 +177,56 @@ $app->post("/persons", function(){
 
 	$person->set($_POST);
 	$person->save();
+
+	if(isset($_POST["idaddress"]) && !empty($_POST["idaddress"])){
 	
-	if((int)post('idaddress') > 0){
-		$address = new Hcode\Address\Address((int)post('idaddress'));
-	}else{
-		$address = new Hcode\Address\Address();
-	}
-
-	foreach (array(
-		'idaddresstype',
-		'descep',
-		'desaddress',
-		'desnumber',
-		'descomplement',
-		'desdistrict',
-		'descity'
-	) as $field) {
-		if (isset($_POST[$field]) && post($field)) {
-			$address->{'set'.$field}(post($field));
-		}	
-	}
-
-	if (isset($_POST['idcity']) && (int)post('idcity') > 0) {
-		$city = new Hcode\Address\City((int)post('idcity'));
-	} else {
-		if (post('desuf')) {
-			$city = Hcode\Address\City::loadFromName(post('descity'), post('desuf'));			
-		} else {
-			$city = Hcode\Address\City::loadFromName(post('descity'));
+		if((int)post('idaddress') > 0){
+			$address = new Hcode\Address\Address((int)post('idaddress'));
+		}else{
+			$address = new Hcode\Address\Address();
 		}
-	}
 
-	if (!$address->getidaddresstype() > 0 && count($address->getFields()) > 0) {
+		foreach (array(
+			'idaddresstype',
+			'descep',
+			'desaddress',
+			'desnumber',
+			'descomplement',
+			'desdistrict',
+			'descity'
+		) as $field) {
+			if (isset($_POST[$field]) && post($field)) {
+				$address->{'set'.$field}(post($field));
+			}	
+		}
 
-		$address->setidaddresstype(($person->getidpersontype() === Hcode\Person\Type::FISICA)?Hcode\Address\Type::RESIDENCIAL:Hcode\Address\Type::COMERCIAL);
+		if (isset($_POST['idcity']) && (int)post('idcity') > 0) {
+			$city = new Hcode\Address\City((int)post('idcity'));
+		} else {
+			if (post('desuf')) {
+				$city = Hcode\Address\City::loadFromName(post('descity'), post('desuf'));			
+			} else {
+				$city = Hcode\Address\City::loadFromName(post('descity'));
+			}
+		}
 
-	}
+		if (!$address->getidaddresstype() > 0 && count($address->getFields()) > 0) {
 
-	if (count($city->getFields())) $address->set($city->getFields());
+			$address->setidaddresstype(($person->getidpersontype() === Hcode\Person\Type::FISICA)?Hcode\Address\Type::RESIDENCIAL:Hcode\Address\Type::COMERCIAL);
 
-	if (count($address->getFields())) {
+		}
 
-		$address->setinmain(true);
+		if (count($city->getFields())) $address->set($city->getFields());
 
-		$address->save();
+		if (count($address->getFields())) {
 
-		$address = $person->addAddress($address);
+			$address->setinmain(true);
+
+			$address->save();
+
+			$person->addAddress($address);
+
+		}
 
 	}
 
@@ -387,6 +419,80 @@ $app->get("/persons/:idperson/users", function($idperson){
 	$person = new Hcode\Person\Person((int)$idperson);
 	echo success(array("data"=>$person->getUsers()->getFields()));
 });
+
+// categories
+$app->get("/persons-categories/all", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	echo success(array("data"=>Hcode\Person\Category\Types::listAll()->getFields()));
+
+});
+
+$app->get("/persons/:idperson/categories", function($idperson){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = (int)get("page");
+	$itemsPerPage = (int)get("limit");
+
+	$where = array();
+
+	if($_GET['descategory'] != ''){
+		array_push($where, "c.descategory LIKE '".utf8_encode(get("descategory"))."'");
+	}
+
+	if(count($where) > 0){
+		$where = " WHERE ".implode(" AND ", $where)."";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS c.* FROM tb_persons a
+			INNER JOIN tb_personscategories b ON a.idperson = b.idperson
+			INNER JOIN tb_personscategoriestypes c ON b.idcategory = c.idcategory
+		".$where." LIMIT ?, ?;
+	";
+
+	$pagination = new Hcode\Pagination(
+		$query,
+		array(),
+		'Hcode\Person\Category\Types',
+		$itemsPerPage
+	);
+
+	$categories = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$categories->getFields(),
+		"total"=>$pagination->getTotal(),
+		"currentPage"=>$page,
+		"itemsPerPage"=>$itemsPerPage
+	));
+
+});
+
+$app->post("/persons/:idperson/categories", function($idperson){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$ids = explode(",", post("ids"));
+
+	$person = new Hcode\Person\Person((int)$idperson);
+
+	$person->removeCategories();
+
+	foreach ($ids as $idcategory) {
+
+		$category = new Hcode\Person\Category\Type((int)$idcategory);
+
+		$person->addCategory($category);
+
+	}
+
+	echo success(array("data"=>$person->getCategories()->getFields()));
+
+});
+
 /////////////////////////////////////////////////////////////////////
 
 // pessoas categorias types

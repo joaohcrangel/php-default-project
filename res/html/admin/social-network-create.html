@@ -1,0 +1,44 @@
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Cadastrar nova Rede Social</h5></h4>
+  </div>  
+</header>
+
+<div class="slidePanel-inner m-t-40">
+	<form id="form-social-network-save" class="slidePanel-form">	
+		<div class="form-group">
+      <input type="hidden" name="idsocialnetwork">
+	  	<div class="form-group form-material" data-plugin="formMaterial">
+		    <label>Nome</label>
+		    <input type="text" class="form-control" name="dessocialnetwork">
+	  	</div>
+	  	<button class="btn btn-block btn-primary" id="btnNetworkCreate" type="submit">Salvar Rede</button>
+		</div>
+	</form>
+
+</div>
+
+<script>
+
+	var form = $("#form-social-network-save");
+
+  	form.form({
+  		url:PATH+"/social-networks",
+  		success:function(){
+
+  			form.find("button#btnNetworkCreate").btnload("unload");
+  			System.success("Rede salva com sucesso");
+  			$(".slidePanel-close").trigger("click");
+  			$("#form-filtros [type=submit]").trigger("click");
+
+  		},
+  		failure:function(r){
+  			form.find("button#btnNetworkCreate").btnload("unload");
+  			System.showError(r);
+  		}
+  	});
+
+</script>

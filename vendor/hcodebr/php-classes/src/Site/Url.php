@@ -4,6 +4,7 @@ namespace Hcode\Site;
 
 use Hcode\Model;
 use Hcode\Exception;
+use Hcode\Sql;
 
 class Url extends Model {
 
@@ -47,6 +48,43 @@ class Url extends Model {
 
         return true;
         
+    }
+
+    public static function checkUrl($desurl, $idurl){
+
+        $sql = new Sql();
+
+        if((int)$idurl > 0){
+
+            $data = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?;", array(
+                $desurl
+            ));
+
+            if(count($data) > 0){
+
+                $data2 = $sql->query("SELECT * FROM tb_urls WHERE desurl = ? AND idurl = ?;", array(
+                    $desurl,
+                    (int)$idurl
+                ));
+
+                if(!count($data2) > 0){
+                    throw new Exception("Essa URL já existe", 400);                 
+                }
+
+                $url = new Url($data[0]);
+
+            }else{
+
+                $url = new Url(array(
+                    "desurl"=>$desurl
+                ));
+                
+            } 
+
+        }
+
+        return $url;
+
     }
 
 }

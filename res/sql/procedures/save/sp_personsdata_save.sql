@@ -22,7 +22,8 @@ BEGIN
         inclient, inprovider, incollaborator,
         idaddress, idaddresstype, desaddress, desnumber, 
         desdistrict, descity, desstate, descountry, descep, descomplement,
-        desaddresstype
+        desaddresstype,
+        desfacebook, destwitter, deslinkedin
     )
     SELECT 
     a.idperson, a.desperson,
@@ -44,7 +45,9 @@ BEGIN
     CASE WHEN m.idperson IS NULL THEN 0 ELSE 1 END AS inprovider,
     CASE WHEN n.idperson IS NULL THEN 0 ELSE 1 END AS incollaborator,
     p.idaddress, p.idaddresstype, p.desaddress, p.desnumber, p.desdistrict, 
-    p.descity, p.desstate, p.descountry, p.descep , p.descomplement, q.desaddresstype
+    p.descity, p.desstate, p.descountry, p.descep , p.descomplement,
+    q.desaddresstype,
+    r.desvalue, s.desvalue, t.desvalue
     FROM tb_persons a
     INNER JOIN tb_personstypes b ON a.idpersontype = b.idpersontype
     LEFT JOIN tb_users c ON c.idperson = a.idperson
@@ -53,18 +56,21 @@ BEGIN
     LEFT JOIN tb_documents f ON f.iddocument = (SELECT f1.iddocument FROM tb_documents f1 WHERE f1.idperson = a.idperson AND f1.iddocumenttype = 1 LIMIT 1) -- CPF
     LEFT JOIN tb_documents g ON g.iddocument = (SELECT g1.iddocument FROM tb_documents g1 WHERE g1.idperson = a.idperson AND g1.iddocumenttype = 2 LIMIT 1) -- CNPJ
     LEFT JOIN tb_documents h ON h.iddocument = (SELECT h1.iddocument FROM tb_documents h1 WHERE h1.idperson = a.idperson AND h1.iddocumenttype = 3 LIMIT 1) -- RG
-    LEFT JOIN tb_personsvalues j ON j.idfield = (SELECT j1.idfield FROM tb_personsvalues j1 WHERE j1.idperson = a.idperson AND j1.idfield = 1 LIMIT 1) -- SEX
-    LEFT JOIN tb_personsvalues k ON k.idfield = (SELECT k1.idfield FROM tb_personsvalues k1 WHERE k1.idperson = a.idperson AND k1.idfield = 2 LIMIT 1) -- DATE OF BIRTH
+    LEFT JOIN tb_personsvalues j ON j.idfield = (SELECT j1.idfield FROM tb_personsvalues j1 WHERE j1.idperson = a.idperson AND j1.idfield = 2 LIMIT 1) -- SEX
+    LEFT JOIN tb_personsvalues k ON k.idfield = (SELECT k1.idfield FROM tb_personsvalues k1 WHERE k1.idperson = a.idperson AND k1.idfield = 1 LIMIT 1) -- DATE OF BIRTH
     LEFT JOIN tb_personsvalues o ON o.idfield = (SELECT o1.idfield FROM tb_personsvalues o1 WHERE o1.idperson = a.idperson AND o1.idfield = 3 LIMIT 1) -- FOTO
     LEFT JOIN tb_personscategories l ON a.idperson = l.idperson AND l.idcategory = 1 -- CLIENT
     LEFT JOIN tb_personscategories m ON a.idperson = m.idperson AND m.idcategory = 2 -- PROVIDER
     LEFT JOIN tb_personscategories n ON a.idperson = n.idperson AND n.idcategory = 3 -- COLLABORATOR
     LEFT JOIN tb_addresses p ON p.idaddress = (SELECT p1.idaddress FROM tb_addresses p1 INNER JOIN tb_personsaddresses p2 ON p1.idaddress = p2.idaddress WHERE p2.idperson = a.idperson ORDER by p1.inmain DESC, p2.dtregister DESC LIMIT 1)
     LEFT JOIN tb_addressestypes q ON q.idaddresstype  = p.idaddresstype
+    LEFT JOIN tb_socialnetworks r ON r.idsocialnetwork = (SELECT r1.idsocialnetwork FROM tb_personssocialnetworks r1 WHERE r1.idperson = a.idperson AND r1.idsocialnetwork = 1) -- Facebook
+    LEFT JOIN tb_socialnetworks s ON s.idsocialnetwork = (SELECT s1.idsocialnetwork FROM tb_personssocialnetworks s1 WHERE s1.idperson = a.idperson AND s1.idsocialnetwork = 2) -- Twitter
+    LEFT JOIN tb_socialnetworks t ON t.idsocialnetwork = (SELECT t1.idsocialnetwork FROM tb_personssocialnetworks t1 WHERE t1.idperson = a.idperson AND t1.idsocialnetwork = 3) -- Linkedin
     WHERE 
-            a.idperson  = pidperson  
-            AND 
-            a.inremoved = 0
+        a.idperson  = pidperson  
+        AND 
+        a.inremoved = 0
     LIMIT 1;
 
 END

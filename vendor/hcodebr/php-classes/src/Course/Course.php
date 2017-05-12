@@ -6,6 +6,7 @@ use Hcode\Model;
 use Hcode\Exception;
 use Hcode\Course\Sections;
 use Hcode\Course\Curriculum;
+use Hcode\Site\Url;
 
 class Course extends Model {
 
@@ -64,6 +65,18 @@ class Course extends Model {
     public function getCurriculum():Curriculum
     {
         return new Curriculum($this);
+    }
+
+    public function setUrl(Url $url):Course
+    {
+
+        $this->queryToAttr("CALL sp_coursesurls_save(?, ?);", array(
+            $this->getidcourse(),
+            $url->getidurl()
+        ));
+
+        return $this;
+
     }
 
 }

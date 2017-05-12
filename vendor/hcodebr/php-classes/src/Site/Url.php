@@ -61,6 +61,7 @@ class Url extends Model {
             ));
 
             if(count($data) > 0){
+
                 $data2 = $sql->query("SELECT * FROM tb_urls WHERE desurl = ? AND idurl = ?;", array(
                     $desurl,
                     (int)$idurl
@@ -71,21 +72,14 @@ class Url extends Model {
                 }
 
                 $url = new Url($data[0]);
-            }            
 
-        }else{
+            }else{
 
-            $data = $sql->query("SELECT * FROM tb_urls WHERE desurl = ?", array(
-                $desurl
-            ));
-
-            if(count($data) > 0){
-                throw new Exception("A URL informada já existe", 400);          
-            }
-
-            $url = new Url(array(
-                "desurl"=>$desurl
-            ));
+                $url = new Url(array(
+                    "desurl"=>$desurl
+                ));
+                
+            } 
 
         }
 

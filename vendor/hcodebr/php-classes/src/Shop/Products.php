@@ -7,7 +7,7 @@ use Hcode\Shop\Cart;
 
 class Products extends Collection {
 
-    protected $class = "Hcode\Product";
+    protected $class = "Hcode\Shop\Product";
     protected $saveQuery = "sp_products_save";
     protected $saveArgs = array("idproduct", "idproducttype", "desproduct", "inremoved");
     protected $pk = "idproduct";

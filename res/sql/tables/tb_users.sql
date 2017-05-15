@@ -3,7 +3,7 @@ CREATE TABLE `tb_users` (
   `idperson` int(11) NOT NULL,
   `desuser` varchar(128) NOT NULL,
   `despassword` varchar(256) NOT NULL,
-  `inblocked` bit(1) NOT NULL DEFAULT b'0',
+  `inblocked` tinyint(1) NOT NULL DEFAULT 0,
   `idusertype` int(11) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`iduser`),

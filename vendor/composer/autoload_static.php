@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit9bf7b260edc87ef5af2a181c0b24efec
 {
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'PagSeguro\\' => 10,
+        ),
         'H' => 
         array (
             'Hcode\\' => 6,
@@ -14,6 +18,10 @@ class ComposerStaticInit9bf7b260edc87ef5af2a181c0b24efec
     );
 
     public static $prefixDirsPsr4 = array (
+        'PagSeguro\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pagseguro/pagseguro-php-sdk/source',
+        ),
         'Hcode\\' => 
         array (
             0 => __DIR__ . '/..' . '/hcodebr/php-classes/src',

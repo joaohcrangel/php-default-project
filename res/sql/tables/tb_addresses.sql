@@ -9,7 +9,7 @@ CREATE TABLE `tb_addresses` (
   `descountry` varchar(32) NOT NULL,
   `descep` char(8) NOT NULL,
   `descomplement` varchar(32) DEFAULT NULL,
-  `inmain` bit(1) NOT NULL DEFAULT b'0',
+  `inmain` tinyint(1) NOT NULL DEFAULT 0,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idaddress`),
   KEY `FK_addressestypes` (`idaddresstype`),

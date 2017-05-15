@@ -200,6 +200,20 @@
 <script>
 	
 init.push(function(){
+	
+	$("#btn-save-profile").on("click", function(){
+		console.log("ok");
+
+	});
+
+	$("#form-profile").form({
+		url:PATH+"/profiles-news",
+		method:"POST",
+		success:function(){			
+			System.success("Usuario criado com sucesso");
+		}
+	});	
+});
 
 	$("#form-password").form({
 		url:PATH+"/password",

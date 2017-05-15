@@ -3,6 +3,7 @@ CREATE TABLE `tb_workers` (
   `idperson` int(11) NOT NULL,
   `idjobposition` int(11) NOT NULL,
   `idphoto` int(11) DEFAULT NULL,
+  `inapproved` bit NOT NULL DEFAULT b'0',
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idworker`),
   KEY `idperson` (`idperson`),

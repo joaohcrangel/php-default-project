@@ -6,7 +6,7 @@ pdescontentshort VARCHAR(256),
 pdescontent TEXT,
 pidauthor INT,
 pdtpublished DATETIME,
-pintrash BIT,
+pintrash tinyint(1),
 pidcover INT
 )
 BEGIN

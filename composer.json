@@ -9,7 +9,8 @@
     "require": {
     	"phpmailer/phpmailer":"5.2.22",
     	"slim/slim":"2.0",
-    	"rain/raintpl":"3.0.0"
+    	"rain/raintpl":"3.0.0",
+        "pagseguro/pagseguro-php-sdk":"*"
     },
     "autoload": {
         "psr-4": {

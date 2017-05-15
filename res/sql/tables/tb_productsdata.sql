@@ -6,7 +6,7 @@ CREATE TABLE `tb_productsdata` (
   `desproducttype` varchar(64) NOT NULL,
   `dtstart` datetime DEFAULT NULL,
   `dtend` datetime DEFAULT NULL,
-  `inremoved` bit(1) NOT NULL DEFAULT b'0',
+  `inremoved` tinyint(1) NOT NULL DEFAULT 0,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`),
   KEY `idproducttype` (`idproducttype`),

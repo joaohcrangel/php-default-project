@@ -6,7 +6,7 @@ CREATE TABLE `tb_courses` (
   `nrlessons` int(11) NOT NULL DEFAULT '0',
   `nrexercises` int(11) NOT NULL DEFAULT '0',
   `desdescription` varchar(10240) DEFAULT NULL,
-  `inremoved` bit(1) NOT NULL DEFAULT b'0',
+  `inremoved` tinyint(1) NOT NULL DEFAULT 0,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcourse`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

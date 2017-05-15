@@ -3,7 +3,7 @@ CREATE TABLE `tb_contacts` (
   `idcontactsubtype` int(11) NOT NULL,
   `idperson` int(11) NOT NULL,
   `descontact` varchar(128) NOT NULL,
-  `inmain` bit(1) NOT NULL DEFAULT b'0',
+  `inmain` tinyint(1) NOT NULL DEFAULT 0,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcontact`),
   KEY `FK_contactssubtypes` (`idcontactsubtype`),

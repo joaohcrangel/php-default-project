@@ -138,5 +138,45 @@
             }
         ],
         "description": "easy and fast template engine"
+    },
+    {
+        "name": "pagseguro/pagseguro-php-sdk",
+        "version": "3.0.8",
+        "version_normalized": "3.0.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pagseguro/pagseguro-php-sdk.git",
+            "reference": "ac3864724584141eebb892dd11da28d1e5f4b426"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pagseguro/pagseguro-php-sdk/zipball/ac3864724584141eebb892dd11da28d1e5f4b426",
+            "reference": "ac3864724584141eebb892dd11da28d1e5f4b426",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "lib-curl": "*",
+            "lib-openssl": "*",
+            "php": ">=5.4.27"
+        },
+        "time": "2017-04-12T12:32:25+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PagSeguro\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache License 2.0"
+        ],
+        "authors": [
+            {
+                "name": "PagSeguro"
+            }
+        ],
+        "description": "Biblioteca de integração com o PagSeguro"
     }
 ]

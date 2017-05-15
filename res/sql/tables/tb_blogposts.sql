@@ -6,7 +6,7 @@ CREATE TABLE `tb_blogposts` (
   `descontent` text NOT NULL,
   `idauthor` int(11) NOT NULL,
   `dtpublished` datetime DEFAULT NULL,
-  `intrash` bit(1) NOT NULL DEFAULT b'0',
+  `intrash` tinyint(1) NOT NULL DEFAULT 0,
   `idcover` int(11) DEFAULT NULL,
   `dtupdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

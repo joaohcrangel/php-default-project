@@ -44,6 +44,7 @@ var loadPrices = function loadPrices(callback) {
 			if (typeof callback === 'function') callback(r.data);
 
 			panel.done();
+			
 		},
 		failure:function(e){
 			System.showError(e);

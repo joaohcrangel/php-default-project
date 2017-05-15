@@ -10,6 +10,7 @@ use Hcode\Shop\Product\Prices;
 use Hcode\Financial\Order\Orders;
 use Hcode\FileSystem\File;
 use Hcode\FileSystem\Files;
+use Hcode\Site\Url;
 
 class Product extends Model {
 
@@ -128,6 +129,18 @@ class Product extends Model {
         ));
 
         return true;
+
+    }
+
+    public function setUrl(Url $url):Product
+    {
+
+        $this->queryToAttr("CALL sp_productsurls_save(?, ?);", array(
+            $this->getidproduct(),
+            $url->getidurl()
+        ));
+
+        return $this;
 
     }
 

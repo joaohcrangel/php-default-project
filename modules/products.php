@@ -62,11 +62,17 @@ $app->post('/products', function(){
         $product = new Hcode\Shop\Product();
     }
 
+    $url = Hcode\Site\Url::checkUrl(post("desurl"), post("idurl"));
+
+    $url->save();
+
     $_POST['inremoved'] = ($_POST['inremoved'] === '0') ? false : true;
 
     $product->set($_POST);
 
     $product->save();
+
+    $product->setUrl($url);
 
     echo success(array("data"=>$product->getFields()));
 

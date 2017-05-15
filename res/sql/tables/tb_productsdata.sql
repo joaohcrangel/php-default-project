@@ -7,9 +7,12 @@ CREATE TABLE `tb_productsdata` (
   `dtstart` datetime DEFAULT NULL,
   `dtend` datetime DEFAULT NULL,
   `inremoved` bit(1) NOT NULL DEFAULT b'0',
+  `idurl` INT DEFAULT NULL,
+  `desurl` VARCHAR(128) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`),
   KEY `idproducttype` (`idproducttype`),
   CONSTRAINT `tb_productsdata_ibfk_1` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`),
-  CONSTRAINT `tb_productsdata_ibfk_2` FOREIGN KEY (`idproducttype`) REFERENCES `tb_productstypes` (`idproducttype`)
+  CONSTRAINT `tb_productsdata_ibfk_2` FOREIGN KEY (`idproducttype`) REFERENCES `tb_productstypes` (`idproducttype`),
+  CONSTRAINT `tb_productsdata_ibfk_3` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

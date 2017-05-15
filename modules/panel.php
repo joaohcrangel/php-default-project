@@ -803,7 +803,7 @@ $app->get("/panel/courses/:idcourse", function($idcourse){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\curso", array(
+	$page->setTpl("panel\course", array(
 		"course"=>$course->getFields()
 	));
 
@@ -816,7 +816,7 @@ $app->get("/panel/course-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\curso-criar");
+	$page->setTpl("panel\course-create");
 
 });
 //////////////////////////////////////////////////////////////////////

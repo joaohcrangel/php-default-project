@@ -10,7 +10,7 @@ pinremoved tinyint(1)
 )
 BEGIN
 
-    IF pidcurso = 0 THEN
+    IF pidcourse = 0 THEN
     
         INSERT INTO tb_courses (descourse, destitle, vlworkload, nrlessons, nrexercises, desdescription, inremoved)
         VALUES(pdescourse, pdestitle, pvlworkload, pnrlessons, pnrexercises, pdesdescription, pinremoved);

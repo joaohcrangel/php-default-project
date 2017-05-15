@@ -124,7 +124,11 @@ $app->get("/workers/all", function(){
 	$where = array();
 
 	if(get("desperson") != ""){
-		array_push($where, "desperson LIKE '%".utf8_encode(get("desperson"))."%'");
+		array_push($where, "b.desperson LIKE '%".utf8_encode(get("desperson"))."%'");
+	}
+
+	if(get("idjobposition")){
+		array_push($where, "a.idjobposition = ".(int)get("idjobposition"));
 	}
 
 	if(count($where) > 0){

@@ -40,7 +40,11 @@
                 <div class="form-group form-material" data-plugin="formMaterial">
                   <label class="form-control-label">Nome</label>
                   <input type="text" class="form-control" name="desperson">
-                </div>                
+                </div>
+                <div class="form-group form-material" data-plugin="formMaterial">
+                  <label class="form-control-label">Cargo</label>
+                  <select name="idjobposition" class="form-control"></select>
+                </div>
                 <button type="submit" class="btn btn-primary btn-block">Buscar</button>
               </form>
             </div>
@@ -117,6 +121,12 @@ init.push(function(){
   var $tbody = $("#mailContent .panel tbody");
 
   var $footer = $("#worker-footer");
+
+  $("[name=idjobposition]").combobox({
+    url:PATH+"/jobs-positions/all",
+    displayField:"desjobposition",
+    valueField:"idjobposition"
+  });
 
   $("#form-filtros [type=submit]").on("click", function(e){
 
@@ -252,6 +262,7 @@ init.push(function(){
                 success:function(){
                   System.done();
                   s();
+                  loadWorkers();
                 },
                 faiulre:function(r){
                   System.done();

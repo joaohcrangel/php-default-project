@@ -142,6 +142,49 @@ $app->post("/profile", function(){
 
 });
 
+$app->post("/profiles-news", function(){
+
+	$person = Hcode\Session::getPerson();
+
+	$person = new Hcode\Person\Person(array(
+		"desperson"=>post("desperson"),
+		"idcontactsubtype"=>Hcode\Contact\SubType::EMAIL_PESSOAL,
+		"desemail"=>post("desemail")
+	));
+
+	$person->save();
+
+	echo success();
+
+});
+
+$app->post("/profiles-contact", function(){
+
+	$contact = new Hcode\Contact\Contact(array(
+		"descontact"=>post("descontact"),
+		"idperson"=>$person->getidperson(),
+		"idcontact"=>post("idcontact")	
+	));
+
+	$contact->save();
+
+	echo success();
+});
+
+$app->post("/profiles-address", function(){
+
+	$address = new Hcode\Address\Address(array(
+		"idaddress"=>post("idaddress"),
+		"idperson"=>$person->getidperson(),
+		"desaddress"=>post("desaddress")
+	));
+
+	$address->save();
+
+	echo success();
+
+});
+
 $app->post("/password", function(){
 
 	$user = Hcode\Session::getUser();

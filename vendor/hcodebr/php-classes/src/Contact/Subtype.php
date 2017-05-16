@@ -7,15 +7,15 @@ use Hcode\Exception;
 
 class Subtype extends Model {
 
-    const TELEFONE_CASA = 1;
-    const TELEFONE_TRABALHO = 2;
-    const TELEFONE_CELULAR = 3;
-    const TELEFONE_FAX = 4;
-    const TELEFONE_OUTRO = 5;
-    const EMAIL_PESSOAL = 6;
-    const EMAIL_TRABALHO = 7;
-    const EMAIL_OUTRO = 8;
-
+    const EMAIL_PESSOAL = 1;
+    const EMAIL_TRABALHO = 2;
+    const EMAIL_OUTRO = 3;
+    const TELEFONE_CASA = 4;
+    const TELEFONE_TRABALHO = 5;
+    const TELEFONE_CELULAR = 6;
+    const TELEFONE_FAX = 7;
+    const TELEFONE_OUTRO = 8;
+    
     public $required = array('descontactsubtype', 'idcontacttype');
     protected $pk = "idcontactsubtype";
 

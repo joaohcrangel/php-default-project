@@ -57,6 +57,20 @@ class Contact extends Model {
         
     }
 
+    public static function exists($descontact, $type)
+    {
+
+        $sql = new Sql();
+
+        $result = $sql->select("SELECT * FROM tb_contacts WHERE descontact = ? AND idcontacttype = ?", [
+            $descontact,
+            $type
+        ]);
+
+        return ($result['idcontact'] > 0)?new Contact($result):false;
+
+    }
+
 }
 
 ?>

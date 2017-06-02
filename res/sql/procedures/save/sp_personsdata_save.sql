@@ -56,9 +56,9 @@ BEGIN
     LEFT JOIN tb_documents f ON f.iddocument = (SELECT f1.iddocument FROM tb_documents f1 WHERE f1.idperson = a.idperson AND f1.iddocumenttype = 1 LIMIT 1) -- CPF
     LEFT JOIN tb_documents g ON g.iddocument = (SELECT g1.iddocument FROM tb_documents g1 WHERE g1.idperson = a.idperson AND g1.iddocumenttype = 2 LIMIT 1) -- CNPJ
     LEFT JOIN tb_documents h ON h.iddocument = (SELECT h1.iddocument FROM tb_documents h1 WHERE h1.idperson = a.idperson AND h1.iddocumenttype = 3 LIMIT 1) -- RG
-    LEFT JOIN tb_personsvalues j ON j.idfield = (SELECT j1.idfield FROM tb_personsvalues j1 WHERE j1.idperson = a.idperson AND j1.idfield = 2 LIMIT 1) -- SEX
-    LEFT JOIN tb_personsvalues k ON k.idfield = (SELECT k1.idfield FROM tb_personsvalues k1 WHERE k1.idperson = a.idperson AND k1.idfield = 1 LIMIT 1) -- DATE OF BIRTH
-    LEFT JOIN tb_personsvalues o ON o.idfield = (SELECT o1.idfield FROM tb_personsvalues o1 WHERE o1.idperson = a.idperson AND o1.idfield = 3 LIMIT 1) -- FOTO
+    LEFT JOIN tb_personsvalues j ON j.idpersonvalue = (SELECT j1.idpersonvalue FROM tb_personsvalues j1 WHERE j1.idperson = a.idperson AND j1.idfield = 2 LIMIT 1) -- SEX
+    LEFT JOIN tb_personsvalues k ON k.idpersonvalue = (SELECT k1.idpersonvalue FROM tb_personsvalues k1 WHERE k1.idperson = a.idperson AND k1.idfield = 1 LIMIT 1) -- DATE OF BIRTH
+    LEFT JOIN tb_personsvalues o ON o.idpersonvalue = (SELECT o1.idpersonvalue FROM tb_personsvalues o1 WHERE o1.idperson = a.idperson AND o1.idfield = 3 LIMIT 1) -- FOTO
     LEFT JOIN tb_personscategories l ON a.idperson = l.idperson AND l.idcategory = 1 -- CLIENT
     LEFT JOIN tb_personscategories m ON a.idperson = m.idperson AND m.idcategory = 2 -- PROVIDER
     LEFT JOIN tb_personscategories n ON a.idperson = n.idperson AND n.idcategory = 3 -- COLLABORATOR

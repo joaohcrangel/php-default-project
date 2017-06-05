@@ -6,4 +6,4 @@ CREATE TABLE `tb_productsurls` (
   KEY `idurl` (`idurl`),
   CONSTRAINT `tb_productsurls_ibfk_1` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`),
   CONSTRAINT `tb_productsurls_ibfk_2` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

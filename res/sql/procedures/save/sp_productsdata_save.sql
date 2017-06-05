@@ -9,16 +9,20 @@ BEGIN
         idproduct, idproducttype,
         desproduct, vlprice, desproducttype,
         dtstart, dtend,
-        inremoved
+        inremoved,
+        desurl
     )
     SELECT 
     a.idproduct, a.idproducttype,
     a.desproduct, c.vlprice, b.desproducttype,
     c.dtstart, c.dtend,
-    a.inremoved
+    a.inremoved,
+    e.desurl
     FROM tb_products a
     INNER JOIN tb_productstypes b ON a.idproducttype = b.idproducttype
     LEFT JOIN tb_productsprices c ON a.idproduct = c.idproduct
+    LEFT JOIN tb_productsurls d ON d.idproduct = c.idproduct
+    LEFT JOIN tb_urls e ON e.idurl = d.idurl
     WHERE 
         a.idproduct = pidproduct
         AND

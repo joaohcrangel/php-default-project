@@ -142,6 +142,10 @@ $app->get("/persons-post", function(){
 
 $app->post("/persons/:idperson/photo", function($idperson){
 
+	pre($_POST);
+	exit;
+
+
 	$file = $_FILES['arquivo'];
 
 	$file = Hcode\FileSystem\File::upload(

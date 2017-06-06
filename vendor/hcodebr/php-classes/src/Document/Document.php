@@ -10,7 +10,8 @@ class Document extends Model {
     public $required = array('iddocumenttype', 'idperson', 'desdocument');
     protected $pk = "iddocument";
 
-    public function get(){
+    public function get()
+    {
 
         $args = func_get_args();
         if(!isset($args[0])) throw new Exception($this->pk." não informado");
@@ -52,7 +53,8 @@ class Document extends Model {
         
     }
 
-    public static function CPFValidate($cpf){
+    public static function CPFValidate($cpf)
+    {
 
         $result = '';
         for($i=0; $i<strlen($cpf); $i++){           
@@ -82,7 +84,8 @@ class Document extends Model {
 
     }
 
-    public static function CNPJValidate($cnpj){
+    public static function CNPJValidate($cnpj)
+    {
         if (strlen($cnpj) <> 14) return 0; 
         $sum1 = ($cnpj[0] * 5) + 
         ($cnpj[1] * 4) + 
@@ -116,7 +119,8 @@ class Document extends Model {
         return (($cnpj[12] == $digit1) && ($cnpj[13] == $digit2));
     }
 
-    public function getFormatted(){
+    public function getFormatted()
+    {
 
         switch ($this->getiddocumenttype()) {
             case Type::CPF:
@@ -134,9 +138,24 @@ class Document extends Model {
 
     }
 
-    public function __toString(){
+    public function __toString()
+    {
 
         return $this->getFormatted();
+
+    }
+
+    public static function exists($desdocument, $type)
+    {
+
+        $sql = new Sql();
+
+        $result = $sql->select("SELECT * FROM tb_documents WHERE desdocument = ? AND iddocumenttype = ?", [
+            $desdocument,
+            $type
+        ]);
+
+        return ($result['iddocument'] > 0)?new Document($result):false;
 
     }
 

@@ -4,7 +4,7 @@ CREATE TABLE `tb_blogcomments` (
   `idpost` int(11) NOT NULL,
   `idperson` int(11) NOT NULL,
   `descomment` text NOT NULL,
-  `inapproved` bit(1) NOT NULL DEFAULT b'0',
+  `inapproved` tinyint(1) NOT NULL DEFAULT 0,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcomment`),
   KEY `idcommentfather` (`idcommentfather`),

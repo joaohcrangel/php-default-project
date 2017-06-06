@@ -3,7 +3,7 @@ pidformpayment INT,
 pidgateway INT,
 pdesformpayment VARCHAR(128),
 pnrparcelsmax INT,
-pinstatus BIT
+pinstatus tinyint(1)
 )
 BEGIN
 	

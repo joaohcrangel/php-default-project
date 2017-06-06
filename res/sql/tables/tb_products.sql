@@ -2,7 +2,7 @@ CREATE TABLE `tb_products` (
   `idproduct` int(11) NOT NULL AUTO_INCREMENT,
   `idproducttype` int(11) NOT NULL,
   `desproduct` varchar(64) NOT NULL,
-  `inremoved` bit(1) NOT NULL DEFAULT b'0',
+  `inremoved` tinyint(1) NOT NULL DEFAULT 0,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`),
   KEY `idproducttype` (`idproducttype`),

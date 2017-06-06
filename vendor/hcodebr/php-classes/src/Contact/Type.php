@@ -7,6 +7,9 @@ use Hcode\Exception;
 
 class Type extends Model {
 
+    const EMAIL = 1;
+    const TELEFONE = 2;
+
     public $required = array('descontacttype');
     protected $pk = "idcontacttype";
 

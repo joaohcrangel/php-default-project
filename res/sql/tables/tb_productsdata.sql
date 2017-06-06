@@ -6,9 +6,13 @@ CREATE TABLE `tb_productsdata` (
   `desproducttype` varchar(64) NOT NULL,
   `dtstart` datetime DEFAULT NULL,
   `dtend` datetime DEFAULT NULL,
+<<<<<<< HEAD
   `inremoved` bit(1) NOT NULL DEFAULT b'0',
   `idurl` INT DEFAULT NULL,
   `desurl` VARCHAR(128) DEFAULT NULL,
+=======
+  `inremoved` tinyint(1) NOT NULL DEFAULT 0,
+>>>>>>> b50bb097b1c67643f67cbe83f6f931a3b898a1bf
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`),
   KEY `idproducttype` (`idproducttype`),

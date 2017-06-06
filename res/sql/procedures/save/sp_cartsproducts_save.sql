@@ -1,7 +1,7 @@
 CREATE PROCEDURE sp_cartsproducts_save(
 pidcart INT,
 pidproduct INT,
-pinremoved BIT,
+pinremoved tinyint(1),
 pdtremoved DATETIME
 )
 BEGIN

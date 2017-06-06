@@ -3,7 +3,7 @@ piduser INT,
 pidperson INT,
 pdesuser VARCHAR(128),
 pdespassword VARCHAR(256),
-pinblocked BIT,
+pinblocked tinyint(1),
 pidusertype INT
 )
 BEGIN

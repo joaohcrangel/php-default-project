@@ -4,7 +4,7 @@ pidcommentfather INT,
 pidpost INT,
 pidperson INT,
 pdescomment TEXT,
-pinapproved BIT,
+pinapproved tinyint(1),
 pnrsubcomments INT
 )
 BEGIN

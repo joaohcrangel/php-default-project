@@ -24,7 +24,7 @@ class Contacts extends Collection {
 
     }
 
-      public function getByPerson(Person $person):Contacts      
+      public function getByHcode_Person_Person(Person $person):Contacts      
     {
     
          $this->loadFromQuery("CALL sp_sitescontactsfromperson_list(?)",array(

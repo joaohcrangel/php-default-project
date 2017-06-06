@@ -18,6 +18,7 @@ use Hcode\Address\Addresses;
 use Hcode\System\Users;
 use Hcode\FileSystem\File;
 use Hcode\Person\Type;
+use Hcode\Site\Contacts as SiteContacts;
 
 class Person extends Model {
 
@@ -94,10 +95,10 @@ class Person extends Model {
 
     }
 
-    public function getSiteContacts():\Hcode\Site\Contacts
+    public function getSiteContacts():SiteContacts
     {
 
-        return new \Hcode\Site\Contacts($this);
+        return new SiteContacts($this);
 
     }
 

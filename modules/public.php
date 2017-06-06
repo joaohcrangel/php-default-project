@@ -5,7 +5,7 @@ $app->get("/", function(){
 	$carousel = Hcode\Site\Carousel::getHTML(1);
 
     $page = new Hcode\Site\Page();
-
+    
     $page->setTpl('index', array(
     	"testimonial"=>Hcode\Site\Testimonial::listAll()->getFields(),
     	"workers"=>Hcode\Team\Workers::listAll()->getFields(),
@@ -333,15 +333,8 @@ $app->get("/perfil", function(){
 
 	$page = new Hcode\Site\Page();
 
-	$person = Hcode\Session::getPerson();
-
-	$root = new Hcode\Site\Contact(array("idsitecontact"=>0));
-
-	$sitesContacts = Hcode\Person\Person::getSiteContactsHTML($root, $person->getSiteContacts());
-
 	$page->setTpl("profile", array(
-		"conf"=>Hcode\Session::getConfigurations()->getFields(),
-		"sitesContacts"=>$sitesContacts
+		"conf"=>Hcode\Session::getConfigurations()->getFields()
 	));
 
 });
@@ -364,6 +357,7 @@ $app->post("/profiles-news", function(){
 
 	$person = new Hcode\Person\Person(array(
 		"desperson"=>post("desperson"),
+		"idperson"=>$person->getidperson(),
 		"idcontactsubtype"=>Hcode\Contact\SubType::EMAIL_PESSOAL,
 		"desemail"=>post("desemail")
 	));
@@ -376,13 +370,16 @@ $app->post("/profiles-news", function(){
 
 $app->post("/profiles-contact", function(){
 
-	$contact = new Hcode\Contact\Contact(array(
+	$person = Hcode\Session::getPerson();
+
+	$person = new Hcode\Contact\Contact(array(
 		"descontact"=>post("descontact"),
 		"idperson"=>$person->getidperson(),
-		"idcontact"=>post("idcontact")	
+        "idcontactsubtype"=>Hcode\Contact\SubType::EMAIL_PESSOAL,
+		//"idcontact"=>post("idcontact")	
 	));
 
-	$contact->save();
+	$person->save();
 
 	echo success();
 });
@@ -390,9 +387,10 @@ $app->post("/profiles-contact", function(){
 $app->post("/profiles-address", function(){
 
 	$address = new Hcode\Address\Address(array(
-		"idaddress"=>post("idaddress"),
-		"idperson"=>$person->getidperson(),
-		"desaddress"=>post("desaddress")
+		"desaddress"=>post("desaddress"),
+		"idaddresstype"=>Hcode\Address\Type::RESIDENCIAL,
+		"idaddress"=>post("idaddress")
+		
 	));
 
 	$address->save();
@@ -404,20 +402,6 @@ $app->post("/profiles-address", function(){
 $app->post("/password", function(){
 
 	$user = Hcode\Session::getUser();
-
-	if(!$user->checkPassword(post("descurrentpassword"))){
-		throw new Exception("A senha informada está errada", 403);		
-	}
-
-	if($_POST['despasswordnew'] != $_POST['despasswordnew2']){
-		throw new Exception("As senhas devem ser idênticas");
-	}
-
-	$user->setdespassword(Hcode\System\User::getPasswordHash(post("despasswordnew")));
-
-	$user->save();
-
-	echo success();
 
 });
 

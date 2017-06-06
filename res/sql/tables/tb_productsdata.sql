@@ -12,7 +12,7 @@ CREATE TABLE `tb_productsdata` (
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idproduct`),
   KEY `idproducttype` (`idproducttype`),
-  CONSTRAINT `tb_productsdata_ibfk_1` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`),
-  CONSTRAINT `tb_productsdata_ibfk_2` FOREIGN KEY (`idproducttype`) REFERENCES `tb_productstypes` (`idproducttype`),
-  CONSTRAINT `tb_productsdata_ibfk_3` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`)
+  CONSTRAINT `FK_productsdata_products` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`),
+  CONSTRAINT `FK_productsdata_productstypes` FOREIGN KEY (`idproducttype`) REFERENCES `tb_productstypes` (`idproducttype`),
+  CONSTRAINT `FK_productsdata_urls` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

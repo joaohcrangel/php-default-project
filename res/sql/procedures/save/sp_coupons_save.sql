@@ -7,7 +7,7 @@ pnrqtd INT,
 pnrqtdused INT,
 pdtstart DATETIME,
 pdtend DATETIME,
-pinremoved tinyint(1)(1),
+pinremoved tinyint(1),
 pnrdiscount INT
 )
 BEGIN

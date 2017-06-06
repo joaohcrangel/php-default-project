@@ -4,5 +4,5 @@ idcategoryfather INT DEFAULT NULL,
 descategory VARCHAR(128) NOT NULL,
 dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
 CONSTRAINT PRIMARY KEY(idcategory),
-CONSTRAINT FK_categories_categories FOREIGN KEY(idcategoryfather) REFERENCES tb_categories(idcategory)
+CONSTRAINT FK_categories_categories_categoryfather FOREIGN KEY(idcategoryfather) REFERENCES tb_categories(idcategory)
 );

@@ -70,7 +70,7 @@ class Carousel extends Model {
 
     }
 
-    public function getHTML(int $idcarousel):array
+    public static function getHTML(int $idcarousel):array
     {
 
         $carousel = new Carousel($idcarousel);

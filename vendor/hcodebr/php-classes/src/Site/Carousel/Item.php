@@ -7,7 +7,7 @@ use Hcode\Exception;
 
 class Item extends Model {
 
-    public $required = array('iditem', 'desitem', 'nrorder', 'idtype', 'idcarousel');
+    public $required = array('desitem', 'nrorder', 'idtype', 'idcarousel');
     protected $pk = "iditem";
 
     public function get(){
@@ -23,12 +23,13 @@ class Item extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_carouselsitems_save(?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_carouselsitems_save(?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getiditem(),
                 $this->getdesitem(),
                 $this->getdescontent(),
                 $this->getnrorder(),
                 $this->getidtype(),
+                $this->getidcover(),
                 $this->getidcarousel()
             ));
 

@@ -9,7 +9,7 @@ CREATE TABLE `tb_workers` (
   KEY `idperson` (`idperson`),
   KEY `idjobposition` (`idjobposition`),
   KEY `idphoto` (`idphoto`),
-  CONSTRAINT `tb_workers_ibfk_1` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`),
-  CONSTRAINT `tb_workers_ibfk_2` FOREIGN KEY (`idjobposition`) REFERENCES `tb_jobspositions` (`idjobposition`),
-  CONSTRAINT `tb_workers_ibfk_3` FOREIGN KEY (`idphoto`) REFERENCES `tb_files` (`idfile`)
+  CONSTRAINT `FK_workers_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`),
+  CONSTRAINT `FK_workers_jobspositions` FOREIGN KEY (`idjobposition`) REFERENCES `tb_jobspositions` (`idjobposition`),
+  CONSTRAINT `FK_workers_files` FOREIGN KEY (`idphoto`) REFERENCES `tb_files` (`idfile`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1

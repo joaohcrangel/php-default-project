@@ -5,7 +5,6 @@ pdestitle VARCHAR(256),
 pvlworkload TIME,
 pnrlessons INT,
 pnrexercises INT,
-<<<<<<< HEAD
 pidbanner INT,
 pidbrasao INT,
 pdesdescription TEXT,
@@ -16,10 +15,6 @@ pdestargetaudience TEXT,
 pinremoved TINYINT(1),
 pdesurludemy VARCHAR(128),
 pidcourseudemy INT
-=======
-pdesdescription VARCHAR(10240),
-pinremoved tinyint(1)
->>>>>>> b50bb097b1c67643f67cbe83f6f931a3b898a1bf
 )
 BEGIN
 

@@ -3,7 +3,8 @@ pidproduct INT,
 pidproducttype INT,
 pdesproduct VARCHAR(64),
 pinremoved tinyint(1),
-pvlprice DECIMAL(10,2)
+pvlprice DECIMAL(10,2),
+pidthumb INT
 )
 BEGIN
 	
@@ -11,8 +12,8 @@ BEGIN
     
 	IF pidproduct = 0 THEN
     
-		INSERT INTO tb_products(idproducttype, desproduct, inremoved)
-        VALUES(pidproducttype, pdesproduct, pinremoved);
+		INSERT INTO tb_products(idproducttype, desproduct, inremoved, idthumb)
+        VALUES(pidproducttype, pdesproduct, pinremoved, pidthumb);
         
 		SET pidproduct = LAST_INSERT_ID();
         
@@ -21,7 +22,8 @@ BEGIN
 		UPDATE tb_products SET
 			idproducttype = pidproducttype,
 			desproduct = pdesproduct,
-            inremoved = pinremoved
+            inremoved = pinremoved,
+            idthumb = pidthumb
 		WHERE idproduct = pidproduct;
         
 	END IF;

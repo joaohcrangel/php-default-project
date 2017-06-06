@@ -32,12 +32,13 @@ class Product extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_products_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_products_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidproduct(),
                 $this->getidproducttype(),
                 $this->getdesproduct(),
                 $this->getinremoved(),
-                $this->getvlprice()
+                $this->getvlprice(),
+                $this->getidthumb()
             ));
 
             return $this->getidproduct();

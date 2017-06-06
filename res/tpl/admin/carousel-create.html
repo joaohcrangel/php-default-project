@@ -1,0 +1,49 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}
+	.checkbox-custom{
+		display: initial;
+		margin-left: 10px;
+	}</style><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo carousel</h5></h4></div></header><div class="slidePanel-inner m-t-40"><form id="form-carousel-create"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="descarousel" class="form-control"></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-4"><label class="form-control-label">Número de Itens</label><input type="number" name="nritems" class="form-control"></div><div class="col-md-4"><label class="form-control-label">Velocidade</label><input type="number" name="nrspeed" class="form-control"></div><div class="col-md-3"><label class="form-control-label">Loop</label><span class="checkbox-custom checkbox-primary checkbox-lg"><input type="checkbox" class="mailbox-checkbox selectable-item" id="inloop" name="inloop"><label for="inloop"></label></span></div></div><div class="form-group form-material row" data-plugin="formMaterial"><div class="col-md-6"><label class="form-control-label">Velocidade do Auto Play</label><input type="number" name="nrautoplay" class="form-control"></div><div class="col-md-6"><label class="form-control-label">Mode</label><select name="desmode" class="form-control"><option value="horizontal">Horizontal<option value="vertical">Vertical</select></div></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect carousel-create">Salvar</button></div></form></div><script>var $form = $("#form-carousel-create");
+
+$form.find("[type=checkbox]").on("change", function(){
+
+	var disabled = $(this).prop("checked");
+
+	$(this).prop("checked", disabled);
+
+});
+
+$form.find("[type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	rest({
+		url:PATH+"/carousels",
+		method:"POST",
+		data:{
+			idcarousel:0,
+			descarousel:$form.find("[name=descarousel]").val(),
+			nritems:$form.find("[name=nritems]").val(),
+			nrspeed:$form.find("[name=nrspeed]").val(),
+			nrautoplay:$form.find("[name=nrautoplay]").val(),
+			inloop:$form.find("[name=inloop]").prop("checked"),
+			desmode:$form.find("[name=desmode]").val()
+		},
+		success:function(){
+			System.success("Carousel criado com sucesso");
+			$btn.btnload("unload");
+			$(".slidePanel-close").trigger("click");
+			$("#form-filtros [type=submit]").trigger("click");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});</script>

@@ -4,6 +4,7 @@ namespace Hcode\Site\Carousel;
 
 use Hcode\Model;
 use Hcode\Exception;
+use Hcode\FileSystem\File;
 
 class Item extends Model {
 
@@ -51,6 +52,14 @@ class Item extends Model {
 
         return true;
         
+    }
+
+    public function setCover(File $file){
+
+        $this->setidcover($file->getidfile());
+
+        $this->save();
+
     }
 
 }

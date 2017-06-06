@@ -831,7 +831,7 @@ $app->get("/panel/carousels/:idcarousel", function($idcarousel){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\carousel", array(
+	$page->setTpl("/admin/carousel", array(
 		"carousel"=>$carousel->getFields()
 	));
 
@@ -844,7 +844,7 @@ $app->get("/panel/carousel-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\carousel-create");
+	$page->setTpl("/admin/carousel-create");
 
 });
 //////////////////////////////////////////////////////////////////

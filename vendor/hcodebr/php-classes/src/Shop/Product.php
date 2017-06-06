@@ -11,6 +11,7 @@ use Hcode\Financial\Order\Orders;
 use Hcode\FileSystem\File;
 use Hcode\FileSystem\Files;
 use Hcode\Site\Url;
+use Hcode\Course\Course;
 
 class Product extends Model {
 
@@ -138,6 +139,18 @@ class Product extends Model {
         $this->queryToAttr("CALL sp_productsurls_save(?, ?);", array(
             $this->getidproduct(),
             $url->getidurl()
+        ));
+
+        return $this;
+
+    }
+
+    public function setCourse(Course $course):Product
+    {
+
+        $this->queryToAttr("CALL sp_productscourses_save(?, ?);", array(
+            $this->getidproduct(),
+            $course->getidcourse()
         ));
 
         return $this;

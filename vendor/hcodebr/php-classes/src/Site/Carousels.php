@@ -8,7 +8,7 @@ class Carousels extends Collection {
 
     protected $class = "Hcode\Site\Carousel";
     protected $saveQuery = "sp_carousels_save";
-    protected $saveArgs = array("idcarousel", "descarousel", "inloop", "innav", "incenter", "inautowidth", "invideo", "inlazyload", "indots", "nritems", "nrstagepadding");
+    protected $saveArgs = array("idcarousel", "descarousel", "nrspeed", "nrautoplay", "desmode", "inloop", "nritems");
     protected $pk = "idcarousel";
 
     public function get(){}
@@ -16,11 +16,11 @@ class Carousels extends Collection {
     public static function listAll():Carousels
     {
 
-    	$car = new Carousels();
+        $car = new Carousels();
 
-    	$car->loadFromQuery("CALL sp_carousels_list();");
+        $car->loadFromQuery("CALL sp_carousels_list();");
 
-    	return $car;
+        return $car;
 
     }
 

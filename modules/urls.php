@@ -1,5 +1,11 @@
 <?php
 
+$app->get("/:ano/:mes/:dia/:text", function($ano, $mes, $dia, $text){
+
+	echo $ano . "/" . $mes . "/" . $dia . "/" . $text;
+
+});
+
 $app->get("/urls/all", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);

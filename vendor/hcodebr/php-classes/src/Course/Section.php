@@ -8,7 +8,7 @@ use Hcode\Course\Curriculums;
 
 class Section extends Model {
 
-    public $required = array('idsection', 'dessection', 'nrordem', 'idcourse');
+    public $required = array('idsection', 'dessection', 'nrorder', 'idcourse');
     protected $pk = "idsection";
 
     public function get(){
@@ -27,7 +27,7 @@ class Section extends Model {
             $this->queryToAttr("CALL sp_coursessections_save(?, ?, ?, ?);", array(
                 $this->getidsection(),
                 $this->getdessection(),
-                $this->getnrordem(),
+                $this->getnrorder(),
                 $this->getidcourse()
             ));
 

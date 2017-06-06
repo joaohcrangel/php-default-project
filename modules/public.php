@@ -2,11 +2,227 @@
 
 $app->get("/", function(){
 
+	$carousel = Hcode\Site\Carousel::getHTML(1);
+
     $page = new Hcode\Site\Page();
 
     $page->setTpl('index', array(
     	"testimonial"=>Hcode\Site\Testimonial::listAll()->getFields(),
-    	"workers"=>Hcode\Team\Workers::listAll()->getFields()
+    	"workers"=>Hcode\Team\Workers::listAll()->getFields(),
+    	"carousel"=>$carousel['html'],
+    	"options"=>$carousel['options']
+    ));
+
+});
+
+$app->get("/termos-de-uso", function(){
+
+    $page = new Hcode\Site\Page([
+    	"data"=>[
+    		"title"=>"Termos de Uso - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('termos-de-uso');
+
+});
+
+$app->get("/politica-de-privacidade", function(){
+
+    $page = new Hcode\Site\Page([
+    	"data"=>[
+    		"title"=>"Política de Privacidade - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('politica-de-privacidade');
+
+});
+
+$app->get("/shop/cart", function(){
+
+	$cart = Hcode\Session::getCart();
+	$cart->reload();
+
+    $page = new Hcode\Site\Page([
+    	"footer"=>false,
+    	"data"=>[
+    		"title"=>"Carrinho de Compras - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('shop-cart', [
+    	"cart"=>$cart->getFields(),
+    	"products"=>$cart->getProducts()->getFields()
+    ]);
+
+});
+
+$app->get("/shop/cart/:idproduct/remove", function($idproduct){
+
+	if (!$idproduct) {
+    	throw new Exception("Nenhum produto foi informado.");
+    }
+
+    $cart = Hcode\Session::getCart();
+
+    $cart->removeProduct(new Hcode\Shop\Product([
+    	"idproduct"=>$idproduct
+    ]));
+
+    $cart->reload();
+
+    Hcode\Session::setCart($cart);
+
+    header("Location: /shop/cart");
+    exit;
+
+});
+
+$app->post("/shop/cart", function(){
+
+    if (!post("idproduct")) {
+    	throw new Exception("Nenhum produto foi informado.");
+    }
+
+    $cart = Hcode\Session::getCart();
+
+    $cart->addProduct(new Hcode\Shop\Product([
+    	"idproduct"=>post("idproduct")
+    ]));
+
+    $cart->reload();
+
+    Hcode\Session::setCart($cart);
+
+    header("Location: /shop/cart");
+    exit;
+
+});
+
+$app->get("/shop/checkout/billing-address", function(){
+
+
+
+});
+
+$app->get("/shop/checkout", function(){
+
+	Hcode\Session::checkLogin(true);
+
+	\PagSeguro\Library::initialize();
+	\PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
+	\PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
+
+    $sessionCode = \PagSeguro\Services\Session::create(
+        \PagSeguro\Configuration\Configure::getAccountCredentials()
+    );
+
+	$cart = Hcode\Session::getCart();
+	$user = Hcode\Session::getUser();
+	$person = $user->getPerson();
+
+	$order = Hcode\Session::getOrder();
+
+	$order->set([
+		"idperson"=>$person->getidperson(),
+		"idstatus"=>Hcode\Financial\Order\Status::AWAITING,
+		"dessession"=>session_id(),
+		"vltotal"=>$cart->getvltotal()
+	]);
+
+	Hcode\Session::setOrder($order);
+
+    $page = new Hcode\Site\Page([
+    	"header"=>false,
+    	"footer"=>false,
+    	"data"=>[
+    		"scripts_footer"=>[
+    			'<script src="/res/public/js/plugins/jquery.card.js"></script>'
+    		],
+    		"title"=>"Pagamento"
+    	]
+    ]);
+
+    $page->setTpl('shop-checkout', [
+    	"cart"=>$cart->getFields(),
+    	"products"=>$cart->getProducts()->getFields(),
+    	"order"=>$order->getFields(),
+    	"pagseguro"=>[
+    		"sessionid"=>$sessionCode->getResult()
+    	]
+    ]);
+
+});
+
+$app->post("/shop/checkout", function(){
+
+	var_dump($_POST);
+
+});
+
+$app->get("/shop/complete", function(){
+
+	Hcode\Session::checkLogin(true);
+
+    $page = new Hcode\Site\Page([
+    	'data'=>[
+    		"title"=>"Obrigado - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('shop-complete');
+
+});
+
+$app->get("/shop/cart-buy", function(){
+
+	Hcode\Session::checkLogin(true);
+
+	$cart = Hcode\Session::getCart();
+	$cart->reload();
+
+	if (!$cart->getnrproducts() > 0) {
+
+		header("Location: /shop/cart");
+		exit;
+
+	}
+
+	$person = Hcode\Session::getPerson();
+
+	if ($cart->getidperson() !== $person->getidperson()) {
+		$cart->setidperson($person->getidperson());
+		$cart->save();
+	}
+
+	Hcode\Session::setCart($cart);
+
+	header("Location: /shop/checkout");
+	exit;
+
+});
+
+$app->get("/shop/:desurl", function($desurl){
+
+	$course = Hcode\Course\Course::getByUrl($desurl);
+
+	if (!$course->getidcourse() > 0) {
+		header("Location: /");
+		exit;
+	}
+
+    $page = new Hcode\Site\Page([
+    	'data'=>[
+    		"title"=>$course->getdescourse()." - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('produto-curso', array(
+    	"course"=>$course->getFields(),
+    	"sections"=>$course->getSections()->getFields(),
+    	"curriculums"=>$course->getCurriculums()->getFields(),
+    	"instructors"=>$course->getInstructors()->getFields()
     ));
 
 });

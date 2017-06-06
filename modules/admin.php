@@ -1022,7 +1022,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
     $template_code = $tpl->draw($tpl_name, true);
 
-    $template_code = str_replace( array("&lt;?","?&gt;"), array("<?","?>"), $template_code );
+    $template_code = str_replace( array("&lt;?","&gt;","&quot;"), array("<?",">",'"'), $template_code );
 
     if ($download === false) {
 

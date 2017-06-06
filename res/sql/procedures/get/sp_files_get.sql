@@ -3,7 +3,7 @@ pidfile INT
 )
 BEGIN
 
-    SELECT *    
+    SELECT *, CONCAT(desdirectory, desfile, '.', desextension)
     FROM tb_files    
     WHERE idfile = pidfile;
 

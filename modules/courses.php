@@ -1,5 +1,11 @@
 <?php
 
+$app->get("/courses/all", function(){
+
+	echo success(array("data"=>Hcode\Course\Courses::listAll()->getFields()));
+
+});
+
 $app->get("/courses", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
@@ -63,7 +69,12 @@ $app->get("/courses/:idcourse/html", function($idcourse){
 	$course = new Hcode\Course\Course((int)$idcourse);
 
 	echo success(array(
-		"data"=>addslashes($course->getdesdescricao())
+		"data"=>array(
+			"desdescription"=>addslashes($course->getdesdescription()),
+			"deswhatlearn"=>addslashes($course->getdeswhatlearn()),
+			"desrequirements"=>addslashes($course->getdesrequirements()),
+			"destargetaudience"=>addslashes($course->getdestargetaudience())
+		)
 	));
 
 });

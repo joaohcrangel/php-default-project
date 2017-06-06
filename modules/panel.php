@@ -844,7 +844,7 @@ $app->get("/panel/carousel-create", function(){
 		"footer"=>false
 	));
 
-	$page->setTpl("panel\carousel-criar");
+	$page->setTpl("panel\carousel-create");
 
 });
 //////////////////////////////////////////////////////////////////

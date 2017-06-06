@@ -102,6 +102,20 @@ class Url extends Model {
 
     }
 
+    public static function getLastUrl():string
+    {
+
+        return $_SERVER['HTTP_REFERER'];
+
+    }
+
+    public static function getCurrentUrl():string
+    {
+
+        return $_SERVER['REQUEST_URI'];
+        
+    }
+
 }
 
 ?>

@@ -33,7 +33,7 @@
 <script id="tpl-profile-header" type="text/x-handlebars-template">
 <div class="card-block p-30">
   <a class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
-    <img src="{$path}/res/theme/material/global/portraits/11.jpg" alt="">
+    <img src="{{Person.desphotourl}}" alt="">
   </a>
   <div class="vertical-align h-100 text-truncate">
     <div class="vertical-align-middle">
@@ -53,7 +53,6 @@
   }catch(e){
     var user = {};
   }
-  
 
   $('#profile-header').html(tplHeader(user));
 
@@ -71,6 +70,23 @@
       System.success("Seus dados foram salvos!");
 
     }
+  });
+
+  $("#profile-header").on("click", function(){
+
+    $.upload({
+      url:PATH+"/persons/"+user.idperson+"/photo",
+      modalInfo:true,
+      success:function(r){
+
+        $("#profile-header img").attr("src", r.data[0].desphotourl+"?_="+new Date().getTime());
+
+      },
+      failure:function(e){
+        System.showError(e);
+      }
+    });
+
   });
 
 })();

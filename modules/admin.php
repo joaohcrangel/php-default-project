@@ -85,7 +85,7 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Hcode\Session::setConfigurations($configurations);
 
-    Menu::resetMenuSession();
+    Hcode\Admin\Menu::resetMenuSession();
 
     $nextUrl = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST']."/admin";
     $nextUrlParse = parse_url($nextUrl);

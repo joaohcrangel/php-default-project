@@ -1,9 +1,18 @@
 <link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <header class="slidePanel-header">
   <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
-    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
-      <button type="button" data-btn="deleteUser" class="btn btn-pure icon md-delete" aria-hidden="true"></button>
-      <button type="button" data-btn="simulate" class="btn btn-pure icon md-sign-in" aria-hidden="true"></button>
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+
+      <div class="btn-group" role="group">
+        <button type="button" class="btn icon md-apps btn-pure dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exampleIconDropdown1" role="menu">
+          <a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-btn="simulate"><i class="icon md-lock"></i> Simular Login</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="javascript:void(0)" role="menuitem" data-btn="deleteUser"><i class="icon md-delete"></i> Excluir</a>
+        </div>
+      </div>
+      
       <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
     </div>
     <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4>
@@ -129,6 +138,8 @@ $('#profile-form').form({
     System.setUser(r.data);
     System.success("Seus dados foram salvos!");
 
+    if (window.loadUsers) window.loadUsers();
+
   }
 });
 
@@ -154,9 +165,11 @@ $("#user-photo").on("click", function(){
 
   $.upload({
     url:PATH+"/persons/"+user.idperson+"/photo",
+    modalInfo:true,
     success:function(r){
 
       $("#user-photo img").attr("src", r.data[0].desphotourl+"?_="+new Date().getTime());
+      if (window.loadUsers) window.loadUsers();
 
     },
     failure:function(e){

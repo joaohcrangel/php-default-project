@@ -13,7 +13,40 @@ $.picker = (function(){
 			if (!options.url) {
 				switch (options.type) {
 					case 'person':
+					
 					options = $.extend({
+						new:{
+							model:[{
+								label:"Tipo de Pessoa",
+								name:"idpersontype",
+								type:"combo",
+								combo:{
+									url:"/persons-types",
+									displayField:"despersontype",
+									valueField:"idpersontype",
+									value:1
+								},
+								required:true
+							},{
+								label:"Nome",
+								name:"desperson",
+								type:"string",
+								required:true
+							},{
+								label:"E-mail",
+								name:"desemail",
+								type:"email",
+								required:false
+							}],
+							textButton:"Nova Pessoa",
+							url:"/persons",
+							method:"post",
+							failure:function(_e){
+
+								t.showError(_e);
+
+							}
+						},
 						columns:[{
 							title:"Id",
 							field:"idperson"
@@ -84,12 +117,16 @@ $.picker = (function(){
 			            '</div>'+
 			            '<div class="panel-body p-y-10 p-x-0" style="height:{{height}}px; overflow:auto; background: #f1f4f5;">'+
 			             	'<div class="row-fluid">'+
-			             		'<div class="col-md-3">'+
+			             		'<div class="col-md-3">'+		             			
 			             			'<div class="panel">'+
 							            '<div class="panel-body">'+
 							            	'<form id="form-picker-filters">'+
 							              		'{{{filters}}}'+
 							              		'<button type="submit" class="btn btn-primary btn-block waves-effect">Buscar</button>'+
+							              		'<hr />'+
+							              		'<div style="text-align:center;">ou</div>'+
+							              		'<hr />'+
+			             						'<button type="button" id="btn-picker-new" class="btn btn-success btn-block waves-effect">{{new.textButton}}</button>'+
 							              	'</form>'+
 							            '</div>'+
 							        '</div>'+
@@ -138,6 +175,14 @@ $.picker = (function(){
                       '</span>'+
                     '</td>'
 				),
+				tplResultRadio:Handlebars.compile(
+					'<td>'+
+                      '<span class="radio-custom radio-primary">'+
+                        '<input class="selectable-item" type="radio" name="select" id="row-619" value="619">'+
+                        '<label for="row-619"></label>'+
+                      '</span>'+
+                    '</td>'
+				),
 				tplFilter:{
 					text:Handlebars.compile(
 						'<div class="form-group form-material" data-plugin="formMaterial">'+
@@ -145,10 +190,92 @@ $.picker = (function(){
 							'<input type="text" class="form-control" name="{{field}}" id="{{field}}" placeholder="{{placeholder}}">'+
 						'</div>'
 					)
+				},
+				tplAlertError:Handlebars.compile(
+					'<div class="alert alert-danger alert-dismissible" role="alert">'+
+		              '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+		                '<span aria-hidden="true">×</span>'+
+		                '<span class="sr-only">Close</span>'+
+		              '</button>'+
+		              '<span class="msg">{{error}}</span>'+
+		            '</div>'
+				),
+				tplModalNew:Handlebars.compile(
+					'<div class="modal modal-success fade modal-3d-sign in" id="modal-picker-new" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">'+
+	                    '<div class="modal-dialog">'+
+	                      '<div class="modal-content">'+
+	                        '<div class="modal-header">'+
+	                          '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'+
+	                            '<span aria-hidden="true">×</span>'+
+	                          '</button>'+
+	                          '<h4 class="modal-title">{{new.textButton}}</h4>'+
+	                        '</div>'+
+	                        
+	                        '<form>'+
+		                        '<div class="modal-body">'+
+		                          
+		                        '</div>'+
+		                        '<div class="modal-footer">'+
+		                          '<button type="button" class="btn btn-default btn-pure waves-effect" data-dismiss="modal">Cancelar</button>'+
+		                          '<button type="submit" class="btn btn-success waves-effect">Salvar e Selecionar</button>'+
+		                        '</div>'+
+	                        '</form>'+
+	                      '</div>'+
+	                    '</div>'+
+	                '</div>'
+				),
+				tplNew:{
+					string:Handlebars.compile(
+						'<div class="form-group form-material" data-plugin="formMaterial">'+
+							'<label class="form-control-label" for="{{id}}">{{label}}</label>'+
+							'<input type="text" class="form-control" name="{{name}}" id="{{id}}" placeholder="{{placeholder}}">'+
+						'</div>'
+					),
+					int:Handlebars.compile(
+						'<div class="form-group form-material" data-plugin="formMaterial">'+
+							'<label class="form-control-label" for="{{id}}">{{label}}</label>'+
+							'<input type="number" class="form-control" name="{{name}}" id="{{id}}" placeholder="{{placeholder}}">'+
+						'</div>'
+					),
+					date:Handlebars.compile(
+						'<div class="form-group form-material" data-plugin="formMaterial">'+
+							'<label class="form-control-label" for="{{id}}">{{label}}</label>'+
+							'<input type="date" class="form-control" name="{{name}}" id="{{id}}" placeholder="{{placeholder}}">'+
+						'</div>'
+					),
+					email:Handlebars.compile(
+						'<div class="form-group form-material" data-plugin="formMaterial">'+
+							'<label class="form-control-label" for="{{id}}">{{label}}</label>'+
+							'<input type="email" class="form-control" name="{{name}}" id="{{id}}" placeholder="{{placeholder}}">'+
+						'</div>'
+					),
+					combo:Handlebars.compile(
+						'<div class="form-group form-material" data-plugin="formMaterial">'+
+							'<label class="form-control-label" for="{{id}}">{{label}}</label>'+
+							'<select class="form-control" name="{{name}}" id="{{id}}"></select>'+
+						'</div>'
+					)
 				}
 			};
 
 			var o =  $.extend(defaults, options);
+
+			t.new = function () {
+
+				var $modal = $(o.tplModalNew(o));
+
+				$("#modal-picker-new").remove();
+
+				$("body").append($modal);
+
+				t.initFormNew();
+
+				$modal.modal("show");
+
+				$modal.css({'z-index':'10001'});
+				$(".modal-backdrop.in").css({'z-index':'10000'});
+
+			};
 
 			t.getFiltersHTML = function(){
 
@@ -201,7 +328,9 @@ $.picker = (function(){
 
 			t.showError = function(e){
 
-				console.error(e);
+				if (typeof System === "object" && typeof System.showError === "function") {
+					System.showError(e);
+				}
 
 			};
 
@@ -211,10 +340,17 @@ $.picker = (function(){
 
 				if (result.length > 0) {
 
-
 					$.each(result, function (index2, row) {
 
-						var $tr = $("<tr>"+o.tplResultCheck({})+"</tr>");
+						if (o.multiple) {
+
+							var $tr = $("<tr>"+o.tplResultCheck({})+"</tr>");
+
+						} else {
+
+							var $tr = $("<tr>"+o.tplResultRadio({})+"</tr>");
+
+						}
 
 						$tr.data("object", row);
 
@@ -234,6 +370,7 @@ $.picker = (function(){
 
 				}
 
+				_html.find("tbody").html("");
 				_html.find("tbody").append(_resultHTML);
 
 				_html.find("tbody").find("tr").on("click", function (e) {
@@ -310,11 +447,16 @@ $.picker = (function(){
 
 				_html.find("thead").find("tr").html(_columnsHTML);
 
-				_html.find("thead").find("input:checkbox").on("change", function () {
+				if (!o.multiple) {
+					_html.find("thead").find("input").remove();
+					_html.find("thead").find(".checkbox-custom").remove();
+				} else {
+					_html.find("thead").find("input:checkbox").on("change", function () {
 
-					$("#panel-picker tbody input:checkbox").prop("checked", $(this).prop("checked")).trigger("change");
+						$("#panel-picker tbody input:checkbox").prop("checked", $(this).prop("checked")).trigger("change");
 
-				});
+					});
+				}				
 
 			};
 
@@ -345,6 +487,55 @@ $.picker = (function(){
 					t.close();
 					
 				});
+
+				_html.find("#btn-picker-new").on("click", function () {
+
+					t.new();
+
+				});
+
+			};
+
+			t.initFormNew = function () {
+
+				var $modal = $("#modal-picker-new");
+				var $form = $modal.find("form");
+
+				$.each(o.new.model, function (index, item) {
+
+					item.id = item.name+index;
+
+					var $item = $(o.tplNew[item.type](item));
+
+					switch (item.type) {
+						case "combo":
+
+						if (item.combo) $item.find("select").combobox(item.combo);
+
+						break;
+					}
+
+					$form.find('.modal-body').append($item);
+
+				});
+
+				o.new.success = function (_result) {
+
+					$modal.modal("hide");
+					o.select([_result.data]);
+					t.close();
+
+				};
+
+				o.new.failure = function (e) {
+
+					$modal.find(".alert-danger").remove();
+					var $alertError = $(o.tplAlertError(e));
+					$alertError.insertAfter($modal.find(".modal-body"));
+
+				};
+
+				$form.form(o.new);
 
 			};
 
@@ -377,3 +568,89 @@ $.picker = (function(){
 	};
 
 })();
+
+(function($){
+
+ 	$.fn.extend({
+
+ 		pickerPerson:function(options) {
+
+ 			var defaults = {
+				debug:false,
+				primarykey:"idperson",
+				defaultPhotoUrl:"/res/theme/material/global/photos/placeholder.png",
+				defaultName:"...",
+				textButton:"Selecionar Pessoa",
+				textButtonChange:"Alterar Pessoa",
+				tpl:Handlebars.compile(
+					'<div class="media">'+
+					  '<div class="media-left">'+
+					    '<a class="avatar" href="javascript:void(0)">'+
+					      '<img class="img-fluid" src="{{defaultPhotoUrl}}">'+
+					    '</a>'+
+					  '</div>'+
+					  '<div class="media-body">'+
+					    '<h4 class="media-heading">{{defaultName}}</h4>'+
+					    '<small>{{defaultSubtitle}}</small>'+
+					  '</div>'+
+					  '<div class="media-right">'+
+					    '<button type="button" class="btn btn-primary waves-effect">{{textButton}}</button>'+
+					  '</div>'+
+					'</div>'
+				)
+			};
+
+			var o =  $.extend(defaults, options);
+
+			if(o.debug === true) console.info("options", o);
+
+    		return this.each(function() {
+
+    			var t = this;
+    			var $el = $(t);
+    			var $wrap = $('<div class="picker-person"></div>');
+    			
+    			$el.wrap($wrap);
+    			$el.hide();
+
+    			var $pickerPerson = $el.closest(".picker-person");
+
+    			$wrap.find(".media").remove();
+    			$pickerPerson.append(o.tpl(o));
+
+    			function initButton () {
+
+    				$pickerPerson.find("button").on("click", function () {
+
+	    				$.picker({
+							type:"person",
+							select:function (persons) {
+
+								$pickerPerson.find(".media").remove();
+		    					$pickerPerson.append(o.tpl({
+		    						defaultPhotoUrl:persons[0].desphotourl || o.defaultPhotoUrl,
+		    						defaultName:persons[0].desperson || o.defaultName,
+		    						defaultSubtitle:persons[0].desemail || "",
+		    						textButton:o.textButtonChange
+		    					}));
+
+		    					$el.val(persons[0][o.primarykey]);
+
+		    					initButton();
+
+							}
+						});
+
+	    			});
+
+    			}
+
+    			initButton();		
+
+    		});
+
+ 		}
+
+ 	});
+
+})(jQuery);

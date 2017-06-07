@@ -35,7 +35,7 @@ class User extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            if (User::userExists($this->getdesuser())) {
+            if (User::userExists($this->getdesuser(), $this->getiduser())) {
 
                 throw new Exception("O usuário ".$this->getdesuser()." já existe.");
 
@@ -71,14 +71,20 @@ class User extends Model {
         
     }
 
-    public static function userExists($user):bool
+    public static function userExists($user, $exclude = NULL):bool
     {
 
         $sql = new Sql();
 
-        $result = $sql->select("SELECT COUNT(*) AS nrtotal FROM tb_users WHERE desuser = ?", array(
-            $user
-        ));
+        if ($exclude === NULL) {
+            $query = "SELECT COUNT(*) AS nrtotal FROM tb_users WHERE desuser = ?";
+            $params = [$user];
+        } else {
+            $query = "SELECT COUNT(*) AS nrtotal FROM tb_users WHERE desuser = ? AND iduser <> ?";
+            $params = [$user, $exclude];
+        }
+
+        $result = $sql->select($query, $params);
 
         return ($result["nrtotal"] > 0);
 

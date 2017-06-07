@@ -142,10 +142,6 @@ $app->get("/persons-post", function(){
 
 $app->post("/persons/:idperson/photo", function($idperson){
 
-	pre($_POST);
-	exit;
-
-
 	$file = $_FILES['arquivo'];
 
 	$file = Hcode\FileSystem\File::upload(
@@ -155,6 +151,42 @@ $app->post("/persons/:idperson/photo", function($idperson){
 		$file['error'],
 		$file['size']
 	);
+
+	if (
+		isset($_POST['width']) &&
+		isset($_POST['height']) &&
+		isset($_POST['top']) &&
+		isset($_POST['left'])
+	) {
+
+		list($real_width, $real_height) = getimagesize(PATH.$file->getdesurl());
+		list($new_width, $new_height) = [(float)post('width'), (float)post('height')];
+		list($width_responsive, $height_responsive) = [post('width_responsive'), post('height_responsive')];
+
+		$w = ($real_width*$new_width)/$width_responsive;
+		$h = ($real_height*$new_height)/$height_responsive;
+
+		$x = ($real_width*(float)post('left'))/$width_responsive;
+		$y = ($real_height*(float)post('top'))/$height_responsive;
+
+		$new_image = imagecreatetruecolor($w, $h);
+		$old_image = imagecreatefromjpeg(PATH.$file->getdesurl());
+
+		imagecopyresampled(
+			$new_image,
+			$old_image,
+			0, 0,
+			$x, $y,
+			$x+$w, $y+$h,
+			$x+$w, $y+$h
+		);
+
+		imagejpeg($new_image, PATH.$file->getdesurl());
+
+		imagedestroy($old_image);
+		imagedestroy($new_image);
+
+	}
 
 	$person = new Hcode\Person\Person((int)$idperson);
 	$person->setPhoto($file);

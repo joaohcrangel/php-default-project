@@ -1,0 +1,50 @@
+<!DOCTYPE html><html dir="ltr" lang="pt-br"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="author" content="Hcode Team">{include="header-head"}<link rel="stylesheet" href="/res/public/css/card.css"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hcode Default Project</title><script>window.init = [], window.PATH = '{$path}';</script><style>#content .content-wrap {
+  			padding: 40px 0;
+  		}</style><body class="stretched"><div id="wrapper" class="clearfix"><header id="header" class="full-header"><div id="header-wrap"><div class="container clearfix">{include="header-logo"} {if="isLogged()"}<div id="top-account" class="dropdown"><a href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="icon-user"></i> {$user.Person.desperson}<i class="icon-angle-down"></i></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="{$path}/perfil">Perfil</a><li role="separator" class="divider"><li><a href="#" class="btn-logout">Sair <i class="icon-signout"></i></a></ul></div>{else}<div id="top-account"><a href="{$path}/login" class="btn"><i class="icon-user"></i></a></div>{/if}</div></div></header><section id="content"><div class="content-wrap"><div class="container clearfix"><div class="tabs divcenter nobottommargin clearfix" id="tab-login-register" style="max-width: 500px"><div class="tab-container"><div class="tab-content clearfix" id="tab-register"><div class="panel panel-default nobottommargin"><div class="panel-body" style="padding: 40px"><div class="fancy-title title-double-border"><h4>Dados cadastrais</h4></div><form id="register-form" name="register-form" class="nobottommargin" action="#" method="post"><div class="style-msg errormsg" style="display: none"><div class="sb-msg"><i class="icon-remove"></i><span></span></div></div><div class="col_full"><label for="desemail">E-mail:</label><input type="email" id="desemail" name="desemail" value="" class="form-control"></div><div class="col_full"><label for="despassword">Senha Hcode:</label><input type="password" id="despassword" name="despassword" value="" class="form-control"></div><div class="col_full"><label for="despassword2">Confirme sua senha:</label><input type="password" id="despassword2" name="despassword2" value="" class="form-control"></div><div class="col_full"><label for="desperson">Nome completo:</label><input type="text" id="desperson" name="desperson" value="" class="form-control"></div><div class="col_full"><label for="dessex">Sexo:</label><div><input id="radio-4" class="radio-style" name="dessex" type="radio" value="M" checked="checked"><label for="radio-4" class="radio-style-1-label">Masculino</label></div><div><input id="radio-5" class="radio-style" name="dessex" type="radio" value="F"><label for="radio-5" class="radio-style-1-label">Feminino</label></div></div><div class="col_full"><label for="descpf">CPF:</label><input type="text" id="descpf" name="descpf" value="" class="form-control"></div><div class="col_full"><label for="dtbirth">Data de nascimento:</label><input type="date" id="dtbirth" name="dtbirth" value="" class="form-control"></div><div class="col_full"><label for="desphone">Telefone para contato:</label><input type="tel" id="desphone" name="desphone" value="" class="form-control"></div><div class="fancy-title title-double-border"><h4>Endereço de cadastro</h4></div><div class="col_full"><label for="idaddresstype">Tipo de Endereço:</label><select type="text" id="idaddresstype" name="idaddresstype" class="form-control">{loop="$types"}<option value="{$value.idaddresstype}">{$value.desaddresstype}</option>{/loop}</select></div><div class="col_full"><label for="descep">CEP:</label><input type="text" id="descep" name="descep" value="" class="form-control"> <a target="_blank" href="http://m.correios.com.br/movel/buscaCepConfirma.do">Não sei meu CEP</a></div><div id="endereco-form" style="display: none"><div class="col_full"><label for="desaddress">Endereço:</label><input type="text" id="desaddress" name="desaddress" value="" class="form-control"></div><div class="col_full"><label for="desnumber">Número:</label><input type="text" id="desnumber" name="desnumber" value="" class="form-control"></div><div class="col_full"><label for="descomplement">Complemento:</label><input type="text" id="descomplement" name="descomplement" value="" class="form-control"></div><div class="col_full"><label for="desdistrict">Bairro:</label><input type="text" id="desdistrict" name="desdistrict" value="" class="form-control"></div><div class="col_full"><label for="descity">Cidade:</label><input type="text" id="descity" name="descity" value="" class="form-control"></div><div class="col_full"><label for="desstate">Estado:</label><input type="text" id="desstate" name="desstate" value="" class="form-control"></div><div class="col_full"><label for="desstate">País:</label><input type="text" id="descountry" name="descountry" value="" class="form-control"></div></div><div class="style-msg errormsg" style="display: none"><div class="sb-msg"><i class="icon-remove"></i><span></span></div></div><div class="col_full nobottommargin"><button type="submit" class="button button-3d button-success nomargin" id="register-form-submit" name="register-form-submit" value="register">Cadastrar</button></div></form></div></div></div></div></div></div></div></section><script>init.push(function () {
+
+				$("#descep").on("change keyup", function () {
+
+					var value = $(this).val();
+
+					if (value.replace('-', '').length === 8) {
+
+						$("#descep").prop("disabled", true);
+						
+						rest({
+							url:"/addresses/cep/"+value.replace('-', ''),
+							success:function (r) {
+
+								$("#endereco-form").show();
+
+								$("#desaddress").val(r.data.desaddress);
+								$("#descity").val(r.data.descity);
+								$("#descomplement").val(r.data.descomplement);
+								$("#desdistrict").val(r.data.desdistrict);
+								$("#desstate").val(r.data.desstate);
+								$("#descountry").val(r.data.descountry);
+
+								$("body").scrollTop($("#desnumber").offset().top);
+								$("#desnumber").focus();
+
+								$("#descep").prop("disabled", false);
+
+							}
+						});
+					}				
+
+				});
+				
+				$("#register-form").form({
+					url:"/register",
+					success:function (r) {
+						window.location.href = PATH+"/";
+					},
+					failure:function (e) {
+
+						$(".errormsg span").text(e.error);
+						$(".errormsg").show();
+
+					}
+				});
+
+			});</script>{include="footer-scripts"}</div>

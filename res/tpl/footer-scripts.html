@@ -1,0 +1,19 @@
+<script type="text/javascript" src="/res/public/js/jquery.js"></script><script type="text/javascript" src="/res/public/js/plugins.js"></script><script type="text/javascript" src="/res/public/js/components/bs-switches.js"></script><script type="text/javascript" src="/res/public/js/functions.js"></script><script type="text/javascript" src="/res/theme/assets/vendor/handlebars/handlebars-v4.0.5.js"></script><script type="text/javascript" src="/res/vendor/alertifyjs/alertify.min.js"></script><script type="text/javascript" src="/res/public/js/system.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.core.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.btnload.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.btnrest.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.store.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.combobox.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.form.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.upload.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.table.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.arquivos.js"></script><script type="text/javascript" src="/res/js/jrangel/jquery.panel.js"></script><script type="text/javascript" src="/res/js/aribeiro/selecionar.js"></script><script type="text/javascript" src="/res/js/aribeiro/jquery.map.js"></script>{if="isset($scripts_footer) && count($scripts_footer) > 0"} {function="implode('', $scripts_footer)"} {/if}<script>$(function(){
+
+	if (init instanceof Array) {
+
+      $.each(init, function(index, fn){
+
+        if (typeof fn === 'function') {
+          fn();
+        }
+
+      });
+
+    }
+
+    setTimeout(function(){
+		$("footer").css("margin-top", 0);
+	}, 1000);
+
+});</script>

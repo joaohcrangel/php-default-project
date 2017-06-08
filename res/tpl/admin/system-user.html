@@ -105,20 +105,12 @@ $("[data-btn]").each(function(){
 
 });
 
-$("#user-photo").on("click", function(){
+$("#user-photo img").uploadPhoto({
+  url:PATH+"/persons/"+user.idperson+"/photo",
+  success:function(r){
 
-  $.upload({
-    url:PATH+"/persons/"+user.idperson+"/photo",
-    modalInfo:true,
-    success:function(r){
+    $("#user-photo img").attr("src", r.data.desphotourl+"?_="+new Date().getTime());
+    if (window.loadUsers) window.loadUsers();
 
-      $("#user-photo img").attr("src", r.data[0].desphotourl+"?_="+new Date().getTime());
-      if (window.loadUsers) window.loadUsers();
-
-    },
-    failure:function(e){
-      System.showError(e);
-    }
-  });
-
+  }
 });</script>

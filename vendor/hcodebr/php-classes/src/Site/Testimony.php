@@ -23,10 +23,9 @@ class Testimony extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_testimonial_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_testimonial_save(?, ?, ?, ?);", array(
                 $this->getidtestimony(),
-                $this->getidperson(),
-                $this->getidphoto(),
+                $this->getidperson(),                
                 $this->getdessubtitle(),
                 $this->getdestestimony()
             ));

@@ -117,6 +117,19 @@ class Post extends Model {
 
     }
 
+    public static function getByUrl($desurl):Post
+    {
+
+        $post = new Post();
+
+        $post->queryToAttr("CALL sp_blogpostbyurl_get(?);", array(
+            $desurl
+        ));
+
+        return $post;
+
+    }
+
 }
 
 ?>

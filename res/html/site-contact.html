@@ -37,7 +37,7 @@
 
 						<div class="form-process"></div>
 
-						<div class="col_two_third">
+						<div class="col_full">
 							<label>Nome <small>*</small></label>
 							{if="isLogged()"}
 								<input type="text" name="desperson" class="sm-form-control required" value="{$user.Person.desperson}" />
@@ -46,7 +46,7 @@
 							{/if}
 						</div>
 
-						<div class="col_one_third col_last">
+						<div class="col_full">
 							<label>Email <small>*</small></label>
 							{if="isLogged()"}
 								<input type="email" name="desemail" class="required email sm-form-control" value="{$user.Person.desuser}" />
@@ -109,7 +109,7 @@ init.push(function(){
 	});
 
 	$("#google-map").HcodeMap({
-		id:1,
+		id:2,
 		mapKey:mapKey
 	});
 

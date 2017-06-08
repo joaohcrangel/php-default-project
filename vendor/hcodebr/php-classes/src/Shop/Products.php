@@ -25,7 +25,7 @@ class Products extends Collection {
 
     }
 
-    public function getBy_Hcode_Shop_Cart(Cart $cart):Products
+    public function getByHcode_Shop_Cart(Cart $cart):Products
     {
 
         $this->loadFromQuery("CALL sp_productsfromcart_list(?);", array(

@@ -1,0 +1,55 @@
+<div id="top-cart"><a href="#" id="top-cart-trigger"><i class="icon-shopping-cart"></i><span style="display: none">{function="getCartTotal()"}</span></a><div class="top-cart-content"><div class="top-cart-title"><h4>Meu Carrinho</h4></div><div class="top-cart-items" style="max-height: 200px; overflow: auto"></div><div class="top-cart-action clearfix"><span class="fleft top-checkout-price">R$0,00</span> <button id="btn-view-cart" class="button button-3d button-small nomargin fright">Ver Carrinho</button></div></div></div><script id="tpl-cart-product" type="text/x-handlebars-template"><div class="top-cart-item clearfix">
+		<div class="top-cart-item-image">
+			<a href="#"><img src="{{desthumb}}" alt="{{desproduct}}" /></a>
+		</div>
+		<div class="top-cart-item-desc">
+			<a href="#">{{desproduct}}</a>
+			<span class="top-cart-item-price">R${{desvlprice}}</span>
+			<span class="top-cart-item-quantity">x {{nrqtd}}</span>
+		</div>
+	</div></script><script>init.push(function(){
+
+	var tplCartProduct = Handlebars.compile($("#tpl-cart-product").html());
+
+	if (parseInt($("#top-cart-trigger span").text()) > 0) {
+
+		$("#top-cart-trigger span").show();
+
+	}
+
+	$("#top-cart-trigger").on("click", function () {
+
+		rest({
+			url:"/my-cart",
+			success:function (r) {
+
+				if (r.data.products.length > 0) {
+					$("#top-cart-trigger span").show().text(r.data.products.length);
+				} else {
+					$("#top-cart-trigger span").hide();
+				}
+				
+				$("#top-cart .top-cart-items").html("");
+
+				$.each(r.data.products, function (index, item) {
+
+					var $el = $(tplCartProduct(item));
+
+					$("#top-cart .top-cart-items").append($el);
+
+				});
+
+				$("#top-cart .top-checkout-price").text('R$'+r.data.desvltotal);
+
+			}
+		});
+
+	});
+
+	$("#btn-view-cart").on("click", function () {
+
+		window.location.href = "/shop/cart";
+
+	});
+
+});</script>

@@ -3,7 +3,7 @@ pidsitecontact INT,
 pidsitecontactfather INT,
 pidperson INT,
 pdesmessage VARCHAR(128),
-pinreadtinyint(1),
+pinread BIT,
 pidpersonanswer INT
 )
 BEGIN

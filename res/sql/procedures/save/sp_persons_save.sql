@@ -47,10 +47,10 @@ BEGIN
         SET descontact = pdesemail
         WHERE idcontact = pidemail;
     ELSEIF pdesemail IS NOT NULL AND pidemail IS NULL THEN
-        CALL sp_contacts_save(0, 6, pidperson, pdesemail, 1);
+        CALL sp_contacts_save(0, 1, pidperson, pdesemail, 1);
     ELSE
         DELETE FROM tb_contacts
-        WHERE idperson = pidperson AND idcontactsubtype = 6;
+        WHERE idperson = pidperson AND idcontactsubtype = 1;
     END IF;
 
     /* Telefone principal */

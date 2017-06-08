@@ -1,13 +1,13 @@
 CREATE PROCEDURE sp_carousels_save(
 pidcarousel INT,
 pdescarousel VARCHAR(64),
-pinlooptinyint(1),
-pinnavtinyint(1),
-pincentertinyint(1),
-pinautowidth tinyint(1),
-pinvideo tinyint(1),
-pinlazyload tinyint(1),
-pindots tinyint(1),
+pinloop BIT,
+pinnav BIT,
+pincenter BIT,
+pinautowidth BIT,
+pinvideo BIT,
+pinlazyload BIT,
+pindots BIT,
 pnritems INT,
 pnrstagepadding INT
 )

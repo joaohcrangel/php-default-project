@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_coursessections_get(
-idsection INT
+pidsection INT
 )
 BEGIN
 

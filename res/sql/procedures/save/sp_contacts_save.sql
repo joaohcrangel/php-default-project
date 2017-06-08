@@ -3,7 +3,7 @@ pidcontact INT,
 pidcontactsubtype INT,
 pidperson INT,
 pdescontact VARCHAR(128),
-pinmain tinyint(1)
+pinmain BIT
 )
 BEGIN
 

@@ -9,7 +9,7 @@ pdesstate VARCHAR(32),
 pdescountry VARCHAR(32),
 pdescep CHAR(8),
 pdescomplement VARCHAR(32),
-pinmain tinyint(1)
+pinmain BIT
 )
 BEGIN
 

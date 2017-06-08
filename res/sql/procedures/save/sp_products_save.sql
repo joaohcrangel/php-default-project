@@ -2,7 +2,7 @@ CREATE PROCEDURE sp_products_save(
 pidproduct INT,
 pidproducttype INT,
 pdesproduct VARCHAR(64),
-pinremoved tinyint(1),
+pinremoved TINYINT(1),
 pvlprice DECIMAL(10,2)
 )
 BEGIN

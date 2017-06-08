@@ -6,7 +6,7 @@ pvlworkload DECIMAL(10,2),
 pnrlessons INT,
 pnrexercises INT,
 pdesdescription VARCHAR(10240),
-pinremoved tinyint(1)
+pinremoved BIT
 )
 BEGIN
 

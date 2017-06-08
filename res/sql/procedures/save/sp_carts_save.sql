@@ -2,7 +2,7 @@ CREATE PROCEDURE sp_carts_save(
 pidcart INT,
 pidperson INT,
 pdessession VARCHAR(128),
-pinclosedtinyint(1),
+pinclosed BIT,
 pnrproducts INT,
 pvltotal DECIMAL(10,2),
 pvltotalgross DECIMAL(10,2),

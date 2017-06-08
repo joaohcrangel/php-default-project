@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_coursessections_remove(
-idsection INT
+pidsection INT
 )
 BEGIN
 

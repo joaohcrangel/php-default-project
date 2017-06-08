@@ -1,10 +1,25 @@
-CREATE PROCEDURE `sp_cartsproducts_save`(
+CREATE PROCEDURE sp_cartsproducts_save(
 pidcart INT,
-pidproduct INT
+pidproduct INT,
+pinremoved BIT,
+pdtremoved DATETIME
 )
 BEGIN
 	
-	INSERT INTO tb_cartsproducts (idcart, idproduct, idprice) 
-    SELECT pidcart, pidproduct, idprice FROM tb_productsdata WHERE idproduct = pidproduct;
+	IF EXISTS(SELECT * FROM tb_cartsproducts WHERE idcart = pidcart AND idproduct = pidproduct) THEN
     
+		UPDATE tb_cartsproducts SET
+			inremoved = pinremoved,
+            dtremoved = pdtremvido
+		WHERE idcart = pidcart AND idproduct = pidproduct;
+        
+	ELSE
+		
+        INSERT INTO tb_cartsproducts(idcart, idproduct, inremoved, dtremoved)
+        VALUES(pidcart, pidproduct, pinremoved, pdtremoved);
+        
+	END IF;
+    
+    CALL sp_cartsproducts_get(pidcart, pidproduct);
+
 END

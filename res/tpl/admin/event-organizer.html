@@ -15,7 +15,7 @@ $form.find("[type=submit]").on("click", function(e){
 	var data = $form.formValues();
 
 	data.idorganizer = organizer.idorganizer;
-	data.desorganizer = $form.find("[name=deseventorganizer]").val();
+	data.desorganizer = $form.find("[name=desorganizer]").val();
 
 	rest({
 		url:PATH+"/events-organizers",
@@ -23,7 +23,7 @@ $form.find("[type=submit]").on("click", function(e){
 		data:data,
 		success:function(){
 			$btn.btnload("unload");
-			System.success("Cargo salvo com sucesso");
+			System.success("Organizador salvo com sucesso");
 			$(".slidePanel-close").trigger("click");
 			$("#form-filtros [type=submit]").trigger("click");
 		},

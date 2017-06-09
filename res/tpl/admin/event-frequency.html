@@ -1,0 +1,55 @@
+<style>.slidePanel{
+		overflow: overlay;
+	}</style><link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$frequency.desfrequency}</h5></h4></div></header><div class="slidePanel-inner m-0 p-0"><div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs"><div class="panel-heading panel-heading-tab" id="tabs-event-frequency" style="border-radius: 0"></div><div class="panel-body p-t-20"><div class="tab-content"><div class="tab-pane active" id="tab-event-frequency" role="tabpanel"><form id="form-event-frequency"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" name="desfrequency" class="form-control"></div><div class="form-group form-material" data-plugin="formMaterial"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div></div></div></div></div><script>var frequency = JSON.parse('{function="json_encode($frequency)"}');
+	
+var $form = $("#form-event-frequency");
+
+$form.formLoad(frequency);
+
+$form.find("[type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+	var $btn = $(this);
+
+	var data = $form.formValues();
+
+	data.idfrequency = frequency.idfrequency;
+	data.desfrequency = $form.find("[name=desfrequency]").val();
+
+	rest({
+		url:PATH+"/events-frequencies",
+		method:"POST",
+		data:data,
+		success:function(){
+			$btn.btnload("unload");
+			System.success();
+			$(".slidePanel-close").trigger("click");
+			$("#form-filtros [type=submit]").trigger("click");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});
+
+new Tab({
+	id:"tabs-event-frequency",
+	items:[{
+		title:"Dados",
+		id:"tab-event-frequency"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch(event.tabContent.id){
+
+				
+
+			}
+
+		}
+	}
+});</script>

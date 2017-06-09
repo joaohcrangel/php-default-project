@@ -263,6 +263,140 @@ $app->delete("/events-organizers", function(){
 });
 ///////////////////////////////////////////////////////////
 
+// events frequencies
+$app->get("/".DIR_ADMIN."/events-frequencies", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = new Hcode\Admin\Page(array(
+		"data"=>array(
+			"body"=>array(
+				"class"=>"page-aside-fixed page-aside-left"
+			)
+		)
+	));
+
+	$page->setTpl("/admin/events-frequencies");
+
+});
+
+$app->get("/".DIR_ADMIN."/events-frequencies-create", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("/admin/events-frequencies-create");
+
+});
+
+$app->get("/".DIR_ADMIN."/events-frequencies/:idfrequency", function($idfrequency){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$frequency = new Hcode\Stand\Event\Frequency((int)$idfrequency);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("/admin/event-frequency", array(
+		"frequency"=>$frequency->getFields()
+	));
+
+});
+
+$app->get("/events-frequencies", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = (int)get("pagina");
+	$itemsPerPage = (int)get("limite");
+
+	$where = array();
+
+	if(get("desfrequency") != ""){
+		array_push($where, "desfrequency LIKE '%".utf8_encode(get("desfrequency"))."%'");
+	}
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where);
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS * FROM tb_eventsfrequencies
+		".$where." LIMIT ?, ?;
+	";
+
+	$pagination = new Hcode\Pagination(
+		$query,
+		array(),
+		"Hcode\Stand\Event\Frequencies",
+		$itemsPerPage
+	);
+
+	$frequencies = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$frequencies->getFields(),
+		"total"=>$pagination->getTotal(),
+		"itemsPerPage"=>$itemsPerPage,
+		"currentPage"=>$page
+	));
+
+});
+
+$app->post("/events-frequencies", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	if((int)post("idfrequency") > 0){
+		$frequency = new Hcode\Stand\Event\Frequency((int)post("idfrequency"));
+	}else{
+		$frequency = new Hcode\Stand\Event\Frequency();
+	}
+
+	$frequency->set($_POST);
+
+	$frequency->save();
+
+	echo success(array("data"=>$frequency->getFields()));
+
+});
+
+$app->delete("/events-frequencies", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$ids = explode(",", post("ids"));
+
+	foreach ($ids as $idfrequency) {
+		
+		if(!(int)$idfrequency){
+			throw new Exception("Dado não informado", 400);			
+		}
+
+		$frequency = new Hcode\Stand\Event\Frequency((int)$idfrequency);
+
+		if(!(int)$frequency->getidfrequency() > 0){
+			throw new Exception("Dado não encontrado", 404);			
+		}
+
+		$frequency->remove();
+
+	}
+
+	echo success();
+
+});
+///////////////////////////////////////////////////////////
+
 // events calendars
 $app->get("/".DIR_ADMIN."/events-calendars", function(){
 

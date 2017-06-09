@@ -5,7 +5,7 @@ namespace Hcode\Stand\Event;
 use Hcode\Model;
 use Hcode\Exception;
 
-class Frequencie extends Model {
+class Frequency extends Model {
 
     public $required = array('desfrequency');
     protected $pk = "idfrequency";

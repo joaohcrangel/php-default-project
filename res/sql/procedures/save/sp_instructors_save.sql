@@ -2,7 +2,8 @@ CREATE PROCEDURE sp_instructors_save(
 pidinstructor INT,
 pidperson INT,
 pdesbiography TEXT,
-pidphoto INT
+pidphoto INT,
+pdtregister TIMESTAMP
 )
 BEGIN
 

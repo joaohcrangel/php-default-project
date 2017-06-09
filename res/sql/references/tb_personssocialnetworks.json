@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+{"tables":["tb_socialnetworks", "tb_persons"]}
+=======
 {"tables":["tb_persons", "tb_socialnetworks"]}
+>>>>>>> c589817a5a26a0b3abe8f36f83709ffcc144c026

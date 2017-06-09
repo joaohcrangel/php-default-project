@@ -16,7 +16,7 @@ BEGIN
 
     ELSE
         
-        UPDATE tb_cursoscurriculums        
+        UPDATE tb_coursescurriculums        
         SET 
             descurriculum = pdescurriculum,
             idsection = pidsection,

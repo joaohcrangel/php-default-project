@@ -45,8 +45,10 @@ $app->get("/install/load-tables", function () {
 
 			$refTables = array();
 
-			foreach ($references["tables"] as $t) {
-				if ($t !== $info["filename"]) array_push($refTables, $t);
+			if (gettype($references["tables"]) === "array") {
+				foreach ($references["tables"] as $t) {
+					if ($t !== $info["filename"]) array_push($refTables, $t);
+				}
 			}
 
 			$table = array(

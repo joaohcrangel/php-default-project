@@ -10,9 +10,9 @@
   <div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
     <div class="page-content vertical-align-middle">
       <div class="avatar avatar-lg">
-        <img src="{$path}/res/theme/material/global/portraits/3.jpg" alt="...">
+        <img src="{$person.desphotourl}" alt="...">
       </div>
-      <p class="locked-user">{$session.User.desuser}</p>
+      <p class="locked-user">{$person.desperson}</p>
       <form method="post" role="form" id="form-lock">
         <div class="input-group">
           <input type="password" class="form-control last" id="inputPassword" name="password"

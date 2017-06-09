@@ -22,8 +22,7 @@ BEGIN
         inclient, inprovider, incollaborator,
         idaddress, idaddresstype, desaddress, desnumber, 
         desdistrict, descity, desstate, descountry, descep, descomplement,
-        desaddresstype,
-        desfacebook, destwitter, deslinkedin
+        desaddresstype
     )
     SELECT 
     a.idperson, a.desperson,
@@ -45,9 +44,7 @@ BEGIN
     CASE WHEN m.idperson IS NULL THEN 0 ELSE 1 END AS inprovider,
     CASE WHEN n.idperson IS NULL THEN 0 ELSE 1 END AS incollaborator,
     p.idaddress, p.idaddresstype, p.desaddress, p.desnumber, p.desdistrict, 
-    p.descity, p.desstate, p.descountry, p.descep , p.descomplement,
-    q.desaddresstype,
-    r.desvalue, s.desvalue, t.desvalue
+    p.descity, p.desstate, p.descountry, p.descep , p.descomplement, q.desaddresstype
     FROM tb_persons a
     INNER JOIN tb_personstypes b ON a.idpersontype = b.idpersontype
     LEFT JOIN tb_users c ON c.idperson = a.idperson
@@ -68,9 +65,9 @@ BEGIN
     LEFT JOIN tb_personssocialnetworks s ON s.idperson = a.idperson AND s.idsocialnetwork = 2 -- Twitter
     LEFT JOIN tb_personssocialnetworks t ON t.idperson = a.idperson AND t.idsocialnetwork = 3 -- Linkedin
     WHERE 
-        a.idperson  = pidperson  
-        AND 
-        a.inremoved = 0
+            a.idperson  = pidperson  
+            AND 
+            a.inremoved = 0
     LIMIT 1;
 
 END

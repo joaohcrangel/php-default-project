@@ -3,8 +3,7 @@ pidproduct INT
 )
 BEGIN
 
-	UPDATE tb_products SET
-		inremoved = 1
-	WHERE idproduct = pidproduct;
+    DELETE FROM tb_products 
+    WHERE idproduct = pidproduct;
 
-END
+END;

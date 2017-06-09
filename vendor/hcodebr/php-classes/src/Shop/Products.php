@@ -9,7 +9,7 @@ class Products extends Collection {
 
     protected $class = "Hcode\Shop\Product";
     protected $saveQuery = "sp_products_save";
-    protected $saveArgs = array("idproduct", "idproducttype", "desproduct", "inremoved");
+    protected $saveArgs = array("idproduct", "idproducttype", "desproduct", "inremoved", "vlprice", "idthumb", "descode", "desbarcode");
     protected $pk = "idproduct";
 
     public function get(){}

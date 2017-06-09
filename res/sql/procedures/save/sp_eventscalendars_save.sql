@@ -4,15 +4,14 @@ pidevent INT,
 pidplace INT,
 pdtstart DATETIME,
 pdtend DATETIME,
-pdesurl VARCHAR(128),
-pdtregister TIMESTAMP
+pdesurl VARCHAR(128)
 )
 BEGIN
 
     IF pidcalendar = 0 THEN
     
-        INSERT INTO tb_eventscalendars (idevent, idplace, dtstart, dtend, desurl, dtregister)
-        VALUES(pidevent, pidplace, pdtstart, pdtend, pdesurl, pdtregister);
+        INSERT INTO tb_eventscalendars (idevent, idplace, dtstart, dtend, desurl)
+        VALUES(pidevent, pidplace, pdtstart, pdtend, pdesurl);
         
         SET pidcalendar = LAST_INSERT_ID();
 
@@ -24,8 +23,7 @@ BEGIN
             idplace = pidplace,
             dtstart = pdtstart,
             dtend = pdtend,
-            desurl = pdesurl,
-            dtregister = pdtregister        
+            desurl = pdesurl
         WHERE idcalendar = pidcalendar;
 
     END IF;

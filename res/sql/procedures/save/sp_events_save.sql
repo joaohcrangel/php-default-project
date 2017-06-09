@@ -2,15 +2,14 @@ CREATE PROCEDURE sp_events_save(
 pidevent INT,
 pdesevent VARCHAR(64),
 pidfrequency INT,
-pidorganizer INT,
-pdtregister TIMESTAMP
+pidorganizer INT
 )
 BEGIN
 
     IF pidevent = 0 THEN
     
-        INSERT INTO tb_events (desevent, idfrequency, idorganizer, dtregister)
-        VALUES(pdesevent, pidfrequency, pidorganizer, pdtregister);
+        INSERT INTO tb_events (desevent, idfrequency, idorganizer)
+        VALUES(pdesevent, pidfrequency, pidorganizer);
         
         SET pidevent = LAST_INSERT_ID();
 
@@ -20,8 +19,7 @@ BEGIN
         SET 
             desevent = pdesevent,
             idfrequency = pidfrequency,
-            idorganizer = pidorganizer,
-            dtregister = pdtregister        
+            idorganizer = pidorganizer      
         WHERE idevent = pidevent;
 
     END IF;

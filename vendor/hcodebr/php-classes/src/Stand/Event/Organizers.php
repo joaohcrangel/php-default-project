@@ -1,13 +1,14 @@
-
-
-
 <?php
 
-class EventsOrganizers extends Collection {
+namespace Hcode\Stand\Event;
 
-    protected $class = "EventOrganizer";
+use Hcode\Collection;
+
+class Organizers extends Collection {
+
+    protected $class = "Hcode\Stand\Event\Organizer";
     protected $saveQuery = "sp_eventsorganizers_save";
-    protected $saveArgs = array("idorganizer", "desorganizer", "dtregister");
+    protected $saveArgs = array("idorganizer", "desorganizer");
     protected $pk = "idorganizer";
 
     public function get(){}

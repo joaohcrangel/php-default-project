@@ -1,13 +1,14 @@
-
-
-
 <?php
 
-class EventsFrequencies extends Collection {
+namespace Hcode\Stand\Event;
 
-    protected $class = "EventFrequencie";
+use Hcode\Collection;
+
+class Frequencies extends Collection {
+
+    protected $class = "Hcode\Stand\Event\Frequencie";
     protected $saveQuery = "sp_eventsfrequencies_save";
-    protected $saveArgs = array("idfrequency", "desfrequency", "dtregister");
+    protected $saveArgs = array("idfrequency", "desfrequency");
     protected $pk = "idfrequency";
 
     public function get(){}

@@ -1,14 +1,13 @@
 CREATE PROCEDURE sp_eventsorganizers_save(
 pidorganizer INT,
-pdesorganizer VARCHAR(64),
-pdtregister TIMESTAMP
+pdesorganizer VARCHAR(64)
 )
 BEGIN
 
     IF pidorganizer = 0 THEN
     
-        INSERT INTO tb_eventsorganizers (desorganizer, dtregister)
-        VALUES(pdesorganizer, pdtregister);
+        INSERT INTO tb_eventsorganizers (desorganizer)
+        VALUES(pdesorganizer);
         
         SET pidorganizer = LAST_INSERT_ID();
 
@@ -16,8 +15,7 @@ BEGIN
         
         UPDATE tb_eventsorganizers        
         SET 
-            desorganizer = pdesorganizer,
-            dtregister = pdtregister        
+            desorganizer = pdesorganizer    
         WHERE idorganizer = pidorganizer;
 
     END IF;

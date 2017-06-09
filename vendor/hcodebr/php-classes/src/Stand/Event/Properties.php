@@ -1,13 +1,14 @@
-
-
-
 <?php
+
+namespace Hcode\Stand\Event;
+
+use Hcode\Collection;
 
 class EventsProperties extends Collection {
 
-    protected $class = "EventPropertie";
+    protected $class = "Hcode\Stand\Event\Propertie";
     protected $saveQuery = "sp_eventsproperties_save";
-    protected $saveArgs = array("idproperty", "desproperty", "dtregister");
+    protected $saveArgs = array("idproperty", "desproperty");
     protected $pk = "idproperty";
 
     public function get(){}

@@ -1,14 +1,13 @@
 CREATE PROCEDURE sp_eventsproperties_save(
 pidproperty INT,
-pdesproperty VARCHAR(45),
-pdtregister TIMESTAMP
+pdesproperty VARCHAR(45)
 )
 BEGIN
 
     IF pidproperty = 0 THEN
     
-        INSERT INTO tb_eventsproperties (desproperty, dtregister)
-        VALUES(pdesproperty, pdtregister);
+        INSERT INTO tb_eventsproperties (desproperty)
+        VALUES(pdesproperty);
         
         SET pidproperty = LAST_INSERT_ID();
 
@@ -16,8 +15,7 @@ BEGIN
         
         UPDATE tb_eventsproperties        
         SET 
-            desproperty = pdesproperty,
-            dtregister = pdtregister        
+            desproperty = pdesproperty      
         WHERE idproperty = pidproperty;
 
     END IF;

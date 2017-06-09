@@ -1,0 +1,68 @@
+<style>
+	.slidePanel{
+		overflow: overlay;
+	}
+	.checkbox-custom{
+		display: initial;
+		margin-left: 10px;
+	}
+</style>
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar novo Cargo</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-t-40">
+	
+	<form id="form-job-position-create">
+			
+		<div class="form-group form-material" data-plugin="formMaterial">
+			<label class="form-control-label">Nome</label>
+			<input type="text" name="desjobposition" class="form-control">
+		</div>
+	
+		<div class="form-group form-material" data-plugin="formMaterial">
+			<button type="submit" class="btn btn-primary waves-effect jobposition-create">Salvar</button>
+		</div>
+
+	</form>
+
+</div>
+
+<script>
+	
+var $form = $("#form-job-position-create");
+
+$form.find("[type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	rest({
+		url:PATH+"/jobs-positions",
+		method:"POST",
+		data:{
+			idjobposition:0,
+			desjobposition:$form.find("[name=desjobposition]").val()
+		},
+		success:function(){
+			System.success("Cargo criado com sucesso");
+			$btn.btnload("unload");
+			$(".slidePanel-close").trigger("click");
+			$("#form-filtros [type=submit]").trigger("click");
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+		}
+	});
+
+});
+
+</script>

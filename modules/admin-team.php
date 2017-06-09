@@ -16,6 +16,78 @@ $app->get("/".DIR_ADMIN."/team/jobs-positions", function(){
 
 });
 
+$app->get("/jobs-positions", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$itemsPerPage = (int)get("limite");
+	$page = (int)get("pagina");
+
+	$where = array();
+
+	if(get("desjobposition") != ""){
+		array_push($where, "desjobposition LIKE '%".utf8_encode(get("desjobposition"))."%'");
+	}
+
+	if(count($where) > 0){
+		$where = "WHERE ".implode(" AND ", $where);
+	}else{
+		$where = "";
+	}
+
+	$query = "
+		SELECT SQL_CALC_FOUND_ROWS * FROM tb_jobspositions
+		".$where." LIMIT ?, ?;
+	";
+
+	$pagination = new Hcode\Pagination(
+		$query,
+		array(),
+		"Hcode\Team\Job\Positions",
+		$itemsPerPage
+	);
+
+	$positions = $pagination->getPage($page);
+
+	echo success(array(
+		"data"=>$positions->getFields(),
+		"total"=>$pagination->getTotal(),
+		"itemsPerPage"=>$itemsPerPage,
+		"currentPage"=>$page
+	));
+
+});
+
+$app->get("/".DIR_ADMIN."/jobs-positions-create", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("/admin/jobs-positions-create");
+
+});
+
+$app->get("/".DIR_ADMIN."/jobs-positions/:idjobposition", function($idjobposition){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$position = new Hcode\Team\Job\Position((int)$idjobposition);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("/admin/job-position", array(
+		"position"=>$position->getFields()
+	));
+
+});
+
 $app->get("/jobs-positions/all", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);

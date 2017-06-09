@@ -115,7 +115,13 @@ $app->get("/".DIR_ADMIN."/lock", function(){
         'footer'=>false
     ));
 
-    $page->setTpl('/admin/lock');
+    $user = Hcode\Session::getUser();
+    $person = Hcode\Session::getPerson();
+
+    $page->setTpl('/admin/lock', array(
+        "user"=>$user->getFields(),
+        "person"=>$person->getFields()
+    ));
 
 });
 
@@ -940,7 +946,11 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if (!post('destabela')) {
-        throw new Exception("Informe o nome da tabela.", 400);
+        throw new Exception("Informe o nome da tabela.");
+    }
+
+    if (!isset($_POST['pks'])) {
+        throw new Exception("Informe qual a coluna é a chave primária da tabela.");
     }
 
     $table = Hcode\SQL\Table::loadFromName(post('destabela'));

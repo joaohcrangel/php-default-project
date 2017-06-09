@@ -10,12 +10,15 @@ use Hcode\Shop\Product\Prices;
 use Hcode\Financial\Order\Orders;
 use Hcode\FileSystem\File;
 use Hcode\FileSystem\Files;
+<<<<<<< HEAD
 use Hcode\Site\Url;
+=======
+>>>>>>> 001f4c27625e10ce56c919ac5b87ada221d375d8
 use Hcode\Course\Course;
 
 class Product extends Model {
 
-    public $required = array('idproduct', 'idproducttype', 'desproduct', 'inremoved');
+    public $required = array('idproducttype', 'desproduct');
     protected $pk = "idproduct";
 
     public function get(){
@@ -134,6 +137,7 @@ class Product extends Model {
 
     }
 
+<<<<<<< HEAD
     public function setUrl(Url $url):Product
     {
 
@@ -146,6 +150,8 @@ class Product extends Model {
 
     }
 
+=======
+>>>>>>> 001f4c27625e10ce56c919ac5b87ada221d375d8
     public function setCourse(Course $course):Product
     {
 

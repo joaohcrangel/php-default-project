@@ -1,5 +1,21 @@
 <?php
 
+$app->get("/my-cart", function () {
+
+    $cart = Hcode\Session::getCart();
+
+    $products = $cart->getProducts();
+
+    $data = $cart->getFields();
+
+    $data["products"] = $products->getFields();
+
+    echo success([
+        "data"=>$data
+    ]);
+
+});
+
 $app->get("/carts/all", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);

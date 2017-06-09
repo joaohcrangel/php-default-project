@@ -1,0 +1,184 @@
+<style>
+	.cart-product-price, .cart-product-quantity, .cart-product-subtotal {
+		text-align: left!important;
+	}
+</style>
+
+<section id="page-title" class="page-title-mini">
+
+	<div class="container clearfix">
+		<h1>Meu carrinho</h1>
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Carrinho</li>
+		</ol>
+	</div>
+
+</section>
+
+<section id="content">
+
+	<div class="content-wrap">
+
+		<div class="container clearfix">
+
+			<div class="table-responsive bottommargin">
+
+				<table class="table cart">
+					<thead>
+						<tr>
+							<th class="cart-product-remove">&nbsp;</th>
+							<th class="cart-product-thumbnail">&nbsp;</th>
+							<th class="cart-product-name">Descrição</th>
+							<th class="cart-product-name">Qtd.</th>
+							<th class="cart-product-name">Preço</th>
+							<th class="cart-product-subtotal">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop="$products"}
+						<tr class="cart_item">
+							<td class="cart-product-remove" style="width: 42px;">
+								<a href="/shop/cart/{$value.idproduct}/remove" class="remove" title="Remover produto do carrinho"><i class="icon-trash2"></i></a>
+							</td>
+
+							<td class="cart-product-thumbnail" style="width: 98px;">
+								<a href="#"><img width="64" height="64" src="{$value.desthumb}" alt="{$value.desproduct}"></a>
+							</td>
+
+							<td class="cart-product-name">
+								<a href="#">{$value.desproduct}</a>
+							</td>
+
+							<td class="cart-product-qtd">
+								{$value.nrqtd}
+							</td>
+
+							<td class="cart-product-price">
+								<span class="amount">R${$value.desvlprice}</span>
+							</td>
+
+							<td class="cart-product-subtotal" style="width: 115px;">
+								<span class="amount">R${$value.desvltotal}</span>
+							</td>
+						</tr>
+						{else}
+						<tr class="cart_item">
+							<td colspan="6" class="text-center"><h2 style="margin-bottom:0;">=(</h2>O carrinho ainda está vazio</td>
+						</tr>
+						{/loop}
+
+						<tr class="cart_item" style="background-color: #F5F5F5">
+							<td class="cart-product-remove" style="width: 42px;">
+								&nbsp;
+							</td>
+
+							<td class="cart-product-thumbnail" style="width: 98px;">
+								&nbsp;
+							</td>
+
+							<td>
+								&nbsp;
+							</td>
+
+							<td>
+								&nbsp;
+							</td>
+
+							<td class="cart-product-name text-right" style="font-weight: bold;">
+								Valor Total:
+							</td>
+
+							<td class="cart-product-subtotal" style="font-weight: bold; width: 115px;">
+								<span class="amount">R${$cart.desvltotal}</span>
+							</td>
+						</tr>
+
+						<tr class="cart_item">
+							<td colspan="6">
+								<div class="row clearfix">
+									<div class="col-md-4 col-xs-4 nopadding">
+										<div class="col-md-8 col-xs-7 nopadding">
+											<input type="text" value="" class="sm-form-control" placeholder="Cupom de desconto..." />
+										</div>
+										<div class="col-md-4 col-xs-5">
+											<a href="#" class="button button-3d button-black nomargin">Aplicar Cupom</a>
+										</div>
+									</div>
+									<div class="col-md-8 col-xs-8 nopadding">
+										<a href="/shop/cart-buy" class="button button-3d notopmargin fright">Comprar</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+
+			</div>
+			<!--
+			<div class="row clearfix">
+				<div class="col-md-6 clearfix">
+					<h4>Calcular Frete</h4>
+					<form style="padding-left: 15px;">
+						<div class="row clearfix">
+							<div class="col-md-6 col-xs-12 nopadding">
+								<div class="col-md-8 col-xs-7 nopadding">
+									<input type="text" value="" class="sm-form-control" placeholder="CEP" />
+								</div>
+								<div class="col-md-4 col-xs-5">
+									<a href="#" class="button button-3d button-black nomargin">Aplicar Frete</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="col-md-6 clearfix">
+					<div class="table-responsive">
+						<h4>Total do Carrinho</h4>
+
+						<table class="table cart">
+							<tbody>
+								<tr class="cart_item">
+									<td class="cart-product-name">
+										<strong>Subtotal</strong>
+									</td>
+
+									<td class="cart-product-name">
+										<span class="amount">R$106.94</span>
+									</td>
+								</tr>
+								<tr class="cart_item">
+									<td class="cart-product-name">
+										<strong>Entrega</strong>
+									</td>
+
+									<td class="cart-product-name">
+										<span class="amount">Grátis</span>
+									</td>
+								</tr>
+								<tr class="cart_item">
+									<td class="cart-product-name">
+										<strong>Total</strong>
+									</td>
+
+									<td class="cart-product-name">
+										<span class="amount color lead"><strong>R$106.94</strong></span>
+									</td>
+								</tr>
+							</tbody>
+
+						</table>
+
+					</div>
+				</div>
+			</div>
+			-->
+		</div>
+
+	</div>
+
+</section><!-- #content end -->
+
+{include="footer-scripts"}

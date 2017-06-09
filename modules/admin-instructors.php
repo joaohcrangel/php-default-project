@@ -28,7 +28,8 @@ $app->get("/".DIR_ADMIN."/instructors/:idinstructor", function($idinstructor){
 	));
 
 	$page->setTpl("/admin/instructor", array(
-		"instructor"=>$instructor->getFields()
+		"instructor"=>$instructor->getFields(),
+		"desbiography"=>addslashes($instructor->getBiography()->getdesbiography())
 	));
 
 });
@@ -66,12 +67,12 @@ $app->get("/instructors/all", function(){
 	}
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS a.*, b.desperson, c.descourse, CONCAT(d.desdirectory, d.desfile, '.', d.desextension) AS desphoto FROM tb_instructors a
+		SELECT SQL_CALC_FOUND_ROWS a.*, b.desperson, CONCAT(d.desdirectory, d.desfile, '.', d.desextension) AS desphoto FROM tb_instructors a
 			INNER JOIN tb_persons b ON a.idperson = b.idperson
-			INNER JOIN tb_coursesinstructors e ON a.idinstructor = e.idinstructor
-			INNER JOIN tb_courses c ON e.idcourse = c.idcourse
+			LEFT JOIN tb_coursesinstructors e ON a.idinstructor = e.idinstructor
+			LEFT JOIN tb_courses c ON e.idcourse = c.idcourse
 			INNER JOIN tb_files d ON a.idphoto = d.idfile
-		".$where." LIMIT ?, ?;
+		".$where." GROUP BY a.idinstructor LIMIT ?, ?;
 	";
 
 	$pagination = new Hcode\Pagination(
@@ -101,6 +102,15 @@ $app->post("/instructors", function(){
 	}else{
 		$instructor = new Hcode\Course\Instructor();
 	}
+
+	$person = new Hcode\Person\Person(array(
+		"desperson"=>post("desperson"),
+		"idpersontype"=>Hcode\Person\Type::FISICA
+	));
+
+	$person->save();
+
+	$_POST['idperson'] = $person->getidperson();
 
 	$instructor->set($_POST);
 

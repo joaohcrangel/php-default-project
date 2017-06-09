@@ -13,7 +13,6 @@ $.picker = (function(){
 			if (!options.url) {
 				switch (options.type) {
 					case 'person':
-					
 					options = $.extend({
 						new:{
 							model:[{
@@ -71,21 +70,68 @@ $.picker = (function(){
 							placeholder:"Nome, e-mail, cpf ou etc..."
 						}],
 						url:'/persons',
-						title:'Selecionar Pessoas...',
-						itemTPL:Handlebars.compile(
-							'<li class="list-group-item" data-valu="{{idpessoa}}">' +
-								'<div class="media">' +
-									'<div class="media-left">' +
-										'<a class="avatar" href="javascript:void(0)">' +
-											'<img class="img-responsive" src="{{desfoto}}" alt="{{despessoa}}">' +
-										'</a>' +
-									'</div>' +
-									'<div class="media-body">' +
-										'<h4 class="media-heading">{{despessoa}}</h4>' +
-									'</div>' +
-								'</div>' +
-							'</li>'
-						)
+						title:'Selecionar Pessoas...'
+					}, options);
+					break;
+
+					case 'product':
+					options = $.extend({
+						new:{
+							model:[{
+								label:"Tipo de Produto",
+								name:"idproducttype",
+								type:"combo",
+								combo:{
+									url:"/products/types",
+									displayField:"desproducttype",
+									valueField:"idproducttype",
+									value:1
+								},
+								required:true
+							},{
+								label:"Nome do Produto",
+								name:"desproduct",
+								type:"string",
+								required:true
+							},{
+								label:"Preço",
+								name:"vlprice",
+								type:"decimal",
+								required:false
+							}],
+							textButton:"Novo Produto",
+							url:"/produtcs",
+							method:"post",
+							failure:function(_e){
+
+								t.showError(_e);
+
+							}
+						},
+						columns:[{
+							title:"Id",
+							field:"idproduct"
+						},{
+							title:"Produto",
+							field:"desproduct"
+						},{
+							title:"Tipo",
+							field:"desproducttype"
+						},{
+							title:"Preço",
+							field:"desvlprice"
+						}],
+						filters:[{
+							type:"text",
+							label:"Id",
+							field:"idproduct"
+						},{
+							type:"text",
+							label:"Busca",
+							field:"desproduct"
+						}],
+						url:'/products',
+						title:'Selecionar Produtos...'
 					}, options);
 					break;
 				}	
@@ -104,9 +150,6 @@ $.picker = (function(){
 				select:function(objects){
 
 				},
-				itemTPL:Handlebars.compile(
-					'<li class="list-group-item active" data-value="{{valueField}}">{{displayField}}</li>'
-				),
 				tpl:Handlebars.compile(
 					'<div class="panel panel-primary panel-line is-fullscreen" id="panel-picker">'+
 			            '<div class="panel-heading">'+
@@ -635,6 +678,84 @@ $.picker = (function(){
 		    					}));
 
 		    					$el.val(persons[0][o.primarykey]);
+
+		    					initButton();
+
+							}
+						});
+
+	    			});
+
+    			}
+
+    			initButton();		
+
+    		});
+
+ 		},
+
+ 		pickerProduct:function(options) {
+
+ 			var defaults = {
+				debug:false,
+				primarykey:"idproduct",
+				defaultPhotoUrl:"/res/theme/material/global/photos/placeholder.png",
+				defaultName:"...",
+				textButton:"Selecionar Produto",
+				textButtonChange:"Alterar Produto",
+				tpl:Handlebars.compile(
+					'<div class="media">'+
+					  '<div class="media-left">'+
+					    '<a class="avatar" href="javascript:void(0)">'+
+					      '<img class="img-fluid" src="{{defaultPhotoUrl}}">'+
+					    '</a>'+
+					  '</div>'+
+					  '<div class="media-body">'+
+					    '<h4 class="media-heading">{{defaultName}}</h4>'+
+					    '<small>{{defaultSubtitle}}</small>'+
+					  '</div>'+
+					  '<div class="media-right">'+
+					    '<button type="button" class="btn btn-primary waves-effect">{{textButton}}</button>'+
+					  '</div>'+
+					'</div>'
+				)
+			};
+
+			var o =  $.extend(defaults, options);
+
+			if(o.debug === true) console.info("options", o);
+
+    		return this.each(function() {
+
+    			var t = this;
+    			var $el = $(t);
+    			var $wrap = $('<div class="picker-product"></div>');
+    			
+    			$el.wrap($wrap);
+    			$el.hide();
+
+    			var $pickerProduct = $el.closest(".picker-product");
+
+    			$wrap.find(".media").remove();
+    			$pickerProduct.append(o.tpl(o));
+
+    			function initButton () {
+
+    				$pickerProduct.find("button").on("click", function () {
+
+	    				$.picker({
+							type:"product",
+							select:function (products) {
+
+								$pickerProduct.find(".media").remove();
+		    					$pickerProduct.append(o.tpl({
+		    						defaultPhotoUrl:products[0].desphotourl || o.defaultPhotoUrl,
+		    						defaultName:products[0].desproduct || o.defaultName,
+		    						defaultSubtitle:products[0].desproducttype || "",
+		    						textButton:o.textButtonChange
+		    					}));
+
+		    					$el.val(products[0][o.primarykey]);
 
 		    					initButton();
 

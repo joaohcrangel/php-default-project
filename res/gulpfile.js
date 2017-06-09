@@ -192,6 +192,7 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',
         './js/jrangel/jquery.btnrest.js',
+        './js/jrangel/jquery.modal.js',
         './js/jrangel/jquery.store.js',
         './js/jrangel/jquery.combobox.js',
         './js/jrangel/jquery.form.js',

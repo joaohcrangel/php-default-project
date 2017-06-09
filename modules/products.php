@@ -140,7 +140,7 @@ $app->get("/products/:idproduct/prices", function($idproduct){
         'idproduct'=>(int)$idproduct
     ));
 
-    $prices = $product->getProductsPrices();
+    $prices = $product->getPrices();
 
     $data = $prices->getFields();
 

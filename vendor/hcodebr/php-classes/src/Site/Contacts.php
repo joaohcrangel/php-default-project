@@ -1,9 +1,9 @@
 <?php
 
-namespace Hcode\Sites;
+namespace Hcode\Site;
 
 use \Hcode\Collection;
-use \Hcode\Person;
+use \Hcode\Person\Person;
 
 class Contacts extends Collection {
 
@@ -28,8 +28,7 @@ class Contacts extends Collection {
     {
     
          $this->loadFromQuery("CALL sp_sitescontactsfromperson_list(?)",array(
-               $person->getidperson()
-               
+               $person->getidperson()               
         ));
 
          return $this;

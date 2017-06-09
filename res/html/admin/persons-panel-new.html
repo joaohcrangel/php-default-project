@@ -30,6 +30,7 @@
           <div class="tab-content">
             <div class="tab-pane" id="tab-person-edit" role="tabpanel">
               <form id="form-person-edit">
+                <button type="button" id="btn-teste">Testar</button>
                 <input type="hidden" name="idperson">
                 <div class="panel m-0" style="box-shadow:none">
                   <div class="panel-body p-y-0 p-t-20">
@@ -1497,6 +1498,12 @@ var personPanel = (function(data, selectorContainer, opts){
 
         }
       });
+
+    });
+
+    t.$el.on('click', '#btn-teste', function(){
+
+      $(this).linkRegisters();
 
     });
 

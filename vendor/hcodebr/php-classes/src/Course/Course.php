@@ -7,6 +7,8 @@ use Hcode\Exception;
 use Hcode\Course\Sections;
 use Hcode\Course\Curriculum;
 use Hcode\Site\Url;
+use Hcode\Course\Instructors;
+use Hcode\Course\Instructor;
 
 class Course extends Model {
 
@@ -65,6 +67,47 @@ class Course extends Model {
     public function getCurriculum():Curriculum
     {
         return new Curriculum($this);
+    }
+
+    public function getInstructors():Instructors
+    {
+        return new Instructors($this);
+    }
+
+    public function getDescription():Course
+    {
+
+        $this->queryToAttr("SELECT desdescription, deswhatlearn, desrequirements, destargetaudience FROM tb_courses WHERE idcourse = ?;", array(
+            $this->getidcourse()
+        ));
+
+        return $this;
+
+    }
+
+    public static function getByUrl($desurl):Course
+    {
+
+        $course = new Course();
+
+        $course->queryToAttr("CALL sp_coursesbyurl_get(?);", array(
+            $desurl
+        ));
+
+        return $course;
+
+    }
+
+    public function setInstructor(Instructor $instructor):Course
+    {
+
+        $this->queryToAttr("CALL sp_coursesinstructors_save(?, ?);", array(            
+            $this->getidcourse(),
+            $instructor->getidinstructor()
+        ));
+
+        return $this;
+
     }
 
     public function setUrl(Url $url):Course

@@ -27,10 +27,10 @@ CREATE TABLE `tb_placesdata` (
   KEY `idaddress` (`idaddress`),
   KEY `idaddresstype` (`idaddresstype`),
   KEY `idcoordinate` (`idcoordinate`),
-  CONSTRAINT `tb_placesdata_ibfk_1` FOREIGN KEY (`idplace`) REFERENCES `tb_places` (`idplace`),
-  CONSTRAINT `tb_placesdata_ibfk_2` FOREIGN KEY (`idplacefather`) REFERENCES `tb_places` (`idplace`),
-  CONSTRAINT `tb_placesdata_ibfk_3` FOREIGN KEY (`idplacetype`) REFERENCES `tb_placestypes` (`idplacetype`),
-  CONSTRAINT `tb_placesdata_ibfk_4` FOREIGN KEY (`idaddress`) REFERENCES `tb_addresses` (`idaddress`),
-  CONSTRAINT `tb_placesdata_ibfk_5` FOREIGN KEY (`idaddresstype`) REFERENCES `tb_addressestypes` (`idaddresstype`),
-  CONSTRAINT `tb_placesdata_ibfk_6` FOREIGN KEY (`idcoordinate`) REFERENCES `tb_coordinates` (`idcoordinate`)
+  CONSTRAINT `FK_placesdata_places_place` FOREIGN KEY (`idplace`) REFERENCES `tb_places` (`idplace`),
+  CONSTRAINT `FK_placesdata_places_placefather` FOREIGN KEY (`idplacefather`) REFERENCES `tb_places` (`idplace`),
+  CONSTRAINT `FK_placesdata_placestypes` FOREIGN KEY (`idplacetype`) REFERENCES `tb_placestypes` (`idplacetype`),
+  CONSTRAINT `FK_placesdata_addresses` FOREIGN KEY (`idaddress`) REFERENCES `tb_addresses` (`idaddress`),
+  CONSTRAINT `FK_placesdata_addressestypes` FOREIGN KEY (`idaddresstype`) REFERENCES `tb_addressestypes` (`idaddresstype`),
+  CONSTRAINT `FK_placesdata_coordinates` FOREIGN KEY (`idcoordinate`) REFERENCES `tb_coordinates` (`idcoordinate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

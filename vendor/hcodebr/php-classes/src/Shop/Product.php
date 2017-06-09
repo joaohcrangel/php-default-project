@@ -10,10 +10,15 @@ use Hcode\Shop\Product\Prices;
 use Hcode\Financial\Order\Orders;
 use Hcode\FileSystem\File;
 use Hcode\FileSystem\Files;
+<<<<<<< HEAD
+use Hcode\Site\Url;
+=======
+>>>>>>> 001f4c27625e10ce56c919ac5b87ada221d375d8
+use Hcode\Course\Course;
 
 class Product extends Model {
 
-    public $required = array('idproduct', 'idproducttype', 'desproduct', 'inremoved');
+    public $required = array('idproducttype', 'desproduct');
     protected $pk = "idproduct";
 
     public function get(){
@@ -30,12 +35,13 @@ class Product extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_products_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_products_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidproduct(),
                 $this->getidproducttype(),
                 $this->getdesproduct(),
                 $this->getinremoved(),
-                $this->getvlprice()
+                $this->getvlprice(),
+                $this->getidthumb()
             ));
 
             return $this->getidproduct();
@@ -128,6 +134,33 @@ class Product extends Model {
         ));
 
         return true;
+
+    }
+
+<<<<<<< HEAD
+    public function setUrl(Url $url):Product
+    {
+
+        $this->queryToAttr("CALL sp_productsurls_save(?, ?);", array(
+            $this->getidproduct(),
+            $url->getidurl()
+        ));
+
+        return $this;
+
+    }
+
+=======
+>>>>>>> 001f4c27625e10ce56c919ac5b87ada221d375d8
+    public function setCourse(Course $course):Product
+    {
+
+        $this->queryToAttr("CALL sp_productscourses_save(?, ?);", array(
+            $this->getidproduct(),
+            $course->getidcourse()
+        ));
+
+        return $this;
 
     }
 

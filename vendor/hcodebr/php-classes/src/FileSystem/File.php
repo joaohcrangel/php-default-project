@@ -245,6 +245,64 @@ class File extends Model {
 
     }
 
+    public function crop(float $width, float $height, float $top, float $left, float $widthCrop = NULL, float $heightCrop = NULL){
+
+        list($real_width, $real_height) = getimagesize(PATH.$this->getdesurl());
+
+        if ($widthCrop === NULL) $widthCrop = $real_width;
+        if ($heightCrop === NULL) $heightCrop = $real_height;
+
+        list($new_width, $new_height) = [$width, $height];
+        list($width_responsive, $height_responsive) = [$widthCrop, $heightCrop];
+
+        $w = ($real_width*$new_width)/$width_responsive;
+        $h = ($real_height*$new_height)/$height_responsive;
+
+        $x = ($real_width*$left)/$width_responsive;
+        $y = ($real_height*$top)/$height_responsive;
+
+        $new_image = imagecreatetruecolor($w, $h);
+
+        switch ($this->getdesextension()) {
+            case "jpg":
+            case "jpeg":
+            $old_image = imagecreatefromjpeg(PATH.$this->getdesurl());
+            break;
+            case "gif":
+            $old_image = imagecreatefromgif(PATH.$this->getdesurl());
+            break;
+            case "png":
+            $old_image = imagecreatefrompng(PATH.$this->getdesurl());
+            break;
+        }
+
+        imagecopyresampled(
+            $new_image,
+            $old_image,
+            0, 0,
+            $x, $y,
+            $x+$w, $y+$h,
+            $x+$w, $y+$h
+        );
+
+        switch ($this->getdesextension()) {
+            case "jpg":
+            case "jpeg":
+            imagejpeg($new_image, PATH.$this->getdesurl());
+            break;
+            case "gif":
+            imagegif($new_image, PATH.$this->getdesurl());
+            break;
+            case "png":
+            imagepng($new_image, PATH.$this->getdesurl());
+            break;
+        }
+
+        imagedestroy($old_image);
+        imagedestroy($new_image);
+
+    }
+
     public function getFields(){
 
         $this->getdesurl();

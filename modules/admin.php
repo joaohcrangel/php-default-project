@@ -14,6 +14,13 @@ $app->get("/".DIR_ADMIN, function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/", function(){
+
+    header("Location: /".DIR_ADMIN);
+    exit;
+
+});
+
 $app->get("/".DIR_ADMIN."/sessionid", function(){
     
     echo session_id();
@@ -85,7 +92,7 @@ $app->get("/".DIR_ADMIN."/reset", function(){
 
     Hcode\Session::setConfigurations($configurations);
 
-    Menu::resetMenuSession();
+    Hcode\Admin\Menu::resetMenuSession();
 
     $nextUrl = (isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST']."/admin";
     $nextUrlParse = parse_url($nextUrl);
@@ -1022,7 +1029,7 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
     $template_code = $tpl->draw($tpl_name, true);
 
-    $template_code = str_replace( array("&lt;?","?&gt;"), array("<?","?>"), $template_code );
+    $template_code = str_replace( array("&lt;?","&gt;","&quot;"), array("<?",">",'"'), $template_code );
 
     if ($download === false) {
 

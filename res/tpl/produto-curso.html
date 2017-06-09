@@ -1,0 +1,65 @@
+<style>#page-title {
+		background-image: url('{$course.desbanner}'); 
+		background-size: cover; 
+		background-position: center center; 
+		height: 350px;
+		text-align: center;
+		border-bottom: 4px solid #E57E20;
+	}
+	#page-title h1 {
+		color: #fff;
+		text-shadow: 1px 1px 8px #000;
+		padding-top: 20px;
+	}
+	#page-title #brasao {
+		height: 200px;
+	}
+	.breadcrumb a {
+		color: #fff;
+	}
+	#page-title .breadcrumb > .active {
+		color: #fff;
+	}
+	.line, .double-line {
+		margin: 20px 0;
+	}
+	#content .content-wrap {
+		padding-top: 30px;
+	}
+	.product-price ins {
+		font-size: 32px;
+	}</style><section id="page-title" style=""><div class="container clearfix"><img id="brasao" src="{$path}{$course.desbrasao}" alt="Logo curso PHP 7"><h1>{$course.destitle}</h1><ol class="breadcrumb"><li><a href="#">Home</a><li><a href="#">Cursos</a><li class="active">{$course.descourse}</ol></div></section><section id="content" style="margin-bottom: 0px"><div class="content-wrap"><div class="container clearfix"><div class="col_two_third"><div class="fancy-title title-bottom-border"><h3>Informações do Curso</h3></div><div class="accordion accordion-bg clearfix"><div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>O que aprenderei?</div><div class="acc_content clearfix"><ul class="iconlist iconlist-color nobottommargin"><li>{$course.deswhatlearn}</ul></div><div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Requisitos</div><div class="acc_content clearfix"><ul class="iconlist iconlist-color nobottommargin"><li>{$course.desrequirements}</ul></div><div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Descrição</div><div class="acc_content clearfix"><ul class="iconlist iconlist-color nobottommargin"><li>{$course.desdescription}</ul></div><div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Quem é o público-alvo?</div><div class="acc_content clearfix"><ul class="iconlist iconlist-color nobottommargin"><li>{$course.destargetaudience}</ul></div></div><div class="divider divider-center"><a href="#" data-scrollto="#header"><i class="icon-chevron-up"></i></a></div><div class="fancy-title title-bottom-border"><h3>Grade curricular deste curso</h3></div><div class="accordion accordion-bg clearfix">{loop="$sections"}<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>{$value.dessection}</div><div class="acc_content clearfix"><ul class="iconlist iconlist-color nobottommargin" style="margin: 0">{loop="$curriculums"} {if="$value1.idsection == $value.idsection"}<li><div class="toggle"><div class="togglet" style="padding: 0">{$value.descurriculum}</div><div class="togglec" style="display: none; padding: 0">{$value.desdescription}</div></div></li>{/if} {/loop}</ul></div>{/loop}</div></div><div class="col_one_third col_last product-desc"><div class="product-price">{if="(float)$course.vlpriceold > 0"}<del>R${$course.desvlpriceold}</del> {/if}<ins>R${$course.desvlprice}</ins></div><div class="product-rating" data-rating="{$course.vlreviewsudemy}" data-rating-min="1" data-rating-max="5"></div><span>{function="number_format($course.vlreviewsudemy, 1, ',', '')"} ({$course.nrreviewsudemy} classificações na <a target="_blank" href="{$course.desurludemy}">udemy.com</a>)</span><div class="clear"></div><div class="line"></div><form class="cart nobottommargin clearfix" method="post" action="/shop/cart"><input type="hidden" name="idproduct" value="{$course.idproduct}"> <button type="submit" class="add-to-cart button nomargin">Comprar</button></form><div class="clear"></div><div class="line"></div><p>{$course.desshortdescription}<ul class="iconlist"><li><i class="icon-caret-right"></i> Vídeo sob demanda de {$course.vlworkload} horas<li><i class="icon-caret-right"></i> Acesso total vitalício<li><i class="icon-caret-right"></i> Acesso no dispositivo móvel e na TV<li><i class="icon-caret-right"></i> Certificado de Conclusão Udemy<li><i class="icon-caret-right"></i> Certificado Oficial Hcode com carga horária</ul><div class="panel"><div class="panel-heading"><h4 class="page-title" style="margin-bottom:5px">Instrutores</h4></div><div class="fslider testimonial" data-animation="fade" data-arrows="false"><div class="flexslider"><div class="slider-wrap">{loop="$instructors"}<div class="slide"><div class="testi-image"><a href="#"><img src="{$value.desphoto}" alt="{$value.desperson}"></a></div><div class="testi-content"><p>{$value.desbiography}<div class="testi-meta">{$value.desperson} <span>Hcode</span></div></div></div>{/loop}</div></div></div></div><div class="si-share noborder clearfix"><span>Compartilhar:</span><div><a href="#" class="social-icon si-borderless si-facebook"><i class="icon-facebook"></i> <i class="icon-facebook"></i> </a><a href="#" class="social-icon si-borderless si-twitter"><i class="icon-twitter"></i> <i class="icon-twitter"></i> </a><a href="#" class="social-icon si-borderless si-linkedin"><i class="icon-linkedin"></i> <i class="icon-linkedin"></i> </a><a href="#" class="social-icon si-borderless si-gplus"><i class="icon-gplus"></i> <i class="icon-gplus"></i></a></div></div></div></div></div></section><script>init.push(function(){
+
+	$(".product-rating").each(function(){
+
+		var $el = $(this);
+
+		var rating = {
+			full:'icon-star3',
+			half:'icon-star-half-full',
+			empty:'icon-star-empty'
+		};
+
+		var value = $el.data('rating');
+		var min = $el.data('rating-min');
+		var max = $el.data('rating-max');
+
+		for (var i = min; i <= max; i++) {
+			if (parseInt(value) >= i) {
+				$el.append('<i class="'+rating.full+'"></i>');
+			} else if (Math.ceil(value) === i) {
+				$el.append('<i class="'+rating.half+'"></i>');
+			} else {
+				$el.append('<i class="'+rating.empty+'"></i>');
+			}	
+		}
+
+	});
+
+	$("body").on("scroll", function () {
+
+		
+		
+	});
+
+});</script>

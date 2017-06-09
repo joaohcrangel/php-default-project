@@ -38,7 +38,7 @@ CREATE TABLE `tb_personsdata` (
   `descountry` varchar(32) DEFAULT NULL,
   `descep` char(8) DEFAULT NULL,
   `descomplement` varchar(32) DEFAULT NULL,
-  `desfacebok` varchar(64) DEFAULT NULL,
+  `desfacebook` varchar(64) DEFAULT NULL,
   `destwitter` varchar(64) DEFAULT NULL,
   `deslinkedin` varchar(64) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

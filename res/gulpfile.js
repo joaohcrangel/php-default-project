@@ -192,6 +192,7 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.core.js',
         './js/jrangel/jquery.btnload.js',
         './js/jrangel/jquery.btnrest.js',
+        './js/jrangel/jquery.modal.js',
         './js/jrangel/jquery.store.js',
         './js/jrangel/jquery.combobox.js',
         './js/jrangel/jquery.form.js',
@@ -199,6 +200,7 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.table.js',
         './js/jrangel/jquery.arquivos.js',
         './js/jrangel/jquery.panel.js',
+        './js/jrangel/jquery.picker.js',
         './js/aribeiro/selecionar.js'
     ])
         .pipe(jshint())

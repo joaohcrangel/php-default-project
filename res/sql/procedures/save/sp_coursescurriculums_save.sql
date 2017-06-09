@@ -7,16 +7,16 @@ pnrorder VARCHAR(45)
 )
 BEGIN
 
-    IF pidcurriculo = 0 THEN
+    IF pidcurriculum = 0 THEN
     
         INSERT INTO tb_coursescurriculums (descurriculum, idsection, desdescription, nrorder)
-        VALUES(pdescurriculo, pidsecao, pdesdescricao, pnrordem);
+        VALUES(pdescurriculum, pidsection, pdesdescription, pnrorder);
         
         SET pidcurriculum = LAST_INSERT_ID();
 
     ELSE
         
-        UPDATE tb_cursoscurriculos        
+        UPDATE tb_cursoscurriculums        
         SET 
             descurriculum = pdescurriculum,
             idsection = pidsection,

@@ -4,6 +4,6 @@ CREATE TABLE `tb_coursesurls` (
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `idcourse` (`idcourse`),
   KEY `idurl` (`idurl`),
-  CONSTRAINT `tb_coursesurls_ibfk_1` FOREIGN KEY (`idcourse`) REFERENCES `tb_courses` (`idcourse`),
-  CONSTRAINT `tb_coursesurls_ibfk_2` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`)
+  CONSTRAINT `FK_courses_urls_course` FOREIGN KEY (`idcourse`) REFERENCES `tb_courses` (`idcourse`),
+  CONSTRAINT `FK_courses_urls_url` FOREIGN KEY (`idurl`) REFERENCES `tb_urls` (`idurl`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1

@@ -3,10 +3,11 @@ pidcart INT
 )
 BEGIN
 
-	SELECT a.*, b.desperson, c.dtremoved, d.idproduct, d.desproduct, d.desproducttype, d.vlprice FROM tb_carts a
-		INNER JOIN tb_persons b ON a.idperson = b.idperson
-        INNER JOIN tb_cartsproducts c ON a.idcart = c.idcart
-        INNER JOIN tb_productsdata d ON c.idproduct = d.idproduct
-	WHERE a.idcart = pidcart;
+	SELECT a.idproduct, b.idproducttype, b.desproducttype, b.desproduct, b.vlprice, count(b.idproduct) AS nrqtd, count(b.idproduct)*b.vlprice AS vltotal, b.desurl
+	FROM tb_cartsproducts a
+	INNER JOIN tb_productsdata b ON a.idproduct = b.idproduct
+	WHERE a.idcart = pidcart AND a.dtremoved IS NULL
+	GROUP BY a.idproduct
+	ORDER BY b.desproduct;
 
 END

@@ -4,14 +4,15 @@ pdesitem VARCHAR(45),
 pdescontent TEXT,
 pnrorder VARCHAR(45),
 pidtype INT,
+pidcover INT,
 pidcarousel INT
 )
 BEGIN
 
     IF piditem = 0 THEN
     
-        INSERT INTO tb_carouselsitems (desitem, descontent, nrorder, idtype, idcarousel)
-        VALUES(pdesitem, pdescontent, pnrorder, pidtype, pidcarousel);
+        INSERT INTO tb_carouselsitems (desitem, descontent, nrorder, idtype, idcover, idcarousel)
+        VALUES(pdesitem, pdescontent, pnrorder, pidtype, pidcover, pidcarousel);
         
         SET piditem = LAST_INSERT_ID();
 
@@ -23,6 +24,7 @@ BEGIN
             descontent = pdescontent,
             nrorder = pnrorder,
             idtype = pidtype,
+            idcover = pidcover,
             idcarousel = pidcarousel        
         WHERE iditem = piditem;
 

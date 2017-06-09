@@ -1,0 +1,249 @@
+<!DOCTYPE html><html dir="ltr" lang="pt-br"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="author" content="Hcode Team">{include="header-head"}<link rel="stylesheet" href="/res/public/css/card.css"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{$title}</title><script>window.init = [], window.PATH = '{$path}';</script><script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script><script>PagSeguroDirectPayment.setSessionId('{$pagseguro.sessionid}');</script><style>#content .content-wrap {
+  			padding: 20px 0;
+  		}</style><body class="stretched"><div id="wrapper" class="clearfix"><header id="header" class="full-header"><div id="header-wrap"><div class="container clearfix">{include="header-logo"} {if="isLogged()"}<div id="top-account" class="dropdown"><a href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="icon-user"></i> {$user.Person.desperson}<i class="icon-angle-down"></i></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="{$path}/perfil">Perfil</a><li role="separator" class="divider"><li><a href="#" class="btn-logout">Sair <i class="icon-signout"></i></a></ul></div>{else}<div id="top-account"><a href="{$path}/login" class="btn"><i class="icon-user"></i></a></div>{/if}</div></div></header><section id="content" style="background-color: #EEE"><div class="content-wrap"><div class="container clearfix"><div class="row-fluid"><div class="col-sm-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Resumo do Pedido</h3></div><table class="table cart"><thead><tr><th class="cart-product-name" colspan="2">Item<th class="cart-product-name">Qtd.<th class="cart-product-subtotal">Preço<th class="cart-product-subtotal">Total<tbody>{loop="$products"}<tr class="cart_item"><td class="cart-product-thumbnail" style="width: 98px"><img width="64" height="64" src="{$value.desthumb}" alt="{$value.desproduct}"><td class="cart-product-name">{$value.desproduct}<td class="cart-product-qtd">{$value.nrqtd}<td class="cart-product-price"><span class="amount">R${$value.desvlprice}</span><td class="cart-product-subtotal" style="width: 115px"><span class="amount">R${$value.desvltotal}</span></tr>{else}<tr class="cart_item"><td colspan="6" class="text-center"><h2 style="margin-bottom:0">=(</h2>O carrinho ainda está vazio</tr>{/loop}<tr class="cart_item" style="background-color: #F5F5F5"><td class="cart-product-thumbnail" style="width: 98px">&nbsp;<td>&nbsp;<td>&nbsp;<td class="cart-product-name text-right" style="font-weight: bold">Valor Total:<td class="cart-product-subtotal" style="font-weight: bold; width: 115px"><span class="amount">R${$cart.desvltotal}</span></table></div></div></div><div class="row-fluid"><div class="col-sm-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Formas de Pagamento</h3></div><div class="panel-body"><div class="panel" id="load-payments"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> <span>Por favor aguarde, carregando formas de pagamento disponíveis no momento...</span></div><div class="tabs tabs-alt clearfix ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs-profile" style="display: none"><ul class="tab-nav clearfix ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist"><li class="ui-state-default ui-corner-top" role="tab" tabindex="0" aria-controls="tab-cartao" aria-labelledby="ui-id-1" aria-selected="false" aria-expanded="false"><a href="#tab-cartao" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-1">Cartão de Crédito</a><li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tab-boleto" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a href="#tab-boleto" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-2">Boleto</a><li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="tab-debito" aria-labelledby="ui-id-3" aria-selected="false" aria-expanded="false"><a href="#tab-debito" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-3">Débito Online</a></ul><div class="tab-container"><div class="tab-content clearfix ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-cartao" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false" style="display: none"><div class="card-wrapper"><div class="row-fluid"><div class="col-sm-6"><h4 style="margin-bottom: 4px">Endereço de Cobrança</h4><div class="panel">Rua Luiz Lua Gonzaga, 379<br>Jardim das Orquídeas<br>São Bernardo do Campo - SP<br>Brasil - 09854-360<br><button type="button" class="btn-edit-cobranca button button-mini button-border button-border-thin button-blue"><i class="icon-pencil"></i>Editar</button></div></div><div class="col-sm-6"><h4 style="margin-bottom: 4px">Dados do Títular do Cartão</h4><div class="panel">Nome: João Rangel<br>Data de Nascimento: 18/03/1989<br>CPF: 37465107830<br>Telefone: 11992662104<br><button type="button" class="btn-edit-titular button button-mini button-border button-border-thin button-blue"><i class="icon-pencil"></i>Editar</button></div></div></div><div class="clearfix"></div><div id="card-viewer" style="margin:20px 0"></div><form id="form-cartao"><input type="hidden" name="brand" id="brand"><div class="row-fluid"><div class="col-sm-12" style="margin-top: 10px"><label for="number">Número do cartão <small>*</small></label><input type="text" name="number" id="number" class="sm-form-control required valid" aria-required="false" aria-invalid="false"></div></div><div class="row-fluid"><div class="col-sm-12" style="margin-top: 10px"><label for="name">Nome impresso no cartão <small>*</small></label><input type="text" name="name" id="name" class="sm-form-control required valid" aria-required="true" aria-invalid="false"></div></div><div class="row-fluid"><div class="col-sm-6" style="margin-top: 10px"><label for="expiry">Validade <small>*</small></label><input type="text" name="expiry" id="expiry" class="sm-form-control required valid" aria-required="true" aria-invalid="false"></div><div class="col-sm-6" style="margin-top: 10px"><label>Código de segurança <small>*</small></label><input type="text" name="cvc" id="cvv" class="sm-form-control required valid" aria-required="true" aria-invalid="false"></div></div><div class="row-fluid"><div class="col-sm-6" style="margin-top: 10px"><label for="parcelas">Parcelar em <small>*</small></label><select name="parcelas" id="parcelas" class="sm-form-control required valid" aria-required="true" aria-invalid="false" disabled="disabled"></select></div><div class="col-sm-6" style="margin-top: 10px"><label>&nbsp;</label><button style="overflow: hidden; text-overflow: ellipsis; width: 100%" type="button" id="btn-submit-cartao" class="button button-3d button-large button-rounded button-green">Pagar com cartão de crédito</button></div></div><div class="row-fluid"><div class="col-sm-12" style="margin-top: 10px"><div id="error-msg" class="style-msg2 errormsg" style="display:none"><div class="msgtitle">Não foi possível prosseguir com o pagamento:</div><div class="sb-msg"><ul></ul></div></div><div class="style-msg clearfix" style="background-color: #EEE"><div class="sb-msg"><i class="icon-info-sign"></i> <strong>Importante</strong> Mesmo no caso de pagamento em várias parcelas de pequeno valor, lembre-se que o valor total da compra não pode exceder o limite de seu cartão. Esta é a regra de aprovação adotada pelas administradoras de cartão de crédito. Para sua segurança, as informações de crédito poderão passar por uma análise interna sujeita à confirmação via contato telefônico ou e-mail.</div></div></div></div></form></div></div><div class="tab-content clearfix ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-boleto" aria-labelledby="ui-id-2" role="tabpanel" aria-hidden="false" style="display: none"><div class="row-fluid"><div class="col-sm-12"><h4 style="margin-bottom: 4px">Dados do Pagante</h4><div class="panel">Nome: João Rangel<br>CPF: 37465107830<br><button type="button" class="btn-edit-pagante button button-mini button-border button-border-thin button-blue"><i class="icon-pencil"></i>Editar</button></div><ul class="list-unstyled list-spaced"><li><div class="media"><div class="media-left media-middle"><i class="icon-print" style="font-size: 42px"></i></div><div class="media-body media-middle ng-scope">Imprima o boleto e <strong>pague no banco</strong></div></div><li><div class="media"><div class="media-left media-middle"><i class="icon-barcode" style="font-size: 42px"></i></div><div class="media-body media-middle ng-scope"><strong>ou pague pela internet</strong> utilizando o código de barras do boleto</div></div><li><div class="media"><div class="media-left media-middle"><i class="icon-calendar" style="font-size: 42px"></i></div><div class="media-body media-middle"><span class="ng-scope">o prazo de validade do boleto é de </span><strong>1 dia útil</strong></div></div></ul><div class="style-msg alertmsg"><div class="sb-msg"><i class="icon-warning-sign"></i><strong>Importante!</strong><ul style="margin: 0 20px"><li>Caso o seu computador tenha um programa anti pop-up, será preciso desativá-lo antes de finalizar sua compra e imprimir o boleto ou pagar pelo internet banking;<li>Não faça depósito ou transferência entre contas. O boleto não é enviado pelos Correios. Imprima-o e pague-o no banco ou pela internet;<li>Se o boleto não for pago até a data de vencimento, o pedido será automaticamente cancelado;<li>O prazo de entrega dos pedidos pagos com boleto bancário começa a contar três dias depois do pagamento do boleto, tempo necessário para que a instituição bancária confirme o pagamento.</ul></div></div><button style="overflow: hidden; text-overflow: ellipsis; width: 100%" type="button" class="button button-3d button-large button-rounded button-green">Pagar com boleto</button></div></div></div><div class="tab-content clearfix ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-debito" aria-labelledby="ui-id-3" role="tabpanel" aria-hidden="false" style="display: none"><div class="row-fluid"><div class="col-sm-12"><h4 style="margin-bottom: 4px">Dados do Pagante</h4><div class="panel">Nome: João Rangel<br>CPF: 37465107830<br><button type="button" class="btn-edit-pagante button button-mini button-border button-border-thin button-blue"><i class="icon-pencil"></i>Editar</button></div><h4>Selecione o seu banco:</h4><div class="list-banks"></div><button type="button" style="margin-top: 30px; overflow: hidden; text-overflow: ellipsis; width: 100%" class="button button-3d button-large button-rounded button-green">Pagar com débito online</button></div></div></div></div></div></div><div class="panel-footer"><div class="text-center"><i class="icon-lock"></i> Compra segura Hcode</div></div></div></div></div></div></div></section><div class="modal fade" id="modal-form-pagante" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-body"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel">Modal Heading</h4></div><div class="modal-body"><h4>Text in a modal</h4><p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.<h4>Popover in a modal</h4><p>This <a href="#" role="button" class="btn btn-default" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">button</a> should trigger a popover on click.<h4>Tooltips in a modal</h4><p><a href="#" data-toggle="tooltip" title="" data-original-title="Tooltip">This link</a> and <a href="#" data-toggle="tooltip" title="" data-original-title="Tooltip">that link</a> should have tooltips on hover.<hr><h4>Overflowing text to show scroll behavior</h4><p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<p class="nobottommargin">Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save changes</button></div></div></div></div></div><script type="text/x-handlebars-template" id="tpl-debito"><div style="padding: 0 10px;">
+				<input id="radio-{{code}}" class="radio-style" name="radio-group-1" type="radio" checked>
+				<label for="radio-{{code}}" class="radio-style-1-label"><img src="{{image}}">{{displayName}}</label>
+			</div></script><script type="text/x-handlebars-template" id="tpl-installment"><option value="{{quantity}}-{{installmentAmount}}">{{display}}</option></script><script>init.push(function () {
+
+				function loadCobranca(){
+
+					rest({
+						url:"/shop/checkout/billing-address",
+						
+					});
+
+				}
+
+				$(".btn-edit-pagante").on("click", function () {
+
+					$("#modal-form-pagante").modal("show");
+
+				});
+				
+				var tplInstallment = Handlebars.compile($("#tpl-installment").html());
+
+				$("#form-cartao").card({
+					container: "#card-viewer"
+				});
+
+				$("#number").on("change", function (e) {
+
+					var numero = $(this).val().replace(/ /g, '');
+
+					var $select = $("#parcelas");
+
+					$select.html("");
+
+					$select.prop("disabled", true);
+
+					PagSeguroDirectPayment.getBrand({
+					    cardBin: numero,
+					    success: function(response) {
+
+					    },
+					    error: function(response) {
+					    	console.error(response);
+					    },
+					    complete: function(response) {
+
+					    	console.log("getBrand", response);
+
+					    	var brand = response.brand.name;
+
+					    	$("#brand").val(brand);
+
+					    	PagSeguroDirectPayment.getInstallments({
+							    amount: parseFloat("{$cart.vltotal}"),
+							    brand: brand,
+							    maxInstallmentNoInterest: 2,
+							    success: function(response) {
+							        //opções de parcelamento disponível
+							    },
+							    error: function(response) {
+							        console.error(response);
+							    },
+							    complete: function(response) {
+							        
+							    	console.log("getInstallments", response);
+
+							    	$select.html("");
+
+							    	$.each(response.installments[brand], function (index, data) {
+
+							    		var value = parseFloat(Math.round(data.installmentAmount * 100) / 100).toFixed(2).toString().replace(".", ",");
+
+							    		data.display = data.quantity+"x de R$"+value+" "+((data.interestFree)?"sem juros":"com juros");
+
+							    		var $option = $(tplInstallment(data));
+
+							    		$select.append($option);
+
+							    	});
+
+							    	$select.prop("disabled", false);
+
+							    }
+							});
+
+					    }
+					});
+
+				});
+
+				PagSeguroDirectPayment.getPaymentMethods({
+				    amount: parseFloat("{$cart.vltotal}"),
+				    success: function(response) {
+				        
+				    	if (response.paymentMethods) {
+
+				    		if (response.paymentMethods.BOLETO) {
+
+				    			var boleto = response.paymentMethods.BOLETO.options.BOLETO;
+				    			var $li = $("#ui-id-2").closest("li");
+
+				    			if (boleto.status === "AVAILABLE") {
+				    				$li.show();
+				    			} else {
+				    				$li.hide();
+				    			}
+
+				    		}
+
+				    		if (response.paymentMethods.ONLINE_DEBIT) {
+
+				    			var debito = response.paymentMethods.ONLINE_DEBIT;
+				    			var $li = $("#ui-id-3").closest("li");
+				    			var available = false;
+				    			var tplDebito = Handlebars.compile($("#tpl-debito").html());
+
+				    			for (var type in debito.options) {
+				    				if (debito.options[type].status === "AVAILABLE") {
+
+				    					available = true;
+
+				    					var data = debito.options[type];
+				    					data.image = "https://stc.pagseguro.uol.com.br/"+data.images.MEDIUM.path;
+				    					var $html = $(tplDebito(data));
+				    					$("#tab-debito .list-banks").append($html);
+
+				    				}
+				    			}
+
+				    			if (available) {
+				    				$li.show();
+				    			} else {
+				    				$li.hide();
+				    			}
+
+				    		}
+
+				    		if (response.paymentMethods.CREDIT_CARD) {
+
+				    			var cartao = response.paymentMethods.CREDIT_CARD;
+				    			var $li = $("#ui-id-1").closest("li");
+				    			var available = false;
+
+				    			for (var type in cartao.options) {
+				    				if (cartao.options[type].status === "AVAILABLE") available = true;
+				    			}
+
+				    			if (available) {
+				    				$li.show();
+				    			} else {
+				    				$li.hide();
+				    			}
+
+				    		}
+
+				    	} else {
+
+				    		console.warn("Não há formas de pagamento disponíveis no momento.");
+
+				    	}
+
+				    },
+				    error: function(response) {
+				        console.error(response);
+				    },
+				    complete: function(response) {
+				        console.log('complete', response);
+				        $("#load-payments").hide();
+				        $("#tabs-profile").show();
+				    }
+				});
+
+				$("#btn-submit-cartao").on("click", function () {
+
+					var $btn = $(this);
+					var hash = PagSeguroDirectPayment.getSenderHash();
+
+					$btn.btnload('load');
+					$("#error-msg").hide();
+
+					var params = {
+						brand:$("#brand").val(),
+					    cardNumber: $("#number").val().replace(/ /g, ''),
+					    cvv: $("#cvv").val(),
+					    expirationMonth: $("#expiry").val().split("/")[0].trim(),
+					    expirationYear: $("#expiry").val().split("/")[1].trim(),
+					    success: function(response) {
+					        
+					    	$btn.btnload('load');
+
+					    	rest({
+					    		url:"/shop/checkout",
+					    		method:"post",
+					    		data:{
+					    			token:response.card.token,
+					    			installments:$("#parcelas option:selected").val()
+					    		},
+					    		success:function (r) {
+
+					    			console.log(r);
+
+					    		},
+					    		failure:function (e) {
+
+					    			var $error = $("#error-msg");
+
+							    	$error.find("li").remove();
+
+							    	$error.find("ul").append('<li>'+(e.error || "Houve um erro desconhecido. Tente novamente mais tarde.")+'</li>');
+
+							    	$error.show();
+
+					    		}
+					    	});
+
+					    },
+					    error: function(response) {
+					        
+					    	console.error(response);
+
+					    	var $error = $("#error-msg");
+
+					    	$error.find("li").remove();
+
+					    	for (var error in response.errors) {
+
+					    		$error.find("ul").append('<li>'+response.errors[error]+'</li>');
+
+					    	}
+
+					    	$error.show();
+
+					    },
+					    complete: function(response) {
+					        
+					    	$btn.btnload('unload');
+
+					    }
+					};
+
+					console.log(params);
+
+					PagSeguroDirectPayment.createCardToken(params);
+
+				});
+
+			});</script>{include="footer-scripts"}</div>

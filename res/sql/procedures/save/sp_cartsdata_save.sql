@@ -11,7 +11,7 @@ BEGIN
     SELECT SUM(c.vlprice) AS vltotal, COUNT(c.idproduct) AS nrproducts INTO pvlprice, pnrproducts FROM tb_carts a
 		INNER JOIN tb_cartsproducts b ON a.idcart = b.idcart
 		INNER JOIN tb_productsprices c ON b.idproduct = c.idproduct
-	WHERE a.idcart = pidcart AND b.dtremovido IS NULL;
+	WHERE a.idcart = pidcart AND b.dtremoved IS NULL;
     
     UPDATE tb_carts SET
 		vltotal = pvlprice,

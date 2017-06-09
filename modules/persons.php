@@ -68,23 +68,19 @@ $app->get("/persons",function(){
 	$q = get("q");
 	$where = array();
 	$params = array();
+
 	foreach ($_GET as $key => $value) {
 		
 		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
-			if($key == "desperson"){
+			if ($key == "desperson") {
 				array_push($where, $key." LIKE ?");	
-				array_push($params, get("'%".$key."%'"));
-			}else{
+				array_push($params, "%".get($key)."%");
+			} else {
 				array_push($where, $key." = ?");
 				array_push($params, get($key));
 			}			
 		}
 
-	}
-
-	if (get("desperson")) {
-		array_push($where, "desperson LIKE ?");
-		array_push($params, "%".get("desperson")."%");
 	}
 
 	if (count($where) > 0) {
@@ -156,6 +152,10 @@ $app->post("/persons/:idperson/photo", function($idperson){
 		$file['error'],
 		$file['size']
 	);
+
+	if (isset($_POST['top']) && isset($_POST['left']) && isset($_POST['width']) && isset($_POST['height'])) {
+		$file->crop(post('width'), post('height'), post('top'), post('left'), post('width_responsive'), post('height_responsive'));
+	}
 
 	$person = new Hcode\Person\Person((int)$idperson);
 	$person->setPhoto($file);

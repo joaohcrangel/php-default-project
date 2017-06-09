@@ -13,7 +13,7 @@ if(!isset($args[0])) throw new Exception($this->pk." não informado");
 
         $this->queryToAttr("CALL {$sp_get}(".$args[0].");");
         {else}
-        {loop="primarykey"}
+        {loop="$primarykey"}
         if(!isset($args[{$counter}])) throw new Exception($->pk[{$counter}]." não informado");
         {/loop}
         $this->queryToAttr("CALL {$sp_get}(".$args[0].". ".$args[1].");");

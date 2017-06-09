@@ -1,6 +1,6 @@
 CREATE TABLE `tb_carts` (
   `idcart` int(11) NOT NULL AUTO_INCREMENT,
-  `idperson` int(11) NOT NULL,
+  `idperson` int(11) NULL,
   `dessession` varchar(128) NOT NULL,
   `inclosed` bit(1) DEFAULT NULL,
   `nrproducts` int(11) DEFAULT NULL,

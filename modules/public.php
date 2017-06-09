@@ -2,9 +2,228 @@
 
 $app->get("/", function(){
 
-    $page = new Hcode\Site\Page();
+	$carousel = Hcode\Site\Carousel::getHTML(1);
 
-    $page->setTpl('index');
+    $page = new Hcode\Site\Page();
+    
+    $page->setTpl('index', array(
+    	"testimonial"=>Hcode\Site\Testimonial::listAll()->getFields(),
+    	"workers"=>Hcode\Team\Workers::listAll()->getFields(),
+    	"carousel"=>$carousel['html'],
+    	"options"=>$carousel['options']
+    ));
+
+});
+
+$app->get("/termos-de-uso", function(){
+
+    $page = new Hcode\Site\Page([
+    	"data"=>[
+    		"title"=>"Termos de Uso - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('termos-de-uso');
+
+});
+
+$app->get("/politica-de-privacidade", function(){
+
+    $page = new Hcode\Site\Page([
+    	"data"=>[
+    		"title"=>"Política de Privacidade - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('politica-de-privacidade');
+
+});
+
+$app->get("/shop/cart", function(){
+
+	$cart = Hcode\Session::getCart();
+	$cart->reload();
+
+    $page = new Hcode\Site\Page([
+    	"footer"=>false,
+    	"data"=>[
+    		"title"=>"Carrinho de Compras - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('shop-cart', [
+    	"cart"=>$cart->getFields(),
+    	"products"=>$cart->getProducts()->getFields()
+    ]);
+
+});
+
+$app->get("/shop/cart/:idproduct/remove", function($idproduct){
+
+	if (!$idproduct) {
+    	throw new Exception("Nenhum produto foi informado.");
+    }
+
+    $cart = Hcode\Session::getCart();
+
+    $cart->removeProduct(new Hcode\Shop\Product([
+    	"idproduct"=>$idproduct
+    ]));
+
+    $cart->reload();
+
+    Hcode\Session::setCart($cart);
+
+    header("Location: /shop/cart");
+    exit;
+
+});
+
+$app->post("/shop/cart", function(){
+
+    if (!post("idproduct")) {
+    	throw new Exception("Nenhum produto foi informado.");
+    }
+
+    $cart = Hcode\Session::getCart();
+
+    $cart->addProduct(new Hcode\Shop\Product([
+    	"idproduct"=>post("idproduct")
+    ]));
+
+    $cart->reload();
+
+    Hcode\Session::setCart($cart);
+
+    header("Location: /shop/cart");
+    exit;
+
+});
+
+$app->get("/shop/checkout/billing-address", function(){
+
+
+
+});
+
+$app->get("/shop/checkout", function(){
+
+	Hcode\Session::checkLogin(true);
+
+	\PagSeguro\Library::initialize();
+	\PagSeguro\Library::cmsVersion()->setName("Nome")->setRelease("1.0.0");
+	\PagSeguro\Library::moduleVersion()->setName("Nome")->setRelease("1.0.0");
+
+    $sessionCode = \PagSeguro\Services\Session::create(
+        \PagSeguro\Configuration\Configure::getAccountCredentials()
+    );
+
+	$cart = Hcode\Session::getCart();
+	$user = Hcode\Session::getUser();
+	$person = $user->getPerson();
+
+	$order = Hcode\Session::getOrder();
+
+	$order->set([
+		"idperson"=>$person->getidperson(),
+		"idstatus"=>Hcode\Financial\Order\Status::AWAITING,
+		"dessession"=>session_id(),
+		"vltotal"=>$cart->getvltotal()
+	]);
+
+	Hcode\Session::setOrder($order);
+
+    $page = new Hcode\Site\Page([
+    	"header"=>false,
+    	"footer"=>false,
+    	"data"=>[
+    		"scripts_footer"=>[
+    			'<script src="/res/public/js/plugins/jquery.card.js"></script>'
+    		],
+    		"title"=>"Pagamento"
+    	]
+    ]);
+
+    $page->setTpl('shop-checkout', [
+    	"cart"=>$cart->getFields(),
+    	"products"=>$cart->getProducts()->getFields(),
+    	"order"=>$order->getFields(),
+    	"pagseguro"=>[
+    		"sessionid"=>$sessionCode->getResult()
+    	]
+    ]);
+
+});
+
+$app->post("/shop/checkout", function(){
+
+	var_dump($_POST);
+
+});
+
+$app->get("/shop/complete", function(){
+
+	Hcode\Session::checkLogin(true);
+
+    $page = new Hcode\Site\Page([
+    	'data'=>[
+    		"title"=>"Obrigado - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('shop-complete');
+
+});
+
+$app->get("/shop/cart-buy", function(){
+
+	Hcode\Session::checkLogin(true);
+
+	$cart = Hcode\Session::getCart();
+	$cart->reload();
+
+	if (!$cart->getnrproducts() > 0) {
+
+		header("Location: /shop/cart");
+		exit;
+
+	}
+
+	$person = Hcode\Session::getPerson();
+
+	if ($cart->getidperson() !== $person->getidperson()) {
+		$cart->setidperson($person->getidperson());
+		$cart->save();
+	}
+
+	Hcode\Session::setCart($cart);
+
+	header("Location: /shop/checkout");
+	exit;
+
+});
+
+$app->get("/shop/:desurl", function($desurl){
+
+	$course = Hcode\Course\Course::getByUrl($desurl);
+
+	if (!$course->getidcourse() > 0) {
+		header("Location: /");
+		exit;
+	}
+
+    $page = new Hcode\Site\Page([
+    	'data'=>[
+    		"title"=>$course->getdescourse()." - Hcode Treinamentos"
+    	]
+    ]);
+
+    $page->setTpl('produto-curso', array(
+    	"course"=>$course->getFields(),
+    	"sections"=>$course->getSections()->getFields(),
+    	"curriculums"=>$course->getCurriculums()->getFields(),
+    	"instructors"=>$course->getInstructors()->getFields()
+    ));
 
 });
 
@@ -72,7 +291,11 @@ $app->get("/blog", function(){
 
 	$posts = $pagination->getPage($page);
 
-	$page = new Hcode\Site\Page();
+	$page = new Hcode\Site\Page([
+		'data'=>[
+			'title'=>'Blog - Hcode Treinamentos'
+		]
+	]);
 
 	$page->setTpl("blog", array(
 		"posts"=>$posts->getFields(),
@@ -86,15 +309,43 @@ $app->get("/blog", function(){
 
 $app->get("/login", function(){
 
-	$page = new Hcode\Site\Page();
+	$page = new Hcode\Site\Page([
+		"header"=>false,
+    	"footer"=>false,
+    	'data'=>[
+			'title'=>'Login - Hcode Treinamentos'
+		]
+    ]);
 
 	$page->setTpl("login");
 
 });
 
-$app->get("/forget", function(){
+$app->get("/cadastro", function(){
 
-	$page = new Hcode\Site\Page();
+	$types = Hcode\Address\Types::listAll();
+
+	$page = new Hcode\Site\Page([
+    	"header"=>false,
+    	"footer"=>false,
+    	'data'=>[
+			'title'=>'Cadastro - Hcode Treinamentos'
+		]
+    ]);
+
+	$page->setTpl("cadastro", [
+		"types"=>$types->getFields()
+	]);
+
+});
+
+$app->get("/esqueceu-a-senha", function(){
+
+	$page = new Hcode\Site\Page([
+		'data'=>[
+			'title'=>'Esqueceu a senha - Hcode Treinamentos'
+		]
+	]);
 
 	$page->setTpl("forget");
 
@@ -102,7 +353,11 @@ $app->get("/forget", function(){
 
 $app->get("/contato", function(){
 
-	$page = new Hcode\Site\Page();
+	$page = new Hcode\Site\Page([
+		'data'=>[
+			'title'=>'Contato - Hcode Treinamentos'
+		]
+	]);
 
 	$page->setTpl("site-contact", array(
 		"conf"=>Hcode\Session::getConfigurations()->getNames()
@@ -112,11 +367,43 @@ $app->get("/contato", function(){
 
 $app->get("/perfil", function(){
 
-	$page = new Hcode\Site\Page();
+	$page = new Hcode\Site\Page([
+		'data'=>[
+			'title'=>'Meu Perfil - Hcode Treinamentos'
+		]
+	]);
+
+	$person = Hcode\Session::getPerson();
+	
+	$root = new Hcode\Site\Contact(array("idsitecontact"=>0));
+
+	$sitesContacts = Hcode\Person\Person::getSiteContactsHTML($root, $person->getSiteContacts());
+
+	$addresstypes = Hcode\Address\Types::listAll();
 
 	$page->setTpl("profile", array(
-		"conf"=>Hcode\Session::getConfigurations()->getFields()
+		"conf"=>Hcode\Session::getConfigurations()->getFields(),
+		"sitesContacts"=>$sitesContacts,
+		"person"=>$person->getFields(),
+		"addresstypes"=>$addresstypes->getFields()
 	));
+
+	//pre($person->getFields());
+
+});
+
+$app->post("/perfil-foto", function(){
+
+	$files = Hcode\FileSystem\Files::upload($_FILES['arquivo']);
+	$file = $files->getFirst();
+    $person = Hcode\Session::getPerson();
+    $person->setPhoto($file);
+    Hcode\Session::setPerson($person);
+    echo success(array(
+        'data'=>$files->getFields(),
+        'person'=>$person->getFields(),
+        "file"=>$file->getFields()
+    ));
 
 });
 
@@ -132,57 +419,23 @@ $app->post("/profile", function(){
 
 });
 
-$app->post("/profiles-news", function(){
-
-	$person = Hcode\Session::getPerson();
-
-	$person = new Hcode\Person\Person(array(
-		"desperson"=>post("desperson"),
-		"idperson"=>$person->getidperson(),
-		"idcontactsubtype"=>Hcode\Contact\SubType::EMAIL_PESSOAL,
-		"desemail"=>post("desemail")
-	));
-
-	$person->save();
-
-	echo success();
-
-});
-
-$app->post("/profiles-contact", function(){
-
-	$person = Hcode\Session::getPerson();
-
-	$person = new Hcode\Contact\Contact(array(
-		"descontact"=>post("descontact"),
-		"idperson"=>$person->getidperson(),
-        "idcontactsubtype"=>Hcode\Contact\SubType::EMAIL_PESSOAL,
-		//"idcontact"=>post("idcontact")	
-	));
-
-	$person->save();
-
-	echo success();
-});
-
-$app->post("/profiles-address", function(){
-
-	$address = new Hcode\Address\Address(array(
-		"desaddress"=>post("desaddress"),
-		"idaddresstype"=>Hcode\Address\Type::RESIDENCIAL,
-		"idaddress"=>post("idaddress")
-		
-	));
-
-	$address->save();
-
-	echo success();
-
-});
-
 $app->post("/password", function(){
 
 	$user = Hcode\Session::getUser();
+
+	if(!$user->checkPassword(post("descurrentpassword"))){
+		throw new Exception("A senha informada está errada", 403);		
+	}
+
+	if($_POST['despasswordnew'] != $_POST['despasswordnew2']){
+		throw new Exception("As senhas devem ser idênticas");
+	}
+
+	$user->setdespassword(Hcode\System\User::getPasswordHash(post("despasswordnew")));
+
+	$user->save();
+
+	echo success();
 
 });
 
@@ -207,12 +460,13 @@ $app->post("/login", function(){
 	Hcode\Session::setConfigurations($configurations);
 
 	echo success(array(
-		"token"=>session_id()
+		"token"=>session_id(),
+		"url"=>Hcode\Session::getAfterRedirect()
 	));
 
 });
 
-$app->post("/logout", function(){
+$app->get("/logout", function(){
 
 	unsetLocalCookie(COOKIE_KEY);
 
@@ -220,38 +474,82 @@ $app->post("/logout", function(){
 
 	session_destroy();
 
-	echo success();
+	if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) {
+		$afterRedirect = $_SERVER['HTTP_REFERER'];
+	} else {
+		$afterRedirect = "/";
+	}
+
+	header("Location: ".$afterRedirect);
+	exit;
 
 });
 
 $app->post("/register", function(){
 
-	if(!post("despassword")){
-		throw new Exception("Preencha a senha", 400);		
+	if (!post("desperson")) {
+		throw new Exception("Preencha o seu nome completo.", 400);
 	}
 
-	if($_POST["despassword"] != $_POST['despassword2']){
-		throw new Exception("As senhas devem ser idênticas", 400);		
+	if (!post("dessex")) {
+		throw new Exception("Selecione o sexo.", 400);
 	}
+
+	if (!post("descpf")) {
+		throw new Exception("Preencha o seu CPF.", 400);
+	}
+
+	if (!post("dtbirth")) {
+		throw new Exception("Preencha a data de nascimento.", 400);
+	}
+
+	if (!post("desphone")) {
+		throw new Exception("Preencha o telefone para contato.", 400);
+	}
+
+	//if (!post("despassword")) {
+	//throw new Exception("Preencha a senha.", 400);		
+	//}
+
+	//if ($_POST["despassword"] != $_POST['despassword2']) {
+	//throw new Exception("As senhas devem ser idênticas.", 400);		
+	//}
+
+	// if (!Hcode\Document\Document::exists(post("descpf"), Hcode\Document\Type::CPF)) {
+	// 	throw new Exception("Este CPF já está sendo usado por outro usuário.");
+	// }
+
+	//if (!Hcode\Contact\Contact::exists(post("desemail"), Hcode\Contact\Type::EMAIL)) {
+	//throw new Exception("Este e-mail já está sendo usado por outro usuário.");
+	//}
 
 	$person = new Hcode\Person\Person(array(
-		"desperson"=>post("desperson"),
 		"idpersontype"=>Hcode\Person\Type::FISICA
 	));
+
+	$person->set($_POST);
 
 	$person->save();
 
 	$user = new Hcode\System\User(array(
 		"idperson"=>$person->getidperson(),
-		"desuser"=>post("desuser"),
+		"desuser"=>post("desemail"),
 		"despassword"=>Hcode\System\User::getPasswordHash(post('despassword')),
-		"inblocked"=>0,
+		"inblocked"=> false,
 		"idusertype"=>Hcode\System\User\Type::CLIENTE
 	));
 
 	$user->save();
 
-	$person->addContact(post("desuser"), Hcode\Contact\SubType::EMAIL_PESSOAL);
+	$address = new Hcode\Address\Address();
+
+	$address->set($_POST);
+
+	$address->setinmain(1);
+
+	$address->save();
+
+	$person->addAddress($address);
 
 	$user->getPerson();
 
@@ -261,9 +559,7 @@ $app->post("/register", function(){
 
 	Hcode\Session::setConfigurations($configurations);
 
-	echo success(array(
-		'token'=>session_id()
-	));
+	echo success();
 
 });
 
@@ -304,3 +600,5 @@ $app->post("/site-contacts/new", function(){
 });
 
 ?>
+
+

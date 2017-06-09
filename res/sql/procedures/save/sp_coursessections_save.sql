@@ -1,15 +1,15 @@
 CREATE PROCEDURE sp_coursessections_save(
 pidsection INT,
 pdessection VARCHAR(128),
-pnrordem INT,
+pnrorder INT,
 pidcourse INT
 )
 BEGIN
 
     IF pidsection = 0 THEN
     
-        INSERT INTO tb_coursessections (dessection, nrordem, idcourse)
-        VALUES(pdessection, pnrordem, pidcourse);
+        INSERT INTO tb_coursessections (dessection, nrorder, idcourse)
+        VALUES(pdessection, pnrorder, pidcourse);
         
         SET pidsection = LAST_INSERT_ID();
 
@@ -18,7 +18,7 @@ BEGIN
         UPDATE tb_coursessections       
         SET 
             dessection = pdessection,
-            nrordem = pnrordem,
+            nrorder = pnrorder,
             idcourse = pidcourse        
         WHERE idsection = pidsection;
 

@@ -3,30 +3,14 @@
 <head>
 
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="charset" content="utf-8">
 	<meta name="author" content="Hcode Team" />
 
-	<!-- Stylesheets
-	============================================= -->
-	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="/res/public/css/bootstrap.css" type="text/css" />
-	<link rel="stylesheet" href="/res/public/style.css" type="text/css" />
-	<link rel="stylesheet" href="/res/public/css/swiper.css" type="text/css" />
-	<link rel="stylesheet" href="/res/public/css/dark.css" type="text/css" />
-	<link rel="stylesheet" href="/res/public/css/font-icons.css" type="text/css" />
-	<link rel="stylesheet" href="/res/public/css/animate.css" type="text/css" />
-	<link rel="stylesheet" href="/res/public/css/magnific-popup.css" type="text/css" />
-	
-	<link rel="stylesheet" href="/res/theme/material/global/vendor/alertify/alertify.css" type="text/css" />
-	<!-- <link rel="stylesheet" href="/res/theme/assets/examples/css/advanced/alertify.css" type="text/css" /> -->
-	<link rel="stylesheet" href="/res/theme/material/global/vendor/switchery/switchery.css" type="text/css" />
-	<link rel="stylesheet" href="/res/theme/material/global/fonts/material-design/material-design.min.css" type="text/css" />
+	{include="header-head"}
 
-	<link rel="stylesheet" href="/res/public/css/responsive.css" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<!-- Document Title
-	============================================= -->
-	<title>Hcode Default Project</title>
+	<title>{$title}</title>
 
 	<script>
 		window.init = [], window.PATH = '{$path}';
@@ -50,12 +34,7 @@
 
 					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
 
-					<!-- Logo
-					============================================= -->
-					<div id="logo">
-						<a href="index.html" class="standard-logo" data-dark-logo="/res/img/logo.png"><img src="/res/img/logo.png" alt="Hcode Logo"></a>
-						<a href="index.html" class="retina-logo" data-dark-logo="/res/img/logo@2x.png"><img src="/res/img/logo@2x.png" alt="Hcode Logo"></a>
-					</div><!-- #logo end -->
+					{include="header-logo"}
 
 					{if="isLogged()"}
 						<div id="top-account" class="dropdown">
@@ -63,7 +42,7 @@
 							<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 								<li><a href="{$path}/perfil">Perfil</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#" class="btn-logout">Sair <i class="icon-signout"></i></a></li>								
+								<li><a href="/logout" class="btn-logout">Sair <i class="icon-signout"></i></a></li>								
 							</ul>
 						</div>
 					{else}
@@ -74,46 +53,11 @@
 
 					<!-- Primary Navigation
 					============================================= -->
-					<nav id="primary-menu" class="dark">
+					<nav id="primary-menu">
 
 						{include="header-menu"}
 
-						<!-- Top Cart
-						============================================= -->
-						<div id="top-cart">
-							<a href="#" id="top-cart-trigger"><i class="icon-shopping-cart"></i><span>5</span></a>
-							<div class="top-cart-content">
-								<div class="top-cart-title">
-									<h4>Shopping Cart</h4>
-								</div>
-								<div class="top-cart-items">
-									<div class="top-cart-item clearfix">
-										<div class="top-cart-item-image">
-											<a href="#"><img src="/res/public/images/shop/small/1.jpg" alt="Blue Round-Neck Tshirt" /></a>
-										</div>
-										<div class="top-cart-item-desc">
-											<a href="#">Blue Round-Neck Tshirt</a>
-											<span class="top-cart-item-price">$19.99</span>
-											<span class="top-cart-item-quantity">x 2</span>
-										</div>
-									</div>
-									<div class="top-cart-item clearfix">
-										<div class="top-cart-item-image">
-											<a href="#"><img src="/res/public/images/shop/small/6.jpg" alt="Light Blue Denim Dress" /></a>
-										</div>
-										<div class="top-cart-item-desc">
-											<a href="#">Light Blue Denim Dress</a>
-											<span class="top-cart-item-price">$24.99</span>
-											<span class="top-cart-item-quantity">x 3</span>
-										</div>
-									</div>
-								</div>
-								<div class="top-cart-action clearfix">
-									<span class="fleft top-checkout-price">$114.95</span>
-									<button class="button button-3d button-small nomargin fright">View Cart</button>
-								</div>
-							</div>
-						</div><!-- #top-cart end -->
+						{include="header-cart"}
 
 						<!-- Top Search
 						============================================= -->

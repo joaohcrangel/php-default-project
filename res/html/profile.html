@@ -1,5 +1,3 @@
-<!-- Content
-============================================= -->
 <section id="content">
 
 	<div class="content-wrap">
@@ -10,11 +8,20 @@
 
 				<div class="col-sm-9">
 
-					<img src="images/icons/avatar.jpg" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" alt="Avatar" style="max-width: 84px;">
-
 					<div class="heading-block noborder">
+
+						{if="$person.desphotourl"}
+				                		
+                			<img src="{$person.desphotourl}" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" id="img-cover" alt="{$person.desperson}" style="max-width: 84px;">
+                		{else}
+
+                			<img class="image_fade" id="img-cover" src="{$path}/res/img/placeholder.png" style="height:100px; margin-top:10px; cursor:pointer;">
+
+                		{/if}
+
 						<h3>{$user.Person.desperson}</h3>
-						<span>Veja seu perfil</span>
+    					<span>Veja seu perfil</span>
+    					
 					</div>
 
 					<div class="clear"></div>
@@ -27,44 +34,60 @@
 
 								<ul class="tab-nav clearfix">
 									<li><a href="#tab-data"><i class="icon-user"></i> Dados</a></li>
-									<li><a href="#tab-password"><i class="icon-lock3"></i> Senha</a></li>					
-									<li><a href="#tab-connections"><i class="icon-users"></i> Fale conosco</a></li>									
+									<li><a href="#tab-password"><i class="icon-lock3"></i> Senha</a></li>		
+									<li><a href="#tab-connections"><i class="icon-users"></i> Fale conosco</a></li>	
 								</ul>
 
 								<div class="tab-container">
 
 									<div class="tab-content clearfix" id="tab-data">
 
-										<form id="form-profile">
-											
-											<div class="form-group">
-												<label for="desperson">Nome Completo:</label>
-												<input type="text" class="form-control" value="{$user.Person.desperson}">
+										<form id="register-form">
+										
+											<div class="col_full">
+												<label for="desperson">Nome completo:</label>
+												<input type="text" id="desperson" name="desperson" value="{$person.desperson}" class="form-control">
+											</div>
+
+											<div class="col_full">
+												<label>E-mail:</label>
+												<input type="email" id="desemail" name="desemail" value="{$person.desemail}" class="form-control">
 											</div>
 
 											<div class="col_full">
 												<label for="dessex">Sexo:</label>
+												{if="$person.dessex == 'M'"}
 												<div>
-													<input id="radio-4" class="radio-style" name="dessex" type="radio" value="M" checked="checked">
-													<label for="radio-4" class="radio-style-1-label">Masculino</label>
+													<input id="dessex-M" checked="checked" class="radio-style" name="dessex" type="radio" value="M" >
+													<label for="dessex-M" class="radio-style-1-label">Masculino</label>
 												</div>
 												<div>
-													<input id="radio-5" class="radio-style" name="dessex" type="radio" value="F">
-													<label for="radio-5" class="radio-style-1-label">Feminino</label>
+													<input id="dessex-F" class="radio-style" name="dessex" type="radio" value="F" >
+													<label for="dessex-F" class="radio-style-1-label">Feminino</label>
 												</div>
+												{else}
+												<div>
+													<input id="dessex-M" class="radio-style" name="dessex" type="radio" value="M" >
+													<label for="dessex-M" class="radio-style-1-label">Masculino</label>
+												</div>
+												<div>
+													<input id="dessex-F" checked="checked" class="radio-style" name="dessex" type="radio" value="F" >
+													<label for="dessex-F" class="radio-style-1-label">Feminino</label>
+												</div>
+												{/if}
 											</div>
 
 											<div class="col_full">
 												<label for="descpf">CPF:</label>
-												<input type="text" id="descpf" name="descpf" value="" class="form-control">
+												<input type="text" id="descpf" name="descpf" value="{$person.descpf}" class="form-control">
 											</div>
 											<div class="col_full">
 												<label for="dtbirth">Data de nascimento:</label>
-												<input type="date" id="dtbirth" name="dtbirth" value="" class="form-control">
+												<input type="date" id="dtbirth" name="dtbirth" class="form-control" value="{$person.dtbirth}">
 											</div>
 											<div class="col_full">
 												<label for="desphone">Telefone para contato:</label>
-												<input type="tel" id="desphone" name="desphone" value="" class="form-control">
+												<input type="tel" id="desphone" name="desphone" value="{$person.desphone}" class="form-control">
 											</div>
 											<div class="fancy-title title-double-border">
 												<h4>Endereço de cadastro</h4>
@@ -72,56 +95,54 @@
 
 											<div class="col_full">
 											<label for="idaddresstype">Tipo de Endereço:</label>
-											<select type="text" id="idaddresstype" name="idaddresstype" class="form-control"><option value="1">Residencial</option>
-												<option value="2">Comercial</option>
-												<option value="3">Cobrança</option>
-												<option value="4">Entrega</option>
+											<select type="text" id="idaddresstype" name="idaddresstype" class="form-control">
+											{loop="$addresstypes"}
+												{if="$person.idaddresstype == $value.idaddresstype"}
+												<option value="{$value.idaddresstype}" selected="selected">{$value.desaddresstype}</option>
+												{else}
+												<option value="{$value.idaddresstype}">{$value.desaddresstype}</option>
+												{/if}
+											{/loop}
 											</select>
 											</div>
 											<div class="col_full">
 												<label for="descep">CEP:</label>
-												<input type="text" id="descep" name="descep" value="" class="form-control"> 
+												<input type="text" id="descep" name="descep" value="{$person.descep}" class="form-control"> 
 												<a target="_blank" href="http://m.correios.com.br/movel/buscaCepConfirma.do">Não sei meu CEP</a>
 											</div>
-											<div id="endereco-form" style="display: none">
+											<div>
 												<div class="col_full">
 													<label for="desaddress">Endereço:</label>
-													<input type="text" id="desaddress" name="desaddress" value="" class="form-control">
+													<input type="text" id="desaddress" name="desaddress" value="{$person.desaddress}" class="form-control">
 												</div>
 												<div class="col_full">
 													<label for="desnumber">Número:</label>
-													<input type="text" id="desnumber" name="desnumber" value="" class="form-control">
+													<input type="text" id="desnumber" name="desnumber" value="{$person.desnumber}" class="form-control">
 												</div>
 												<div class="col_full">
 													<label for="descomplement">Complemento:</label>
-													<input type="text" id="descomplement" name="descomplement" value="" class="form-control">
+													<input type="text" id="descomplement" name="descomplement" value="{$person.descomplement}" class="form-control">
 												</div>
 												<div class="col_full">
 													<label for="desdistrict">Bairro:</label>
-													<input type="text" id="desdistrict" name="desdistrict" value="" class="form-control">
+													<input type="text" id="desdistrict" name="desdistrict" value="{$person.desdistrict}" class="form-control">
 												</div>
 												<div class="col_full">
 													<label for="descity">Cidade:</label>
-													<input type="text" id="descity" name="descity" value="" class="form-control"></div>
-													<div class="col_full">
-														<label for="desstate">Estado:</label>
-														<input type="text" id="desstate" name="desstate" value="" class="form-control">
-												</div>
-												<div class="col_full">
-													<label for="desstate">País:</label>
-													<input type="text" id="descountry" name="descountry" value="" class="form-control">
+													<input type="text" id="descity" name="descity" value="{$person.descity}" class="form-control">
 												</div>
 											</div>
-
+											<div class="col_full nobottommargin">
+												<button type="submit" class="button button-3d button-success nomargin" id="register-form-submit" name="register-form-submit" value="register">Salvar</button>
 											</div>
 
-											<div class="form-group">
-												<button type="button" class="btn btn-primary">Salvar</button>
-											</div>
+
+										</div>
+
 
 										</form>
-
 									</div>
+
 									<div class="tab-content clearfix" id="tab-password">
 
 										<form id="form-password">
@@ -148,76 +169,66 @@
 										</form>
 
 									</div>
-
-									<div class="col-sm-3 clearfix">
-
-										<div class="list-group">
-											<a href="#" class="list-group-item clearfix">Profile <i class="icon-user pull-right"></i></a>
-											<a href="#" class="list-group-item clearfix">Servers <i class="icon-laptop2 pull-right"></i></a>
-											<a href="#" class="list-group-item clearfix">Messages <i class="icon-envelope2 pull-right"></i></a>
-											<a href="#" class="list-group-item clearfix">Billing <i class="icon-credit-cards pull-right"></i></a>
-											<a href="#" class="list-group-item clearfix">Settings <i class="icon-cog pull-right"></i></a>
-											<a href="#" class="list-group-item clearfix">Logout <i class="icon-line2-logout pull-right"></i></a>
-										</div>
-									</div>
-
-									<div class="tab-content clearfix" id="tab-connections">
-
-										<div class="clear topmargin-sm"></div>
-										
-
-									</div>
-
+									
 								</div>
 
 							</div>
 
+
 						</div>
 
 					</div>
+					<div class="col-sm-3 clearfix pull-right">
 
-				</div>
-
-				<div class="line visible-xs-block"></div>
-
-				<div class="col-sm-3 clearfix">					
-
-					<div class="fancy-title topmargin title-border">
-						<h4>Social Profiles</h4>
+					<div class="list-group">
+						<a href="#" class="list-group-item clearfix">Profile <i class="icon-user pull-right"></i></a>
+						<a href="#" class="list-group-item clearfix">Servers <i class="icon-laptop2 pull-right"></i></a>
+						<a href="#" class="list-group-item clearfix">Messages <i class="icon-envelope2 pull-right"></i></a>
+						<a href="#" class="list-group-item clearfix">Billing <i class="icon-credit-cards pull-right"></i></a>
+						<a href="#" class="list-group-item clearfix">Settings <i class="icon-cog pull-right"></i></a>
+						<a href="#" class="list-group-item clearfix">Logout <i class="icon-line2-logout pull-right"></i></a>
 					</div>
 
-					<a href="#" class="social-icon si-facebook si-small si-rounded si-light" title="Facebook">
-						<i class="icon-facebook"></i>
-						<i class="icon-facebook"></i>
-					</a>
-
-					<a href="#" class="social-icon si-gplus si-small si-rounded si-light" title="Google+">
-						<i class="icon-gplus"></i>
-						<i class="icon-gplus"></i>
-					</a>
-
-					<a href="#" class="social-icon si-dribbble si-small si-rounded si-light" title="Dribbble">
-						<i class="icon-dribbble"></i>
-						<i class="icon-dribbble"></i>
-					</a>
-
-					<a href="#" class="social-icon si-flickr si-small si-rounded si-light" title="Flickr">
-						<i class="icon-flickr"></i>
-						<i class="icon-flickr"></i>
-					</a>
-
-					<a href="#" class="social-icon si-linkedin si-small si-rounded si-light" title="LinkedIn">
-						<i class="icon-linkedin"></i>
-						<i class="icon-linkedin"></i>
-					</a>
-
-					<a href="#" class="social-icon si-twitter si-small si-rounded si-light" title="Twitter">
-						<i class="icon-twitter"></i>
-						<i class="icon-twitter"></i>
-					</a>
-
 				</div>
 
+				</div>
+				<div class="col-sm-3 clearfix">					
+
+				<div class="fancy-title topmargin title-border">
+					<h4>Social Profiles</h4>
+				</div>
+
+				<a href="#" class="social-icon si-facebook si-small si-rounded si-light" title="Facebook">
+					<i class="icon-facebook"></i>
+					<i class="icon-facebook"></i>
+				</a>
+
+				<a href="#" class="social-icon si-gplus si-small si-rounded si-light" title="Google+">
+					<i class="icon-gplus"></i>
+					<i class="icon-gplus"></i>
+				</a>
+
+				<a href="#" class="social-icon si-dribbble si-small si-rounded si-light" title="Dribbble">
+					<i class="icon-dribbble"></i>
+					<i class="icon-dribbble"></i>
+				</a>
+
+				<a href="#" class="social-icon si-flickr si-small si-rounded si-light" title="Flickr">
+					<i class="icon-flickr"></i>
+					<i class="icon-flickr"></i>
+				</a>
+
+				<a href="#" class="social-icon si-linkedin si-small si-rounded si-light" title="LinkedIn">
+					<i class="icon-linkedin"></i>
+					<i class="icon-linkedin"></i>
+				</a>
+
+				<a href="#" class="social-icon si-twitter si-small si-rounded si-light" title="Twitter">
+					<i class="icon-twitter"></i>
+					<i class="icon-twitter"></i>
+				</a>
+
+			</div>
 			</div>
 
 		</div>
@@ -227,42 +238,92 @@
 </section><!-- #content end -->
 
 <script>
-	
-init.push(function(){
-	
-	$("#form-profile").form({
-		url:PATH+"/profiles-news",
-		resetForm:false,
-		success:function(){			
-			System.success("Usuario criado com sucesso");
-		}
-	});	
+  
+	init.push(function(){
 
-	$("button").on("click", function(){
-		
-		rest({
-	
-			url:PATH+"/profiles-contact",
-			method:"POST",
-		   	success:function(){			
-			System.success("Endereço criado com sucesso");
+		//var person = JSON.parse('{function="json_encode($person)"}');
 
-			},
+		//$("#dessex-"+person.dessex).prop("checked", true);
+
+		$("#descep").on("change keyup", function () {
+
+		var value = $(this).val();
+
+			if (value.replace('-', '').length === 8) {
+
+				$("#descep").prop("disabled", true);
+				
+				rest({
+					url:"/addresses/cep/"+value.replace('-', ''),
+					success:function (r) {
+
+					$("#endereco-form").show();
+
+					$("#desaddress").val(r.data.desaddress);
+					$("#descity").val(r.data.descity);
+					$("#descomplement").val(r.data.descomplement);
+					$("#desdistrict").val(r.data.desdistrict);
+					$("#desstate").val(r.data.desstate);
+					$("#descountry").val(r.data.descountry);
+
+					$("body").scrollTop($("#desnumber").offset().top);
+					$("#desnumber").focus();
+
+					$("#descep").prop("disabled", false);
+
+					}
+				});
+			}				
 
 		});
 
-	});
+		$("#register-form").form({
+			url:PATH+"/register",
+			success:function(r){
+			alertify.success("Cadastrado salvo com sucesso");
+			//$("#desperson").val(r.data.desperson);
+			//$("#desemail").val(r.data.desemail);
+			//$("#descpf").val(r.data.descpf);
+			//$("#desphone").val(r.data.desphone);
+			},		    
+			failure:function(r){
+		  	alertify.error('Error de cadastro.');
+			}
 
-    $("#form-password").form({
-		url:PATH+"/password",
-		success:function(){
-			alertify.success("Senha mudada com sucesso");
-		},
-		failure:function(r){
-			alertify.error(r);
-		}
-	});
+			
+		});
 
-});
+
+		$("#form-password").form({
+			url:PATH+"/password",
+			success:function(){
+		 	alertify.success("Senha mudada com sucesso");
+			},
+			failure:function(r){
+		  	alertify.error('Error Senha.');
+			}
+		});
+
+		$("#img-cover").on("click", function(){
+
+		$.upload({
+		  url:PATH+"/perfil-foto",
+		  multiple:true,
+		  accept:"*",
+		  success:function(r){
+
+		    var data = r.data[0];
+
+		   $("[name=idcover]").val(data.idfile);
+		   $("#img-cover").attr('src', PATH + data.desdirectory + data.desfile +"."+ data.desextension);
+
+		  	}
+		});
+
+  	});
+
+
+	});
 
 </script>
+

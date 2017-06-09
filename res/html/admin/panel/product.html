@@ -31,10 +31,10 @@
 			      <label class="form-control-label" for="desproduct">Produto</label>
 			      <input type="text" class="form-control" name="desproduct">
 					</div>
-					<div class="form-group form-material" data-plugin="formMaterial">
+				<div class="form-group form-material" data-plugin="formMaterial">
 			      <label class="form-control-label" for="idproducttype">Tipo do Produto</label>
 			      <select name="idproducttype" class="form-control" id="idproducttype"></select>
-			    </div>
+			    </div>			    
 			    <div class="form-group form-material" data-plugin="formMaterial">
 			    	<label class="form-control-label" for="idproducttype">Preço</label>
 			    	<div class="input-group">
@@ -42,6 +42,15 @@
 	                    <input type="number"  name="vlprice" class="form-control" step="0.01" min="0.01" pattern="[0-9]+([\,][0-9]+)?">
 	                </div>			      
 			    </div>
+			    <div class="form-group form-material" data-plugin="formMaterial">
+			      <label class="form-control-label" for="desurl">URL</label>
+			      <input type="hidden" name="idurl">
+			      <input type="text" class="form-control" name="desurl">
+			    </div>
+			    <div class="form-group form-material" data-plugin="formMaterial">
+			      <label class="form-control-label" for="desproduct">Thumbnail</label>
+			      <img src="/res/img/placeholder.png" id="change-thumb" alt="" style="width: 64px; height: 64px; cursor: pointer; display: block;">
+				</div>
 			    <button type="submit" class="btn btn-block btn-primary" id="btn-product-salvar">Salvar</button>
 			  </form>
 	        </div>
@@ -435,6 +444,9 @@ new Tab({
 });
 
 $("#form-product").formLoad(product);
+if (product.idthumb > 0) {
+	$("#change-thumb").attr("src", product.desdirectory+product.desfile+"."+product.desextension);
+}
 
 $("#form-product [name=idproducttype]").combobox({
 	url:PATH+"/products/types",
@@ -467,6 +479,20 @@ form.form({
     System.showError(r);
 
   }
+});
+
+$("#change-thumb").on("click", function () {
+
+	$.upload({
+		url:PATH+"/products/"+product.idproduct+"/thumb",
+		modalInfo:true,
+		success:function (r) {
+
+			$("#change-thumb").attr("src", r.data[0].desurl);
+
+		}
+	});
+
 });
 
 </script>

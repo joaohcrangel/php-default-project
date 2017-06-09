@@ -1,0 +1,4 @@
+CREATE DEFINER = CURRENT_USER TRIGGER tg_files_BEFORE_DELETE BEFORE DELETE ON tb_files FOR EACH ROW
+BEGIN
+	CALL sp_filestrigger_remove(OLD.idfile);
+END

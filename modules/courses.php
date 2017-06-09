@@ -1,5 +1,11 @@
 <?php
 
+$app->get("/courses/all", function(){
+
+	echo success(array("data"=>Hcode\Course\Courses::listAll()->getFields()));
+
+});
+
 $app->get("/courses", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
@@ -51,7 +57,7 @@ $app->get("/courses/:idcourse/sections", function($idcourse){
 
 	echo success(array(
 		"dataSections"=>$course->getSections()->getFields(),
-		"dataCurriculum"=>$course->getCurriculum()->getFields()
+		"dataCurriculums"=>$course->getCurriculums()->getFields()
 	));
 
 });
@@ -62,8 +68,15 @@ $app->get("/courses/:idcourse/html", function($idcourse){
 
 	$course = new Hcode\Course\Course((int)$idcourse);
 
+	$course->getDescription();
+
 	echo success(array(
-		"data"=>addslashes($course->getdesdescricao())
+		"data"=>array(
+			"desdescription"=>addslashes($course->getdesdescription()),
+			"deswhatlearn"=>addslashes($course->getdeswhatlearn()),
+			"desrequirements"=>addslashes($course->getdesrequirements()),
+			"destargetaudience"=>addslashes($course->getdestargetaudience())
+		)
 	));
 
 });
@@ -82,13 +95,64 @@ $app->post("/courses", function(){
 
 	$url->save();
 
-	$_POST['inremoved'] = (post('inremoved') == 'true' ? true : false);
+	$_POST['inremoved'] = (post('inremoved') == 'true' ? 1 : 0);
+
+	$date = DateTime::createFromFormat("H:m", $_POST['vlworkload']);
+
+	$_POST['vlworkload'] = $date->format("H:m:s");
 
 	$course->set($_POST);
+
+	var_dump($course->getFields());
+	exit;
 
 	$course->save();
 
 	$course->setUrl($url);
+
+	echo success(array("data"=>$course->getFields()));
+
+});
+
+$app->post("/courses/:idcourse/banner", function($idcourse){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$course = new Hcode\Course\Course((int)$idcourse);
+
+	$arquivo = $_FILES['arquivo'];
+
+	$file = Hcode\FileSystem\File::upload(
+		$arquivo['name'],
+		$arquivo['type'],
+		$arquivo['tmp_name'],
+		$arquivo['error'],
+		$arquivo['size']
+	);
+
+	$course->setBanner($file);
+
+	echo success(array("data"=>$course->getFields()));
+
+});
+
+$app->post("/courses/:idcourse/brasao", function($idcourse){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$course = new Hcode\Course\Course((int)$idcourse);
+
+	$arquivo = $_FILES['arquivo'];
+
+	$file = Hcode\FileSystem\File::upload(
+		$arquivo['name'],
+		$arquivo['type'],
+		$arquivo['tmp_name'],
+		$arquivo['error'],
+		$arquivo['size']
+	);
+
+	$course->setBrasao($file);
 
 	echo success(array("data"=>$course->getFields()));
 
@@ -154,7 +218,7 @@ $app->delete("/courses-sections/:idsection", function($idsection){
 
 	$section = new Hcode\Course\Section((int)$idsection);
 
-	if(!(int)$Section->getidSection() > 0){
+	if(!(int)$section->getidsection() > 0){
 		throw new Exception("Seção não encontrada", 404);		
 	}
 
@@ -199,6 +263,80 @@ $app->delete("/courses-curriculums/:idcurriculum", function($idcurriculum){
 	}
 
 	$curriculum->remove();
+
+	echo success();
+
+});
+/////////////////////////////////
+
+// courses instructors
+$app->get("/courses/:idcourse/instructors", function($idcourse){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$course = new Hcode\Course\Course((int)$idcourse);
+
+	echo success(array("data"=>$course->getInstructors()->getFields()));
+
+});
+
+$app->get("/courses/:idcourse/instructors/not", function($idcourse){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$course = new Hcode\Course\Course((int)$idcourse);
+
+	echo success(array("data"=>$course->getInstructorsNot()->getFields()));
+
+});
+
+$app->post("/courses/:idcourse/instructors", function($idcourse){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	if(!(int)$idcourse){
+		throw new Exception("Curso não informado", 400);		
+	}
+
+	$course = new Hcode\Course\Course((int)$idcourse);
+
+	$ids = explode(",", post("ids"));
+
+	foreach ($ids as $idinstructor) {
+
+		if(!(int)$idinstructor){
+			throw new Exception("Instrutor não informado", 400);			
+		}
+
+		$instructor = new Hcode\Course\Instructor((int)$idinstructor);
+		
+		$course->setInstructor($instructor);
+
+	}
+
+	echo success(array("data"=>$course->getInstructors()->getFields()));
+
+});
+
+$app->delete("/courses/:idcourse/instructors", function($idcourse){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	if(!(int)$idcourse){
+		throw new Exception("Curso não informado", 400);
+	}
+
+	$course = new Hcode\Course\Course((int)$idcourse);
+
+	$ids = explode(",", post("ids"));
+
+	foreach ($ids as $idinstructor) {
+
+		$instructor = new Hcode\Course\Instructor((int)$idinstructor);
+		
+		$course->removeInstructor($instructor);
+
+	}
 
 	echo success();
 

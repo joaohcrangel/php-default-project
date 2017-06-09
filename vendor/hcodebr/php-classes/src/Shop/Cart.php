@@ -3,14 +3,16 @@
 namespace Hcode\Shop;
 
 use Hcode\Model;
+use Hcode\Session;
 use Hcode\Exception;
 use Hcode\Shop\Products;
 use Hcode\Shop\Coupons;
 use Hcode\Shop\Cart\Freights;
+use Hcode\Financial\Order;
 
 class Cart extends Model {
 
-    public $required = array('idcart', 'idperson', 'dessession');
+    public $required = array('dessession');
     protected $pk = "idcart";
 
     public function get(){
@@ -62,6 +64,30 @@ class Cart extends Model {
         return new Products($this);
     }
 
+    public function addProduct(Product $product)
+    {
+
+        $this->proc("sp_cartsproducts_save", [
+            $this->getidcart(),
+            $product->getidproduct()
+        ]);
+
+    }
+
+    public function removeProduct(Product $product)
+    {
+
+        $this->getSql()->query("
+            UPDATE tb_cartsproducts
+            SET dtremoved = NOW()
+            WHERE idcart = ? AND idproduct = ?
+        ", [
+            $this->getidcart(),
+            $product->getidproduct()
+        ]);
+
+    }
+
     public function getCoupons():Coupons
     {
         return new Coupons($this);
@@ -70,6 +96,32 @@ class Cart extends Model {
     public function getFreights():Freights
     {
         return new Freights($this);
+    }
+
+    public static function factory()
+    {
+
+        session_regenerate_id();
+
+        $cart = new Cart([
+            "dessession"=>session_id(),
+            "idcart"=>0
+        ]);
+
+        $user = Session::getUser();
+
+        if ($user->isLogged()) {
+            $person = Session::getPerson();
+
+            if ($person->getidperson() > 0) {
+                $cart->setidperson($person->getidperson());
+            }
+        }
+
+        $cart->save();
+
+        return $cart;
+
     }
 
 }

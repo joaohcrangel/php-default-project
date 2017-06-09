@@ -62,13 +62,69 @@ $app->post('/products', function(){
         $product = new Hcode\Shop\Product();
     }
 
+    $url = Hcode\Site\Url::checkUrl(post("desurl"), post("idurl"));
+
+    $url->save();
+
     $_POST['inremoved'] = ($_POST['inremoved'] === '0') ? false : true;
 
     $product->set($_POST);
 
     $product->save();
 
+    $product->setUrl($url);
+
     echo success(array("data"=>$product->getFields()));
+
+});
+
+$app->post("/products-courses", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    if((int)post('idproduct') > 0){
+        $product = new Hcode\Shop\Product((int)post('idproduct'));
+    }else{
+        $product = new Hcode\Shop\Product();
+    }
+
+    $course = new Hcode\Course\Course((int)post("idcourse"));
+
+    $_POST['inremoved'] = 0;
+
+    $product->set($_POST);
+
+    $product->setdesproduct(post("descourse"));
+
+    $product->save();
+
+    $product->setCourse($course);
+
+    echo success(array("data"=>$product->getFields()));
+
+});
+
+$app->post("/products/:idproduct/thumb", function($idproduct){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    if(!(int)$idproduct){
+        throw new Exception("Produto não informado", 400);        
+    }
+
+    $files = Hcode\FileSystem\Files::upload($_FILES["arquivo"]);
+
+    $file = $files->getFirst();
+
+    $product = new Hcode\Shop\Product((int)$idproduct);
+
+    $product->setidthumb($file->getidfile());
+
+    $product->save();
+
+    echo success([
+        "data"=>$file->getFields()
+    ]);
 
 });
 
@@ -84,7 +140,7 @@ $app->get("/products/:idproduct/prices", function($idproduct){
         'idproduct'=>(int)$idproduct
     ));
 
-    $prices = $product->getProductsPrices();
+    $prices = $product->getPrices();
 
     $data = $prices->getFields();
 

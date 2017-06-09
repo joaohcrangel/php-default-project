@@ -13,44 +13,46 @@
 </header>
 <div class="slidePanel-inner m-0 p-0">
 
-<div class="panel">
+	<div class="panel">
 
-    <div class="panel-body p-t-20">
-        <div class="tab-pane active" aria-expanded="true">
-			<form id="form-user-new">
-				
-				<div class="form-group form-material" data-plugin="formMaterial">
-					<label class="form-control-label">Tipo de Usuário</label>
-					<select name="idusertype" class="form-control"></select>
-				</div>
+	    <div class="panel-body p-t-20">
+	        <div class="tab-pane active" aria-expanded="true">
+				<form id="form-user-new">
+					
+					<div class="form-group form-material" data-plugin="formMaterial">
+						<label class="form-control-label">Tipo de Usuário</label>
+						<select name="idusertype" class="form-control"></select>
+					</div>
 
-				<div class="form-group form-material" data-plugin="formMaterial">
-					<label class="form-control-label">Nome</label>
-					<input type="text" name="desperson" class="form-control">
-				</div>
+					<div class="form-group form-material" data-plugin="formMaterial">
+						<label class="form-control-label">Pessoa</label>
+						<input type="hidden" name="idperson">
+					</div>
 
-				<div class="form-group form-material" data-plugin="formMaterial">
-					<label class="form-control-label">Usuário</label>
-					<input type="text" name="desuser" class="form-control">
-				</div>
+					<div class="form-group form-material" data-plugin="formMaterial">
+						<label class="form-control-label">Usuário</label>
+						<input type="text" name="desuser" class="form-control">
+					</div>
 
-				<div class="form-group form-material" data-plugin="formMaterial">
-					<label class="form-control-label">Senha</label>
-					<input type="password" name="despassword" class="form-control">
-				</div>
+					<div class="form-group form-material" data-plugin="formMaterial">
+						<label class="form-control-label">Senha</label>
+						<input type="password" name="despassword" class="form-control">
+					</div>
 
-				<div class="form-group form-material" data-plugin="formMaterial">
-					<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
-				</div>
-			</form>
-        </div>
-    </div>
+					<div class="form-group form-material" data-plugin="formMaterial">
+						<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+					</div>
+				</form>
+	        </div>
+	    </div>
 
-</div>
+	</div>
 
 </div>
 
 <script>
+
+$("#form-user-new [name=idperson]").pickerPerson();
 
 $("#form-user-new [name=idusertype]").combobox({
 	url:PATH+"/userstypes",

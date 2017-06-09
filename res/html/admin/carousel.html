@@ -1,0 +1,550 @@
+<style>
+	.slidePanel{
+		overflow: overlay;
+	}
+</style>
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Dados de {$carousel.descarousel}</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0">
+
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" data-plugin="tabs">
+	    <div class="panel-heading panel-heading-tab" id="tabs-carousel" style="border-radius: 0;">
+	    </div>
+
+	    <div class="panel-body p-t-20">
+      		<div class="tab-content">
+	        	<div class="tab-pane active" id="tab-carousel" role="tabpanel">
+					<form id="form-carousel">
+	
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<label class="form-control-label">Nome</label>
+							<input type="text" name="descarousel" class="form-control">
+						</div>
+
+						<div class="form-group form-material row" data-plugin="formMaterial">
+
+							<div class="col-md-4">
+								<label class="form-control-label">Número de Itens</label>
+								<input type="number" name="nritems" class="form-control">
+							</div>
+
+							<div class="col-md-4">
+								<label class="form-control-label">Velocidade</label>
+								<input type="number" name="nrspeed" class="form-control">
+							</div>
+
+							<div class="col-md-3">
+								<label class="form-control-label">Loop</label>
+								<span class="checkbox-custom checkbox-primary checkbox-lg">
+							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="inloop" name="inloop"/>
+							        <label for="inloop"></label>
+						      	</span>
+							</div>
+
+						</div>
+
+						<div class="form-group form-material row" data-plugin="formMaterial">							
+
+							<div class="col-md-6">
+								<label class="form-control-label">Velocidade do Auto Play</label>
+								<input type="number" name="nrautoplay" class="form-control">
+							</div>
+
+							<div class="col-md-6">
+								<label class="form-control-label">Mode</label>
+								<select name="desmode" class="form-control">
+									<option value="horizontal">Horizontal</option>
+									<option value="vertical">Vertical</option>
+								</select>
+							</div>
+
+						</div>
+
+						<div class="form-group form-material" data-plugin="formMaterial">
+							<button type="submit" class="btn btn-primary waves-effect">Salvar</button>
+						</div>
+
+					</form>
+	        	</div>
+	        	<!-- fim da tab de dados do carousel -->
+
+	        	<!-- inicio da tab dos items -->
+	        	<div class="tab-pane panel" id="tab-carousel-items" role="tabpanel">
+
+	        		<form id="form-carousel-items">
+	        			
+	        		</form>
+
+	        		<!-- adicionando novo item -->
+	        		<label class="form-control-label"><h4>Adicionar novo item</h4></label>
+	                <div class="row item-add">                
+	                  	<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+		                    <div class="input-group p-b-20">
+		                      <div class="form-control-wrap">
+		                      	<label class="form-control-label">Tipo de item</label>
+		                        <select name="idtype" class="form-control"></select>
+		                      </div>                    
+		                    </div>		                    
+	                  	</div>
+
+	                  	<div class="form-group form-material col-md-6" data-plugin="formMaterial">
+	                  		<div class="input-group p-b-20">
+		                      <div class="form-control-wrap">
+		                      	<label class="form-control-label">Item</label>
+		                        <input type="text" name="desitem" class="form-control">
+		                      </div>
+		                    </div>
+		                </div>
+
+	                  	<!-- <div class="form-group form-material col-md-6">
+		                    <div class="input-group p-b-20">
+		                      <div class="form-control-wrap">
+		                        <input type="text" class="form-control" placeholder="Nome">
+		                      </div>
+		                      <span class="input-group-btn">
+		                        <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+		                      </span>
+		                    </div>
+	                  	</div> -->
+
+	                  	<div class="form-group form-material col-md-6">
+		                    <div class="input-group p-b-20">
+		                      <div class="form-control-wrap">
+		                      	<label class="form-control-label">Ordem</label>
+		                        <input type="number" name="nrorder" class="form-control">
+		                      </div>
+		                    </div>
+	                  	</div>
+
+	                  	<div class="col-md-6">
+	                  		<label class="form-control-label">Capa</label>
+	                  		<input type="hidden" name="idcover">
+	                  		<img class="image_fade form-control add-cover" src="{$path}/res/img/placeholder.png" style="height:150px; margin-top:10px; cursor: pointer;">
+	                  	</div>
+
+	                  	<div class="form-group form-material col-md-12">
+		                    <div class="input-group p-b-20">
+		                      <div class="form-control-wrap">
+		                      	<label class="form-control-label">Conteúdo</label>
+		                        <div class="summernote"></div>
+		                      </div>
+		                      <span class="input-group-btn" style="vertical-align:bottom;">
+		                        <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
+		                      </span>
+		                    </div>
+	                  	</div>
+
+	                </div>
+
+	        	</div>
+	        	<!-- fim da tab dos items -->
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script id="tpl-carousel-item" type="text/x-handlebars-template">
+	<div class="form-group form-material row" data-plugin="formMaterial">
+		
+		<div class="col-md-6">
+			<label class="form-control-label">Item</label>
+			<input type="text" name="desitem" class="form-control" value="{{desitem}}">		
+		</div>
+
+		<div class="col-md-6">
+			<label class="form-control-label">Tipo</label>
+			<select name="idtype" class="form-control" value="{{idtype}}"></select>
+		</div>
+
+	</div>
+	<div class="form-group form-material row p-b-60" data-plugin="formMaterial">
+
+		<div class="col-md-6">
+			<label class="form-control-label">Ordem</label>
+			<input type="text" name="nrordem" class="form-control" value="{{nrorder}}">		
+		</div>
+
+		<div class="col-md-6">
+			<label class="form-control-label">Capa</label>
+			<img class="image_fade form-control img-cover" src="{$path}/res/img/placeholder.png" style="height:150px; margin-top:10px; cursor: pointer;">
+		</div>
+
+		<div class="col-md-12">
+			<div class="input-group">
+				<label class="form-control-label">Conteúdo</label>
+				<div class="summernote" id="summernote-{{iditem}}"></div>
+				<span class="input-group-btn" style="vertical-align:bottom;">
+	                <button type="button" class="btn btn-success btn-outline input-search-close icon md-check" style="padding:10px"></button>
+	                <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button>
+	          	</span>
+	        </div>
+		</div>
+
+	</div>
+</script>
+
+<script>
+
+var carousel = JSON.parse('{function="json_encode($carousel)"}');
+	
+var $form = $("#form-carousel");
+
+$form.formLoad(carousel);
+
+$form.find("[type=checkbox]").each(function(){
+
+	var $checkbox = $(this);
+
+	var key = $checkbox.attr("name");
+
+	$.each(carousel, function(index, row){
+		if(key == index){
+			$checkbox.prop("checked", row);
+		}
+	});
+
+}).on("change", function(){
+
+	var disabled = $(this).prop("checked");
+
+	$(this).val(disabled);
+
+	var $btn = $(this);
+
+	var data = $form.formValues();
+
+	data.idcarousel = carousel.idcarousel;
+	data.inloop = $form.find("[name=inloop]").prop("checked");
+	data.innav = $form.find("[name=innav]").prop("checked");
+	data.incenter = $form.find("[name=incenter]").prop("checked");
+	data.inautowidth = $form.find("[name=inautowidth]").prop("checked");
+	data.invideo = $form.find("[name=invideo]").prop("checked");
+	data.inlazyload = $form.find("[name=inlazyload]").prop("checked");
+	data.indots = $form.find("[name=indots]").prop("checked");
+
+	saveCarousel(
+		$btn,
+		data,
+		function(){},
+		function(){}
+	);
+
+});
+
+$form.find("[type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+	var $btn = $(this);
+
+	var data = $form.formValues();
+
+	data.idcarousel = carousel.idcarousel;
+	data.inloop = $form.find("[name=inloop]").prop("checked");
+	data.innav = $form.find("[name=innav]").prop("checked");
+	data.incenter = $form.find("[name=incenter]").prop("checked");
+	data.inautowidth = $form.find("[name=inautowidth]").prop("checked");
+	data.invideo = $form.find("[name=invideo]").prop("checked");
+	data.inlazyload = $form.find("[name=inlazyload]").prop("checked");
+	data.indots = $form.find("[name=indots]").prop("checked");
+
+	saveCarousel(
+		$btn,
+		data,
+		function(){
+			System.success("Carousel salvo com sucesso");
+			$(".slidePanel-close").trigger("click");
+			$("#form-filtros [type=submit]").trigger("click");
+		},
+		function(){}
+	);
+
+});
+
+function saveCarousel(
+	$btn,
+	data,
+	success,
+	failure
+){
+
+	$btn.btnload("load");
+
+	rest({
+		url:PATH+"/carousels",
+		method:"POST",
+		data:data,
+		success:function(){
+			$btn.btnload("unload");
+			if(typeof success === 'function') success();
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");			
+			if(typeof failure === 'function') failure(r);
+		}
+	});
+
+}
+
+$(".item-add [name=idtype]").combobox({
+	url:PATH+"/carousels-types",
+	displayField:"destype",
+	valueField:"idtype"
+});
+
+$(".item-add button.btn-success").on("click", function(){
+
+	var $btn = $(this);
+
+	$btn.btnload("load");
+
+	var $div = $(".item-add");
+
+	var data = {
+		iditem:0,
+		desitem:$div.find("[name=desitem]").val(),
+		descontent:$div.find(".summernote").next('.note-editor').find('.note-editable').html(),
+		nrorder:$div.find("[name=nrorder]").val(),
+		idtype:$div.find("[name=idtype]").val(),
+		idcover:$div.find("[name=idcover]").val(),
+		idcarousel:carousel.idcarousel
+	};
+
+	saveItems(
+		$btn,
+		data,
+		function(){
+			isItemsLogged = false;
+			loadItems();
+			$div.find("input, textarea, select").val('');
+			$div.find(".add-cover").attr("src", PATH + "/res/img/placeholder.png");
+			$div.find(".summernote").next('.note-editor').find('.note-editable').html('');
+		},
+		function(){}			
+	);
+
+});
+
+function saveItems(
+	$btn,
+	data,
+	success,
+	failure
+){
+
+	rest({
+		url:PATH+"/carousels-items",
+		method:"POST",
+		data:data,
+		success:function(){
+			$btn.btnload("unload");
+			if(typeof success == 'function') success();
+		},
+		failure:function(r){
+			System.showError(r);
+			$btn.btnload("unload");
+			if(typeof failure == 'function') failure(r);
+		}
+	});
+
+}
+
+var isItemsLogged = false;
+
+function loadItems(){
+
+	if(isItemsLogged === false){
+
+		var $panel = System.getPanelApi($("#tab-carousel-items"));
+
+		var $form = $("#tab-carousel-items form");
+
+		var tplCarouselItem = Handlebars.compile($("#tpl-carousel-item").html());
+
+		$panel.load();
+
+		rest({
+			url:PATH+"/carousels/"+carousel.idcarousel+"/items",
+			success:function(r){
+
+				$form.html('');
+
+				$.each(r.data, function(index, row){
+
+					var $div = $(tplCarouselItem(row));					
+
+					$form.append($div);
+
+					$div.find("#summernote-"+row.iditem+"").html(row.descontent);
+
+					$div.find(".img-cover").attr("src", PATH + row.descover);
+
+					$div.find(".img-cover").on("click", function(){
+
+						var $img = $(this);
+
+						$.upload({
+							url:PATH+"/carousels-items/"+row.iditem+"/cover",
+							accept:"*",
+							modalInfo:true,
+							success:function(r){
+
+								var data = r.data[0];
+
+								console.log(data);
+
+								$img.attr("src", PATH + data.descover);
+
+							}
+						});
+
+					});
+
+					$div.find("[name=idtype]").combobox({
+						url:PATH+"/carousels-types",
+						displayField:"destype",
+						valueField:"idtype",
+						value:row.idtype
+					}).on("change", function(e){
+
+						var $btn = $(this);
+
+						var data = {
+							iditem:row.iditem,
+							desitem:$div.find("[name=desitem]").val(),
+							descontent:$div.find("#summernote-"+row.iditem+"").next(".note-editor").find(".note-editable").html(),
+							nrorder:$div.find("[name=nrorder]").val(),
+							idtype:$div.find("[name=idtype]").val(),
+							idcarousel:carousel.idcarousel
+						};
+
+						saveItems(
+							$btn,
+							data,
+							function(){},
+							function(){}
+						);
+
+					});
+
+					$div.find(".btn-success").on("click", function(){
+
+						var $btn = $(this);
+
+						$btn.btnload("load");
+
+						var data = {
+							iditem:row.iditem,
+							desitem:$div.find("[name=desitem]").val(),
+							descontent:$div.find("#summernote-"+row.iditem+"").next(".note-editor").find(".note-editable").html(),
+							nrorder:$div.find("[name=nrorder]").val(),
+							idtype:$div.find("[name=idtype]").val(),
+							idcarousel:carousel.idcarousel
+						};
+
+						saveItems(
+							$btn,
+							data,
+							function(){},
+							function(){}
+						);
+
+					});
+
+					$div.find(".btn-danger").on("click", function(){
+
+						var $btn = $(this);
+
+						$btn.btnload("load");
+
+						rest({
+							url:PATH+"/carousels-items/"+row.iditem,
+							method:"DELETE",
+							success:function(){
+								$btn.btnload("unload");
+								$div.remove();
+							},
+							failure:function(r){
+								System.showError(r);
+								$btn.btnload("unload");
+							}
+						});
+
+					});
+
+				});
+
+				$(".summernote").summernote({
+					height:200
+				});
+
+				$(".add-cover").on("click", function(){
+
+					$img = $(this);
+
+					$.upload({
+						url:PATH+"/files",
+						accept:"*",
+						modalInfo:true,
+						success:function(r){
+
+							$img.attr("src", PATH + r.data[0].despath);
+
+							$("[name=idcover]").val(r.data[0].idfile);
+
+						}
+					});
+
+				});
+
+				$panel.done();
+
+				isItemsLogged = true;
+
+			},
+			failure:function(r){
+				System.showError(r);
+				$panel.done();
+			}
+		});
+	}
+
+}
+
+new Tab({
+	id:"tabs-carousel",
+	items:[{
+		title:"Dados",
+		id:"tab-carousel"
+	},{
+		title:"Itens",
+		id:"tab-carousel-items"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch(event.tabContent.id){
+
+				case "tab-carousel-items":
+				loadItems();
+
+				break;
+
+			}
+
+		}
+	}
+});
+
+</script>

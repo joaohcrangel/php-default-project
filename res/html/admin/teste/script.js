@@ -17,4 +17,4 @@ document.getElementById("btn-calcular").addEventListener("click", function(){
 	var valorB = document.getElementById("valor-b").value;
 
 	console.log(parseInt(valorA)) + parseInt(valorB));
-});
+}

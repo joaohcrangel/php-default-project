@@ -833,9 +833,9 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/add-to-install", function(){
         fclose($file);
 
         $tablesNames = array();
-
         foreach ($table->getTablesReferences()->getFields() as $t) {
-            array_push($tablesNames, $t["table_name"]);
+
+            if(isset($t["referenced_table_name"])) array_push($tablesNames, $t["referenced_table_name"]);
         }
 
         $file = fopen(PATH."/res/sql/references/".$table->getName().".json", "w+");

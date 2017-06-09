@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><button type="button" data-btn="deleteUser" class="btn btn-pure icon md-delete" aria-hidden="true"></button> <button type="button" data-btn="simulate" class="btn btn-pure icon md-sign-in" aria-hidden="true"></button> <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4></div></header><div class="slidePanel-inner p-0" ng-controller="profile"><section class="slidePanel-inner-section p-0"><div class="card card-inverse m-b-0" id="profile-header"></div><div class="panel"><div class="panel-body p-t-0"><form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desperson">Nome</label><input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o seu nome"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desuser">Usuário</label><input type="text" class="form-control" id="desuser" name="desuser" placeholder="Digite o seu usuário"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idusertype">Tipo de Usuário</label><select class="form-control" id="idusertype" name="idusertype"></select></div><div class="form-group form-material" data-plugin="formMaterial"><input type="checkbox" class="icheckbox-primary" id="inblocked" name="inblocked" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue"><label for="inblocked">Bloqueado</label></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div></div></section></div><script id="tpl-profile-header" type="text/x-handlebars-template"><div class="card-block p-30">
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><header class="slidePanel-header"><div class="overlay-top overlay-panel overlay-background bg-indigo-600"><div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group"><div class="btn-group" role="group"><button type="button" class="btn icon md-apps btn-pure dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></button><div class="dropdown-menu dropdown-menu-right" aria-labelledby="exampleIconDropdown1" role="menu"><a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-btn="simulate"><i class="icon md-lock"></i> Simular Login</a><div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="javascript:void(0)" role="menuitem" data-btn="deleteUser"><i class="icon md-delete"></i> Excluir</a></div></div><button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button></div><h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">USUÁRIO</h5></h4></div></header><div class="slidePanel-inner p-0" ng-controller="profile"><section class="slidePanel-inner-section p-0"><div class="card card-inverse m-b-0" id="profile-header"></div><div class="panel"><div class="panel-body p-t-0"><form id="profile-form"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desperson">Nome</label><input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o seu nome"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="desuser">Usuário</label><input type="text" class="form-control" id="desuser" name="desuser" placeholder="Digite o seu usuário"></div><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label" for="idusertype">Tipo de Usuário</label><select class="form-control" id="idusertype" name="idusertype"></select></div><div class="form-group form-material" data-plugin="formMaterial"><input type="checkbox" class="icheckbox-primary" id="inblocked" name="inblocked" data-plugin="iCheck" data-checkbox-class="icheckbox_flat-blue"><label for="inblocked">Bloqueado</label></div><div class="form-group form-material"><button type="submit" class="btn btn-primary waves-effect">Salvar</button></div></form></div></div></section></div><script id="tpl-profile-header" type="text/x-handlebars-template"><div class="card-block p-30">
   <a id="user-photo" class="avatar avatar-100 img-bordered bg-white pull-xs-left m-r-20" href="javascript:void(0)">
     <img src="{{desphotourl}}" alt="">
   </a>
@@ -82,6 +82,8 @@ $('#profile-form').form({
     System.setUser(r.data);
     System.success("Seus dados foram salvos!");
 
+    if (window.loadUsers) window.loadUsers();
+
   }
 });
 
@@ -107,9 +109,11 @@ $("#user-photo").on("click", function(){
 
   $.upload({
     url:PATH+"/persons/"+user.idperson+"/photo",
+    modalInfo:true,
     success:function(r){
 
       $("#user-photo img").attr("src", r.data[0].desphotourl+"?_="+new Date().getTime());
+      if (window.loadUsers) window.loadUsers();
 
     },
     failure:function(e){

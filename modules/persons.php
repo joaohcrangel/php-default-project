@@ -73,18 +73,13 @@ $app->get("/persons",function(){
 		if (get($key) && !in_array($key, array('pagina', 'limite'))) {
 			if($key == "desperson"){
 				array_push($where, $key." LIKE ?");	
-				array_push($params, get("'%".$key."%'"));
+				array_push($params, "%".get("desperson")."%");
 			}else{
 				array_push($where, $key." = ?");
 				array_push($params, get($key));
 			}			
 		}
 
-	}
-
-	if (get("desperson")) {
-		array_push($where, "desperson LIKE ?");
-		array_push($params, "%".get("desperson")."%");
 	}
 
 	if (count($where) > 0) {
@@ -168,6 +163,14 @@ $app->post("/persons/:idperson/photo", function($idperson){
 });
 
 $app->post("/persons", function(){
+
+	if (!post('desperson')) {
+		throw new Exception("Informe o nome da pessoa.");
+	}
+
+	if (!post('idpersontype')) {
+		throw new Exception("Informe o tipo da pessoa.");
+	}
 
 	if(post('idperson') > 0){
 		$person = new Hcode\Person\Person((int)post('idperson'));

@@ -35,6 +35,12 @@ class User extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
+            if (User::userExists($this->getdesuser())) {
+
+                throw new Exception("O usuário ".$this->getdesuser()." já existe.");
+
+            }
+
             $this->queryToAttr("CALL sp_users_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getiduser(),
                 $this->getidperson(),
@@ -63,6 +69,19 @@ class User extends Model {
 
         return true;
         
+    }
+
+    public static function userExists($user):bool
+    {
+
+        $sql = new Sql();
+
+        $result = $sql->select("SELECT COUNT(*) AS nrtotal FROM tb_users WHERE desuser = ?", array(
+            $user
+        ));
+
+        return ($result["nrtotal"] > 0);
+
     }
 
     public static function getByEmail($desemail):User

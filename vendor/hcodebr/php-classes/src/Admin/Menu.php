@@ -26,8 +26,6 @@ class Menu extends Model {
     {
 
         if($this->getChanged() && $this->isValid()){
-
-            if (!$this->getdeshref()) $this->setdeshref("#");
             
             $this->queryToAttr("CALL sp_menus_save(?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidmenu(),

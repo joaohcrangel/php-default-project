@@ -199,6 +199,7 @@ gulp.task('scripts-admin', function() {
         './js/jrangel/jquery.table.js',
         './js/jrangel/jquery.arquivos.js',
         './js/jrangel/jquery.panel.js',
+        './js/jrangel/jquery.picker.js',
         './js/aribeiro/selecionar.js'
     ])
         .pipe(jshint())

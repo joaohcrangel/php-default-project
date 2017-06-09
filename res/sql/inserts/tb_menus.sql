@@ -56,4 +56,7 @@ INSERT INTO tb_menus (idmenu,idmenufather,desmenu,desicon,deshref,nrorder,nrsubm
 (55,54,'Cargos','','/team/jobs-positions',0,0),
 (56,54,'Colaboradores','','/team/workers',1,0),
 (57,NULL,'Redes Sociais','','/social-networks',13,0),
-(58,NULL,'Categorias','','/categories',14,0);
+(58,NULL,'Categorias','','/categories',14,0),
+(59,NULL,'Eventos','','',15,0),
+(60,59,'Frequências','','/events-frequencies',0,0),
+(61,59,'Organizadoras','','/events-organizers',0,0);

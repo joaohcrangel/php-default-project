@@ -1,5 +1,10 @@
 <?php
 
+namespace Hcode\Stand;
+ 
+ use Hcode\Model;
+ use Hcode\Exception;
+
 class Material extends Model {
 
     public $required = array('idmaterialparent', 'idmaterialtype', 'idunitytype', 'desmaterial', 'descode', 'inreusable');

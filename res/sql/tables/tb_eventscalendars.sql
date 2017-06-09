@@ -8,5 +8,6 @@ CREATE TABLE `tb_eventscalendars` (
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idcalendar`),
   KEY `fk_eventsschedules_events_idx` (`idevent`),
-  CONSTRAINT `fk_eventsschedules_events` FOREIGN KEY (`idevent`) REFERENCES `tb_events` (`idevent`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_eventsschedules_events` FOREIGN KEY (`idevent`) REFERENCES `tb_events` (`idevent`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_eventscalendars_places` FOREIGN KEY (`idplace`) REFERENCES `tb_places` (`idplace`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1

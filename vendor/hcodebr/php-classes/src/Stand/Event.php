@@ -7,7 +7,7 @@ use Hcode\Exception;
 
 class Event extends Model {
 
-    public $required = array('desevent', 'idfrequency', 'idorganizer');
+    public $required = array('desevent', 'idfrequency', 'nrfrequency', 'idorganizer');
     protected $pk = "idevent";
 
     public function get(){
@@ -24,12 +24,11 @@ class Event extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_events_save(?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_events_save(?, ?, ?, ?);", array(
                 $this->getidevent(),
                 $this->getdesevent(),
                 $this->getidfrequency(),
-                $this->getidorganizer(),
-                $this->getdtregister()
+                $this->getidorganizer()
             ));
 
             return $this->getidevent();

@@ -3,6 +3,7 @@ pidmaterial INT,
 pidmaterialparent INT,
 pidmaterialtype INT,
 pidunitytype INT,
+pidphoto INT,
 pdesmaterial VARCHAR(64),
 pdescode VARCHAR(64),
 pinreusable BIT,
@@ -12,8 +13,8 @@ BEGIN
 
     IF pidmaterial = 0 THEN
     
-        INSERT INTO tb_materials (idmaterialparent, idmaterialtype, idunitytype, desmaterial, descode, inreusable, dtregister)
-        VALUES(pidmaterialparent, pidmaterialtype, pidunitytype, pdesmaterial, pdescode, pinreusable, pdtregister);
+        INSERT INTO tb_materials (idmaterialparent, idmaterialtype, idunitytype, idphoto, desmaterial, descode, inreusable, dtregister)
+        VALUES(pidmaterialparent, pidmaterialtype, pidunitytype, pidphoto, pdesmaterial, pdescode, pinreusable, pdtregister);
         
         SET pidmaterial = LAST_INSERT_ID();
 
@@ -24,6 +25,7 @@ BEGIN
             idmaterialparent = pidmaterialparent,
             idmaterialtype = pidmaterialtype,
             idunitytype = pidunitytype,
+            idphoto = pidphoto,
             desmaterial = pdesmaterial,
             descode = pdescode,
             inreusable = pinreusable,

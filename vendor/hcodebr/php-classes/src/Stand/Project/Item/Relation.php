@@ -1,14 +1,14 @@
 <?php
 
-namespace Hcode\Stand;
+namespace Hcode\Stand\Project\Item;
 
 use Hcode\Model;
 use Hcode\Exception;
 
-class ProjectItemRelation extends Model {
+class Relation extends Model {
 
     public $required = array('iditem', 'vlqtd');
-    protected $pk = array(idproject, iditem);
+    protected $pk = array('idproject', 'iditem');
 
     public function get(){
 

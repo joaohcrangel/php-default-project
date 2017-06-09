@@ -17,9 +17,7 @@ CREATE TABLE `tb_projects` (
   KEY `fk_projects_persons_idx` (`idclient`),
   KEY `fk_projects_salesman_idx` (`idsalesman`),
   KEY `fk_projects_projectsstandstypes_idx` (`idstandtype`),
-  KEY `fk_projects_eventscalendars_idx` (`idcalendar`),
   CONSTRAINT `fk_projects_clients` FOREIGN KEY (`idclient`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_projects_eventscalendars` FOREIGN KEY (`idcalendar`) REFERENCES `tb_eventscalendars` (`idcalendar`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_projects_projectsstandstypes` FOREIGN KEY (`idstandtype`) REFERENCES `tb_projectsstandstypes` (`idstandtype`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_projects_salesman` FOREIGN KEY (`idsalesman`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_projectsformats` FOREIGN KEY (`idformat`) REFERENCES `tb_projectsformats` (`idformat`) ON DELETE NO ACTION ON UPDATE NO ACTION

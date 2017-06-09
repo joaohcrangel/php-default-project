@@ -1,5 +1,8 @@
-
 <?php
+
+namespace Hcode\Stand;
+
+use Hcode\Collection;
 
 class Projects extends Collection {
 

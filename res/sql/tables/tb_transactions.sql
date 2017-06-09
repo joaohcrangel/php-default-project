@@ -16,6 +16,8 @@ CREATE TABLE `tb_transactions` (
   KEY `fk_transactions_transactionstypes_id` (`idtransactiontype`),
   KEY `fk_transactionscategories_transactionscategories_idx` (`idcategory`),
   KEY `fk_transactions_transactionsaccounts_idx` (`idaccount`),
+  KEY `fk_transactions_persons_idx` (`idperson`),
+  CONSTRAINT `fk_transactions_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_transactions_transactionsaccounts` FOREIGN KEY (`idaccount`) REFERENCES `tb_transactionsaccounts` (`idaccount`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_transactions_transactionscategories` FOREIGN KEY (`idcategory`) REFERENCES `tb_transactionscategories` (`idcategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_transactions_transactionstypes` FOREIGN KEY (`idtransactiontype`) REFERENCES `tb_transactionstypes` (`idtransactiontype`) ON DELETE NO ACTION ON UPDATE NO ACTION

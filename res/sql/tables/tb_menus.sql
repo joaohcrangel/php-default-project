@@ -10,4 +10,4 @@ CREATE TABLE `tb_menus` (
   PRIMARY KEY (`idmenu`),
   KEY `FK_menus_menus` (`idmenufather`),
   CONSTRAINT `FK_menus_menus` FOREIGN KEY (`idmenufather`) REFERENCES `tb_menus` (`idmenu`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8

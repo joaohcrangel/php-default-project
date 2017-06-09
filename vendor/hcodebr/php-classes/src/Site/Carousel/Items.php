@@ -17,11 +17,11 @@ class Items extends Collection {
     public function getByHcode_Site_Carousel(Carousel $carousel):Items
     {
 
-    	$this->loadFromQuery("CALL sp_itemsfromcarousel_list(?);", array(
-    		$carousel->getidcarousel()
-    	));
+        $this->loadFromQuery("CALL sp_itemsfromcarousel_list(?);", array(
+            $carousel->getidcarousel()
+        ));
 
-    	return $this;
+        return $this;
 
     }
 

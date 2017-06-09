@@ -4,13 +4,11 @@ $app->get("/", function(){
 
 	$carousel = Hcode\Site\Carousel::getHTML(1);
 
-    $page = new Hcode\Site\Page([
-    	"data"=>[
-    		"title"=>"Hcode Treinamentos Online"
-    	]
-    ]);
-
+    $page = new Hcode\Site\Page();
+    
     $page->setTpl('index', array(
+    	"testimonial"=>Hcode\Site\Testimonial::listAll()->getFields(),
+    	"workers"=>Hcode\Team\Workers::listAll()->getFields(),
     	"carousel"=>$carousel['html'],
     	"options"=>$carousel['options']
     ));
@@ -142,7 +140,7 @@ $app->get("/shop/checkout", function(){
     		"scripts_footer"=>[
     			'<script src="/res/public/js/plugins/jquery.card.js"></script>'
     		],
-    		"title"=>"Pagamento - Hcode Treinamentos"
+    		"title"=>"Pagamento"
     	]
     ]);
 

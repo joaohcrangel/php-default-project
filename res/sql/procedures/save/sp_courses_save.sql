@@ -2,18 +2,26 @@ CREATE PROCEDURE sp_courses_save(
 pidcourse INT,
 pdescourse VARCHAR(64),
 pdestitle VARCHAR(256),
-pvlworkload DECIMAL(10,2),
+pvlworkload TIME,
 pnrlessons INT,
 pnrexercises INT,
-pdesdescription VARCHAR(10240),
-pinremoved BIT
+pidbanner INT,
+pidbrasao INT,
+pdesdescription TEXT,
+pdesshortdescription VARCHAR(512),
+pdeswhatlearn TEXT,
+pdesrequirements TEXT,
+pdestargetaudience TEXT,
+pinremoved TINYINT(1),
+pdesurludemy VARCHAR(128),
+pidcourseudemy INT
 )
 BEGIN
 
     IF pidcourse = 0 THEN
     
-        INSERT INTO tb_courses (descourse, destitle, vlworkload, nrlessons, nrexercises, desdescription, inremoved)
-        VALUES(pdescourse, pdestitle, pvlworkload, pnrlessons, pnrexercises, pdesdescription, pinremoved);
+        INSERT INTO tb_courses (descourse, destitle, vlworkload, nrlessons, nrexercises, idbanner, idbrasao, desdescription, desshortdescription, deswhatlearn, desrequirements, destargetaudience, inremoved, desurludemy, idcourseudemy)
+        VALUES(pdescourse, pdestitle, pvlworkload, pnrlessons, pnrexercises, pidbanner, pidbrasao, pdesdescription, pdesshortdescription, pdeswhatlearn, pdesrequirements, pdestargetaudience, pinremoved, pdesurludemy, pidcourseudemy);
         
         SET pidcourse = LAST_INSERT_ID();
 
@@ -26,8 +34,16 @@ BEGIN
             vlworkload = pvlworkload,
             nrlessons = pnrlessons,
             nrexercises = pnrexercises,
+            idbanner = pidbanner,
+            idbrasao = pidbrasao,
             desdescription = pdesdescription,
-            inremoved = pinremoved        
+            desshortdescription = pdesshortdescription,
+            deswhatlearn = pdeswhatlearn,
+            desrequirements = pdesrequirements,
+            destargetaudience = pdestargetaudience,
+            inremoved = pinremoved,
+            desurludemy = pdesurludemy,
+            idcourseudemy = pidcourseudemy
         WHERE idcourse = pidcourse;
 
     END IF;

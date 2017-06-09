@@ -49,7 +49,7 @@ $app->get("/carousels/:idcarousel/items", function($idcarousel){
 
 	$carousel = new Hcode\Site\Carousel((int)$idcarousel);
 
-	echo success(array("data"=>$carousel->getCarouselsItems()->getFields()));
+	echo success(array("data"=>$carousel->getItems()->getFields()));
 
 });
 
@@ -112,6 +112,28 @@ $app->post("/carousels-items", function(){
 	$item->set($_POST);
 
 	$item->save();
+
+	echo success(array("data"=>$item->getFields()));
+
+});
+
+$app->post("/carousels-items/:iditem/cover", function($iditem){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	$file = $_FILES['arquivo'];
+
+	$file = Hcode\FileSystem\File::upload(
+		$file['name'],
+		$file['type'],
+		$file['tmp_name'],
+		$file['error'],
+		$file['size']
+	);
+
+	$item = new Hcode\Site\Carousel\Item((int)$iditem);
+
+	$item->setCover($file);
 
 	echo success(array("data"=>$item->getFields()));
 

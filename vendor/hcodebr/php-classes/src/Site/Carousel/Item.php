@@ -8,7 +8,7 @@ use Hcode\FileSystem\File;
 
 class Item extends Model {
 
-    public $required = array('iditem', 'desitem', 'nrorder', 'idtype', 'idcarousel');
+    public $required = array('desitem', 'nrorder', 'idtype', 'idcarousel');
     protected $pk = "iditem";
 
     public function get(){

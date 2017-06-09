@@ -51,4 +51,9 @@ INSERT INTO tb_menus (idmenu,idmenufather,desmenu,desicon,deshref,nrorder,nrsubm
 (50,46,'Tags','','/blog/tags',3,0),
 (51,46,'Comentários','','/blog/comments',4,0),
 (52,NULL,'Serviço de E-mails','md-email','/emails',11,0),
-(53,NULL,'Fluxo de Caixa','md-money-box','/fluxo-de-caixa',11,0);
+(53,NULL,'Fluxo de Caixa','md-money-box','/fluxo-de-caixa',11,0),
+(54,NULL,'Time','','',12,2),
+(55,54,'Cargos','','/team/jobs-positions',0,0),
+(56,54,'Colaboradores','','/team/workers',1,0),
+(57,NULL,'Redes Sociais','','/social-networks',13,0),
+(58,NULL,'Categorias','','/categories',14,0);

@@ -30,19 +30,15 @@
 
 						<div class="form-group form-material row" data-plugin="formMaterial">
 
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<label class="form-control-label">Número de Itens</label>
 								<input type="number" name="nritems" class="form-control">
 							</div>
 
-							<div class="col-md-6">
-								<label class="form-control-label">Número de Stage Padding</label>
-								<input type="number" name="nrstagepadding" class="form-control">
+							<div class="col-md-4">
+								<label class="form-control-label">Velocidade</label>
+								<input type="number" name="nrspeed" class="form-control">
 							</div>
-
-						</div>
-
-						<div class="form-group form-material row" data-plugin="formMaterial">
 
 							<div class="col-md-3">
 								<label class="form-control-label">Loop</label>
@@ -52,56 +48,21 @@
 						      	</span>
 							</div>
 
-							<div class="col-md-3">
-								<label class="form-control-label">Nav</label>
-								<span class="checkbox-custom checkbox-primary checkbox-lg">
-							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="innav" name="innav"/>
-							        <label for="innav"></label>
-						      	</span>
-							</div>
-
-							<div class="col-md-3">
-								<label class="form-control-label">Centro</label>
-								<span class="checkbox-custom checkbox-primary checkbox-lg">
-							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="incenter" name="incenter"/>
-							        <label for="incenter"></label>
-						      	</span>
-							</div>
-
-							<div class="col-md-3">
-								<label class="form-control-label">Auto Width</label>
-								<span class="checkbox-custom checkbox-primary checkbox-lg">
-							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="inautowidth" name="inautowidth"/>
-							        <label for="inautowidth"></label>
-						      	</span>
-							</div>
-
 						</div>
 
-						<div class="form-group form-material row" data-plugin="formMaterial">
+						<div class="form-group form-material row" data-plugin="formMaterial">							
 
-							<div class="col-md-3">
-								<label class="form-control-label">Vídeo</label>
-								<span class="checkbox-custom checkbox-primary checkbox-lg">
-							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="invideo" name="invideo"/>
-							        <label for="invideo"></label>
-						      	</span>
+							<div class="col-md-6">
+								<label class="form-control-label">Velocidade do Auto Play</label>
+								<input type="number" name="nrautoplay" class="form-control">
 							</div>
 
-							<div class="col-md-3">
-								<label class="form-control-label">Lazy Load</label>
-								<span class="checkbox-custom checkbox-primary checkbox-lg">
-							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="inlazyload" name="inlazyload"/>
-							        <label for="inlazyload"></label>
-						      	</span>
-							</div>
-
-							<div class="col-md-3">
-								<label class="form-control-label">Dots</label>
-								<span class="checkbox-custom checkbox-primary checkbox-lg">
-							        <input type="checkbox" class="mailbox-checkbox selectable-item" id="indots" name="indots"/>
-							        <label for="indots"></label>
-						      	</span>
+							<div class="col-md-6">
+								<label class="form-control-label">Mode</label>
+								<select name="desmode" class="form-control">
+									<option value="horizontal">Horizontal</option>
+									<option value="vertical">Vertical</option>
+								</select>
 							</div>
 
 						</div>
@@ -153,7 +114,7 @@
 		                    </div>
 	                  	</div> -->
 
-	                  	<div class="form-group form-material col-md-3">
+	                  	<div class="form-group form-material col-md-6">
 		                    <div class="input-group p-b-20">
 		                      <div class="form-control-wrap">
 		                      	<label class="form-control-label">Ordem</label>
@@ -162,11 +123,17 @@
 		                    </div>
 	                  	</div>
 
-	                  	<div class="form-group form-material col-md-9">
+	                  	<div class="col-md-6">
+	                  		<label class="form-control-label">Capa</label>
+	                  		<input type="hidden" name="idcover">
+	                  		<img class="image_fade form-control add-cover" src="{$path}/res/img/placeholder.png" style="height:150px; margin-top:10px; cursor: pointer;">
+	                  	</div>
+
+	                  	<div class="form-group form-material col-md-12">
 		                    <div class="input-group p-b-20">
 		                      <div class="form-control-wrap">
 		                      	<label class="form-control-label">Conteúdo</label>
-		                        <textarea name="descontent" cols="30" rows="5" class="form-control"></textarea>
+		                        <div class="summernote"></div>
 		                      </div>
 		                      <span class="input-group-btn" style="vertical-align:bottom;">
 		                        <button type="button" class="btn btn-success btn-outline input-search-close icon wb-plus-circle" style="padding:10px"></button>
@@ -202,15 +169,20 @@
 	</div>
 	<div class="form-group form-material row p-b-60" data-plugin="formMaterial">
 
-		<div class="col-md-3">
+		<div class="col-md-6">
 			<label class="form-control-label">Ordem</label>
 			<input type="text" name="nrordem" class="form-control" value="{{nrorder}}">		
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-6">
+			<label class="form-control-label">Capa</label>
+			<img class="image_fade form-control img-cover" src="{$path}/res/img/placeholder.png" style="height:150px; margin-top:10px; cursor: pointer;">
+		</div>
+
+		<div class="col-md-12">
 			<div class="input-group">
 				<label class="form-control-label">Conteúdo</label>
-				<textarea name="descontent" class="form-control" cols="30" rows="5">{{descontent}}</textarea>
+				<div class="summernote" id="summernote-{{iditem}}"></div>
 				<span class="input-group-btn" style="vertical-align:bottom;">
 	                <button type="button" class="btn btn-success btn-outline input-search-close icon md-check" style="padding:10px"></button>
 	                <button type="button" class="btn btn-danger btn-outline input-search-close icon md-close-circle" style="padding:10px"></button>
@@ -342,9 +314,10 @@ $(".item-add button.btn-success").on("click", function(){
 	var data = {
 		iditem:0,
 		desitem:$div.find("[name=desitem]").val(),
-		descontent:$div.find("[name=descontent]").val().toString(),
+		descontent:$div.find(".summernote").next('.note-editor').find('.note-editable').html(),
 		nrorder:$div.find("[name=nrorder]").val(),
 		idtype:$div.find("[name=idtype]").val(),
+		idcover:$div.find("[name=idcover]").val(),
 		idcarousel:carousel.idcarousel
 	};
 
@@ -355,6 +328,8 @@ $(".item-add button.btn-success").on("click", function(){
 			isItemsLogged = false;
 			loadItems();
 			$div.find("input, textarea, select").val('');
+			$div.find(".add-cover").attr("src", PATH + "/res/img/placeholder.png");
+			$div.find(".summernote").next('.note-editor').find('.note-editable').html('');
 		},
 		function(){}			
 	);
@@ -407,9 +382,34 @@ function loadItems(){
 
 				$.each(r.data, function(index, row){
 
-					var $div = $(tplCarouselItem(row));
+					var $div = $(tplCarouselItem(row));					
 
 					$form.append($div);
+
+					$div.find("#summernote-"+row.iditem+"").html(row.descontent);
+
+					$div.find(".img-cover").attr("src", PATH + row.descover);
+
+					$div.find(".img-cover").on("click", function(){
+
+						var $img = $(this);
+
+						$.upload({
+							url:PATH+"/carousels-items/"+row.iditem+"/cover",
+							accept:"*",
+							modalInfo:true,
+							success:function(r){
+
+								var data = r.data[0];
+
+								console.log(data);
+
+								$img.attr("src", PATH + data.descover);
+
+							}
+						});
+
+					});
 
 					$div.find("[name=idtype]").combobox({
 						url:PATH+"/carousels-types",
@@ -423,7 +423,7 @@ function loadItems(){
 						var data = {
 							iditem:row.iditem,
 							desitem:$div.find("[name=desitem]").val(),
-							descontent:$div.find("[name=descontent]").val().toString(),
+							descontent:$div.find("#summernote-"+row.iditem+"").next(".note-editor").find(".note-editable").html(),
 							nrorder:$div.find("[name=nrorder]").val(),
 							idtype:$div.find("[name=idtype]").val(),
 							idcarousel:carousel.idcarousel
@@ -447,7 +447,7 @@ function loadItems(){
 						var data = {
 							iditem:row.iditem,
 							desitem:$div.find("[name=desitem]").val(),
-							descontent:$div.find("[name=descontent]").val().toString(),
+							descontent:$div.find("#summernote-"+row.iditem+"").next(".note-editor").find(".note-editable").html(),
 							nrorder:$div.find("[name=nrorder]").val(),
 							idtype:$div.find("[name=idtype]").val(),
 							idcarousel:carousel.idcarousel
@@ -481,6 +481,29 @@ function loadItems(){
 							}
 						});
 
+					});
+
+				});
+
+				$(".summernote").summernote({
+					height:200
+				});
+
+				$(".add-cover").on("click", function(){
+
+					$img = $(this);
+
+					$.upload({
+						url:PATH+"/files",
+						accept:"*",
+						modalInfo:true,
+						success:function(r){
+
+							$img.attr("src", PATH + r.data[0].despath);
+
+							$("[name=idcover]").val(r.data[0].idfile);
+
+						}
 					});
 
 				});

@@ -9,8 +9,8 @@ BEGIN
 
     IF pidinstructor = 0 THEN
     
-        INSERT INTO tb_instructors (idperson, desbiography, idphoto, dtregister)
-        VALUES(pidperson, pdesbiography, pidphoto, pdtregister);
+        INSERT INTO tb_instructors (idperson, desbiography, idphoto)
+        VALUES(pidperson, pdesbiography, pidphoto);
         
         SET pidinstructor = LAST_INSERT_ID();
 
@@ -20,12 +20,11 @@ BEGIN
         SET 
             idperson = pidperson,
             desbiography = pdesbiography,
-            idphoto = pidphoto,
-            dtregister = pdtregister        
+            idphoto = pidphoto
         WHERE idinstructor = pidinstructor;
 
     END IF;
 
     CALL sp_instructors_get(pidinstructor);
 
-END;
+END

@@ -16,11 +16,11 @@ class Carousels extends Collection {
     public static function listAll():Carousels
     {
 
-    	$car = new Carousels();
+        $car = new Carousels();
 
-    	$car->loadFromQuery("CALL sp_carousels_list();");
+        $car->loadFromQuery("CALL sp_carousels_list();");
 
-    	return $car;
+        return $car;
 
     }
 

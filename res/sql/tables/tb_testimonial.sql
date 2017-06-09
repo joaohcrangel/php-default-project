@@ -4,6 +4,7 @@ CREATE TABLE `tb_testimonial` (
   `idphoto` int(11) DEFAULT NULL,
   `dessubtitle` varchar(128) NOT NULL,
   `destestimony` varchar(256) NOT NULL,
+  `inapproved` bit NOT NULL DEFAULT b'0',
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idtestimony`),
   KEY `idperson` (`idperson`),

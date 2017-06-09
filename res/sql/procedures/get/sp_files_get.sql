@@ -3,8 +3,8 @@ pidfile INT
 )
 BEGIN
 
-    SELECT *    
-    FROM tb_files    
-    WHERE idfile = pidfile;
+    SELECT a.*, b.despath FROM tb_files a
+		LEFT JOIN tb_filespaths b ON a.idfile = b.idfile
+    WHERE a.idfile = pidfile;
 
 END

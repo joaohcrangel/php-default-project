@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+<script src="{$path}/res/js/all.js"></script><script src="{$path}/res/js/aribeiro/jquery.vincular.js"></script><script>Config.set('assets', '{$path}/res/theme/assets/');</script><script>app.controller('footer', function($scope, $http){
+=======
 <script src="{$path}/res/js/all.js"></script><script>Config.set('assets', '{$path}/res/theme/assets/');</script><script>app.controller('header', function($scope, $http){
 	{if="isLogged()"}
 	$scope.User = JSON.parse('{function="getUserJSON()"}');
@@ -8,6 +11,7 @@
 	{/if}
 });
 app.controller('footer', function($scope, $http){
+>>>>>>> 6974693b630daa8786a74001e9abceaa4dbf04c3
 	{if="isLogged()"}
 	$scope.User = JSON.parse('{function="getUserJSON()"}');
 	$scope.Person = JSON.parse('{function="getPersonJSON()"}');

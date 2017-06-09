@@ -3,8 +3,8 @@ piditem INT
 )
 BEGIN
 
-    SELECT *    
-    FROM tb_carouselsitems    
+    SELECT a.*, b.*, CONCAT(b.desdirectory, b.desfile, '.', b.desextension) AS descover FROM tb_carouselsitems a
+   		LEFT JOIN tb_files b ON a.idcover = b.idfile
     WHERE iditem = piditem;
 
 END

@@ -53,14 +53,17 @@ BEGIN
     LEFT JOIN tb_documents f ON f.iddocument = (SELECT f1.iddocument FROM tb_documents f1 WHERE f1.idperson = a.idperson AND f1.iddocumenttype = 1 LIMIT 1) -- CPF
     LEFT JOIN tb_documents g ON g.iddocument = (SELECT g1.iddocument FROM tb_documents g1 WHERE g1.idperson = a.idperson AND g1.iddocumenttype = 2 LIMIT 1) -- CNPJ
     LEFT JOIN tb_documents h ON h.iddocument = (SELECT h1.iddocument FROM tb_documents h1 WHERE h1.idperson = a.idperson AND h1.iddocumenttype = 3 LIMIT 1) -- RG
-    LEFT JOIN tb_personsvalues j ON j.idfield = (SELECT j1.idfield FROM tb_personsvalues j1 WHERE j1.idperson = a.idperson AND j1.idfield = 2 LIMIT 1) -- SEX
-    LEFT JOIN tb_personsvalues k ON k.idfield = (SELECT k1.idfield FROM tb_personsvalues k1 WHERE k1.idperson = a.idperson AND k1.idfield = 1 LIMIT 1) -- DATE OF BIRTH
-    LEFT JOIN tb_personsvalues o ON o.idfield = (SELECT o1.idfield FROM tb_personsvalues o1 WHERE o1.idperson = a.idperson AND o1.idfield = 3 LIMIT 1) -- FOTO
+    LEFT JOIN tb_personsvalues j ON j.idpersonvalue = (SELECT j1.idpersonvalue FROM tb_personsvalues j1 WHERE j1.idperson = a.idperson AND j1.idfield = 2 LIMIT 1) -- SEX
+    LEFT JOIN tb_personsvalues k ON k.idpersonvalue = (SELECT k1.idpersonvalue FROM tb_personsvalues k1 WHERE k1.idperson = a.idperson AND k1.idfield = 1 LIMIT 1) -- DATE OF BIRTH
+    LEFT JOIN tb_personsvalues o ON o.idpersonvalue = (SELECT o1.idpersonvalue FROM tb_personsvalues o1 WHERE o1.idperson = a.idperson AND o1.idfield = 3 LIMIT 1) -- FOTO
     LEFT JOIN tb_personscategories l ON a.idperson = l.idperson AND l.idcategory = 1 -- CLIENT
     LEFT JOIN tb_personscategories m ON a.idperson = m.idperson AND m.idcategory = 2 -- PROVIDER
     LEFT JOIN tb_personscategories n ON a.idperson = n.idperson AND n.idcategory = 3 -- COLLABORATOR
     LEFT JOIN tb_addresses p ON p.idaddress = (SELECT p1.idaddress FROM tb_addresses p1 INNER JOIN tb_personsaddresses p2 ON p1.idaddress = p2.idaddress WHERE p2.idperson = a.idperson ORDER by p1.inmain DESC, p2.dtregister DESC LIMIT 1)
     LEFT JOIN tb_addressestypes q ON q.idaddresstype  = p.idaddresstype
+    LEFT JOIN tb_personssocialnetworks r ON r.idperson = a.idperson AND r.idsocialnetwork = 1 -- Facebook
+    LEFT JOIN tb_personssocialnetworks s ON s.idperson = a.idperson AND s.idsocialnetwork = 2 -- Twitter
+    LEFT JOIN tb_personssocialnetworks t ON t.idperson = a.idperson AND t.idsocialnetwork = 3 -- Linkedin
     WHERE 
             a.idperson  = pidperson  
             AND 

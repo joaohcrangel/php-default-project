@@ -1,0 +1,98 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
+<link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/media.css">
+<style>
+.info-wrap .title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+}
+.image-wrap {
+	display: table-cell;
+    vertical-align: middle;
+}
+.slidePanel{
+	overflow: overlay;
+}
+</style>
+<header class="slidePanel-header">
+  <div class="overlay-top overlay-panel overlay-background bg-indigo-600">
+    <div class="slidePanel-actions btn-group btn-group-flat" aria-label="actions" role="group">      
+      <button type="button" class="btn btn-pure slidePanel-close icon md-close" aria-hidden="true"></button>
+    </div>
+    <h4 class="stage-name"><h5 class="taskboard-stage-title text-uppercase">Criar Categoria</h5></h4>
+  </div>  
+</header>
+<div class="slidePanel-inner m-0 p-0 app-media">
+	
+	<div class="panel nav-tabs-horizontal nav-tabs-inverse" id="category-tabs" data-plugin="tabs">
+	    <div class="panel-heading panel-heading-tab" id="tabs-category" style="border-radius: 0;">
+	    </div>
+	    <div class="panel-body p-t-20">
+	      <div class="tab-content">
+	        <div class="tab-pane active" id="tab-category" role="tabpanel">
+	          <form asutocomplete="off" id="form-category-save" class="slidePanel-form">
+			  	<div class="form-group form-material" data-plugin="formMaterial">
+			  		<input type="hidden" name="idcategory">
+			      	<label class="form-control-label" for="descategory">Nome</label>
+			      	<input type="text" class="form-control" name="descategory">
+				</div>				
+				<div class="form-group form-material" data-plugin="formMaterial">
+			      	<label class="form-control-label">Categoria Pai</label>
+			      	<select name="idcategoryfather" class="form-control"></select>
+				</div>
+			    <button type="submit" class="btn btn-block btn-primary" id="btn-category-create">Salvar</button>
+			  </form>
+	        </div>	        
+	      </div>
+	    </div>
+    </div>
+
+</div>
+<script>
+
+new Tab({
+	id:"tabs-category",
+	items:[{
+		title:"Dados",
+		id:"tab-category"
+	}],
+	listeners:{
+		tabchange:function(object, event){
+
+			switch (event.tabContent.id) {
+
+				
+
+			}
+
+		}
+	}
+});
+
+$("[name=idcategoryfather]").combobox({
+	url:PATH+"/categories/all",
+	displayField:"descategory",
+	valueField:"idcategory"
+});
+  
+var form = $("#form-category-save");
+
+form.form({
+  resetForm:false,
+  url:PATH+"/categories",
+  success:function(){
+
+    form.find("button#btn-category-create").btnload("unload");
+    System.success("Categoria criada com sucesso");
+    $("#form-filtros [type=submit]").trigger("click");
+    $(".slidePanel-close").trigger("click");
+
+  },
+  failure:function(r){
+
+    form.find("button#btn-category-create").btnload("unload");
+    System.showError(r);
+
+  }
+});
+
+</script>

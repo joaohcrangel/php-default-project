@@ -2,6 +2,7 @@ CREATE TABLE `tb_events` (
   `idevent` int(11) NOT NULL,
   `desevent` varchar(64) NOT NULL,
   `idfrequency` int(11) NOT NULL,
+  `nrfrequency` int(11) NOT NULL,
   `idorganizer` int(11) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idevent`),

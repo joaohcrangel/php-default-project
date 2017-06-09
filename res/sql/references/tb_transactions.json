@@ -1,1 +1,1 @@
-{"tables":["tb_transactionsaccounts", "tb_transactionscategories", "tb_transactionstypes"]}
+{"tables":["tb_persons","tb_transactionsaccounts","tb_transactionscategories","tb_transactionstypes"]}

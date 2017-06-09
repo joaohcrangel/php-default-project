@@ -19,7 +19,7 @@ class City extends Model {
                 
     }
 
-    public function loadFromName($name, $uf = ''){
+    public static function loadFromName($name, $uf = ''){
 
         $city = new City();
 

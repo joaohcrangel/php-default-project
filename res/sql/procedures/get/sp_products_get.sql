@@ -3,8 +3,8 @@ pidproduct INT
 )
 BEGIN
 
-	SELECT *
-	FROM tb_productsdata
+    SELECT *    
+    FROM tb_products    
     WHERE idproduct = pidproduct;
 
-END
+END;

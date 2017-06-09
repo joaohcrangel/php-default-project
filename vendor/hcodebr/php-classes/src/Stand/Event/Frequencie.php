@@ -1,9 +1,11 @@
-
-
-
 <?php
 
-class EventFrequencie extends Model {
+namespace Hcode\Stand\Event;
+
+use Hcode\Model;
+use Hcode\Exception;
+
+class Frequencie extends Model {
 
     public $required = array('desfrequency');
     protected $pk = "idfrequency";
@@ -22,10 +24,9 @@ class EventFrequencie extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_eventsfrequencies_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_eventsfrequencies_save(?, ?);", array(
                 $this->getidfrequency(),
-                $this->getdesfrequency(),
-                $this->getdtregister()
+                $this->getdesfrequency()
             ));
 
             return $this->getidfrequency();

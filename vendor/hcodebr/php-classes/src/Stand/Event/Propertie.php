@@ -1,9 +1,11 @@
-
-
-
 <?php
 
-class EventPropertie extends Model {
+namespace Hcode\Stand\Event;
+
+use Hcode\Model;
+use Hcode\Exception;
+
+class Propertie extends Model {
 
     public $required = array('desproperty');
     protected $pk = "idproperty";
@@ -22,10 +24,9 @@ class EventPropertie extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_eventsproperties_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_eventsproperties_save(?, ?);", array(
                 $this->getidproperty(),
-                $this->getdesproperty(),
-                $this->getdtregister()
+                $this->getdesproperty()
             ));
 
             return $this->getidproperty();

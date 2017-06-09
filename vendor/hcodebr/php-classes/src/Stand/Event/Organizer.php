@@ -1,9 +1,11 @@
-
-
-
 <?php
 
-class EventOrganizer extends Model {
+namespace Hcode\Stand\Event;
+
+use Hcode\Model;
+use Hcode\Exception;
+
+class Organizer extends Model {
 
     public $required = array('desorganizer');
     protected $pk = "idorganizer";
@@ -22,10 +24,9 @@ class EventOrganizer extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_eventsorganizers_save(?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_eventsorganizers_save(?, ?);", array(
                 $this->getidorganizer(),
-                $this->getdesorganizer(),
-                $this->getdtregister()
+                $this->getdesorganizer()
             ));
 
             return $this->getidorganizer();

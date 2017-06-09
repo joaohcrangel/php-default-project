@@ -1,14 +1,13 @@
 CREATE PROCEDURE sp_eventsfrequencies_save(
 pidfrequency INT,
-pdesfrequency VARCHAR(32),
-pdtregister TIMESTAMP
+pdesfrequency VARCHAR(32)
 )
 BEGIN
 
     IF pidfrequency = 0 THEN
     
-        INSERT INTO tb_eventsfrequencies (desfrequency, dtregister)
-        VALUES(pdesfrequency, pdtregister);
+        INSERT INTO tb_eventsfrequencies (desfrequency)
+        VALUES(pdesfrequency);
         
         SET pidfrequency = LAST_INSERT_ID();
 
@@ -16,8 +15,7 @@ BEGIN
         
         UPDATE tb_eventsfrequencies        
         SET 
-            desfrequency = pdesfrequency,
-            dtregister = pdtregister        
+            desfrequency = pdesfrequency    
         WHERE idfrequency = pidfrequency;
 
     END IF;

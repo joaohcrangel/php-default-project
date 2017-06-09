@@ -1,6 +1,11 @@
 <?php
 
-class EventCalendar extends Model {
+namespace Hcode\Stand\Event;
+
+use Hcode\Model;
+use Hcode\Exception;
+
+class Calendar extends Model {
 
     public $required = array('idevent', 'idplace', 'dtstart', 'dtend');
     protected $pk = "idcalendar";
@@ -19,14 +24,13 @@ class EventCalendar extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_eventscalendars_save(?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_eventscalendars_save(?, ?, ?, ?, ?, ?);", array(
                 $this->getidcalendar(),
                 $this->getidevent(),
                 $this->getidplace(),
                 $this->getdtstart(),
                 $this->getdtend(),
-                $this->getdesurl(),
-                $this->getdtregister()
+                $this->getdesurl()
             ));
 
             return $this->getidcalendar();

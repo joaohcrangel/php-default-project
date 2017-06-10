@@ -1,5 +1,10 @@
 <?php
 
+namespace Hcode\Stand;
+
+use Hcode\Model;
+use Hcode\Exception;
+
 class Event extends Model {
 
     public $required = array('desevent', 'idfrequency', 'nrfrequency', 'idorganizer');

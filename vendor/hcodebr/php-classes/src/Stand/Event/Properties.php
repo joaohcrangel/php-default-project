@@ -4,7 +4,7 @@ namespace Hcode\Stand\Event;
 
 use Hcode\Collection;
 
-class EventsProperties extends Collection {
+class Properties extends Collection {
 
     protected $class = "Hcode\Stand\Event\Propertie";
     protected $saveQuery = "sp_eventsproperties_save";

@@ -1,5 +1,10 @@
 <?php
 
+namespace Hcode\Stand;
+ 
+ use Hcode\Model;
+ use Hcode\Exception;
+
 class Department extends Model {
 
     public $required = array('iddepartmentparent', 'desdepartment');

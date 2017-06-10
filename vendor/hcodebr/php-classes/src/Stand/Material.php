@@ -1,6 +1,6 @@
 <?php
 
-namespace Hcode\Stand;
+ namespace Hcode\Stand;
  
  use Hcode\Model;
  use Hcode\Exception;

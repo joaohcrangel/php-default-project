@@ -53,7 +53,12 @@ $app->get("/events", function(){
 	$page = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
 
+	$dtstart = get("dtstart");
+	$dtend = get("dtend");
+
 	$where = array();
+
+	array_push($where, "b.dtstart BETWEEN ".$dtstart." AND ".$dtend."");
 
 	if(count($where) > 0){
 		$where = "WHERE ".implode(" AND ", $where);
@@ -62,7 +67,8 @@ $app->get("/events", function(){
 	}
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS * FROM tb_events
+		SELECT SQL_CALC_FOUND_ROWS a.* FROM tb_events
+			INNER JOIN tb_eventscalendars b ON a.idevent = b.idevent
 		".$where." LIMIT ?, ?;
 	";
 

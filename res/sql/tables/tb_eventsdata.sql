@@ -1,0 +1,23 @@
+CREATE TABLE tb_eventsdata(
+idevent INT NOT NULL,
+desevent VARCHAR(64) NOT NULL,
+idfrequency INT NOT NULL,
+desfrequency VARCHAR(32) NOT NULL,
+nrfrequency INT NOT NULL,
+idorganizer INT NOT NULL,
+desorganizer VARCHAR(64) NOT NULL,
+dtstart DATETIME NOT NULL,
+dtend DATETIME DEFAULT NULL,
+idurl INT DEFAULT NULL,
+desurl VARCHAR(128) DEFAULT NULL,
+idplace INT NOT NULL,
+deslogo VARCHAR(32) DEFAULT NULL,
+desbanner VARCHAR(32) DEFAULT NULL,
+dtregister TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+CONSTRAINT PRIMARY KEY(idevent),
+CONSTRAINT FK_eventsdata_events FOREIGN KEY(idevent) REFERENCES tb_events(idevent),
+CONSTRAINT FK_eventsdata_frequencies FOREIGN KEY(idfrequency) REFERENCES tb_eventsfrequencies(idfrequency),
+CONSTRAINT FK_eventsdata_organizers FOREIGN KEY(idorganizer) REFERENCES tb_eventsorganizers(idorganizer),
+CONSTRAINT FK_eventsdata_urls FOREIGN KEY(idurl) REFERENCES tb_urls(idurl),
+CONSTRAINT FK_eventsdata_places FOREIGN KEY(idplace) REFERENCES tb_places(idplace)
+);

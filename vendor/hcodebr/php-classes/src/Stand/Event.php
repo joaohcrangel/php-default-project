@@ -19,10 +19,11 @@ class Event extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_events_save(?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_events_save(?, ?, ?, ?, ?);", array(
                 $this->getidevent(),
                 $this->getdesevent(),
                 $this->getidfrequency(),
+                $this->getnrfrequency(),
                 $this->getidorganizer()
             ));
 

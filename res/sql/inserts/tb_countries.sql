@@ -1,2 +1,2 @@
 INSERT INTO tb_countries (idcountry, descountry) VALUES
-(1,'Brasil';
+(1,'Brasil');

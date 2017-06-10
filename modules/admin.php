@@ -1205,5 +1205,15 @@ $app->get("/".DIR_ADMIN."/financial-categories", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/events", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/events");
+
+});
+
 
 ?>

@@ -62,7 +62,7 @@ INSERT INTO tb_menus (idmenu,idmenufather,desmenu,desicon,deshref,nrorder,nrsubm
 (62,NULL,'Financeiro','md-money-box','',3,5),
 (63,60,'Clientes','md-accounts','/clients',1,NULL),
 (64,60,'Produtos','md-devices','/products',2,NULL),
-(65,60,'Vendas e Orçamentos','md-assignment','/orders',NULL,NULL),
+(65,60,'Vendas e Orçamentos','md-assignment','/sales-orders',NULL,NULL),
 (66,60,'Estoque','md-collection-bookmark','/stock',3,NULL),
 (67,61,'Compras','md-shopping-basket','/purshaces',NULL,NULL),
 (68,61,'Fornecedores','md-assignment-returned','/providers',1,NULL),

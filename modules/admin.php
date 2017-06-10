@@ -1105,4 +1105,105 @@ $app->post("/".DIR_ADMIN."/system/sql-to-class/execute", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/sales-orders", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/sales-orders");
+
+});
+
+$app->get("/".DIR_ADMIN."/clients", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/clients");
+
+});
+
+$app->get("/".DIR_ADMIN."/stock", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/stock");
+
+});
+
+$app->get("/".DIR_ADMIN."/purshaces", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/purshaces");
+
+});
+
+$app->get("/".DIR_ADMIN."/providers", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/providers");
+
+});
+
+$app->get("/".DIR_ADMIN."/accounts", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/accounts");
+
+});
+
+$app->get("/".DIR_ADMIN."/bank-statement", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/bank-statement");
+
+});
+
+$app->get("/".DIR_ADMIN."/bills-to-pay", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/bills-to-pay");
+
+});
+
+$app->get("/".DIR_ADMIN."/bills-to-receive", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/bills-to-receive");
+
+});
+
+$app->get("/".DIR_ADMIN."/financial-categories", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page();
+
+    $page->setTpl("/admin/financial-categories");
+
+});
+
+
 ?>

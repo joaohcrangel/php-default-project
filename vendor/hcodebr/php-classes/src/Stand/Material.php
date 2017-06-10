@@ -5,10 +5,9 @@ namespace Hcode\Stand;
  use Hcode\Model;
  use Hcode\Exception;
 
-
 class Material extends Model {
 
-    public $required = array('idmaterialtype', 'idunitytype', 'idphoto', 'desmaterial', 'descode', 'inreusable');
+    public $required = array('idmaterialparent', 'idmaterialtype', 'idunitytype', 'desmaterial', 'descode', 'inreusable');
     protected $pk = "idmaterial";
 
     public function get(){
@@ -25,12 +24,11 @@ class Material extends Model {
 
         if($this->getChanged() && $this->isValid()){
 
-            $this->queryToAttr("CALL sp_materials_save(?, ?, ?, ?, ?, ?, ?, ?, ?);", array(
+            $this->queryToAttr("CALL sp_materials_save(?, ?, ?, ?, ?, ?, ?, ?);", array(
                 $this->getidmaterial(),
                 $this->getidmaterialparent(),
                 $this->getidmaterialtype(),
                 $this->getidunitytype(),
-                $this->getidphoto(),
                 $this->getdesmaterial(),
                 $this->getdescode(),
                 $this->getinreusable(),

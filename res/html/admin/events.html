@@ -147,26 +147,50 @@
 <script>
 init.push(function(){
 
+  var $panel = System.getPanelApi($(".panel-calendar"));
+
   function returnDaysFormated(event){
 
-    console.log(event);
-
-    var dtstart = event.start;
+    var dtstart = moment(new Date(event.start._d));
 
     dtstart.add(1, "days");
 
-    dtstart = dtstart.toDate();
+    dtstart = dtstart.format("YYYY-MM-DD");
 
-    // console.log(dtstart);
+    var dtend = moment(new Date(event.end._d));
 
-    var dtend = event.end.toDate();
+    dtend = dtend.format("YYYY-MM-DD");
 
     var data = {
+      idcalendar:event.id,
       dtstart:dtstart,
       dtend:dtend
     }
 
     return data;
+
+  }
+
+  function saveEvent(event){
+
+    if(typeof event === 'object'){
+
+      $panel.load();
+
+      rest({
+        url:PATH+"/events-calendars",
+        method:"POST",
+        data:event,
+        success:function(r){
+          $panel.done();
+        },
+        failure:function(r){
+          $panel.done();
+          System.showError(r);
+        }
+      });
+
+    }
 
   }
 
@@ -193,10 +217,6 @@ init.push(function(){
       var dtend = moment(new Date(end._d));
 
       dtend = dtend.format("YYYY-MM-DD");
-
-      console.log(dtstart, dtend);
-
-      // console.log(start._d, end._d);
 
       $('#modalEventCreate').modal('show');
         
@@ -267,34 +287,34 @@ init.push(function(){
 
       $("#modalEventCreate").modal("show").find("[name=dtstart]").val(dtstart);
 
-      console.log(date);
-
     },
-    eventDragStart: function (e) {
-      // console.log(e);
+    eventDragStart: function (event) {
       // $('.site-action').data('actionBtn').show();
     },
-    eventDragStop: function (event) {
+    eventDrop:function(event){
 
       var days = returnDaysFormated(event);
 
-      console.log(days);
-      
-      // $('.site-action').data('actionBtn').hide();
+      var event = {
+        idcalendar:days.idcalendar,
+        dtstart:days.dtstart,
+        dtend:days.dtend
+      };
+
+      saveEvent(event);
+
     },
-    eventResizeStop:function(event){
+    eventResize:function(event){
 
-      console.log(event);
+      var days = returnDaysFormated(event);
 
-      var dtstart = moment(new Date(event._start._d));
+      var event = {
+        idcalendar:days.idcalendar,
+        dtstart:days.dtstart,
+        dtend:days.dtend
+      };
 
-      dtstart.add(1, "days");
-
-      dtstart = dtstart.format("YYYY-MM-DD");
-
-      console.log(dtstart);
-
-      var dtend = moment(new Date(event.end._d)).format("YYYY-MM-DD");
+      saveEvent(event);
 
     },
 
@@ -311,8 +331,6 @@ init.push(function(){
 
   function loadEvents(){
 
-    var $panel = System.getPanelApi($(".panel-calendar"));
-
     $panel.load();
 
     rest({
@@ -327,8 +345,6 @@ init.push(function(){
             start:row.dtstart,
             end:row.dtend
           };
-
-          console.log(event);
 
           myEvents.push(event);          
 

@@ -195,6 +195,7 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/vendor/fullcalendar/fullcalendar.js',
         './theme/material/global/vendor/fullcalendar/locale/pt-br.js',
         './theme/material/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js',
+        './theme/material/global/vendor/bootstrap-datepicker/bootstrap-datepicker.pt-BR.min.js',
         './theme/material/global/js/Plugin/bootstrap-datepicker.js',
 
         //Others Plugins

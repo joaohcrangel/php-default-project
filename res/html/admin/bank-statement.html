@@ -316,12 +316,25 @@ init.push(function(){
 	    						case 'custom':
 	    						$wrap.find(".dropdown").hide();
 
+	    						var $daterange = $wrap.find(".input-daterange");
 
+	    						$daterange.datepicker({
+	    							format: "dd/mm/yyyy",
+    								language: "pt-BR",
+    								autoclose: true,
+    								todayHighlight: true
+	    						}).on("changeDate", function(e){
 
-	    						$wrap.find(".input-daterange").find('[name=start]').focus();
+	    							o.start = moment($daterange.datepicker('getStartDate'));
+	    							o.end = moment($daterange.datepicker('getEndDate'));
 
+	    							if (e.target.name === "start")$daterange.show().find('[name=end]').focus();
 
+	    							t.selected();
 
+	    						});
+
+	    						$daterange.show().find('[name=start]').focus();
 	    						break;
 
 	    					}

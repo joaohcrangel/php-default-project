@@ -13,6 +13,16 @@ class Events extends Collection {
 
     public function get(){}
 
+    public static function listAll(){
+
+    	$events = new Events();
+
+    	$events->loadFromQuery("CALL sp_events_list();");
+
+    	return $events;
+
+    }
+
 }
 
 ?>

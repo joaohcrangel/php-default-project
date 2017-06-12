@@ -4,6 +4,7 @@ namespace Hcode\Stand\Event;
 
 use Hcode\Model;
 use Hcode\Exception;
+use Hcode\Site\Url;
 
 class Calendar extends Model {
 
@@ -52,6 +53,17 @@ class Calendar extends Model {
 
         return true;
         
+    }
+
+    public function setUrl(Url $url):Calendar
+    {
+
+        $this->setidurl($url->getidurl());
+
+        $this->save();
+
+        return $this;
+
     }
 
 }

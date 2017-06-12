@@ -1,5 +1,5 @@
 CREATE TABLE `tb_events` (
-  `idevent` int(11) NOT NULL,
+  `idevent` int(11) NOT NULL AUTO_INCREMENT,
   `desevent` varchar(64) NOT NULL,
   `idfrequency` int(11) NOT NULL,
   `nrfrequency` int(11) NOT NULL,

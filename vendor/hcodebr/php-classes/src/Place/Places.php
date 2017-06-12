@@ -17,7 +17,7 @@ class Places extends Collection {
 
     	$places = new Places();
 
-    	$places->loadFromQuery("CALL sp_placees_list();");
+    	$places->loadFromQuery("CALL sp_places_list();");
 
     	return $places;
 

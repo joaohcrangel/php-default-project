@@ -46,6 +46,14 @@ $app->get("/".DIR_ADMIN."/events/:idevent", function($idevent){
 
 });
 
+$app->get("/events/all", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	echo success(array("data"=>Hcode\Stand\Events::listAll()->getFields()));
+
+});
+
 $app->get("/events", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
@@ -53,12 +61,11 @@ $app->get("/events", function(){
 	$page = (int)get("pagina");
 	$itemsPerPage = (int)get("limite");
 
-	$dtstart = get("dtstart");
-	$dtend = get("dtend");
-
 	$where = array();
 
-	array_push($where, "b.dtstart BETWEEN ".$dtstart." AND ".$dtend."");
+	if(get("q") != ""){
+		array_push($where, "a.desevent LIKE '%".utf8_encode(get("q"))."%'");
+	}
 
 	if(count($where) > 0){
 		$where = "WHERE ".implode(" AND ", $where);
@@ -67,8 +74,8 @@ $app->get("/events", function(){
 	}
 
 	$query = "
-		SELECT SQL_CALC_FOUND_ROWS a.* FROM tb_events
-			INNER JOIN tb_eventscalendars b ON a.idevent = b.idevent
+		SELECT SQL_CALC_FOUND_ROWS a.* FROM tb_events a
+			LEFT JOIN tb_eventscalendars b ON a.idevent = b.idevent
 		".$where." LIMIT ?, ?;
 	";
 
@@ -501,6 +508,14 @@ $app->post("/events-calendars", function(){
 	$calendar->set($_POST);
 
 	$calendar->save();
+
+	if(post("desurl")){
+
+		$url = Hcode\Site\Url::checkUrl(post("desurl"), post("idurl"));
+
+		$calendar->setUrl($url);
+
+	}
 
 	echo success(array("data"=>$calendar->getFields()));
 

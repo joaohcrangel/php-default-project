@@ -1,10 +1,22 @@
 <?php
 
+$app->get("/places/all", function(){
+
+	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+	echo success(array("data"=>Hcode\Place\Places::listAll()->getFields()));
+
+});
+
 $app->get("/places", function(){
 
 	Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
 	$where = array();
+
+	if(get("q") != ""){
+		array_push($where, "a.desplace LIKE '%".utf8_decode(get('q'))."%'");
+	}
 
 	if(isset($_GET['desplace']) && $_GET['desplace'] != ""){
 		array_push($where, "a.desplace LIKE '%".utf8_decode(get('desplace'))."%'");

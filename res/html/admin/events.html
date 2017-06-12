@@ -151,15 +151,19 @@ init.push(function(){
 
     console.log(event);
 
-    var dtstart = event.start;
+    var dtstart = moment(new Date(event.start._d));
 
     dtstart.add(1, "days");
 
-    dtstart = dtstart.toDate();
+    dtstart = dtstart.format("YYYY-MM-DD");
 
     // console.log(dtstart);
 
-    var dtend = event.end.toDate();
+    var dtend = moment(new Date(event.end._d));
+
+    // dtend.subtract(1, "days");
+
+    dtend = dtend.format("YYYY-MM-DD");
 
     var data = {
       dtstart:dtstart,
@@ -267,34 +271,29 @@ init.push(function(){
 
       $("#modalEventCreate").modal("show").find("[name=dtstart]").val(dtstart);
 
-      console.log(date);
+      // console.log(date);
 
     },
-    eventDragStart: function (e) {
-      // console.log(e);
+    eventDragStart: function (event) {
+      // console.log(event.start._d);
+      // console.log(event.end._d);
       // $('.site-action').data('actionBtn').show();
     },
-    eventDragStop: function (event) {
+    eventOverlap:function(e){
+      // console.log(e);
+    },
+    eventDrop:function(event){
 
       var days = returnDaysFormated(event);
 
       console.log(days);
-      
-      // $('.site-action').data('actionBtn').hide();
+
     },
-    eventResizeStop:function(event){
+    eventResize:function(event){
 
-      console.log(event);
+      var days = returnDaysFormated(event);
 
-      var dtstart = moment(new Date(event._start._d));
-
-      dtstart.add(1, "days");
-
-      dtstart = dtstart.format("YYYY-MM-DD");
-
-      console.log(dtstart);
-
-      var dtend = moment(new Date(event.end._d)).format("YYYY-MM-DD");
+      console.log(days);
 
     },
 
@@ -327,8 +326,6 @@ init.push(function(){
             start:row.dtstart,
             end:row.dtend
           };
-
-          console.log(event);
 
           myEvents.push(event);          
 

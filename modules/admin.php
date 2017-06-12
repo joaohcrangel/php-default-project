@@ -740,6 +740,38 @@ $app->get("/".DIR_ADMIN."/states", function(){
 
 });
 
+$app->get("/".DIR_ADMIN."/materiais-types", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/materiais-types");
+
+});
+
+$app->get("/".DIR_ADMIN."/materiais-units-types", function(){
+
+    Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
+
+    $page = new Hcode\Admin\Page(array(
+        'data'=>array(
+            'body'=>array(
+                'class'=>'page-aside-fixed page-aside-left'
+            )
+        )
+    ));
+
+    $page->setTpl("/admin/materiais-units-types");
+
+});
+
 $app->get("/".DIR_ADMIN."/cities", function(){
 
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);

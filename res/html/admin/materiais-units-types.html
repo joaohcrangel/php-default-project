@@ -1,4 +1,6 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css">
 <link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css">
+
 
 <div class="page bg-white">
 
@@ -13,12 +15,12 @@
 	          <section class="page-aside-section p-t-0">
 	            <div class="panel-primary panel-line">
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Filtrar Tipos de Pessoas</h3>
+	                <h3 class="panel-title">Filtrar Unidade</h3>
 	              </div>
 	              <form id="form-filtros" class="p-x-25">
 	                <div class="form-group form-material" data-plugin="formMaterial">
 	                  <label class="form-control-label">Nome</label>
-	                  <input type="text" class="form-control" name="despersontype">
+	                  <input type="text" class="form-control" name="desunitytype">
 	                </div>       
 	                <button type="submit" class="btn btn-primary btn-block">Buscar</button>
 	              </form>
@@ -32,7 +34,7 @@
     <div class="page-main">
         <div class="row-fluid">
             <div class="col-sm-12">
-                <div class="panel" id="panel-person-type" data-auto-height="-179">
+                <div class="panel" id="panel-materialunit-type" data-auto-height="-179">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             
@@ -46,23 +48,23 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Pessoa
+                                   Material
                                 </th>
-                                 <th>&nbsp;</th>
+                                <th>&nbsp;</th>
                             </tr>
-                        </thead>    
+                        <thead>
                         <tbody>
-                        	
+
                         </tbody>
-                    </table> 
+                    </table>
                 </div>
-                <div id="pagination"></div>
+                 <div id="pagination"></div>
             </div>
         </div>
     </div>
     <div class="site-action">
         <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating"
-        data-url="{$path}/panel/persons-types-create" data-toggle="slidePanel">
+        data-url="{$path}/panel/materiais-units-types-create" data-toggle="slidePanel">
             <i class="front-icon md-plus animation-scale-up" aria-hidden="true">
             </i>
             <i class="back-icon md-close animation-scale-up" aria-hidden="true">
@@ -70,52 +72,54 @@
         </button>
     </div>
 </div>
-<script id="tpl-person-type" type="/x-handlebars-temprate"><tr data-idpersontype="{{idpersontype}}">
-	<td>{{despersontype}}</td> 
+<script id="tpl-materialunit-type" type="/x-handlebars-temprate">
+<tr data-idunitytype="{{idunitytype}}">
+	<td>{{desunitytype}}</td>
 	<td>
-		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/persons-types/{{idpersontype}}" data-toggle="slidePanel">
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/materiais-units-types/{{idunitytype}}" data-toggle="slidePanel">
       	</button>
-      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-person icon wb-trash">
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-materialunit icon wb-trash">
       	</button>
 	</td>
 </tr>
-	
 </script>
 <script>
 init.push(function(){
-	var panel = System.getPanelApi($("#panel-person-type"));
+	var panel = System.getPanelApi($("#panel-materialunit-type"));
 
-	var $tbody = $("#panel-person-type tbody");
+	var $tbody = $("#panel-materialunit-type tbody");
 
-	var $tplPersonType = Handlebars.compile($("#tpl-person-type").html());
+	var $tplMaterialUnitType = Handlebars.compile($("#tpl-materialunit-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
-     
-	    e.preventDefault();
 
-	    loadPersonType();
-	    
-	  });
+	e.preventDefault();
 
-	function loadPersonType(pagina){
+    loadMaterialUnitType();
+
+	});
+
+	function loadMaterialUnitType(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadPersonType();
+			loadMaterialUnitType();
 
 		});
 
-		var params = $("#form-filtros").formValues();
+		var params =$("#form-filtros").formValues();
 
 		params.pagina = pagina;
-		params.limite = Math.floor((window.innerHeight-179)/53);
+		params. limite = Math.floor((window.innerHeight-179)/53);
 		params.limite = (params.limite<5)?5:params.limite;
+
+
 
 		panel.load();
 
 		rest({
-			url:PATH+"/persons-types",
+			url:PATH+"/materiais-units-types",
 			data:params,
 			success:function(r){
 
@@ -123,7 +127,7 @@ init.push(function(){
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplPersonType(row));
+					$tbody.append($tplMaterialUnitType(row));
 
 				});
 
@@ -132,33 +136,33 @@ init.push(function(){
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadPersonType(page);
+            			loadMaterialUnitType(page);
          			}
         		});
 
-        		$("#pagination").asPaginator(r.total, config);
+        		$("#pagination").asPaginator(r.total, config);				
 
 				System.initSlidePanel($tbody);
 
 				panel.done();
 
-				$(".btn-excluir-person").on("click", function(e){
+				$(".btn-excluir-materialunit").on("click", function(e){
 
 					var $btn = $(this);
 
-					var idpersontype = $btn.closest("tr").data("idpersontype");
-					System.confirm('Deseja remover esse tipo de pessoa?', function(b, s, f){
+					var idunitytype = $btn.closest("tr").data("idunitytype");
+					System.confirm('Deseja remover esse material?', function(b, s, f){
 			      		if (b) {
 
 			      			System.load();
 
 			            	rest({
-				          		url: PATH+"/persons-types/"+idpersontype,
+				          		url: PATH+"/materiais-units-types/"+idunitytype,
 				         		 method:'DELETE',
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadPersonType();
+				           		 	loadMaterialUnitType();
 				            		s();
 
 				          		},
@@ -185,5 +189,6 @@ init.push(function(){
 		});
 	};
 
-    loadPersonType();
-});</script>
+    loadMaterialUnitType();
+});
+</script>

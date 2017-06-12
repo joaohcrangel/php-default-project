@@ -99,6 +99,7 @@ $app->get("/panel/persons-types/:idpersontype", function($idpersontype){
 
 });
 
+
 $app->get("/panel/persons-types-create", function(){
 
 	$page = new Hcode\Admin\Page(array(
@@ -109,6 +110,64 @@ $app->get("/panel/persons-types-create", function(){
 	$page->setTpl("panel\person-type-create");
 
 });
+
+// Material-type
+
+$app->get("/panel/materiais-types/:idtype", function($idtype){
+
+	$material = new Hcode\Stand\Material\Type((int)$idtype);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel\material-type-save", array( // nome do arquivo panel, vai no html no plural
+		"material"=>$material->getFields()
+	));
+
+});
+
+$app->get("/panel/materiais-types-create", function(){
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel\material-type-create");
+
+});
+
+////// Unit-Type
+
+$app->get("/panel/materiais-units-types/:idunitytype", function($idunitytype){
+
+	$materialunit = new Hcode\Stand\Material\Unit\Type((int)$idunitytype);
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel\material-unit-type-save", array( // nome do arquivo panel, vai no html no plural
+		"materialunit"=>$materialunit->getFields()
+	));
+
+});
+
+$app->get("/panel/materiais-units-types-create", function(){
+
+	$page = new Hcode\Admin\Page(array(
+		"header"=>false,
+		"footer"=>false
+	));
+
+	$page->setTpl("panel\material-unit-type-create");
+
+});
+
+
 
 // gateways
 $app->get("/panel/gateways-save/:idgateway", function($idgateway){

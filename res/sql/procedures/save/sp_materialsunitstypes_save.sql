@@ -1,6 +1,6 @@
 CREATE PROCEDURE sp_materialsunitstypes_save(
 pidunitytype INT,
-pdesidunitytype VARCHAR(64),
+pdesunitytype VARCHAR(64),
 pdesunitytypeshort VARCHAR(8),
 pdtregister TIMESTAMP
 )
@@ -8,8 +8,8 @@ BEGIN
 
     IF pidunitytype = 0 THEN
     
-        INSERT INTO tb_materialsunitstypes (desidunitytype, desunitytypeshort, dtregister)
-        VALUES(pdesidunitytype, pdesunitytypeshort, pdtregister);
+        INSERT INTO tb_materialsunitstypes (desunitytype, desunitytypeshort, dtregister)
+        VALUES(pdesunitytype, pdesunitytypeshort, pdtregister);
         
         SET pidunitytype = LAST_INSERT_ID();
 
@@ -17,7 +17,7 @@ BEGIN
         
         UPDATE tb_materialsunitstypes        
         SET 
-            desidunitytype = pdesidunitytype,
+            desunitytype = pdesunitytype,
             desunitytypeshort = pdesunitytypeshort,
             dtregister = pdtregister        
         WHERE idunitytype = pidunitytype;

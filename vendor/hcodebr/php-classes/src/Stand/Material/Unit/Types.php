@@ -6,9 +6,9 @@ use Hcode\Collection;
 
 class Types extends Collection {
 
-    protected $class = "Hcode\Stand\Material\Unit\Type";
+    protected $class = "MaterialUnitType";
     protected $saveQuery = "sp_materialsunitstypes_save";
-    protected $saveArgs = array("idunitytype", "desidunitytype", "desunitytypeshort", "dtregister");
+    protected $saveArgs = array("idunitytype", "desunitytype", "desunitytypeshort", "dtregister");
     protected $pk = "idunitytype";
 
     public function get(){}

@@ -73,6 +73,7 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/dropify/dropify.css',
         './theme/material/global/vendor/fullcalendar/fullcalendar.css',
         './theme/material/base/assets/examples/css/apps/calendar.css',
+        './theme/material/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css',
         './css/slide-panel.css'
     ])
         .pipe(concat('theme.css'))
@@ -193,6 +194,9 @@ gulp.task('scripts-admin', function() {
         
         './theme/material/global/vendor/fullcalendar/fullcalendar.js',
         './theme/material/global/vendor/fullcalendar/locale/pt-br.js',
+        './theme/material/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js',
+        './theme/material/global/vendor/bootstrap-datepicker/bootstrap-datepicker.pt-BR.min.js',
+        './theme/material/global/js/Plugin/bootstrap-datepicker.js',
 
         //Others Plugins
         './js/jrangel/jquery.core.js',

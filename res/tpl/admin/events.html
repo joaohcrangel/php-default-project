@@ -1,8 +1,8 @@
 <div class="page"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><div class="p-x-20"><div class="form-group form-material"><label class="form-control-label" for="select">Local</label><select class="form-control" id="select"><option>1<option>2<option>3<option>4<option>5</select></div><button type="button" class="btn btn-block btn-primary">Filtrar</button></div></section><section class="page-aside-section"><h5 class="page-aside-title">Eventos</h5><div class="list-group calendar-list"><a class="list-group-item calendar-event" data-title="Meeting" data-stick="true" data-color="red-600" href="javascript:void(0)"><i class="md-circle red-600 m-r-10" aria-hidden="true"></i>Meeting </a><a class="list-group-item calendar-event" data-title="Birthday Party" data-stick="true" data-color="green-600" href="javascript:void(0)"><i class="md-circle green-600 m-r-10" aria-hidden="true"></i>Birthday Party </a><a class="list-group-item calendar-event" data-title="Call Jimba" data-stick="true" data-color="orange-600" href="javascript:void(0)"><i class="md-circle orange-600 m-r-10" aria-hidden="true"></i>Call Jimba </a><a class="list-group-item calendar-event" data-title="Dinner with Team" data-stick="true" data-color="cyan-600" href="javascript:void(0)"><i class="md-circle cyan-600 m-r-10" aria-hidden="true"></i>Dinner with Team </a><a id="addNewEventBtn" class="list-group-item" href="javascript:void(0)"><i class="icon md-plus" aria-hidden="true"></i> Add New Event</a></div></section></div></div></div></div><div class="page-main"><div class="page-content"><div class="row"><div class="col-xs-12 col-md-12"><div class="panel panel-shadow panel-primary panel-line panel-calendar"><div class="panel-heading"><h3 class="panel-title">Calendário de Eventos</h3><div class="panel-actions"><button type="button" class="btn btn-success btn-event-create"><i class="icon md-plus" aria-hidden="true"></i>Novo Evento</button></div></div><div class="panel-body" data-auto-height="-190"><div class="calendar-container p-0"><div id="calendar"></div></div></div></div></div></div></div></div></div><div class="modal fade" id="modalEventCreate" tabindex="-1" role="dialog" aria-labelledby="modalEventCreateLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="modalEventCreateLabel">Criar novo Evento</h4></div><form id="form-event-create"><div class="modal-body"><div class="row"><div class="col-md-6 form-group form-material"><label class="form-control-label">Data de início <i class="md-calendar-alt"></i></label><input type="date" name="dtstart" class="form-control" data-plugin="formMaterial"></div><div class="col-md-6 form-group form-material"><label class="form-control-label">Data de término <i class="md-calendar"></i></label><input type="date" name="dtend" class="form-control" data-plugin="formMaterial"></div></div><div class="row"><div class="col-md-4 form-group form-material"><label class="form-control-label">Evento <i class="md-calendar-check"></i></label><input type="text" class="form-control" name="idevent" data-plugin="formMaterial"></div><div class="col-md-4 form-group form-material"><label class="form-control-label">Lugar <i class="md-city"></i></label><input type="text" class="form-control" name="idplace" data-plugin="formMaterial"></div><div class="col-md-4 form-group form-material"><label class="form-control-label">URL do Evento <i class="md-desktop-windows"></i></label><input type="text" name="desurl" class="form-control" data-plugin="formMaterial"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="submit" class="btn btn-primary">Criar</button></div></form></div></div></div><script>init.push(function(){
 
-  function returnDaysFormated(event){
+  var $panel = System.getPanelApi($(".panel-calendar"));
 
-    console.log(event);
+  function returnDaysFormated(event){
 
     var dtstart = moment(new Date(event.start._d));
 
@@ -10,20 +10,40 @@
 
     dtstart = dtstart.format("YYYY-MM-DD");
 
-    // console.log(dtstart);
-
     var dtend = moment(new Date(event.end._d));
-
-    // dtend.subtract(1, "days");
 
     dtend = dtend.format("YYYY-MM-DD");
 
     var data = {
+      idcalendar:event.id,
       dtstart:dtstart,
       dtend:dtend
     }
 
     return data;
+
+  }
+
+  function saveEvent(event){
+
+    if(typeof event === 'object'){
+
+      $panel.load();
+
+      rest({
+        url:PATH+"/events-calendars",
+        method:"POST",
+        data:event,
+        success:function(r){
+          $panel.done();
+        },
+        failure:function(r){
+          $panel.done();
+          System.showError(r);
+        }
+      });
+
+    }
 
   }
 
@@ -50,10 +70,6 @@
       var dtend = moment(new Date(end._d));
 
       dtend = dtend.format("YYYY-MM-DD");
-
-      console.log(dtstart, dtend);
-
-      // console.log(start._d, end._d);
 
       $('#modalEventCreate').modal('show');
         
@@ -124,29 +140,34 @@
 
       $("#modalEventCreate").modal("show").find("[name=dtstart]").val(dtstart);
 
-      // console.log(date);
-
     },
     eventDragStart: function (event) {
-      // console.log(event.start._d);
-      // console.log(event.end._d);
       // $('.site-action').data('actionBtn').show();
-    },
-    eventOverlap:function(e){
-      // console.log(e);
     },
     eventDrop:function(event){
 
       var days = returnDaysFormated(event);
 
-      console.log(days);
+      var event = {
+        idcalendar:days.idcalendar,
+        dtstart:days.dtstart,
+        dtend:days.dtend
+      };
+
+      saveEvent(event);
 
     },
     eventResize:function(event){
 
       var days = returnDaysFormated(event);
 
-      console.log(days);
+      var event = {
+        idcalendar:days.idcalendar,
+        dtstart:days.dtstart,
+        dtend:days.dtend
+      };
+
+      saveEvent(event);
 
     },
 
@@ -162,8 +183,6 @@
   _options = $(window).outerWidth() < 667 ? myOptionsMobile : myOptions;
 
   function loadEvents(){
-
-    var $panel = System.getPanelApi($(".panel-calendar"));
 
     $panel.load();
 

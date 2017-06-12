@@ -147,9 +147,9 @@
 <script>
 init.push(function(){
 
-  function returnDaysFormated(event){
+  var $panel = System.getPanelApi($(".panel-calendar"));
 
-    console.log(event);
+  function returnDaysFormated(event){
 
     var dtstart = moment(new Date(event.start._d));
 
@@ -157,20 +157,40 @@ init.push(function(){
 
     dtstart = dtstart.format("YYYY-MM-DD");
 
-    // console.log(dtstart);
-
     var dtend = moment(new Date(event.end._d));
-
-    // dtend.subtract(1, "days");
 
     dtend = dtend.format("YYYY-MM-DD");
 
     var data = {
+      idcalendar:event.id,
       dtstart:dtstart,
       dtend:dtend
     }
 
     return data;
+
+  }
+
+  function saveEvent(event){
+
+    if(typeof event === 'object'){
+
+      $panel.load();
+
+      rest({
+        url:PATH+"/events-calendars",
+        method:"POST",
+        data:event,
+        success:function(r){
+          $panel.done();
+        },
+        failure:function(r){
+          $panel.done();
+          System.showError(r);
+        }
+      });
+
+    }
 
   }
 
@@ -197,10 +217,6 @@ init.push(function(){
       var dtend = moment(new Date(end._d));
 
       dtend = dtend.format("YYYY-MM-DD");
-
-      console.log(dtstart, dtend);
-
-      // console.log(start._d, end._d);
 
       $('#modalEventCreate').modal('show');
         
@@ -271,29 +287,34 @@ init.push(function(){
 
       $("#modalEventCreate").modal("show").find("[name=dtstart]").val(dtstart);
 
-      // console.log(date);
-
     },
     eventDragStart: function (event) {
-      // console.log(event.start._d);
-      // console.log(event.end._d);
       // $('.site-action').data('actionBtn').show();
-    },
-    eventOverlap:function(e){
-      // console.log(e);
     },
     eventDrop:function(event){
 
       var days = returnDaysFormated(event);
 
-      console.log(days);
+      var event = {
+        idcalendar:days.idcalendar,
+        dtstart:days.dtstart,
+        dtend:days.dtend
+      };
+
+      saveEvent(event);
 
     },
     eventResize:function(event){
 
       var days = returnDaysFormated(event);
 
-      console.log(days);
+      var event = {
+        idcalendar:days.idcalendar,
+        dtstart:days.dtstart,
+        dtend:days.dtend
+      };
+
+      saveEvent(event);
 
     },
 
@@ -309,8 +330,6 @@ init.push(function(){
   _options = $(window).outerWidth() < 667 ? myOptionsMobile : myOptions;
 
   function loadEvents(){
-
-    var $panel = System.getPanelApi($(".panel-calendar"));
 
     $panel.load();
 

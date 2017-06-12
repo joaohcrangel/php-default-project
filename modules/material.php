@@ -114,10 +114,10 @@ $app->get("/materiais-units-types/", function(){
         $itemsPerPage
     );
 
-    $materialsunittypes = $pagination->getPage($currentPage);
+    $materialunit = $pagination->getPage($currentPage);
 
     echo success(array(
-        "data"=>$materialsunittypes->getFields(),
+        "data"=>$materialunit->getFields(),
         "currentPage"=>$currentPage,
         "itemsPerPage"=>$itemsPerPage,
         "total"=>$pagination->getTotal(),
@@ -131,7 +131,7 @@ $app->post("/materiais-units-types", function(){
     Hcode\Admin\Permission::checkSession(Hcode\Admin\Permission::ADMIN, true);
 
     if(post('idunitytype') > 0){
-        $materialunit = new Hcode\Stand\Material\Type((int)post('idunitytype'));
+        $materialunit = new Hcode\Stand\Material\Unit\Type((int)post('idunitytype'));
     }else{
         $materialunit = new Hcode\Stand\Material\Unit\Type();
     }

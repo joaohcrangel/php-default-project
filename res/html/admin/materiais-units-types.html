@@ -72,7 +72,7 @@
         </button>
     </div>
 </div>
-<script id="tpl-materialunit-type" type="/x-handlebars-temprate">
+<script id="tpl-materialunit-type" type="text/x-handlebars-temprate">
 <tr data-idunitytype="{{idunitytype}}">
 	<td>{{desunitytype}}</td>
 	<td>
@@ -89,37 +89,37 @@ init.push(function(){
 
 	var $tbody = $("#panel-materialunit-type tbody");
 
-	var $tplMaterialUnitType = Handlebars.compile($("#tpl-materialunit-type").html());
+	var $tplMaterialUnitTypes = Handlebars.compile($("#tpl-materialunit-type").html());
 
 	$("#form-filtros [type=submit]").on("click", function(e){
 
 	e.preventDefault();
 
-    loadMaterialUnitType();
+    loadMaterialUnitTypes();
 
 	});
 
-	function loadMaterialUnitType(pagina){
+	function loadMaterialUnitTypes(pagina){
 
 		if(!pagina) pagina = 1;
 
 		$(".refresh").on("click", function(){
-			loadMaterialUnitType();
+			loadMaterialUnitTypes();
 
 		});
 
-		var params =$("#form-filtros").formValues();
+		var params = $("#form-filtros").formValues();
 
 		params.pagina = pagina;
 		params. limite = Math.floor((window.innerHeight-179)/53);
 		params.limite = (params.limite<5)?5:params.limite;
 
-
+		console.log(params);
 
 		panel.load();
 
 		rest({
-			url:PATH+"/materiais-units-types",
+			url:PATH+"/materiais-units-types/",
 			data:params,
 			success:function(r){
 
@@ -127,7 +127,7 @@ init.push(function(){
 
 				$.each(r.data, function(index, row){
 
-					$tbody.append($tplMaterialUnitType(row));
+					$tbody.append($tplMaterialUnitTypes(row));
 
 				});
 
@@ -136,7 +136,7 @@ init.push(function(){
          			currentPage:r.currentPage,
          		    itemsPerPage:r.itemsPerPage,
           			onChange:function(page){
-            			loadMaterialUnitType(page);
+            			loadMaterialUnitTypes(page);
          			}
         		});
 
@@ -162,7 +162,7 @@ init.push(function(){
 				          		success: function(r){
 
 				           			System.done();
-				           		 	loadMaterialUnitType();
+				           		 	loadMaterialUnitTypes();
 				            		s();
 
 				          		},
@@ -189,6 +189,6 @@ init.push(function(){
 		});
 	};
 
-    loadMaterialUnitType();
+    loadMaterialUnitTypes();
 });
 </script>

@@ -7,7 +7,7 @@ namespace Hcode\Stand\Material;
 
 class Unit extends Model {
 
-    public $required = array('desidunitytype', 'desunitytypeshort');
+    public $required = array('desidunitytype');
     protected $pk = "idunitytype";
 
     public function get(){

@@ -7,7 +7,7 @@ namespace Hcode\Stand\Material\Unit;
 
 class Type extends Model {
 
-    public $required = array('desidunitytype', 'desunitytypeshort');
+    public $required = array('desunitytype');
     protected $pk = "idunitytype";
 
     public function get(){
@@ -26,7 +26,7 @@ class Type extends Model {
 
             $this->queryToAttr("CALL sp_materialsunitstypes_save(?, ?, ?, ?);", array(
                 $this->getidunitytype(),
-                $this->getdesidunitytype(),
+                $this->getdesunitytype(),
                 $this->getdesunitytypeshort(),
                 $this->getdtregister()
             ));

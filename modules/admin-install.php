@@ -1291,6 +1291,7 @@ $app->get("/install-admin/sql/menus/inserts", function(){
 		'desmenu'=>$lang->getString('menus_log_types')
 	));
 	$menuHistoricosTypes->save();
+		
 	//////////////////////////////////////
 	$menuFormasOrders = new Hcode\Admin\Menu(array(
 		'nrorder'=>11,

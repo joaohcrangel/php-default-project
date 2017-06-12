@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="{$path}/res/css/slide-panel.css"><link rel="stylesheet" href="{$path}/res/theme/material/base/assets/examples/css/apps/mailbox.css"><div class="page bg-white"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section p-t-0"><div class="panel-primary panel-line"><div class="panel-heading"><h3 class="panel-title">Filtrar Contatos</h3></div><form id="form-filtros" class="p-x-25"><div class="form-group form-material" data-plugin="formMaterial"><label class="form-control-label">Nome</label><input type="text" class="form-control" name="destype"></div><button type="submit" class="btn btn-primary btn-block">Buscar</button></form></div></section></div></div></div></div><div class="page-main"><div class="row-fluid"><div class="col-sm-12"><div class="panel" id="panel-material-type" data-auto-height="-179"><div class="panel-heading"><h3 class="panel-title"></h3><div class="panel-actions"><a class="panel-action refresh" data-togle="panel-refresh" data-load-type="round-circle" aria-hidden="true"><i class="icon wb-refresh"></i></a></div></div><table class="table table-hover table-striped"><thead><tr><th>Material<th>&nbsp;</thead><thead><tbody></thead></table></div><div id="pagination"></div></div></div></div><div class="site-action"><button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating" data-url="{$path}/panel/materiais-types-create" data-toggle="slidePanel"><i class="front-icon md-plus animation-scale-up" aria-hidden="true"></i> <i class="back-icon md-close animation-scale-up" aria-hidden="true"></i></button></div></div><script id="tpl-material-type" type="/x-handlebars-temprate"><tr data-idtype="{{idtype}}">
+	<td>{{destype}}</td>
+	<td>
+		<button type="button" class="btn btn-pure btn-default btn-xs icon wb-pencil" data-url="{$path}/panel/materias-types-save/{{idtype}}" data-toggle="slidePanel">
+      	</button>
+      	<button type="button" class="btn btn-pure btn-danger btn-xs btn-excluir-material icon wb-trash">
+      	</button>
+	</td>
+</tr></script><script>init.push(function(){
+	var panel = System.getPanelApi($("#panel-material-type"));
+
+	var $tbody = $("#panel-material-type tbody");
+
+	var $tplMaterialType = Handlebars.compile($("#tpl-material-type").html());
+
+	$("#form-filtros [type=submit]").on("click", function(e){
+
+	e.preventDefault();
+
+    loadMaterialType();
+
+	});
+
+	function loadMaterialType(pagina){
+
+		if(!pagina) pagina = 1;
+
+		$(".refresh").on("click", function(){
+			loadMaterialType();
+
+		});
+
+		var params =$("#form-filtros").formValues();
+
+		params.pagina = pagina;
+		params. limite = Math.floor((window.innerHeight-179)/53);
+		params.limite = (params.limite<5)?5:params.limite;
+
+
+
+		panel.load();
+
+		rest({
+			url:PATH+"/materiais-types",
+			data:params,
+			success:function(r){
+
+				$tbody.html('');
+
+				$.each(r.data, function(index, row){
+
+					$tbody.append($tplMaterialType(row));
+
+				});
+
+				var config = $.extend({}, PluginAspaginator.default.getDefaults(), {
+          			skin:'pagination-gap',
+         			currentPage:r.currentPage,
+         		    itemsPerPage:r.itemsPerPage,
+          			onChange:function(page){
+            			loadMaterialType(page);
+         			}
+        		});
+
+        		$("#pagination").asPaginator(r.total, config);				
+
+				System.initSlidePanel($tbody);
+
+				panel.done();
+
+				$(".btn-excluir-material").on("click", function(e){
+
+					var $btn = $(this);
+
+					var idtype = $btn.closest("tr").data("idtype");
+					System.confirm('Deseja remover esse material?', function(b, s, f){
+			      		if (b) {
+
+			      			System.load();
+
+			            	rest({
+				          		url: PATH+"/materiais-types/"+idtype,
+				         		 method:'DELETE',
+				          		success: function(r){
+
+				           			System.done();
+				           		 	loadMaterialType();
+				            		s();
+
+				          		},
+				          		failure: function(e){
+				           			System.done();
+				       	    		System.showError(e);
+				       	    		f();
+				           		} 
+				    	  	});
+
+				    	} else {
+				    		f();
+				    	}
+
+					});       		
+
+				});    
+
+			},
+			failure:function(r){
+				System.showError(r);
+				panel.done();
+			}
+		});
+	};
+
+    loadMaterialType();
+});</script>

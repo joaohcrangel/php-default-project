@@ -1,6 +1,6 @@
-<div class="page"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><div class="p-x-20"><div class="form-group form-material"><label class="form-control-label" for="select">Local</label><select class="form-control" id="select"><option>1<option>2<option>3<option>4<option>5</select></div><button type="button" class="btn btn-block btn-primary">Filtrar</button></div></section><section class="page-aside-section"><h5 class="page-aside-title">Eventos</h5><div class="list-group calendar-list"><a class="list-group-item calendar-event" data-title="Meeting" data-stick="true" data-color="red-600" href="javascript:void(0)"><i class="md-circle red-600 m-r-10" aria-hidden="true"></i>Meeting </a><a class="list-group-item calendar-event" data-title="Birthday Party" data-stick="true" data-color="green-600" href="javascript:void(0)"><i class="md-circle green-600 m-r-10" aria-hidden="true"></i>Birthday Party </a><a class="list-group-item calendar-event" data-title="Call Jimba" data-stick="true" data-color="orange-600" href="javascript:void(0)"><i class="md-circle orange-600 m-r-10" aria-hidden="true"></i>Call Jimba </a><a class="list-group-item calendar-event" data-title="Dinner with Team" data-stick="true" data-color="cyan-600" href="javascript:void(0)"><i class="md-circle cyan-600 m-r-10" aria-hidden="true"></i>Dinner with Team </a><a id="addNewEventBtn" class="list-group-item" href="javascript:void(0)"><i class="icon md-plus" aria-hidden="true"></i> Add New Event</a></div></section></div></div></div></div><div class="page-main"><div class="page-content"><div class="row"><div class="col-xs-12 col-md-12"><div class="panel panel-shadow panel-primary panel-line panel-calendar"><div class="panel-heading"><h3 class="panel-title">Calendário de Eventos</h3><div class="panel-actions"><button type="button" class="btn btn-success btn-event-create"><i class="icon md-plus" aria-hidden="true"></i>Novo Evento</button></div></div><div class="panel-body" data-auto-height="-190"><div class="calendar-container p-0"><div id="calendar"></div></div></div></div></div></div></div></div></div><div class="modal fade" id="modalEventCreate" tabindex="-1" role="dialog" aria-labelledby="modalEventCreateLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="modalEventCreateLabel">Criar novo Evento</h4></div><div class="modal-body"><div class="row"><div class="col-md-6 form-group form-material"><label class="form-control-label">Data de início <i class="md-calendar-alt"></i></label><input type="date" name="dtstart" class="form-control" data-plugin="formMaterial"></div><div class="col-md-6 form-group form-material"><label class="form-control-label">Data de término <i class="md-calendar"></i></label><input type="date" name="dtend" class="form-control" data-plugin="formMaterial"></div></div><div class="row"><div class="col-md-4 form-group form-material"><label class="form-control-label">Evento <i class="md-calendar-check"></i></label><select name="idevent" class="form-control" data-plugin="formMaterial"><option class="create-event"><button id="event-new-create">Criar Evento</button></select></div><div class="col-md-4 form-group form-material"><label class="form-control-label">Lugar <i class="md-city"></i></label><select name="idplace" class="form-control" data-plugin="formMaterial"><option class="create-event"><button id="event-place-create">Criar Lugar</button></select></div><div class="col-md-4 form-group form-material"><label class="form-control-label">URL do Evento <i class="md-desktop-windows"></i></label><input type="text" name="desurl" class="form-control" data-plugin="formMaterial"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Criar</button></div></div></div></div><script>init.push(function(){
+<div class="page"><div class="page-aside"><div class="page-aside-switch"><i class="icon md-chevron-left" aria-hidden="true"></i> <i class="icon md-chevron-right" aria-hidden="true"></i></div><div class="page-aside-inner page-aside-scroll"><div data-role="container"><div data-role="content"><section class="page-aside-section"><div class="p-x-20"><div class="form-group form-material"><label class="form-control-label" for="select">Local</label><select class="form-control" id="select"><option>1<option>2<option>3<option>4<option>5</select></div><button type="button" class="btn btn-block btn-primary">Filtrar</button></div></section><section class="page-aside-section"><h5 class="page-aside-title">Eventos</h5><div class="list-group calendar-list"><a class="list-group-item calendar-event" data-title="Meeting" data-stick="true" data-color="red-600" href="javascript:void(0)"><i class="md-circle red-600 m-r-10" aria-hidden="true"></i>Meeting </a><a class="list-group-item calendar-event" data-title="Birthday Party" data-stick="true" data-color="green-600" href="javascript:void(0)"><i class="md-circle green-600 m-r-10" aria-hidden="true"></i>Birthday Party </a><a class="list-group-item calendar-event" data-title="Call Jimba" data-stick="true" data-color="orange-600" href="javascript:void(0)"><i class="md-circle orange-600 m-r-10" aria-hidden="true"></i>Call Jimba </a><a class="list-group-item calendar-event" data-title="Dinner with Team" data-stick="true" data-color="cyan-600" href="javascript:void(0)"><i class="md-circle cyan-600 m-r-10" aria-hidden="true"></i>Dinner with Team </a><a id="addNewEventBtn" class="list-group-item" href="javascript:void(0)"><i class="icon md-plus" aria-hidden="true"></i> Add New Event</a></div></section></div></div></div></div><div class="page-main"><div class="page-content"><div class="row"><div class="col-xs-12 col-md-12"><div class="panel panel-shadow panel-primary panel-line panel-calendar"><div class="panel-heading"><h3 class="panel-title">Calendário de Eventos</h3><div class="panel-actions"><button type="button" class="btn btn-success btn-event-create"><i class="icon md-plus" aria-hidden="true"></i>Novo Evento</button></div></div><div class="panel-body" data-auto-height="-190"><div class="calendar-container p-0"><div id="calendar"></div></div></div></div></div></div></div></div></div><div class="modal fade" id="modalEventCreate" tabindex="-1" role="dialog" aria-labelledby="modalEventCreateLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="modalEventCreateLabel">Criar novo Evento</h4></div><form id="form-event-create"><div class="modal-body"><div class="row"><div class="col-md-6 form-group form-material"><label class="form-control-label">Data de início <i class="md-calendar-alt"></i></label><input type="date" name="dtstart" class="form-control" data-plugin="formMaterial"></div><div class="col-md-6 form-group form-material"><label class="form-control-label">Data de término <i class="md-calendar"></i></label><input type="date" name="dtend" class="form-control" data-plugin="formMaterial"></div></div><div class="row"><div class="col-md-4 form-group form-material"><label class="form-control-label">Evento <i class="md-calendar-check"></i></label><input type="text" class="form-control" name="idevent" data-plugin="formMaterial"></div><div class="col-md-4 form-group form-material"><label class="form-control-label">Lugar <i class="md-city"></i></label><input type="text" class="form-control" name="idplace" data-plugin="formMaterial"></div><div class="col-md-4 form-group form-material"><label class="form-control-label">URL do Evento <i class="md-desktop-windows"></i></label><input type="text" name="desurl" class="form-control" data-plugin="formMaterial"></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button> <button type="submit" class="btn btn-primary">Criar</button></div></form></div></div></div><script>init.push(function(){
 
-  function returnDays(event){
+  function returnDaysFormated(event){
 
     console.log(event._start);
 
@@ -128,7 +128,7 @@
     },
     eventDragStop: function (event) {
 
-      var days = returnDays(event);
+      var days = returnDaysFormated(event);
 
       console.log(days);
       
@@ -182,11 +182,11 @@
 
           console.log(event);
 
-          myEvents.push(event);
-
-          $('#calendar').fullCalendar(_options);
+          myEvents.push(event);          
 
         });
+
+        $('#calendar').fullCalendar(_options);
 
         $panel.done();
 
@@ -201,19 +201,21 @@
 
   function modalEvents(){
 
-    $("[name=idevent]").combobox({
-      url:PATH+"/events",
-      displayField:"desevent",
-      valueField:"idevent",
-      autoComplete:true
-    });
+    var $modal = $("#modalEventCreate");
 
-    $("[name=idplace]").combobox({
-      url:PATH+"/places",
-      displayField:"desplace",
-      valueField:"idplace",
-      autoComplete:true
-    });
+    // $("[name=idevent]").combobox({
+    //   url:PATH+"/events",
+    //   displayField:"desevent",
+    //   valueField:"idevent",
+    //   autoComplete:true
+    // });
+
+    // $("[name=idplace]").combobox({
+    //   url:PATH+"/places",
+    //   displayField:"desplace",
+    //   valueField:"idplace",
+    //   autoComplete:true
+    // });
 
   }
 
@@ -225,6 +227,23 @@
 
   $("#modalEventCreate").on("shown.bs.modal", function(){
     modalEvents();
+  }).on("hidden.bs.modal", function(){
+    $(this).find("input").val('');
+  });
+
+  $("#modalEventCreate").find("#form-event-create").form({
+    url:PATH+"/events-calendars",
+    success:function(r){
+      $("#modalEventCreate").find("[type=submit]").btnload("unload");
+      System.success();
+      $("#modalEventCreate").modal("hide");
+      $("#calendar").fullCalendar("destroy");
+      myEvents.length = 0;
+      loadEvents();      
+    },
+    failure:function(r){
+      System.showError(r);
+    }
   });
 
   loadEvents();

@@ -71,8 +71,8 @@ gulp.task('cssmin', function() {
         './theme/material/global/vendor/chartist/chartist.css',
         './theme/material/global/vendor/blueimp-file-upload/jquery.fileupload.css',
         './theme/material/global/vendor/dropify/dropify.css',
-        './theme/material/global/vendor/imagesloaded/imagesloaded.pkgd.js',
-        './theme/material/global/vendor/masonry/masonry.pkgd.min.js',
+        './theme/material/global/vendor/fullcalendar/fullcalendar.css',
+        './theme/material/base/assets/examples/css/apps/calendar.css',
         './css/slide-panel.css'
     ])
         .pipe(concat('theme.css'))
@@ -187,6 +187,12 @@ gulp.task('scripts-admin', function() {
         './theme/material/global/js/Plugin/jquery-labelauty.js',
         './theme/material/global/js/Plugin/masonry.js',
         './theme/assets/vendor/sly/sly.min.js',
+        './theme/material/global/vendor/imagesloaded/imagesloaded.pkgd.js',
+        './theme/material/global/vendor/masonry/masonry.pkgd.min.js',
+        './theme/material/global/vendor/moment/moment.min.js',
+        
+        './theme/material/global/vendor/fullcalendar/fullcalendar.js',
+        './theme/material/global/vendor/fullcalendar/locale/pt-br.js',
 
         //Others Plugins
         './js/jrangel/jquery.core.js',

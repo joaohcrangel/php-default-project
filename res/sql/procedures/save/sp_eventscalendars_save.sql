@@ -2,16 +2,16 @@ CREATE PROCEDURE sp_eventscalendars_save(
 pidcalendar INT,
 pidevent INT,
 pidplace INT,
+pidurl INT,
 pdtstart DATETIME,
-pdtend DATETIME,
-pdesurl VARCHAR(128)
+pdtend DATETIME
 )
 BEGIN
 
     IF pidcalendar = 0 THEN
     
-        INSERT INTO tb_eventscalendars (idevent, idplace, dtstart, dtend, desurl)
-        VALUES(pidevent, pidplace, pdtstart, pdtend, pdesurl);
+        INSERT INTO tb_eventscalendars (idevent, idplace, idurl, dtstart, dtend)
+        VALUES(pidevent, pidplace, pidurl, pdtstart, pdtend);
         
         SET pidcalendar = LAST_INSERT_ID();
 
@@ -21,9 +21,9 @@ BEGIN
         SET 
             idevent = pidevent,
             idplace = pidplace,
+            idurl = pidurl,
             dtstart = pdtstart,
-            dtend = pdtend,
-            desurl = pdesurl
+            dtend = pdtend
         WHERE idcalendar = pidcalendar;
 
     END IF;

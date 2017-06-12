@@ -113,17 +113,13 @@
               <div class="col-md-4 form-group form-material">
                 
                 <label class="form-control-label">Evento <i class="md-calendar-check"></i></label>
-                <select name="idevent" class="form-control" data-plugin="formMaterial">
-                  <option class="create-event"><button id="event-new-create">Criar Evento</button></option>
-                </select>
+                <input type="text" class="form-control" name="idevent" data-plugin="formMaterial">
 
               </div>
               <div class="col-md-4 form-group form-material">
                   
                 <label class="form-control-label">Lugar <i class="md-city"></i></label>
-                <select name="idplace" class="form-control" data-plugin="formMaterial">
-                  <option class="create-event"><button id="event-place-create">Criar Lugar</button></option>
-                </select>
+                <input type="text" class="form-control" name="idplace" data-plugin="formMaterial">
 
               </div>
               <div class="col-md-4 form-group form-material">
@@ -153,17 +149,17 @@ init.push(function(){
 
   function returnDaysFormated(event){
 
-    console.log(event._start);
+    console.log(event);
 
-    var dtstart = moment(new Date(event._start._d));
+    var dtstart = event.start;
 
     dtstart.add(1, "days");
 
-    dtstart = dtstart.format("YYYY-MM-DD");
+    dtstart = dtstart.toDate();
 
-    console.log(dtstart);
+    // console.log(dtstart);
 
-    var dtend = moment(new Date(event.end._d)).format("YYYY-MM-DD");
+    var dtend = event.end.toDate();
 
     var data = {
       dtstart:dtstart,
@@ -222,6 +218,7 @@ init.push(function(){
       $('#calendar').fullCalendar(options);
     },
     eventClick: function (event) {
+
       var color = event.backgroundColor ? event.backgroundColor : Config.colors('blue', 600);
       $('#editEname').val(event.title);
 
@@ -333,11 +330,11 @@ init.push(function(){
 
           console.log(event);
 
-          myEvents.push(event);
-
-          $('#calendar').fullCalendar(_options);
+          myEvents.push(event);          
 
         });
+
+        $('#calendar').fullCalendar(_options);
 
         $panel.done();
 
@@ -354,29 +351,19 @@ init.push(function(){
 
     var $modal = $("#modalEventCreate");
 
-    $("[name=idevent]").combobox({
-      url:PATH+"/events",
-      displayField:"desevent",
-      valueField:"idevent",
-      autoComplete:true
-    });
+    // $("[name=idevent]").combobox({
+    //   url:PATH+"/events",
+    //   displayField:"desevent",
+    //   valueField:"idevent",
+    //   autoComplete:true
+    // });
 
-    $("[name=idplace]").combobox({
-      url:PATH+"/places",
-      displayField:"desplace",
-      valueField:"idplace",
-      autoComplete:true
-    });
-
-    $modal.find("#form-event-create").form({
-      url:PATH+"/events-calendars",
-      success:function(r){
-        System.success();
-      },
-      failure:function(r){
-        System.showError(r);
-      }
-    });
+    // $("[name=idplace]").combobox({
+    //   url:PATH+"/places",
+    //   displayField:"desplace",
+    //   valueField:"idplace",
+    //   autoComplete:true
+    // });
 
   }
 
@@ -388,6 +375,23 @@ init.push(function(){
 
   $("#modalEventCreate").on("shown.bs.modal", function(){
     modalEvents();
+  }).on("hidden.bs.modal", function(){
+    $(this).find("input").val('');
+  });
+
+  $("#modalEventCreate").find("#form-event-create").form({
+    url:PATH+"/events-calendars",
+    success:function(r){
+      $("#modalEventCreate").find("[type=submit]").btnload("unload");
+      System.success();
+      $("#modalEventCreate").modal("hide");
+      $("#calendar").fullCalendar("destroy");
+      myEvents.length = 0;
+      loadEvents();      
+    },
+    failure:function(r){
+      System.showError(r);
+    }
   });
 
   loadEvents();

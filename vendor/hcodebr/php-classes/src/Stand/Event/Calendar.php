@@ -29,9 +29,9 @@ class Calendar extends Model {
                 $this->getidcalendar(),
                 $this->getidevent(),
                 $this->getidplace(),
+                $this->getidurl(),
                 $this->getdtstart(),
-                $this->getdtend(),
-                $this->getdesurl()
+                $this->getdtend()
             ));
 
             return $this->getidcalendar();

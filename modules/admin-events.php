@@ -505,17 +505,19 @@ $app->post("/events-calendars", function(){
 		$calendar = new Hcode\Stand\Event\Calendar();
 	}
 
-	$calendar->set($_POST);
-
-	$calendar->save();
-
 	if(post("desurl")){
 
 		$url = Hcode\Site\Url::checkUrl(post("desurl"), post("idurl"));
 
-		$calendar->setUrl($url);
+		$url->save();
+
+		$_POST['idurl'] = $url->getidurl();
 
 	}
+
+	$calendar->set($_POST);
+
+	$calendar->save();
 
 	echo success(array("data"=>$calendar->getFields()));
 

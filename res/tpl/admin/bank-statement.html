@@ -1,5 +1,135 @@
-<div class="page"><div class="page-content"></div></div><script>init.push(function(){
+<div class="page"><div class="page-content"><div class="card card-shadow" id="chartLinebarLarge"><div class="card-block p-0 h-full"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"><div id="datepicker" class="p-10 pull-sm-right"></div></div></div></div></div></div></div><script>init.push(function(){
 
-	
+	(function($){
+
+	 	$.fn.extend({
+
+	 		dateStartEnd:function(options) {
+
+	 			var defaults = {
+					debug:false,
+					cache:true,
+					start:new Date(),
+					end:new Date(),
+					url:'',
+					tpl:Handlebars.compile(
+						'<div class="dropdown">'+
+		                    '<button type="button" class="btn btn-default dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false">'+
+		                      '01 Jun 2017 - 30 Jun 2017'+
+		                    '</button>'+
+		                    '<div class="dropdown-menu dropdown-menu-right" role="menu">'+
+		                      '<a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-action="today">Hoje</a>'+
+		                      '<a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-action="thisweek">Esta semana</a>'+
+		                      '<a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-action="thismonth">Este mês</a>'+
+		                      '<a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-action="days30">Últimos 30 dias</a>'+
+		                      '<a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-action="all">Mostrar todos</a>'+
+		                      '<div class="dropdown-divider"></div>'+
+		                      '<a class="dropdown-item" href="javascript:void(0)" role="menuitem" data-action="custom">Escolha o período...</a>'+
+		                    '</div>'+
+		                '</div>'
+					),
+					selected:function(){},
+					failure:function(){}
+				};
+
+				var o =  $.extend(defaults, options);
+
+				if(o.debug === true) console.info("options", o);
+
+	    		return this.each(function() {
+
+	    			var t = this;
+	    			var $el = $(t);
+	    			var $dropdown = $(o.tpl(o));
+
+	    			t.intiEvents = function(){
+
+	    				$dropdown.find("[data-action]").on("click", function(){
+
+	    					switch ($(this).data("action")) {
+
+	    						case 'today':
+	    						var today = moment();
+	    						o.start = today.toDate();
+	    						o.end = today.toDate();
+	    						t.selected();
+	    						break;
+
+	    						case 'thisweek':
+	    						var start = new Date(moment());
+	    						var end = new Date(moment());
+
+	    						while (start.isoWeekday() !== 7) {
+	    							start.subtract(1, 'days');
+	    						}
+
+	    						while (end.isoWeekday() !== 6) {
+	    							end.add(1, 'days');
+	    						}
+
+	    						o.start = new Date(start.toDate());
+	    						o.end = new Date(end.toDate());
+	    						break;
+
+	    						case 'thismonth':
+	    						o.start = new Date();
+	    						o.end = new Date();
+	    						break;
+
+	    						case 'days30':
+	    						o.start = new Date();
+	    						o.end = new Date();
+	    						break;
+
+	    						case 'all':
+	    						o.start = new Date();
+	    						o.end = new Date();
+	    						break;
+
+	    						case 'custom':
+	    						o.start = new Date();
+	    						o.end = new Date();
+	    						break;
+
+	    					}
+
+	    					$dropdown.find(".dropdown-item").removeClass('selected');
+	    					$(this).addClass('selected');
+
+	    				});
+
+	    			};
+
+	    			t.selected = function () {
+
+	    				if (typeof o.selected === 'function') o.selected(o.start, o.end);
+
+	    			};
+
+	    			t.init = function(){
+
+	    				t.intiEvents();
+
+	    				$el.html($dropdown);
+
+	    			};
+
+	    			t.init();
+
+	    		});
+
+	    	}
+
+	    });
+
+	 })(jQuery);
+
+	$("#datepicker").dateStartEnd({
+		selected:function(dt1, dt2){
+
+			console.log(dt1, dt2);
+
+		}
+	});
 
 });</script>

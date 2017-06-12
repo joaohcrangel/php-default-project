@@ -58,7 +58,7 @@
 			<div class="row">
 				
 				<div class="col-xs-12 col-md-12">
-					<div class="panel panel-shadow panel-primary panel-line">
+					<div class="panel panel-shadow panel-primary panel-line panel-calendar">
 						<div class="panel-heading">
 							<h3 class="panel-title">Calendário de Eventos</h3>
 							<div class="panel-actions">
@@ -83,88 +83,131 @@ init.push(function(){
 
 	var myEvents = [];
 
-    var myOptions = {
-      header: {
-        left: null,
-        center: 'prev,title,next',
-        right: 'month,agendaWeek,agendaDay'
-      },
+  var myOptions = {
+    header: {
+      left: null,
+      center: 'prev,title,next',
+      right: 'month,agendaWeek,agendaDay'
+    },
 
-      selectable: true,
-      selectHelper: true,
-      select: function select() {
-        $('#addNewEvent').modal('show');
-      },
+    navLinks: true,
+    selectable: true,
+    selectHelper: true,
+    select: function(start, end) {
 
-      editable: true,
-      eventLimit: true,
-      windowResize: function windowResize(view) {
-        var width = $(window).outerWidth();
-        var options = Object.assign({}, myOptions);
-        options.events = view.calendar.getEventCache();
-        options.aspectRatio = width < 667 ? 0.5 : 1.35;
+      var dtstart = moment(new Date(start._d));
 
-        $('#calendar').fullCalendar('destroy');
-        $('#calendar').fullCalendar(options);
-      },
-      eventClick: function eventClick(event) {
-        var color = event.backgroundColor ? event.backgroundColor : Config.colors('blue', 600);
-        $('#editEname').val(event.title);
+      dtstart.add(1, "days");
 
-        if (event.start) {
-          $('#editStarts').datepicker('update', event.start._d);
+      console.log(dtstart.format("YYYY-MM-DD"));
+
+      var dtend = moment(new Date(end._d));
+
+      console.log(dtend.format("YYYY-MM-DD"));
+
+      // console.log(start._d, end._d);
+
+      $('#addNewEvent').modal('show');
+      
+    },
+
+    editable: true,
+    eventLimit: true,
+    windowResize: function windowResize(view) {
+      var width = $(window).outerWidth();
+      var options = Object.assign({}, myOptions);
+      options.events = view.calendar.getEventCache();
+      options.aspectRatio = width < 667 ? 0.5 : 1.35;
+
+      $('#calendar').fullCalendar('destroy');
+      $('#calendar').fullCalendar(options);
+    },
+    eventClick: function (event) {
+      var color = event.backgroundColor ? event.backgroundColor : Config.colors('blue', 600);
+      $('#editEname').val(event.title);
+
+      if (event.start) {
+        $('#editStarts').datepicker('update', event.start._d);
+      } else {
+        $('#editStarts').datepicker('update', '');
+      }
+      if (event.end) {
+        $('#editEnds').datepicker('update', event.end._d);
+      } else {
+        $('#editEnds').datepicker('update', '');
+      }
+
+      $('#editColor [type=radio]').each(function () {
+        var $this = $(this),
+            _value = $this.data('color').split('|'),
+            value = Config.colors(_value[0], _value[1]);
+        if (value === color) {
+          $this.prop('checked', true);
         } else {
-          $('#editStarts').datepicker('update', '');
+          $this.prop('checked', false);
         }
-        if (event.end) {
-          $('#editEnds').datepicker('update', event.end._d);
-        } else {
-          $('#editEnds').datepicker('update', '');
-        }
+      });
 
-        $('#editColor [type=radio]').each(function () {
-          var $this = $(this),
-              _value = $this.data('color').split('|'),
-              value = Config.colors(_value[0], _value[1]);
-          if (value === color) {
-            $this.prop('checked', true);
-          } else {
-            $this.prop('checked', false);
-          }
+      $('#editNewEvent').modal('show').on('hidden.bs.modal', function (e) {
+        event.title = $('#editEname').val();
+
+        var color = $('#editColor [type=radio]:checked').data('color').split('|');
+        color = Config.colors(color[0], color[1]);
+        event.backgroundColor = color;
+        event.borderColor = color;
+
+        event.start = new Date($('#editStarts').data('datepicker').getDate());
+        event.end = new Date($('#editEnds').data('datepicker').getDate());
+        $('#calendar').fullCalendar('updateEvent', event);
+      });
+    },
+    dayClick: function(date, jsEvent, view){
+      console.log(date);
+    },
+    eventDragStart: function eventDragStart() {
+      $('.site-action').data('actionBtn').show();
+    },
+    eventDragStop: function eventDragStop() {
+      $('.site-action').data('actionBtn').hide();
+    },
+
+    events: myEvents,
+    droppable: true
+  };
+
+  var _options = void 0;
+  var myOptionsMobile = Object.assign({}, myOptions);
+
+  myOptionsMobile.aspectRatio = 0.5;
+  _options = $(window).outerWidth() < 667 ? myOptionsMobile : myOptions;
+
+  function loadEvents(){
+
+    var $panel = System.getPanelApi($(".panel-calendar"));
+
+    $panel.load();
+
+    rest({
+      url:PATH+"/events/all",
+      success:function(r){
+
+        $.each(r.data, function(index, row){
+
+
+
         });
 
-        $('#editNewEvent').modal('show').one('hidden.bs.modal', function (e) {
-          event.title = $('#editEname').val();
-
-          var color = $('#editColor [type=radio]:checked').data('color').split('|');
-          color = Config.colors(color[0], color[1]);
-          event.backgroundColor = color;
-          event.borderColor = color;
-
-          event.start = new Date($('#editStarts').data('datepicker').getDate());
-          event.end = new Date($('#editEnds').data('datepicker').getDate());
-          $('#calendar').fullCalendar('updateEvent', event);
-        });
       },
-      eventDragStart: function eventDragStart() {
-        $('.site-action').data('actionBtn').show();
-      },
-      eventDragStop: function eventDragStop() {
-        $('.site-action').data('actionBtn').hide();
-      },
+      failure:function(r){
+        $panel.done();
+        System.showError(r);
+      }
+    });
 
-      events: myEvents,
-      droppable: true
-    };
+  }
 
-    var _options = void 0;
-    var myOptionsMobile = Object.assign({}, myOptions);
-
-    myOptionsMobile.aspectRatio = 0.5;
-    _options = $(window).outerWidth() < 667 ? myOptionsMobile : myOptions;
-
-    $('#editNewEvent').modal();
-    $('#calendar').fullCalendar(_options);
+  $('#editNewEvent').modal();
+  $('#calendar').fullCalendar(_options);
 
 });
 </script>

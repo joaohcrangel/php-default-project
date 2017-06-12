@@ -2,17 +2,17 @@
 
   function returnDaysFormated(event){
 
-    console.log(event._start);
+    console.log(event);
 
-    var dtstart = moment(new Date(event._start._d));
+    var dtstart = event.start;
 
     dtstart.add(1, "days");
 
-    dtstart = dtstart.format("YYYY-MM-DD");
+    dtstart = dtstart.toDate();
 
-    console.log(dtstart);
+    // console.log(dtstart);
 
-    var dtend = moment(new Date(event.end._d)).format("YYYY-MM-DD");
+    var dtend = event.end.toDate();
 
     var data = {
       dtstart:dtstart,
@@ -71,6 +71,7 @@
       $('#calendar').fullCalendar(options);
     },
     eventClick: function (event) {
+
       var color = event.backgroundColor ? event.backgroundColor : Config.colors('blue', 600);
       $('#editEname').val(event.title);
 

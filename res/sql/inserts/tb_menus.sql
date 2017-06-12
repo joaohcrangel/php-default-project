@@ -75,7 +75,9 @@ INSERT INTO tb_menus (idmenu,idmenufather,desmenu,desicon,deshref,nrorder,nrsubm
 (75,62,'Categorias','md-folder-outline','/financial-categories',4,NULL),
 (76,NULL,'Eventos','md-calendar','',1,1),
 (77,76,'Calendário de Eventos','md-calendar-alt','/events',NULL,NULL),
-(78,NULL,'Materiais','md-labels','',2,1),
-(79,78,'Materiais','md-labels','/materials',NULL,NULL),
-(80,NULL,'Projetos','md-ruler','',3,1),
-(81,80,'Projetos & Briefings','md-ruler','/projects',NULL,NULL);
+(78,76,'Organizadores','md-accounts-alt','/events-organizers',NULL,NULL),
+(79,76,'Frequências','md-calendar-alt','/events-frequencies',NULL,NULL),
+(80,NULL,'Materiais','md-labels','',2,1),
+(81,80,'Materiais','md-labels','/materials',NULL,NULL),
+(82,NULL,'Projetos','md-ruler','',3,1),
+(83,82,'Projetos & Briefings','md-ruler','/projects',NULL,NULL);
